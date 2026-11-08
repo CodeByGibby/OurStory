@@ -15,7 +15,7 @@
 :root{--u:2.4px}
 *{box-sizing:border-box;margin:0}
 html,body{height:100%;touch-action:manipulation;-webkit-touch-callout:none;background:#0a0a22;overflow:hidden;font-family:'Press Start 2P',ui-monospace,monospace;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
-body{display:flex;align-items:center;justify-content:center}
+body{display:flex;align-items:center;justify-content:center;position:fixed;inset:0;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
 #g{position:relative;overflow:hidden;touch-action:none}
 canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pixelated}
 #title{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding-top:calc(var(--u)*40);text-align:center;color:#fff6e0;pointer-events:none;transition:opacity 1.4s}
@@ -159,8 +159,10 @@ const dv=$('c'),G=$('g'),dx=dv.getContext('2d'),cv=document.createElement('canva
 /* UI layer + post-zoom: scenes render at true pixel size, zoom happens when blitting to the hi-res display with nearest-neighbour, so pixels stay crisp */
 const uc=document.createElement('canvas');uc.width=W;uc.height=H;const ux=uc.getContext('2d');ux.imageSmoothingEnabled=false;let PZ=null,DS=4;
 let sc=2;
-let CR=null;function fit(){CR=null;sc=Math.min(innerWidth/W,innerHeight/H);DS=Math.max(2,Math.min(8,Math.ceil(sc*(window.devicePixelRatio||1))));if(dv.width!==W*DS){dv.width=W*DS;dv.height=H*DS}dx.imageSmoothingEnabled=false;G.style.width=W*sc+'px';G.style.height=H*sc+'px';document.documentElement.style.setProperty('--u',sc+'px')}
-addEventListener('resize',fit);fit();
+let CR=null;function fit(){CR=null;/* measure the real space the body has (the full screen in a home-screen app, minus the notch and home bar) */
+ let aw=innerWidth,ah=innerHeight;try{const b=document.body,cs=getComputedStyle(b),R=b.getBoundingClientRect();if(R.width>0&&R.height>0){aw=R.width-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);ah=R.height-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)}}catch(e){}
+ sc=Math.min(aw/W,ah/H);DS=Math.max(2,Math.min(8,Math.ceil(sc*(window.devicePixelRatio||1))));if(dv.width!==W*DS){dv.width=W*DS;dv.height=H*DS}dx.imageSmoothingEnabled=false;G.style.width=W*sc+'px';G.style.height=H*sc+'px';document.documentElement.style.setProperty('--u',sc+'px')}
+addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,200));addEventListener('pageshow',()=>setTimeout(fit,50));setTimeout(fit,300);try{visualViewport&&visualViewport.addEventListener('resize',fit)}catch(e){}fit();
 let MONO=null;const r=(x,y,w,h,c)=>{const k=MONO||c;if(cx._c!==k){cx.fillStyle=k;cx._c=k}cx.fillRect(x|0,y|0,(w+.5)|0,(h+.5)|0)};
 {const P=Object.getPrototypeOf(cx),R0=P.restore;P.restore=function(){R0.call(this);this._c=null}}
 let seed=7;const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
