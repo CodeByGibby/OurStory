@@ -17,7 +17,7 @@
 html,body{height:100%;touch-action:manipulation;-webkit-touch-callout:none;background:#0a0a22;overflow:hidden;font-family:'Press Start 2P',ui-monospace,monospace;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 body{display:flex;align-items:center;justify-content:center;position:fixed;inset:0;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
 #g{position:relative;z-index:1;overflow:hidden;touch-action:none;box-shadow:0 0 calc(var(--u)*10) calc(var(--u)*3) rgba(4,2,12,.55)}
-#bgf{position:fixed;left:-60px;top:-60px;width:calc(100% + 120px);height:calc(100% + 120px);z-index:0;pointer-events:none;filter:blur(22px) saturate(1.15) brightness(.62);image-rendering:auto}
+#bgf{position:fixed;left:-60px;top:-60px;width:calc(100% + 120px);height:calc(100% + 120px);z-index:0;pointer-events:none;filter:blur(22px) saturate(1.15) brightness(.62);image-rendering:auto;will-change:transform;transform:translateZ(0)}
 canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pixelated}
 #title{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding-top:calc(var(--u)*40);text-align:center;color:#fff6e0;pointer-events:none;transition:opacity 1.4s}
 #title.out{opacity:0}
@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 <canvas id="bgf" width="36" height="78" aria-hidden="true"></canvas>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bCh">Chapters</button><button id="bMg">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v5</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bCh">Chapters</button><button id="bMg">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v6</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -165,7 +165,7 @@ let CR=null;function fit(){CR=null;
  /* iPhone home-screen apps report a viewport that is short by the status bar's height, which pushed the game up.
     In that mode, size the page to the full physical screen instead. */
  try{const sa=navigator.standalone||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches;
-  if(sa){const port=innerHeight>=innerWidth,full=port?Math.max(screen.height,screen.width):Math.min(screen.height,screen.width);const b=document.body;if(full>innerHeight){b.style.bottom='auto';b.style.height=full+'px';document.documentElement.style.height=full+'px'}else{b.style.bottom='';b.style.height='';document.documentElement.style.height=''}}}catch(e){}
+  if(sa){const port=innerHeight>=innerWidth,full=port?Math.max(screen.height,screen.width):Math.min(screen.height,screen.width);const b=document.body;if(full>innerHeight){b.style.bottom='auto';b.style.height=full+'px';document.documentElement.style.height=full+'px';BGFH=full;const f=document.getElementById('bgf');if(f)f.style.height=(full+120)+'px'}else{b.style.bottom='';b.style.height='';document.documentElement.style.height=''}}}catch(e){}
 /* measure the real space the body has (the full screen in a home-screen app, minus the notch and home bar) */
  let aw=innerWidth,ah=innerHeight;try{const b=document.body,cs=getComputedStyle(b),R=b.getBoundingClientRect();if(R.width>0&&R.height>0){aw=R.width-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);ah=R.height-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)}}catch(e){}
  sc=Math.min(aw/W,ah/H);DS=Math.max(2,Math.min(8,Math.ceil(sc*(window.devicePixelRatio||1))));if(dv.width!==W*DS){dv.width=W*DS;dv.height=H*DS}dx.imageSmoothingEnabled=false;G.style.width=W*sc+'px';G.style.height=H*sc+'px';document.documentElement.style.setProperty('--u',sc+'px')}
@@ -6805,8 +6805,8 @@ function render(){
  present()}
 function present(){const DW=dv.width,DH=dv.height;dx.setTransform(1,0,0,1,0,0);dx.imageSmoothingEnabled=false;dx.fillStyle='#000';dx.fillRect(0,0,DW,DH);
 /* fill the space around the game (the bands on tall phones) with a soft, blurred copy of the current frame */
-const BGF=$('bgf'),bfx=BGF?BGF.getContext('2d'):null;let bfN=0;
-function bgFill(){if(!bfx||(bfN++&1))return;const sw=innerWidth||1,sh=innerHeight||1,bw=36,bh=Math.max(36,Math.round(36*sh/sw));if(BGF.height!==bh){BGF.height=bh}
+const BGF=$('bgf'),bfx=BGF?BGF.getContext('2d',{alpha:false}):null;let BGFH=0;
+function bgFill(){if(!bfx)return;const sw=innerWidth||1,sh=Math.max(innerHeight||1,BGFH||0),bw=36,bh=Math.max(36,Math.round(36*sh/sw));if(BGF.height!==bh){BGF.height=bh}
  const DW=dv.width,DH=dv.height,k=Math.max(bw/DW,bh/DH)*1.08,w=DW*k,h=DH*k;bfx.imageSmoothingEnabled=true;bfx.fillStyle='#0a0a22';bfx.fillRect(0,0,bw,bh);try{bfx.drawImage(dv,(bw-w)/2,(bh-h)/2,w,h)}catch(e){}}
  if(PZ){let {sx,sy,sw,sh}=PZ;sw=Math.min(W,sw);sh=Math.min(H,sh);sx=Math.max(0,Math.min(W-sw,sx));sy=Math.max(0,Math.min(H-sh,sy));dx.drawImage(cv,sx,sy,sw,sh,0,0,DW,DH)}else dx.drawImage(cv,0,0,DW,DH);
  dx.drawImage(uc,0,0,DW,DH);bgFill()}
