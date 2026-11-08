@@ -138,7 +138,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bCh">Chapters</button><button id="bMg">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v3</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bCh">Chapters</button><button id="bMg">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v4</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -159,7 +159,12 @@ const dv=$('c'),G=$('g'),dx=dv.getContext('2d'),cv=document.createElement('canva
 /* UI layer + post-zoom: scenes render at true pixel size, zoom happens when blitting to the hi-res display with nearest-neighbour, so pixels stay crisp */
 const uc=document.createElement('canvas');uc.width=W;uc.height=H;const ux=uc.getContext('2d');ux.imageSmoothingEnabled=false;let PZ=null,DS=4;
 let sc=2;
-let CR=null;function fit(){CR=null;/* measure the real space the body has (the full screen in a home-screen app, minus the notch and home bar) */
+let CR=null;function fit(){CR=null;
+ /* iPhone home-screen apps report a viewport that is short by the status bar's height, which pushed the game up.
+    In that mode, size the page to the full physical screen instead. */
+ try{const sa=navigator.standalone||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches;
+  if(sa){const port=innerHeight>=innerWidth,full=port?Math.max(screen.height,screen.width):Math.min(screen.height,screen.width);const b=document.body;if(full>innerHeight){b.style.bottom='auto';b.style.height=full+'px';document.documentElement.style.height=full+'px'}else{b.style.bottom='';b.style.height='';document.documentElement.style.height=''}}}catch(e){}
+/* measure the real space the body has (the full screen in a home-screen app, minus the notch and home bar) */
  let aw=innerWidth,ah=innerHeight;try{const b=document.body,cs=getComputedStyle(b),R=b.getBoundingClientRect();if(R.width>0&&R.height>0){aw=R.width-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);ah=R.height-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)}}catch(e){}
  sc=Math.min(aw/W,ah/H);DS=Math.max(2,Math.min(8,Math.ceil(sc*(window.devicePixelRatio||1))));if(dv.width!==W*DS){dv.width=W*DS;dv.height=H*DS}dx.imageSmoothingEnabled=false;G.style.width=W*sc+'px';G.style.height=H*sc+'px';document.documentElement.style.setProperty('--u',sc+'px')}
 addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,200));addEventListener('pageshow',()=>setTimeout(fit,50));setTimeout(fit,300);try{visualViewport&&visualViewport.addEventListener('resize',fit)}catch(e){}fit();
