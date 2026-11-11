@@ -139,7 +139,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.9</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.10</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1048,7 +1048,7 @@ function vEntry(t){
  r(0,0,80,144,'#8a9ab8');for(let x=0;x<80;x+=6)r(x,0,3,104,'#8292b0');r(0,100,80,4,'#d8d8e4');
  r(0,104,80,40,'#a0784e');for(let y=104;y<144;y+=6)r(0,y,80,1,'#8a6440');
  r(28,22,32,84,'#e8e8f0');r(31,25,26,79,'#c8b898');r(31,25,26,1,'#a89878');for(let x=31;x<57;x+=8)r(x,25,1,60,'#b8a888');r(31,85,26,19,'#6a5a7a');r(31,85,26,1,'#5a4a6a');
- r(12,24,16,82,'#6b4226');r(13,25,14,80,'#7a5236');r(15,30,10,30,'#6b4226');r(15,66,10,34,'#6b4226');r(24,62,2,3,'#e0b84a');
+ r(12,24,16,82,'#6b4226');r(13,25,14,80,'#7a5236');r(15,30,10,30,'#6b4226');r(15,66,10,34,'#6b4226');r(13,62,2,3,'#e0b84a');
  r(33,96,22,8,'#8a4a3a');r(34,97,20,6,'#a85a46');
  const IT=[[37,95],[42,93],[48,96],[52,93],[56,97]];
  IT.forEach(([x,y],i)=>{if(bags&&bags.got[i])return;
