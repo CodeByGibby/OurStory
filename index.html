@@ -45,7 +45,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #title p{font-size:calc(var(--u)*4);line-height:1.9;margin-top:calc(var(--u)*8);opacity:0;animation:in 2s 2.8s forwards}
 #title p+p{margin-top:calc(var(--u)*2);color:#ff9ccb;animation-delay:4.2s}
 #btns{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*5);margin-top:calc(var(--u)*24);opacity:0;animation:in 1.4s 5.4s forwards;pointer-events:auto}
-#btns .row{display:flex;gap:calc(var(--u)*4)}
+#btns .row{display:flex;gap:calc(var(--u)*4);flex-wrap:wrap;justify-content:center;max-width:calc(var(--u)*84)}
 #btns #bPlay{font-size:calc(var(--u)*5.6);padding:calc(var(--u)*4.2) 0;width:calc(var(--u)*80);animation:glow 2.6s ease-in-out infinite}
 @keyframes glow{50%{box-shadow:0 calc(var(--u)*1.2) 0 #c2417a,0 0 calc(var(--u)*7) rgba(255,216,107,.5)}}
 #btns .row button{width:calc(var(--u)*38);padding:calc(var(--u)*3) 0;font-size:calc(var(--u)*3.6);color:#ffe2f0;background:rgba(255,156,203,.14);border:2px solid #ff9ccb;box-shadow:0 calc(var(--u)*1.2) 0 rgba(194,65,122,.7)}
@@ -138,10 +138,10 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bCh">Chapters</button><button id="bMg">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.1</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.2</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
-<div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pMenu" class="alt">Main menu</button></div>
+<div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
 <div id="hud"></div>
 <div id="chat"></div>
 <div id="dlg"><div id="nm"></div><div id="tx"></div><div id="ch"></div><i id="nx">&#9660;</i></div>
@@ -581,7 +581,7 @@ function giftDraw(){const c=$('giftc');if(!c||GIFT.done)return;const g=c.getCont
  for(let i=0;i<5;i++){const ph=(t*.7+i*.4)%1;if(ph>.5)continue;const k=Math.sin(ph/.5*Math.PI),x=8+((i*37)%80),y=8+((i*23)%40);cx.globalAlpha=k;r(x,y,1,1,'#fff');r(x-1,y,3,1,'rgba(255,255,255,.5)');r(x,y-1,1,3,'rgba(255,255,255,.5)')}cx.globalAlpha=1
  }finally{cx=m}}
 /* the gift only opens on Hunter's website (testing from a local file or localhost always works) */
-const SITE_HOSTS=['ourstory.sterlingit.org'];
+const SITE_HOSTS=['codebygibby.github.io'];
 const siteOK=()=>{const h=location.hostname;return !SITE_HOSTS.length||location.protocol==='file:'||h==='localhost'||h==='127.0.0.1'||SITE_HOSTS.some(d=>h===d||h.endsWith('.'+d))};
 function lockUI(){const g=$('lockp');if(!g)return;if(!siteOK()){GIFT.locked=1;g.innerHTML='<p class="lq">This present can only be opened<br>at its home on the web &#128140;</p>';return}if(!GIFT.locked){g.style.display='none';$('gtap').style.display='';return}
  g.querySelectorAll('.wh').forEach(w=>{const k=w.dataset.k,v=w.querySelector('.v');const show=()=>v.textContent=k==='m'?GMON[GIFT.sel.m]:GIFT.sel[k];show();
@@ -2609,7 +2609,7 @@ const C4CAP={river:'THE RIVER WALK',plaza:'LIGHT SHOW NIGHT',bstore:'BEAVERS!',a
 Object.assign(NC,{'Tour Guide':'#2a7ab0',Vendor:'#c8603a'});
 Object.assign(HXF,{
  trucks:{f:[4,94,76,140],bs:[[12,102,56,30]]},
- river:{w:160,f:[2,78,158,90],rects:[[102,90,114,112,108,87]]},
+ river:{w:160,f:[2,78,158,90],rects:[[102,90,114,112,108,87]],bs:[[116,84,44,8]]},
  plaza:{f:[4,66,76,140],bs:[[2,110,18,16],[62,112,16,14]]},
  bstore:{w:160,f:[6,70,154,140],bs:[[26,92,34,14],[82,100,22,14]]},
  austin:{w:160,f:[3,104,157,140]},
@@ -2745,9 +2745,9 @@ function rwCheck(i){const first=!rw.chk[i];if(first){rw.chk[i]=1;rw.n++}const n=
  if(first)L.push({n:'Abigail',t:RWHUNG[n-1],anim:()=>{face(abi,hunter);if(n>=2)rw.grs=1.4}});
  L[L.length-1].c=[{l:n>=2?'Check one more review site...':'Keep looking',f:()=>{mode='hx';hxHud()}},{l:'...Okay. You pick.',f:rwPick}];say(L)}
 function rwPick(){const A=abi,H=hunter;mode='c3';setHud('');chatClear();hx.phase='seq';hx.fstay=1;
- say([{n:'Abigail',t:'Okay. My turn.',anim:()=>face(A,H)}],()=>{go(A,hxRoute(A,120,84),60);hx.arrive=null;go(H,hxRoute(H,140,86),50);
+ say([{n:'Abigail',t:'Okay. My turn.',anim:()=>face(A,H)}],()=>{go(A,hxRoute(A,112,86),60);hx.arrive=null;go(H,hxRoute(H,140,79),50);
   waitTill(()=>A.tx==null&&H.tx==null,()=>{A.dir='u';H.dir='l';say([{n:'Abigail',t:'This one. It has umbrellas. Done.'},{n:'Hunter',t:'But the reviews—'},{n:'Abigail',t:'UMBRELLAS, Hunter.'}],()=>{
-   go(A,[[122,79]],34);go(H,[[138,79]],34);waitTill(()=>A.tx==null&&H.tx==null,()=>{A.sit=H.sit=1;A.sitF=H.sitF=0;A.shin=H.shin=1;A.dir='r';H.dir='l';rw.ate=1;sfx('step');
+   go(A,[[118,88],[122,88]],34);go(H,[[138,88]],34);waitTill(()=>A.tx==null&&H.tx==null,()=>{A.sit=H.sit=1;A.sitF=H.sitF=0;A.shin=H.shin=1;A.dir='r';H.dir='l';rw.ate=1;sfx('step');
     after(1.2,()=>{fadeTo(()=>{rw.blk=1;rw.ate=2;card('45 minutes later...')});after(3.6,()=>{$('card').style.opacity=0;after(1,()=>fadeTo(()=>{rw.blk=0}));after(2.6,()=>say([{n:'',t:'*two margaritas and a mountain of enchiladas later*'},{n:'Hunter',t:'...Okay. That was incredible.'},{n:'Abigail',t:'Told you. Literally any of them.'},
      {n:'Hunter',t:'Next time, you pick.'},{n:'Abigail',t:'Next time? I ALWAYS pick.'}],()=>{fadeTo(()=>{A.sit=H.sit=0;A.shin=H.shin=0;hx=null;plazaStart()},2.4)}))})})})})})})}
 function rwMari(){const k=hx.cnt.mari||0;hx.cnt.mari=k+1;
@@ -2792,8 +2792,8 @@ function vRiver(t){
  [[58,'#ffd86b',0],[65,'#e0463c',1],[72,'#7ee8fa',2]].forEach(([x,hat,i])=>D.push({y:72,f:()=>{const p=rwMariP(i);p.x=x;p.y=72;p.dir=pl?['r','d','l'][i]:'d';p.dance=pl?1:0;p.ph=i;person(p,t);p.dance=0;
   const bo=pl?-Math.abs(Math.sin(t*7+i))*2|0:0,hy=55+bo;r(x-6,hy,13,1,'#d8b060');r(x-5,hy-1,11,1,'#c8a050');r(x-2,hy-4,5,3,'#d8b060');r(x-2,hy-2,5,1,hat);
   if(i===0){r(x+1,63+bo,5,4,'#a8683a');r(x+2,64+bo,2,2,'#3a2a1a');r(x+5,60+bo,1,4,'#6a4a2a')}else if(i===1){r(x-1,62+bo,1,1,'#ffd86b');r(x,61+bo,5,1,'#e8c040');r(x+5,60+bo,2,3,'#e8c040')}else{r(x-5,61+bo,4,3,'#8a4a2a');r(x-7,59+bo,7,1,'#d8c8a8')}}}));
- r(130,42,1,30,'#5a5a5a');r(150,44,1,28,'#5a5a5a');D.push({y:78.4,f:()=>{rwChair(122,1);rwChair(138,-1);rwChair(155,-1)}});D.push({y:79,f:()=>rwDiner(155,79,'#9a5ae0','#2a1a12','#8d5a3a','l',t)});D.push({y:79.6,f:()=>{rwTab();rwTab2()}});
- [hunter,abi].forEach(p=>D.push({y:p.y,f:()=>person(p,t)}));D.sort((a,b)=>a.y-b.y).forEach(d=>d.f());bigUmb(150,36,'#e0463c',11);bigUmb(130,34,'#2aa8a0',16);
+ const PY=9,tr=f=>()=>{cx.save();cx.translate(0,PY);f();cx.restore()};D.push({y:78.4+PY,f:tr(()=>{r(130,42,1,30,'#5a5a5a');r(150,44,1,28,'#5a5a5a');rwChair(122,1);rwChair(138,-1);rwChair(155,-1)})});D.push({y:79+PY,f:tr(()=>rwDiner(155,79,'#9a5ae0','#2a1a12','#8d5a3a','l',t))});D.push({y:79.6+PY,f:tr(()=>{rwTab();rwTab2()})});
+ [hunter,abi].forEach(p=>D.push({y:p.y,f:()=>person(p,t)}));D.sort((a,b)=>a.y-b.y).forEach(d=>d.f());tr(()=>{bigUmb(150,36,'#e0463c',11);bigUmb(130,34,'#2aa8a0',16)})();
  if(rw&&rw.blk)r(0,0,160,144,'#000');
  if(rw&&rw.grs>0&&Math.floor(t*4)%2)bubble(Math.round(abi.x)-15,Math.round(abi.y)-33,'GRUMBLE','#a85a2a');
  if(pl)for(let i=0;i<3;i++){const k=(t*.9+i/3)%1;cx.globalAlpha=1-k;txt(i%2?'+':'!',60+i*6+Math.round(Math.sin(k*6+i)*2),50-k*14|0,'#ffd86b',1);cx.globalAlpha=1}
@@ -6557,7 +6557,7 @@ const BDAY=(()=>{const BW=160,BH=200,hex=h=>[parseInt(h.slice(1,3),16),parseInt(
  return {W:BW,H:BH,draw}})();
 let BDC=null;
 function epBday(){save.set(9);{const C=$('card');C.style.alignItems='';C.style.paddingBottom='';C.style.textShadow='';C.style.opacity=0}
- fadeTo(()=>{setLoc('epbday');epDress();mode='epBday';ep.bd={t0:T,fw:[],next:0};sfx('fanfare')})}
+ fadeTo(()=>{FIN.set();CK.clr();setLoc('epbday');epDress();mode='epBday';ep.bd={t0:T,fw:[],next:0};sfx('fanfare')})}
 function epBdayUpd(dt){const B=ep.bd;if(!B||loc!=='epbday')return;const k=T-B.t0;
  if(k>2.2&&T>B.next){B.next=T+.7+Math.random()*.9;const col=[['#ff5f9e','#ffd0e4'],['#ffd86b','#fff6c8'],['#7ee8fa','#e0fbff'],['#b78cff','#efe0ff']][Math.floor(Math.random()*4)];
   const side=Math.random()<.5;B.fw.push({x:side?12+Math.random()*30:118+Math.random()*30,y:120+Math.random()*120,t:0,c:col,n:22+Math.floor(Math.random()*10),r:22+Math.random()*16,heart:Math.random()<.3});if(k<40)sfx('pop')}
@@ -6597,17 +6597,32 @@ Object.assign(MUSMAP,{epalbum:'stars',epcard:'stars',epmap:'cozy',epstudio:'lofi
 const save={get(){try{return +localStorage.getItem('ourstory_done')||0}catch(e){return 0}},set(n){try{if(n>save.get())localStorage.setItem('ourstory_done',String(n))}catch(e){}}};
 const CHAPS=[['1','The Coop',()=>startPan()],['2','Fourteen Days',()=>startCh2()],['3','The Good Life',()=>startCh3()],['4','Everything\u2019s Bigger',()=>startCh4()],['5','The Distance',()=>startCh5()],['6','The Question',()=>startCh6()],['7','Donut',()=>startCh7()],['8','The Wedding',()=>startCh8()],['E','Epilogue',()=>startEp()]];
 $('snd').onclick=e=>{e.stopPropagation();openPause()};$('snd').onpointerdown=e=>e.stopPropagation();
-['pause','pRes','pMenu','vm','vs'].forEach(id=>{$(id).onpointerdown=e=>e.stopPropagation();$(id).addEventListener('touchstart',e=>e.stopPropagation(),{passive:true})});
+['pause','pRes','pDev','pMenu','vm','vs'].forEach(id=>{$(id).onpointerdown=e=>e.stopPropagation();$(id).addEventListener('touchstart',e=>e.stopPropagation(),{passive:true})});
 $('pRes').onclick=()=>{sfx('select');closePause()};$('pMenu').onclick=()=>location.reload();
 $('vm').oninput=e=>{VOL.m=e.target.value/100;applyVol()};$('vs').oninput=e=>{VOL.s=e.target.value/100;applyVol();sfx('coin')};
 addEventListener('pointerdown',()=>auInit(),{capture:true});addEventListener('touchstart',()=>auInit(),{capture:true,passive:true});
 $('gift').addEventListener('click',giftOpen);
-$('bPlay').onclick=()=>{sfx('confirm');if(mode==='title')startPan()};
+$('bPlay').onclick=()=>{sfx('confirm');if(mode!=='title')return;const ck=CK.get();if(ck>=0&&SCENES[ck])dbgStart(ck);else if(hasData())confirmNew();else newGame()};
+$('bNew').onclick=()=>{sfx('select');if(mode==='title')confirmNew()};
+$('pDev').onclick=()=>{sfx('select');DEV.set(!DEV.on());updTitle()};
 $('bCh').onclick=()=>{sfx('select');if(mode==='title')openChap()};
 $('bMg').onclick=()=>{sfx('select');if(mode==='title')openMini()};
-$('bDbg').onclick=()=>{sfx('select');if(mode==='title')openScenes()};setTimeout(()=>{if(DEBUG_MODE)$('bDbg').style.display=''},0);
+$('bDbg').onclick=()=>{sfx('select');if(mode==='title'&&DEV.on())openScenes()};
+const LS=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}};
+const DEV={on:()=>LS('ourstory_dev')==='1',set:v=>LS('ourstory_dev',v?'1':'0')};
+const CK={get:()=>{const v=LS('ourstory_ck');return v==null?-1:+v},set:i=>LS('ourstory_ck',String(i)),clr:()=>LS('ourstory_ck',null)};
+const FIN={get:()=>LS('ourstory_fin')==='1',set:()=>LS('ourstory_fin','1')};
+const hasData=()=>CK.get()>=0||Object.keys(ALB.get()).length>0;
+function updTitle(){const d=DEV.on(),ck=CK.get();$('bPlay').innerHTML=ck>=0?'&#9654;&nbsp;Continue':FIN.get()?'&#9654;&nbsp;Play again':'&#9654;&nbsp;Tap to start';
+ $('bNew').style.display=ck>=0?'':'none';$('bCh').style.display=d?'':'none';$('bMg').style.display=d||FIN.get()?'':'none';$('bDbg').style.display=d?'':'none';
+ const row=$('bNew').parentNode;row.style.display=[...row.children].some(b=>b.style.display!=='none')?'':'none';$('pDev').textContent='Dev mode: '+(d?'ON':'OFF')}
+function newGame(){CK.clr();LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';startPan()}
+function confirmNew(){const e=$('chap');e.style.justifyContent='';e.style.overflowY='';e.style.gap='';
+ e.innerHTML='<h2>START OVER?</h2><p class="soon" style="text-align:center;line-height:1.8">Are you SURE?<br><br>Starting a new game will wipe your saved progress and your photo album, and start the story from the very beginning.</p><button id="cfYes" style="text-align:center;background:#ff7a7a">Yes, wipe it &amp; start over</button><button class="back" style="text-align:center">Cancel</button>';
+ e.style.display='flex';$('cfYes').onclick=()=>{sfx('confirm');newGame()};e.querySelector('.back').onclick=()=>{sfx('select');e.style.display='none'}}
+setTimeout(updTitle,0);
 const DEV_UNLOCK_ALL=true;
-function openChap(){const done=DEV_UNLOCK_ALL?99:save.get(),e=$('chap');e.style.justifyContent='';e.style.overflowY='';e.style.gap='';let h='<h2>CHAPTERS</h2>';
+function openChap(){if(!DEV.on())return;const done=DEV_UNLOCK_ALL?99:save.get(),e=$('chap');e.style.justifyContent='';e.style.overflowY='';e.style.gap='';let h='<h2>CHAPTERS</h2>';
  CHAPS.forEach((c,i)=>{const ok=i<=done;h+='<button '+(ok?'':'disabled ')+'data-i="'+i+'">'+(ok?'':'\ud83d\udd12 ')+(c[0]==='E'?'Epilogue':'Chapter '+c[0])+'<small>'+(ok?c[1]:'Finish Chapter '+i+' to unlock')+'</small></button>'});
  h+='<p class="soon">More chapters coming soon...</p><button class="back">Back</button>';e.innerHTML=h;e.style.display='flex';
  e.querySelectorAll('button[data-i]').forEach(b=>b.onclick=()=>{e.style.display='none';CHAPS[+b.dataset.i][2]()});e.querySelector('.back').onclick=()=>{e.style.display='none'}}
@@ -6703,11 +6718,15 @@ const SCENES=[
  [9,'Epilogue: album',null,()=>{ep={on:1};epDress();epAlbumStart()}],[9,'England flight',null,()=>{ep={on:1};epMap()}],[9,'London',null,()=>{ep={on:1};epLondon()}],[9,'Hometown',null,()=>{ep={on:1};epVillage()}],[9,'Graduation',null,()=>{ep={on:1};epGrad()}],[9,'Cyber security',null,()=>{ep={on:1};epCyber()}],[9,'Coaching the Owls',null,()=>{ep={on:1};epCoach()}],[9,'Crumpet',null,()=>{ep={on:1};epCrumpet()}],[9,'First home',null,()=>{ep={on:1};epHouse()}],[9,'Paint the door',null,()=>{ep={on:1};epPaintStart()}],[9,'Pink door',null,()=>{ep={on:1};epHouseAfter()}],[9,'Backyard frisbee',null,()=>{ep={on:1};epYard()}],[9,'Closet studio',null,()=>{ep={on:1};epStudio()}],[9,'Ella',null,()=>{ep={on:1};epElla()}],[9,'Family photo',null,()=>{ep={on:1};epFamily()}],[9,'Porch & finale',null,()=>{ep={on:1};epPorch()}],[9,'Happy birthday',null,()=>{ep={on:1};epBday()}]];
 function dbgStart(i){const sc=SCENES[i];mgReset();MGM=null;lv={night:0,mor:0,q:0};qprops={remote:0,sw:0};qx=null;hm=0;sick=0;tissues=4;showHM=0;abi.dance=hunter.dance=0;
  if(sc[0]===8)Object.assign(morgan,{gown:0});if(sc[2])sc[2]();mode='dbg';sc[3]()}
-function openScenes(){const e=$('chap');$('end').style.display='none';let h='<h2>SCENES</h2>',last=0;
+function openScenes(){if(!DEV.on())return;const e=$('chap');$('end').style.display='none';let h='<h2>SCENES</h2>',last=0;
  SCENES.forEach((g,i)=>{if(g[0]!==last){last=g[0];h+='<p class="soon" style="margin:calc(var(--u)*2) 0 0">CHAPTER '+g[0]+' · '+CHAPS[g[0]-1][1]+'</p>'}h+='<button data-s="'+i+'">'+g[1]+'</button>'});
  h+='<button class="back">Back</button>';e.innerHTML=h;e.style.display='flex';e.style.justifyContent='flex-start';e.style.overflowY='auto';e.style.gap='calc(var(--u)*2.5)';e.scrollTop=0;
  e.querySelectorAll('button[data-s]').forEach(b=>b.onclick=()=>{sfx('confirm');e.style.display='none';dbgStart(+b.dataset.s)});
  e.querySelector('.back').onclick=()=>{e.style.display='none';if(mode!=='title')location.reload()}}
+/* ---------- auto-save: remember the last scene reached ---------- */
+(function(){const map={};SCENES.forEach((sc,i)=>{const m=String(sc[3]).match(/([A-Za-z_$][\w$]*)\(\)\s*\}?\s*$/);if(m&&map[m[1]]==null&&m[1]!=='dbgRoof')map[m[1]]=i});
+ CHAPS.forEach((c,ci)=>{const n=String(c[2]).match(/([A-Za-z_$][\w$]*)\(\)/);const i=SCENES.findIndex(sc=>sc[0]===ci+1);if(n&&i>=0&&map[n[1]]==null)map[n[1]]=i});
+ Object.keys(map).forEach(n=>{const f=window[n];if(typeof f!=='function')return;const i=map[n];window[n]=function(){if(!MGM)CK.set(i);return f.apply(this,arguments)}})})();
 /* ---------- input ---------- */
 let INPUT=0;function press(CX,CY){INPUT=1;try{press2(CX,CY)}finally{INPUT=0}}
 function press2(CX,CY){
