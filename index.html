@@ -139,7 +139,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.1</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.2</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -863,11 +863,11 @@ function vBench(t){
  for(let i=0;i<9;i++){const x=i*9,h=6+(i*5)%9;r(x,66-h,7,h+6,'#9a7aa8');if(i%3==0)r(x+3,66-h-3,1,3,'#9a7aa8')}
  for(let x=-4;x<84;x+=7)disc(x,72+(x%3),6,'#5a7a5a',1);for(let x=0;x<84;x+=9)disc(x,76,5,'#4a7a4a',1);
  for(let y=78;y<144;y+=2){const k=(y-78)/66;r(0,y,80,2,`rgb(${Math.round(120-k*30)},${Math.round(176-k*30)},${Math.round(90-k*20)})`)}
- ell(66,104,15,6,'#4a8aa8');ell(66,103,13,5,'#6ab0c8');for(let i=0;i<4;i++)r(60+((i*5+Math.floor(t*2))%10),100+i*2,6-i,1,'#ffe9a8');r(70,100,3,2,'#f4f4f8');r(72,99,1,1,'#e8a030');
+ ell(68,124,11,4,'#4a8aa8');ell(68,123,9,3,'#6ab0c8');for(let i=0;i<3;i++)r(63+((i*5+Math.floor(t*2))%8),121+i*2,5-i,1,'#ffe9a8');r(72,121,3,2,'#f4f4f8');r(74,120,1,1,'#e8a030');
  for(let y=144;y>96;y--){const k=(144-y)/48,cx2=6+k*36;r(cx2-6+k*3,y,12-k*6,1,'#e0c898')}
  r(1,24,6,80,'#5a3a2a');r(1,24,2,80,'#7a5a3a');disc(4,18,18,'#2f6a3a',1);disc(14,10,11,'#3a7a44',1);disc(-2,34,10,'#3a7a44',1);disc(10,24,7,'#4a8a50',1);for(let i=0;i<12;i++)r(stars[i].x%22,stars[i].y%36,2,2,i%2?'#ff9ccb':'#ffd86b');
  r(74,58,2,42,'#2a2a3a');r(72,54,6,5,'#3a3a4a');r(73,55,4,3,'#ffe9a8');disc(75,57,8,'#ffe9a8',.12);
- [[12,118],[20,128],[58,124],[28,136],[66,134]].forEach(([x,y],i)=>{r(x,y,1,3,'#3a7a3a');r(x-1,y-1,3,2,['#ff7eb6','#ffd86b','#b78cff','#fff','#ff9a5a'][i])});
+ [[12,118],[20,128],[50,130],[28,136],[66,136]].forEach(([x,y],i)=>{r(x,y,1,3,'#3a7a3a');r(x-1,y-1,3,2,['#ff7eb6','#ffd86b','#b78cff','#fff','#ff9a5a'][i])});
  r(16,82,48,3,'#8a5a3a');r(16,82,48,1,'#b07a4a');r(16,87,48,3,'#8a5a3a');r(16,87,48,1,'#b07a4a');r(18,85,2,10,'#5a3a2a');r(60,85,2,10,'#5a3a2a');
  r(18,95,2,9,'#3a2a2a');r(60,95,2,9,'#3a2a2a');
  const g=Math.floor(t*1.5)%3,b=Math.round(Math.abs(Math.sin(t*9)));hunter.x=33;hunter.y=101-b;abi.x=47;abi.y=101-(1-b);hunter.dir=g?'r':'d';abi.dir=g?'l':'d';[abi,hunter].forEach(p=>{p.hold=null;p.sit=1});
@@ -878,7 +878,7 @@ const BARNPC=[[6,96,'#3a7ae8','#2a1a12','r',0],[14,96,'#ff7eb6','#e8c840','l',2]
 function vBars(t){
  r(0,0,80,144,'#2a1a26');for(let y=0;y<70;y+=5)for(let x=((y/5)%2)*5;x<80;x+=10)r(x,y,9,4,'#33202e');
  for(let x=0;x<80;x++){const y=4+Math.round(Math.sin(x/80*Math.PI*3)*1.5);r(x,y,1,1,'#1a1018');if(x%7==3){cx.globalAlpha=.7+.3*Math.sin(t*3+x);r(x,y+1,1,2,DF[(x/7|0)%4]);cx.globalAlpha=1;disc(x,y+2,2,DF[(x/7|0)%4],.15)}}
- disc(40,17,16,'#ff4f9e',.1+.04*Math.sin(t*5));r(25,10,30,14,'#140a14');cx.globalAlpha=.85+.15*Math.sin(t*6);txt('BAR',30,12,'#ff7eb6',3);cx.globalAlpha=1;
+ disc(40,17,16,'#ff4f9e',.1+.04*Math.sin(t*5));r(21,8,38,19,'#140a14');r(21,8,38,1,'#ff7eb6');r(21,26,38,1,'#ff7eb6');cx.globalAlpha=.85+.15*Math.sin(t*6);txt('BAR',24,10,'#ff7eb6',3);cx.globalAlpha=1;
  r(4,30,72,30,'#3a2a2a');r(6,32,68,26,'#4a3a40');cx.globalAlpha=.25;r(6,32,68,26,'#8ab0c8');cx.globalAlpha=1;
  [38,48].forEach(y=>{r(4,y+8,72,2,'#6a4a3a');for(let i=0;i<11;i++){const x=7+i*6,c=['#7ab060','#c86a3a','#e8c060','#6a8ac8','#c84a6a'][(i+y)%5];r(x,y,3,8,c);r(x+1,y-2,1,2,c);r(x,y+1,1,5,sh(c,1.4))}});
  bart.x=62;bart.y=74;bart.dir='l';bart.hold=null;person(bart,t);
