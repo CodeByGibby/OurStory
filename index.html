@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.15</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.16</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -555,6 +555,7 @@ function drawChapUI(){if(!CHT)return;const op=$('card').style.opacity;if(op==='0
 /* ---------- the gift: a present to open before the game begins ---------- */
 let GIFT={open:0,t0:0,done:0,locked:1,unl:0,shake:0,tries:0,sel:{d:1,m:0,y:2026}};
 try{if(localStorage.getItem('ourstory_unlocked')==='1')GIFT.locked=0}catch(e){}
+setTimeout(()=>{try{if(!GIFT.locked&&sessionStorage.getItem('ourstory_gifted')==='1'&&(typeof siteOK!=='function'||siteOK())){GIFT.open=1;GIFT.done=1;const g=$('gift');if(g)g.style.display='none';$('title').classList.remove('wait')}}catch(e){}},0);
 const GMON=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 function giftDraw(){const c=$('giftc');if(!c||GIFT.done)return;const g=c.getContext('2d'),m=cx;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,96,96);g._c=null;cx=g;try{
  const t=T,op=GIFT.open?Math.min(1,(T-GIFT.t0)/1.1):0,wig=!GIFT.open&&(t%2.4)<.4?Math.round(Math.sin(t*40)):0,bob=GIFT.open?0:Math.round(Math.sin(t*2)*1);
@@ -599,7 +600,7 @@ function lockUI(){const g=$('lockp');if(!g)return;if(!siteOK()){GIFT.locked=1;g.
   else{GIFT.tries++;GIFT.shake=T;sfx('buzz');g.classList.remove('shake');void g.offsetWidth;g.classList.add('shake');
    $('lmsg').innerHTML=GIFT.tries>=3?'Hint: Day 14 of quarantine...<br>or our wedding day &#128150;':GIFT.tries>=2?'Not quite... think of a very special day':'Hmm, that&#8217;s not it. Try again!'}}}
 setTimeout(lockUI,0);
-function giftOpen(){if(GIFT.open||GIFT.locked)return;if(GIFT.unl&&T-GIFT.unl<1.6)return;GIFT.open=1;GIFT.t0=T;try{auInit()}catch(e){}setTimeout(()=>{sfx('chime');sfx('fanfare')},60);
+function giftOpen(){if(GIFT.open||GIFT.locked)return;if(GIFT.unl&&T-GIFT.unl<1.6)return;GIFT.open=1;try{sessionStorage.setItem('ourstory_gifted','1')}catch(e){}GIFT.t0=T;try{auInit()}catch(e){}setTimeout(()=>{sfx('chime');sfx('fanfare')},60);
  setTimeout(()=>{$('gift').style.opacity=0;$('title').classList.remove('wait')},1300);setTimeout(()=>{GIFT.done=1;$('gift').style.display='none'},2400)}
 function buildBG(){
  const m=cx;cx=bgc.getContext('2d');
