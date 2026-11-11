@@ -44,7 +44,8 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 @keyframes logoIn{0%{opacity:0;transform:translateY(calc(var(--u)*-6)) scale(.96)}60%{opacity:1}100%{opacity:1;transform:none}}
 #title p{font-size:calc(var(--u)*4);line-height:1.9;margin-top:calc(var(--u)*8);opacity:0;animation:in 2s 2.8s forwards}
 #title p+p{margin-top:calc(var(--u)*2);color:#ff9ccb;animation-delay:4.2s}
-#btns{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*5);margin-top:calc(var(--u)*24);opacity:0;animation:in 1.4s 5.4s forwards;pointer-events:auto}
+#btns{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*5);margin-top:calc(var(--u)*24);opacity:0;animation:in 1.4s 5.4s forwards;pointer-events:none}
+#btns.ready{pointer-events:auto}
 #btns .row{display:flex;gap:calc(var(--u)*4);flex-wrap:wrap;justify-content:center;max-width:calc(var(--u)*84)}
 #btns #bPlay{font-size:calc(var(--u)*5.6);padding:calc(var(--u)*4.2) 0;width:calc(var(--u)*80);animation:glow 2.6s ease-in-out infinite}
 @keyframes glow{50%{box-shadow:0 calc(var(--u)*1.2) 0 #c2417a,0 0 calc(var(--u)*7) rgba(255,216,107,.5)}}
@@ -138,7 +139,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.2</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.2.2</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -6602,12 +6603,14 @@ $('pRes').onclick=()=>{sfx('select');closePause()};$('pMenu').onclick=()=>locati
 $('vm').oninput=e=>{VOL.m=e.target.value/100;applyVol()};$('vs').oninput=e=>{VOL.s=e.target.value/100;applyVol();sfx('coin')};
 addEventListener('pointerdown',()=>auInit(),{capture:true});addEventListener('touchstart',()=>auInit(),{capture:true,passive:true});
 $('gift').addEventListener('click',giftOpen);
-$('bPlay').onclick=()=>{sfx('confirm');if(mode!=='title')return;const ck=CK.get();if(ck>=0&&SCENES[ck])dbgStart(ck);else if(hasData())confirmNew();else newGame()};
-$('bNew').onclick=()=>{sfx('select');if(mode==='title')confirmNew()};
+const BOK=()=>$('btns').classList.contains('ready');
+$('btns').addEventListener('animationend',e=>{if(e.target===$('btns'))$('btns').classList.add('ready')});
+$('bPlay').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('confirm');const ck=CK.get();if(ck>=0&&SCENES[ck])dbgStart(ck);else if(hasData())confirmNew();else newGame()};
+$('bNew').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');confirmNew()};
 $('pDev').onclick=()=>{sfx('select');DEV.set(!DEV.on());updTitle()};
-$('bCh').onclick=()=>{sfx('select');if(mode==='title')openChap()};
-$('bMg').onclick=()=>{sfx('select');if(mode==='title')openMini()};
-$('bDbg').onclick=()=>{sfx('select');if(mode==='title'&&DEV.on())openScenes()};
+$('bCh').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');openChap()};
+$('bMg').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');openMini()};
+$('bDbg').onclick=()=>{if(mode!=='title'||!DEV.on()||!BOK())return;sfx('select');openScenes()};
 const LS=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,v)}catch(e){return null}};
 const DEV={on:()=>LS('ourstory_dev')==='1',set:v=>LS('ourstory_dev',v?'1':'0')};
 const CK={get:()=>{const v=LS('ourstory_ck');return v==null?-1:+v},set:i=>LS('ourstory_ck',String(i)),clr:()=>LS('ourstory_ck',null)};
