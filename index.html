@@ -139,7 +139,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.7</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.8</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1002,9 +1002,9 @@ function vDrive(t){
  r(0,102,80,22,'#4a4a56');r(0,102,80,1,'#8a8a96');r(0,123,80,1,'#8a8a96');cx.globalAlpha=.12;r(0,102,80,6,'#ffb060');cx.globalAlpha=1;
  for(let i=0;i<8;i++){const x=((i*14-o)%112+112)%112-14;r(x,112,7,1,'#e8d890')}
  r(0,124,80,20,'#5a9a44');for(let i=0;i<10;i++){const x=((i*11-o*1.3)%110+110)%110-10;r(x,126,1,8,'#8a6a4a');r(x-3,127,7,1,'#8a6a4a')}for(let i=0;i<14;i++){const x=((i*7-o*1.3)%98+98)%98-8;r(x,136+(i%3)*2,1,2,i%4?'#7ab84a':'#e8d040')}
- if(drv&&drv.sk!=null){const sx=drv.sk;r(sx,130,8,4,'#1a1a1a');r(sx+2,130,4,1,'#fff');r(sx+7,129,3,3,'#1a1a1a');r(sx-3,126,4,6,'#1a1a1a');r(sx-3,126,1,6,'#fff');r(sx+1,134,1,1,'#111');r(sx+6,134,1,1,'#111');
-  cx.globalAlpha=.7;for(let i=0;i<5;i++){const yy=124-((t*12+i*6)%24),xx=sx+Math.sin(t*3+i)*3+i*2;r(xx,yy,2,1,'#8ad06a');r(xx+1,yy-1,1,1,'#8ad06a')}cx.globalAlpha=1}
- const bb=Math.round(Math.sin(t*14)*.5);truck(6,116+bb,[[dad,41],[hunter,34]])}
+ if(drv&&drv.sk!=null){const sx=drv.sk;r(sx,130,8,4,'#1a1a1a');r(sx+2,130,4,1,'#fff');r(sx+7,129,3,3,'#1a1a1a');r(sx-3,126,4,6,'#1a1a1a');r(sx-3,126,1,6,'#fff');r(sx+1,134,1,1,'#111');r(sx+6,134,1,1,'#111');}
+ const bb=Math.round(Math.sin(t*14)*.5);truck(6,116+bb,[[dad,41],[hunter,34]]);
+ if(drv&&drv.sk!=null){const sx=drv.sk;cx.globalAlpha=.75;for(let i=0;i<7;i++){const yy=126-((t*12+i*5)%34),xx=sx+Math.sin(t*3+i)*3+i*2;r(xx,yy,2,1,'#8ad06a');r(xx+1,yy-1,1,1,'#8ad06a');r(xx-1,yy+1,1,1,'#6ab04a')}cx.globalAlpha=1}}
 
 /* ---- Morgan's living room ---- */
 let lv={night:0,mor:0,q:0},tissues=2,shakeT=0;
