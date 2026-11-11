@@ -139,7 +139,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.1</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -276,6 +276,7 @@ function drawHold(p,x,y,t,up){
  else if(h==='tissue'){const pf=(nose&&nose.pop>0)?1:0,bob=noseOn&&mode==='nose'?Math.floor(t*10)%2:0;
   arm(x-4,y-9,x-3,y-12);arm(x+3,y-9,x+2,y-12);r(x-3-pf,y-14-pf+bob,6+pf*2,4+pf*2,'#fff');r(x-3-pf,y-14-pf+bob,6+pf*2,1,'#e8e8f0');r(x-3,y-11+bob,1,1,sk);r(x+2,y-11+bob,1,1,sk)}
  else if(h==='ctrl'){const m=Math.floor(t*8)%2;arm(x-4,y-9,x-3,y-7);arm(x+3,y-9,x+2,y-7);r(x-3,y-7,6,2,'#3a3a46');r(x-3,y-7,1,2,'#e0463c');r(x+2,y-7,1,2,'#3a8ae0');r(x-2+m,y-7,1,1,'#ddd');r(x+1-m,y-8,1,1,sk)}
+ else if(h==='sroll'){restL();arm(x+3,y-9,x+3,y-7);r(x+1,y-10,7,3,'#d89a4a');r(x+1,y-10,7,1,'#f0c070');r(x+2,y-9,1,1,'#b0702a');r(x+4,y-9,1,1,'#b0702a');r(x+6,y-9,1,1,'#b0702a');r(x+7,y-10,1,3,'#c8603a')}
  else if(h==='burrito'){restL();arm(x+3,y-9,x+3,y-7);r(x+2,y-10,5,3,'#d8d8e0');r(x+2,y-10,5,1,'#f4f4f8');r(x+6,y-10,1,3,'#c89a5a')}
  else if(h==='mug'){restL();arm(x+3,y-9,x+3,y-7);r(x+2,y-11,4,4,'#7ac8b8');r(x+2,y-11,4,1,'#9ae0d0');r(x+6,y-10,1,2,'#7ac8b8');r(x+3,y-11,2,1,'#c8c090');if(Math.floor(t*3)%2)r(x+3,y-13,1,1,'#b8d878')}
  else if(h==='pink'||h==='water'||h==='beer'){restL();const sip=!up&&((t+(p.ph||0))%5)<.7,gx=sip?x+1+e:x+4,gy=sip?y-13:y-9;arm(x+3,y-9,sip?x+2+e:x+3,sip?y-11:y-7);
@@ -6047,8 +6048,9 @@ const epDean=mk('hunter',0,0,{n:'Dean',skin:'#e0b090',hair:'#9a9aa0',hl:0,eye:'#
  epP1=mk('morgan',0,0,{n:'Player',skin:'#f1c9a0',hair:'#c89a5a',hl:2,eye:'#3a6a8a',top:'#2a3a7a',skirt:'#f4f4f8',pants:'#f1c9a0',shoe:'#f4f4f8'}),
  epP2=mk('morgan',0,0,{n:'Player',skin:'#c98e62',hair:'#1e1612',hl:2,eye:'#3a2a1a',top:'#f4f4f8',skirt:'#2a3a7a',pants:'#c98e62',shoe:'#f4f4f8'});
 const CRUMP={n:'Crumpet'};
-function epCards(L,next){let i=1;fadeTo(()=>{setLoc('epcard');card(L[0][0])},.1);
- const step=d=>after(d,()=>{$('card').style.opacity=0;after(1.1,()=>{if(i>=L.length){fade=1;fd=-1;next()}else{const [h,dd]=L[i++];card(h);step(dd)}})});step(L[0][1]+.6)}
+function epCards(L,next){let i=1;const rd=(h,d)=>Math.max(d,2.4+h.replace(/<[^>]*>/g,' ').split(/\s+/).filter(Boolean).length*.3)+1;
+ const step=d=>after(d,()=>{$('card').style.opacity=0;after(1.05,()=>{if(i>=L.length){fade=1;fd=-1;next()}else{const [h,dd]=L[i++];card(h);step(rd(h,dd))}})});
+ fadeTo(()=>{setLoc('epcard');card(L[0][0]);step(rd(L[0][0],L[0][1]))})}
 function epDress(){c6Dress();[abi,hunter,morgan].forEach(p=>{p.cap=0;p.hp=0;p.gown=0;p.veil=0;p.tears=0;p.mortar=0;p.badge=0;p.sitF=0;p.kneel=0});abi.hold=hunter.hold=null}
 function startEp(){{const C=$('card');C.style.alignItems='';C.style.paddingBottom='';C.style.textShadow=''}$('end').style.display='none';$('chap').style.display='none';$('title').classList.add('out');
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;rd=null;pk=null;dtS=null;hill=null;clb=null;sc3=null;chatClear();[abi,hunter,morgan,jay].forEach(p=>{p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null});c5={};c6={day:1};c7={};c8={};epDress();
@@ -6104,8 +6106,8 @@ function epMap(){setLoc('epmap');mode='ep';epDress();Object.assign(abi,{sit:1,si
   {n:'Hunter',t:'Do I need to learn any British words before we land?'},{n:'Abigail',t:'Just one. "Cheers." It means hello, goodbye, thank you, AND I love you.'},{n:'Hunter',t:'Got it. Cheers.'},
   {n:'Attendant',t:'Tea or coffee?',anim:()=>{go(epAtt,[[64,112]],30);ep.fpT=.15}},{n:'Abigail',t:'Tea, please. And he’ll have a tea too.'},{n:'Hunter',t:'I will?'},{n:'Abigail',t:'You will.',anim:()=>{ep.tea=1;sfx('item')}},
   {n:'',t:'Eight hours. One movie. One very sleepy husband.',anim:()=>{ep.ftT=1;ep.fpT=.85;go(epAtt,[[94,112]],30);after(1.5,()=>{hunter.zz=1})}},
-  {n:'Pilot',t:'Good morning, everyone. We’ll shortly be landing in London.',anim:()=>{ep.ftT=2;ep.fpT=1}},{n:'Abigail',t:'(nudging him) Hunter. Hunter! We’re here!',anim:()=>{hunter.zz=0;sfx('blip')}}],
-  ()=>after(.6,()=>fadeTo(epLondon))))}
+  {n:'Pilot',t:'Good morning, everyone. We’ll shortly be landing in Newcastle.',anim:()=>{ep.ftT=2;ep.fpT=1}},{n:'Abigail',t:'(nudging him) Hunter. Hunter! We’re here!',anim:()=>{hunter.zz=0;sfx('blip')}}],
+  ()=>after(.6,()=>fadeTo(epNcl))))}
 function vEpMap(t){const ft=ep.ft||0;
  // cabin wall and overhead bins
  r(0,0,80,144,'#e6e1d8');for(let y=0;y<144;y+=12)r(0,y,80,1,'#ddd8ce');r(0,0,80,22,'#d4d0c8');r(0,20,80,3,'#bcb8b0');for(let x=0;x<80;x+=20){r(x,2,19,17,'#e0dcd4');r(x+8,15,4,1,'#9a968e')}
@@ -6127,12 +6129,31 @@ function vEpMap(t){const ft=ep.ft||0;
  r(0,104,80,40,'#5a5a66');for(let y=106;y<144;y+=4)r(0,y,80,1,'#52525e');r(52,104,28,40,'#6a6a78');
  epPeople(t,[{y:epAtt.y,f:()=>{person(epAtt,t);const cx2=Math.round(epAtt.x)-12;r(cx2,100,9,12,'#c8c8d0');r(cx2,100,9,1,'#e8e8f0');r(cx2+1,103,7,1,'#9a9aa8');r(cx2+2,98,2,2,'#f4f4f8')}}])}
 
-/* ---- 2. London (and, somehow, no rain) ---- */
+/* ---- 2. Newcastle airport: Meggs ---- */
+const meggs=mk('morgan',0,0,{n:'Meggs',skin:'#f1c9a0',hair:'#8a5a3a',hl:2,eye:'#3a5a8a',top:'#1e3a7a',pants:'#2a2a34',shoe:'#111',dir:'l'});
+function epNcl(){setLoc('epncl');mode='ep';epDress();ep.ppl=[abi,hunter,meggs];at(meggs,64,100,'l');at(abi,-8,124,'r');at(hunter,-18,126,'r');ep.mv=[abi,hunter];abi.hold='carry';abi.carry='#c84a6a';hunter.hold='carry';hunter.carry='#3a5a8a';
+ go(abi,[[30,124]],26);go(hunter,[[20,126]],26);
+ after(.8,()=>say([{n:'',t:'Newcastle. Abigail is home.'},{n:'Abigail',t:'Okay. Before we do ANYTHING else...',anim:()=>{abi.dir='r'}},{n:'Abigail',t:'Meggs.',anim:()=>{abi.hold=null;go(abi,[[52,112]],32);go(hunter,[[44,114]],30)}},{n:'Hunter',t:'Meggs?'},
+  {n:'Abigail',t:'You cannot come to England and not have a Meggs sausage roll. It is basically the law.'}],()=>waitTill(()=>abi.tx==null&&hunter.tx==null,()=>{abi.dir=hunter.dir='r';
+  say([{n:'Meggs',t:'Hiya pet! What can I get you?'},{n:'Abigail',t:'Two sausage rolls, please!',anim:()=>{sfx('item');abi.hold='sroll';hunter.hold='sroll'}},
+   {n:'Hunter',t:'(takes a bite)',anim:()=>{hunter.dir='l';abi.dir='r';sfx('pop')}},{n:'Hunter',t:'...'},{n:'Hunter',t:'Abigail. Why did nobody TELL me about this?',anim:()=>{for(let i=0;i<4;i++)after(i*.2,()=>burst(44,96,'#ffd86b'))}},
+   {n:'Abigail',t:'I told you. Every single day. For YEARS.'},{n:'Hunter',t:'I’m getting four more. For emergencies.'},{n:'Meggs',t:'(laughing) He’s a proper convert, this one.'}],()=>{abi.hold=hunter.hold=null;fadeTo(epVillage)})})))}
+function vEpNcl(t){r(0,0,80,96,'#d8dce4');for(let x=0;x<80;x+=10)r(x,0,1,96,'#c8ccd6');
+ r(0,8,80,38,'#4a5a72');for(let x=0;x<80;x+=16){r(x+1,9,14,36,'#a8c8e8');r(x+1,32,14,13,'#8a9aa8');ell(x+8,16,5,1,'#fff',.8)}
+ {const px=((t*6)%120)-20;r(Math.round(px),24,18,3,'#f4f4f8');r(Math.round(px)+13,20,3,4,'#f4f4f8');r(Math.round(px)+4,27,8,1,'#c8c8d0');r(Math.round(px)+15,24,3,1,'#3a5ac8')}
+ r(0,46,80,4,'#9aa0aa');r(4,52,32,9,'#2a3a6a');txt('ARRIVALS',6,54,'#ffd86b',1);r(4,52,32,1,'#4a5a8a');
+ r(1,64,42,16,'#fff');r(1,64,42,1,'#e0463c');txt('WELCOME TO',2,66,'#2a2a3a',1);txt('NEWCASTLE',4,73,'#c8282a',1);
+ // Meggs shop
+ r(44,52,36,46,'#f4f0e8');r(44,52,36,10,'#1e3a7a');r(44,52,36,1,'#3a5aa8');txt('MEGGS',51,55,'#ffd86b',1);r(46,64,32,14,'#bfe0f4');r(46,64,32,1,'#fff');
+ for(let i=0;i<5;i++){r(48+i*6,72,5,3,'#d89a4a');r(48+i*6,72,5,1,'#f0c070');r(49+i*6,73,1,1,'#b0702a')}for(let i=0;i<4;i++){disc(50+i*7,68,2,i%2?'#e8b060':'#c8783a',1)}
+ r(0,96,80,48,'#b8b4ac');for(let y=96;y<144;y+=8)for(let x=((y/8)%2)*8;x<80;x+=16)r(x,y,8,8,'#aca8a0');r(0,96,80,1,'#8a8680');
+ epPeople(t,[{y:101,f:()=>{r(44,90,36,12,'#e8e0d0');r(44,90,36,1,'#fff');r(44,101,36,1,'#a8a090')}}])}
+/* ---- 2b. London (and, somehow, no rain) ---- */
 function epLondon(){setLoc('eplondon');mode='ep';epDress();at(abi,-8,136,'r');at(hunter,-18,136,'r');hunter.hold='umb';ep.bus=120;ep.busGo=0;ep.mv=[abi,hunter];
  go(abi,[[38,136]],22);go(hunter,[[28,136]],22);
  after(.8,()=>say([{n:'',t:'London. And, to everyone’s surprise...'},{n:'',t:'...it is NOT raining.'},{n:'Hunter',t:'(umbrella fully open) I was TOLD it always rains here.'},
-  {n:'Abigail',t:'Honestly? I’m as shocked as you are. Put that away before someone sees you.'},{n:'Hunter',t:'I’m keeping it ready. Just in case.',anim:()=>{hunter.hold=null;sfx('snap')}}],()=>waitTill(()=>abi.tx==null,()=>{abi.dir=hunter.dir='d';ep.busGo=1;
-  waitTill(()=>ep.bus<20,()=>after(.2,()=>say([{n:'Hunter',t:'Can we ride on top of one of those?'},{n:'Abigail',t:'Obviously. We’re tourists today.'}],()=>fadeTo(epVillage))))})))}
+  {n:'Abigail',t:'I swear it doesn’t rain here as much as people say! Put that away before someone sees you.'},{n:'Hunter',t:'I’m keeping it ready. Just in case.',anim:()=>{hunter.hold=null;sfx('snap')}}],()=>waitTill(()=>abi.tx==null,()=>{abi.dir=hunter.dir='d';ep.busGo=1;
+  waitTill(()=>ep.bus<20,()=>after(.2,()=>say([{n:'Hunter',t:'Can we ride on top of one of those?'},{n:'Abigail',t:'Obviously. We’re tourists today.'}],()=>epCards([['...then a whirlwind adventure across Europe.',2.6],['Cobblestone streets. Fresh pastries.<br>Far too many photos.',3],['And then it was home again, to Missouri,<br>where life had more big moments waiting.',3.4]],epGrad))))})))}
 function vEpLondon(t){for(let y=0;y<70;y+=2){const k=y/70;r(0,y,80,2,`rgb(${Math.round(120+k*70)},${Math.round(180+k*45)},${Math.round(240-k*5)})`)}
  disc(64,12,5,'#fff6c8',.9);disc(64,12,9,'#fff6c8',.15);for(let i=0;i<3;i++){const x=((i*33+t*1.5)%110)-20;r(x,8+i*9,18,3,'#fff');r(x+4,6+i*9,9,2,'#fff')}
  const HS=[['#e8dcc4',20],['#c87a5a',34],['#ece4d4',48],['#a86a4a',62],['#e0d4bc',76]];HS.forEach(([c,x])=>{r(x,46,14,50,c);r(x,46,14,2,sh(c,.8));r(x,44,14,2,'#5a5a66');for(let yy=52;yy<88;yy+=12)for(let xx=x+2;xx<x+12;xx+=6){r(xx,yy,4,7,'#3a4a5a');r(xx,yy,4,1,'#f4f4f8');r(xx+1,yy+1,1,2,'#8aa0b8')}r(x+5,88,4,8,'#2a2a3a');r(x+5,88,4,1,'#f4f4f8');r(x+12,40,2,6,'#8a5a4a')});
@@ -6152,7 +6173,7 @@ function epStudio(){setLoc('epstudio');mode='ep';epDress();Object.assign(hunter,
   {n:'Hunter',t:'♪ Pink front door, two corgis in the yard...',anim:()=>{ep.notes=T;sfx('blip')}},{n:'Hunter',t:'♪ One runs laps, one naps, and she’s got my heart...'},
   {n:'Hunter',t:'♪ She’s my English breakfast, my cup of tea...',anim:()=>{go(abi,[[62,134]],22)}},{n:'Hunter',t:'♪ Sunny side up every morning, just her and me.'},
   {n:'Abigail',t:'(from the doorway, holding a tea) ...Is this one about me?',anim:()=>{ep.notes=0;hunter.dir='r'}},{n:'Hunter',t:'They’re ALL about you.'},{n:'Abigail',t:'What’s the album called?'},
-  {n:'Hunter',t:'"English Breakfast."',anim:()=>{ep.cover=T;sfx('fanfare')}},{n:'Abigail',t:'...I’m putting it on repeat.'},{n:'Hunter',t:'Track one is called "Proper Tea."'},{n:'Abigail',t:'(laughing) Of course it is.'}],
+  {n:'Hunter',t:'"English Breakfast."',anim:()=>{ep.cover=T;sfx('fanfare')}},{n:'Abigail',t:'...I’m putting it on repeat.'},{n:'Hunter',t:'Track one is called "Sausage Roll."'},{n:'Abigail',t:'(laughing) Of course it is.'}],
   ()=>{ep.cover=0;hunter.hp=0;after(.6,()=>epCards([['Home was full. Hearts were full.',2.8],['And still, they hoped for one more.',2.8],['After trying for some time...',2.8]],epElla))}))}
 function vEpStudio(t){
  // the real walk-in closet: soft pink-white walls, a white built-in tower, clothes on both sides, shaggy carpet
@@ -6196,31 +6217,42 @@ function epPeople(t,extra){const L=(ep.ppl||[abi,hunter]).map(p=>({y:p.y,f:()=>p
 
 /* ---- 3. Abigail's hometown ---- */
 function epVillage(){setLoc('epvillage');mode='ep';epDress();ep.ppl=[abi,hunter,mumUK,dadUK];[mumUK,dadUK].forEach(p=>{p.sit=0;p.hold=null;p.kneel=0});
- at(mumUK,26,104,'d');at(dadUK,36,104,'d');at(abi,92,128,'l');at(hunter,102,130,'l');ep.mv=[abi,hunter,mumUK,dadUK];go(abi,[[54,124]],24);go(hunter,[[64,126]],24);
- after(.6,()=>say([{n:'',t:'Then, a train ride out to the little village where Abigail grew up.'},{n:'Abigail',t:'That’s my old school. That’s the park where I broke my wrist. And THAT’S the tennis club where I first picked up a racket.'},
+ at(mumUK,40,99,'d');at(dadUK,32,99,'d');at(abi,92,116,'l');at(hunter,102,120,'l');ep.mv=[abi,hunter,mumUK,dadUK];go(abi,[[54,112]],24);go(hunter,[[64,116]],24);
+ after(.6,()=>say([{n:'',t:'A short drive later... the house Abigail grew up in.'},{n:'Abigail',t:'There it is! That’s my old bedroom window, right up there. And THAT driveway is where I first learned to hit a tennis ball.'},
   {n:'Hunter',t:'Tiny Abigail. With a tiny racket.'},{n:'Abigail',t:'And a very serious face.'}],()=>waitTill(()=>abi.tx==null,()=>{abi.dir='l';hunter.dir='l';
-  say([{n:'Mum',t:'There they are! Oh, come HERE, you two!',anim:()=>{go(mumUK,[[44,122]],34);go(dadUK,[[46,112]],26)}},
-   {n:'Mum',t:'We watched you get married on a laptop. Now let me hug you PROPERLY.',anim:()=>{waitTill(()=>mumUK.tx==null,()=>{mumUK.dir='r';for(let i=0;i<5;i++)after(i*.25,()=>burst(50,104,'#ff5f9e'));sfx('kiss')})}},
+  say([{n:'Mum',t:'There they are! Oh, come HERE, you two!',anim:()=>{go(mumUK,[[44,112]],34);go(dadUK,[[38,106]],26)}},
+   {n:'Mum',t:'We watched you get married on a laptop. Now let me hug you PROPERLY.',anim:()=>{waitTill(()=>mumUK.tx==null,()=>{mumUK.dir='r';for(let i=0;i<5;i++)after(i*.25,()=>burst(50,94,'#ff5f9e'));sfx('kiss')})}},
    {n:'Dad',t:'Welcome home, love. And welcome, Hunter.',anim:()=>{dadUK.dir='r'}},{n:'Mum',t:'The kettle’s on. PROPER tea.',anim:()=>{hunter.hold='mug';sfx('item')}},
    {n:'Hunter',t:'(sips) ...Oh. OH. Everything I’ve had in America has been a lie.'},{n:'Abigail',t:'Told you.'},{n:'Dad',t:'He’s a keeper, this one.'}],
-   ()=>epCards([['...then a whirlwind adventure across Europe.',2.6],['Cobblestone streets. Fresh pastries.<br>Far too many photos.',3],['And then it was home again, to Missouri,<br>where life had more big moments waiting.',3.4]],epGrad))})))}
-function vEpVillage(t){for(let y=0;y<40;y+=2){const k=y/40;r(0,y,80,2,`rgb(${Math.round(150+k*60)},${Math.round(196+k*30)},${Math.round(240-k*10)})`)}
- for(let i=0;i<3;i++){const x=((i*31+t*1.5)%110)-20;r(x,6+i*8,16,3,'#fff');r(x+3,4+i*8,9,2,'#fff')}
- r(0,34,80,8,'#7ab060');for(let x=0;x<80;x+=1)r(x,30+Math.round(Math.sin(x/9)*2),1,6,'#88c070');r(0,40,80,10,'#6aa050');for(let x=0;x<80;x+=7)r(x,38,1,12,'#5a9040');
- [[50,36],[56,38],[66,35],[12,44]].forEach(([x,y])=>{r(x,y,3,2,'#fff');r(x+2,y-1,1,1,'#2a2a2a')});
- r(68,14,6,24,'#9a9890');r(68,14,6,1,'#b8b6ae');tri(71,6,14,.4,'#7a7870');r(70,20,2,3,'#3a3a44');
- r(0,46,80,54,'#6aa050');for(let y=50;y<98;y+=4)r(0,y,80,1,'#62984a');
- // tennis club
- r(46,50,32,18,'#4a8a5a');r(48,52,28,14,'#5ab06a');r(48,52,28,1,'#fff');r(48,65,28,1,'#fff');r(48,52,1,14,'#fff');r(75,52,1,14,'#fff');r(61,52,1,14,'#2a2a34');for(let x=46;x<78;x+=3)r(x,50,1,18,'rgba(40,40,50,.35)');r(52,46,22,5,'#2a5a3a');txt('CLUB',55,46,'#fff',1);
- // cottage
- r(2,52,40,46,'#e8dcc0');for(let y=56;y<98;y+=5)for(let x=2+((y/5)%2)*4;x<42;x+=8)r(x,y,7,1,'#d8c8a8');tri(22,32,52,1.1,'#5a5a6a');for(let y=40;y<52;y+=3)r(0,y,44,1,'#4a4a5a');r(30,36,5,12,'#a86a4a');r(30,35,5,1,'#8a5a3a');
- [[6,62],[30,62]].forEach(([x,y])=>{r(x,y,8,9,'#f4f4f8');r(x+1,y+1,6,7,'#6a8ab0');r(x+4,y+1,1,7,'#f4f4f8');r(x+1,y+4,6,1,'#f4f4f8');r(x-1,y+9,10,2,'#8a5a3a');for(let i=0;i<5;i++)r(x+i*2,y+8,1,1,['#ff5f9e','#ffd86b','#e0463c'][i%3])});
- r(18,76,8,22,'#3a5a9a');r(18,76,8,1,'#5a7ab8');r(24,86,1,1,'#ffd86b');r(19,73,6,2,'#f4f4f8');
- // garden wall + gate, lane
- r(0,98,80,46,'#8a8a82');for(let y=104;y<144;y+=6)for(let x=((y/6)%2)*5;x<80;x+=10)r(x,y,1,1,'#7a7a72');r(0,98,80,6,'#6aa050');
- r(0,96,24,4,'#b8a88a');r(34,96,12,4,'#b8a88a');r(0,95,24,1,'#d8c8a8');r(34,95,12,1,'#d8c8a8');r(24,94,10,1,'#f4f4f8');r(24,94,1,6,'#f4f4f8');r(33,94,1,6,'#f4f4f8');for(let x=26;x<33;x+=2)r(x,95,1,4,'#f4f4f8');
- disc(40,92,4,'#4a8a3a',1);[[38,90],[41,92],[39,94]].forEach(([x,y])=>r(x,y,1,1,'#e0463c'));
- epPeople(t)}
+   ()=>epCards([['A few days later, they caught the train<br>from Newcastle down to London.',3]],epLondon))})))}
+function vEpVillage(t){for(let y=0;y<44;y+=2){const k=y/44;r(0,y,80,2,`rgb(${Math.round(110+k*120)},${Math.round(150+k*90)},${Math.round(220+k*20)})`)}
+ for(let i=0;i<4;i++){const x=((i*29+t*1.2)%120)-20;ell(Math.round(x),8+i*7,12,3,'#f4f4f8',.9);ell(Math.round(x)+6,6+i*7,7,2,'#fff',.9)}
+ // roof
+ for(let y=18;y<34;y++){const i=y-18,x0=Math.round(8-i*.4),x1=Math.round(70+i*.4);r(x0,y,x1-x0,1,i%3?'#5a4c48':'#4a3e3a')}r(4,33,70,2,'#2a2a2e');r(30,10,1,9,'#6a6a72');r(27,12,7,1,'#6a6a72');r(28,10,1,3,'#6a6a72');
+ // upstairs brick
+ const brick=(x,y,w,h)=>{r(x,y,w,h,'#a4523c');for(let yy=y+1;yy<y+h;yy+=3){r(x,yy,w,1,'#8e4432');for(let xx=x+((yy/3|0)%2)*3;xx<x+w;xx+=6)r(xx,yy-2,1,2,'#8e4432')}};
+ brick(4,35,68,23);
+ const win=(x,y,w,h,blind)=>{r(x-1,y-1,w+2,h+2,'#f4f4f8');r(x,y,w,h,blind?'#dcdcd8':'#a8c0d0');if(blind)for(let xx=x+1;xx<x+w;xx+=2)r(xx,y,1,h,'#c8c8c4');r(x,y+Math.round(h*.35),w,1,'#f4f4f8');if(w>12)r(x+Math.round(w*.3),y,1,h,'#f4f4f8')};
+ win(8,38,6,11,1);win(20,39,18,11,1);win(44,37,26,14,1);r(39,36,2,22,'#3a3a3e');r(40,40,4,5,'#e8e8e8');
+ // grey slate cladding on the right, above the bay
+ r(44,53,28,11,'#6a7488');for(let y=54;y<64;y+=2)for(let x=44+((y/2)%2)*2;x<72;x+=4)r(x,y,3,1,'#5a6478');
+ // porch/garage roof
+ for(let y=58;y<66;y++){const i=y-58;r(4,y,40+Math.round(i*.2),1,i%2?'#5a4c48':'#4a3e3a')}r(4,65,42,1,'#2a2a2e');r(40,58,4,8,'#f4f4f8');
+ // ground floor: garage with navy roller door, porch, bay window
+ brick(4,66,22,32);r(6,70,18,28,'#1e2a5a');for(let y=72;y<98;y+=2)r(6,y,18,1,'#2a3a6e');r(6,70,18,1,'#3a4a7e');r(4,68,2,30,'#f4f4f8');
+ r(26,70,1,4,'#2a2a2e');disc(27,72,1,'#3a3a3e',1);r(25,66,1,32,'#3a3a3e');
+ r(27,66,19,32,'#f4f4f8');win(29,70,6,14,0);r(37,69,7,29,'#f8f8fa');r(38,70,5,26,'#e8eef4');disc(40,74,2,'#a8c0d0',1);r(39,74,3,8,'#a8c0d0');r(42,84,1,2,'#9a9aa0');r(30,86,4,10,'#e8e8ec');
+ brick(46,66,4,32);
+ r(50,66,22,32,'#f4f4f8');for(let i=0;i<3;i++){r(51+i*7,68,6,26,'#c8d4dc');for(let y=69;y<93;y+=2)r(51+i*7,y,6,1,'#b8c4cc')}r(50,94,22,4,'#e8e8ec');
+ // block-paved driveway
+ r(0,98,80,30,'#8a7c74');for(let y=99;y<128;y+=3)for(let x=((y/3|0)%2)*3;x<80;x+=6){r(x,y,5,2,(x*7+y)%5?'#968880':'#7e7068')}
+ // pavement
+ r(0,136,80,8,'#a8a8a4');for(let x=0;x<80;x+=12)r(x,136,1,8,'#9a9a96');
+ // the tree on the right
+ const tree=()=>{r(76,60,3,40,'#5a4030');[[74,40,10],[80,52,9],[70,58,8],[78,30,8],[72,70,7],[80,74,6]].forEach(([x,y,q],i)=>{disc(x,y,q,i%2?'#3a6a32':'#4a7a3a',1);disc(x-2,y-3,q-4,'#5a8a44',1)})};
+ // low brick wall with a pillar, in front of everything
+ const wall=()=>{r(0,126,80,10,'#9a4a36');for(let yy=128;yy<136;yy+=3){r(0,yy,80,1,'#843e2e');for(let xx=((yy/3|0)%2)*3;xx<80;xx+=6)r(xx,yy-2,1,2,'#843e2e')}r(0,125,80,2,'#b45a44');r(0,116,8,20,'#9a4a36');r(0,115,8,2,'#b45a44');for(let yy=118;yy<136;yy+=3)r(0,yy,8,1,'#843e2e');r(62,126,18,2,'#3a6a32');disc(76,124,6,'#4a7a3a',1)};
+ epPeople(t,[{y:99,f:tree},{y:137,f:wall}])}
 
 /* ---- 4. graduation ---- */
 const GRADC=[],AUD=[];
@@ -6632,7 +6664,7 @@ function vEpNurse(t){r(0,0,80,100,'#d8c8e8');for(let y=4;y<96;y+=12)for(let x=((
  if(ep.peek){const k=Math.min(1,(T-ep.peek)/1.2),e=k*k*(3-2*k);cx.save();cx.beginPath();cx.rect(0,0,80,144);cx.clip();const px=Math.round(88-e*14);r(px-6,94,20,50,'#a8784a');corgiFace(px+1,124,1,0,t);crumpet(px+6,140,'l',t,1,1);cx.restore()}
  cx.globalAlpha=.16;r(0,0,80,144,'#2a1850');cx.globalAlpha=1}
 
-function epFinale(){const C=$('card');C.style.alignItems='flex-end';C.style.paddingBottom='calc(var(--u)*30)';C.style.textShadow='0 0 6px #0a0618,0 0 2px #0a0618';const L=['Our story isn’t over.','It’s still being written,<br>one little moment at a time.','There are still so many places to go,<br>so many adventures to share,<br>and so many memories<br>still waiting to be made.',
+function epFinale(){const C=$('card');C.style.alignItems='center';C.style.paddingBottom='';C.style.textShadow='0 0 6px #0a0618,0 0 2px #0a0618';const L=['Our story isn’t over.','It’s still being written,<br>one little moment at a time.','There are still so many places to go,<br>so many adventures to share,<br>and so many memories<br>still waiting to be made.',
   'This adventure of life together<br>is the greatest one I could ever ask for.','And I cannot wait to see<br>what our next chapter has in store.'];let i=0;
  const nx=()=>{if(i>=L.length){after(.6,epTheEnd);return}card(L[i++]);after(4.4,()=>{$('card').style.opacity=0;after(1.3,nx)})};nx()}
 function epTheEnd(){epBday()}
@@ -6691,7 +6723,7 @@ function epUpdate(dt){if(!ep||!ep.on)return;if(ep.mv)ep.mv.forEach(p=>{if(p.tx!=
  if(loc==='epporch'&&ep.panT)ep.pan=Math.min(110,(ep.pan||0)+dt*24);
  epYardUpd(dt);epBdayUpd(dt);if(ep.al)ep.al.t+=dt;if(mode==='epAlbum'&&ep.al&&ep.al.ph==='show'&&ep.al.t>3.2)epAlbumNext()}
 function epTap(){if(mode==='epBday'){if(ep.bd&&T-ep.bd.t0>6.5){sfx('confirm');location.reload()}return true}if(mode==='epAlbum'){epAlbumTap();return true}if(mode==='epThrow'){epThrow();return true}if(mode==='paint')return true;if(mode==='ep')return true;return false}
-Object.assign(VS,{epalbum:[1,vEpAlbum],epcard:[1,vEpCard],epmap:[2,vEpMap],epstudio:[2,vEpStudio],eplondon:[2,vEpLondon],epvillage:[2,vEpVillage],epgrad:[2,vEpGrad],epcyber:[2,vEpCyber],epcoach:[2,vEpCoach],epcrump:[2,vEpCrump],ephouse:[2,vEpHouse],eppaint:[1,vEpPaint],epyard:[2,vEpYard],epnurse:[2,vEpNurse],epfam:[2,vEpFam],epporch:[2,vEpPorch],epbday:[1,vEpBday]});
+Object.assign(VS,{epncl:[2,vEpNcl]});Object.assign(MUSMAP,{epncl:'cozy'});Object.assign(VS,{epalbum:[1,vEpAlbum],epcard:[1,vEpCard],epmap:[2,vEpMap],epstudio:[2,vEpStudio],eplondon:[2,vEpLondon],epvillage:[2,vEpVillage],epgrad:[2,vEpGrad],epcyber:[2,vEpCyber],epcoach:[2,vEpCoach],epcrump:[2,vEpCrump],ephouse:[2,vEpHouse],eppaint:[1,vEpPaint],epyard:[2,vEpYard],epnurse:[2,vEpNurse],epfam:[2,vEpFam],epporch:[2,vEpPorch],epbday:[1,vEpBday]});
 Object.assign(MUSMAP,{epalbum:'stars',epcard:'stars',epmap:'cozy',epstudio:'lofi',eplondon:'cozy',epvillage:'cozy',epgrad:'waltz',epcyber:'lofi',epcoach:'lofi',epcrump:'cozy',ephouse:'sunset',eppaint:'cozy',epyard:'sunset',epnurse:'night',epfam:'sunset',epporch:'stars',epbday:'stars'});
 
 /* ---------- save + chapter select ---------- */
@@ -6819,7 +6851,7 @@ const SCENES=[
  [8,'Tux rental',null,()=>c8Tux()],[8,'Night before',null,()=>c8Night()],[8,'Can’t sleep',null,()=>c8Sleep()],[8,'Groom getting ready',null,()=>c8Groom()],[8,'Bride getting ready',null,()=>c8Bride()],
  [8,'Church: stay standing',null,()=>{Object.assign(hunter,TUX);c8Church()}],[8,'The doors open',()=>{c8={};dbgWed()},()=>c8Door()],[8,'England garden party',()=>{c8={};dbgWed()},()=>c8UK()],
  [8,'Walk to the altar',()=>{c8={};dbgWed()},()=>c8Arrive()],[8,'Just the two of us',()=>{c8={};dbgWed()},()=>c8Couple()],[8,'The early kiss',()=>{c8={};dbgWed()},()=>c8Laugh()],[8,'Vows',()=>{c8={};dbgWed()},()=>c8Vows()],[8,'The kiss',()=>{c8={};dbgWed()},()=>c8Kiss()],[8,'Jump the broom',()=>{c8={};dbgWed()},()=>c8Broom()],[8,'Reception',()=>{c8={};dbgWed()},()=>c8Reception()],[8,'Balcony',()=>{c8={};dbgWed()},()=>c8Balcony()],
- [9,'Epilogue: album',null,()=>{ep={on:1};epDress();epAlbumStart()}],[9,'England flight',null,()=>{ep={on:1};epMap()}],[9,'London',null,()=>{ep={on:1};epLondon()}],[9,'Hometown',null,()=>{ep={on:1};epVillage()}],[9,'Graduation',null,()=>{ep={on:1};epGrad()}],[9,'Cyber security',null,()=>{ep={on:1};epCyber()}],[9,'Coaching the Owls',null,()=>{ep={on:1};epCoach()}],[9,'Crumpet',null,()=>{ep={on:1};epCrumpet()}],[9,'First home',null,()=>{ep={on:1};epHouse()}],[9,'Paint the door',null,()=>{ep={on:1};epPaintStart()}],[9,'Pink door',null,()=>{ep={on:1};epHouseAfter()}],[9,'Backyard frisbee',null,()=>{ep={on:1};epYard()}],[9,'Closet studio',null,()=>{ep={on:1};epStudio()}],[9,'Ella',null,()=>{ep={on:1};epElla()}],[9,'Family photo',null,()=>{ep={on:1};epFamily()}],[9,'Porch & finale',null,()=>{ep={on:1};epPorch()}],[9,'Happy birthday',null,()=>{ep={on:1};epBday()}]];
+ [9,'Epilogue: album',null,()=>{ep={on:1};epDress();epAlbumStart()}],[9,'England flight',null,()=>{ep={on:1};epMap()}],[9,'Newcastle: Meggs',null,()=>{ep={on:1};epNcl()}],[9,'Her family home',null,()=>{ep={on:1};epVillage()}],[9,'London',null,()=>{ep={on:1};epLondon()}],[9,'Graduation',null,()=>{ep={on:1};epGrad()}],[9,'Cyber security',null,()=>{ep={on:1};epCyber()}],[9,'Coaching the Owls',null,()=>{ep={on:1};epCoach()}],[9,'Crumpet',null,()=>{ep={on:1};epCrumpet()}],[9,'First home',null,()=>{ep={on:1};epHouse()}],[9,'Paint the door',null,()=>{ep={on:1};epPaintStart()}],[9,'Pink door',null,()=>{ep={on:1};epHouseAfter()}],[9,'Backyard frisbee',null,()=>{ep={on:1};epYard()}],[9,'Closet studio',null,()=>{ep={on:1};epStudio()}],[9,'Ella',null,()=>{ep={on:1};epElla()}],[9,'Family photo',null,()=>{ep={on:1};epFamily()}],[9,'Porch & finale',null,()=>{ep={on:1};epPorch()}],[9,'Happy birthday',null,()=>{ep={on:1};epBday()}]];
 function dbgStart(i,keep){const sc=SCENES[i];if(!keep)LS('ourstory_pk',null);mgReset();MGM=null;lv={night:0,mor:0,q:0};qprops={remote:0,sw:0};qx=null;hm=0;sick=0;tissues=4;showHM=0;abi.dance=hunter.dance=0;
  if(sc[0]===8)Object.assign(morgan,{gown:0});if(sc[2])sc[2]();mode='dbg';sc[3]()}
 function openScenes(){if(!DEV.on())return;const e=$('chap');$('end').style.display='none';let h='<h2>SCENES</h2>',last=0;
