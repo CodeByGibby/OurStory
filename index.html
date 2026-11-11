@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.21</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.22</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1936,12 +1936,12 @@ function lapBank(){mode='lap';sfx('kaching');setTimeout(()=>sfx('kaching'),1900)
   ()=>{fadeTo(c3Sleep,2.6);after(.5,()=>card('<span style="color:#ffd86b;font-size:1.3em">THE GOOD LIFE</span>'))})}}
 /* ---- online classes at Mom's, and Abigail's online master's graduation ---- */
 let c3s={};
-function c3School(){setLoc('c3class');fade=1;fd=-1;mode='c3';c3s={zoom:1,mom:0};[abi,hunter].forEach(p=>{p.hold=null;p.sit=1;p.sitF=1;p.zz=0;p.cap=0;p.mortar=0;p.hp=0});at(abi,30,92,'d');at(hunter,50,92,'d');at(mom,-10,74,'r');
+function c3School(){setLoc('c3class');fade=1;fd=-1;mode='c3';c3s={zoom:1,mom:0};[abi,hunter].forEach(p=>{p.hold=null;p.sit=1;p.sitF=1;p.zz=0;p.cap=0;p.mortar=0;p.hp=0});at(abi,12,48,'d');at(hunter,28,48,'d');at(mom,-10,45,'r');
  after(1,()=>say([{n:'',t:'Then spring break ended... and school started right back up.'},{n:'',t:'Online. From Mom’s dining room table.'},
   {n:'Professor',t:'(on the laptop) Hunter? ...Hunter, you’re on mute.',anim:()=>{c3s.mute=1}},{n:'Hunter',t:'(unmuting) Sorry! Sorry. Here! I’m here.',anim:()=>{c3s.mute=0}},
   {n:'',t:'Abigail already has her bachelor’s degree. Now she’s racing to finish her master’s.'},{n:'Abigail',t:'(typing furiously) Two more chapters... and my master’s thesis is DONE.'},
   {n:'Hunter',t:'Look at you. A bachelor’s AND almost a master’s. I’m still trying to find the unmute button.'},
-  {n:'Mom',t:'(walking through) Who wants a snack? I made... goulash bites!',anim:()=>{c3s.mom=1;go(mom,[[40,74],[96,74]],18)}},{n:'Hunter',t:'...We’re good, Mom.'},{n:'Abigail',t:'(still typing) So good. Thank you!'}],
+  {n:'Mom',t:'(walking through) Who wants a snack? I made... goulash bites!',anim:()=>{c3s.mom=1;go(mom,[[20,45],[50,45]],9)}},{n:'Hunter',t:'...We’re good, Mom.'},{n:'Abigail',t:'(still typing) So good. Thank you!'}],
   ()=>{fadeTo(()=>{setLoc('newsbg');card('A few weeks later...<br><br><span style="color:#ffd86b">May 2020</span>')},2.4);after(3.4,()=>{$('card').style.opacity=0;c3Grad()})}))}
 function c3Grad(){setLoc('c3grad');fade=1;fd=-1;mode='c3';c3s={banner:1,pop:0,cap:0};[abi,hunter].forEach(p=>{p.hold=null;p.sit=0;p.sitF=0;p.cap=0;p.hp=0});abi.sit=1;abi.sitF=1;abi.mortar=0;
  at(abi,34,92,'d');at(hunter,48,92,'d');hunter.sit=1;hunter.sitF=1;
@@ -1952,18 +1952,25 @@ function c3Grad(){setLoc('c3grad');fade=1;fd=-1;mode='c3';c3s={banner:1,pop:0,ca
   {n:'Hunter',t:'Hang on. I made you something.',anim:()=>{c3s.cap=1;abi.mortar=1;hunter.hold=null;sfx('item')}},{n:'Abigail',t:'Did you make me a graduation cap out of cardboard?'},{n:'Hunter',t:'And a LOT of tape.'},{n:'Hunter',t:'Master Abigail. Has a nice ring to it.'},
   {n:'Abigail',t:'Okay... this is actually perfect.'}],()=>phAsk('masters',()=>{abi.mortar=0;abi.sit=0;abi.sitF=0;
    fadeTo(()=>{setLoc('newsbg');card('Master’s degree: complete.<br><br>And just in time, because...')},2.8);after(3.8,()=>{$('card').style.opacity=0;after(1.1,()=>card('...it was time for Texas.'));after(3.6,c3Dorm)})})))}
-function vC3Class(t){r(0,0,80,104,'#e4d8c0');for(let x=0;x<80;x+=8)r(x,0,1,60,'#dccfb4');r(0,60,80,2,'#c8b494');r(0,62,80,42,'#d8c8a8');
- r(6,10,20,22,'#f4f4f8');r(8,12,16,18,'#9ad0f0');r(15,12,2,18,'#f4f4f8');r(8,20,16,1,'#f4f4f8');r(4,8,24,3,'#a8784a');disc(10,24,3,'#5aa84a',.8);
- [[36,14,10,8],[50,12,12,10],[66,16,8,10]].forEach(([x,y,w,h],i)=>{r(x,y,w,h,'#a8784a');r(x+1,y+1,w-2,h-2,['#f0d8b0','#b8d8f0','#f0c8d8'][i])});
- r(60,40,16,24,'#8a5a3a');r(61,41,14,10,'#bfe6ff');r(61,52,14,10,'#bfe6ff');for(let i=0;i<4;i++)r(62+i*3,54,2,6,['#e0463c','#f4f4f8','#ffd86b','#3a8a5a'][i]);
- if(c3s.mom)person(mom,t);
- r(0,104,80,40,'#b08860');for(let y=104;y<144;y+=6)r(0,y,80,1,'#a07850');
+function vC3Class(t){cx.save();cx.scale(2,2);// close-up: 40x72 frame
+ r(0,0,40,44,'#e4d8c0');for(let x=2;x<40;x+=5)r(x,0,1,42,'#dccfb4');r(0,41,40,1,'#c8b494');r(0,42,40,2,'#d8c8a8');
+ r(0,5,8,15,'#f4f4f8');r(0,7,6,11,'#9ad0f0');r(0,12,6,1,'#f4f4f8');r(0,3,9,2,'#a8784a');disc(2,15,2,'#5aa84a',.8);
+ r(14,5,9,7,'#a8784a');r(15,6,7,5,'#b8d8f0');r(26,7,6,6,'#a8784a');r(27,8,4,4,'#f0c8d8');
+ r(35,14,5,28,'#8a5a3a');r(36,15,4,12,'#bfe6ff');r(36,28,4,12,'#bfe6ff');for(let i=0;i<2;i++)r(36+i*2,34,1,6,['#e0463c','#ffd86b'][i]);
+ if(c3s.mom&&mom.x>-8&&mom.x<48)person(mom,t);
+ // dining chairs behind each of them
+ [abi,hunter].forEach(p=>{const x=Math.round(p.x);r(x-6,36,12,2,'#7a4a2a');r(x-6,36,12,1,'#9a6a40');r(x-6,38,2,6,'#7a4a2a');r(x+4,38,2,6,'#7a4a2a');r(x-6,38,1,6,'#9a6a40')});
  epPeopleList(t,[abi,hunter]);
- // table in front, laptops (backs to us), mugs, the thesis
- r(10,98,60,4,'#8a5a3a');r(10,98,60,1,'#a8784a');r(10,102,60,12,'#7a4a2a');r(12,114,3,20,'#6a3a20');r(65,114,3,20,'#6a3a20');
- [[30],[50]].forEach(([x])=>{r(x-6,90,12,8,'#c8c8d0');r(x-6,90,12,1,'#e8e8f0');disc(x,93,1,'#f4f4f8',1);r(x-7,97,14,1,'#9a9aa8')});
- if(c3s.mute&&Math.floor(t*3)%2){r(41,80,19,7,'#e0303a');txt('MUTE',42,81,'#fff',1)}
- r(14,93,5,5,'#f4f4f8');r(19,94,1,2,'#f4f4f8');r(15,93,3,1,'#b07a4a');r(62,92,8,6,'#f4f4f8');r(62,92,8,1,'#c8c8d0');r(63,94,6,1,'#9a9aa8');r(63,96,5,1,'#9a9aa8');r(61,91,8,1,'#c2417a')}
+ // table top (seen from slightly above), front edge, shadow underneath
+ r(0,44,40,18,'#a8784a');r(0,44,40,1,'#8a5a3a');[48,53,58].forEach(y=>r(0,y,40,1,'#9e6e44'));r(0,62,40,3,'#7a4a2a');r(0,62,40,1,'#8a5a3a');r(0,65,40,7,'#4a3020');r(2,65,2,7,'#6a3a20');r(36,65,2,7,'#6a3a20');
+ // laptops: lids face them, hands tapping at the keyboard edges
+ [abi,hunter].forEach((p,i)=>{const x=Math.round(p.x),ty=i===0||Math.floor(t*2)%3===0;ell(x,50,6,1,'#000',.15);r(x-5,44,10,5,'#c8c8d0');r(x-5,44,10,1,'#e8e8f0');r(x-5,48,10,1,'#a8a8b4');r(x-1,46,2,1,'#f4f4f8');r(x-6,49,12,1,'#9a9aa8');
+  if(ty){const k=Math.floor(t*(i===0?10:6))%2;r(x-6,47+k,1,2,p.skin);r(x+5,48-k,1,2,p.skin)}});
+ // coffee mug and the thesis
+ ell(5,56,3,1,'#000',.15);ell(34,58,4,1,'#000',.15);r(3,51,4,5,'#f4f4f8');r(7,52,1,2,'#f4f4f8');r(3,51,4,1,'#7a4a2a');r(3,55,4,1,'#d8d8e0');
+ r(31,53,7,5,'#f4f4f8');r(31,53,7,1,'#e0e0e8');r(32,55,5,1,'#9a9aa8');r(32,57,4,1,'#9a9aa8');r(30,52,7,1,'#c2417a');r(29,57,6,1,'#ffd86b');r(34,57,1,1,'#e0463c');
+ cx.restore();
+ if(c3s.mute&&Math.floor(t*3)%2){const x=Math.round(hunter.x)*2;r(x-10,89,20,7,'#e0303a');txt('MUTE',x-8,90,'#fff',1)}}
 function epPeopleList(t,L){L.slice().sort((a,b)=>a.y-b.y).forEach(p=>person(p,t))}
 function vC3Grad(t){r(0,0,80,70,'#e8dcc8');for(let x=0;x<80;x+=10)r(x,0,1,70,'#e0d2ba');r(0,68,80,2,'#c8b494');
  // handmade banner
