@@ -139,7 +139,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.4</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.5</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1210,7 +1210,8 @@ function fishUpdate(dt){const f=fs;if(!f)return;f.t=(f.t||0)+dt;
   const inz=f.fy>f.zy-2&&f.fy<f.zy+38;f.prog=Math.max(0,Math.min(1,f.prog+(inz?.34:-.11)*dt));
   if(f.prog>=1){f.ph='caught';f.bob=null;setHud('');hold=0;caught()}else if(f.prog<=0){f.ph='cast';f.bob=null;setHud('It got away! Tap to cast again.')}}}
 function caught(){sfx('win');burst(hunter.x+8,hunter.y-24,'#7ee8fa');say([{n:'',t:'You caught... a Bluegill!'},{n:'',t:'Length: 2 inches. An absolute MONSTER.'},{n:'Dad',t:'HA! Well... it counts!'},{n:'Dad',t:"Hold it up, I've gotta get a picture of this."}],
- ()=>{photo=1;hunter.dir='d';dad.dir='r';say([{n:'Dad',t:"Say 'social distancing'!"}],()=>{flash=1;sfx('shutter');c4.capReq={st:'fish',x:34,y:95,silent:1};after(1.4,()=>{photo=2;after(.5,()=>say([{n:'Hunter',t:'Biggest catch of the year.'},{n:'Dad',t:"ONLY catch of the year. That's going on the fridge."}],()=>{camAway=1;after(.9,()=>say([{n:'',t:'(Dad tucks his phone back in his pocket.)'},{n:'Dad',t:"Alright, let's head home."}],()=>{fadeTo(startDrive,2.4);after(.5,()=>card("The drive home in Dad's truck..."))}))}))})})})}
+ ()=>{photo=2;hunter.dir='d';dad.dir='r';say([{n:'Dad',t:"Say 'social distancing'!"}],()=>{c4.capReq={st:'fish',x:34,y:95,silent:1};flash=1;sfx('shutter');after(.25,()=>{photo=1;after(.5,()=>{const pm=mode;mode='photoWait';c2PW=()=>{mode=pm;photo=2;say([{n:'Hunter',t:'Biggest catch of the year.'},{n:'Dad',t:"ONLY catch of the year. That's going on the fridge."}],()=>{camAway=1;after(.9,()=>say([{n:'',t:'(Dad tucks his phone back in his pocket.)'},{n:'Dad',t:"Alright, let's head home."}],()=>{fadeTo(startDrive,2.4);after(.5,()=>card("The drive home in Dad's truck..."))}))})}})})})})}
+let c2PW=null;
 function startDrive(){camAway=0;setLoc('drive');mode='drive';photo=0;hunter.hold=null;dad.hold=null;hunter.reel=0;fs=null;drv={o:0,sk:null,said:0}}
 function driveUpdate(dt){const d=drv;if(!d)return;d.o+=dt*40;
  if(!d.said&&d.o>140&&d.sk==null)d.sk=86;
@@ -1608,7 +1609,7 @@ function drawCh2UI(){
   const fy=Math.round(by+f.fy+4),wg=Math.floor(T*6)%2;r(bx,fy+1,13,9,'#1a2a3a');r(bx+1,fy+2,11,7,'#7aa0b0');r(bx+1,fy+2,11,2,'#b8d8e0');r(bx+2,fy+7,8,1,'#5a8090');r(bx+4,fy,5,2,'#1a2a3a');r(bx+5,fy+1,3,1,'#5a8090');
   r(bx+12,fy+wg,2,11-wg*2,'#1a2a3a');r(bx+14,fy+1+wg,4,9-wg*2,'#6a90a0');r(bx+14,fy+wg,4,1,'#1a2a3a');r(bx+14,fy+10-wg,4,1,'#1a2a3a');r(bx+3,fy+4,2,2,'#111');r(bx+3,fy+4,1,1,'#fff');r(bx+1,fy+6,2,1,'#e08a8a');
   r(bx+20,by,6,164,'#2a1a10');r(bx+20,by+164*(1-f.prog),6,164*f.prog,f.prog>.7?'#5ad06a':f.prog>.35?'#ffd86b':'#e0463c')}
- if(photo===1){r(0,0,W,30,'#fff');r(0,0,14,H,'#fff');r(W-14,0,14,H,'#fff');r(0,236,W,52,'#fff');txt('TWO INCHES',44,252,'#3a3a5a',2);cx.globalAlpha=.4;r(14,30,W-28,1,'#999');cx.globalAlpha=1}
+ if(photo===1){r(0,0,W,30,'#fff');r(0,0,14,H,'#fff');r(W-14,0,14,H,'#fff');r(0,236,W,52,'#fff');txt('TWO INCHES',44,252,'#3a3a5a',2);if(mode==='photoWait'&&Math.floor(T*2)%2)txt('TAP TO CONTINUE',50,272,'#8a8a9a',1);cx.globalAlpha=.4;r(14,30,W-28,1,'#999');cx.globalAlpha=1}
  if(flash>0){cx.globalAlpha=flash;r(0,0,W,H,'#fff');cx.globalAlpha=1}
  if(showRes){r(0,0,W,H,'rgba(10,10,30,.85)');r(48,56,64,160,'#f4f4f8');r(48,56,64,2,'#fff');r(52,60,56,152,'#e8e8f0');
   r(64,92,32,64,'#d0d0d8');r(66,94,28,60,'#f8f4f0');txt('C',58,110,'#555',1);txt('T',58,134,'#555',1);r(68,112,24,3,'#e0463c');r(68,136,24,3,'#e0463c');
@@ -6883,6 +6884,7 @@ function press2(CX,CY){
  if(mode==='fish'){if(fs&&fs.ph==='reel')hold=1;else fishTap();return}
  if(mode==='needle'){needleTap();return}
  if(mode==='result'){if(!dlg){showRes=0;hunter.bleed=0;mode='resTalk';say([{n:'Nurse',t:"Sorry hon... you're positive."},{n:'Nurse',t:'Go home and quarantine for 14 days.'},{n:'Hunter',t:'Home. Right. ...Which home?'}],startTexts)}return}
+ if(mode==='photoWait'){const f=c2PW;c2PW=null;if(f){sfx('tick');f()}return}
  if(mode==='knock'){knockTap();return}
  if(mode==='dial'){dialTap();return}
  if(mode==='nose'){noseTap();return}
