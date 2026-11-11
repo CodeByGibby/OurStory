@@ -21,6 +21,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #title{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding-top:calc(var(--u)*40);text-align:center;color:#fff6e0;pointer-events:none;transition:opacity 1.4s}
 #title.out{opacity:0}
 #title.wait{display:none}
+#title.ff,#title.ff *{animation-delay:0s!important;animation-duration:.08s!important}#title.ff #bPlay{animation:glow 2.6s ease-in-out infinite!important}
 #gift{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*6);background:radial-gradient(circle at 50% 42%,rgba(60,30,90,.55),rgba(8,4,20,.92));color:#fff6e0;text-align:center;z-index:30;transition:opacity 1s;cursor:pointer;pointer-events:auto}
 #gift canvas{width:calc(var(--u)*96);height:calc(var(--u)*96);image-rendering:pixelated;image-rendering:crisp-edges}
 #gift .g1{font-size:calc(var(--u)*6.4);color:#ffd86b;text-shadow:calc(var(--u)*.8) calc(var(--u)*.8) 0 #c2417a}
@@ -139,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.13</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.14</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -6871,7 +6872,7 @@ function openScenes(){if(!DEV.on())return;const e=$('chap');$('end').style.displ
 let INPUT=0;function press(CX,CY){INPUT=1;try{press2(CX,CY)}finally{INPUT=0}}
 function press2(CX,CY){
  const b=(CR=dv.getBoundingClientRect()),sx=(CX-b.left)/sc,sy=(CY-b.top)/sc,x=(sx-W/2)/vz+vcx,y=(sy-H/2)/vz+vcy;
- if(mode==='title')return;
+ if(mode==='title'){const ti=$('title');if(ti&&!ti.classList.contains('wait')&&!$('btns').classList.contains('ready')&&GIFT.done){ti.classList.add('ff');setTimeout(()=>$('btns').classList.add('ready'),120)}return}
  if(dlg){adv();return}
  if(mode==='paint'){if(ep.pt)ep.pt.down=1;epPaintAt(sx,sy,true);return}
  if(epTap())return;
