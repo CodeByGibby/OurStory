@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.37</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.38</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1432,7 +1432,7 @@ function hxRouteOld(p,tx,ty){const R=HXF[hx.room],ri=Math.max(0,hxRi(R,p.x,p.y))
 function hxClamp(x,y){const R=HXF[hx.room];let best=[x,y],bd=1e9;hxRects(R).forEach(q=>{const a=Math.max(q[0],Math.min(q[2],x)),b=Math.max(q[1],Math.min(q[3],y)),d=Math.hypot(a-x,b-y);if(d<bd){bd=d;best=[a,b]}});[x,y]=best;
  for(const b of hxBl(R))if(x>b[0]&&x<b[0]+b[2]&&y>b[1]&&y<b[1]+b[3])y=b[1]+b[3]+2;return [x,y]}
 function hxWalk(tx,ty,sp,cb){const p=hx.p;go(p,hxRoute(p,tx,ty),sp||hx.sp||44);hx.arrive=cb||null}
-function hxTap(x,y){if(hx.phase||hx.arrive)return;const it=hxItems().find(i=>x>=i.x&&x<=i.x+i.w&&y>=i.y&&y<=i.y+i.h);
+function hxTap(x,y){if(hx.phase||hx.arrive)return;if(hx.room==='austin'&&y>=98&&y<112&&!hxItems().some(i=>x>=i.x&&x<=i.x+i.w&&y>=i.y&&y<=i.y+i.h))y=105;const it=hxItems().find(i=>x>=i.x&&x<=i.x+i.w&&y>=i.y&&y<=i.y+i.h);
  if(it){hx.pend=it;hxWalk(it.spot[0],it.spot[1])}else{hx.pend=null;const [tx,ty]=hxClamp(x,y);hx.tap={x:tx,y:ty,t:0};hxWalk(tx,ty)}}
 function hxUse(it){const p=hx.p;p.dir=it.face||'u';const g=hxGoal();
  if(g&&g.room===hx.room&&g.id===it.id){mode='c3';setHud('');chatClear();g.fn(()=>{hx.gi++;mode='hx';hxHud()});return}
@@ -2645,7 +2645,7 @@ Object.assign(HXF,{
  river:{w:160,f:[2,78,158,90],rects:[[102,90,114,112,108,87]],bs:[[116,84,44,8]]},
  plaza:{f:[4,66,76,140],bs:[[2,110,18,16],[62,112,16,14]]},
  bstore:{w:160,f:[6,70,154,140],bs:[[26,92,34,14],[82,100,22,14]]},
- austin:{w:160,f:[3,104,157,140],bs:[[57,106,6,2],[70,101,6,2]]},
+ austin:{w:160,f:[3,104,157,140],bs:[[57,109,6,1],[70,109,6,1],[117,109,9,1]]},
  pea:{f:[6,90,74,140]},
  bonnell:{f:[16,112,49,140]}});
 Object.assign(HXLOC,{river:'river',plaza:'plaza',bstore:'bstore',austin:'austin',pea:'pea',bonnell:'bonnell',trucks:'trucks'});
@@ -2962,8 +2962,7 @@ function buildAusBG(){const c=document.createElement('canvas');c.width=160;c.hei
  r(0,111,160,33,'#5a5a64');for(let i=0;i<90;i++)r(stars[i].x%160,112+(stars[i].y%32),1,1,'#64646e');for(let x=2;x<160;x+=16)r(x,128,8,1,'#e8d890');for(let y=113;y<142;y+=4)r(70,y,8,2,'#e8e8f0');
  r(6,96,14,2,'#7a5a3a');r(6,98,2,4,'#3a3a3a');r(18,98,2,4,'#3a3a3a');r(6,92,14,1,'#7a5a3a');
  r(4,101,1,8,'#6a6a72');r(3,99,3,3,'#8a8a92');
- r(10,106,8,1,'#2a2a2a');r(9,103,2,4,'#3ac85a');disc(11,108,1,'#2a2a2a',1);disc(17,108,1,'#2a2a2a',1);
- r(25,60,2,42,'#3a3a46');r(23,56,6,12,'#2a2a34');r(128,62,1,40,'#3a3a46');r(126,60,5,3,'#3a3a46');r(127,62,3,1,'#f8f0c0');r(118,98,6,8,'#3a5a3a');r(118,98,6,1,'#5a7a5a');
+  r(25,60,2,42,'#3a3a46');r(23,56,6,12,'#2a2a34');r(128,62,1,40,'#3a3a46');r(126,60,5,3,'#3a3a46');r(127,62,3,1,'#f8f0c0');
  cx=m;return c}
 function austinStart(){setLoc('austin');fade=1;fd=-1;mode='c3';CAMX=0;aus={tw:-20,go:0,pg:[{x:18,y:108,f:0,vx:0,vy:0},{x:62,y:106,f:0,vx:0,vy:0}],road:0};
  [abi,hunter].forEach(p=>{p.hold=null;p.sit=0});at(hunter,-6,106,'r');at(abi,-16,108,'r');
@@ -2974,18 +2973,21 @@ function ausItems(){const I=[];aus.pg.forEach((g,i)=>{if(!g.f)I.push({id:'pg'+i,
  I.push({id:'abi',x:abi.x-6,y:abi.y-22,w:12,h:24,spot:[abi.x+(abi.x<hunter.x?10:-10),abi.y],face:abi.x<hunter.x?'l':'r',lines:[[{n:'Abigail',t:'It is like a movie where everyone else disappeared.'}],[{n:'Abigail',t:'Is it weird that I kind of love it?'}]]});
  I.push(...c4CamItem('austin',100,108));
  I.push({id:'scoot',x:7,y:101,w:13,h:9,spot:[14,112],face:'u',lines:[{n:'Abigail',t:'Another scooter. Absolutely not. My shins are still healing.'}]});
- I.push({id:'tacos',x:0,y:48,w:26,h:52,spot:[13,106],face:'u',lines:[{n:'',t:'"CLOSED UNTIL FURTHER NOTICE. Stay safe, y’all."'},{n:'Abigail',t:'Even the taco place is social distancing.'}]});
- I.push({id:'vinyl',x:26,y:48,w:26,h:52,spot:[39,106],face:'u',lines:[{n:'',t:'"Closed. But the records keep spinning. See you soon, Austin."'},{n:'Abigail',t:'Aww. That is actually kind of sweet.'}]});
- I.push({id:'music',x:52,y:48,w:26,h:52,spot:[65,106],face:'u',lines:[{n:'',t:'"All live music: CANCELLED until further notice."'},{n:'Hunter',t:'The Live Music Capital of the World... and there is no live music.'},{n:'Abigail',t:'You could do a show. "Closet Bars," live on Sixth Street.'},{n:'Hunter',t:'...Do not tempt me.'}]});
- I.push({id:'mural',x:78,y:46,w:30,h:54,spot:[93,106],face:'u',lines:[{n:'Abigail',t:'"Keep Austin Weird."'},{n:'Hunter',t:'Two people and a tumbleweed in the middle of downtown? Mission accomplished.'}]});
- I.push({id:'bbq',x:108,y:48,w:26,h:52,spot:[121,106],face:'u',lines:[{n:'',t:'"BBQ. Our smoker is taking a little vacation."'},{n:'Hunter',t:'(My stomach just growled.)'},{n:'Abigail',t:'Do NOT say Beavers brisket.'},{n:'Hunter',t:'...Beavers brisket.'}]});
+ I.push({id:'tacos',x:0,y:48,w:26,h:52,spot:[13,104],face:'u',lines:[{n:'',t:'"CLOSED UNTIL FURTHER NOTICE. Stay safe, y’all."'},{n:'Abigail',t:'Even the taco place is social distancing.'}]});
+ I.push({id:'vinyl',x:26,y:48,w:26,h:52,spot:[39,104],face:'u',lines:[{n:'',t:'"Closed. But the records keep spinning. See you soon, Austin."'},{n:'Abigail',t:'Aww. That is actually kind of sweet.'}]});
+ I.push({id:'music',x:52,y:48,w:26,h:52,spot:[65,104],face:'u',lines:[{n:'',t:'"All live music: CANCELLED until further notice."'},{n:'Hunter',t:'The Live Music Capital of the World... and there is no live music.'},{n:'Abigail',t:'You could do a show. "Closet Bars," live on Sixth Street.'},{n:'Hunter',t:'...Do not tempt me.'}]});
+ I.push({id:'mural',x:78,y:46,w:30,h:54,spot:[93,104],face:'u',lines:[{n:'Abigail',t:'"Keep Austin Weird."'},{n:'Hunter',t:'Two people and a tumbleweed in the middle of downtown? Mission accomplished.'}]});
+ I.push({id:'bbq',x:108,y:48,w:26,h:52,spot:[121,104],face:'u',lines:[{n:'',t:'"BBQ. Our smoker is taking a little vacation."'},{n:'Hunter',t:'(My stomach just growled.)'},{n:'Abigail',t:'Do NOT say Beavers brisket.'},{n:'Hunter',t:'...Beavers brisket.'}]});
  I.push({id:'trucks',x:134,y:54,w:26,h:48,spot:[150,106],face:'u'});return I}
 function ausShoo(){aus.pg.forEach(g=>{if(!g.f){g.f=1;g.vx=(g.x<hunter.x?-1:1)*(18+Math.random()*10);g.vy=-30-Math.random()*10}});sfx('flap');if(!aus.said){aus.said=1;bark([{n:'Hunter',t:'Even the pigeons are social distancing.'}])}}
 function ausUpd(dt){if(!aus)return;aus.pg.forEach(g=>{if(!g.f&&Math.hypot(hunter.x-g.x,hunter.y-g.y)<9&&mode==='hx')ausShoo();if(g.f){g.x+=g.vx*dt;g.y+=g.vy*dt;g.vy-=6*dt}});
  if(hx&&mode==='hx'&&!dlg){if(!aus.go&&hunter.x>56){aus.go=1;aus.twx=CAMX+96;bark([{n:'Abigail',t:'Wait. Was that... a TUMBLEWEED?'},{n:'Hunter',t:'In the middle of downtown. Yep.'}])}
   if(!aus.road&&hunter.y>117){aus.road=1;bark([{n:'Abigail',t:'Hunter. We are standing in the MIDDLE of the road.'},{n:'Hunter',t:'Nobody is coming. Literally nobody.'}])}}
  if(aus.go===1){aus.twx-=46*dt;aus.tw-=dt*46/.55/60;if(aus.twx<CAMX-16){aus.go=2;after(2,()=>{if(hx&&loc==='austin')bark([{n:'Abigail',t:'Let’s find food before we turn into tumbleweeds too.'}])})}}}
-function ausProps(t){return [{y:103,f:()=>{r(70,94,6,8,'#3a7ae8');r(71,95,4,3,'#bfe6ff');r(72,102,1,1,'#2a2a2a')}},{y:107,f:()=>{r(56,96,8,10,'#2a2a34');r(57,97,6,8,'#1a1a22');r(58,99,4,1,'#f8f0d8');r(58,101,3,1,'#f8f0d8');r(58,103,4,1,'#f8f0d8');r(57,106,1,2,'#3a3a3a');r(62,106,1,2,'#3a3a3a')}}]}
+function ausProps(t){return [{y:109,f:()=>{r(10,108,8,1,'#2a2a2a');r(9,105,2,4,'#3ac85a');disc(11,110,1,'#2a2a2a',1);disc(17,110,1,'#2a2a2a',1)}},
+ {y:110,f:()=>{r(70,101,6,8,'#3a7ae8');r(70,101,6,1,'#5a9aff');r(71,102,4,3,'#bfe6ff');r(71,106,4,1,'#2a4a9a');r(72,109,1,2,'#2a2a2a')}},
+ {y:110,f:()=>{r(56,99,8,10,'#2a2a34');r(57,100,6,8,'#1a1a22');r(58,102,4,1,'#f8f0d8');r(58,104,3,1,'#f8f0d8');r(58,106,4,1,'#f8f0d8');r(57,109,1,2,'#3a3a3a');r(62,109,1,2,'#3a3a3a')}},
+ {y:110,f:()=>{r(118,97,8,13,'#3a5a3a');r(119,98,1,11,'#4a6a4a');r(124,98,1,11,'#2a4a2a');for(let y=100;y<109;y+=3)r(118,y,8,1,'#2f4a2f');r(117,95,10,2,'#2a3a2a');r(117,95,10,1,'#4a5a4a');r(121,94,2,1,'#2a3a2a');r(118,109,8,1,'#1a2a1a')}}]}
 function vAustin(t){if(!ausBG)ausBG=buildAusBG();cx.drawImage(ausBG,0,0);
  const bl=Math.floor(t*2)%2;r(24,57,4,3,bl?'#ffc030':'#4a3a20');r(24,61,4,3,'#2a2a20');r(24,65,4,2,'#2a2a20');
  if(aus)aus.pg.forEach((g,i)=>{const x=Math.round(g.x),y=Math.round(g.y);if(g.f){const w=Math.floor(t*12+i)%2;r(x,y,4,2,'#8a8a98');r(x+3,y-1,2,2,'#9a9aa8');r(x+4,y,1,1,'#e8a030');r(x-1,w?y-2:y+1,3,1,'#7a7a88');r(x+1,w?y-2:y+1,2,1,'#7a7a88')}
