@@ -139,7 +139,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 </style></head><body>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.12</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.13</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1022,7 +1022,7 @@ function vLiving(t){
  r(74,40,5,2,'#e8d8a8');r(75,42,3,4,'#f8f0d0');r(76,46,1,44,'#5a4a3a');if(n)disc(76,46,10,'#ffd88a',.18);
  r(0,92,80,52,'#a0784e');for(let y=92;y<144;y+=6)r(0,y,80,1,'#8a6440');r(10,96,62,40,'#7a5a8a');r(12,98,58,36,'#8a6a9a');
  r(14,50,60,24,'#5a7a6a');r(14,50,60,2,'#7a9a8a');for(let x=33;x<74;x+=20)r(x,53,1,19,'#4a6a5a');
- abi.lid=(tv&&loc==='living')?tv.lid:0;hunter.lid=0;const ppl=[];if(!lv.pace&&!lv.ex){abi.hold=noseOn?'tissue':lv.sw?'ctrl':null;hunter.hold=lv.sw?'ctrl':null;if(lv.sw&&lv.mor<2)morgan.hold='ctrl';else if(morgan.hold==='ctrl')morgan.hold=null;if(lv.st!=null&&T-lv.st<1.4)hunter.hold='stretch'}
+ abi.lid=(tv&&loc==='living')?tv.lid:0;hunter.lid=0;const ppl=[];if(!lv.pace&&!lv.ex){abi.hold=noseOn?'tissue':lv.sw?'ctrl':lv.pop?'carry':null;if(lv.pop&&!noseOn&&!lv.sw)abi.carry='#e8c051';hunter.hold=lv.sw?'ctrl':null;if(lv.sw&&lv.mor<2)morgan.hold='ctrl';else if(morgan.hold==='ctrl')morgan.hold=null;if(lv.st!=null&&T-lv.st<1.4)hunter.hold='stretch'}
  const armOn=!lv.ex&&!lv.pace&&!lv.kiss&&!lv.sw&&lv.mor!==2&&(lv.st!=null&&T-lv.st>=1.4||lv.q>=2);if(armOn&&!hunter.hold)hunter.hold='armAround';
  if(lv.pace){abi.zz=0;abi.hold=mode==='dialing'?'phone':'phoneLow';const k=Math.sin(t*1.4);abi.x=44+k*16;abi.y=124;abi.dir=Math.cos(t*1.4)>0?'r':'l';abi.moving=true}
  if(lv.mor<2)ppl.push(()=>seat(morgan,lv.mor&&!lv.sw?20:22,lv.mor&&!lv.sw?'l':'d'));
@@ -1036,7 +1036,7 @@ function vLiving(t){
  r(22,100,40,3,'#c08a58');r(22,100,40,1,'#d8a878');r(22,103,40,6,'#8a5a3a');r(24,109,2,6,'#6a4a2a');r(58,109,2,6,'#6a4a2a');
  for(let i=0;i<Math.min(tissues,12);i++)disc(26+(i*5)%14,98-(i/3|0)*2,2,'#f8f8ff',1);
  r(57,96,4,4,'#fff');r(61,97,1,2,'#fff');r(58,95,2,1,'#c8a080');
- if(lv.pop){ell(44,98,4,1,'#c83a3a');r(41,96,7,2,'#f0d070');r(42,95,2,1,'#e8b850');r(45,95,2,1,'#f8e090');r(50,95,2,4,'#c83a3a');r(50,95,2,1,'#d8d8e0');r(53,95,2,4,'#3a6ac8');r(53,95,2,1,'#d8d8e0')}
+ if(lv.pop){r(53,95,2,4,'#3a6ac8');r(53,95,2,1,'#d8d8e0')}
  
  if(lv.mor==2||lv.mor==4){disc(16,130,9,'#8a5aa8',1);disc(14,126,5,'#a87ac8',1);if(lv.mor==2&&!lv.mw){morgan.x=16;morgan.y=134;morgan.dir='r';morgan.hold='phone';morgan.sit=1;person(morgan,t);morgan.sit=0}ell(16,135,8,3,'#7a4a98');
   if(lv.mor==2&&lv.mw){morgan.x=lv.mw.x;morgan.y=lv.mw.y;morgan.dir=lv.mw.dir||'u';morgan.moving=true;morgan.hold='phone';morgan.sit=0;person(morgan,t);morgan.moving=false}}else morgan.hold=null;
