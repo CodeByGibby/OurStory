@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.33</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.34</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -2759,7 +2759,7 @@ const PASK={
  ring:{q:{n:'Abigail',t:'(whispering) Hunter. Take a picture of my hand. I need to see this ring forever.'},y:'Ring close-up',no:'Later. Just look at it.',who:()=>[],img:paintRing,aft:[{n:'Abigail',t:'It’s even sparklier in the picture.'}]},
  donut:{q:{n:'Hunter',t:'Hold her up! First family photo.'},y:'Hello, Donut!',no:'Let’s get her home.',who:()=>[hunter],
   pre:()=>{at(hunter,abi.x+9,abi.y,'d');abi.dir='d';hunter.hold='phone'},at:()=>({x:abi.x+4,y:abi.y}),aft:[{n:'Abigail',t:'Our very first family photo.'}]},
- mrmrs:{q:{n:'Abigail',t:'One more picture? Just us, up here.'},y:'Mr. & Mrs. selfie',no:'Just us. No phones.',who:()=>[],img:paintMrs,aft:[{n:'Hunter',t:'Mr. and Mrs. Hughes. Officially framed.'}]}};
+ mrmrs:{q:{n:'Abigail',t:'One more picture? Just us, up here.'},y:'Mr. & Mrs. selfie',no:'Just us. No phones.',who:()=>[],pre:()=>{c8.selfie=T},post:()=>{c8.selfie=0;c8.unself=T},img:paintMrs,aft:[{n:'Hunter',t:'Mr. and Mrs. Hughes. Officially framed.'}]}};
 function phSay(st,lines,cb){phAsk(st,()=>say(lines,cb))}
 function phDo(st,cont){const A=PASK[st],pm=mode,keep={};mode='phwait';setHud('');
  const ppl=A.who?A.who():[hunter,abi];ppl.forEach(p=>{keep[p.n]=[p.hold,p.dir];p.moving=false});if(A.pre)A.pre();
@@ -7043,7 +7043,12 @@ function vBalc8(t){const bh=c8.bh||0;if(bh&&!c8.bT)c8.bT=T;const zt=c8.bT?Math.m
  r(2,108,8,8,'#7a4a3a');r(2,108,8,1,'#9a6a4a');disc(6,104,5,'#2e5a36',1);disc(4,102,2,'#ff9ccb',1);disc(8,101,2,'#ffffff',1);
  r(68,116,10,2,'#c8b8a8');r(72,118,2,10,'#8a7a6a');r(69,111,1,5,'#e8f0f8');r(68,110,3,2,'#f0d080');r(75,111,1,5,'#e8f0f8');r(74,110,3,2,'#f0d080');r(71,112,2,4,'#f4f4f8');{const fl=Math.floor(t*8)%3;r(71,110-fl%2,2,2,'#ffd86b')}disc(72,111,5,'#ffd890',.14);
  for(let i=0;i<9;i++){const x=(i*17+5)%78,y=122+(i*7)%18;r(x,y,2,1,i%2?'#ff5f9e':'#ff9ccb')}
- [abi,hunter].forEach(p=>{p.moving=false;p.dir='u';person(p,t)});if(bh){r(38,126,7,1,'#1a1a22');r(37,127,2,1,'#f1c9a0')}
+ {/* selfie: they turn around to face the camera, Hunter holds the phone out */
+  const sk=c8.selfie?Math.min(1,(T-c8.selfie)/.35):c8.unself?1-Math.min(1,(T-c8.unself)/.35):0,face=sk>=1?'d':sk>.01?'side':'u';
+  const h0=hunter.hold;if(sk>.5)hunter.hold='phone';
+  [abi,hunter].forEach(p=>{p.moving=false;p.dir=face==='side'?(p===abi?'l':'r'):face;person(p,t)});hunter.hold=h0;
+  if(sk>=1){const px=hunter.x+7,py=hunter.y-24;r(px-1,py,4,6,'#1a1a22');r(px,py+1,2,4,'#3a4a6a');r(px-2,py+6,2,2,hunter.skin)}
+  else if(bh&&face==='u'){r(38,126,7,1,'#1a1a22');r(37,127,2,1,'#f1c9a0')}}
  if(bh>=1)for(let i=0;i<6;i++){const k=((t*.3+i/6)%1);cx.globalAlpha=1-k;heart(36+(i*5)%10+Math.round(Math.sin(t+i)*3),Math.round(100-k*60),['#ff5f9e','#ff9ccb','#ffd0e0'][i%3],1);cx.globalAlpha=1}
  cx.restore();
  if(bh>=2&&!c8.b2T)c8.b2T=T}
