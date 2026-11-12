@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.75</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.76</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3389,20 +3389,22 @@ function ccFan(x,y,f,t,cheer){const [sk,hr,tp,hat]=f,u=cheer?Math.round(Math.abs
 function tnBall(B,k){if(!B.back){const x=B.x0+(B.x1-B.x0)*k,y=B.y0+(B.y1-B.y0)*k,bk=B.bk||.68,h=k<bk?Math.sin(k/bk*Math.PI)*16:Math.sin(Math.min(1,(k-bk)/(1.34-bk))*Math.PI)*9;return {x,y,h}}
  const bk=.55;if(k<bk){const u=k/bk;return {x:B.x0+(B.bx-B.x0)*u,y:B.y0+(B.by-B.y0)*u,h:Math.sin(u*Math.PI)*(B.pow?9:15)}}
  const u=(k-bk)/(1-bk);return {x:B.bx+(B.ex-B.bx)*u,y:B.by+(B.ey-B.by)*u,h:B.catch?Math.sin(u*Math.PI/2)*10:Math.sin(Math.min(1,u)*Math.PI*.5)*(B.pow?8:10)}}
-function tnRacket(gx,gy,ang,glow){const c=Math.cos(ang),sn=Math.sin(ang),P=(u,v)=>[Math.round(gx+c*u-sn*v),Math.round(gy+sn*u+c*v)];
+function tnRacket(gx,gy,ang,glow,sq){sq=sq==null?1:sq;const c=Math.cos(ang),sn=Math.sin(ang),P=(u,v)=>[Math.round(gx+c*u-sn*v),Math.round(gy+(sn*u+c*v)*sq)];
  for(let u=0;u<=4;u++){const[x,y]=P(u,0);r(x,y,1,1,u<2?'#2a2a34':'#c8c8d0')}
  const pts=[];for(let a=0;a<6.28;a+=.25){pts.push(P(8+Math.cos(a)*3.6,Math.sin(a)*2.6))}
  for(let u=5.5;u<=10.5;u+=.5)for(let v=-2;v<=2;v+=.5){if(((u-8)/3)**2+(v/2.2)**2<1){const[x,y]=P(u,v);r(x,y,1,1,glow?'#fff2b0':'#e8eef4')}}
  pts.forEach(([x,y])=>r(x,y,1,1,glow?'#ff7a3a':'#e86a8a'))}
 function tnPlayer(C,t){const A=abi,ax=Math.round(A.x),ay=A.y,ease=u=>u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
  let gx,gy,ang,glow=0,trail=null;
- const rdy=[ax+6,ay-11,-1.9],back=[ax+8,ay-8,.7];
+ /* racket stays out to the side and sweeps low and wide across the front of her body, never over her head */
+ const rdy=[ax+6,ay-9,-.6],back=[ax+9,ay-7,.35],fin=[ax-7,ay-9,3.75];
+ const SW=u=>[back[0]+(fin[0]-back[0])*u,back[1]+(fin[1]-back[1])*u+Math.sin(u*Math.PI)*1,back[2]+(fin[2]-back[2])*u,1-.72*Math.sin(u*Math.PI)];let sq=1;
  if(C.chg){const u=ease(Math.min(1,(T-(C.chT0||T))/.3)),sh=C.pw>=.9?Math.round(Math.sin(t*45)):0;gx=rdy[0]+(back[0]-rdy[0])*u+sh;gy=rdy[1]+(back[1]-rdy[1])*u;ang=rdy[2]+(back[2]-rdy[2])*u;glow=C.pw>=.9}
- else if(C.sw&&T-C.sw<.5){const q=(T-C.sw);if(q<.18){const u=ease(q/.18);gx=back[0]+(ax-5-back[0])*u;gy=back[1]+((ay-13)-back[1])*u-Math.sin(u*Math.PI)*3;ang=back[2]+(-3.6-back[2])*u;trail=u}else{const u=ease(Math.min(1,(q-.18)/.32));gx=ax-5+(rdy[0]-(ax-5))*u;gy=ay-13+(rdy[1]-(ay-13))*u;ang=-3.6+(rdy[2]+6.28-(-3.6+6.28))*u}}
+ else if(C.sw&&T-C.sw<.55){const q=(T-C.sw);if(q<.18){const u=ease(q/.18);[gx,gy,ang,sq]=SW(u);trail=u}else{const u=ease(Math.min(1,(q-.18)/.37));gx=fin[0]+(rdy[0]-fin[0])*u;gy=fin[1]+(rdy[1]-fin[1])*u+Math.sin(u*Math.PI)*1;ang=fin[2]+(rdy[2]-fin[2])*u;sq=1-.72*Math.sin(u*Math.PI)}}
  else{gx=rdy[0];gy=rdy[1]+Math.round(Math.sin(t*3)*.6);ang=rdy[2]}
  A.reach=[Math.round(gx),Math.round(gy)];person(A,t);A.reach=null;
- if(trail!=null&&trail>.05){for(let u=Math.max(0,trail-.6);u<trail;u+=.025){const bx=back[0]+(ax-5-back[0])*u,by=back[1]+((ay-13)-back[1])*u-Math.sin(u*Math.PI)*3,ba=back[2]+(-3.6-back[2])*u,hx2=bx+Math.cos(ba)*8,hy2=by+Math.sin(ba)*8;cx.globalAlpha=Math.max(0,.8-(trail-u)*1.4);r(Math.round(hx2),Math.round(hy2),2,1,C.swp>=.9?'#ffd86b':'#ffffff');cx.globalAlpha=1}}
- tnRacket(gx,gy,ang,glow);
+ if(trail!=null&&trail>.05){for(let u=Math.max(0,trail-.6);u<trail;u+=.025){const [bx,by,ba,bq]=SW(u),hx2=bx+Math.cos(ba)*8,hy2=by+Math.sin(ba)*8*bq;cx.globalAlpha=Math.max(0,.8-(trail-u)*1.4);r(Math.round(hx2),Math.round(hy2),2,1,C.swp>=.9?'#ffd86b':'#ffffff');cx.globalAlpha=1}}
+ tnRacket(gx,gy,ang,glow,sq);
  if(C.chg){const pw=C.pw||0,w=Math.round(pw*20),full=pw>=.9;r(ax-10,ay-29,22,4,'#1a1a22');r(ax-9,ay-28,20,2,'#3a3a46');r(ax-9,ay-28,w,2,full?(Math.floor(t*12)%2?'#ff7a3a':'#ffd86b'):'#ffd86b');if(full){cx.globalAlpha=.35+.25*Math.sin(t*20);disc(ax+1,ay-10,9,'#ffd86b',1);cx.globalAlpha=1;txt('MAX',ax-5,ay-36,'#ff7a3a',1)}}}
 function vCourt(t){const C=c5.ct||{style:0};const cc=C.style===1;
  if(cc){
