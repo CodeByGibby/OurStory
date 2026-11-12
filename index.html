@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.86</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.87</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -5110,7 +5110,7 @@ function vShoot(t){const S=SP||{t:0,ph:'intro',pt:0,x:80,y:248,bank:0,stars:[],E
  if(S.ph==='end')arcResult(S.pt,S.lives>0?'MISSION DONE':'GAME OVER',S.sc,S.J,S.res,S.res===true?'NEW HIGH SCORE!':null)}
 
 /* ======================= TURBO KC ======================= */
-let RC=null,rcT=null,rcImg=null;const RCK=.022,RPX=92,RPY=165,RHZ=116,RCD=.9,RDRAW=95;
+let RC=null,rcT=null,rcImg=null;const RCK=.022,RPX=92,RPY=165,RHZ=116,RCD=3.2,RDRAW=170,RPXV=RPX*3,RPYV=RPY*3,RCKV=RCK*.55;
 function rcBuild(){const T=[];let y=0;const M=1.8;
  [[60,0,0],[100,.6,0],[60,0,1.4],[120,-.9,-1.4],[80,0,0],[100,1.1,.9],[60,0,-.9],[140,-.5,0],[60,0,1.6],[90,.9,-1.6],[120,0,0],[100,-1.2,0],[80,.7,.7],[80,0,-.7],[150,0,0]].forEach(([n0,c,h])=>{const n=Math.round(n0*M),y0=y;for(let i=0;i<n;i++){const q=i/n,e=Math.min(1,q/.2,(1-q)/.2);T.push({c:c*e,y:y0+h*(1-Math.cos(Math.PI*q))/2,sp:[]})}y=y0+h});
  const N=T.length;
@@ -5146,7 +5146,7 @@ function rcImgs(){if(rcImg)return rcImg;const I={};
   tw(286,16,60,'#16102c');r(293,2,2,8,'#c8c8d8');r(293,1,2,1,'#ff5a5a')});
  return rcImg=I}
 function raceStart(cb){setLoc('arcRace');mode='race';fade=1;fd=-1;setHud('');const T=rcT||(rcT=rcBuild()),N=T.length;rcImgs();
- const TR=[];for(let k=0;k<12;k++)TR.push({z:150+k*205+(k%3)*30,x:k%2?.5:-.5,v:24+(k*7)%10,c:k%5});
+ const TR=[];for(let k=0;k<12;k++)TR.push({z:150+k*205+(k%3)*30,x:k%2?.5:-.5,v:30+(k*7)%10,c:k%5});
  RC={cb,T,N,t:0,ph:'count',pt:0,rt:0,pos:3.4-RCD,px:.45,spd:0,J:{z:3.4,x:-.45,tx:-.45,spd:0,boost:0},TR,bump:0,boost:0,steer:0,bg:0,fin:null,jfin:null,msg:null,in:{l:0,r:0},sl:[],dust:[],shk:0,ck:-1}}
 function rcTouches(L){const S=RC;if(!S)return;S.in={l:L.some(([x,y])=>y>40&&x<80)?1:0,r:L.some(([x,y])=>y>40&&x>=80)?1:0}}
 const rcRel=(a,b,N)=>{let d=((a-b)%N+N)%N;if(d>N/2)d-=N;return d};
@@ -5163,14 +5163,14 @@ function raceUpdate(dt){const S=RC;if(!S||mode!=='race')return;dt=Math.min(dt,.0
  S.pos+=S.spd*dt;S.bg-=seg.c*S.spd*dt*.9;
  if(S.ph==='go'&&seg.pad!=null&&Math.abs(S.px-seg.pad)<.34&&S.boost<1.2){S.boost=1.6;S.msg=['BOOST!',.8];sfx('boost');zap(300,.4,'sawtooth',.03,900)}
  if(off&&S.spd>10){S.shk=Math.max(S.shk,.06);if(Math.random()<dt*20)S.dust.push({x:80+(Math.random()-.5)*36,y:274,vx:(Math.random()-.5)*30,vy:-10-Math.random()*20,l:.5})}
- S.TR.forEach(c=>{c.z+=c.v*dt;const d=rcRel(c.z,pz,N);if(S.ph==='go'&&S.bump<=0&&Math.abs(d)<.75&&Math.abs(c.x-S.px)<.55){S.spd=Math.min(S.spd,c.v*.7);S.bump=.7;S.shk=.35;S.px+=(S.px<c.x?-1:1)*.22;S.msg=['BUMP!',.7];sfx('bump');hiss(.25,.12,900,'lowpass')}});
+ S.TR.forEach(c=>{c.z+=c.v*dt;const d=rcRel(c.z,pz,N);if(S.ph==='go'&&S.bump<=0&&Math.abs(d)<.75&&Math.abs(c.x-S.px)<.5){S.spd=Math.min(S.spd,c.v*.7);S.bump=.7;S.shk=.35;S.px+=(S.px<c.x?-1:1)*.22;S.msg=['BUMP!',.7];sfx('bump');hiss(.25,.12,900,'lowpass')}});
  const J=S.J;if(S.ph!=='count'){const jc=T[Math.floor(J.z)%N].c;let tgt=55-Math.abs(jc)*5;const gap=J.z-pz;if(gap>30)tgt-=7;else if(gap<-30)tgt+=5;if(J.boost>0){J.boost-=dt;tgt=80}
   if(S.jfin==null)J.spd+=Math.sign(tgt-J.spd)*Math.min(Math.abs(tgt-J.spd),24*dt);else J.spd=Math.max(0,J.spd-26*dt);J.z+=J.spd*dt;
   const js=T[Math.floor(J.z)%N];if(js.pad!=null&&Math.abs(J.x-js.pad)<.36&&!(J.boost>0))J.boost=1.4;
   let tx=J.tx;for(let k=6;k<34;k++){const q=T[Math.floor(J.z+k)%N];if(q.pad!=null){tx=q.pad;break}}
   for(const c of S.TR){const d=rcRel(c.z,J.z,N);if(d>0&&d<16&&Math.abs(c.x-tx)<.6)tx=c.x>0?-.5:.5}
   J.tx=tx;J.x+=(tx-J.x)*Math.min(1,dt*2.2);
-  const dj=J.z-pz;if(S.ph==='go'&&S.bump<=0&&Math.abs(dj)<.8&&Math.abs(J.x-S.px)<.55){S.bump=.6;S.shk=.3;S.spd*=.85;J.spd*=.9;S.px+=(S.px<J.x?-1:1)*.22;sfx('bump');S.msg=['TRADING PAINT!',.8]}}
+  const dj=J.z-pz;if(S.ph==='go'&&S.bump<=0&&Math.abs(dj)<.8&&Math.abs(J.x-S.px)<.5){S.bump=.6;S.shk=.3;S.spd*=.85;J.spd*=.9;S.px+=(S.px<J.x?-1:1)*.22;sfx('bump');S.msg=['TRADING PAINT!',.8]}}
  const line=N+12;
  if(S.jfin==null&&J.z>=line){S.jfin=S.rt;if(S.fin==null){S.msg=['J FINISHED!',1.6];sfx('buzz')}}
  if(S.fin==null&&pz>=line&&S.ph==='go'){S.fin=S.rt;S.ph='fin';S.pt=0;S.msg=null;sfx(S.jfin==null||S.fin<S.jfin?'fanfare':'chime')}
@@ -5187,11 +5187,11 @@ function vRace(t){const S=RC;if(!S){r(0,0,W,H,'#120a26');return}const T=S.T,N=S.
  disc(26,46,6,'#fff6d8',1);disc(28,44,5,'#d8c8f0',.3);
  const bo=((Math.round(S.bg)%320)+320)%320;cx.drawImage(I.sky,bo-320,RHZ-70);cx.drawImage(I.sky,bo,RHZ-70);
  const base=Math.floor(S.pos),frac=S.pos-base,s0=T[base%N],s1=T[(base+1)%N],camY=s0.y+(s1.y-s0.y)*frac+1;
- let xo=0,dx=-s0.c*RCK*frac,maxy=H;const vis=[];
- for(let n=0;n<RDRAW;n++){const i=base+n,s=T[i%N],sn=T[(i+1)%N],z1=Math.max(.22,n-frac),z2=Math.max(.24,n+1-frac),c1=1/z1,c2=1/z2;
-  const X1=80+(xo-S.px)*c1*RPX,Y1=RHZ+(camY-s.y)*c1*RPY,W1=c1*RPX;const xb=xo;xo+=dx;dx+=s.c*RCK;const X2=80+(xo-S.px)*c2*RPX,Y2=RHZ+(camY-sn.y)*c2*RPY,W2=c2*RPX;
+ let xo=0,dx=-s0.c*RCKV*frac,maxy=H;const vis=[];
+ for(let n=0;n<RDRAW;n++){const i=base+n,s=T[i%N],sn=T[(i+1)%N],z1=Math.max(.6,n-frac),z2=Math.max(.62,n+1-frac),c1=1/z1,c2=1/z2;
+  const X1=80+(xo-S.px)*c1*RPXV,Y1=RHZ+(camY-s.y)*c1*RPYV,W1=c1*RPXV;const xb=xo;xo+=dx;dx+=s.c*RCKV;const X2=80+(xo-S.px)*c2*RPXV,Y2=RHZ+(camY-sn.y)*c2*RPYV,W2=c2*RPXV;
   vis.push({n,i,xo:xb,X:X1,Y:Y1,s:c1,clip:maxy,y:s.y});
-  if(Y2<maxy&&Y1>Y2){const yA=Math.max(0,Math.ceil(Y2)),yB=Math.min(maxy,Math.ceil(Y1)),alt=(i>>2)&1,alt2=(i>>1)&1,ii=i%N;
+  if(n-frac>=1.2&&Y2<maxy&&Y1>Y2){const yA=Math.max(0,Math.ceil(Y2)),yB=maxy>=H?H:Math.min(maxy,Math.ceil(Y1)),alt=(i>>2)&1,alt2=(i>>1)&1,ii=i%N;
    for(let yy=yA;yy<yB;yy++){const q=(yy-Y2)/(Y1-Y2),cX=X2+(X1-X2)*q,w=W2+(W1-W2)*q;
     r(0,yy,160,1,alt?'#2c2546':'#262040');const sw=w*1.4;r(Math.round(cX-sw),yy,Math.round(sw*2),1,alt?'#5c5674':'#524c68');const rw=w*1.1;r(Math.round(cX-rw),yy,Math.round(rw*2),1,alt2?'#ececf4':'#e0463c');
     r(Math.round(cX-w),yy,Math.round(w*2),1,alt?'#3c3a4c':'#363446');const lw=Math.max(1,Math.round(w*.03));r(Math.round(cX-w*.93),yy,lw,1,'#d8d8e0');r(Math.round(cX+w*.93-lw),yy,lw,1,'#d8d8e0');
@@ -5200,14 +5200,15 @@ function vRace(t){const S=RC;if(!S){r(0,0,W,H,'#120a26');return}const T=S.T,N=S.
     if(s.fin){const cw=w/4,row=Math.floor(q*3)+(ii===13?3:0);for(let k=0;k<8;k++)if((k+row)%2)r(Math.round(cX-w+k*cw),yy,Math.ceil(cw),1,'#f4f4fa');else r(Math.round(cX-w+k*cw),yy,Math.ceil(cw),1,'#141418')}}
    maxy=Math.max(0,Math.ceil(Y2))}}
  const SPR=[];const camZ=S.pos;
- vis.forEach(v=>{if(v.n<1)return;const s=T[v.i%N];s.sp.forEach(o=>SPR.push({z:v.n-frac,img:I[o.k],X:v.X+o.x*v.s*RPX,Y:v.Y,s:v.s,w:o.w,clip:v.clip,glow:o.k[0]==='l'?o.k:null,f:o.k==='fount'}))});
- const carAt=(z,x,img,tag)=>{const d=rcRel(z,camZ,N);if(d<.6||d>RDRAW-2)return;const n=Math.floor(d+frac),v=vis[n];if(!v)return;const q=d+frac-n,s=1/d,cxo=v.xo+(T[v.i%N].c*RCK*q);const yy=T[v.i%N].y+(T[(v.i+1)%N].y-T[v.i%N].y)*q;
-  SPR.push({z:d,img,X:80+(cxo+x-S.px)*s*RPX,Y:RHZ+(camY-yy)*s*RPY,s,w:.62,clip:(vis[n+1]||v).clip,tag})};
+ vis.forEach(v=>{if(v.n<1)return;const s=T[v.i%N];s.sp.forEach(o=>SPR.push({z:v.n-frac,img:I[o.k],X:v.X+o.x*v.s*RPXV,Y:v.Y,s:v.s,w:o.w,clip:v.clip,glow:o.k[0]==='l'?o.k:null,f:o.k==='fount'}))});
+ const carAt=(z,x,img,tag)=>{const d=rcRel(z,camZ,N);if(d<2||d>RDRAW-2)return;const n=Math.floor(d+frac),v=vis[n];if(!v)return;const q=d+frac-n,s=1/d,cxo=v.xo+(T[v.i%N].c*RCKV*q);const yy=T[v.i%N].y+(T[(v.i+1)%N].y-T[v.i%N].y)*q;
+  SPR.push({z:d,img,X:80+(cxo+x-S.px)*s*RPXV,Y:RHZ+(camY-yy)*s*RPYV,s,w:.5,clip:v.clip,tag:tag||'car'})};
  S.TR.forEach(c=>carAt(c.z,c.x,I.tr[c.c]));if(Math.abs(rcRel(S.J.z,S.pos+RCD,N))>.4||true)carAt(S.J.z,S.J.x,I.jcar,'J');
- SPR.sort((a,b)=>b.z-a.z).forEach(o=>{const sw=o.w*o.s*RPX;if(sw<1)return;const sh2=sw*o.img.height/o.img.width,x0=Math.round(o.X-sw/2),y0=Math.round(o.Y-sh2);if(y0>=o.clip)return;const vh=Math.min(sh2,o.clip-y0);if(vh<1)return;
+ SPR.sort((a,b)=>b.z-a.z).forEach(o=>{let sw=o.w*o.s*RPXV;if(o.tag&&o.z<90)sw=Math.max(sw,4);if(sw<1)return;const sh2=sw*o.img.height/o.img.width,x0=Math.round(o.X-sw/2),y0=Math.round(o.Y-sh2);if(y0>=o.clip)return;const vh=Math.min(sh2,o.clip-y0);if(vh<1)return;
   cx.drawImage(o.img,0,0,o.img.width,o.img.height*vh/sh2,x0,y0,Math.max(1,Math.round(sw)),Math.round(vh));
   if(o.glow&&sw>2){const gx=o.glow==='lampL'?x0+sw*.8:x0+sw*.2,gy=y0+sh2*.17,gr=Math.max(2,sw*.75);if(gy<o.clip){const g=cx.createRadialGradient(gx,gy,0,gx,gy,gr);g.addColorStop(0,'rgba(255,220,150,.45)');g.addColorStop(1,'rgba(255,220,150,0)');cx.globalCompositeOperation='lighter';cx.fillStyle=g;cx.fillRect(gx-gr,gy-gr,gr*2,Math.min(gr*2,o.clip-gy+gr));cx.globalCompositeOperation='source-over'}}
   if(o.f&&sw>6&&Math.floor(t*6)%2)r(Math.round(o.X+(Math.random()-.5)*sw*.4),Math.round(y0+sh2*.1),1,1,'#ffffff');
+  if(o.tag&&sw<14&&o.Y<o.clip){const ly=Math.round(o.Y-sw*.28);cx.globalCompositeOperation='lighter';disc(Math.round(o.X-sw*.32),ly,1,'#ff3a3a',.7);disc(Math.round(o.X+sw*.32),ly,1,'#ff3a3a',.7);cx.globalCompositeOperation='source-over'}
   if(o.tag==='J'&&sw>5){txt('J',Math.round(o.X-1),y0-7,'#8be28b',1)}});
  S.sl.forEach(s=>{const x1=80+Math.cos(s.a)*s.d,y1=170+Math.sin(s.a)*s.d*.8;if(y1<RHZ+10)return;cx.globalAlpha=s.l*2;r(Math.round(x1),Math.round(y1),Math.abs(Math.cos(s.a))>.7?4:1,Math.abs(Math.cos(s.a))>.7?1:3,'#ffffff');cx.globalAlpha=1});
  const ld=S.steer<-.3?0:S.steer>.3?2:1,off=Math.abs(S.px)>1.08,by=Math.round(Math.sin(t*28)*(off?1.2:S.spd>5?.5:0)),pxc=80+Math.round(S.steer*2);
