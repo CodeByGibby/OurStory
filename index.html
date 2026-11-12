@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.29</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.30</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -222,7 +222,7 @@ function body(p,t){
  if(p.collar)r(x-2,y-10,4,1,p.collar);
  if(p.apron)r(x-2,y-7,4,3,'#fff6e0');
  if(p.gown){const gc=p.gc||'#fbfbff',sd=sh(gc,.88),Wd=p.gown==1?[11,13,15,17,17]:p.gown==2?[6,6,7,9,13]:p.gown==3?[8,10,11,13,15]:[7,8,8,9,9];for(let i=0;i<5;i++){const w=Wd[i];r(x-(w>>1),y-5+i,w,1,gc);r(x+(w>>1)-1+(w&1),y-5+i,1,1,sd)}if(p.gown==3){r(x-1,y-4,1,1,sd);r(x+1,y-2,1,1,sd);if(!MONO&&Math.floor(t*3)%3==0)r(x-3,y-3,1,1,'#fff')}if(p.gown==1)r(x-7,y-2,15,1,sd)}
- if(p.bow&&!up){if(p.bowc){const d=p.bowc===2?2:1;r(x-1,y-10-(d>1?1:0),1,1,'#0a0a0a');r(x,y-10,1,1,'#0a0a0a');r(x+1,y-10+d-1+(d>1?1:0),1,1,'#0a0a0a')}else r(x-1,y-10,3,1,'#0a0a0a')}if(p.tie&&!up){r(x,y-10,1,4,p.tie);r(x-1,y-10,3,1,p.tie)}if(p.bout&&!up){r(x-3,y-9,1,1,p.boutc||'#ff7eb6');r(x-3,y-8,1,1,'#5a8a4a')}
+ if(p.bow&&!up){if(p.bowc){const d=p.bowc===2?2:1;r(x-1,y-10-(d>1?1:0),1,1,'#0a0a0a');r(x,y-10,1,1,'#0a0a0a');r(x+1,y-10+d-1+(d>1?1:0),1,1,'#0a0a0a')}else r(x-1,y-10,3,1,'#0a0a0a')}if(p.tie&&!up){const c=p.tiec||0;if(!c){r(x,y-10,1,4,p.tie);r(x-1,y-10,3,1,p.tie)}else{const s2=c===2?-1:1;r(x-1+s2,y-10,3,1,p.tie);r(x+s2,y-9,1,1,p.tie);r(x+s2*(c===2?2:1),y-8,1,1,p.tie);r(x+s2*(c===2?2:1),y-7,1,1,p.tie)}}if(p.bout&&!up){r(x-3,y-9,1,1,p.boutc||'#ff7eb6');r(x-3,y-8,1,1,'#5a8a4a')}
  if(p.suit&&!up){r(x-1,y-10,2,4,p.suit);r(x,y-9,1,3,sh(p.suit,.75));r(x-2,y-10,1,2,sh(p.top,.7));r(x+1,y-10,1,2,sh(p.top,.7))}if(p.tag)r(p.dir==='l'?x-3:x+1,y-6,2,2,'#e8e8f0');
  const la=p.dance&&Math.floor(t*5+(p.ph||0))%2;
  if(p.reach){const [tx,ty]=p.reach,L=tx<x,sx=L?x-4:x+3,sy=y-10,n=Math.max(Math.abs(tx-sx),Math.abs(ty-sy))|0;for(let i=0;i<=n;i++){const px=Math.round(sx+(tx-sx)*i/n),py=Math.round(sy+(ty-sy)*i/n);r(px,py,1,1,i>=n-1?p.skin:p.top)}if(L){r(x+3,y-8,1,3,p.top);r(x+3,y-5,1,1,p.skin)}else{r(x-4,y-8,1,3,p.top);r(x-4,y-5,1,1,p.skin)}}
@@ -6527,7 +6527,7 @@ Object.assign(VS,{drive7:[2,vDrive7],farm7:[2,vFarm7],car7:[2,vCar7],snow:[1,vSn
 Object.assign(MUSMAP,{drive7:'drive',farm7:'cozy',car7:'drive',snow:'tense',lot7:'night',pooplot:'kart',field7:'tennis'});
 
 /* ================= CHAPTER 8: THE WEDDING ================= */
-const TUX={top:'#1e2a4a',stripe:0,collar:0,suit:'#f4f4f8',bow:1,bout:1,pants:'#1e2a4a',shoe:'#0a0a0a',tie:0,boutc:0}
+const TUX={top:'#1e2a4a',stripe:0,collar:0,suit:'#f4f4f8',bow:0,bout:1,pants:'#1e2a4a',shoe:'#0a0a0a',tie:'#8ac8f0',boutc:0}
 const GMS={top:'#1e2a4a',stripe:0,collar:0,suit:'#f4f4f8',bow:0,tie:'#8ac8f0',bout:1,boutc:'#fbfbff',pants:'#1e2a4a',shoe:'#0a0a0a'};
 const mumUK=mk('morgan',40,64,{n:'Mum',skin:'#f4d0b8',hair:'#b08858',hl:1,eye:'#6a8a5a',top:'#c84a6a',pants:'#3a3a5a',shoe:'#2a2a2a'});
 const dadUK=mk('hunter',0,0,{n:'Dad',skin:'#f0c8a8',hair:'#8a8a8a',hl:0,eye:'#5a6a8a',top:'#3a5a8a',stripe:0,collar:'#f4f4f8',pants:'#3a3a4a',shoe:'#2a1a1a'});
@@ -6685,16 +6685,23 @@ function sceneShot(fn,setup,t){const oc=sceneShot.oc||(sceneShot.oc=document.cre
 function vSleep8(t){/* top: the same Birdway Hotel room as before */
  cx.drawImage(sceneShot(vHotel8,()=>{const s0=[c8.inbed,c8.ibT,c8.txt8];c8.inbed=1;c8.ibT=-99;c8.txt8=1;return ()=>{[c8.inbed,c8.ibT,c8.txt8]=s0}},t),0,40,80,70,0,0,80,70);
  if(Math.floor(t*1.2)%3==0)txt('z',24,22,'#cfe8ff',1);cx.globalAlpha=.25;r(0,0,80,70,'#0a0a30');cx.globalAlpha=1;
- thinkOf(52,20,hunter,t);splitLabel(3,3,'BIRDWAY HOTEL','#ffd86b');
+ thinkOf(28,34,hunter,t);splitLabel(3,3,'BIRDWAY HOTEL','#ffd86b');
  splitDiv();
- /* bottom: home, the same first apartment, mattress on the floor */
- cx.drawImage(sceneShot(vHome,()=>{const h0=c5.hm;c5.hm={f:{lights:1,mat:1,tv:1,photo:1},couch:1,keep:1};abi.x=hunter.x=-99;return ()=>{c5.hm=h0}},t),0,52,80,71,0,73,80,71);
- {const oy=73-52;cx.save();cx.beginPath();cx.rect(0,0,80,99+oy);cx.clip();carSeat(hunter,10,110+oy,'d',t);cx.restore();
-  r(2,99+oy,36,6,'#7ab0e0');r(2,99+oy,36,1,'#9ad0f0');r(14,98+oy,10,2,'#7ab0e0');r(2,105+oy,36,2,'#8a7a8a');
-  r(26,94+oy,11,5,'#e0903a');r(27,93+oy,4,2,'#e0903a');r(35,95+oy,3,3,'#e0903a');r(28,96+oy,7,2,'#fbf6ec');r(28,93+oy,1,1,'#2a1a1a');r(30,92+oy,1,1,'#e0903a');r(27,92+oy,1,1,'#e0903a');
-  if(Math.floor(t*1.2+1)%3==0)txt('z',36,84+oy,'#cfe8ff',1);if(Math.floor(t*1.2)%3==0)txt('z',14,80+oy,'#cfe8ff',1)}
+ /* bottom: home, their bedroom - Hunter asleep, Donut curled up at his feet */
+ cx.save();cx.beginPath();cx.rect(0,73,80,71);cx.clip();cx.translate(0,73);
+ r(0,0,80,52,'#b8a890');for(let x=0;x<80;x+=10)r(x,0,1,52,'#ad9d86');r(0,50,80,2,'#d8ccb8');r(0,52,80,19,'#7a5a3e');for(let y=55;y<71;y+=5)r(0,y,80,1,'#6e5036');
+ r(54,6,20,22,'#e8e0d0');r(56,8,16,18,'#141a40');disc(66,13,2,'#fff3c4',1);for(let k=0;k<5;k++)r(57+(k*5)%14,10+(k*7)%14,1,1,'#fff');r(63,8,2,18,'#e8e0d0');r(56,16,16,1,'#e8e0d0');r(52,5,3,26,'#5a6a9a');r(73,5,3,26,'#5a6a9a');
+ r(14,8,16,12,'#6a4a32');r(15,9,14,10,'#f4ecdc');r(16,10,12,8,'#e8b0c0');heart(22,13,'#ff5f9e',1);
+ r(46,36,10,16,'#6a4a32');r(46,36,10,1,'#8a6a4a');r(47,42,8,1,'#5a3a22');r(50,31,4,5,'#f0e0b0');r(51,29,2,2,'#3a3a46');r(50,26,4,3,'#f4d890');cx.globalCompositeOperation='lighter';disc(52,28,7,'#ffd890',.18);cx.globalCompositeOperation='source-over';
+ r(3,22,40,12,'#6a4a32');r(3,22,40,1,'#8a6a4a');r(5,24,36,8,'#7a5a3e');for(let x=9;x<40;x+=8)r(x,24,1,8,'#6a4a32');
+ r(4,32,38,24,'#f4f0f4');r(6,30,14,6,'#ffffff');r(6,35,14,1,'#d8d0e0');carSeat(hunter,13,48,'d',t);
+ r(4,38,38,18,'#4a6a9a');r(4,38,38,2,'#f4f0f4');for(let y=43;y<56;y+=4)r(4,y,38,1,'#42608c');r(4,56,38,3,'#3a2a22');r(4,59,2,4,'#3a2a22');r(40,59,2,4,'#3a2a22');
+ r(26,40,11,5,'#e0903a');r(27,39,4,2,'#e0903a');r(35,41,3,3,'#e0903a');r(28,42,7,2,'#fbf6ec');r(28,39,1,1,'#2a1a1a');r(30,38,1,1,'#e0903a');r(27,38,1,1,'#e0903a');
+ ell(30,64,20,4,'#c86a8a',.9);ell(30,64,15,3,'#e08aa8',.9);
+ if(Math.floor(t*1.2+1)%3==0)txt('z',36,32,'#cfe8ff',1);if(Math.floor(t*1.2)%3==0)txt('z',20,22,'#cfe8ff',1);
+ cx.restore();
  cx.globalAlpha=.5;r(0,73,80,71,'#0a0a30');cx.globalAlpha=1;cx.globalCompositeOperation='lighter';disc(60,100,10,'#6aa0ff',.06);cx.globalCompositeOperation='source-over';
- thinkOf(58,92,abi,t+.5);splitLabel(3,77,'HOME','#ffd86b')}
+ thinkOf(28,86,abi,t+.5);splitLabel(54,77,'HOME','#ffd86b')}
 
 /* ---- church + stand minigame ---- */
 function stTouches(list){const S=c8.st;if(!S||mode!=='stand')return;const b=CR||(CR=dv.getBoundingClientRect());let h=0;for(const q of list){if((q.clientX-b.left)/sc>=80)h=1}S.hold=h}
@@ -6834,18 +6841,18 @@ function vHotel8(t){r(0,0,80,96,'#4a3a5a');for(let x=0;x<80;x+=8)r(x,0,1,96,'#52
  if(hx&&hx.room==='hotel8')hxDraw(t)}
 
 /* ---------- 6. getting ready: the groom ---------- */
-function c8Groom(){setLoc('groom8');mode='c8';fade=1;fd=-1;[hunter,jay].forEach(p=>{p.sit=0;p.hold=null});Object.assign(hunter,TUX,{bowc:1});Object.assign(jay,GMS,{n:'J'});at(hunter,40,116,'d');
+function c8Groom(){setLoc('groom8');mode='c8';fade=1;fd=-1;[hunter,jay].forEach(p=>{p.sit=0;p.hold=null});Object.assign(hunter,TUX,{tiec:1});Object.assign(jay,GMS,{n:'J'});at(hunter,40,116,'d');
  [[groomsmen[0],18,110],[groomsmen[1],62,112],[groomsmen[2],28,128]].forEach(([p,x,y])=>{p.fit=0;at(p,x,y,'r')});groomsmen[1].dir='l';at(jay,54,128,'l');c8.bowT=0;
  after(1,()=>say([{n:'',t:'Hunter gets ready at the church in town. Right across the street from the Birdway Hotel.'},{n:'Groomsman',t:'You good, man?'},
   {n:'Hunter',t:'The day is going SO fast. It’s already noon. How is it already noon?'},{n:'Hunter',t:'Abigail planned every single minute of today. I’m just following the plan.'},
-  {n:'Hunter',t:'(I could never have planned a day this amazing myself. She is SO good at this.)'},{n:'Groomsman',t:'Your bow tie is crooked.'},{n:'Hunter',t:'Of course it is.'}],
-  ()=>hxStart({room:'groom8',p:hunter,stage:'groom8',goals:[{room:'groom8',id:'mirror',hud:'Fix your bow tie in the mirror',fn:grMirror},{room:'groom8',id:'J',hud:'Ask J for help',fn:grJay}]})))}
-function grMirror(done){const H=hunter;H.dir='u';say([{n:'Hunter',t:'(A little to the left...)',anim:()=>{H.hold='gasp';sfx('tick')}},{n:'Hunter',t:'(No. Right. A little more right...)',anim:()=>{H.bowc=2;sfx('tick')}},{n:'Hunter',t:'(...It’s worse. It is so much worse.)',anim:()=>{H.hold=null;sfx('bump')}}],done)}
+  {n:'Hunter',t:'(I could never have planned a day this amazing myself. She is SO good at this.)'},{n:'Groomsman',t:'Your tie is crooked.'},{n:'Hunter',t:'Of course it is.'}],
+  ()=>hxStart({room:'groom8',p:hunter,stage:'groom8',goals:[{room:'groom8',id:'mirror',hud:'Fix your tie in the mirror',fn:grMirror},{room:'groom8',id:'J',hud:'Ask J for help',fn:grJay}]})))}
+function grMirror(done){const H=hunter;H.dir='u';say([{n:'Hunter',t:'(A little to the left...)',anim:()=>{H.hold='gasp';sfx('tick')}},{n:'Hunter',t:'(No. Right. A little more right...)',anim:()=>{H.tiec=2;sfx('tick')}},{n:'Hunter',t:'(...It’s worse. It is so much worse.)',anim:()=>{H.hold=null;sfx('bump')}}],done)}
 function grJay(){const H=hunter,J=jay;face(H,J);face(J,H);hx.phase='seq';go(J,[[H.x+(J.x>H.x?7:-7),H.y+1]],30);
- waitTill(()=>J.tx==null,()=>{face(J,H);say([{n:'J',t:'Hold still.',anim:()=>{J.hold='gasp';sfx('tick')}},{n:'J',t:'...There.',anim:()=>{H.bowc=0;J.hold=null;sfx('chime');burst(H.x,H.y-14,'#ffd86b')}},
+ waitTill(()=>J.tx==null,()=>{face(J,H);say([{n:'J',t:'Hold still.',anim:()=>{J.hold='gasp';sfx('tick')}},{n:'J',t:'...There.',anim:()=>{H.tiec=0;J.hold=null;sfx('chime');burst(H.x,H.y-14,'#ffd86b')}},
   {n:'J',t:'Fun fact. The ring finger has a vein that runs straight to your heart.'},{n:'Hunter',t:'Wait. Is that actually true?'},{n:'J',t:'...It is romantic. That is what matters.'},
   {n:'Tanner',anim:()=>go(groomsmen[0],[[hunter.x-10,hunter.y+2]],34),t:'(walking over, patting his pocket) And the rings are right here, little brother. I have checked them four times.'},{n:'Hunter',t:'Now you know how I felt in Kansas City.'}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;(c8Bride)()})})})}
-function grItems(){const G=groomsmen;return [{id:'mirror',x:60,y:38,w:18,h:40,spot:[68,100],face:'u'},c8Talk(jay,[[{n:'J',t:'Bow tie first. Then we talk.'}]],'J'),
+function grItems(){const G=groomsmen;return [{id:'mirror',x:60,y:38,w:18,h:40,spot:[68,100],face:'u'},c8Talk(jay,[[{n:'J',t:'Tie first. Then we talk.'}]],'J'),
  c8Talk(G[0],[[{n:'Tanner',t:'Big day, brother. You good?'},{n:'Hunter',t:'I think so. Do you have the—'},{n:'Tanner',t:'Rings. Yes. Breathe.'}]],'g0'),
  c8Talk(G[1],[[{n:'Groomsman',t:'Look! I can lift my arms!',anim:()=>{G[1].hold='stretch';after(1.4,()=>{G[1].hold=null})}}]],'g1'),
  c8Talk(G[2],[[{n:'Groomsman',t:'Ankles fully covered now. Honestly? I miss them.'}]],'g2'),
@@ -6872,7 +6879,7 @@ function bdItems(){const B=bridesmaids;return [{id:'dress',x:62,y:12,w:16,h:42,s
  c8Talk(B[1],[[{n:'Bridesmaid',t:'I have tissues, bobby pins, a granola bar, and a tiny sewing kit. I am prepared for ANYTHING.'}]],'bm1'),
  c8Talk(B[2],[[{n:'Bridesmaid',t:'Your mum just texted me to make sure you ate breakfast. Did you eat breakfast?'},{n:'Abigail',t:'...I had a grape.'}]],'bm2'),
  {id:'bouquet',x:60,y:52,w:20,h:26,spot:[66,100],face:'u',lines:[{n:'Abigail',t:'(Pink roses and peonies. Three hundred dollars a dozen. Worth every penny.)'},{n:'Abigail',t:'(...Probably.)'}]},
- {id:'window',x:26,y:10,w:28,h:30,spot:[40,100],face:'u',lines:[{n:'Abigail',t:'(The church, right across the street. Hunter is in there somewhere.)'},{n:'Abigail',t:'(Probably with a crooked bow tie.)'}]},
+ {id:'window',x:26,y:10,w:28,h:30,spot:[40,100],face:'u',lines:[{n:'Abigail',t:'(The church, right across the street. Hunter is in there somewhere.)'},{n:'Abigail',t:'(Probably with a crooked tie.)'}]},
  {id:'vanity',x:2,y:42,w:20,h:34,spot:[12,100],face:'u',lines:[{n:'Abigail',t:'(The mirror. Okay. It’s really happening. Today.)'}]}]}
 function vBrideRoom(t){r(0,0,80,92,'#f0e4ec');for(let x=0;x<80;x+=8)r(x,0,1,92,'#e8d8e4');r(26,10,28,30,'#f8f4f0');r(28,12,24,26,'#bfe0f4');r(28,32,24,6,'#a8d098');
  r(32,26,12,12,'#d0c4b8');tri(38,19,26,.5,'#c8bcb0');r(37,16,2,3,'#e8e0d4');r(36,30,4,8,'#8a6a5a');r(33,28,2,3,'#7a9ac8');r(41,28,2,3,'#7a9ac8');cx.globalAlpha=.18;r(28,12,24,26,'#e8f4ff');cx.globalAlpha=1;
