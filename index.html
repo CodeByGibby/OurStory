@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.80</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.81</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -4638,37 +4638,63 @@ function vJewel(t){r(0,0,160,90,'#ece4f2');for(let x=0;x<160;x+=8)r(x,0,1,90,'#e
 
 /* ---------- skee-ball vs J ---------- */
 let SK=null;const SKC=[80,98],SKR=[[7,50],[14,40],[21,30],[28,20],[38,10]],SKP=[[42,46],[118,46]];
-function skeeStart(cb){setLoc('skee');mode='skee';fade=1;fd=-1;setHud('');SK={i:0,n:5,score:0,aim:0,pw:0,hold:0,ball:null,pop:null,cb,t0:T,log:[]}}
-function skeeDown(x,y){const S=SK;if(!S||S.ball||S.end)return;if(y>238&&x<46){S.aim=Math.max(-1,S.aim-.25);sfx('tick');return}if(y>238&&x>114){S.aim=Math.min(1,S.aim+.25);sfx('tick');return}if(y>150){S.hold=1;S.pw=0;sfx('select')}}
-function skeeUp(){const S=SK;if(!S||!S.hold)return;S.hold=0;const p=S.pw,w=(Math.random()-.5)*7,wy=(Math.random()-.5)*7;sfx('whoosh');
+function skeeStart(cb){setLoc('skee');mode='skee';fade=1;fd=-1;setHud('');SK={i:0,n:5,score:0,disp:0,tix:0,tixShown:0,aim:0,pw:0,ph:0,hold:0,ball:null,pop:null,fl:null,cb,t0:T,log:[],JT:230}}
+function skeeDown(x,y){const S=SK;if(!S||S.ball||S.end)return;if(y>238&&x<40){S.aim=Math.max(-1,S.aim-.25);sfx('tick');return}if(y>238&&x>120){S.aim=Math.min(1,S.aim+.25);sfx('tick');return}if(y>150){S.hold=1;S.pw=0;S.ph=0;S.dx0=x;S.aim0=S.aim;sfx('select')}}
+function skeeMove(x){const S=SK;if(!S||!S.hold)return;S.aim=Math.max(-1,Math.min(1,S.aim0+(x-S.dx0)/36))}
+/* rolls up the lane, hops off the lip, bounces, maybe rattles on a ring edge, then drops */
+function skeeUp(){const S=SK;if(!S||!S.hold)return;S.hold=0;const p=S.pw,w=(Math.random()-.5)*6,wy=(Math.random()-.5)*6;sfx('whoosh');
  let lx=80+S.aim*38+w,ly=142-Math.min(p,1)*104+wy,res=null;if(p<.16)res='soft';else if(p>1.02){res='hard';ly=36;lx=80+S.aim*20}
- S.ball={k:0,sx:80+S.aim*24,lx,ly,res}}
+ let rat=null;if(!res){const dp=SKP.map(([px,py])=>Math.hypot(lx-px,ly-py)),hi=dp.findIndex(d=>d>=5.5&&d<9);
+  if(hi>=0){rat={c:SKP[hi],r:7,inn:Math.random()<.45}}else{const d=Math.hypot(lx-SKC[0],ly-SKC[1]);for(const [rr] of SKR)if(Math.abs(d-rr)<1.7){rat={c:SKC,r:rr,inn:Math.random()<.5};break}}}
+ S.ball={k:0,sx:80+S.aim*24,lx,ly,res,rat,post:0}}
 function skeeScore(x,y){for(const [px,py] of SKP)if(Math.hypot(x-px,y-py)<7)return 100;const d=Math.hypot(x-SKC[0],y-SKC[1]);for(const [rr,v] of SKR)if(d<rr)return v;return x>28&&x<132&&y>30&&y<144?10:0}
-function skeeUpdate(dt){const S=SK;if(!S||mode!=='skee')return;if(S.hold)S.pw=Math.min(1.18,S.pw+dt/1.5);if(S.pop)S.pop.t+=dt;
- const B=S.ball;if(!B)return;B.k+=dt/(B.res==='soft'?1.6:1.05);if(B.k>=1&&!B.done){B.done=1;let v=0,m;
-  if(B.res==='soft'){m='TOO SOFT! 0'}else if(B.res==='hard'){v=10;m='TOO HARD! 10'}else{v=skeeScore(B.lx,B.ly);m=v?('+'+v):'GUTTER! 0'}
-  S.score+=v;S.log.push(v);S.pop={m,t:0,x:B.res==='soft'?80:B.lx,y:B.res==='soft'?230:B.ly,big:v>=50};sfx(v>=50?'coin':v?'pop':'bump');if(v===100)for(let i=0;i<3;i++)after(i*.15,()=>burst(B.lx,B.ly,'#ffd86b'));
-  after(.9,()=>{S.ball=null;S.i++;S.pw=0;if(S.i>=S.n){S.end=1;mode='skeeEnd';sfx('fanfare');after(1.8,()=>{const cb=S.cb;cb&&cb(S.score)})}})}}
+function skeeFinal(B){if(B.res==='soft')return 0;if(B.res==='hard')return 10;
+ if(B.rat){const R=B.rat;if(R.c!==SKC)return R.inn?100:skeeScore(R.c[0]+(R.c[0]<80?9:-9),R.c[1]);const ix=SKR.findIndex(q=>q[0]===R.r);return R.inn?SKR[ix][1]:(SKR[ix+1]?SKR[ix+1][1]:10)}
+ return skeeScore(B.lx,B.ly)}
+function skeeUpdate(dt){const S=SK;if(!S||mode!=='skee'&&mode!=='skeeEnd')return;
+ if(S.hold){S.ph+=dt/1.5;const q=S.ph%2.36;S.pw=q<1.18?q:2.36-q}if(S.pop)S.pop.t+=dt;if(S.fl)S.fl.t+=dt;
+ if(S.disp<S.score)S.disp=Math.min(S.score,S.disp+dt*120);if(S.tixShown<S.tix)S.tixShown=Math.min(S.tix,S.tixShown+dt*14);
+ const B=S.ball;if(!B||mode!=='skee')return;
+ if(B.k<1){B.k=Math.min(1,B.k+dt/(B.res==='soft'?1.6:1.05));if(B.k>=.62&&!B.hop&&B.res!=='soft'){B.hop=1;sfx('tick')}return}
+ const PD=B.res==='soft'?0:B.rat?1.05:.45;if(B.post===0&&B.res!=='soft'){sfx('bump')}B.post+=dt;if(B.rat&&!B.rs&&B.post>.15){B.rs=1;sfx('tick');after(.25,()=>sfx('tick'));after(.5,()=>sfx('tick'))}
+ if(B.post<PD||B.done)return;B.done=1;const v=skeeFinal(B);let m;
+ if(B.res==='soft')m='TOO SOFT! 0';else if(B.res==='hard')m='TOO HARD! 10';else if(B.rat)m=(B.rat.inn?'RATTLED IN! +':'RATTLED OUT! +')+v;else m=v?('+'+v):'GUTTER! 0';
+ S.score+=v;S.tix+=v/10;S.log.push(v);const fx=B.rat&&B.rat.inn&&B.rat.c!==SKC?B.rat.c[0]:B.lx,fy=B.rat&&B.rat.inn&&B.rat.c!==SKC?B.rat.c[1]:B.ly;
+ S.pop={m,t:0,x:B.res==='soft'?80:fx,y:B.res==='soft'?230:fy,big:v>=50};S.fl={v,t:0,x:fx,y:fy};sfx(v>=50?'coin':v?'pop':'bump');
+ if(v===100){sfx('fanfare');for(let i=0;i<5;i++)after(i*.12,()=>burst(fx,fy,['#ffd86b','#ff5fb0','#7ee8fa'][i%3]))}else if(v>=40)burst(fx,fy,'#ffd86b');
+ after(1,()=>{S.ball=null;S.i++;S.pw=0;S.ph=0;if(S.i>=S.n){S.end=1;mode='skeeEnd';sfx(S.score>S.JT?'fanfare':'buzz');after(2.4,()=>{const cb=S.cb;cb&&cb(S.score)})}})}
 function skeeBallPos(B){const k=B.k;if(B.res==='soft'){const q=k<.5?k*2:2-k*2;return [B.sx,262-q*70,6-q*1.5]}
  if(k<.62){const q=k/.62;return [B.sx+(80+(B.lx-80)*.35-B.sx)*q,262-q*112,6-q*2.4]}const q=(k-.62)/.38,rx=80+(B.lx-80)*.35;return [rx+(B.lx-rx)*q,150+(B.ly-150)*q-Math.sin(q*Math.PI)*16,3.6-q*.8]}
-function vSkee(t){const S=SK||{aim:0,pw:0,score:0,i:0,n:5};r(0,0,W,H,'#140c28');for(let y=0;y<H;y+=8)for(let x=((y/8)%2)*6;x<W;x+=12)r(x,y,10,6,'#1a1234');
- for(let i=0;i<12;i++){cx.globalAlpha=.5+.5*Math.sin(t*3+i);r(10+i*12,6,4,2,['#ff5fb0','#7ee8fa','#ffd86b'][i%3]);cx.globalAlpha=1}
+function skeeBallDraw(S,t){const B=S.ball;let [x,y,rr]=skeeBallPos(B);
+ if(B.k>=1&&B.res!=='soft'){const q=B.post;if(B.rat){const R=B.rat,a0=Math.atan2(B.ly-R.c[1],B.lx-R.c[0]),u=Math.min(1,q/1.05),a=a0+u*Math.PI*1.6*(B.lx<R.c[0]?-1:1),rad=R.r+(u>.8?(R.inn?-1:1)*(u-.8)*12:0);x=R.c[0]+Math.cos(a)*rad;y=R.c[1]+Math.sin(a)*rad*.92;rr=2.8-Math.max(0,u-.85)*10}
+  else{const u=Math.min(1,q/.45);y=B.ly-Math.abs(Math.sin(u*Math.PI*2))*(1-u)*4;rr=2.8-Math.max(0,u-.7)*8}}
+ if(rr<=.4)return;ell(Math.round(x),Math.round(y)+Math.max(1,Math.round(rr*.8)),Math.max(1,Math.round(rr)),1,'#000',.25);disc(Math.round(x),Math.round(y),Math.max(1,Math.round(rr)),'#f4f4fa',1);if(rr>2)r(Math.round(x-rr/2),Math.round(y-rr/2),2,2,'#fff')}
+function vSkee(t){const S=SK||{aim:0,pw:0,score:0,disp:0,i:0,n:5,JT:230,tixShown:0};r(0,0,W,H,'#140c28');for(let y=0;y<H;y+=8)for(let x=((y/8)%2)*6;x<W;x+=12)r(x,y,10,6,'#1a1234');
+ const hot=S.fl&&S.fl.t<1.1&&S.fl.v>=50;for(let i=0;i<12;i++){cx.globalAlpha=hot?(Math.floor(t*10+i)%2?1:.2):.5+.5*Math.sin(t*3+i);r(10+i*12,6,4,2,['#ff5fb0','#7ee8fa','#ffd86b'][i%3]);cx.globalAlpha=1}
  r(24,22,112,126,'#3a2a1a');r(26,24,108,122,'#5a3a2a');r(28,26,104,118,'#c8a060');for(let y=30;y<144;y+=6)r(28,y,104,1,'#b89050');
  SKR.slice().reverse().forEach(([rr,v],i)=>{disc(SKC[0],SKC[1],rr,i%2?'#a87840':'#8a5a30',1);disc(SKC[0],SKC[1],rr-2,i%2?'#c89a5a':'#b08848',1)});
+ /* the ring that just scored lights up */
+ if(S.fl&&S.fl.t<1&&S.fl.v>0&&S.fl.v<100){const ix=SKR.findIndex(q=>q[1]===S.fl.v),on=Math.floor(S.fl.t*8)%2;if(ix>=0&&on){const ro=SKR[ix][0],ri=ix?SKR[ix-1][0]:0;cx.globalAlpha=.55;for(let a=0;a<6.28;a+=.06)for(let d=ri+1;d<ro-1;d+=2)r(Math.round(SKC[0]+Math.cos(a)*d),Math.round(SKC[1]+Math.sin(a)*d),1,1,'#fff6c0');cx.globalAlpha=1}}
  disc(SKC[0],SKC[1],5,'#1a0e08',1);disc(SKC[0],SKC[1],3,'#ff5fb0',.5);SKR.forEach(([rr,v],i)=>{if(i){const m=Math.round((SKR[i-1][0]+rr)/2);txt(String(v),SKC[0]-3,SKC[1]+m-2,'#3a2412',1)}});txt('50',SKC[0]-3,SKC[1]-10,'#fff6e0',1);
- SKP.forEach(([x,y])=>{disc(x,y,7,'#3a2412',1);disc(x,y,5,'#1a0e08',1);txt('100',x-6,y+8,'#ffd86b',1)});
+ SKP.forEach(([x,y])=>{const lit=S.fl&&S.fl.v===100&&S.fl.t<1.4&&Math.hypot(S.fl.x-x,S.fl.y-y)<10;disc(x,y,7,lit&&Math.floor(t*10)%2?'#ffd86b':'#3a2412',1);disc(x,y,5,'#1a0e08',1);txt('100',x-6,y+8,'#ffd86b',1)});
  r(24,148,112,6,'#3a2a1a');r(28,148,104,3,'#e8c070');for(let i=0;i<5;i++)r(40+i*20,150,10,1,'#c89848');
  for(let y=154;y<288;y++){const k=(y-154)/134,w=Math.round(46+k*30);r(80-w,y,w*2,1,(y>>2)%2?'#d8b070':'#ccA468');r(80-w-3,y,3,1,'#5a3a2a');r(80+w,y,3,1,'#5a3a2a')}
  for(let y=160;y<288;y+=10)r(79,y,2,4,'#b88850');
- r(28,4,104,15,'rgba(0,0,0,.6)');txt('SCORE '+S.score,32,8,'#ffd86b',1);txt('J BEST 230',90,8,'#ff9ccb',1);
+ /* scoreboard: live race against J */
+ r(16,4,128,15,'rgba(0,0,0,.65)');const ds=Math.round(S.disp);txt('YOU '+ds,20,8,'#ffd86b',1);txt('J '+S.JT,110,8,'#ff9ccb',1);
+ {const need=S.JT+1-S.score,left=S.n-S.i;if(!S.end&&need>0&&left<=2&&!S.ball){const m='NEED '+need+(left===1?' ON THE LAST BALL!':' IN '+left);txt(m,80-m.length*2,24,Math.floor(t*4)%2?'#ff9ab8':'#fff',1)}else if(!S.end&&need<=0){txt('YOU’RE AHEAD!',54,24,'#8be28b',1)}}
  for(let i=0;i<S.n;i++)disc(52+i*14,166,3,i<S.i||(S.ball&&i===S.i)?'#4a3a5a':'#e8e8f0',1);
- if(S.ball){const [x,y,rr]=skeeBallPos(S.ball);ell(Math.round(x),Math.round(y)+Math.round(rr*.8),Math.round(rr),1,'#000',.25);disc(Math.round(x),Math.round(y),Math.round(rr),'#f4f4fa',1);r(Math.round(x-rr/2),Math.round(y-rr/2),2,2,'#fff')}
+ if(S.ball)skeeBallDraw(S,t);
  else if(!S.end){const bx=Math.round(80+S.aim*24),by=262;for(let i=1;i<9;i++){const q=i/9;cx.globalAlpha=.7-q*.5;r(Math.round(bx+(80+S.aim*14-bx)*q*1.2+S.aim*q*30),by-12-i*11,2,2,'#ffd86b')}cx.globalAlpha=1;disc(bx,by,6,'#f4f4fa',1);r(bx-3,by-3,2,2,'#fff')}
- r(146,170,8,96,'#1a1234');r(147,171,6,94,'#2a2050');const ph=Math.min(1.18,S.pw)/1.18,hh=Math.round(94*ph);r(147,265-hh,6,hh,S.pw>1.02?'#e0463c':S.pw>.8?'#ffd86b':'#5ad06a');r(146,170+Math.round(94*(1-1/1.18)),8,1,'#fff');txt('PWR',144,160,'#fff',1);
+ /* power meter with a marked sweet spot */
+ r(146,170,8,96,'#1a1234');r(147,171,6,94,'#2a2050');{const Y=p=>265-Math.round(94*p/1.18);r(147,Y(1.18),6,Y(1.02)-Y(1.18),'#4a1a2a');r(144,Y(.42),12,1,'#ff9ab8');txt('50',133,Y(.42)-2,'#ff9ab8',1);r(144,Y(.92),12,1,'#ffd86b');txt('100',129,Y(.92)-2,'#ffd86b',1)}
+ const ph=Math.min(1.18,S.pw)/1.18,hh=Math.round(94*ph);r(147,265-hh,6,hh,S.pw>1.02?'#e0463c':S.pw>.8?'#ffd86b':'#5ad06a');r(146,170+Math.round(94*(1-1/1.18)),8,1,'#fff');txt('PWR',144,160,'#fff',1);
  [[4,-1],[124,1]].forEach(([x,d])=>{r(x,240,32,36,'#2a2050');r(x,240,32,1,'#5a4a90');r(x+1,241,30,34,'#3a2a68');for(let i=0;i<8;i++){const h=16-i*2;r(d<0?x+19-i:x+12+i,258-(h>>1),1,h,'#fff')}});
- if(!S.ball&&!S.end){txt('AIM',8,230,'#c8c0e0',1);txt(S.hold?'LET GO TO ROLL!':'HOLD TO POWER',S.hold?50:54,280,Math.floor(t*3)%2?'#fff':'#ffd86b',1)}
- if(S.pop&&S.pop.t<1.2){const p=S.pop,a=Math.min(1,2-(p.t/.6));cx.globalAlpha=Math.max(0,a);const z=p.big?2:1;txt(p.m,Math.round(p.x-p.m.length*2*z),Math.round(p.y-14-p.t*14),p.big?'#ffd86b':'#fff',z);cx.globalAlpha=1}
- if(S.end){r(16,110,128,40,'rgba(10,6,30,.85)');txt('FINAL SCORE',58,118,'#ffd86b',1);const s=String(S.score);txt(s,80-s.length*6,130,'#fff',3)}}
+ /* tickets spooling out of the machine */
+ {const n=Math.floor(S.tixShown);r(136,140,8,4,'#1a1234');for(let i=0;i<Math.min(n,22);i++){const y=144+i*4,x=138+((i%2)?1:0);r(x,y,5,3,'#ff9a3a');r(x+1,y+1,3,1,'#ffd86b')}if(n>0)txt(String(n*1|0),136,232,'#ff9a3a',1)}
+ if(!S.ball&&!S.end){txt('AIM',8,230,'#c8c0e0',1);txt(S.hold?'DRAG TO AIM, LET GO TO ROLL!':'HOLD THE LANE TO POWER',S.hold?24:36,280,Math.floor(t*3)%2?'#fff':'#ffd86b',1)}
+ if(S.pop&&S.pop.t<1.2){const p=S.pop,a=Math.min(1,2-(p.t/.6));cx.globalAlpha=Math.max(0,a);const z=p.big?2:1;txt(p.m,Math.max(2,Math.round(p.x-p.m.length*2*z)),Math.round(p.y-14-p.t*14),p.big?'#ffd86b':'#fff',z);cx.globalAlpha=1}
+ if(S.end){r(16,100,128,52,'rgba(10,6,30,.88)');txt('FINAL SCORE',58,106,'#ffd86b',1);const s=String(S.score);txt(s,80-s.length*6,118,'#fff',3);const w=S.score>S.JT,m=w?'YOU BEAT J!':'J WINS... AGAIN.';txt(m,80-m.length*2,142,w?'#8be28b':'#ff9ab8',1)}}
 /* ---------- 3. the barcade ---------- */
 const BCG={cab0:'(A space shooter. Hunter checks his jacket pocket mid-game. GAME OVER.)',cab1:'(A racing game. Hunter drives directly into a wall. Twice.)',cab2:'(A fighting game. J wins by pressing the same button. Over and over.)',
  cab3:'(A dance game. Hunter is a little distracted. The machine boos him.)',cab4:'(A trivia game. J confidently answers every question. Half of his answers are wrong. He still wins.)',
@@ -4686,7 +4712,7 @@ function bcGame(k){const H=hunter;if(c6.games[k]){say([{n:'J',t:k==='skee'&&c6.s
  const L=[{n:'',t:BCG[k]}];if(k==='claw')L.push({n:'Abigail',t:'(from the bar) Nooo! The corgi! ...Someday, Hunter. Someday we get a REAL one.'});L.push({n:'J',t:BCJ[Math.max(1,Math.min(bcOwed(),BCJ.length))-1],anim:()=>{face(jay,H)}});
  say(L,()=>bcNext(n))}
 function skeeIntro(n){mode='c6';setHud('');chatClear();hx.phase='seq';face(jay,hunter);
- say([{n:'J',t:'Skee-ball? Oh, you are going DOWN, birthday boy.'},{n:'',t:'HOW TO PLAY: tap the arrows to aim. Press and HOLD the lane to build power, then let go to roll. Five balls. Beat J’s score!'}],
+ say([{n:'J',t:'Skee-ball? Oh, you are going DOWN, birthday boy.'},{n:'',t:'HOW TO PLAY: press and HOLD the lane to build power. While holding, drag left or right to aim. The marks on the power meter show how hard to roll for the 50 and the 100 holes. Five balls. Beat J’s 230!'}],
   ()=>fadeTo(()=>skeeStart(sc=>skeeBack(n,sc))))}
 function skeeBack(n,sc){mode='c6';fadeTo(()=>{setLoc('barcade');hxCam(0,1);at(hunter,36,124,'l');at(jay,26,117,'l');jay.hold=null;jay.tx=null;hunter.tx=null;c6.jsk={t0:T+1.4,sc:0,pts:[40,30,50,40,30,40]};
   after(6.2,()=>{const win=sc>230;c6.skeeWin=win;face(jay,hunter);face(hunter,jay);c6.jsk.done=1;
@@ -7012,6 +7038,8 @@ const paintMove=(X,Y)=>{if(mode!=='paint'||!ep.pt||!ep.pt.down)return;const b=CR
 dv.addEventListener('pointermove',e=>{if(e.pointerType!=='touch')paintMove(e.clientX,e.clientY)});
 dv.addEventListener('touchmove',e=>{if(mode==='paint'){e.preventDefault();const q=e.touches[0];if(q)paintMove(q.clientX,q.clientY)}},{passive:false});
 addEventListener('pointerup',epPaintUp);addEventListener('touchend',e=>{if(!e.touches.length)epPaintUp()},{passive:true});
+dv.addEventListener('pointermove',e=>{if(mode==='skee'&&SK&&SK.hold){const b=CR||(CR=dv.getBoundingClientRect());skeeMove((e.clientX-b.left)/sc)}});
+dv.addEventListener('touchmove',e=>{if(mode==='skee'&&SK&&SK.hold){const q=e.touches[0];if(q){e.preventDefault();const b=CR||(CR=dv.getBoundingClientRect());skeeMove((q.clientX-b.left)/sc)}}},{passive:false});
 dv.addEventListener('pointermove',e=>{if(mode!=='kart'||!kHeld)return;const b=CR||(CR=dv.getBoundingClientRect());kart.steer=(e.clientX-b.left)/sc<80?-1:1});
 $('news').addEventListener('click',()=>{if(mode==='news')nextNews()});
 /* ---------- loop ---------- */
