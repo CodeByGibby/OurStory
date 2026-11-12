@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.90</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.91</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3259,31 +3259,6 @@ function musPick(){if(c8&&c8.bridal)return 'bridal';if(loc==='home6'&&c6.day)ret
  if(loc==='court')return c5.ct&&c5.ct.style?'tennis':'jazz';if(loc==='hroom'&&hr.solo)return 'sad';if(loc==='troom'&&upk&&upk.solo)return 'sad';if(loc==='kitchen'&&kit.angry)return 'news';if(loc==='home'&&c5.hm&&c5.hm.hearts)return 'sunset';
  if(loc==='living')return lv&&lv.kiss?'sunset':sick?'sick':lv&&lv.sw?'kart':'cozy';if(loc==='newsbg'||loc==='cal')return AU.want;return MUSMAP[loc]!==undefined?MUSMAP[loc]:AU.want}
 function musUpdate(){if(!AU.ctx)return;let w=musPick();if(AU.songOn)w=null;AU.want=w}
-/* ---- original 8-bit hip hop "Just My Type" track ---- */
-const SONG={bpm:140,prog:[41,37,44,39]};
-let crushCurve=null;
-function songBus(){const c=AU.ctx;if(AU.vbus)return;AU.vbus=c.createWaveShaper();if(!crushCurve){crushCurve=new Float32Array(1024);for(let i=0;i<1024;i++){const x=i/511.5-1;crushCurve[i]=Math.round(x*7)/7}}AU.vbus.curve=crushCurve;AU.vbus.connect(AU.sng)}
-const VOW={a:[960,1400],e:[560,2400],i:[400,2900],o:[600,1000],u:[420,950],ay:[900,2000]};
-function syl(t,p,v,dur,cons,vol,glide){const c=AU.ctx,o=c.createOscillator(),g=c.createGain();o.type='sawtooth';o.frequency.setValueAtTime(p,t);if(glide)o.frequency.exponentialRampToValueAtTime(p*glide,t+dur);
- const [f1,f2]=VOW[v];[f1,f2].forEach((f,k)=>{const bp=c.createBiquadFilter();bp.type='bandpass';bp.frequency.value=f;bp.Q.value=k?9:6;o.connect(bp);bp.connect(g)});
- g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.012);g.gain.setValueAtTime(vol,t+dur*.6);g.gain.exponentialRampToValueAtTime(.0001,t+dur);g.connect(AU.vbus);o.start(t);o.stop(t+dur+.02);
- if(cons){const s=c.createBufferSource(),f=c.createBiquadFilter(),gg=c.createGain();s.buffer=AU.noise;f.type=cons=='s'?'highpass':'bandpass';f.frequency.value=cons=='s'?5000:cons=='t'?3500:1600;
-  gg.gain.setValueAtTime(vol*1.6,t-.005);gg.gain.exponentialRampToValueAtTime(.0001,t+(cons=='s'?.06:.025));s.connect(f);f.connect(gg);gg.connect(AU.vbus);s.start(Math.max(c.currentTime,t-.005));s.stop(t+.08)}}
-const FLOW=[[1,1,0,1,1,0,1,1,0,1,1,0,1,0,1,0],[1,0,1,1,0,1,1,0,1,1,1,0,1,1,0,0],[1,1,1,0,1,1,0,1,1,0,1,1,1,0,0,0],[0,1,1,0,1,1,0,1,0,1,1,1,0,1,1,1]];
-const VS_=['a','e','i','o','u','a','e','ay'],CS_=['t','k','s',0,'t',0,'k','s'];
-function songTick(){const c=AU.ctx;if(!AU.songOn||!c)return;const sp=60/SONG.bpm/4;
- while(AU.snt<c.currentTime+.2){const st=AU.sst,bar=st/16|0,i=st%16,b2=(bar-2+64)%16,root=SONG.prog[(bar/2|0)%4],t=AU.snt,t0=t-c.currentTime,D=AU.sng;
-  const intro=bar<2,hook=!intro&&(b2>>2)%2===1,verse=!intro&&!hook;
-  if(!intro){if(i===0||i===10||(i===7&&bar%2))tone(150,.35,'sine',.32,38,t0,D);
-   if(i===4||i===12){nz(.14,.22,1800,'bandpass',t0,D);nz(.05,.12,6000,'highpass',t0,D)}
-   if(i===0||i===10||i===6&&bar%2){tone(mf(root),sp*5,'sine',.22,mf(root)*(i===6?.75:.98),t0,D);tone(mf(root+12),sp*4,'square',.03,0,t0,D)}}
-  const roll=bar%4==3&&i>=12;if(i%2==0||roll){nz(.025,.05,8000,'highpass',t0,D);if(roll)nz(.02,.04,8000,'highpass',t0+sp/2,D)}
-  const LM=[0,3,7,10,12,10,7,3,5,7,3,0,-2,0,3,7];if((hook||intro)&&i%2==0){const n=LM[(i+bar*4)%16];tone(mf(root+36+n),sp*1.7,'square',.045,0,t0,D)}
-  if(verse){const f=FLOW[bar%4][i];if(f){const r=srand(st*13+bar);const v=VS_[r*8|0],cn=CS_[(r*97|0)%8],end=i>=12&&bar%2,p=(end?230:260)*(1+(r-.5)*.12);syl(t,p,v,sp*(f&&!FLOW[bar%4][(i+1)%16]?1.7:.9),cn,.11,end?.85:0)}
-   if(i===14&&bar%4==3)syl(t,420,'ay',.28,0,.12,.75)}
-  if(hook&&(i===0||i===8)){syl(t,bar%2?330:390,i?'e':'ay',.3,i?'s':0,.13,i?1.15:.8)}
-  if(hook&&i===14&&bar%2)syl(t,350,'o',.18,'t',.11,1.1);
-  AU.sst++;AU.snt+=sp}}
 function songPlay(off,vol,dur){if(!AU.ctx)return;songBus();const c=AU.ctx,sp=60/SONG.bpm/4;AU.sst=Math.floor((off||0)/sp/16)*16;AU.snt=c.currentTime+.08;AU.songOn=1;AU.songId=(AU.songId||0)+1;const id=AU.songId;
  AU.sng.gain.cancelScheduledValues(c.currentTime);AU.sng.gain.setValueAtTime(0,c.currentTime);AU.sng.gain.linearRampToValueAtTime(vol||.8,c.currentTime+.4);
  if(dur)setTimeout(()=>{if(AU.songId===id)songStop(1.5)},dur*1000)}
@@ -5257,6 +5232,60 @@ AMS.bridal={bpm:64,vol:0.897,dly:.5,chords:['C','G C','F','G','C','G Am','F G','
 AMS.sick={bpm:62,vol:0.703,dly:.48,chords:['C','Am','F','C','Am','F','C','G'],
  lines:[{i:'mbox',v:0.119,n:['E5 - G5 - C6 - G5 -','A5 - E5 - C5 - E5 -','F5 - A5 - C6 - A5 -','G5 - E5 - C5 - - -','C5 - E5 - A5 - G5 -','F5 - E5 - C5 - A4 -','G4 - C5 - E5 - D5 -','D5 - - - B4 - - -']}],
  pad:{i:'strings',v:.015,o:3},bass:{i:'sub',v:0.025,o:2,p:['R---------------']}};
+
+/* ---- "Just My Type" by Sweetie Pie: an original hip hop / R&B track with a synthesized female vocal ---- */
+const SONG={bpm:96,prog:[41,37,44,39]};
+(()=>{const P=['Fm7','Dbmaj7','Abmaj7','Eb'],ch=[...Array(34)].map((_,i)=>P[(i+2)%4]),R=(a,b)=>[...Array(34)].map((_,i)=>i>=a&&i<=b?i:-1).filter(i=>i>=0),HK=R(10,17).concat(R(26,33)),VS=R(2,9).concat(R(18,25));
+ AMS.jmt={bpm:96,sw:.12,vol:.62,dly:.47,chords:ch,
+  stab:{i:'epad',v:.05,o:4,p:['x-----x-----x---','x-----x---x-x---']},
+  arp:{i:'celes',v:.035,o:5,mode:'ud',div:2,bars:[0,1].concat(HK)},
+  pad:{i:'strings',v:.022,o:4,bars:HK},
+  bass:{i:'sub',v:.13,o:2,p:['R-.....R.R-.....','R-.....R.5-...8.'],bars:R(1,33)},
+  drums:[{v:.95,p:['k.......k.k.....','k.......k.k...k.'],bars:{0:null,1:'k.........k.....'}},{v:.75,p:['....s.......s...'],bars:{0:null,1:null}},{v:.6,p:['....c.......c...'],bars:{0:null,1:null}},
+   {v:.5,p:['h.h.h.h.h.h.h.h.','h.h.h.h.h.h.hhhh'],bars:{0:'h...h...h...h...',1:'h.h.h.h.h.h.hhhh'}},{v:.9,p:[null],bars:{2:'x...............',10:'x...............',18:'x...............',26:'x...............'}}]}})();
+/* female formants */
+const VF={a:[850,1220,2810],ae:[860,2050,2850],e:[600,2300,2900],i:[350,2800,3300],ih:[430,2480,3070],o:[600,1000,2800],u:[370,950,2700],uh:[700,1400,2800],er:[500,1500,1900]};
+const VD={ai:['a','i'],ei:['e','i'],oh:['o','u'],ow:['a','u']};
+const VM={m:[280,1100,2600],n:[280,1700,2700],ng:[280,2300,2750],l:[360,1300,2900],r:[420,1300,1600],y:[300,2600,3200],w:[320,750,2400]};
+function vCons(c,k,t,vol,out){const B=(dur,v,type,fq,q)=>amNz(c,t,dur,v*vol,type,fq,q,out);
+ if(k==='s')B(.09,.55,'highpass',5200,.8);else if(k==='sh')B(.1,.5,'bandpass',2700,1.2);else if(k==='t'||k==='d')B(.025,.6,'bandpass',3800,1);else if(k==='k'||k==='g')B(.03,.5,'bandpass',1900,1.5);
+ else if(k==='p'||k==='b')B(.025,.5,'lowpass',900,.7);else if(k==='f')B(.07,.3,'bandpass',2200,.4);else if(k==='h')B(.06,.25,'bandpass',1500,.4);
+ else if(k==='ts'){vCons(c,'t',t,vol,out);vCons(c,'s',t+.02,vol,out)}else if(k==='st'){vCons(c,'s',t,vol,out);vCons(c,'t',t+.08,vol,out)}else if(k==='kt'){vCons(c,'k',t,vol,out);vCons(c,'t',t+.05,vol,out)}}
+function sing(t,dur,f,ph,vol,f0){const c=AU.ctx,out=AU.vbus,[on,vw,cd]=ph.split('|'),dp=VD[vw],v1=VF[dp?dp[0]:vw],v2=dp?VF[dp[1]]:null,M=VM[on],MC=VM[cd],stopC=cd&&!MC,end=t+dur;
+ if(on&&!M)vCons(c,on,t-.02,vol*1.4,out);
+ const g=c.createGain(),src=[c.createOscillator(),c.createOscillator()];src[0].type='sawtooth';src[1].type='triangle';src[1].detune.value=5;
+ src.forEach(o=>{o.frequency.setValueAtTime(f0||f,t);if(f0)o.frequency.exponentialRampToValueAtTime(f,t+.07)});
+ if(dur>.28){const l=c.createOscillator(),lg=c.createGain();l.frequency.value=5.6;lg.gain.setValueAtTime(0,t);lg.gain.setValueAtTime(0,t+.16);lg.gain.linearRampToValueAtTime(f*.02,t+.4);l.connect(lg);src.forEach(o=>lg.connect(o.frequency));l.start(t);l.stop(end+.12)}
+ const tv=t+(M?.06:.01),td=v2?Math.max(tv+.02,t+dur*.45):null,tc=MC?Math.max(tv+.03,end-.08):null,tde=v2?Math.min(t+dur*.85,tc||end):null;
+ [0,1,2].forEach(k=>{const b=c.createBiquadFilter(),gg=c.createGain();b.type='bandpass';b.Q.value=[6,10,13][k];gg.gain.value=[1.7,1.4,.8][k];src.forEach(o=>o.connect(b));b.connect(gg);gg.connect(g);const q=b.frequency;
+  if(M){q.setValueAtTime(M[k],t);q.linearRampToValueAtTime(v1[k],tv)}else q.setValueAtTime(v1[k],t);
+  if(v2){q.setValueAtTime(v1[k],td);q.linearRampToValueAtTime(v2[k],tde)}if(MC){q.setValueAtTime((v2||v1)[k],tc);q.linearRampToValueAtTime(MC[k],tc+.05)}});
+ const lp=c.createBiquadFilter(),lg2=c.createGain();lp.type='lowpass';lp.frequency.value=700;lg2.gain.value=.35;src[1].connect(lp);lp.connect(lg2);lg2.connect(g);
+ const rel=stopC?.02:.08,te=end-(stopC?.03:0);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.025);g.gain.setValueAtTime(vol,Math.max(t+.03,te-rel));g.gain.linearRampToValueAtTime(0,te+(stopC?0:rel));g.connect(out);
+ src.forEach(o=>{o.start(t);o.stop(end+.15)});amNz(c,t,Math.max(.05,dur),vol*.05,'bandpass',2600,.8,out);
+ if(stopC)vCons(c,cd,te,vol*1.2,out)}
+/* the vocal: [step in section, length in 16ths, midi note, onset|vowel|coda] */
+const JV={verse:[
+ [0,2,72,'s|o|'],[2,2,72,'y|u|'],[4,1,70,'|a|n'],[5,1,68,'d|uh|'],[6,2,72,'r|u|f'],[8,3,70,'t|a|p'],[12,2,68,'l|ai|ts'],[14,2,65,'d|ow|n'],[16,6,68,'l|oh|'],
+ [32,2,72,'d|i|'],[34,2,72,'sh|ei|'],[36,2,75,'s|ih|n'],[38,2,72,'n|ih|ng'],[40,2,70,'t|er|n'],[42,1,68,'|ih|t'],[43,2,70,'|uh|p'],[45,2,72,'s|oh|'],[48,6,70,'l|ow|d'],
+ [64,2,72,'y|u|'],[66,2,75,'w|a|kt'],[68,1,72,'|oh|'],[69,2,70,'f|er|'],[72,2,72,'s|ai|l'],[74,1,70,'|ae|n'],[75,2,68,'s|e|d'],[77,6,72,'h|ai|'],
+ [96,2,68,'n|ow|'],[98,1,70,'|ai|'],[99,2,72,'n|oh|'],[102,2,75,'w|ai|'],[104,1,72,'|ai|m'],[105,2,72,'f|i|l'],[107,1,70,'|ih|ng'],[108,2,68,'s|oh|'],[110,8,72,'h|ai|']],
+ hook:[
+ [0,4,68,'|u|'],[6,2,70,'y|o|r'],[8,2,72,'sh|uh|st'],[10,2,75,'m|ai|'],[12,6,72,'t|ai|p'],[24,4,68,'y|e|'],
+ [32,2,72,'g|a|t'],[34,2,72,'m|i|'],[36,3,75,'f|i|l'],[39,1,73,'|ih|ng'],[40,6,72,'r|ai|t'],[56,4,70,'|o|'],[60,4,67,'|oh|'],
+ [64,4,68,'|u|'],[70,2,70,'y|o|r'],[72,2,72,'sh|uh|st'],[74,2,75,'m|ai|'],[76,6,72,'t|ai|p'],[88,4,68,'y|e|'],
+ [96,2,72,'|e|v'],[98,2,70,'r|i|'],[100,2,68,'s|ih|n'],[102,2,70,'g|uh|l'],[104,8,72,'n|ai|t'],[116,8,70,'|u|']]};
+const JVI={verse:{},hook:{}};for(const k in JV)JV[k].forEach(e=>(JVI[k][e[0]]=e));
+/* a diatonic third below, in Ab major, for the hook harmony */
+const third=m=>{const pc=m%12,sc=[8,10,0,1,3,5,7],i=sc.indexOf(pc);if(i<0)return m-4;const j=(i+5)%7;let n=m-((pc-sc[j]+12)%12);if(n>=m)n-=12;return n};
+function jmtVox(st,t){const bar=st>>4,sp=60/96/4,sw=st%4===2?sp*.12:0;let sec=null,o=0;if(bar>=2&&bar<=9){sec='verse';o=(bar-2)*16}else if(bar>=10&&bar<=17){sec='hook';o=(bar-10)*16}else if(bar>=18&&bar<=25){sec='verse';o=(bar-18)*16}else if(bar>=26){sec='hook';o=(bar-26)*16}
+ if(bar===1&&st%16===12)sing(t+sw,sp*3,72,'y|e|',.07,null);
+ if(sec==='hook'&&st%32===0){[[65,'|u|'],[72,'|u|']].forEach(([m,ph])=>sing(t,sp*30,mf(m),ph,.022,null))}
+ const e=sec&&JVI[sec][o+st%16];if(!e)return;const f=mf(e[2]),d=e[1]*sp*.98,prev=AU.vprev&&t-AU.vprev[1]<.06?AU.vprev[0]:null;sing(t+sw,d,f,e[3],sec==='hook'?.15:.14,prev);AU.vprev=[f,t+sw+d];
+ if(sec==='hook')sing(t+sw+.012,d,mf(third(e[2])),e[3],.06,null)}
+function songBus(){const c=AU.ctx;if(AU.vbus)return;AU.vbus=c.createGain();AU.vbus.gain.value=1;AU.vbus.connect(AU.sng);const d=c.createDelay(1),fb=c.createGain(),lp=c.createBiquadFilter(),w=c.createGain();d.delayTime.value=60/96/2;fb.gain.value=.28;lp.type='lowpass';lp.frequency.value=3000;w.gain.value=.22;AU.vbus.connect(d);d.connect(lp);lp.connect(fb);fb.connect(d);lp.connect(w);w.connect(AU.sng);AU.jbus=amBus(c,AU.sng,AMS.jmt.vol,AMS.jmt.dly)}
+function songTick(){const c=AU.ctx;if(!AU.songOn||!c)return;const C=amGet('jmt');
+ while(AU.snt<c.currentTime+.2){if(AU.sst>=C.N)AU.sst=32+(AU.sst-C.N);const st=AU.sst;amStep(C,st,AU.snt,AU.jbus);jmtVox(st,AU.snt);AU.sst++;AU.snt+=C.sd}}
 
 /* =====================================================================
    THREE MORE CABINETS: STAR PATROL (shooter), TURBO KC (racer), FEET FIESTA (dance)
