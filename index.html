@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.64</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.65</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3667,7 +3667,7 @@ Object.assign(VS,{txmont:[1,vTxMont]});Object.assign(MUSMAP,{txmont:'lofi'});
 let N2=null;
 const N2M=[['h',['BED FEELS HUGE','WITHOUT YOU']],['a',['MINE FEELS TINY','AND WEIRD']],['h',['YOUR PILLOW STILL','SMELLS LIKE YOU']],['a',['STOP. I WILL CRY']],['h',['SORRY','...IT DOES THO']],['a',['6 WEEKS']],['h',['6 WEEKS']],['a',['FACETIME UNTIL','WE FALL ASLEEP?']],['h',['ALREADY CALLING']]];
 function c5FirstNight(){setLoc('night2');fade=1;fd=-1;mode='night2';[abi,hunter].forEach(p=>{p.tears=0;p.hold=null;p.reach=null;p.sit=0;p.moving=false;p.zz=0});N2={t:0,i:-1,nt:1.8,ft:-9,end:0,call:0,sleep:0,done:0};setHud('')}
-function n2Next(){const N=N2;if(!N||N.end)return;N.i++;if(N.i>=N2M.length){N.end=1;N.call=N.t;sfx('ring');after(2.6,()=>{if(!N2)return;N.sleep=N.t;sfx('kiss')});after(6,()=>{if(N2&&!N.done){N.done=1;fadeTo(()=>{N2=null;c5TxMont2()},1.6)}});return}
+function n2Next(){const N=N2;if(!N||N.end)return;N.i++;if(N.i>=N2M.length){N.end=1;N.call=N.t;sfx('ring');after(2.8,()=>{if(N2)sfx('kiss')});after(3.3,()=>{if(N2)sfx('kiss')});after(4.6,()=>{if(!N2)return;N.sleep=N.t});after(9,()=>{if(N2&&!N.done){N.done=1;fadeTo(()=>{N2=null;c5TxMont2()},1.8)}});return}
  N.ft=N.t;N.nt=N.t+2.8;sfx(N.i%2?'pop':'beep')}
 function n2Tap(){if(N2&&!N2.end&&N2.i>=0)n2Next()}
 function n2Upd(dt){const N=N2;if(!N||loc!=='night2')return;N.t+=dt;if(!N.end&&N.t>=N.nt)n2Next()}
@@ -3698,6 +3698,8 @@ function n2Room(oy,who,t){const N=N2||{t:0,i:-1,end:0,sleep:0,call:0,ft:-9},H=wh
   r(ux+3,ub-9,1,1,'#2a1a2a');r(ux+4,ub-7,1,1,'#ff9ccb');r(ux+6,ub-7,1,1,'#c8b8d0');r(ux-1,ub-3,1,1,'#eae4f0')}
  const bl=H?'#3a5ab0':'#e87ab0',bl2=H?'#2a4a98':'#d06a9a';r(bx,oy+40,bw,28,bl);r(bx,oy+40,bw,2,bl2);for(let x=bx+3;x<bx+bw;x+=6)r(x,oy+42,1,24,bl2);
  
+ /* blown kiss toward the phone */
+ const kk=N.call?N.t-N.call-(H?2.3:2.8):-1;if(kk>=0&&kk<1.4)n2Kiss(px,oy+34,1,kk);
  /* phone in hands */
  if(!asleep){r(px-1,oy+37,4,5,'#1a1a22');r(px-2,oy+40,1,2,p.skin);r(px+3,oy+40,1,2,p.skin);const lit=N.i>=0&&N.t-N.ft<.5&&((N2M[N.i]||[])[0]!==who);r(px,oy+38,2,3,N.call?'#5ad06a':lit?'#ffffff':'#9ad8ff');
   disc(px,oy+31,8,'#9ad8ff',lit?.22:.1)}
@@ -3709,16 +3711,26 @@ function n2Room(oy,who,t){const N=N2||{t:0,i:-1,end:0,sleep:0,call:0,ft:-9},H=wh
  r(0,oy+63,H?34:22,8,'#00000088');txt(H?'MISSOURI':'TEXAS',2,oy+64,H?'#9ad8ff':'#ffd86b',1);
  if(asleep&&Math.floor(t*1.5)%2)txt('Z',px+6,oy+22-Math.floor(t*3)%4,'#c8d8ff',1);
 }
+function n2Kiss(x,y,d,kk,big){/* hand to lips, then out with a floating heart */
+ if(kk<.45){r(x-1,y-1,2,2,'#f6d2b0');return}
+ const e=Math.min(1,(kk-.45)/.9);r(x+d*(1+Math.round(e*3)),y-1-Math.round(e*2),2,2,'#f6d2b0');
+ cx.globalAlpha=Math.max(0,1-e*.7);heart(x+d*(2+e*(big?3:11))-(big?3:2),y-3-e*(big?3:13),'#ff5f9e',big&&e>.4?2:1);cx.globalAlpha=1}
 function vNight2(t){const N=N2||{t:0,i:-1,end:0,call:0,sleep:0};
  n2Room(0,'h',t);n2Room(73,'a',t);
  r(0,71,80,2,'#0a0a10');heart(37,70,'#ff5f9e');
  const cur=N.i>=0&&!N.end?N2M[N.i]:null;
  if(N.i>=0){for(let j=N.i;j>=Math.max(0,N.i-1);j--){const m=N2M[j];if(!m)continue;if(j<N.i&&N2M[N.i]&&N2M[N.i][0]===m[0])continue;const H=m[0]==='h';if(N.end&&(j<N2M.length-1||N.t-N.call>1.2))continue;n2Bubble(m,H?3:76,H?'#3a8af0':'#e85a9a',N.t-(j===N.i?N.ft:-9))}}
- if(N.call&&!N.sleep){const k=N.t-N.call;if(k<1.2&&Math.floor(k*6)%2){[[0,'h'],[73,'a']].forEach(([oy])=>{r(28,oy+3,24,8,'#1a1a22');txt('RING',32,oy+5,'#5ad06a',1)})}
-  if(k>=1.2){[[0,'h'],[73,'a']].forEach(([oy,w])=>{const q=w==='h'?abi:hunter;r(53,oy+2,26,23,'#0a0a10');cx.save();cx.beginPath();cx.rect(54,oy+3,24,21);cx.clip();r(54,oy+3,24,21,q===abi?'#3a2a4a':'#24304a');r(56,oy+15,20,10,q===abi?'#f4e8f0':'#e8eef8');
-   const c=ftCam.c||(ftCam.c={});const cp=c[q.n]||(c[q.n]=Object.assign({},q));Object.assign(cp,q,{x:66,y:oy+25,dir:'d',moving:false,hold:null,sit:0,zz:0,reach:null,face:null});person(cp,t);cx.globalAlpha=.08;r(54,oy+3,24,21,'#9ad8ff');cx.globalAlpha=1;cx.restore();r(54,oy+3,24,1,'#5ad06a');r(74,oy+5,2,2,'#e0463c')});
+ if(N.call){const k=N.t-N.call;if(k<1.2&&Math.floor(k*6)%2){[[0,'h'],[73,'a']].forEach(([oy])=>{r(28,oy+3,24,8,'#1a1a22');txt('RING',32,oy+5,'#5ad06a',1)})}
+  if(k>=1.2){[[0,'h'],[73,'a']].forEach(([oy,w])=>{const q=w==='h'?abi:hunter,QA=q===abi,sl=N.sleep&&N.t>N.sleep+(QA?.9:.6);r(53,oy+2,26,23,'#0a0a10');cx.save();cx.beginPath();cx.rect(54,oy+3,24,21);cx.clip();
+   /* the other person's bed, seen from their phone: wall, headboard, pillow, them, blanket */
+   r(54,oy+3,24,21,QA?'#3a2a4a':'#24304a');r(55,oy+5,22,4,QA?'#e8e0f0':'#5a3a24');r(57,oy+9,18,6,'#ffffff');
+   const c=ftCam.c||(ftCam.c={});const cp=c[q.n]||(c[q.n]=Object.assign({},q));Object.assign(cp,q,{x:66,y:oy+27,dir:'d',moving:false,hold:null,sit:0,zz:sl?1:0,reach:null,face:null});person(cp,t);
+   const bl=QA?'#e87ab0':'#3a5ab0',bl2=QA?'#d06a9a':'#2a4a98';r(54,oy+19,24,6,bl);r(54,oy+19,24,1,bl2);for(let x=56;x<78;x+=6)r(x,oy+20,1,5,bl2);
+   const kk2=N.t-N.call-(QA?2.8:2.3);if(kk2>=0&&kk2<1.4&&!sl)n2Kiss(66,oy+14,-1,kk2,1);
+   if(sl&&Math.floor(t*1.5)%2)txt('Z',71,oy+5,'#c8d8ff',1);
+   cx.globalAlpha=sl?.25:.08;r(54,oy+3,24,21,sl?'#000018':'#9ad8ff');cx.globalAlpha=1;cx.restore();r(54,oy+3,24,1,'#5ad06a');r(74,oy+5,2,2,'#e0463c')});
   }}
- if(N.sleep){const k=N.t-N.sleep;cx.globalAlpha=Math.min(.45,k*.2);r(0,0,80,144,'#000010');cx.globalAlpha=1;if(k>1){[[0],[73]].forEach(([oy])=>{r(54,oy+3,24,18,'#0a0a10');r(55,oy+4,22,16,'#1a2a1a');r(55,oy+4,22,2,'#5ad06a')});r(0,135,80,9,'#0a0a10');txt('STILL CONNECTED',10,137,'#5ad06a',1)}}
+ if(N.sleep){const k=N.t-N.sleep;cx.globalAlpha=Math.min(.45,k*.2);r(0,0,80,144,'#000010');cx.globalAlpha=1;if(k>1.4){r(0,135,80,9,'#0a0a10');txt('STILL CONNECTED',10,137,'#5ad06a',1)}}
  if(N.t<2.2){const a=N.t<1.6?1:1-(N.t-1.6)/.6;cx.globalAlpha=Math.max(0,a);r(0,60,80,24,'#0a0a18');txt('FIRST NIGHT',18,64,'#ffd86b',1);txt('APART',30,73,'#ffffff',1);cx.globalAlpha=1}
  if(N.i>=0&&!N.end&&N.i<2){txt('TAP',66,136,Math.floor(t*2)%2?'#8a8aa8':'#5a5a78',1)}
 }
