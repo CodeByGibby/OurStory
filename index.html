@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.15</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.16</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -6098,15 +6098,15 @@ function corgiFace(x,y,z,flat,t){const R=(a,b,w,h,c)=>r(x+a*z,y+b*z,w*z,h*z,c);
  if(flat){R(-7,-7,3,2,CO);R(5,-7,3,2,CO)}else{R(-5,-12,3,5,CO);R(-4,-11,1,3,'#f0a0a0');R(3,-12,3,5,CO);R(4,-11,1,3,'#f0a0a0')}
  R(-4,-8,9,8,CO);R(-4,-8,9,1,'#eaa456');R(0,-8,1,5,CW);R(-2,-3,5,3,CW);R(0,-3,1,1,'#2a1a1a');R(-2,-5,1,1,'#2a1a1a');R(2,-5,1,1,'#2a1a1a');R(-3,0,7,2,CW);if(t&&Math.floor(t*2)%5==0)R(0,-1,1,1,'#ff7e9e')}
 /* Donut airborne: whole body dangling like she's being held up - paws out, fluffy belly, little legs hanging */
-function corgiFly(x,y,z,t){const R=(a,b,w,h,c)=>r(x+a*z,y+b*z,w*z,h*z,c),wg=Math.round(Math.sin(t*20)),k=[Math.max(0,wg),Math.max(0,-wg)],P='#cdb8a6',PK='#e8a0a8';
- /* belly-up loaf: legs folded up like a sleeping puppy, all four toward the camera */
- R(-6,2,13,14,CO);R(-7,4,15,10,CO);R(-7,4,1,10,'#c87a32');R(7,4,1,10,'#c87a32');R(-4,1,9,15,CW);R(-5,3,1,11,'#f2c080');R(5,3,1,11,'#f2c080');R(-2,10,5,3,'#f4c8cc');R(0,11,1,1,PK);R(-1,16,3,2,CW);
+function corgiFly(x,y,z,t){const R=(a,b,w,h,c)=>r(x+a*z,y+b*z,w*z,h*z,c),wg=Math.round(Math.sin(t*20)),k=[Math.max(0,wg),Math.max(0,-wg)],P='#cdb8a6',L='#fbf2e4';
+ /* airborne loaf: all four legs tucked in front of her body, paws hanging down */
+ R(-6,2,13,14,CO);R(-7,4,15,10,CO);R(-7,4,1,10,'#c87a32');R(7,4,1,10,'#c87a32');R(-4,1,9,15,CW);R(-5,3,1,11,'#f2c080');R(5,3,1,11,'#f2c080');
  [-1,1].forEach((s,q)=>{const X=(a,w)=>s<0?a:-a-w+1,b=k[q];
-  /* hind leg: orange thigh out to the knee, white shin folded back up, foot pads toward the camera */
-  R(X(-10,4),11,4,3,CO);R(X(-10,4),14,4,1,'#c87a32');R(X(-11,2),7+b,2,5,CW);R(X(-11,1),7+b,1,5,P);R(X(-10,3),6+b,3,2,CW);R(X(-10,3),6+b,3,1,'#fffaf2');R(X(-9,1),7+b,1,1,PK);R(X(-8,1),7+b,1,1,P);
-  /* front leg: white upper arm up beside the cheek, wrist bent, paw flopped down on the chest */
-  R(X(-9,2),1,2,3,CW);R(X(-9,1),1,1,3,P);R(X(-8,2),0,2,1,CW);R(X(-7,2),2,2,2,CW);R(X(-6,2),3+b,2,2,CW);R(X(-6,2),5+b,2,1,P);R(X(-6,1),4+b,1,1,PK)});
- R(-4,0,9,2,CW);R(-3,2,7,1,CW)}
+  /* front leg down over the chest */
+  R(X(-5,3),2,3,4+b,L);R(X(-6,1),2,1,4+b,P);R(X(-2,1),3,1,3+b,P);R(X(-5,3),6+b,3,2,CW);R(X(-5,3),8+b,3,1,P);R(X(-4,1),7+b,1,1,P);
+  /* hind leg: orange thigh in front of the hips, white foot hanging down */
+  R(X(-6,3),10,3,4,CO);R(X(-7,1),10,1,4,'#c87a32');R(X(-3,1),11,1,3,'#c87a32');R(X(-6,3),14,3,2+b,CW);R(X(-6,3),16+b,3,1,P);R(X(-5,1),15+b,1,1,P)});
+ R(-1,15,3,2,CW);R(-4,0,9,2,CW);R(-3,2,7,1,CW)}
 function corgiTop(x,y,t){x=Math.round(x);y=Math.round(y);const w=Math.floor(t*10)%2;ell(x,y+1,3,5,'#000',.15);r(x-2,y-3,5,8,CO);r(x-1,y-1,3,5,'#eaa456');r(x-2,y+4,5,2,'#f2c080');r(x-2,y-6,5,4,CO);r(x,y-6,1,3,CW);r(x-1,y-8,1,2,CO);r(x+2,y-8,1,2,CO);r(x-3,y-2+w,1,2,CW);r(x+3,y-2-w+1,1,2,CW);r(x-3,y+3-w,1,2,CW);r(x+3,y+2+w,1,2,CW)}
 /* ---- story ---- */
 function startCh7(){$('end').style.display='none';$('chap').style.display='none';$('title').classList.add('out');
