@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.91</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.92</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -4994,7 +4994,7 @@ function amComp(S){const Lb=S.bar||16,B=S.chords.length,N=B*Lb,ev=[...Array(N)].
 const AMPW={};function amPW(c,d){const k=d;if(AMPW[k]&&AMPW[k].c===c)return AMPW[k].w;const n=32,re=new Float32Array(n),im=new Float32Array(n);for(let i=1;i<n;i++)im[i]=2/(i*Math.PI)*Math.sin(i*Math.PI*d);const w=c.createPeriodicWave(re,im);AMPW[k]={c,w};return w}
 function amVoice(c,I,f,t,dur,vol,out,send){const g=c.createGain();let inp=g;
  if(I.f){const fl=c.createBiquadFilter();fl.type=I.f[0];fl.Q.value=I.f[2]||1;if(I.f[3]){fl.frequency.setValueAtTime(I.f[1]*I.f[3],t);fl.frequency.exponentialRampToValueAtTime(I.f[1],t+(I.f[4]||.1)+.02)}else fl.frequency.value=I.f[1];fl.connect(g);inp=fl}
- const end=t+Math.max(dur,I.a+.005)+I.r+.03,os=[];(I.parts?[]:I.det?[-I.det,I.det]:[0]).forEach(d=>{const o=c.createOscillator();if(I.pw)o.setPeriodicWave(amPW(c,I.pw));else o.type=I.w;o.frequency.value=f;o.detune.value=d;o.connect(inp);os.push(o)});
+ const end=t+Math.max(dur,I.a+.005)+I.r+.03,os=[];(I.parts?[]:I.det?[-I.det,I.det]:[0]).forEach(d=>{const o=c.createOscillator();if(I.pw)o.setPeriodicWave(amPW(c,I.pw));else o.type=I.w;o.frequency.value=f;if(I.pd){o.frequency.setValueAtTime(f*I.pd,t);o.frequency.exponentialRampToValueAtTime(f,t+.07)}o.detune.value=d;o.connect(inp);os.push(o)});
  if(I.parts)I.parts.forEach(([ra,lv])=>{const o=c.createOscillator(),pg=c.createGain();o.type='sine';o.frequency.value=f*ra;pg.gain.value=lv;o.connect(pg);pg.connect(inp);os.push(o)});
  if(I.h){const o=c.createOscillator(),hg=c.createGain();o.type='sine';o.frequency.value=f*I.h[0];hg.gain.setValueAtTime(I.h[1],t);hg.gain.exponentialRampToValueAtTime(.001,t+.12);o.connect(hg);hg.connect(inp);os.push(o)}
  if(I.vib&&dur>.18){const l=c.createOscillator(),lg=c.createGain();l.frequency.value=I.vib[0];lg.gain.setValueAtTime(0,t);lg.gain.linearRampToValueAtTime(0,t+I.vib[2]);lg.gain.linearRampToValueAtTime(f*I.vib[1],t+I.vib[2]+.15);l.connect(lg);os.forEach(o=>lg.connect(o.frequency));l.start(t);l.stop(end)}
@@ -5019,6 +5019,7 @@ function amDrum(c,k,t,v,out){
  else if(k==='y')amNz(c,t,.3,.06*v,'highpass',6500,.6,out);
  else if(k==='m')amNz(c,t,.22,.12*v,'bandpass',3200,.5,out);
  else if(k==='r'){amTn(c,t,1700,0,.03,.18*v,'triangle',out);amNz(c,t,.025,.15*v,'highpass',3000,.7,out)}
+ else if(k==='q'){amNz(c,t,.03,.14*v,'highpass',8500,.7,out);amNz(c,t+.072,.03,.12*v,'highpass',8500,.7,out)}
  else if(k==='K')amTn(c,t,110,45,.25,.55*v,'sine',out);
  else if(k==='z')amNz(c,t,.05,.07*v,'bandpass',6500,1.2,out)}
 function amBus(c,dest,vol,dly){const g=c.createGain();g.gain.value=vol;g.connect(dest);const d=c.createDelay(1),fb=c.createGain(),wet=c.createGain(),lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2600;d.delayTime.value=dly;fb.gain.value=.32;wet.gain.value=.5;d.connect(lp);lp.connect(fb);fb.connect(d);lp.connect(wet);wet.connect(g);return {c,g,send:d}}
@@ -5233,16 +5234,18 @@ AMS.sick={bpm:62,vol:0.703,dly:.48,chords:['C','Am','F','C','Am','F','C','G'],
  lines:[{i:'mbox',v:0.119,n:['E5 - G5 - C6 - G5 -','A5 - E5 - C5 - E5 -','F5 - A5 - C6 - A5 -','G5 - E5 - C5 - - -','C5 - E5 - A5 - G5 -','F5 - E5 - C5 - A4 -','G4 - C5 - E5 - D5 -','D5 - - - B4 - - -']}],
  pad:{i:'strings',v:.015,o:3},bass:{i:'sub',v:0.025,o:2,p:['R---------------']}};
 
-/* ---- "Just My Type" by Sweetie Pie: an original hip hop / R&B track with a synthesized female vocal ---- */
-const SONG={bpm:96,prog:[41,37,44,39]};
-(()=>{const P=['Fm7','Dbmaj7','Abmaj7','Eb'],ch=[...Array(34)].map((_,i)=>P[(i+2)%4]),R=(a,b)=>[...Array(34)].map((_,i)=>i>=a&&i<=b?i:-1).filter(i=>i>=0),HK=R(10,17).concat(R(26,33)),VS=R(2,9).concat(R(18,25));
- AMS.jmt={bpm:96,sw:.12,vol:.62,dly:.47,chords:ch,
-  stab:{i:'epad',v:.05,o:4,p:['x-----x-----x---','x-----x---x-x---']},
-  arp:{i:'celes',v:.035,o:5,mode:'ud',div:2,bars:[0,1].concat(HK)},
-  pad:{i:'strings',v:.022,o:4,bars:HK},
-  bass:{i:'sub',v:.13,o:2,p:['R-.....R.R-.....','R-.....R.5-...8.'],bars:R(1,33)},
-  drums:[{v:.95,p:['k.......k.k.....','k.......k.k...k.'],bars:{0:null,1:'k.........k.....'}},{v:.75,p:['....s.......s...'],bars:{0:null,1:null}},{v:.6,p:['....c.......c...'],bars:{0:null,1:null}},
-   {v:.5,p:['h.h.h.h.h.h.h.h.','h.h.h.h.h.h.hhhh'],bars:{0:'h...h...h...h...',1:'h.h.h.h.h.h.hhhh'}},{v:.9,p:[null],bars:{2:'x...............',10:'x...............',18:'x...............',26:'x...............'}}]}})();
+/* ---- "Just My Type" by Sweetie Pie: an original crunk-style club track with a synthesized female vocal ---- */
+const SONG={bpm:104,prog:[43]};
+Object.assign(AMI,{whis:{pw:.5,a:.003,d:.12,s:.25,r:.05,v:.6,f:['lowpass',6500,1]},stabz:{w:'sawtooth',a:.003,d:.1,s:.15,r:.05,v:.6,det:10,f:['lowpass',4500,2]},b808:{w:'sine',a:.004,d:1.4,s:.55,r:.15,v:2.6,pd:1.6,h:[3,.12]}});
+/* crunk / bay-area club style: one-chord G phrygian groove, booming 808, snappy claps, chromatic whistle stabs */
+(()=>{const N=34,R=(a,b)=>[...Array(N)].map((_,i)=>i).filter(i=>i>=a&&i<=b),HK=R(10,17).concat(R(26,33)),VS=R(2,9).concat(R(18,25)),X=()=>Array(N).fill(null);
+ const riffA='G5 . G5 Ab5 . G5 . . G5 . Bb5 . A5 Ab5 G5 .',riffB='G5 . G5 Ab5 . G5 . . F5 . F#5 . G5 . . .',b8A='G1 - - - - - - - - - G1 - Bb1 - - -',b8B='G1 - - - - - G1 - - - G1 - F1 - F#1 -';
+ const rf=X(),rf2=X(),bs=X();for(let b=0;b<N;b++){rf[b]=b%2?riffB:riffA;if(HK.includes(b))rf2[b]=(b%2?riffB:riffA).replace(/([A-G][#b]?)5/g,'$14');if(b>=1)bs[b]=b%2?b8B:b8A}
+ AMS.jmt={bpm:104,vol:.6,dly:.29,chords:Array(N).fill('Gm'),
+  lines:[{i:'whis',v:.26,n:rf},{i:'stabz',v:.1,n:rf2},{i:'b808',v:.09,n:bs}],
+  stab:{i:'horn',v:.03,o:3,power:1,p:['x---............','................'],bars:HK},
+  drums:[{v:1,p:['k.........kk....','k.....k...k.k...'],bars:{0:null,1:'k...............'}},{v:1.7,p:['....c.......c...','....c.......c.cc'],bars:{0:null,1:'............cccc'}},{v:.45,p:['....s.......s...'],bars:{0:null,1:null}},
+   {v:2,p:['hhhhhhhhhhhhhhhh','hhhhhhhhhhhhqhqq'],bars:{0:'h...h...h...h...',1:'h.h.h.h.h.h.qqqq'}},{v:.8,p:[null],bars:{2:'x...............',10:'x...............',18:'x...............',26:'x...............'}}]}})();
 /* female formants */
 const VF={a:[850,1220,2810],ae:[860,2050,2850],e:[600,2300,2900],i:[350,2800,3300],ih:[430,2480,3070],o:[600,1000,2800],u:[370,950,2700],uh:[700,1400,2800],er:[500,1500,1900]};
 const VD={ai:['a','i'],ei:['e','i'],oh:['o','u'],ow:['a','u']};
@@ -5266,24 +5269,29 @@ function sing(t,dur,f,ph,vol,f0){const c=AU.ctx,out=AU.vbus,[on,vw,cd]=ph.split(
  if(stopC)vCons(c,cd,te,vol*1.2,out)}
 /* the vocal: [step in section, length in 16ths, midi note, onset|vowel|coda] */
 const JV={verse:[
- [0,2,72,'s|o|'],[2,2,72,'y|u|'],[4,1,70,'|a|n'],[5,1,68,'d|uh|'],[6,2,72,'r|u|f'],[8,3,70,'t|a|p'],[12,2,68,'l|ai|ts'],[14,2,65,'d|ow|n'],[16,6,68,'l|oh|'],
- [32,2,72,'d|i|'],[34,2,72,'sh|ei|'],[36,2,75,'s|ih|n'],[38,2,72,'n|ih|ng'],[40,2,70,'t|er|n'],[42,1,68,'|ih|t'],[43,2,70,'|uh|p'],[45,2,72,'s|oh|'],[48,6,70,'l|ow|d'],
- [64,2,72,'y|u|'],[66,2,75,'w|a|kt'],[68,1,72,'|oh|'],[69,2,70,'f|er|'],[72,2,72,'s|ai|l'],[74,1,70,'|ae|n'],[75,2,68,'s|e|d'],[77,6,72,'h|ai|'],
- [96,2,68,'n|ow|'],[98,1,70,'|ai|'],[99,2,72,'n|oh|'],[102,2,75,'w|ai|'],[104,1,72,'|ai|m'],[105,2,72,'f|i|l'],[107,1,70,'|ih|ng'],[108,2,68,'s|oh|'],[110,8,72,'h|ai|']],
+ [0,1,70,'m|e|t'],[1,1,70,'h|ih|m'],[2,1,67,'|ae|t'],[3,1,67,'d|uh|'],[4,2,70,'p|a|r'],[6,2,67,'t|i|'],[8,1,67,'h|i|'],[9,1,67,'w|uh|s'],[10,1,70,'l|u|k'],[11,1,70,'|ih|ng'],[12,1,70,'k|ih|n'],[13,1,67,'d|uh|'],[14,4,74,'f|ai|'],
+ [32,1,70,'d|i|'],[33,1,70,'sh|ei|'],[34,2,70,'p|ei|d'],[36,1,67,'m|ai|'],[37,2,70,'s|o|ng'],[40,1,67,'|ae|n'],[41,1,67,'d|e|n'],[42,1,70,'h|i|'],[43,1,70,'k|a|t'],[44,1,70,'m|ai|'],[45,4,74,'|ai|'],
+ [64,1,70,'s|e|d'],[65,1,70,'h|i|'],[66,1,67,'k|u|d'],[67,1,67,'n|ih|t'],[68,2,70,'d|ae|s'],[72,1,67,'b|uh|t'],[73,1,67,'h|i|'],[74,1,70,'w|uh|s'],[75,2,70,'d|ow|n'],[77,1,67,'t|u|'],[78,4,74,'t|ai|'],
+ [96,1,70,'n|ow|'],[97,1,70,'|ai|m'],[98,1,67,'w|ih|f'],[99,1,67,'m|ai|'],[100,2,70,'b|ei|'],[102,2,67,'b|i|'],[104,1,67,'|ae|n'],[105,1,70,'|ai|m'],[106,1,70,'n|e|f'],[107,1,67,'|er|'],[108,1,70,'s|ei|'],[109,1,70,'|ih|ng'],[110,6,74,'b|ai|']],
  hook:[
- [0,4,68,'|u|'],[6,2,70,'y|o|r'],[8,2,72,'sh|uh|st'],[10,2,75,'m|ai|'],[12,6,72,'t|ai|p'],[24,4,68,'y|e|'],
- [32,2,72,'g|a|t'],[34,2,72,'m|i|'],[36,3,75,'f|i|l'],[39,1,73,'|ih|ng'],[40,6,72,'r|ai|t'],[56,4,70,'|o|'],[60,4,67,'|oh|'],
- [64,4,68,'|u|'],[70,2,70,'y|o|r'],[72,2,72,'sh|uh|st'],[74,2,75,'m|ai|'],[76,6,72,'t|ai|p'],[88,4,68,'y|e|'],
- [96,2,72,'|e|v'],[98,2,70,'r|i|'],[100,2,68,'s|ih|n'],[102,2,70,'g|uh|l'],[104,8,72,'n|ai|t'],[116,8,70,'|u|']]};
+ [0,2,70,'h|i|s'],[2,2,70,'sh|uh|st'],[4,2,67,'m|ai|'],[6,4,74,'t|ai|p'],[12,2,0,'HEY'],
+ [16,2,70,'t|a|l'],[18,2,70,'s|i|t'],[20,1,67,'|ae|n'],[22,4,74,'n|ai|s'],[28,2,67,'y|e|'],
+ [32,2,70,'g|a|t'],[34,2,70,'m|i|'],[36,1,67,'|a|n'],[37,1,67,'d|uh|'],[38,4,74,'r|u|f'],[44,2,0,'HEY'],
+ [48,2,70,'d|ae|s'],[50,2,70,'|ih|ng'],[52,2,67,'|a|l'],[54,4,74,'n|ai|t'],[60,2,62,'|uh|'],
+ [64,2,70,'h|i|s'],[66,2,70,'sh|uh|st'],[68,2,67,'m|ai|'],[70,4,74,'t|ai|p'],[76,2,0,'HEY'],
+ [80,2,70,'t|a|l'],[82,2,70,'s|i|t'],[84,1,67,'|ae|n'],[86,4,74,'n|ai|s'],[92,2,67,'y|e|'],
+ [96,2,70,'g|a|t'],[98,2,70,'m|i|'],[100,1,67,'|a|n'],[101,1,67,'d|uh|'],[102,4,74,'r|u|f'],[108,2,0,'HEY'],
+ [112,2,70,'h|i|s'],[114,2,70,'sh|uh|st'],[116,2,67,'m|ai|'],[118,6,74,'t|ai|p'],[124,2,0,'HEY']]};
 const JVI={verse:{},hook:{}};for(const k in JV)JV[k].forEach(e=>(JVI[k][e[0]]=e));
 /* a diatonic third below, in Ab major, for the hook harmony */
 const third=m=>{const pc=m%12,sc=[8,10,0,1,3,5,7],i=sc.indexOf(pc);if(i<0)return m-4;const j=(i+5)%7;let n=m-((pc-sc[j]+12)%12);if(n>=m)n-=12;return n};
-function jmtVox(st,t){const bar=st>>4,sp=60/96/4,sw=st%4===2?sp*.12:0;let sec=null,o=0;if(bar>=2&&bar<=9){sec='verse';o=(bar-2)*16}else if(bar>=10&&bar<=17){sec='hook';o=(bar-10)*16}else if(bar>=18&&bar<=25){sec='verse';o=(bar-18)*16}else if(bar>=26){sec='hook';o=(bar-26)*16}
- if(bar===1&&st%16===12)sing(t+sw,sp*3,72,'y|e|',.07,null);
- if(sec==='hook'&&st%32===0){[[65,'|u|'],[72,'|u|']].forEach(([m,ph])=>sing(t,sp*30,mf(m),ph,.022,null))}
- const e=sec&&JVI[sec][o+st%16];if(!e)return;const f=mf(e[2]),d=e[1]*sp*.98,prev=AU.vprev&&t-AU.vprev[1]<.06?AU.vprev[0]:null;sing(t+sw,d,f,e[3],sec==='hook'?.15:.14,prev);AU.vprev=[f,t+sw+d];
- if(sec==='hook')sing(t+sw+.012,d,mf(third(e[2])),e[3],.06,null)}
-function songBus(){const c=AU.ctx;if(AU.vbus)return;AU.vbus=c.createGain();AU.vbus.gain.value=1;AU.vbus.connect(AU.sng);const d=c.createDelay(1),fb=c.createGain(),lp=c.createBiquadFilter(),w=c.createGain();d.delayTime.value=60/96/2;fb.gain.value=.28;lp.type='lowpass';lp.frequency.value=3000;w.gain.value=.22;AU.vbus.connect(d);d.connect(lp);lp.connect(fb);fb.connect(d);lp.connect(w);w.connect(AU.sng);AU.jbus=amBus(c,AU.sng,AMS.jmt.vol,AMS.jmt.dly)}
+function jmtVox(st,t){const bar=st>>4,sp=60/104/4;let sec=null,o=0;if(bar>=2&&bar<=9){sec='verse';o=(bar-2)*16}else if(bar>=10&&bar<=17){sec='hook';o=(bar-10)*16}else if(bar>=18&&bar<=25){sec='verse';o=(bar-18)*16}else if(bar>=26){sec='hook';o=(bar-26)*16}
+ if(bar===1&&st%16===8){sing(t,sp*3,mf(70),'y|e|',.12,null);sing(t+sp*4,sp*3,mf(67),'|uh|',.1,null)}
+ const e=sec&&JVI[sec][o+st%16];if(!e)return;
+ if(e[3]==='HEY'){[55,58,62,67].forEach((m,k)=>sing(t+k*.006,sp*1.6,mf(m),'h|ei|',.055,mf(m+4)));return}
+ const f=mf(e[2]),d=e[1]*sp*.95,prev=AU.vprev&&t-AU.vprev[1]<.05?AU.vprev[0]:null;sing(t,d,f,e[3],sec==='hook'?.22:.2,prev);AU.vprev=[f,t+d];
+ if(sec==='hook')sing(t+.01,d,mf(e[2]-12),e[3],.04,null)}
+function songBus(){const c=AU.ctx;if(AU.vbus)return;AU.vbus=c.createGain();AU.vbus.gain.value=1;const vs=c.createBiquadFilter();vs.type='highshelf';vs.frequency.value=2500;vs.gain.value=9;AU.vbus.connect(vs);vs.connect(AU.sng);const d=c.createDelay(1),fb=c.createGain(),lp=c.createBiquadFilter(),w=c.createGain();d.delayTime.value=60/104/2;fb.gain.value=.28;lp.type='lowpass';lp.frequency.value=3000;w.gain.value=.22;AU.vbus.connect(d);d.connect(lp);lp.connect(fb);fb.connect(d);lp.connect(w);w.connect(AU.sng);const js=c.createBiquadFilter();js.type='highshelf';js.frequency.value=3000;js.gain.value=7;js.connect(AU.sng);AU.jbus=amBus(c,js,AMS.jmt.vol,AMS.jmt.dly)}
 function songTick(){const c=AU.ctx;if(!AU.songOn||!c)return;const C=amGet('jmt');
  while(AU.snt<c.currentTime+.2){if(AU.sst>=C.N)AU.sst=32+(AU.sst-C.N);const st=AU.sst;amStep(C,st,AU.snt,AU.jbus);jmtVox(st,AU.snt);AU.sst++;AU.snt+=C.sd}}
 
