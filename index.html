@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.7</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.8</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -4467,6 +4467,8 @@ function c6Dress(){Object.assign(hunter,P.hunter,{suit:0,tag:0,kneel:0,sit:0,hol
  Object.assign(morgan,P.morgan,{sit:0,hold:null,moving:false});Object.assign(jay,{top:'#2e3a5a',collar:0,sit:0,hold:null,moving:false})}
 function c6Walk(list,cb){list.forEach(([p,pts,sp])=>go(p,pts,sp));c6.wk=list.map(l=>l[0]);c6.wcb=cb}
 function c6Card(html,hold,next){const wd=html.replace(/<[^>]*>/g,' ').split(/\s+/).filter(Boolean).length;hold=Math.max(hold,1.6+wd*.24);fadeTo(()=>{setLoc('newsbg');card(html)},hold);after(hold+1,()=>{$('card').style.opacity=0;fade=1;fd=-1;next()})}
+/* same as c6Card, but tears the old scene down only once the screen is black */
+function c6CardT(html,hold,tear,next){if(hx)hx.phase='seq';const wd=html.replace(/<[^>]*>/g,' ').split(/\s+/).filter(Boolean).length;hold=Math.max(hold,1.6+wd*.24);fadeTo(()=>{try{tear()}catch(e){}setLoc('newsbg');card(html)},hold);after(hold+1,()=>{$('card').style.opacity=0;fade=1;fd=-1;next()})}
 function ppl6(t,list){list.slice().sort((a,b)=>a.y-b.y).forEach(p=>person(p,t))}
 const at=(p,x,y,dir)=>{p.x=x;p.y=y;if(dir)p.dir=dir;p.tx=null;p.moving=false};
 
@@ -4518,7 +4520,7 @@ function c6Lunch(){setLoc('mex');mode='c6';c6.som=0;at(abi,32,94,'d');at(hunter,
  after(1,()=>say([{n:'',t:'Lunch: tacos, chips, and a LOT of salsa.'},{n:'Server',t:'Welcome in! Are we celebrating anything special this weekend?',anim:()=>{at(server,60,124,'u')}},
   {n:'Hunter',t:'NO! Nothing special! Why? Who said something?'},{n:'Morgan',t:'...It is his birthday.'},{n:'Hunter',t:'Oh. Right. Yes. THAT. It is just the birthday.'},
   {n:'Server',t:'A BIRTHDAY! Hold on!',anim:()=>{c6.som=1;sfx('fanfare')}},{n:'',t:'The whole staff sings Happy Birthday. Hunter wears the giant sombrero with honor.'},
-  {n:'Abigail',t:'Happy birthday, babe!',anim:()=>{sfx('kiss');for(let i=0;i<4;i++)after(i*.25,()=>burst(40+Math.random()*6,78,'#ff5f9e'))}},{n:'J',t:'Best sombrero I have ever seen. Somebody take a picture.'}],()=>{morgan.sit=jay.sit=0;c6.som=0;fadeTo(c6Downtown)}))}
+  {n:'Abigail',t:'Happy birthday, babe!',anim:()=>{sfx('kiss');for(let i=0;i<4;i++)after(i*.25,()=>burst(40+Math.random()*6,78,'#ff5f9e'))}},{n:'J',t:'Best sombrero I have ever seen. Somebody take a picture.'}],()=>{fadeTo(()=>{morgan.sit=jay.sit=0;c6.som=0;c6Downtown()})}))}
 function c6Hotel(){setLoc('hotel');mode='c6';c6.hp=[abi,hunter,morgan,jay];at(abi,46,120,'l');at(hunter,30,122,'r');at(morgan,62,118,'l');at(jay,72,122,'l');
  after(1,()=>say([{n:'',t:'Back at the hotel. Dinner is at 7:30.'},{n:'Morgan',t:'Okay, we will meet you two in the lobby at seven!'},
   {n:'J',t:'Look sharp, birthday boy.',anim:()=>{c6Walk([[morgan,[[76,112],[92,112]],50],[jay,[[92,118]],50]],()=>{c6.hp=[abi,hunter]})}},
@@ -4554,7 +4556,7 @@ function h6Sit(){const A=abi;mode='c6';setHud('');hx.phase='seq';go(A,[[12,100],
   {n:'Abigail',t:'Kids someday?'},{n:'Hunter',t:'Someday. With you.'},{n:'',t:'They had talked like this on a lot of nights. For hours.'},
   {n:'Abigail',t:'(I already know. He is the one. I want to spend my whole life with him.)'},{n:'Hunter',t:'(She is it for me. There is nobody else. There never will be.)'},
   {n:'Abigail',t:'Hey... what if we went and looked at rings? Just to look.'},{n:'Hunter',t:'Just to look.'},{n:'',t:'(He was not just looking.)'}],
-  ()=>{abi.sit=hunter.sit=0;c6.couch=0;c6Card('One weekend, at the mall...',2.4,c6Jewel)})})})}
+  ()=>{c6CardT('One weekend, at the mall...',2.4,()=>{abi.sit=hunter.sit=0;c6.couch=0},c6Jewel)})})})}
 function h6Items(){return [
  {id:'hunter',x:17,y:72,w:12,h:22,spot:[30,100],face:'l'},
  {id:'couch',x:0,y:64,w:16,h:34,spot:[10,100],face:'u',lines:[{n:'Abigail',t:'(The leather couch Mum and Dad bought us. Goodbye, yard sale couch. We will never forget your mystery stain.)'}]},
@@ -4576,7 +4578,7 @@ function jwBridal(){const A=abi,H=hunter;hx.phase='seq';hx.fstay=1;go(H,hxRoute(
   {n:'Abigail',t:'Oh. Oh wow. That one.',anim:()=>{c6.ring=1;sfx('chime')}},{n:'Hunter',t:'That one?'},{n:'Abigail',t:'That one.'},
   {n:'Jeweler',t:'Beautiful choice. It will be ready in a few weeks.',anim:()=>{c6.ring=0}},
   {n:'Abigail',t:'So... when are you going to ask me?',anim:()=>{A.dir='r';H.dir='l'}},{n:'Hunter',t:'Ask you what? I do not know what you are talking about. What ring?'},
-  {n:'Abigail',t:'(He is the WORST at keeping secrets. I love him so much.)'}],()=>{hx=null;c6Card('A few weeks later...<br><br>November 2020<br><br>Hunter’s birthday weekend.<br><br><span style="color:#ffd86b">Destination: Kansas City</span>',3,c6Drive)})})}
+  {n:'Abigail',t:'(He is the WORST at keeping secrets. I love him so much.)'}],()=>{c6CardT('A few weeks later...<br><br>November 2020<br><br>Hunter’s birthday weekend.<br><br><span style="color:#ffd86b">Destination: Kansas City</span>',3,()=>{hx=null},c6Drive)})})}
 function jwItems(){return [
  {id:'hunter',x:hunter.x-6,y:hunter.y-22,w:12,h:24,spot:[hunter.x+(abi.x<hunter.x?-10:10),hunter.y],face:abi.x<hunter.x?'r':'l',lines:[[{n:'Hunter',t:'We are just looking. Looking is free.'}],[{n:'Hunter',t:'(Act natural. Act NATURAL.)'}]]},
  {id:'watch',x:4,y:66,w:36,h:42,spot:[22,116],face:'u',lines:[{n:'Hunter',t:'(loudly) Wow, look at these WATCHES. This is why I am here. For the watches.'},{n:'Abigail',t:'Hunter. You have SO many watches. You do not need another one.'},{n:'Hunter',t:'A man can never have too many watches.'},{n:'Abigail',t:'He can. You are that man.'}]},
@@ -6206,7 +6208,7 @@ function wedPitch(){const A=abi,H=hunter;A.dir='l';c7.sitH='r';H.hold=null;
   {n:'Hunter',t:'So technically, it would be very classy of us.'}],()=>{if(hx)hx.phase='seq';A.hold=null;mode='c7';
   c6Card('They searched online every night.<br><br>For weeks.',2.2,()=>{setLoc('home6');mode='c7';c7.binder=0;c7.wed=0;c7.ppl=[];c7.sitH='d';c7.sitA='r';c7.lap=1;A.hold=null;H.hold=null;
    after(.9,()=>say([{n:'Abigail',t:'$3,000?! For a PUPPY?'},{n:'Hunter',t:'This one is $4,500. Does it come with a car?'},{n:'Abigail',t:'Someday. Someday we will find our corgi.'}],
-    ()=>{hx=null;c7.sitH=0;c7.sitA=0;c7.lap=0;c7.ppl=null;H.hold=null;fadeTo(c7Office)}))})})}
+    ()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;c7.sitH=0;c7.sitA=0;c7.lap=0;c7.ppl=null;H.hold=null;c7Office()})}))})})}
 /* puppy shopping: the laptop on Hunter's lap, lid toward the camera, glow on their faces */
 function c7Laptop(t){const x=23,y=93,d=Math.round(hunter.sitY||0);cx.globalCompositeOperation='lighter';disc(x,y-15,6,'#6aa0ff',.14+.03*Math.sin(t*3));disc(abi.x+1,y-15,4,'#6aa0ff',.1);cx.globalCompositeOperation='source-over';
  const L=y-9;r(x-6,L+6,12,1,'#a8a8b4');r(x-6,L+7,12,1,'#7a7a88');r(x-5,L,10,6,'#bcbcc8');r(x-5,L,10,1,'#dcdce6');r(x+4,L+1,1,5,'#9a9aa8');r(x-1,L+2,2,2,'#e8e8f2');
@@ -6235,7 +6237,7 @@ function ofDesk(){const H=hunter;H.dir='u';hx=null;
   {n:'Hunter',t:'"Could you send ANOTHER video, with today’s date written on a piece of paper?"'},{n:'Seller',t:'"...Okay."'},
   {n:'Hunter',t:'"Could you hold up three fingers next to her? Now four? Now do a thumbs up?"'},{n:'Seller',t:'"Sir."'},
   {n:'Hunter',t:'"What is your full name? The farm address? Photos of the mom AND the dad? Vet records?"'},{n:'Seller',t:'"This is your 47th question."'},{n:'Hunter',t:'"Just a few more!"'},
-  {n:'',t:'By the end of the day, Hunter had a 12-page file of proof.',anim:()=>{c7.ver=1;sfx('fanfare')}},{n:'',t:'The puppy was very, very real.'}],()=>{c7.ver=0;c7.ofw=0;fadeTo(c7Present)})}
+  {n:'',t:'By the end of the day, Hunter had a 12-page file of proof.',anim:()=>{c7.ver=1;sfx('fanfare')}},{n:'',t:'The puppy was very, very real.'}],()=>{fadeTo(()=>{c7.ver=0;c7.ofw=0;c7Present()})})}
 function ofItems(){const T2=(p,lines)=>({id:p.n,x:p.x-7,y:p.y-24,w:14,h:28,spot:[p.x,90],face:'u',lines});return [
  T2(linda,[[{n:'Linda',t:'Hunter! I forgot my password again.'},{n:'Hunter',t:'Linda. That is the fourth time this week.'},{n:'Linda',t:'Fifth. I did not want to bother you yesterday.'}],[{n:'Linda',t:'Is "password123" taken? It feels taken.'}]]),
  T2(gary,[[{n:'Gary',t:'My screen went black again.'},{n:'Hunter',t:'...Did you press the power button, Gary?'},{n:'Gary',t:'(click) ...Oh. There it is.'}],[{n:'Gary',t:'I am going to write "POWER BUTTON" on a sticky note. Right on the monitor.'}]]),
@@ -6261,7 +6263,7 @@ function prCall(){const H=hunter,A=abi;hx.phase='seq';H.dir='r';say([{n:'Hunter'
   {n:'Hunter',t:'REALLY?!',anim:()=>{sfx('fanfare');c7.laser=0;c7.dim=0;for(let i=0;i<5;i++)after(i*.2,()=>burst(28+Math.random()*12,90,'#ff5f9e'))}},{n:'',t:'They plan to pick her up on Saturday.'},
   {n:'',t:'Saturday morning. The TV has other ideas.',anim:()=>{c7.tv=4;sfx('alert')}},{n:'',t:'"WINTER STORM WARNING. The worst snowstorm of the year arrives tonight. Do NOT travel."'},
   {n:'Abigail',t:'Hunter... your car is rear wheel drive. And from 2005.'},{n:'Hunter',t:'The snow doesn’t start until tonight. If we leave now, we’ll be home before it hits. Probably.'},
-  {n:'Abigail',t:'And if we wait, someone else gets her.'},{n:'Hunter',t:'Then we go.'}],()=>{c7.home=0;c7.ppl=null;c7.tv=0;c7.sitA=0;A.sit=0;fadeTo(c7Drive)})})})}
+  {n:'Abigail',t:'And if we wait, someone else gets her.'},{n:'Hunter',t:'Then we go.'}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;c7.home=0;c7.ppl=null;c7.tv=0;c7.sitA=0;A.sit=0;c7Drive()})})})})}
 function prItems(){return [
  {id:'call',x:62,y:112,w:18,h:30,spot:[68,128],face:'r',label:hx.gi>0?'CALL':null,lx:64,ly:110},
  {id:'tv',x:42,y:56,w:18,h:18,spot:[52,100],face:'u',fn:()=>prSet('tv',[{n:'',t:'(Hunter plugs his laptop into the TV.)'},{n:'Hunter',t:'(Title slide: "OPERATION: CORGI." In a very professional font.)'}],()=>{c7.tv=5})},
@@ -6275,7 +6277,7 @@ function c7Lot(){setLoc('lot7');mode='c7';fade=1;fd=-1;c7.fp=[];c7.door=0;at(hun
   {n:'Abigail',t:'We DEFINITELY should not have done that.'},{n:'',t:'Donut yawns. She slept through the entire blizzard.'}],
   ()=>{hxStart({room:'lot7',p:abi,follow:hunter,stage:'c7lot',goals:[{room:'lot7',id:'door',hud:'Get Donut inside, out of the snow',fn:lotDoor}]})}))}
 function lotDoor(){const A=abi,H=hunter;A.dir='u';c7.door=1;sfx('creak');hx.phase='seq';hx.fstay=1;go(H,[[48,70]],30);
- waitTill(()=>H.tx==null,()=>{H.dir='u';say([{n:'Abigail',t:'(whispering to the sleepy puppy) Welcome home, Donut.'}],()=>{hx=null;abi.hold=null;c6Card('Donut grew up fast.',2.4,c7Grow0)})})}
+ waitTill(()=>H.tx==null,()=>{H.dir='u';say([{n:'Abigail',t:'(whispering to the sleepy puppy) Welcome home, Donut.'}],()=>c6CardT('Donut grew up fast.',2.4,()=>{hx=null;abi.hold=null},c7Grow0))})}
 function lotItems(){return [{id:'door',x:50,y:42,w:10,h:24,spot:[54,68],face:'u'},
  {id:'hunter',x:hunter.x-6,y:hunter.y-22,w:12,h:24,spot:[hunter.x+(abi.x<hunter.x?-10:10),hunter.y],face:abi.x<hunter.x?'r':'l',lines:[[{n:'Hunter',t:'Is she still asleep?'},{n:'Abigail',t:'Snoring. Tiny little snores.'}],[{n:'Hunter',t:'I can’t feel my hands. Worth it.'}]]},
  {id:'car',x:10,y:116,w:62,h:26,spot:[40,112],face:'d',lines:[{n:'Abigail',t:'(Your 2005 rear wheel drive coupe. You absolute LEGEND of a car.)'}]}]}
@@ -6307,7 +6309,7 @@ const ZFP={z1:[60,138],z2:[44,136],z3:[26,138]};
 function zmFluff(k,lines){c7.zf[k]=1;sfx('select');say(lines,()=>{if(ZK.every(q=>c7.zf[q])&&hx.gi===0){c7Next()}else{mode='hx';hxHud()}})}
 function zmBed(){const H=hunter;H.dir='l';H.hold='shoe';sfx('item');
  say([{n:'',t:'(In Donut’s bed: one very chewed, very soggy, very GOOD shoe.)'},{n:'Hunter',t:'She ate my shoe. My GOOD shoe.'},{n:'Hunter',t:'It was on the SHELF. How did she even get up there?!'},
-  {n:'Abigail',t:'She climbed a recliner at the farm, Hunter. A shelf is nothing to her.'},{n:'Abigail',t:'Also, your good shoe was ugly. She did you a favor.'}],()=>{hx=null;hunter.hold=null;c6Card('A few more months...',2,c7Grow2)})}
+  {n:'Abigail',t:'She climbed a recliner at the farm, Hunter. A shelf is nothing to her.'},{n:'Abigail',t:'Also, your good shoe was ugly. She did you a favor.'}],()=>c6CardT('A few more months...',2,()=>{hx=null;hunter.hold=null},c7Grow2))}
 function zoomItems(){const I=[];ZK.forEach((k,i)=>{if(c7.zf[k])return;const [x,y]=ZFP[k];I.push({id:k,x:x-7,y:y-8,w:14,h:12,spot:[x+6,y-2],face:'l',fn:()=>zmFluff(k,[[{n:'Hunter',t:'(A shoelace. Chewed in half.)'}],[{n:'Hunter',t:'(Half of an insole. This is not looking good.)'}],[{n:'Hunter',t:'(A little rubber chunk of heel. The trail leads... to her bed.)'}]][i])})});
  I.push({id:'bed',x:0,y:124,w:18,h:16,spot:[20,132],face:'l'});I.push(abiTalk([[{n:'Abigail',t:'She has done forty laps around the coffee table. I counted.'}]]));
  I.push({id:'donut',x:c7.dn.x-8,y:c7.dn.y-12,w:16,h:14,spot:[hunter.x,hunter.y],face:'l',lines:[[{n:'Hunter',t:'(She is going too fast to catch. A blur of loaf.)'}]]});return I}
@@ -6684,8 +6686,8 @@ function bkCounter(){const A=abi,H=hunter;A.dir=H.dir='u';hx.phase='seq';hx.fsta
   {n:'Hunter',t:'Oh, that’s not bad at all!'},{n:'Baker',t:'And what’s the occasion?'},{n:'Hunter',t:'Our wedding!',anim:()=>{abi.dir='r';hunter.dir='l'}},
   {n:'',t:'*ka-ching*',anim:()=>priceFlip('$1,500')},{n:'Baker',t:'...I mean, $1,500.'},{n:'Abigail',t:'It’s the SAME cake.',anim:()=>{abi.dir='u';hunter.dir='u'}},{n:'Baker',t:'It’s a WEDDING cake now.'},
   {n:'',t:'They pick it anyway. Because it’s perfect.'},{n:'Baker',t:'So! What design are we thinking?',c:[
-   {l:'White with pink flowers 🌸',f:()=>{c8.cake=1;sfx('chime');say([{n:'Abigail',t:'Pink flowers cascading down every tier. That’s the one.'},{n:'Hunter',t:'It’s beautiful. And very expensive. But beautiful.'}],()=>{hx=null;c6Card('Then: the florist.',2.2,c8Florist)})}},
-   {l:'Giant cake shaped like Donut 🐶',f:()=>{c8.cake=2;sfx('squawk');say([{n:'Hunter',t:'A giant corgi cake. With a loaf butt.'},{n:'Abigail',t:'...No.',anim:()=>{c8.cake=1;sfx('chime')}},{n:'Abigail',t:'White. Pink flowers. Cascading down every tier.'},{n:'Hunter',t:'Fine. But Donut would have loved it.'}],()=>{hx=null;c6Card('Then: the florist.',2.2,c8Florist)})}}]}])}
+   {l:'White with pink flowers 🌸',f:()=>{c8.cake=1;sfx('chime');say([{n:'Abigail',t:'Pink flowers cascading down every tier. That’s the one.'},{n:'Hunter',t:'It’s beautiful. And very expensive. But beautiful.'}],()=>{c6CardT('Then: the florist.',2.2,()=>{hx=null},c8Florist)})}},
+   {l:'Giant cake shaped like Donut 🐶',f:()=>{c8.cake=2;sfx('squawk');say([{n:'Hunter',t:'A giant corgi cake. With a loaf butt.'},{n:'Abigail',t:'...No.',anim:()=>{c8.cake=1;sfx('chime')}},{n:'Abigail',t:'White. Pink flowers. Cascading down every tier.'},{n:'Hunter',t:'Fine. But Donut would have loved it.'}],()=>{c6CardT('Then: the florist.',2.2,()=>{hx=null},c8Florist)})}}]}])}
 function bakItems(){return [c8Talk(hunter,[[{n:'Hunter',t:'Can we get a sample of everything? For the wedding. For SCIENCE.'}],[{n:'Hunter',t:'I have eaten four free samples. I regret nothing.'}]],'hunter'),
  {id:'left',x:2,y:28,w:20,h:46,spot:[13,114],face:'u',lines:[{n:'Abigail',t:'(A two-tier birthday cake. Forty dollars. Very reasonable.)'},{n:'Hunter',t:'Forty dollars? We should get, like, five.'}]},
  {id:'right',x:58,y:28,w:20,h:46,spot:[67,114],face:'u',lines:[{n:'Hunter',t:'(Cupcakes. Three dollars each. I am buying one. For research.)'},{n:'Abigail',t:'Hunter. Focus.'}]},
@@ -6705,7 +6707,7 @@ function flCounter(){const A=abi,H=hunter;A.dir=H.dir='u';hx.phase='seq';hx.fsta
   {n:'Florist',t:'And what are they for?'},{n:'Abigail',t:'...A party!'},{n:'Hunter',t:'A WEDDING party!',anim:()=>{abi.dir='r';hunter.dir='l'}},
   {n:'',t:'*ka-ching*',anim:()=>priceFlip('$300')},{n:'Florist',t:'Ooh, a wedding! That’s $300 a dozen.'},{n:'Abigail',t:'(staring at Hunter) You had ONE job.'},{n:'Hunter',t:'It just came out!',anim:()=>{abi.dir='u';hunter.dir='u'}},
   {n:'',t:'They pick out everything anyway: pink roses and peonies for Abigail’s bouquet, pink bouquets for all eight bridesmaids, pink flowers for every groomsman’s lapel, and pink flowers for the end of every pew.',anim:()=>{c8.fl=1;c8.price=null;sfx('chime')}},
-  {n:'Abigail',t:'It’s going to look like a dream.'},{n:'Hunter',t:'Next time, we’re telling everyone it’s a birthday party.'}],()=>{hx=null;c6Card('Meanwhile... the tux rental.',2.2,c8Tux)})}
+  {n:'Abigail',t:'It’s going to look like a dream.'},{n:'Hunter',t:'Next time, we’re telling everyone it’s a birthday party.'}],()=>{c6CardT('Meanwhile... the tux rental.',2.2,()=>{hx=null},c8Tux)})}
 function flItems(){const I=[c8Talk(hunter,[[{n:'Hunter',t:'(whispering) I am a vault. A wedding vault. ...A VAULT.'}]],'hunter'),{id:'counter',x:26,y:56,w:28,h:30,spot:[40,112],face:'u'}];
  for(let i=0;i<5;i++){const x=10+i*14;I.push({id:'b'+i,x:x-6,y:86,w:13,h:22,spot:[x,114],face:'u',fn:()=>{const k=c8.fb[i]||0;c8.fb[i]=k+1;if(k){say([{n:'Abigail',t:'(Still beautiful. Still not saying the W word.)'}]);return}say(FLL[i])}})}return I}
 
@@ -7787,7 +7789,7 @@ function epElla(){setLoc('epnurse');mode='ep';epDress();Object.assign(abi,{hold:
  at(abi,30,112,'d');at(hunter,42,110,'l');ep.ppl=[abi,hunter];ep.mv=[];ep.peek=0;
  after(1,()=>say([{n:'',t:'...they welcomed a beautiful baby girl.'},{n:'Abigail',t:'(whispering) Hi, Ella. We’ve been waiting for you.'},{n:'Hunter',t:'(whispering) She’s perfect.'},
   {n:'Abigail',t:'She has your nose.'},{n:'Hunter',t:'And your everything else. Thank goodness.'},{n:'',t:'Donut and Crumpet peek around the door. Very, very quietly.',anim:()=>{ep.peek=T}},
-  {n:'',t:'Ella. She is perfect.',anim:()=>{for(let i=0;i<6;i++)after(i*.3,()=>burst(30+Math.random()*8,96,'#ff9ccb'))}}],()=>{abi.sit=0;abi.sitF=0;fadeTo(epFamily)}))}
+  {n:'',t:'Ella. She is perfect.',anim:()=>{for(let i=0;i<6;i++)after(i*.3,()=>burst(30+Math.random()*8,96,'#ff9ccb'))}}],()=>{fadeTo(()=>{abi.sit=0;abi.sitF=0;epFamily()})}))}
 function vEpNurse(t){r(0,0,80,100,'#d8c8e8');for(let y=4;y<96;y+=12)for(let x=((y/12)%2)*6;x<80;x+=12){r(x+3,y,1,3,'#e8dcf4');r(x+2,y+1,3,1,'#e8dcf4')}r(0,96,80,4,'#f4f4f8');
  r(6,14,22,24,'#f4f4f8');r(8,16,18,20,'#2a3060');disc(20,22,3,'#fff8d0',1);disc(21,21,2,'#2a3060',1);for(let i=0;i<5;i++)r(10+(i*5)%14,18+(i*7)%16,1,1,'#fff');r(17,16,1,20,'#f4f4f8');r(8,25,18,1,'#f4f4f8');
  // ELLA letters over the crib
