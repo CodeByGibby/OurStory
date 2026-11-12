@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.52</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.53</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -994,7 +994,7 @@ function truck(x,y,riders,col){col=col||'#c83a32';const hi=sh(col,1.35),dk=sh(co
  r(x,y-2,65,2,dk);r(x+5,y-2,4,4,'#1a1a1a');r(x+47,y-2,3,4,'#1a1a1a');
  [x+12,x+54].forEach(wx=>{disc(wx,y,6,'#2a2a2a',1);disc(wx,y,5,'#1a1a1a',1);disc(wx,y,3,'#b8bcc4',1);disc(wx,y,1,'#6a6a72',1);const a=T*9;for(let q=0;q<4;q++){const b=a+q*1.57;r(wx+Math.round(Math.cos(b)*2),y+Math.round(Math.sin(b)*2),1,1,'#7a7a82')}})}
 
-function coupe(x,y,rider,spin){
+function coupe(x,yw,rider,spin){const y=yw+3;
  const c='#18181f',hi='#4a4a5a',mid='#2a2a34',gl='#2a3a4a';
  // body: short rear deck with lip spoiler, long hood sloping to a rounded nose
  r(x+1,y-13,59,10,c);r(x,y-12,1,8,c);r(x+60,y-12,1,9,c);r(x+61,y-11,1,7,c);r(x+2,y-3,57,1,'#101016');
@@ -1016,8 +1016,8 @@ function coupe(x,y,rider,spin){
  // lights and markers
  r(x,y-11,2,2,'#e0463c');r(x+2,y-7,2,1,'#c83a32');r(x+58,y-11,3,2,'#e8eef4');r(x+58,y-11,3,1,'#fff');r(x+57,y-6,2,1,'#f0a030');
  // wheel arches + dark multi-spoke wheels
- [x+12,x+50].forEach(wx=>{cx.save();cx.beginPath();cx.rect(wx-8,y-9,16,7);cx.clip();disc(wx,y-1,6,'#0a0a10',1);cx.restore();const C=(rr,col)=>{for(let dy=-Math.floor(rr);dy<=Math.floor(rr);dy++){const w=Math.round(Math.sqrt(rr*rr-dy*dy));r(wx-w,y+dy,w*2+1,1,col)}};C(5.3,'#08080a');C(3.6,'#26262c');r(wx-3,y,7,1,'#1a1a20');
-  const a0=spin||0;for(let k=0;k<6;k++){const a=a0+k*Math.PI/3;r(wx+Math.round(Math.cos(a)*2.5),y+Math.round(Math.sin(a)*2.5),1,1,'#4a4a54')}disc(wx,y,1,'#5a5a64',1)});
+ [x+12,x+50].forEach(wx=>{cx.save();cx.beginPath();cx.rect(wx-8,y-9,16,7);cx.clip();disc(wx,yw,6,'#0a0a10',1);cx.restore();const C=(rr,col)=>{for(let dy=-Math.floor(rr);dy<=Math.floor(rr);dy++){const w=Math.round(Math.sqrt(rr*rr-dy*dy));r(wx-w,yw+dy,w*2+1,1,col)}};C(5.3,'#08080a');C(3.6,'#26262c');r(wx-3,yw,7,1,'#1a1a20');
+  const a0=spin||0;for(let k=0;k<6;k++){const a=a0+k*Math.PI/3;r(wx+Math.round(Math.cos(a)*2.5),yw+Math.round(Math.sin(a)*2.5),1,1,'#4a4a54')}disc(wx,yw,1,'#5a5a64',1)});
  r(x+1,y-3,4,1,c);r(x+19,y-3,24,1,c);r(x+57,y-3,3,1,c)}
 function vDrive(t){
  const o=drv?drv.o:0;
@@ -3827,23 +3827,23 @@ function c5Split(){setLoc('split');mode='c5';after(1,()=>say([{n:'',t:'One week 
  {n:'Abigail',t:'Then it’s decided. I’m coming home. We’ll figure out the rest together.',c:[{l:'"I’ll come get you."',f:()=>say([{n:'Hunter',t:'Fly home to Missouri. I’ll be at the airport. Then we’ll drive down to Texas together and get all your stuff.'},{n:'Abigail',t:'Ten hours to Texas. Again.'},{n:'Hunter',t:'I’d drive a hundred.'}],c5Airport)}]}]))}
 /* ===== Hunter's black car, the highway, and Lambda airport ===== */
 const ANN=mk('hunter',0,0,{n:'Announcer'});Object.assign(NC,{Announcer:'#5a6a8a'});Object.assign(VOICE,{Announcer:120});
-function blackCar(x,y,t,o){o=o||{};const x0=Math.round(x),y0=Math.round(y)-2,c='#18181f',hi='#4a4a5a';ell(x0+31,y0+5,33,3,'#000',.28);
+function blackCar(x,y,t,o){o=o||{};const x0=Math.round(x),y0=Math.round(y)-2,yb=y0+3,c='#18181f',hi='#4a4a5a';ell(x0+31,y0+5,33,3,'#000',.28);
  if(o.flip){cx.save();cx.translate(2*x0+62,0);cx.scale(-1,1)}
  const rid=[];if(o.pas)rid.push([o.pas,31]);if(o.drv)rid.push([o.drv,39]);if(o.tear&&o.drv)o.drv.tears=1;
  const k=o.trunk||0;
  if(k>0){/* open trunk: dark cavity, bags inside, rear face cut away */
   coupe(x0,y0,rid.length?rid:null);
-  r(x0,y0-12,11,6,'#08080c');r(x0+1,y0-7,9,1,'#2a2a34');
-  if((o.tb||0)>=2){r(x0+2,y0-11,6,4,'#3a6a8a');r(x0+2,y0-11,6,1,'#5a8aaa')}
-  if((o.tb||0)>=1){r(x0+7,y0-10,3,3,'#c8503a');r(x0+7,y0-10,3,1,'#e87a5a')}
-  r(x0,y0-6,11,1,'#2a2a34');
+  r(x0,yb-12,11,6,'#08080c');r(x0+1,yb-7,9,1,'#2a2a34');
+  if((o.tb||0)>=2){r(x0+2,yb-11,6,4,'#3a6a8a');r(x0+2,yb-11,6,1,'#5a8aaa')}
+  if((o.tb||0)>=1){r(x0+7,yb-10,3,3,'#c8503a');r(x0+7,yb-10,3,1,'#e87a5a')}
+  r(x0,yb-6,11,1,'#2a2a34');
   /* lid hinged at the base of the rear window */
-  const hx=x0+10,hy=y0-12,th=Math.PI-k*1.32,L=11,dx=Math.cos(th),dy=-Math.sin(th);
+  const hx=x0+10,hy=yb-12,th=Math.PI-k*1.32,L=11,dx=Math.cos(th),dy=-Math.sin(th);
   for(let i=0;i<=L;i++){const px=hx+dx*i,py=hy+dy*i;r(px-1,py-1,3,3,c);r(px+dy*1.4-.5,py-dx*1.4-.5,1,1,'#2a2a34');r(px-dy*1.6,py+dx*1.6,1,1,hi)}
   const ex=hx+dx*L,ey=hy+dy*L;for(let i=0;i<6;i++)r(ex+dy*i-1,ey-dx*i-1,3,3,c);r(ex+dy*3-.5,ey-dx*3-.5,2,2,'#e0463c');
- }else{coupe(x0,y0,rid.length?rid:null);r(x0+1,y0-12,9,1,hi);r(x0+10,y0-12,1,1,'#2a2a34')}
+ }else{coupe(x0,y0,rid.length?rid:null);r(x0+1,yb-13,9,1,hi);r(x0+10,yb-13,1,1,'#2a2a34')}
  const a=o.spin||0;[x0+12,x0+50].forEach(wx=>{for(let q2=0;q2<3;q2++){const q=a+q2*2.09;r(wx+Math.round(Math.cos(q)*3),y0+Math.round(Math.sin(q)*3),1,1,'#7a7a86')}});
- if(o.door){r(x0+21,y0-22,1,20,'#0a0a10');r(x0+22,y0-21,3,19,c);r(x0+23,y0-20,1,8,'#2a3a4a');r(x0+22,y0-22,3,1,hi)}
+ if(o.door){r(x0+24,yb-21,1,18,'#0a0a10');r(x0+25,yb-20,3,17,c);r(x0+26,yb-19,1,6,'#2a3a4a');r(x0+25,yb-21,3,1,hi)}
  if(o.flip)cx.restore()}
 /* ---- highway (scale 2 world 80x144) ---- */
 let HW=null;
