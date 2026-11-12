@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.94</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.3.95</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3136,7 +3136,7 @@ Object.assign(VS,{river:[2,vRiver],church:[2,vChurch],scoot:[2,vScoot],pump:[1,v
 /* ================= AUDIO ================= */
 let PAUSED=0;const VOL={m:1,s:1};try{const v=JSON.parse(localStorage.getItem('ourstory_vol')||'null');if(v){VOL.m=+v.m;VOL.s=+v.s}}catch(e){}
 function applyVol(){try{localStorage.setItem('ourstory_vol',JSON.stringify(VOL))}catch(e){}$('vm').value=Math.round(VOL.m*100);$('vs').value=Math.round(VOL.s*100);$('vmL').textContent=Math.round(VOL.m*100)+'%';$('vsL').textContent=Math.round(VOL.s*100)+'%';
- if(AU.ctx){AU.mvol.gain.setTargetAtTime(VOL.m*.375,AU.ctx.currentTime,.03);AU.fx.gain.setTargetAtTime(VOL.s*.9,AU.ctx.currentTime,.03)}}
+ if(AU.ctx){AU.mvol.gain.setTargetAtTime(VOL.m*.15,AU.ctx.currentTime,.03);AU.fx.gain.setTargetAtTime(VOL.s*.9,AU.ctx.currentTime,.03)}}
 function openPause(){auInit();PAUSED=1;applyVol();$('pause').style.display='flex';$('snd').style.display='none';sfx('select')}
 function closePause(){PAUSED=0;$('pause').style.display='none';$('snd').style.display=''}
 const AU={ctx:null,on:true,cur:null,want:null,step:0,nt:0,last:{},song:null,songSrc:null,songBuf:null,songWant:0};
@@ -5299,9 +5299,9 @@ function songTick(){const c=AU.ctx;if(!AU.songOn||!c)return;const C=amGet('jmt')
    THREE MORE CABINETS: STAR PATROL (shooter), TURBO KC (racer), FEET FIESTA (dance)
    ===================================================================== */
 const ARCK={};
-function arcTap2(x,y){if(mode==='dance'){dnTap(x,y);return 1}return mode==='shoot'||mode==='race'?1:0}
+function arcTap2(x,y){if(mode==='fiesta'){dnTap(x,y);return 1}return mode==='shoot'||mode==='race'?1:0}
 function arcTouches(L){if(mode==='shoot')spTouches(L);else if(mode==='race')rcTouches(L)}
-addEventListener('keydown',e=>{if(mode!=='shoot'&&mode!=='race'&&mode!=='dance')return;ARCK[e.key]=1;if(mode==='dance'&&!e.repeat){const l=['ArrowLeft','ArrowDown','ArrowUp','ArrowRight'].indexOf(e.key);if(l>=0)dnHit(l)}});
+addEventListener('keydown',e=>{if(mode!=='shoot'&&mode!=='race'&&mode!=='fiesta')return;ARCK[e.key]=1;if(mode==='fiesta'&&!e.repeat){const l=['ArrowLeft','ArrowDown','ArrowUp','ArrowRight'].indexOf(e.key);if(l>=0)dnHit(l)}});
 addEventListener('keyup',e=>{ARCK[e.key]=0});
 const zap=(f,d,ty,v,f2,dl,de)=>{if(AU.ctx&&AU.on)try{tone(f,d,ty,v,f2,dl,de)}catch(e){}};
 const hiss=(d,v,ff,ty,dl,de)=>{if(AU.ctx&&AU.on)try{nz(d,v,ff,ty,dl,de)}catch(e){}};
@@ -5554,7 +5554,7 @@ function dnChart(){const C=[];const B=[[[0,0],[1,3],[2,0],[3,3]],[[0,1],[1,2],[2
  [[0,0],[.5,1],[1,2],[1.5,3],[2,2],[2.5,1],[3,0]],[[0,3],[.5,2],[1,1],[1.5,0],[2,1],[2.5,2],[3,3]],[[0,0,3],[1,1,2],[2,0,3],[3,1,2]],[[0,0],[.5,3],[1,0],[1.5,3],[2,1],[2.5,2],[3,1],[3.5,2]],
  [[0,0,3],[1,2],[1.5,1],[2,0],[3,3],[3.5,2]],[[0,1],[.5,2],[1,1],[1.5,2],[2,0,3],[3,1],[3.5,2]],[[0,3],[.5,2],[1,1],[1.5,0],[2,3],[2.5,2],[3,1],[3.5,0]],[[0,0,3],[1,1,2],[2,0,3]]];
  B.forEach((bar,k)=>bar.forEach(([o,...ls])=>ls.forEach(l=>C.push({b:8+k*4+o,l,h:0,ch:ls.length>1}))));return C.sort((a,b)=>a.b-b.b||a.l-b.l)}
-function danceStart(cb){setLoc('arcDance');mode='dance';fade=1;fd=-1;setHud('');const N=dnChart();let mx=0;N.forEach((n,i)=>mx+=300+Math.min(i+1,30)*5);
+function danceStart(cb){setLoc('arcDance');mode='fiesta';fade=1;fd=-1;setHud('');const N=dnChart();let mx=0;N.forEach((n,i)=>mx+=300+Math.min(i+1,30)*5);
  DN={cb,N,t:-1.2,ph:'intro',pt:0,sc:0,disp:0,combo:0,maxc:0,mstreak:0,J:Math.round(mx*.65/10)*10,mx,jud:null,pr:[0,0,0,0],fl:[0,0,0,0],FX:[],step:-1,boo:0,cnt:{p:0,g:0,o:0,m:0}}}
 function dnTap(x,y){if(y<60)return;dnHit(Math.max(0,Math.min(3,Math.floor((x-8)/36))))}
 function dnHit(l){const D=DN;if(!D)return;D.pr[l]=.14;if(D.ph!=='play')return;let best=null,bd=9;for(const n of D.N){if(n.h||n.l!==l)continue;const d=n.b*DSPB-D.t;if(d>.3)break;if(Math.abs(d)<bd){bd=Math.abs(d);best=n}}
@@ -5562,7 +5562,7 @@ function dnHit(l){const D=DN;if(!D)return;D.pr[l]=.14;if(D.ph!=='play')return;le
   const P=DCOL[l];for(let i=0;i<(j?6:12);i++){const a=Math.random()*Math.PI*2,v=30+Math.random()*50;D.FX.push({x:DLX[l],y:DRY,vx:Math.cos(a)*v,vy:Math.sin(a)*v-20,l:.4+Math.random()*.3,c:Math.random()<.4?'#ffffff':P[0]})}
   zap([1568,1318,1046][j],.06,'triangle',.025)}}
 function dnStep(k,dl){if(!AU.ctx||!AU.on||!DN)return;const c=AU.ctx;if(!DN.bus)DN.bus=amBus(c,AU.mvol,AMS.dance.vol,AMS.dance.dly);const C=amGet('dance'),t=c.currentTime+dl;if(k<C.N)amStep(C,k,t,DN.bus);const beat=k>>2;if(beat>=4&&beat<8&&k%4===0)amTn(c,t,beat===7?1320:880,0,.1,.09,'square',DN.bus.g)}
-function danceUpdate(dt){const D=DN;if(!D||mode!=='dance')return;dt=Math.min(dt,.05);D.pt+=dt;
+function danceUpdate(dt){const D=DN;if(!D||mode!=='fiesta')return;dt=Math.min(dt,.05);D.pt+=dt;
  if(D.ph==='intro'&&D.pt>2.6){D.ph='play';D.t=-1}
  if(D.ph==='play'||D.ph==='out'){D.t+=dt;const st=DSPB/4;while((D.step+1)*st<D.t+.12){D.step++;if(D.step<=DEND*4)dnStep(D.step,Math.max(0,D.step*st-D.t))}}
  if(D.ph==='play'){for(const n of D.N){if(n.h)continue;const d=D.t-n.b*DSPB;if(d<0)break;if(d>.16){n.h=2;n.mt=D.t;D.combo=0;D.cnt.m++;D.mstreak++;D.jud={j:3,t:0};if(D.mstreak===6){D.boo=1.8;sfx('buzz')}}}
@@ -7863,7 +7863,7 @@ const MGAMES=[
  [5,'Tennis tryout',()=>c5Tryout(),['tennis']],
  [5,'Apartment hunt',()=>c5Hunt(),['hunt']],
  [5,'Helpdesk tickets',()=>c5Desk(),['desk']],
- [6,'Claw machine',()=>{c6.games={};c6.ng=0;c6.w={};clawStart(w=>{mode='c6';setLoc('barcade');say([{n:'',t:w?'You won the corgi!':'The corgi stays in the machine.'}],()=>fadeTo(mgFinish))})},['claw']],[6,'Bar trivia vs J',()=>{c6.games={};c6.ng=0;c6.w={};quizStart((w,sc)=>{mode='c6';setLoc('barcade');say([{n:'',t:'Hunter '+sc[0]+', J '+sc[1]+'.'}],()=>fadeTo(mgFinish))})},['quiz']],[6,'Star Patrol vs J',()=>{c6.games={};c6.ng=0;c6.w={};spStart((w,sc)=>{mode='c6';setLoc('barcade');say([{n:'',t:'Your score: '+sc+'. J\u2019s score: 7000.'}],()=>fadeTo(mgFinish))})},['shoot']],[6,'Turbo KC vs J',()=>{c6.games={};c6.ng=0;c6.w={};raceStart(w=>{mode='c6';setLoc('barcade');say([{n:'',t:w===true?'You beat J to the finish!':w==='tie'?'Photo finish!':'J wins the race.'}],()=>fadeTo(mgFinish))})},['race']],[6,'Feet Fiesta vs J',()=>{c6.games={};c6.ng=0;c6.w={};danceStart((w,sc)=>{mode='c6';setLoc('barcade');say([{n:'',t:'Your score: '+sc+'. '+(w===true?'You out-danced J!':w==='tie'?'A tie!':'J wins the dance-off.')}],()=>fadeTo(mgFinish))})},['dance']],[6,'Veggie Fighter vs J',()=>{c6.games={};c6.ng=0;c6.w={};fightStart(w=>{mode='c6';setLoc('barcade');say([{n:'',t:w?'Hunter wins!':'J wins.'}],()=>fadeTo(mgFinish))})},['fight']],
+ [6,'Claw machine',()=>{c6.games={};c6.ng=0;c6.w={};clawStart(w=>{mode='c6';setLoc('barcade');say([{n:'',t:w?'You won the corgi!':'The corgi stays in the machine.'}],()=>fadeTo(mgFinish))})},['claw']],[6,'Bar trivia vs J',()=>{c6.games={};c6.ng=0;c6.w={};quizStart((w,sc)=>{mode='c6';setLoc('barcade');say([{n:'',t:'Hunter '+sc[0]+', J '+sc[1]+'.'}],()=>fadeTo(mgFinish))})},['quiz']],[6,'Star Patrol vs J',()=>{c6.games={};c6.ng=0;c6.w={};spStart((w,sc)=>{mode='c6';setLoc('barcade');say([{n:'',t:'Your score: '+sc+'. J\u2019s score: 7000.'}],()=>fadeTo(mgFinish))})},['shoot']],[6,'Turbo KC vs J',()=>{c6.games={};c6.ng=0;c6.w={};raceStart(w=>{mode='c6';setLoc('barcade');say([{n:'',t:w===true?'You beat J to the finish!':w==='tie'?'Photo finish!':'J wins the race.'}],()=>fadeTo(mgFinish))})},['race']],[6,'Feet Fiesta vs J',()=>{c6.games={};c6.ng=0;c6.w={};danceStart((w,sc)=>{mode='c6';setLoc('barcade');say([{n:'',t:'Your score: '+sc+'. '+(w===true?'You out-danced J!':w==='tie'?'A tie!':'J wins the dance-off.')}],()=>fadeTo(mgFinish))})},['fiesta']],[6,'Veggie Fighter vs J',()=>{c6.games={};c6.ng=0;c6.w={};fightStart(w=>{mode='c6';setLoc('barcade');say([{n:'',t:w?'Hunter wins!':'J wins.'}],()=>fadeTo(mgFinish))})},['fight']],
   [6,'Skee-ball vs J',()=>{c6.games={};c6.ng=0;skeeStart(sc=>{mode='c6';setLoc('barcade');say([{n:'',t:'Your score: '+sc+'. J’s score: 230.'},{n:'J',t:sc>230?'...Rematch. RIGHT now.':'Read it and weep, birthday boy!'}],()=>fadeTo(mgFinish))})},['skee','skeeEnd']],
  [6,'Getting ready: makeup',()=>mkStart(),['makeup']],
  [6,'Security tag & forks',()=>{Object.assign(hunter,SUITGREY,{tag:1});fkStart()},['fork']],
