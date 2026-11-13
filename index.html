@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.37</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.38</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -210,7 +210,7 @@ const all=[hunter,morgan,abi,bart,dj,...dancers];
 
 function body(p,t){
  let x=Math.round(p.x),y=Math.round(p.y);if(p.kneel)y+=2;
- if(p.dance)y-=Math.abs(Math.sin(t*7+(p.ph||0)))*2|0;else if(dlg&&dlg.l[dlg.i].n===p.n&&Math.floor(t*6)%2)y-=1;
+ if(p.dance){const sb=songBeat();y-=(sb!=null?Math.abs(Math.sin(sb*Math.PI)):Math.abs(Math.sin(t*7+(p.ph||0))))*2|0}else if(dlg&&dlg.l[dlg.i].n===p.n&&Math.floor(t*6)%2)y-=1;
  const s=p.moving?Math.floor(t*9)%2:0,up=p.dir==='u',hL=4-s,hR=3+s;
  if(p.hl)r(x-4,y-16,8,p.hl==2?9:5,p.hair);
  if(p.kneel){const f=p.dir==='l'?-1:1;if(f<0){r(x-4,y-5,4,2,p.pants);r(x-4,y-3,2,3,p.pants);r(x-5,y-1,3,1,p.shoe);r(x+1,y-4,2,3,p.pants);r(x+2,y-1,3,1,p.pants);r(x+5,y-1,1,1,p.shoe)}else{r(x,y-5,4,2,p.pants);r(x+2,y-3,2,3,p.pants);r(x+2,y-1,3,1,p.shoe);r(x-3,y-4,2,3,p.pants);r(x-5,y-1,3,1,p.pants);r(x-6,y-1,1,1,p.shoe)}}
@@ -224,7 +224,7 @@ function body(p,t){
  if(p.gown){const gc=p.gc||'#fbfbff',sd=sh(gc,.88),Wd=p.gown==1?[11,13,15,17,17]:p.gown==2?[6,6,7,9,13]:p.gown==3?[8,10,11,13,15]:[7,8,8,9,9];for(let i=0;i<5;i++){const w=Wd[i];r(x-(w>>1),y-5+i,w,1,gc);r(x+(w>>1)-1+(w&1),y-5+i,1,1,sd)}if(p.gown==3){r(x-1,y-4,1,1,sd);r(x+1,y-2,1,1,sd);if(!MONO&&Math.floor(t*3)%3==0)r(x-3,y-3,1,1,'#fff')}if(p.gown==1)r(x-7,y-2,15,1,sd)}
  if(p.bow&&!up){if(p.bowc){const d=p.bowc===2?2:1;r(x-1,y-10-(d>1?1:0),1,1,'#0a0a0a');r(x,y-10,1,1,'#0a0a0a');r(x+1,y-10+d-1+(d>1?1:0),1,1,'#0a0a0a')}else r(x-1,y-10,3,1,'#0a0a0a')}if(p.tie&&!up){const c=p.tiec||0;if(!c){r(x,y-10,1,4,p.tie);r(x-1,y-10,3,1,p.tie)}else{const s2=c===2?-1:1;r(x-1+s2,y-10,3,1,p.tie);r(x+s2,y-9,1,1,p.tie);r(x+s2*(c===2?2:1),y-8,1,1,p.tie);r(x+s2*(c===2?2:1),y-7,1,1,p.tie)}}if(p.bout&&!up){r(x-3,y-9,1,1,p.boutc||'#ff7eb6');r(x-3,y-8,1,1,'#5a8a4a')}
  if(p.suit&&!up){r(x-1,y-10,2,4,p.suit);r(x,y-9,1,3,sh(p.suit,.75));r(x-2,y-10,1,2,sh(p.top,.7));r(x+1,y-10,1,2,sh(p.top,.7))}if(p.tag)r(p.dir==='l'?x-3:x+1,y-6,2,2,'#e8e8f0');
- const la=p.dance&&Math.floor(t*5+(p.ph||0))%2;
+ const la=p.dance&&(()=>{const sb=songBeat();return sb!=null?(((Math.floor(sb)+(p.ph||0))%2)+2)%2:Math.floor(t*5+(p.ph||0))%2})();
  if(p.reach){const [tx,ty]=p.reach,L=tx<x,sx=L?x-4:x+3,sy=y-10,n=Math.max(Math.abs(tx-sx),Math.abs(ty-sy))|0;for(let i=0;i<=n;i++){const px=Math.round(sx+(tx-sx)*i/n),py=Math.round(sy+(ty-sy)*i/n);r(px,py,1,1,i>=n-1?p.skin:p.top)}if(L){r(x+3,y-8,1,3,p.top);r(x+3,y-5,1,1,p.skin)}else{r(x-4,y-8,1,3,p.top);r(x-4,y-5,1,1,p.skin)}}
  else if(p.robo!=null){const u=p.robo%2==0;r(x-5,y-10,2,1,p.top);r(x-5,u?y-13:y-9,1,3,p.top);r(x-5,u?y-14:y-6,1,1,p.skin);r(x+3,y-10,2,1,p.top);r(x+4,u?y-9:y-13,1,3,p.top);r(x+4,u?y-6:y-14,1,1,p.skin)}
  else if(!p.hold||p.dance){r(x-4,la?y-12:y-8,1,3,p.top);r(x-4,la?y-13:y-5,1,1,p.skin);
@@ -734,14 +734,17 @@ const objT=()=>[bart,morgan,dj,hunter][st]||morgan;
 /* ---- dance: three styles, five hearts each (static camera) ---- */
 const DSHOT=[{s:'GROOVE',col:'#ffd86b'},{s:'SALSA',col:'#ff5f9e'},{s:'THE ROBOT',col:'#7ee8fa'}];
 function dShot(i){const d=dance;d.shot=i;d.st=0;d.ban=1.6;sfx('chime')}
+// every heart's ring closes exactly on a beat of the song: a heart every bar at first, then every half bar for the robot
+const DWIN=.33,DINT=n=>n<10?4:2,DLEAD=n=>n<5?3:n<10?2.5:1.6;
 function dSpawn(){const d=dance,ns=Math.min(DSHOT.length-1,Math.floor(d.n/5));if(ns!==d.shot)dShot(ns);
- const L=Math.random()<.5;d.h={x:(L?58:92)+Math.random()*11|0,y:454+Math.random()*34|0,t:0,d:1.6-d.n*.035};d.n++}
-function dChoreo(dt){const d=dance,t=d.t,A=abi,H=hunter;A.rot=0;A.robo=H.robo=null;A.reach=H.reach=null;A.dance=H.dance=1;
+ const L=Math.random()<.5;d.h={x:(L?58:92)+Math.random()*11|0,y:454+Math.random()*34|0,tg:d.nt,ld:DLEAD(d.n)};d.n++;d.nt+=DINT(d.n)}
+function dBeatNow(){const b=songBeat();return b!=null?b:dance.bt}
+function dChoreo(dt){const d=dance,t=d.bt,A=abi,H=hunter;A.rot=0;A.robo=H.robo=null;A.reach=H.reach=null;A.dance=H.dance=1;
  if(d.fin!=null){const k=Math.min(1,d.fin/2.2),a=k*Math.PI*4;H.x=87;H.y=476;H.dir='l';A.x=Math.round(77-Math.sin(Math.min(1,k/.85)*Math.PI)*5);A.y=476;A.dance=0;A.dir=k<.85?['r','d','l','u'][Math.floor(d.fin*12)%4]:'r';H.dance=0;const C=[A.x+1,A.y-24];A.reach=C;H.reach=[C[0]+1,C[1]];return}
  const S=DSHOT[d.shot||0].s;
  if(S==='GROOVE'){A.x=72;H.x=88;A.y=H.y=476;A.dir='r';H.dir='l'}
- else if(S==='SALSA'){const o=Math.round(Math.sin(t*5)*4);A.x=72+o;H.x=88+o;A.y=H.y=476;H.dir='l';A.dir=(t%2)<.5?['r','d','l','u'][Math.floor(t*14)%4]:'r'}
- else{A.dance=H.dance=0;const q=Math.floor(t*4)%4,b=Math.floor(t*2)%4;H.x=88+[0,1,0,-1][q];A.x=72+[0,-1,0,1][q];H.y=A.y=476-(q%2);A.dir=['r','d','r','u'][b];H.dir=['l','d','l','u'][b];A.robo=H.robo=q}}
+ else if(S==='SALSA'){const o=Math.round(Math.sin(t*Math.PI/2)*4);A.x=72+o;H.x=88+o;A.y=H.y=476;H.dir='l';A.dir=(((t%4)+4)%4)<1?['r','d','l','u'][Math.floor(t*8)%4]:'r'}
+ else{A.dance=H.dance=0;const q=((Math.floor(t*2)%4)+4)%4,b=((Math.floor(t)%4)+4)%4;H.x=88+[0,1,0,-1][q];A.x=72+[0,-1,0,1][q];H.y=A.y=476-(q%2);A.dir=['r','d','r','u'][b];H.dir=['l','d','l','u'][b];A.robo=H.robo=q}}
 function dMontageUpd(dt){const d=dance;if(d.shot==null){d.t=0;dShot(0)}d.t+=dt;d.st+=dt;d.ban=Math.max(0,d.ban-dt);if(d.fin!=null)d.fin+=dt;dChoreo(dt)}
 function dWorldFX(t){const d=dance;if(!d||d.shot==null)return;
  if(d.fin!=null){for(let i=0;i<5;i++){const k=((t*.7+i/5)%1);cx.globalAlpha=Math.sin(k*Math.PI);heart(Math.round(80+Math.sin(t*2+i*1.7)*10),Math.round(462-k*22),i%2?'#ff9ccb':'#ff5f9e',1)}cx.globalAlpha=1}
@@ -754,12 +757,12 @@ function drawDanceUI(){const d=dance;if(!d||d.shot==null||mode!=='dance')return;
 
 function startDance(){abi.hold=null;songPlay(0,.7);
  mode='dance';abi.x=72;abi.y=476;hunter.x=88;hunter.y=476;abi.dir='r';hunter.dir='l';abi.tx=hunter.tx=null;
- abi.dance=hunter.dance=1;abi.ph=0;hunter.ph=1;dance={n:0,sc:0,h:null,gap:1,shot:null,t:0,st:0,ban:0,fin:null};wobT=Math.min(wobT,.4);setHud('Tap each heart when its ring turns gold!');
+ abi.dance=hunter.dance=1;abi.ph=0;hunter.ph=1;dance={n:0,sc:0,h:null,gap:1,shot:null,t:0,st:0,ban:0,fin:null,bt:songBeat()||0,nt:null,end:null};wobT=Math.min(wobT,.4);setHud('Tap each heart when its ring turns gold!');
 }
 function danceTap(x,y){
  const d=dance;if(!d||!d.h)return;const h=d.h;
- const hs=h.s||1;if(Math.hypot(x-h.x,y-h.y)>Math.max(9,15*hs)||22-16*(h.t/h.d)>12)return;
- d.sc++;burst(h.x,h.y);d.h=null;d.gap=.45;setHud('♥ '+d.sc+' / 15');
+ const hs=h.s||1,e=dBeatNow()-h.tg;if(Math.hypot(x-h.x,y-h.y)>Math.max(9,15*hs)||Math.abs(e)>DWIN+.04)return;
+ d.sc++;burst(h.x,h.y);if(Math.abs(e)<.12)burst(h.x,h.y,'#ffd86b');d.h=null;setHud('♥ '+d.sc+' / 15');
 }
 function endDance(){abi.rot=0;abi.robo=hunter.robo=null;abi.reach=hunter.reach=null;
  if(c8.rec){const n0=dance.sc;dance=null;c8RecAfter(n0);return}
@@ -3268,9 +3271,10 @@ function musPick(){if(c8&&c8.bridal)return 'bridal';if(loc==='home6'&&c6.day)ret
  if(loc==='court')return c5.ct&&c5.ct.style?'tennis':'jazz';if(loc==='hroom'&&hr.solo)return 'sad';if(loc==='troom'&&upk&&upk.solo)return 'sad';if(loc==='kitchen'&&kit.angry)return 'news';if(loc==='home'&&c5.hm&&c5.hm.hearts)return 'sunset';
  if(loc==='living')return lv&&lv.kiss?'sunset':sick?'sick':lv&&lv.sw?'kart':'cozy';if(loc==='newsbg'||loc==='cal')return AU.want;return MUSMAP[loc]!==undefined?MUSMAP[loc]:AU.want}
 function musUpdate(){if(!AU.ctx)return;let w=musPick();if(AU.songOn)w=null;AU.want=w}
-function songPlay(off,vol,dur){if(!AU.ctx)return;songBus();const c=AU.ctx,sp=60/SONG.bpm/4;AU.sst=Math.floor((off||0)/sp/16)*16;AU.snt=c.currentTime+.08;AU.songOn=1;AU.songId=(AU.songId||0)+1;const id=AU.songId;
+function songPlay(off,vol,dur){if(!AU.ctx)return;songBus();const c=AU.ctx,sp=60/SONG.bpm/4;AU.sst=Math.floor((off||0)/sp/16)*16;AU.snt=c.currentTime+.08;AU.sa0=AU.snt-AU.sst*sp;AU.songOn=1;AU.songId=(AU.songId||0)+1;const id=AU.songId;
  AU.sng.gain.cancelScheduledValues(c.currentTime);AU.sng.gain.setValueAtTime(0,c.currentTime);AU.sng.gain.linearRampToValueAtTime(vol||.8,c.currentTime+.4);
  if(dur)setTimeout(()=>{if(AU.songId===id)songStop(1.5)},dur*1000)}
+function songBeat(){const c=AU.ctx;if(!c||!AU.songOn||AU.sa0==null||c.state!=='running')return null;return (c.currentTime-(c.outputLatency||c.baseLatency||0)-AU.sa0)/(60/SONG.bpm)}
 function songStop(f){const c=AU.ctx;if(!c||!AU.songOn){AU.songOn=0;return}f=f||.05;AU.sng.gain.cancelScheduledValues(c.currentTime);AU.sng.gain.setTargetAtTime(0,c.currentTime,f/3);const id=AU.songId;setTimeout(()=>{if(AU.songId===id)AU.songOn=0},f*1000)}
 
 /* ================= CHAPTER 5: THE DISTANCE ================= */
@@ -5315,7 +5319,7 @@ function jmtVox(st,t){const bar=st>>4,sp=60/104/4;let sec=null,o=0;if(bar>=2&&ba
  const f=mf(e[2]),d=e[1]*sp*.95,prev=AU.vprev&&t-AU.vprev[1]<.05?AU.vprev[0]:null;sing(t,d,f,e[3],sec==='hook'?.22:.2,prev);AU.vprev=[f,t+d];
  if(sec==='hook')sing(t+.01,d,mf(e[2]-12),e[3],.04,null)}
 function songBus(){const c=AU.ctx;if(AU.vbus)return;AU.vbus=c.createGain();AU.vbus.gain.value=1;const vs=c.createBiquadFilter();vs.type='highshelf';vs.frequency.value=2500;vs.gain.value=9;AU.vbus.connect(vs);vs.connect(AU.sng);const d=c.createDelay(1),fb=c.createGain(),lp=c.createBiquadFilter(),w=c.createGain();d.delayTime.value=60/104/2;fb.gain.value=.28;lp.type='lowpass';lp.frequency.value=3000;w.gain.value=.22;AU.vbus.connect(d);d.connect(lp);lp.connect(fb);fb.connect(d);lp.connect(w);w.connect(AU.sng);const js=c.createBiquadFilter();js.type='highshelf';js.frequency.value=3000;js.gain.value=7;js.connect(AU.sng);AU.jbus=amBus(c,js,AMS.jmt.vol,AMS.jmt.dly)}
-function songTick(){const c=AU.ctx;if(!AU.songOn||!c)return;const C=amGet('jmt');if(AU.snt<c.currentTime-.1)AU.snt=c.currentTime+.05;
+function songTick(){const c=AU.ctx;if(!AU.songOn||!c)return;const C=amGet('jmt');if(AU.snt<c.currentTime-.1){const n=c.currentTime+.05;AU.sa0=(AU.sa0||0)+n-AU.snt;AU.snt=n}
  while(AU.snt<c.currentTime+.2){if(AU.sst>=C.N)AU.sst=32+(AU.sst-C.N);const st=AU.sst;amStep(C,st,AU.snt,AU.jbus);AU.sst++;AU.snt+=C.sd}}
 
 /* =====================================================================
@@ -8189,9 +8193,10 @@ function update(dt){
  else if(mode==='run'){mv(abi,dt);if(hunter.delay>0)hunter.delay-=dt;else mv(hunter,dt);if(abi.tx==null&&hunter.tx==null){mode='prep';abi.dir='r';hunter.dir='l';zoomTo(80,470,1)}}
  else if(mode==='prep'){if(zk>.97&&!prepSaid){prepSaid=1;say(HOWTO)}}
  else if(mode==='dance'&&dance){
-  const d=dance;dMontageUpd(dt);
-  if(d.fin!=null){if(d.fin>=2.6)endDance()}else if(!d.h){d.gap-=dt;if(d.gap<=0){if(d.n>=15){if(d.sc>=15){d.fin=0;sfx('fanfare');after(.3,()=>sfx('kiss'));for(let i=0;i<5;i++)after(i*.3,()=>burst(70+Math.random()*20,462,'#ff5f9e'))}else endDance()}else dSpawn()}}
-  else{d.h.t+=dt;if(d.h.t>d.h.d){burst(d.h.x,d.h.y,'#9a8aa8');d.h=null;d.gap=.5}}
+  const d=dance;{const b=songBeat();d.bt=b!=null?b:d.bt+dt/(60/SONG.bpm)}dMontageUpd(dt);
+  if(d.fin!=null){if(d.fin>=2.6)endDance()}else if(d.h){if(d.bt>d.h.tg+DWIN){burst(d.h.x,d.h.y,'#9a8aa8');d.h=null}}
+  else if(d.n<15){const ld=DLEAD(d.n);if(d.nt==null)d.nt=Math.max(4,Math.ceil((d.bt+ld+.3)/4)*4);if(d.bt>d.nt-ld+.25)d.nt=Math.ceil(d.bt+ld);if(d.bt>=d.nt-ld)dSpawn()}
+  else{if(d.end==null)d.end=d.bt+1;if(d.bt>=d.end){{if(d.sc>=15){d.fin=0;sfx('fanfare');after(.3,()=>sfx('kiss'));for(let i=0;i<5;i++)after(i*.3,()=>burst(70+Math.random()*20,462,'#ff5f9e'))}else endDance()}}}
  }else if(mode==='cut'){mv(morgan,dt);if(morgan.tx==null)morgan.dir='u';ht-=dt;if(ht<=0){ht=.16;parts.push({x:66+Math.random()*30,y:462,vx:(Math.random()-.5)*12,vy:-22,l:2,h:1,fl:1,c:'#ff5f9e'})}}
  else if(mode==='car'){const c=cs;
   if(c.s==0){c.x+=dt*Math.max(10,(88-c.x)*1.5);if(c.x>=87.5){c.x=88;c.s=1;
@@ -8219,9 +8224,9 @@ function render(){
   strings(T);
   if(tapfx){cx.globalAlpha=1-tapfx.t*2.5;const q=2+tapfx.t*14;[[q,0],[-q,0],[0,q],[0,-q]].forEach(o=>r(tapfx.x+o[0],tapfx.y+o[1],2,2,'#fff'));cx.globalAlpha=1}
   if(mode==='play'&&!dlg){const n=objT(),b=Math.round(Math.sin(T*6)*1.5),x=Math.round(n.x),y=Math.round(n.y)-26+b;r(x-2,y,5,1,'#ffe066');r(x-1,y+1,3,1,'#ffe066');r(x,y+2,1,1,'#ffe066')}
-  if(dance&&dance.h){const h=dance.h,rad=22-16*(h.t/h.d),ok=rad<=12;
+  if(dance&&dance.h){const h=dance.h,b=dance.bt,rad=6+16*Math.max(0,Math.min(1,(h.tg-b)/h.ld)),ok=Math.abs(b-h.tg)<=DWIN,pop=((b%1)+1)%1<.16?1:0;
    const hs=h.s||1,rr=rad*hs;for(let a=0;a<6.28;a+=.2/Math.max(.5,hs))r(h.x+Math.cos(a)*rr,h.y+Math.sin(a)*rr,1,1,ok?'#ffd86b':'#fff');
-   if(hs<.8)heart(h.x-2,h.y-2+Math.round(Math.sin(T*8)*.5),'#ff5f9e',1);else heart(h.x-5,h.y-4+Math.round(Math.sin(T*8)),'#ff5f9e',2)}
+   if(hs<.8)heart(h.x-2,h.y-2-pop,'#ff5f9e',1);else heart(h.x-5,h.y-4-pop,'#ff5f9e',2)}
  }else if(VS[loc]){const [z,f]=VS[loc],cm=Math.round(CAMX);vz=z;vcx=W/2/z+cm;vcy=H/2/z;if(shakeT>0)cx.translate(Math.round((Math.random()-.5)*(4+shakeP)),Math.round((Math.random()-.5)*shakeP));cx.scale(z,z);if(cm)cx.translate(-cm,0);{const TT=photo===1&&PHT!=null?PHT:T;f(TT);if(z===2&&AMBL[loc])ambGlobal(TT,cm)}
  }else{
   vz=1;vcx=80;vcy=144;
