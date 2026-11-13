@@ -57,7 +57,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #btns .row{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*4.2)}
 #btns button{opacity:0;animation:tagUp .85s cubic-bezier(.2,.7,.2,1) both;--rot:0deg;--dy:calc(var(--u)*80)}
 #btns #bPlay{font-size:calc(var(--u)*5.2);width:calc(var(--u)*92);--rot:-2deg;--dy:calc(var(--u)*92);animation:tagUp .85s 3.3s cubic-bezier(.2,.7,.2,1) both,sway 3.2s 4.3s ease-in-out infinite}#btns #bPlay::after{content:' \2665';color:#e0468c}
-#bNew{--rot:1.5deg;--dy:calc(var(--u)*76);animation-delay:3.55s!important}#bCh{--rot:-1.4deg;--dy:calc(var(--u)*62);animation-delay:3.8s!important}#bMg{--rot:1deg;--dy:calc(var(--u)*48);animation-delay:4.05s!important}
+#bNew{--rot:1.5deg;--dy:calc(var(--u)*76);animation-delay:3.55s!important}#bAl{--rot:-1.2deg;--dy:calc(var(--u)*69);animation-delay:3.68s!important}#bCh{--rot:-1.4deg;--dy:calc(var(--u)*62);animation-delay:3.8s!important}#bMg{--rot:1deg;--dy:calc(var(--u)*48);animation-delay:4.05s!important}
 @keyframes glow{50%{box-shadow:0 calc(var(--u)*1.2) 0 #c2417a,0 0 calc(var(--u)*7) rgba(255,216,107,.5)}}
 #btns .row button{width:calc(var(--u)*72);font-size:calc(var(--u)*3.8)}
 #bDbg{position:absolute;top:calc(var(--u)*2);left:calc(var(--u)*2);font:inherit;font-size:calc(var(--u)*2.8);padding:calc(var(--u)*1.8) calc(var(--u)*4);background:rgba(255,255,255,.05);color:rgba(255,246,224,.5);border:1px dashed rgba(255,246,224,.3);border-radius:999px;pointer-events:auto;opacity:0;animation:in 1.4s 6s forwards}
@@ -70,6 +70,11 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #chap button{text-align:left;line-height:1.6}
 #chap button small{display:block;font-size:calc(var(--u)*3);opacity:.75;margin-top:calc(var(--u)*1)}
 #chap button:disabled{opacity:.45}
+#chap .alb{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*6) calc(var(--u)*5);padding:calc(var(--u)*3) calc(var(--u)*2)}
+#chap .pol{position:relative;background:#f8f4ec;padding:calc(var(--u)*2.6) calc(var(--u)*2.6) calc(var(--u)*2);box-shadow:calc(var(--u)*1) calc(var(--u)*1.4) 0 rgba(0,0,0,.45);transform:rotate(var(--r,0deg));color:#5a4a4a;font-size:calc(var(--u)*2.2);line-height:1.5}
+#chap .pol img{display:block;width:100%;image-rendering:pixelated;image-rendering:crisp-edges;box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}#chap .pol span{display:block;padding-top:calc(var(--u)*2);min-height:calc(var(--u)*7)}
+#chap .pol::before{content:'';position:absolute;top:calc(var(--u)*-2);left:50%;width:calc(var(--u)*16);height:calc(var(--u)*4.5);margin-left:calc(var(--u)*-8);background:rgba(234,217,168,.88);transform:rotate(-3deg)}
+#chap .pol.big{width:calc(var(--u)*118);align-self:center;font-size:calc(var(--u)*3.4);--r:-1.5deg;margin-bottom:calc(var(--u)*4)}#chap .pol:active{filter:brightness(.92)}
 #chap .soon{font-size:calc(var(--u)*3);opacity:.6}
 #chap .back{background:radial-gradient(circle at calc(var(--u)*5.6) 50%,#24143c 0 calc(var(--u)*1.15),#e8b84a calc(var(--u)*1.2) calc(var(--u)*1.85),transparent calc(var(--u)*1.9)),linear-gradient(#ffd6e8,#ffbcd8 calc(100% - calc(var(--u)*1.1)),#d98aae 0)}
 @keyframes in{to{opacity:1}}
@@ -156,7 +161,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.72</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.73</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -2875,7 +2880,7 @@ function phDo(st,cont){const A=PASK[st],pm=mode,keep={};mode='phwait';setHud('')
   if(A.aft)say(A.aft,cont);else cont()},A.img?{img:A.img(),hold:A.hold}:null))}
 
 function c4Polaroid(p,x,y,a){x=Math.round(x);y=Math.round(y);cx.globalAlpha=a*.4;r(x+3,y+4,128,148,'#000');cx.globalAlpha=a;r(x,y,128,148,'#f8f4ec');r(x,y+147,128,1,'#d8d0c0');r(x+127,y,1,148,'#e0d8c8');
- cx.drawImage(p.img,x+4,y+4);r(x+4,y+4,120,1,'rgba(0,0,0,.18)');r(x+4,y+4,1,120,'rgba(0,0,0,.12)');txt(p.cap,x+64-p.cap.length*2,y+132,'#5a4a4a',1);cx.globalAlpha=1}
+ cx.drawImage(p.img,x+4,y+4);if(p.t!=null&&p.t<1.7){const d=1-Math.min(1,Math.max(0,(p.t-.3)/1.3));cx.globalAlpha=a*d;r(x+4,y+4,120,120,'#ece4d6');cx.globalAlpha=a*d*.5;r(x+4,y+4,120,120,'#b8a890');cx.globalAlpha=a}r(x+4,y+4,120,1,'rgba(0,0,0,.18)');r(x+4,y+4,1,120,'rgba(0,0,0,.12)');cx.globalAlpha=a*.85;r(x+46,y-4,36,9,'#ead9a8');r(x+46,y-4,36,1,'#f6ecc8');r(x+46,y-4,1,9,'#d8c690');r(x+81,y-4,1,9,'#d8c690');cx.globalAlpha=a;txt(p.cap,x+64-p.cap.length*2,y+132,'#5a4a4a',1);cx.globalAlpha=1}
 function tryMarker(p,k){/* a red marker scribbles an X over the director, right on the photo itself */
  if(k<1.3||p.mk>=2)return;const g=p.img.getContext('2d'),S=[[[58,58],[90,112]],[[90,58],[58,112]]];
  for(let i=0;i<2;i++){const u=Math.max(0,Math.min(1,(k-1.3-i*.65)/.5));if(u<=0)continue;const [[x0,y0],[x1,y1]]=S[i],n=Math.round(u*30),d=p['d'+i]||0;
@@ -8252,6 +8257,7 @@ $('btns').addEventListener('animationend',e=>{if(e.target===$('btns'))$('btns').
 $('bPlay').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('confirm');const ck=CK.get();if(ck>=0&&SCENES[ck])dbgStart(ck,1);else if(hasData())confirmNew();else newGame()};
 $('bNew').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');confirmNew()};
 $('pDev').onclick=()=>{sfx('select');DEV.set(!DEV.on());updTitle()};
+$('bAl').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');openAlbum()};
 $('bCh').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');openChap()};
 $('bMg').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');openMini()};
 $('bDbg').onclick=()=>{if(mode!=='title'||!DEV.on()||!BOK())return;sfx('select');openScenes()};
@@ -8261,9 +8267,22 @@ const CK={get:()=>{const v=LS('ourstory_ck');return v==null?-1:+v},set:i=>LS('ou
 const FIN={get:()=>LS('ourstory_fin')==='1',set:()=>LS('ourstory_fin','1')};
 const hasData=()=>CK.get()>=0||Object.keys(ALB.get()).length>0;
 function updTitle(){const d=DEV.on(),ck=CK.get();$('bPlay').innerHTML=ck>=0?'&#9654;&nbsp;Continue':FIN.get()?'&#9654;&nbsp;Play again':'&#9654;&nbsp;Tap to start';
- $('bNew').style.display=ck>=0?'':'none';$('bCh').style.display=d?'':'none';$('bMg').style.display=d||FIN.get()?'':'none';$('bDbg').style.display=d?'':'none';
+ $('bNew').style.display=ck>=0?'':'none';$('bAl').style.display=albList().length?'':'none';$('bCh').style.display=d?'':'none';$('bMg').style.display=d||FIN.get()?'':'none';$('bDbg').style.display=d?'':'none';
  const row=$('bNew').parentNode;row.style.display=[...row.children].some(b=>b.style.display!=='none')?'':'none';$('pDev').textContent='Dev mode: '+(d?'ON':'OFF')}
 function newGame(){CK.clr();LS('ourstory_pk',null);LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';startPan()}
+/* ---- the photo album on the title screen: every photo she has taken, to look through and to keep ---- */
+function albList(){const o=ALB.get(),ks=Object.keys(o);if(!ks.length)return [];const ord=PHOTO_OPS.map(p=>p.st);return ks.sort((a,b)=>(ord.indexOf(a)<0?99:ord.indexOf(a))-(ord.indexOf(b)<0?99:ord.indexOf(b)))}
+function albSrc(st){try{const im=ALB.img(st);if(im&&im.toDataURL)return im.toDataURL('image/png');if(im&&im.src)return im.src}catch(e){}return ALB.get()[st]||''}
+function openAlbum(){const e=$('chap'),L=albList();let h='<h2>OUR PHOTOS</h2><div class="alb">';L.forEach((st,i)=>{h+='<div class="pol" data-s="'+st+'" style="--r:'+[-2.2,1.6,-1.2,2.4][i%4]+'deg"><img src="'+albSrc(st)+'"><span>'+(phCap(st)||'&nbsp;')+'</span></div>'});
+ h+='</div><button class="back">Back</button>';e.innerHTML=h;e.style.display='flex';e.style.justifyContent='flex-start';e.style.overflowY='auto';e.style.gap='calc(var(--u)*4)';e.scrollTop=0;
+ e.querySelectorAll('.pol').forEach(d=>d.onclick=()=>{sfx('select');albView(d.dataset.s)});e.querySelector('.back').onclick=()=>{sfx('select');e.style.display='none'}}
+function albView(st){const e=$('chap');e.innerHTML='<div class="pol big"><img id="albI" src="'+albSrc(st)+'"><span>'+(phCap(st)||'&nbsp;')+'</span></div><button id="albS">Save this photo</button><button class="back">Back to the album</button>';e.style.justifyContent='center';e.scrollTop=0;
+ e.querySelector('.back').onclick=()=>{sfx('select');openAlbum()};$('albS').onclick=()=>{sfx('shutter');albSave(st,$('albI'))}}
+/* a crisp, enlarged copy of the polaroid, handed to the phone's share sheet (Save Image) or downloaded */
+function albSave(st,img){try{const o=document.createElement('canvas');o.width=140;o.height=162;const g=o.getContext('2d'),m=cx;g.imageSmoothingEnabled=false;g._c=null;cx=g;try{g.fillStyle='#1a1030';g.fillRect(0,0,140,162);c4Polaroid({img,cap:phCap(st)||''},6,8,1)}finally{cx=m}
+  const big=document.createElement('canvas');big.width=140*6;big.height=162*6;const bg=big.getContext('2d');bg.imageSmoothingEnabled=false;bg.drawImage(o,0,0,big.width,big.height);
+  big.toBlob(async b=>{const f=new File([b],'our-story-'+st+'.png',{type:'image/png'});try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f]});return}}catch(e){if(e&&e.name==='AbortError')return}
+   const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f.name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)},'image/png')}catch(e){}}
 function confirmNew(){const e=$('chap');e.style.justifyContent='';e.style.overflowY='';e.style.gap='';
  e.innerHTML='<h2>START OVER?</h2><p class="soon" style="text-align:center;line-height:1.8">Are you SURE?<br><br>Starting a new game will wipe your saved progress and your photo album, and start the story from the very beginning.</p><button id="cfYes" style="text-align:center;background:#ff7a7a">Yes, wipe it &amp; start over</button><button class="back" style="text-align:center">Cancel</button>';
  e.style.display='flex';$('cfYes').onclick=()=>{sfx('confirm');newGame()};e.querySelector('.back').onclick=()=>{sfx('select');e.style.display='none'}}
