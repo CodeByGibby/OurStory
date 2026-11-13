@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.45</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.46</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -7798,13 +7798,16 @@ function epFamily(){setLoc('epfam');mode='ep';epDress();Object.assign(abi,{hold:
  after(.8,()=>say([{n:'',t:'One golden evening, out on the back patio...'},{n:'Abigail',t:'Everybody in! Family photo!'},{n:'Hunter',t:'Timer’s set! Ten seconds!',anim:()=>{ep.tm=T;sfx('beep')}}],()=>{
   go(hunter,[[52,124],[44,106]],40);ep.fd.run=1;
   for(let i=1;i<=6;i++)after(i*.55,()=>sfx('beep'));
-  waitTill(()=>hunter.tx==null,()=>{hunter.dir='d';ep.fd={x:20,y:110,dir:'r',run:0};after(1.4,()=>{phShot('family',{x:39,y:108},()=>{
+  waitTill(()=>hunter.tx==null,()=>{hunter.dir='d';ep.fd.home=T;after(1.4,()=>{phShot('family',{x:39,y:108},()=>{
    say([{n:'Abigail',t:'Let me see!'},{n:'Hunter',t:'...It’s perfect.'},{n:'Abigail',t:'Our family.'}],()=>fadeTo(epPorch))})})})}))}
 function vEpFam(t){for(let y=0;y<30;y+=2){const k=y/30;r(0,y,80,2,`rgb(${Math.round(250-k*20)},${Math.round(170+k*40)},${Math.round(120+k*40)})`)}
  backHouse(t,0,10);umbrella(8,100,0);rugAt(14,96,52,22,0);
  cx.globalAlpha=.16;r(0,0,80,144,'#ff9a4a');cx.globalAlpha=1;
  const F=ep.fd||{x:20,y:110};let fx=F.x,fy=F.y,fdir=F.dir||'r',run=0;
- if(F.run&&ep.tm&&T-ep.tm<4.6){const a=(T-ep.tm)*2.6;fx=40+Math.cos(a)*28;fy=118+Math.sin(a)*12;fdir=-Math.sin(a)>0?'r':'l';run=1}
+ if(F.run&&ep.tm){// zoomies around the patio, then she trots back to her spot for the photo
+  const circ=u=>{const a=u*2.6;return [40+Math.cos(a)*28,118+Math.sin(a)*12,-Math.sin(a)>0?'r':'l']},tE=Math.min(F.home||1e9,ep.tm+4.6);
+  if(T<tE){[fx,fy,fdir]=circ(T-ep.tm);run=1}
+  else{const [sx,sy]=circ(tE-ep.tm),dur=Math.max(.35,Math.hypot(F.x-sx,F.y-sy)/50),k=Math.min(1,(T-tE)/dur),e=k<1?k*(2-k):1;fx=sx+(F.x-sx)*e;fy=sy+(F.y-sy)*e;run=k<1?1:0;fdir=k<1?(F.x<sx?'l':'r'):'r'}}
  const L=[{y:fy,f:()=>corgi(fx,fy,fdir,2,t,run,0)},{y:110,f:()=>crumpet(57,110,'l',t,1,0)},{y:96,f:()=>rocker(70,100,0)}];
  L.push({y:150,f:()=>{r(36,128,8,6,'#2a2a34');r(37,129,3,3,'#4a6a8a');r(42,127,1,1,'#2a2a34');const blink=ep.tm&&T-ep.tm<5.6&&Math.floor(T*4)%2;r(42,129,1,1,blink?'#ff3a3a':'#5a2a2a');
   r(39,134,2,4,'#3a3a44');for(let i=0;i<10;i++){r(39-i*.6,138+i,1,1,'#3a3a44');r(40,138+i,1,1,'#3a3a44');r(41+i*.6,138+i,1,1,'#3a3a44')}}});
