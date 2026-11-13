@@ -163,7 +163,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.5.1</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.5.2</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -232,7 +232,21 @@ const dn=(x,y,top,hair,hl,skin,ph)=>mk('morgan',x,y,{n:'Dancer',top,hair,hl,skin
 const dancers=[dn(58,452,'#ff7eb6','#2a1a1a',2,'#8d5a3a',0),dn(102,452,'#7ee8fa','#d8a33a',1,'#f6d2b0',1),dn(58,494,'#8be28b','#5a2a1a',0,'#c98e62',2),dn(102,494,'#ffd86b','#1a1a2a',1,'#f1c9a0',3)];
 const all=[hunter,morgan,abi,bart,dj,...dancers];
 
-function body(p,t){
+/* Small in-between moments, worked out in one place so every scene gets them:
+   - turning right round passes through one frame facing the camera
+   - sitting down settles into the seat, standing up rises out of it
+   - an item being put away lowers out of the hand instead of vanishing */
+function body(p,t){if(photo||p.dance||p._raw){body0(p,t);return}
+ if(p._fT!==T){const gap=p._fT==null||T-p._fT>.3;p._fT=T;const d=p.dir,OPP={l:'r',r:'l',u:'d',d:'u'};
+  if(!gap&&p._pd&&p._pd!==d&&OPP[p._pd]===d){p._tT=T;p._tv=d==='l'||d==='r'?'d':(p._lr||'r')}if(d==='l'||d==='r')p._lr=d;p._pd=d;
+  const st=p.sit?1:p.kneel?2:0;if(!gap&&p._ps!=null&&p._ps!==st){p._sT=T;p._sv=st?1:-1}p._ps=st;
+  if(p.hold){p._hh=p.hold;p._hr=null}else if(p._hh){if(gap){p._hh=null;p._h=null}else if(p._hr==null)p._hr=T;else if(T-p._hr>.16){p._hh=null;p._h=null;p._hr=null}}}
+ const d0=p.dir,y0=p.y,h0=p.hold,hs0=p.hs;
+ if(p._tT!=null&&T-p._tT<.085)p.dir=p._tv;
+ if(p._sT!=null&&T-p._sT<.16){const k=(T-p._sT)/.16;p.y=y0+(p._sv>0?-Math.round((1-k)*3):Math.round((1-k)*2))}
+ if(!h0&&p._hh&&p._hr!=null&&h0!==p._hh){p.hold=p._hh;p._h=p._hh;p.hs=t-.35*Math.max(0,1-(T-p._hr)/.16)}
+ try{body0(p,t)}finally{p.dir=d0;p.y=y0;if(!h0){p.hold=h0;if(hs0!==undefined)p.hs=hs0}}}
+function body0(p,t){
  let x=Math.round(p.x),y=Math.round(p.y);if(p.kneel)y+=2;
  if(p.dance){const sb=songBeat();y-=(sb!=null?Math.abs(Math.sin(sb*Math.PI)):Math.abs(Math.sin(t*7+(p.ph||0))))*2|0}else if(dlg&&dlg.l[dlg.i].n===p.n&&Math.floor(t*6)%2)y-=1;
  // the speaker's body reacts to what they're saying: a jump, a laugh-shake, a slump, a happy bounce, a curious lean
@@ -242,7 +256,7 @@ function body(p,t){
   if(p===hunter||p===abi){const st=p.moving?Math.floor(t*6+(p===abi?.5:0))%2:0;if(st&&!p._st&&AMBS[loc]!=='church')sfx('foot');p._st=st}
   if(p.moving){if(!p._mv){p._mv=1;p._m0=T}}else if(p._mv){p._mv=0;if(T-p._m0>.4&&!p.sit&&DUSTY[AMBS[loc]])p._du={t:T,x,y}}
   if(p._du){const k=(T-p._du.t)/.32;if(k>=1)p._du=null;else{cx.globalAlpha=(1-k)*.35;const dx=Math.round(3+k*2),dy=Math.round(k*1.5);r(p._du.x-dx,p._du.y-1-dy,1,1,'#efe6d6');r(p._du.x+dx,p._du.y-1-dy,1,1,'#efe6d6');cx.globalAlpha=1}}}
- const s=p.moving?Math.floor(t*9)%2:0,up=p.dir==='u',hL=4-s,hR=3+s;
+ const wf=p.moving?Math.floor(t*10+(p.ph||0))%4:-1,s=wf>=0?wf>>1:0,up=p.dir==='u',hL=wf<0?4:[4,4,3,4][wf],hR=wf<0?3:[3,4,4,4][wf],aw=wf<0||p.dance?0:[-1,0,1,0][wf];
  if(p.hl)r(x-4,y-16,8,p.hl==2?9:5,p.hair);
  if(p.kneel){const f=p.dir==='l'?-1:1;if(f<0){r(x-4,y-5,4,2,p.pants);r(x-4,y-3,2,3,p.pants);r(x-5,y-1,3,1,p.shoe);r(x+1,y-4,2,3,p.pants);r(x+2,y-1,3,1,p.pants);r(x+5,y-1,1,1,p.shoe)}else{r(x,y-5,4,2,p.pants);r(x+2,y-3,2,3,p.pants);r(x+2,y-1,3,1,p.shoe);r(x-3,y-4,2,3,p.pants);r(x-5,y-1,3,1,p.pants);r(x-6,y-1,1,1,p.shoe)}}
  else if(p.gown){}else if(p.sit&&(p.dir==='l'||p.dir==='r')&&!p.sitF){const f=p.dir==='l'?-1:1;r(f<0?x-6:x,y-5,6,2,p.pants);r(f<0?x-6:x,y-5,6,1,sh(p.pants,1.15));if(p.shin){r(f<0?x-6:x+4,y-4,2,4,p.pants);r(f<0?x-8:x+4,y-1,4,1,p.shoe)}else{r(f<0?x-8:x+6,y-6,2,3,p.shoe);r(f<0?x-8:x+7,y-6,1,1,sh(p.shoe,1.4))}}else if(p.sit){const lt=parseInt((p.shoe||'#222').slice(1,3),16)>150,so=lt?'#d8d8e0':'#c8b4a0',tr=lt?'#9a9aa8':'#7a6454';[x-3,x+1].forEach(sx=>{r(sx,y-4,2,3,so);r(sx,y-3,2,1,tr);r(sx,y-1,2,1,sh(so,.8))})}else{r(x-3,y-4,2,hL,p.pants);r(x-3,y-5+hL,2,1,p.shoe);r(x+1,y-4,2,hR,p.pants);r(x+1,y-5+hR,2,1,p.shoe)}
@@ -258,8 +272,8 @@ function body(p,t){
  const la=p.dance&&(()=>{const sb=songBeat();return sb!=null?(((Math.floor(sb)+(p.ph||0))%2)+2)%2:Math.floor(t*5+(p.ph||0))%2})();
  if(p.reach){const [tx,ty]=p.reach,L=tx<x,sx=L?x-4:x+3,sy=y-10,n=Math.max(Math.abs(tx-sx),Math.abs(ty-sy))|0;for(let i=0;i<=n;i++){const px=Math.round(sx+(tx-sx)*i/n),py=Math.round(sy+(ty-sy)*i/n);r(px,py,1,1,i>=n-1?p.skin:p.top)}if(L){r(x+3,y-8,1,3,p.top);r(x+3,y-5,1,1,p.skin)}else{r(x-4,y-8,1,3,p.top);r(x-4,y-5,1,1,p.skin)}}
  else if(p.robo!=null){const u=p.robo%2==0;r(x-5,y-10,2,1,p.top);r(x-5,u?y-13:y-9,1,3,p.top);r(x-5,u?y-14:y-6,1,1,p.skin);r(x+3,y-10,2,1,p.top);r(x+4,u?y-9:y-13,1,3,p.top);r(x+4,u?y-6:y-14,1,1,p.skin)}
- else if(!p.hold||p.dance){r(x-4,la?y-12:y-8,1,3,p.top);r(x-4,la?y-13:y-5,1,1,p.skin);
- r(x+3,p.dance&&!la?y-12:y-8,1,3,p.top);r(x+3,p.dance&&!la?y-13:y-5,1,1,p.skin)}
+ else if(!p.hold||p.dance){r(x-4,la?y-12:y-8+aw,1,3,p.top);r(x-4,la?y-13:y-5+aw,1,1,p.skin);
+ r(x+3,p.dance&&!la?y-12:y-8-aw,1,3,p.top);r(x+3,p.dance&&!la?y-13:y-5-aw,1,1,p.skin)}
  if(p.fit==='big'){r(x-5,y-11,10,8,p.top);r(x-6,y-10,1,7,p.top);r(x+5,y-10,1,7,p.top);r(x-1,y-10,2,3,'#f4f4f8');r(x-5,y-1,10,1,p.pants);r(x-3,y-11,6,1,sh(p.top,1.6))}else if(p.fit==='small'){r(x-3,y-3,2,2,p.skin);r(x+1,y-3,2,2,p.skin);r(x-4,y-7,1,2,p.skin);r(x+3,y-7,1,2,p.skin);r(x-2,y-5,4,1,'#f4f4f8');r(x-2,y-4,4,1,p.skin)}
  r(x-3,y-16,6,6,p.skin);r(x+2,y-15,1,5,sh(p.skin,.88));r(x-3,y-11,6,1,sh(p.skin,.93));
  if(up)r(x-3,y-17,6,7,p.hair);else{
@@ -757,7 +771,8 @@ function mv(p,dt,col){
  if(p.tx==null){p.moving=false;return}
  const dx=p.tx-p.x,dy=p.ty-p.y,d=Math.hypot(dx,dy);
  if(d<1.2){if(p.path&&p.path.length){const n=p.path.shift();p.tx=n[0];p.ty=n[1];return}p.tx=null;p.moving=false;return}
- const s=Math.min(d,(p.sp||48)*dt),ox=p.x,oy=p.y,nx=p.x+dx/d*s,ny=p.y+dy/d*s;
+ if(!p.moving)p._w0=T;const last=!(p.path&&p.path.length),ez=Math.min(1,.45+(T-(p._w0||0))/.14)*(last&&d<7?Math.max(.45,d/7):1);
+ const s=Math.min(d,(p.sp||48)*dt*ez),ox=p.x,oy=p.y,nx=p.x+dx/d*s,ny=p.y+dy/d*s;
  if(col){if(!blk(nx,p.y))p.x=nx;if(!blk(p.x,ny))p.y=ny}else{p.x=nx;p.y=ny}
  p.moving=true;if(!p.sitMove){if(p.sit){p.sit=0;p.sitF=0;p.shin=0}if(p.kneel)p.kneel=0}if(!p.back)p.dir=Math.abs(dx)>Math.abs(dy)?(dx<0?'l':'r'):(dy<0?'u':'d');
  if(col&&Math.abs(p.x-ox)+Math.abs(p.y-oy)<.01){p.stk=(p.stk||0)+dt;if(p.stk>.25){p.stk=0;if(p.path&&p.path.length){const n=p.path.shift();p.tx=n[0];p.ty=n[1]}else{p.tx=null;p.moving=false}}}else p.stk=0
@@ -6387,12 +6402,16 @@ const seller=mk('morgan',62,118,{n:'Seller',skin:'#e8c0a0',hair:'#8a6a4a',hl:1,e
 Object.assign(NC,{Seller:'#5a7a4a',Donut:'#e0903a'});Object.assign(VOICE,{Seller:200,Donut:520});
 let c7={};
 const CO='#e0903a',CW='#fbf6ec';
-function corgi(x,y,dir,sz,t,run,jy){if(!photo){DOGT=T;if(run)DOGR=T}x=Math.round(x);y=Math.round(y)-(jy|0);const L=[8,11,14][sz],h=[3,4,5][sz],lg=[2,2,3][sz],by=y-lg,ph=run?Math.floor(t*14)%2:0;
- if(!jy)ell(x,Math.round(y+(jy|0)),L/2+1,1,'#000',.18);cx.save();if(dir==='l'){cx.translate(2*x,0);cx.scale(-1,1)}
- [[x-L/2+1,0],[x-L/2+3,1],[x+L/2-4,1],[x+L/2-2,0]].forEach(([lx,k])=>{const up=run&&((k+ph)%2)?1:0;r(Math.round(lx),by-up,2,lg+up*0,k?CW:'#ece4d6')});
+const DGS={};function corgi(x,y,dir,sz,t,run,jy){if(!photo){DOGT=T;if(run)DOGR=T}x=Math.round(x);const g4=run?Math.floor(t*14)%4:-1,air=g4===1?1:0;let hop=0,skid=0;
+ if(!photo&&cx===CX0){const S=DGS[loc+sz]||(DGS[loc+sz]={});if(S.T!=null&&T-S.T<.3){if(S.run&&run&&S.dir!==dir)S.hT=T;if(S.run&&!run)S.sT=T}S.run=run;S.dir=dir;S.T=T;if(S.hT!=null&&T-S.hT<.14)hop=Math.round(Math.sin((T-S.hT)/.14*Math.PI)*2);if(S.sT!=null&&T-S.sT<.3)skid=(T-S.sT)/.3}
+ y=Math.round(y)-(jy|0)-air-hop;const L=[8,11,14][sz],h=[3,4,5][sz],lg=[2,2,3][sz],by=y-lg;
+ if(!jy)ell(x,Math.round(y+(jy|0))+air+hop,L/2+1,1,'#000',.18);cx.save();if(dir==='l'){cx.translate(2*x,0);cx.scale(-1,1)}
+ if(skid){cx.globalAlpha=(1-skid)*.5;const q=Math.round(skid*4);r(x+L/2+1+q,y-1-Math.round(skid*2),1,1,'#efe6d6');r(x+L/2+3+q,y-1,1,1,'#efe6d6');cx.globalAlpha=1}
+ // gallop: stretched out, all four off the ground, gathered under her, landing
+ [[x-L/2+1,0,-1],[x-L/2+3,1,-1],[x+L/2-4,1,1],[x+L/2-2,0,1]].forEach(([lx,k,e])=>{const ox=g4===0?e:g4===2?-e:0;r(Math.round(lx)+ox,by,2,lg,k?CW:'#ece4d6')});
  r(x-L/2,by-h,L,h,CO);r(x-L/2,by-h,L,1,'#eaa456');r(x-L/2+2,by-1,L-4,1,CW);r(x-L/2-1,by-h+1,1,h-1,'#f2c080');r(x+L/2-2,by-h+1,2,h-1,CW);
  const hs=sz?5:4,hx=x+L/2-1,hy=by-h+1;r(hx,hy-hs+1,hs,hs,CO);r(hx+hs-1,hy-1,2,2,CW);r(hx+hs+1,hy-1,1,1,'#2a1a1a');r(hx+2,hy-hs+1,1,hs-1,CW);r(hx+hs-2,hy-hs+2,1,1,'#2a1a1a');
- const ey=hy-hs+1;r(hx,ey-3,2,3,CO);r(hx+3,ey-3,2,3,CO);r(hx+3,ey-2,1,2,'#f0a0a0');r(hx,ey-3,1,1,'#b8682a');
+ const ey=hy-hs+1;if(run){r(hx-1,ey-2,2,2,CO);r(hx+2,ey-2,2,2,CO);r(hx+2,ey-1,1,1,'#f0a0a0');r(hx-1,ey-2,1,1,'#b8682a')}else{r(hx,ey-3,2,3,CO);r(hx+3,ey-3,2,3,CO);r(hx+3,ey-2,1,2,'#f0a0a0');r(hx,ey-3,1,1,'#b8682a')}
  if(run)r(hx+hs,hy+1,1,1,'#ff7e9e');cx.restore()}
 function corgiFace(x,y,z,flat,t){const R=(a,b,w,h,c)=>r(x+a*z,y+b*z,w*z,h*z,c);
  if(flat){R(-7,-7,3,2,CO);R(5,-7,3,2,CO)}else{R(-5,-12,3,5,CO);R(-4,-11,1,3,'#f0a0a0');R(3,-12,3,5,CO);R(4,-11,1,3,'#f0a0a0')}
@@ -7902,12 +7921,15 @@ function epCrumpet(){setLoc('epcrump');mode='ep';epDress();at(abi,30,126,'r');at
    {n:'Hunter',t:'She is... very round.'},{n:'Abigail',t:'She is PERFECT. Don’t listen to him, Crumpet.'},{n:'',t:'Crumpet turns and stares directly at Hunter. Unblinking.',anim:()=>{ep.cr.eye=1}},
    {n:'Hunter',t:'Did she just... side-eye me?'},{n:'Abigail',t:'She’s sassy. I love her.'},{n:'',t:'Crumpet flops onto her side. Conversation over.',anim:()=>{ep.cr.pose=2;sfx('bump')}},
    {n:'',t:'Sweet, sassy, and proudly chunky. Donut runs laps. Crumpet supervises.'}],()=>fadeTo(epHouse))})))}
-function crumpet(x,y,dir,t,pose,eye){x=Math.round(x);y=Math.round(y);ell(x,y,8,1,'#000',.18);cx.save();if(dir==='l'){cx.translate(2*x,0);cx.scale(-1,1)}
- const N='#2a1a1a',BW='#ff7eb6';
+const CRS={};function crumpet(x,y,dir,t,pose,eye){x=Math.round(x);y=Math.round(y);let thump=0,puff=0;
+ if(!photo&&cx===CX0){const S=CRS[loc]||(CRS[loc]={p:pose,T:-9});if(S.p!==pose){S.o=S.p;S.p=pose;S.T=T}const k=T-S.T;
+  if(k<.12&&(pose===2||pose===1)&&S.o!=null&&S.o!==3){pose=S.o;y+=pose===1?2:1}else if(k<.26&&S.p===2){y-=k<.19?1:0;puff=(k-.12)/.14}
+  if(pose===1&&(t%3.4)<.36&&Math.floor(t*11)%2)thump=1}ell(x,y,8,1,'#000',.18);cx.save();if(dir==='l'){cx.translate(2*x,0);cx.scale(-1,1)}
+ const N='#2a1a1a',BW='#ff7eb6';if(puff>0&&puff<1){cx.globalAlpha=(1-puff)*.55;const q=Math.round(puff*4);r(x-10-q,y-1-Math.round(puff*2),2,1,'#efe6d6');r(x+8+q,y-1-Math.round(puff*2),2,1,'#efe6d6');cx.globalAlpha=1}
  if(pose===2||pose===3){r(x-8,y-6,15,6,CO);r(x-7,y-7,13,1,CO);r(x-7,y-7,13,1,'#eaa456');r(x-6,y-3,11,3,CW);r(x-5,y-1,2,1,CW);r(x+1,y-1,2,1,CW);r(x-9,y-5,1,3,CW);
   r(x+6,y-8,6,6,CO);r(x+8,y-7,1,3,CW);r(x+9,y-4,4,2,CW);r(x+12,y-4,1,1,N);r(x+9,y-6,2,1,N);r(x+7,y-10,2,2,CO);r(x+10,y-10,2,2,CO);r(x+6,y-10,2,1,BW);r(x+5,y-11,1,1,BW);r(x+8,y-11,1,1,BW);
   if(pose===3&&!MONO){const z=Math.floor(t*1.5)%3;r(x+12+z,y-14-z*2,3,1,'#fff');r(x+13+z,y-13-z*2,1,1,'#fff');r(x+12+z,y-12-z*2,3,1,'#fff')}}
- else if(pose===1){r(x-5,y-9,9,9,CO);r(x-6,y-6,1,6,CO);r(x+4,y-7,1,6,CO);r(x-5,y-9,9,1,'#eaa456');r(x,y-8,4,7,CW);r(x+1,y-2,1,2,CW);r(x+3,y-2,1,2,CW);r(x-7,y-2,4,2,CO);
+ else if(pose===1){r(x-5,y-9,9,9,CO);r(x-6,y-6,1,6,CO);r(x+4,y-7,1,6,CO);r(x-5,y-9,9,1,'#eaa456');r(x,y-8,4,7,CW);r(x+1,y-2,1,2,CW);r(x+3,y-2,1,2,CW);r(x-7,y-2-thump,4,2,CO);if(thump)r(x-8,y-4,1,1,CO);
   r(x-1,y-15,8,7,CO);r(x+2,y-15,1,4,CW);r(x+3,y-11,4,3,CW);r(x+6,y-11,1,1,N);
   if(eye){r(x+4,y-13,2,1,N);r(x+4,y-14,2,1,'#c8783a')}else{r(x+3,y-13,1,1,N);r(x+5,y-13,1,1,N)}
   r(x-1,y-18,2,3,CO);r(x+4,y-18,2,3,CO);r(x+4,y-17,1,2,'#f0a0a0');r(x-2,y-17,3,2,BW);r(x-1,y-16,1,1,'#ffa8d0')}
