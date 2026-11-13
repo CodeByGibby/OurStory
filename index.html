@@ -143,7 +143,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 <canvas id="amb" width="16" height="8"></canvas>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.47</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.48</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3282,9 +3282,9 @@ function musTick(){const c=AU.ctx;if(!c)return;songTick();try{amUpdate()}catch(e
 const AMBS={};(()=>{const put=(k,l)=>l.split(' ').forEach(n=>AMBS[n]=k);
  put('birds','ephouse eppaint epyard epfam field7 farm7 lake bench hill bonnell plaza river pooplot lot7 walk8 uk8 epvillage eplondon couple8');
  put('night','street door epporch balc8 night2');
- put('crowd','roof bars barcade steak mex dinner tasting c3grad epgrad lobby term5 gate5 sec5 arr5 weigh5 epncl store bstore church8');
+ put('crowd','bars barcade steak mex dinner tasting c3grad epgrad lobby term5 gate5 sec5 arr5 weigh5 epncl store bstore church8');
  put('cabin','plane epmap');put('car','drive road hwy4 hdrive kcdrive drive7 car7');put('wind','snow climb')})();
-const AMBP={birds:[500,'lowpass',.018],night:[900,'lowpass',.012],crowd:[650,'bandpass',.11],cabin:[260,'lowpass',.3],car:[150,'lowpass',.28],wind:[420,'bandpass',.12]};
+const AMBP={birds:[400,'lowpass',.008],night:[600,'lowpass',.006],crowd:[320,'lowpass',.03],cabin:[200,'lowpass',.12],car:[130,'lowpass',.1],wind:[380,'bandpass',.05]};
 function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
  if(!A){const len=c.sampleRate*3|0,nb=c.createBuffer(1,len,c.sampleRate),d=nb.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
   A=AU.ab={g:c.createGain(),bg:c.createGain(),f:c.createBiquadFilter(),s:c.createBufferSource(),k:null,next:0};A.s.buffer=nb;A.s.loop=true;A.g.gain.value=.5;A.bg.gain.value=0;A.s.connect(A.f);A.f.connect(A.bg);A.bg.connect(A.g);A.g.connect(AU.fx);A.s.start()}
