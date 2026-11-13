@@ -151,7 +151,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.57</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.58</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3346,9 +3346,9 @@ function musTick(){const c=AU.ctx;if(!c)return;songTick();try{amUpdate()}catch(e
 const AMBS={};(()=>{const put=(k,l)=>l.split(' ').forEach(n=>AMBS[n]=k);
  put('birds','ephouse eppaint epyard epfam field7 farm7 lake bench hill bonnell river pooplot lot7 walk8 uk8 epvillage couple8 epcoach');put('city','eplondon kcdt plaza');put('tennis','court');
  put('night','street door epporch balc8 night2');
- put('crowd','bars barcade steak mex dinner tasting c3grad epgrad lobby term5 gate5 sec5 arr5 weigh5 epncl store bstore church8');
+ put('crowd','c3grad epgrad church8');put('airport','term5 gate5 sec5 arr5 weigh5 epncl dep4');put('diner','bars steak mex dinner tasting');put('arcade','barcade');put('shop','store bstore jewel bakery florist tux bridal lobby');put('pump','pump');
  put('cabin','plane epmap');put('car','drive road hwy4 hdrive kcdrive drive7 car7 snow');put('wind','climb')})();
-const AMBP={birds:[400,'lowpass',.008],night:[600,'lowpass',.006],crowd:[320,'lowpass',.03],cabin:[200,'lowpass',.12],car:[130,'lowpass',.1],city:[170,'lowpass',.09],tennis:[400,'lowpass',.008],wind:[380,'bandpass',.05]};
+const AMBP={birds:[400,'lowpass',.008],night:[600,'lowpass',.006],crowd:[320,'lowpass',.03],cabin:[200,'lowpass',.12],car:[130,'lowpass',.1],city:[170,'lowpass',.09],airport:[300,'lowpass',.028],diner:[320,'lowpass',.03],arcade:[320,'lowpass',.025],shop:[110,'lowpass',.035],pump:[400,'lowpass',.008],tennis:[400,'lowpass',.008],wind:[380,'bandpass',.05]};
 function ambCar(vol,dur,heavy){vol*=.25;const c=AU.ctx,A=AU.ab,t=c.currentTime,s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain(),f0=heavy?210:420;
  // tyre and wind noise that swells and fades as it passes, over an engine note that drops in pitch
  s.buffer=A.nb;s.loop=true;f.type='bandpass';f.Q.value=.7;f.frequency.setValueAtTime(f0,t);f.frequency.linearRampToValueAtTime(f0*2.1,t+dur*.5);f.frequency.linearRampToValueAtTime(f0*.8,t+dur);
@@ -3369,6 +3369,40 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
  if(k==='city'){ambCar(rnd(.05,.15),rnd(1.7,3.1),Math.random()<.2);if(Math.random()<.1){tone(392,.28,'square',.007,null,.4,A.g);tone(494,.28,'square',.006,null,.4,A.g)}A.next=now+rnd(2.2,6.5);return}
  if(k==='car'){ambCar(rnd(.07,.13),rnd(.5,.95),Math.random()<.15);A.eo.frequency.setTargetAtTime(rnd(52,62),now,.8);
   if(loc==='snow'||(loc==='car7'&&typeof c7!=='undefined'&&c7.snow>.5)){for(let i=0;i<6;i++){tone(150,.07,'sine',.045,85,i*1.1,A.g);nz(.09,.03,650,'lowpass',i*1.1,A.g)}A.next=now+6.6}else A.next=now+rnd(3.5,9);return}
+
+ const T2=(f,d,v,dl,f2,w)=>tone(f,d,w||'sine',v,f2||null,dl||0,A.g);
+ if(k==='airport'){const q=Math.random();A.bg.gain.setTargetAtTime(AMBP.airport[2]*rnd(.7,1.2),now,.6);
+  if(q<.45){// a suitcase rolling past over the floor tiles
+   const n=9+(Math.random()*6|0);for(let i=0;i<n;i++){const e=Math.sin((i+.5)/n*Math.PI);T2(rnd(105,135),.035,.014*e,i*.085,70);if(i%2)nz(.03,.006*e,900,'lowpass',i*.085,A.g)}}
+  else if(q<.6&&now>(A.ch||0)){A.ch=now+22;T2(659,.7,.012);T2(523,.9,.012,.5)}// boarding chime
+  else if(q<.8&&loc==='sec5'){T2(1250,.07,.008);if(Math.random()<.4)T2(1250,.07,.008,.16)}// scanner
+  else if(q<.9){T2(rnd(180,240),.05,.012,0,90);T2(rnd(180,240),.05,.01,.22,90)}// a bag set down
+  A.next=now+rnd(2.2,5.5);return}
+ if(k==='diner'){// the whole restaurant holds its breath during the proposal
+  if(loc==='steak'&&typeof c6!=='undefined'&&c6&&c6.pr&&!c6.clap){A.bg.gain.setTargetAtTime(0,now,.3);A.next=now+.5;return}
+  A.bg.gain.setTargetAtTime(AMBP.diner[2]*rnd(.6,1.25),now,.5);const q=Math.random();
+  if(q<.5){const n=1+(Math.random()*3|0);for(let i=0;i<n;i++){const f=rnd(2900,4300);T2(f,.05,.006,i*rnd(.09,.2));T2(f*1.48,.035,.003,i*.15+.01)}}// cutlery on plates
+  else if(q<.75){const f=rnd(2300,3300);T2(f,.16,.008);T2(f*1.5,.12,.004,.01)}// glasses
+  else if(q<.82&&loc!=='bars'&&now>(A.ch||0)){A.ch=now+18;T2(2100,.35,.01);T2(4200,.25,.004)}// the kitchen bell
+  else if(q<.92){T2(rnd(150,200),.06,.012,0,90)}// a chair or a plate set down
+  A.next=now+rnd(.9,2.8);return}
+ if(k==='arcade'){A.bg.gain.setTargetAtTime(AMBP.arcade[2]*rnd(.6,1.2),now,.5);const q=Math.random();
+  if(q<.55){const b=[523,659,784,988,1175][Math.random()*5|0],n=2+(Math.random()*4|0),up=Math.random()<.6;for(let i=0;i<n;i++)T2(b*Math.pow(1.19,up?i:-i),.06,.0045,i*.075,null,'square')}// a cabinet somewhere
+  else if(q<.7){T2(1568,.05,.006,0,null,'square');T2(2093,.12,.006,.06,null,'square')}// a coin
+  else if(q<.82){T2(220,.25,.006,0,80,'sawtooth')}// someone lost
+  else if(q<.92){const f=rnd(2400,3300);T2(f,.14,.007);T2(f*1.5,.1,.003,.01)}
+  A.next=now+rnd(.7,2.4);return}
+ if(k==='shop'){const q=Math.random(),bell=loc==='bakery'||loc==='florist'||loc==='tux'||loc==='jewel'||loc==='bridal';
+  if(bell&&q<.2&&now>(A.ch||0)){A.ch=now+25;T2(1760,.5,.011);T2(1397,.7,.011,.28)}// the bell over the door
+  else if(loc==='lobby'&&q<.2&&now>(A.ch||0)){A.ch=now+25;T2(2637,.6,.012);T2(5274,.3,.003)}// front desk bell
+  else if((loc==='store'||loc==='bstore')&&q<.5){const n=1+(Math.random()*3|0);for(let i=0;i<n;i++)T2(1480,.06,.007,i*.32)}// the till
+  else if(q<.6){T2(rnd(140,200),.05,.01,0,90)}// something set down on a counter
+  else if(q<.7&&(loc==='tux'||loc==='bridal')){for(let i=0;i<3;i++)nz(.05,.006,1800,'bandpass',i*.16,A.g)}// hangers along a rail
+  A.next=now+rnd(2.5,6);return}
+ if(k==='pump'){const q=Math.random();if(q<.5){const n=14+(Math.random()*14|0);for(let i=0;i<n;i++)T2(900,.015,.006,i*.11,600,'square');T2(1320,.3,.009,n*.11+.1)}// the pump ticking over, then its ding
+  else if(q<.75)ambCar(.16,rnd(2,3));else{const f=rnd(2800,4200);for(let i=0;i<3;i++)T2(f*rnd(.9,1.15),.07,.01,i*.11,f*1.3)}
+  A.next=now+rnd(3,7);return}
+ if(k==='cabin'){if(Math.random()<.25&&now>(A.ch||0)){A.ch=now+30;T2(880,.9,.012);T2(1760,.5,.003)}A.next=now+rnd(4,8);return}
  if(k==='tennis'){// a rally going on a court or two away: pock... pock... then a pause
   if(typeof c5!=='undefined'&&c5&&c5.ct&&c5.ct.mode==='play'){A.next=now+1;return}
   A.rc=(A.rc||0)+1;ambPock(.045,A.rc%2);if(A.rc%2)tone(230,.05,'sine',.02,120,.36,A.g);if(Math.random()<.12)tone(2400,.06,'sine',.012,3000,.2,A.g);A.next=now+(A.rc%7?.74:rnd(2,3.4));return}
