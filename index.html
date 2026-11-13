@@ -163,7 +163,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.5.4</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.5.5</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1446,7 +1446,7 @@ function knockTap(){if(kt>0)return;sfx('knock');knock++;kt=.4;if(knock>=3){mode=
 function calShow(d,next){tv=null;qprops.lap=null;setLoc('cal');calD=d;calT0=T;mode='cal';$('card').style.opacity=0;fd=-1;after(3.2,()=>fadeTo(next))}
 function qStart(){qprops={remote:0,sw:0};hm=0;sick=1;tissues=4;fade=1;fd=2;fhold=.1;calShow(1,qDay1)}
 const addH=n=>{hm=Math.min(10,hm+n)};
-function qScene(o,lines,next){setLoc(o.loc||'living');lv={night:0,mor:0,q:0,...o};showHM=1;mode='q';after(1,()=>say(lines,next))}
+let QPN=null;function qScene(o,lines,next){const fromWalk=mode==='qx'&&qx&&qx.room==='living';if(fromWalk&&(o.q||0)>=3&&o.bk==null&&!o.loc)o={...o,bk:T};setLoc(o.loc||'living');lv={night:0,mor:0,q:0,...o};showHM=1;mode='q';after(1,()=>say(lines,next))}
 function _qDay1(){qScene({mor:0,q:0,mb:1},[{n:'',t:'Everything feels heavy. Foggy. Like your head is stuffed with cotton wool.'},
  {n:'Morgan',t:'(sniff) Tissues are... everywhere. Help yourself.'},{n:'Hunter',t:'I feel totally fine, by the way. Zero symptoms.'},{n:'Abigail',t:'Of course you do. Ugh. My nose is a faucet.'},
  {n:'',t:'HOW TO BLOW YOUR NOSE: tap as fast as you can to fill the meter. Fill it 3 times for 3 big HONKS!',c:[{l:'Grab a tissue',f:startNose}]}])}
@@ -1487,7 +1487,7 @@ function qxTap(x,y){if(qx.phase)return;const it=qxItems().find(i=>x>=i.x&&x<=i.x
 function qxToKitchen(after){qx.phase='walkOut';go(abi,qxRoute(72,138).concat([[92,140]]),40);qx.out=()=>fadeTo(()=>{setLoc('mkit');qx.room='kitchen';at(abi,-6,138,'r');go(abi,[[16,124]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(qx.hud)})}
 function qxToLiving(after){qx.phase='walkOut';go(abi,[[8,138],[-10,140]],40);qx.out=()=>fadeTo(()=>{setLoc('living');qx.room='living';at(abi,90,138,'l');go(abi,[[66,126]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(mode==='qx'?qx.hud:'')})}
 function qxUpdate(dt){if(!qx||(loc!=='living'&&loc!=='mkit'))return;if(qx.tap){qx.tap.t+=dt;if(qx.tap.t>.4)qx.tap=null}
- if(qx.phase){if(dlg)return;if(qx.phase==='sit'){qx.st+=dt;if(qx.st>=.45){qx.phase=null;lv.ex=0;abi.hold=null;abi.carry=null;sfx('step');qx.cont()}return}
+ if(qx.phase){if(dlg)return;if(qx.phase==='sit'){qx.st+=dt;if(qx.st>=.45){QPN=qx.room==='living'&&!qx.cnt.phone&&!(qprops.ph&&qprops.ph[qx.d])?qx.d:null;qx.phase=null;lv.ex=0;abi.hold=null;abi.carry=null;sfx('step');qx.cont()}return}
   if(qx.phase==='wait')return;mv(abi,dt);if(abi.tx==null){const P=qx.phase;abi.moving=false;
    if(P==='toSeat'){qx.phase='sit';qx.st=0;abi.dir='d'}else if(P==='exit'){qx.phase=null;qx.cont()}
    else if(P==='walkOut'){qx.phase='wait';const f=qx.out;qx.out=null;f()}else if(P==='walkIn'){qx.phase=null;const f=qx.afterIn;qx.afterIn=null;if(f)f()}}return}
@@ -1513,12 +1513,12 @@ function qxAbi(t){if(qx.tap){const k=qx.tap.t,q=1+k*8;cx.globalAlpha=1-k*2.5;[[q
  abi.sit=0;if(abi.hold!=='carry')abi.hold=null;person(abi,t);if(mode==='qx'&&!dlg&&!qx.phase){const g=qxGoalItem();if(g)qxArrow(t,g)}}
 function drawQx(t){const ex=lv.ex&&qx;
  r(16,28,9,12,'#f4f4f8');r(16,28,9,3,'#d8352f');const dd=qx?qx.d:1;for(let i=0;i<6;i++)r(17+(i%3)*3,33+((i/3)|0)*3,2,2,i<Math.min(6,dd/2.4|0)?'#d8352f':'#c8c8d0');
- {const nw=ex&&qx.room==='living'&&!qx.cnt.phone&&!(qprops.ph&&qprops.ph[qx.d]),bz=nw&&(t%1.6)<.35?(Math.floor(t*20)%2?1:-1):0,px=63+bz;
+ {const keep=!ex&&QPN!=null&&qx&&qx.d===QPN&&mode==='q',nw=(ex&&qx.room==='living'&&!qx.cnt.phone&&!(qprops.ph&&qprops.ph[qx.d]))||keep,bz=nw&&(t%1.6)<.35?(Math.floor(t*20)%2?1:-1):0,px=63+bz;
   if(nw){disc(66,45,6,'#ffe890',.22+.1*Math.sin(t*5))}
   r(px,41,6,10,'#1a1a22');r(px+1,42,4,7,nw?(Math.floor(t*3)%2?'#ffffff':'#bfe6ff'):'#3a5a7a');r(px+2,50,2,1,'#5a5a66');
   if(nw){r(px+1,43,4,2,'#5ad06a');r(px+1,46,3,1,'#c8d8e8');r(px+1,48,2,1,'#c8d8e8');
    if(bz){r(px-2,43,1,3,'#ffffff');r(px+7,43,1,3,'#ffffff')}
-   const by=Math.round(29+Math.sin(t*5)*1.5);r(63,by-1,6,11,'#3a2a1a');r(64,by,4,4,'#ffd86b');r(65,by+4,2,2,'#ffd86b');r(65,by+7,2,2,'#ffd86b');r(64,by,1,1,'#fff4b0')}}
+   if(!keep){const by=Math.round(29+Math.sin(t*5)*1.5);r(63,by-1,6,11,'#3a2a1a');r(64,by,4,4,'#ffd86b');r(65,by+4,2,2,'#ffd86b');r(65,by+7,2,2,'#ffd86b');r(64,by,1,1,'#fff4b0')}}}
  const carryR=(ex&&qx.got==='remote'&&qx.goal==='remote')||qprops.lap==='remote';if(qprops.lap==='remote'&&!lv.ex){r(AX[lv.q]-3,73,4,2,'#1a1a22');r(AX[lv.q]-3,73,1,1,'#e0463c')}if(!carryR){if(qprops.remote){r(51,98,5,2,'#1a1a22');r(52,98,1,1,'#e0463c')}else if(!lv.pace){r(58,111,7,3,'#1a1a22');r(59,111,1,1,'#e0463c')}}
  if(qprops.sw||lv.sw||(ex&&qx.goal==='sw')){r(40,96,10,4,'#3a3a46');r(42,97,6,2,'#6ab0e0');if(ex&&qx.goal==='sw'&&qx.got!=='sw'){r(40,96,2,4,'#e0463c');r(48,96,2,4,'#3a8ae0')}}
  r(1,102,12,10,'#c89a5a');for(let x=2;x<13;x+=2)r(x,103,1,9,'#a87a3a');if(lv.q<3&&!(ex&&qx.got==='blanket')){r(0,98,14,5,'#e89ab8');r(2,97,8,2,'#f8c0d8')}
