@@ -135,7 +135,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 
 #chat{position:absolute;left:4%;right:4%;top:12%;display:none;pointer-events:none;background:rgba(255,241,207,.95);border:2px solid #6b3f2a;border-radius:calc(var(--u)*2);padding:calc(var(--u)*2.2) calc(var(--u)*3);font-size:calc(var(--u)*3.2);line-height:1.6;color:#3b2314}
 #snd{position:absolute;right:calc(var(--u)*1.5);top:calc(var(--u)*1.5);z-index:5;width:calc(var(--u)*10);height:calc(var(--u)*10);font:inherit;font-size:calc(var(--u)*4);color:#fff6e0;background:rgba(20,10,40,.55);border:2px solid rgba(255,216,107,.6);border-radius:50%;padding:0;opacity:.75}
-#pause{position:absolute;inset:0;z-index:9;display:none;flex-direction:column;align-items:stretch;justify-content:center;gap:calc(var(--u)*6);padding:calc(var(--u)*12);background:rgba(14,8,40,.94);color:#fff6e0;text-align:center}
+#pause{position:absolute;inset:0;z-index:9;display:none;flex-direction:column;align-items:stretch;justify-content:center;gap:calc(var(--u)*4.5);padding:calc(var(--u)*12);background:rgba(14,8,40,.94);color:#fff6e0;text-align:center}
 #pause h2{font-size:calc(var(--u)*8);font-weight:400;color:#ffd86b;margin-bottom:calc(var(--u)*2)}
 #pause label{display:flex;flex-direction:column;gap:calc(var(--u)*3);font-size:calc(var(--u)*3.6);text-align:left}
 #pause label span{float:right;color:#ffd86b}
@@ -151,10 +151,10 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.55</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.56</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
-<div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
+<div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
 <div id="hud"></div>
 <div id="chat"></div>
 <div id="dlg"><div id="nm"></div><div id="tx"></div><div id="ch"></div><i id="nx">&#9660;</i></div>
@@ -3215,8 +3215,8 @@ function drawCh3UI(){
 Object.assign(VS,{river:[2,vRiver],church:[2,vChurch],scoot:[2,vScoot],pump:[1,vPump],store:[2,vStore],bath:[2,vBath],austin:[2,vAustin],trucks:[2,vTrucks],pea:[2,vPea],hill:[2,vHill],bonnell:[2,vBonnell],plaza:[2,vPlaza],bstore:[2,vBStore],kitchen:[2,vKitchen],c3class:[2,vC3Class],c3grad:[2,vC3Grad],hroom:[2,vHroom],dt:[2,vDT],pack:[1,vPack],road:[1,vRoad],txhouse:[2,vTx],troom:[2,vTroom],dorm2:[2,vDorm2]});
 
 /* ================= AUDIO ================= */
-let PAUSED=0;const VOL={m:.75,s:1};try{const v=JSON.parse(localStorage.getItem('ourstory_vol2')||'null');if(v){VOL.m=+v.m;VOL.s=+v.s}}catch(e){}
-function applyVol(){try{localStorage.setItem('ourstory_vol2',JSON.stringify(VOL))}catch(e){}$('vm').value=Math.round(VOL.m*100);$('vs').value=Math.round(VOL.s*100);$('vmL').textContent=Math.round(VOL.m*100)+'%';$('vsL').textContent=Math.round(VOL.s*100)+'%';
+let PAUSED=0;const VOL={m:.75,s:1,a:1};try{const v=JSON.parse(localStorage.getItem('ourstory_vol2')||'null');if(v){VOL.m=+v.m;VOL.s=+v.s;if(v.a!=null)VOL.a=+v.a}}catch(e){}
+function applyVol(){try{localStorage.setItem('ourstory_vol2',JSON.stringify(VOL))}catch(e){}$('vm').value=Math.round(VOL.m*100);$('vs').value=Math.round(VOL.s*100);$('vmL').textContent=Math.round(VOL.m*100)+'%';$('vsL').textContent=Math.round(VOL.s*100)+'%';$('va').value=Math.round(VOL.a*100);$('vaL').textContent=Math.round(VOL.a*100)+'%';if(AU.ctx&&AU.ab)AU.ab.g.gain.setTargetAtTime(VOL.a,AU.ctx.currentTime,.03);
  if(AU.ctx){AU.mvol.gain.setTargetAtTime(VOL.m*.15,AU.ctx.currentTime,.03);AU.fx.gain.setTargetAtTime(VOL.s*.9,AU.ctx.currentTime,.03)}}
 function openPause(){auInit();PAUSED=1;applyVol();$('pause').style.display='flex';$('snd').style.display='none';sfx('select')}
 function closePause(){PAUSED=0;$('pause').style.display='none';$('snd').style.display=''}
@@ -3344,19 +3344,37 @@ function organ(f,dur,t0,vol){const c=AU.ctx,t=c.currentTime+t0,g=c.createGain(),
 function musTick(){const c=AU.ctx;if(!c)return;songTick();try{amUpdate()}catch(e){}try{ambTick()}catch(e){}}
 /* quiet background ambience under the music: birdsong, crickets, room chatter, cabin hum, road noise, wind */
 const AMBS={};(()=>{const put=(k,l)=>l.split(' ').forEach(n=>AMBS[n]=k);
- put('birds','ephouse eppaint epyard epfam field7 farm7 lake bench hill bonnell plaza river pooplot lot7 walk8 uk8 epvillage eplondon couple8');
+ put('birds','ephouse eppaint epyard epfam field7 farm7 lake bench hill bonnell river pooplot lot7 walk8 uk8 epvillage couple8 epcoach');put('city','eplondon kcdt plaza');put('tennis','court');
  put('night','street door epporch balc8 night2');
  put('crowd','bars barcade steak mex dinner tasting c3grad epgrad lobby term5 gate5 sec5 arr5 weigh5 epncl store bstore church8');
- put('cabin','plane epmap');put('car','drive road hwy4 hdrive kcdrive drive7 car7');put('wind','snow climb')})();
-const AMBP={birds:[400,'lowpass',.008],night:[600,'lowpass',.006],crowd:[320,'lowpass',.03],cabin:[200,'lowpass',.12],car:[130,'lowpass',.1],wind:[380,'bandpass',.05]};
+ put('cabin','plane epmap');put('car','drive road hwy4 hdrive kcdrive drive7 car7 snow');put('wind','climb')})();
+const AMBP={birds:[400,'lowpass',.008],night:[600,'lowpass',.006],crowd:[320,'lowpass',.03],cabin:[200,'lowpass',.12],car:[130,'lowpass',.1],city:[170,'lowpass',.09],tennis:[400,'lowpass',.008],wind:[380,'bandpass',.05]};
+function ambCar(vol,dur,heavy){const c=AU.ctx,A=AU.ab,t=c.currentTime,s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain(),f0=heavy?210:420;
+ // tyre and wind noise that swells and fades as it passes, over an engine note that drops in pitch
+ s.buffer=A.nb;s.loop=true;f.type='bandpass';f.Q.value=.7;f.frequency.setValueAtTime(f0,t);f.frequency.linearRampToValueAtTime(f0*2.1,t+dur*.5);f.frequency.linearRampToValueAtTime(f0*.8,t+dur);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+dur*.5);g.gain.linearRampToValueAtTime(0,t+dur);s.connect(f);f.connect(g);g.connect(A.g);s.start(t,Math.random()*2);s.stop(t+dur+.05);
+ const o=c.createOscillator(),og=c.createGain(),lf=c.createBiquadFilter(),p0=heavy?60:96;o.type='sawtooth';o.frequency.setValueAtTime(p0*1.12,t);o.frequency.linearRampToValueAtTime(p0*.88,t+dur);lf.type='lowpass';lf.frequency.value=heavy?260:380;
+ og.gain.setValueAtTime(0,t);og.gain.linearRampToValueAtTime(vol*.55,t+dur*.5);og.gain.linearRampToValueAtTime(0,t+dur);o.connect(lf);lf.connect(og);og.connect(A.g);o.start(t);o.stop(t+dur+.05)}
+function ambPock(vol,hi){const A=AU.ab;tone(hi?940:780,.05,'sine',vol,300,0,A.g);nz(.03,vol*.7,2400,'bandpass',0,A.g)}
 function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
  if(!A){const len=c.sampleRate*3|0,nb=c.createBuffer(1,len,c.sampleRate),d=nb.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
-  A=AU.ab={g:c.createGain(),bg:c.createGain(),f:c.createBiquadFilter(),s:c.createBufferSource(),k:null,next:0};A.s.buffer=nb;A.s.loop=true;A.g.gain.value=.5;A.bg.gain.value=0;A.s.connect(A.f);A.f.connect(A.bg);A.bg.connect(A.g);A.g.connect(AU.fx);A.s.start()}
+  A=AU.ab={g:c.createGain(),bg:c.createGain(),f:c.createBiquadFilter(),s:c.createBufferSource(),k:null,next:0,nb};A.s.buffer=nb;A.s.loop=true;A.g.gain.value=VOL.a;
+  {const o=c.createOscillator(),lf=c.createBiquadFilter();A.eg=c.createGain();A.eo=o;o.type='sawtooth';o.frequency.value=56;lf.type='lowpass';lf.frequency.value=210;A.eg.gain.value=0;o.connect(lf);lf.connect(A.eg);A.eg.connect(A.g);o.start()}A.bg.gain.value=0;A.s.connect(A.f);A.f.connect(A.bg);A.bg.connect(A.g);A.g.connect(AU.master);A.s.start()}
  const k=mode==='title'||!AU.on?null:(AMBS[loc]||null);
- if(k!==A.k){A.k=k;const P=k&&AMBP[k];A.bg.gain.setTargetAtTime(0,now,.25);if(P){A.f.type=P[1];A.f.frequency.setTargetAtTime(P[0],now,.2);A.f.Q.value=P[1]==='bandpass'?.6:.4;A.bg.gain.setTargetAtTime(P[2],now+.5,.6)}A.next=now+1+Math.random()*2}
+ if(k!==A.k){A.k=k;const P=k&&AMBP[k];A.bg.gain.setTargetAtTime(0,now,.25);A.bus=0;A.eg.gain.setTargetAtTime(k==='car'?.05:0,now,.4);if(P){A.f.type=P[1];A.f.frequency.setTargetAtTime(P[0],now,.2);A.f.Q.value=P[1]==='bandpass'?.6:.4;A.bg.gain.setTargetAtTime(P[2],now+.5,.6)}A.next=now+1+Math.random()*2}
+ // sounds tied to what is on screen: the rally at Owls practice, and the London bus pulling in
+ if(k&&loc==='epcoach'){const n=Math.floor(T*.7),ph=(T*.7)%1;if(n!==A.rn){A.rn=n;ambPock(.09,n%2)}if(ph>.6&&A.bn!==n){A.bn=n;tone(230,.05,'sine',.05,120,0,A.g)}}
+ if(k&&loc==='eplondon'&&typeof ep!=='undefined'&&ep&&ep.busGo&&!A.bus){A.bus=1;ambCar(.24,3.4,1);nz(.55,.05,5200,'highpass',3.1,A.g)}
  if(!k||now<A.next)return;const rnd=(a,b)=>a+Math.random()*(b-a);
+ if(k==='city'){ambCar(rnd(.05,.15),rnd(1.7,3.1),Math.random()<.2);if(Math.random()<.1){tone(392,.28,'square',.007,null,.4,A.g);tone(494,.28,'square',.006,null,.4,A.g)}A.next=now+rnd(2.2,6.5);return}
+ if(k==='car'){ambCar(rnd(.07,.13),rnd(.5,.95),Math.random()<.15);A.eo.frequency.setTargetAtTime(rnd(52,62),now,.8);
+  if(loc==='snow'||(loc==='car7'&&typeof c7!=='undefined'&&c7.snow>.5)){for(let i=0;i<6;i++){tone(150,.07,'sine',.045,85,i*1.1,A.g);nz(.09,.03,650,'lowpass',i*1.1,A.g)}A.next=now+6.6}else A.next=now+rnd(3.5,9);return}
+ if(k==='tennis'){// a rally going on a court or two away: pock... pock... then a pause
+  if(typeof c5!=='undefined'&&c5&&c5.ct&&c5.ct.mode==='play'){A.next=now+1;return}
+  A.rc=(A.rc||0)+1;ambPock(.045,A.rc%2);if(A.rc%2)tone(230,.05,'sine',.02,120,.36,A.g);if(Math.random()<.12)tone(2400,.06,'sine',.012,3000,.2,A.g);A.next=now+(A.rc%7?.74:rnd(2,3.4));return}
+ if((loc==='ephouse'||loc==='pooplot'||loc==='lot7')&&Math.random()<.2)ambCar(.045,2.8);
  if(k==='birds'){const f=rnd(2600,4400),n=2+(Math.random()*3|0);for(let i=0;i<n;i++)tone(f*rnd(.9,1.15),.07,'sine',.012,f*rnd(1.1,1.5),i*.11,A.g);A.next=now+rnd(1.6,5)}
- else if(k==='night'){const f=rnd(3900,4500);for(let j=0;j<2;j++)for(let i=0;i<3;i++)tone(f,.03,'sine',.007,null,j*.34+i*.055,A.g);A.next=now+rnd(.9,2.2)}
+ else if(k==='night'){if(loc==='street'&&Math.random()<.22)ambCar(.05,2.6);const f=rnd(3900,4500);for(let j=0;j<2;j++)for(let i=0;i<3;i++)tone(f,.03,'sine',.007,null,j*.34+i*.055,A.g);A.next=now+rnd(.9,2.2)}
  else if(k==='crowd'){// the murmur swells and dips, with the odd glass clink
   A.bg.gain.setTargetAtTime(AMBP.crowd[2]*rnd(.6,1.25),now,.5);if(Math.random()<.3){const f=rnd(2400,3400);tone(f,.12,'sine',.008,null,0,A.g);tone(f*1.5,.09,'sine',.004,null,.01,A.g)}A.next=now+rnd(.8,2.4)}
  else if(k==='wind'){A.f.frequency.setTargetAtTime(rnd(260,720),now,.9);A.bg.gain.setTargetAtTime(AMBP.wind[2]*rnd(.5,1.3),now,.9);A.next=now+rnd(1.2,2.6)}
@@ -8092,7 +8110,7 @@ const CHAPS=[['1','The Coop',()=>startPan()],['2','Fourteen Days',()=>startCh2()
 $('snd').onclick=e=>{e.stopPropagation();openPause()};$('snd').onpointerdown=e=>e.stopPropagation();
 ['pause','pRes','pDev','pMenu','vm','vs'].forEach(id=>{$(id).onpointerdown=e=>e.stopPropagation();$(id).addEventListener('touchstart',e=>e.stopPropagation(),{passive:true})});
 $('pRes').onclick=()=>{sfx('select');closePause()};$('pMenu').onclick=()=>{sfx('select');const l=$('ld');l.classList.remove('off');requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>location.reload(),60)))};
-$('vm').oninput=e=>{VOL.m=e.target.value/100;applyVol()};$('vs').oninput=e=>{VOL.s=e.target.value/100;applyVol();sfx('coin')};
+$('vm').oninput=e=>{VOL.m=e.target.value/100;applyVol()};$('vs').oninput=e=>{VOL.s=e.target.value/100;applyVol();sfx('coin')};$('va').oninput=e=>{VOL.a=e.target.value/100;applyVol()};
 addEventListener('pointerdown',()=>auInit(),{capture:true});addEventListener('touchstart',()=>auInit(),{capture:true,passive:true});
 $('gift').addEventListener('click',giftOpen);
 const BOK=()=>$('btns').classList.contains('ready');
