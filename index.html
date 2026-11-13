@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.41</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.42</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -7755,8 +7755,8 @@ function vEpYard(t){
  for(let i=0;i<8;i++){const a=i/8*6.283+t*.05;for(let k=6;k<18;k+=2){cx.globalAlpha=.18*(1-k/18);r(Math.round(34+Math.cos(a)*k),Math.round(10+Math.sin(a)*k),1,1,'#fffbe0')}}cx.globalAlpha=1;
  // far tree line (mixed green and early-autumn gold)
  const TC=['#2e5a2a','#3a6a32','#4a7a3a','#7a8a3a','#a89a3a'];
- for(let i=0;i<18;i++){const x=(i*9+3)%84-2,y=38+((i*7)%8),q=6+((i*5)%5);disc(x,y,q,TC[(i*3)%5],1)}
- for(let i=0;i<12;i++){const x=(i*13+6)%80,y=46+((i*5)%6);disc(x,y,4+(i%3),TC[(i+2)%4],1)}
+ const farT=()=>{for(let i=0;i<18;i++){const x=(i*9+3)%84-2,y=38+((i*7)%8),q=6+((i*5)%5);disc(x,y,q,TC[(i*3)%5],1)}
+ for(let i=0;i<12;i++){const x=(i*13+6)%80,y=46+((i*5)%6);disc(x,y,4+(i%3),TC[(i+2)%4],1)}};farT();
  // chain-link fence on the left, wooden privacy fence on the right
  // chain-link fence along the whole back edge
  r(0,56,80,1,'#a8a8b0');for(let x=0;x<80;x+=2)for(let y=57;y<63;y+=2)r(x+(y%4?1:0),y,1,1,'#8a8a92');for(let x=2;x<80;x+=12)r(x,55,1,8,'#7a7a82');
@@ -7772,16 +7772,21 @@ function vEpYard(t){
  for(let x=60;x<80;x++){const k=Math.pow((x-60)/20,1.5),base=Math.round(63+k*66),top=Math.round(55+k*8);r(x,top,1,base-top,x%3?'#9a7650':'#86603c');r(x,top,1,1,'#b89068');r(x,base-1,1,1,'#6a4a2a');for(let y=top+4;y<base;y+=Math.max(3,Math.round(6*k+2)))r(x,y,1,1,'#7a5634')}
  // the trees in the yard: a slim one in the middle, a big golden one on the right, darker ones on the left
  r(39,28,2,36,'#5a4a3a');r(40,28,1,36,'#6a5a48');r(38,61,4,3,'#5a4a3a');r(36,34,3,1,'#5a4a3a');r(41,30,3,1,'#5a4a3a');
- [[39,24,7],[34,29,5],[44,28,5],[39,33,5],[35,19,4],[43,19,4],[39,15,4]].forEach(([x,y,q],i)=>disc(x,y,q,i%2?'#6a8a3a':'#7a9a42',1));[[37,21],[42,25],[36,30],[41,31]].forEach(([x,y])=>disc(x,y,2,'#9ab04e',1));r(39,34,2,3,'#5a4a3a');
  r(60,26,3,46,'#5a4030');r(61,26,1,46,'#6a5040');r(58,70,7,2,'#4a3020');r(56,40,4,1,'#5a4030');r(63,36,5,1,'#5a4030');
+ r(10,46,2,18,'#4a3a2a');r(26,48,2,14,'#4a3a2a');
+ // the distant trees sit in front of the yard trees' upper trunks, so trunks only show below the canopies
+ cx.save();cx.beginPath();cx.rect(0,0,80,52);cx.rect(0,52,45,4);cx.rect(62,52,18,3);cx.clip();farT();cx.restore();
+ [[39,24,7],[34,29,5],[44,28,5],[39,33,5],[35,19,4],[43,19,4],[39,15,4]].forEach(([x,y,q],i)=>disc(x,y,q,i%2?'#6a8a3a':'#7a9a42',1));[[37,21],[42,25],[36,30],[41,31]].forEach(([x,y])=>disc(x,y,2,'#9ab04e',1));
  [[64,12,13],[72,20,11],[54,18,9],[76,8,8],[60,32,9],[72,34,8],[52,30,6]].forEach(([x,y,q],i)=>disc(x,y,q,['#c8a83a','#b89a34','#d8b84a','#a88a2e','#c0a040','#9a8a30','#d0b04a'][i],1));
  [[60,10],[68,16],[56,22],[74,28],[64,30]].forEach(([x,y])=>disc(x,y,3,'#e8cc60',1));
- r(10,46,2,18,'#4a3a2a');r(26,48,2,14,'#4a3a2a');[[8,40,8],[15,44,6],[26,40,7],[2,46,6]].forEach(([x,y,q],i)=>disc(x,y,q,i%2?'#2e5a2a':'#3e6a30',1));
+ [[8,40,8],[15,44,6],[26,40,7],[2,46,6]].forEach(([x,y,q],i)=>disc(x,y,q,i%2?'#2e5a2a':'#3e6a30',1));
  // stone patio on the right with the fire pit, the covered grill and potted plants
- for(let y=86;y<106;y++){const x0=Math.round(56-(y-86)*.6);r(x0,y,80-x0,1,'#b8b2a4')}for(let y=88;y<106;y+=4)r(50,y,30,1,'#a8a294');
- r(56,92,1,4,'#4a4a4a');r(63,92,1,4,'#4a4a4a');ell(60,92,5,2,'#8a4a24');ell(60,91,5,1,'#a85a2a');ell(60,91,4,1,'#3a2014');r(58,90,1,1,'#6a4a2a');r(61,90,2,1,'#6a4a2a');
- r(66,80,11,13,'#1e1e24');r(66,80,11,1,'#3a3a44');r(67,82,9,1,'#2e2e36');r(67,93,2,3,'#1e1e24');r(74,93,2,3,'#1e1e24');
- r(76,94,4,4,'#c8c0b0');disc(78,92,2,'#5a8a3a',1);r(70,98,3,3,'#d8d0c0');disc(71,96,2,'#4a7a3a',1);
+ // it sits flush against the privacy fence: each row stops where the fence meets the ground
+ {const xf=y=>Math.floor(60+20*Math.pow(Math.max(0,(y-63)/66),2/3)),pr=y=>{const b=xf(y);return [Math.round(b-24-(y-86)*.6),b]};
+ for(let y=86;y<106;y++){const [a,b]=pr(y);r(a,y,b-a,1,'#b8b2a4')}for(let y=88;y<106;y+=4){const [a,b]=pr(y);r(a,y,b-a,1,'#a8a294')}}
+ r(46,92,1,4,'#4a4a4a');r(53,92,1,4,'#4a4a4a');ell(50,92,5,2,'#8a4a24');ell(50,91,5,1,'#a85a2a');ell(50,91,4,1,'#3a2014');r(48,90,1,1,'#6a4a2a');r(51,90,2,1,'#6a4a2a');
+ r(59,80,11,13,'#1e1e24');r(59,80,11,1,'#3a3a44');r(60,82,9,1,'#2e2e36');r(60,93,2,3,'#1e1e24');r(67,93,2,3,'#1e1e24');
+ r(68,99,4,4,'#c8c0b0');disc(70,97,2,'#5a8a3a',1);r(56,99,3,3,'#d8d0c0');disc(57,97,2,'#4a7a3a',1);
  // our concrete back patio at the bottom, with the rug and Donut's water bowl
  for(let y=120;y<144;y++){const x0=Math.round(22-(y-120)*.5);r(x0,y,80-x0,1,'#d4ccbc')}r(22,120,58,1,'#e4dccc');rugAt(52,130,28,14,0);
  r(30,117,4,2,'#b8bcc4');r(30,117,4,1,'#e0e4ea');
