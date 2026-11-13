@@ -155,7 +155,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.70</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.71</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -277,7 +277,8 @@ function body(p,t){
  if(p.tears&&!up&&!MONO){const k=Math.floor(t*3)%3;r(x-2,y-11+k,1,1,'#8ad8ff');r(x+1,y-12+((k+1)%3),1,1,'#8ad8ff')}
  if(p.hold&&!p.dance)drawHold(p,x,y,t,up);
  if(dlg&&!MONO&&!photo&&p.n){const L=dlg.l[dlg.i];if(L&&L.n===p.n){if(dlg._ei!==dlg.i){dlg._ei=dlg.i;dlg._et=T;dlg._em=emoKind(L.t||'')}if(dlg._em)emoDraw(dlg._em,x,y-(p.mortar||p.chat?31:28),T-dlg._et);
-  if(cx===CX0)try{const m=cx.getTransform();let px=m.a*x+m.e;DLGX={d:dlg,i:dlg.i,t:T,f:PZ?(px-PZ.sx)/PZ.sw:px/W}}catch(e){}}}
+  if(cx===CX0)try{const m=cx.getTransform();let px=m.a*x+m.e;DLGX={d:dlg,i:dlg.i,t:T,f:PZ?(px-PZ.sx)/PZ.sw:px/W,px,py:m.d*y+m.f}}catch(e){}}}
+ if(cx===CX0&&!MONO&&(p===hunter||p===abi))try{const m=cx.getTransform();p._sx=m.a*x+m.e;p._sy=m.d*y+m.f;p._sT=T}catch(e){}
 }
 /* little emote bubbles that pop over whoever is talking */
 function emoKind(s){if(/♪|🎵/.test(s))return 'n';if(/love you|I love|♥|❤|🥰|😍/i.test(s))return 'h';if(/^\W*(\.\.\.|…)\W*$/.test(s))return 'd';if(/\(laugh|haha/i.test(s))return 'l';if(/\?!|!\?|!!|[A-Z]{4,}[^a-z]*!/.test(s))return '!';if(s.length<16&&/\?\s*$/.test(s))return '?';return 0}
@@ -756,7 +757,7 @@ function dlgHTML(t,c,k){let h='',i=0;while(i<k){const cl=c[i];if(cl==='sh'||cl==
 function adv(){if(!dlg)return;const L=dlg.l[dlg.i];if(dlg.k<L.t.length){dlg.k=L.t.length;dlg.pz=0;return}if(L.c)return;sfx('adv');dlg.i++;if(dlg.i>=dlg.l.length){const d=dlg.done;dlg=null;faceClear();$('dlg').style.display='none';if(MGM&&MGM.played&&!MGM.done&&!MGM.modes.includes(mode)){mgFinish();return}d&&d()}else showLine()}
 $('dlg').addEventListener('pointerdown',adv);$('hud').addEventListener('pointerdown',e=>{if(dlg&&!e.target.closest('button'))adv()});
 ['touchstart','touchend'].forEach(ev=>[cv,$('dlg'),$('hud')].forEach(el=>el.addEventListener(ev,e=>{if(!e.target.closest('button'))e.preventDefault()},{passive:false})));G.addEventListener('dblclick',e=>e.preventDefault());
-function tickDlg(dt){
+function tickDlg(dt){camAuto(dt);
  if(!dlg)return;const L=dlg.l[dlg.i];
  const k0=dlg.k|0;if(dlg.pz>0)dlg.pz-=dt;else if(dlg.k<L.t.length)dlg.k+=dt*45;let k1=Math.min(L.t.length,dlg.k|0);
  // a beat at commas, a longer one at the end of a sentence, and each dot of an ellipsis lands on its own
@@ -785,7 +786,8 @@ function c1Hunter(){mode='c1walk';say([{n:'',t:'Fifteen minutes later...'}],()=>
   say([{n:'Hunter',t:'Hey, Morgan!'},{n:'Morgan',t:'You came! Abigail, this is my brother, Hunter!',anim:()=>{face(hunter,abi)}},{n:'Hunter',t:"Hey! It's really nice to meet you."},{n:'Abigail',t:'Hi Hunter! Nice to meet you too.'},
    {n:'Abigail',t:'(...Oh. He’s cute.)'},{n:'Morgan',t:'Okay! Let’s have FUN tonight.'}],()=>{zkT=0;st=1;mode='zoomout'})})})}
 const QUIPS=['♪ This song is my JAM!','Woo! Nice moves!','The Coop has the best view in town.','Are you here with someone? Hehe.'];
-const fadeTo=(cb,hold=0)=>{if(MGM&&MGM.played&&!MGM.done&&!MGM.modes.includes(mode)){MGM.done=1;cb=mgFinish;hold=0}fd=1;fcb=cb;fhold=hold};
+let FHEART=0;const HEARTLOC={door:1,kiss8:1,balc8:1,epnurse:1,epfam:1,couple8:1,night2:1};
+const fadeTo=(cb,hold=0)=>{FHEART=HEARTLOC[loc]||(loc==='steak'&&typeof c6!=='undefined'&&c6&&c6.pr)?1:0;if(MGM&&MGM.played&&!MGM.done&&!MGM.modes.includes(mode)){MGM.done=1;cb=mgFinish;hold=0}fd=1;fcb=cb;fhold=hold};
 const zoomTo=(x,y,z)=>{FX=x;FY=y;ZM=z;zkT=1};
 function goRoute(p,pts){if(pts._r||!pts.length)return pts;let plan=null,raw;
  if(typeof hx!=='undefined'&&hx&&HXF[hx.room]&&HXLOC[hx.room]===loc&&(p===hx.p||p===hx.f)){const R=HXF[hx.room];raw=(x,y)=>hxWalkable(R,x,y,0);plan=(a,b,c,d)=>hxPlan(R,a,b,c,d)}
@@ -3317,7 +3319,7 @@ const SFX={
  cheer:()=>{nz(.9,.12,1800,'bandpass');[0,.12,.25].forEach(d=>tone(700+Math.random()*300,.25,'sawtooth',.02,900,d))},
  flap:()=>{[0,.07,.14,.21].forEach(d=>nz(.04,.1,1500,'bandpass',d))}};
 const SFXQ=[];function sfxFlush(){while(SFXQ.length){const [n,a]=SFXQ.shift();try{SFX[n]&&SFX[n](a)}catch(e){}}}
-function sfx(n,a){if(!AU.ctx||!AU.on)return;if(INPUT){const now=performance.now();if(AU.last[n]&&now-AU.last[n]<55)return;AU.last[n]=now;SFXQ.push([n,a]);return}const now=performance.now();if(AU.last[n]&&now-AU.last[n]<(n=='blip'?40:55))return;AU.last[n]=now;try{SFX[n]&&SFX[n](a)}catch(e){}}
+function sfx(n,a){if(n==='kiss')CAMK=T;if(!AU.ctx||!AU.on)return;if(INPUT){const now=performance.now();if(AU.last[n]&&now-AU.last[n]<55)return;AU.last[n]=now;SFXQ.push([n,a]);return}const now=performance.now();if(AU.last[n]&&now-AU.last[n]<(n=='blip'?40:55))return;AU.last[n]=now;try{SFX[n]&&SFX[n](a)}catch(e){}}
 const VOICE={Hunter:150,Abigail:300,Morgan:260,Dad:120,Mom:240,Bartender:180,DJ:200,Nurse:280,Boss:140,Worker:230,Manager:290,Speaker:170,Poet:210,'Poet 2':160,Dancer:270,Tourist:220,Cashier:250,Driver:170};
 Object.assign(VOICE,{Mum:285,J:132,Meggs:268,Pilot:145,Auntie:305,Vet:255,Baker:165,Florist:275,Tailor:155,Waiter:190,Director:160});
 // anyone without a set voice still gets their own steady pitch, worked out from their name
@@ -8498,13 +8500,21 @@ function render(){
  if(wob>.05){wv.clearRect(0,0,W,H);wv.drawImage(cv,0,0);for(let y=0;y<H;y+=4)cx.drawImage(wc,0,y,W,4,Math.round(Math.sin(y/16+T*2.4)*wob),y,W,4);cx.globalAlpha=Math.min(.12,.05*wob);r(0,0,W,H,'#ff7eb6');cx.globalAlpha=1}
  ux.setTransform(1,0,0,1,0,0);ux.clearRect(0,0,W,H);ux._c=null;cx=ux;
  try{drawDanceUI();drawCh2UI();drawCh3UI();drawCh5UI();drawCh6UI();drawCh7UI();drawCh8UI();drawCh4UI();drawEpAlbumUI();drawEpBdayUI();balcUI();drawPhoneUI();
- if(fade>0){cx.globalAlpha=fade;r(0,0,W,H,'#000');cx.globalAlpha=1}drawChapUI()}finally{cx=CX0}
+ if(fade>0){if(FHEART&&fade<1){// the scene closes in (and the next one opens out) through a heart
+   const e=1-fade,q=e*e*(3-2*e)*13;cx.fillStyle='#000';cx.beginPath();cx.rect(0,0,W,H);if(q>.05){const X=80,Y=150;cx.moveTo(X,Y+9*q);cx.bezierCurveTo(X-22*q,Y-4*q,X-11*q,Y-17*q,X,Y-7*q);cx.bezierCurveTo(X+11*q,Y-17*q,X+22*q,Y-4*q,X,Y+9*q)}cx.fill('evenodd')}
+  else{cx.globalAlpha=fade;r(0,0,W,H,'#000');cx.globalAlpha=1}}drawChapUI()}finally{cx=CX0}
  present()}
 function present(){const DW=dv.width,DH=dv.height;dx.setTransform(1,0,0,1,0,0);dx.imageSmoothingEnabled=false;dx.fillStyle='#000';dx.fillRect(0,0,DW,DH);
- if(PZ){let {sx,sy,sw,sh}=PZ;sw=Math.min(W,sw);sh=Math.min(H,sh);sx=Math.max(0,Math.min(W-sw,sx));sy=Math.max(0,Math.min(H-sh,sy));dx.drawImage(cv,sx,sy,sw,sh,0,0,DW,DH)}else dx.drawImage(cv,0,0,DW,DH);
+ if(PZ){let {sx,sy,sw,sh}=PZ;sw=Math.min(W,sw);sh=Math.min(H,sh);sx=Math.max(0,Math.min(W-sw,sx));sy=Math.max(0,Math.min(H-sh,sy));dx.drawImage(cv,sx,sy,sw,sh,0,0,DW,DH)}else if(AZ.z>1.004){const sw=W/AZ.z,sh=H/AZ.z,sx=Math.max(0,Math.min(W-sw,AZ.x-sw/2)),sy=Math.max(0,Math.min(H-sh,AZ.y-sh/2));AZ.c=[sx,sy,sw,sh];dx.drawImage(cv,sx,sy,sw,sh,0,0,DW,DH)}else{AZ.c=null;dx.drawImage(cv,0,0,DW,DH)}
  dx.drawImage(uc,0,0,DW,DH);ambBars();dlgTail()}
 /* the speech bubble's tail slides along to point at whoever is talking; narration gets no tail */
-let DLGX=null;function dlgTail(){const e=$('dlg');if(!dlg||!DLGX||DLGX.d!==dlg||DLGX.i!==dlg.i||T-DLGX.t>.25||!(DLGX.f>-.1&&DLGX.f<1.1)){if(e._t){e._t=0;e.classList.remove('tail')}return}const v=Math.max(8,Math.min(138,DLGX.f*160-6.8));if(!e._t||Math.abs(v-e._v)>.4){e._t=1;e._v=v;e.style.setProperty('--tx',v.toFixed(1));e.classList.add('tail')}}
+const AZ={z:1,x:80,y:144,c:null,d:1};let CAMK=-9;
+function camAuto(dt){let z=1,x=AZ.x,y=AZ.y,duck=1;
+ if(mode!=='title'&&!photo&&!PZ){if(dlg&&dlg._em==='h'&&DLGX&&DLGX.d===dlg&&DLGX.i===dlg.i&&T-DLGX.t<.3&&DLGX.px!=null){z=1.1;x=DLGX.px;y=DLGX.py-12;duck=.55}
+  else if(T-CAMK<2.6&&hunter._sT>T-.3&&abi._sT>T-.3){z=1.16;x=(hunter._sx+abi._sx)/2;y=(hunter._sy+abi._sy)/2-12;duck=1.3}}
+ const k=Math.min(1,dt*(z>AZ.z?1.6:2.4));AZ.z+=(z-AZ.z)*k;if(z>1){const kk=AZ.z<1.01?1:Math.min(1,dt*3);AZ.x+=(x-AZ.x)*kk;AZ.y+=(y-AZ.y)*kk}
+ if(duck!==AZ.d&&AU.ctx&&AU.mvol){AZ.d=duck;try{AU.mvol.gain.setTargetAtTime(VOL.m*.15*duck,AU.ctx.currentTime,duck<1?.25:.5)}catch(e){}}}
+let DLGX=null;function dlgTail(){const e=$('dlg');if(!dlg||!DLGX||DLGX.d!==dlg||DLGX.i!==dlg.i||T-DLGX.t>.25||!(DLGX.f>-.1&&DLGX.f<1.1)){if(e._t){e._t=0;e.classList.remove('tail')}return}const v=Math.max(8,Math.min(138,(AZ.c?(DLGX.f*W-AZ.c[0])/AZ.c[2]:DLGX.f)*160-6.8));if(!e._t||Math.abs(v-e._v)>.4){e._t=1;e._v=v;e.style.setProperty('--tx',v.toFixed(1));e.classList.add('tail')}}
 /* the space above and below the game on tall phones glows with the colours of the scene's top and bottom edges */
 let ambN=0,ambG=null;function ambBars(){if(ambN++%3)return;try{if(!ambG){ambG=$('amb').getContext('2d');ambG.imageSmoothingEnabled=true}const b=Math.max(1,dv.height*.04|0);ambG.globalAlpha=ambN<4?1:.22;ambG.drawImage(dv,0,0,dv.width,b,0,0,16,4);ambG.drawImage(dv,0,dv.height-b,dv.width,b,0,4,16,4)}catch(e){}}
 buildBG();buildStreet();buildIcons();c3Icons();c5Icons();
