@@ -151,7 +151,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.61</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.62</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3344,12 +3344,12 @@ function organ(f,dur,t0,vol){const c=AU.ctx,t=c.currentTime+t0,g=c.createGain(),
 function musTick(){const c=AU.ctx;if(!c)return;songTick();try{amUpdate()}catch(e){}try{ambTick()}catch(e){}}
 /* quiet background ambience under the music: birdsong, crickets, room chatter, cabin hum, road noise, wind */
 let DOGT=-9,DOGR=-9;const AMBS={};(()=>{const put=(k,l)=>l.split(' ').forEach(n=>AMBS[n]=k);
- put('birds','ephouse eppaint epyard epfam field7 farm7 lake bench hill bonnell river pooplot lot7 epvillage couple8 epcoach');put('garden','uk8');put('church','church8 walk8 door8 pov8 kiss8');put('nursery','epnurse');
+ put('birds','ephouse eppaint epyard epfam field7 bench pooplot lot7 epvillage couple8 epcoach');put('water','lake river');put('farm','farm7');put('hilltop','hill bonnell climb pea');put('office','office epcyber c3class hunt');put('garden','uk8');put('church','church8 walk8 door8 pov8 kiss8');put('nursery','epnurse');
  put('home','living hroom apt kitchen txhouse troom home dorm2 hotel brideroom groom8 mkit dorm home6 hotel8 bunk epcrump epstudio sleep8 night8 call8');put('city','eplondon kcdt plaza');put('tennis','court');
  put('night','street door epporch balc8 night2');
  put('crowd','c3grad epgrad');put('airport','term5 gate5 sec5 arr5 weigh5 epncl dep4');put('diner','bars steak mex dinner tasting');put('arcade','barcade');put('rooftop','roof');put('shop','store bstore jewel bakery florist tux bridal lobby');put('pump','pump');
- put('cabin','plane epmap');put('car','drive road hwy4 hdrive kcdrive drive7 car7 snow');put('wind','climb')})();
-const AMBP={birds:[400,'lowpass',.008],night:[600,'lowpass',.006],crowd:[320,'lowpass',.03],cabin:[200,'lowpass',.12],car:[130,'lowpass',.1],city:[170,'lowpass',.09],home:[100,'lowpass',.03],church:[220,'lowpass',.02],garden:[400,'lowpass',.008],nursery:[150,'lowpass',.01],rooftop:[240,'lowpass',.012],airport:[300,'lowpass',.028],diner:[320,'lowpass',.03],arcade:[320,'lowpass',.025],shop:[110,'lowpass',.035],pump:[400,'lowpass',.008],tennis:[400,'lowpass',.008],wind:[380,'bandpass',.05]};
+ put('cabin','plane epmap');put('car','drive road hwy4 hdrive kcdrive drive7 car7 snow');put('wind','')})();
+const AMBP={birds:[400,'lowpass',.008],night:[600,'lowpass',.006],crowd:[320,'lowpass',.03],cabin:[200,'lowpass',.12],car:[130,'lowpass',.1],city:[170,'lowpass',.09],water:[380,'lowpass',.02],farm:[400,'lowpass',.008],hilltop:[360,'bandpass',.02],office:[140,'lowpass',.03],home:[100,'lowpass',.03],church:[220,'lowpass',.02],garden:[400,'lowpass',.008],nursery:[150,'lowpass',.01],rooftop:[240,'lowpass',.012],airport:[300,'lowpass',.028],diner:[320,'lowpass',.03],arcade:[320,'lowpass',.025],shop:[110,'lowpass',.035],pump:[400,'lowpass',.008],tennis:[400,'lowpass',.008],wind:[380,'bandpass',.05]};
 function ambCar(vol,dur,heavy){vol*=.25;const c=AU.ctx,A=AU.ab,t=c.currentTime,s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain(),f0=heavy?210:420;
  // tyre and wind noise that swells and fades as it passes, over an engine note that drops in pitch
  s.buffer=A.nb;s.loop=true;f.type='bandpass';f.Q.value=.7;f.frequency.setValueAtTime(f0,t);f.frequency.linearRampToValueAtTime(f0*2.1,t+dur*.5);f.frequency.linearRampToValueAtTime(f0*.8,t+dur);
@@ -3411,6 +3411,26 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
   A.next=now+rnd(1.2,3.5);return}
  if(k==='nursery'){// the mobile's chimes, one soft note at a time
   const N=[1047,1175,1319,1568,1760,2093],f=N[Math.random()*6|0];T2(f,1.4,.006);T2(f*2,.6,.0015,.01);A.next=now+rnd(1.6,4);return}
+ const chirp=v=>{const f=rnd(2600,4400),n=2+(Math.random()*3|0);for(let i=0;i<n;i++)T2(f*rnd(.9,1.15),.07,v,i*.11,f*rnd(1.1,1.5))};
+ if(k==='water'){// water lapping at the bank, with the odd plop, duck or bird
+  A.bg.gain.setTargetAtTime(AMBP.water[2]*rnd(.5,1.5),now,.7);const q=Math.random();
+  if(q<.12){T2(520,.09,.012,0,150);T2(300,.12,.006,.07,120)}
+  else if(q<.2){const n=2+(Math.random()*2|0);for(let i=0;i<n;i++)T2(rnd(520,580),.09,.007,i*.2,400,'sawtooth')}
+  else if(q<.45)chirp(.008);
+  A.next=now+rnd(1.6,3);return}
+ if(k==='farm'){const q=Math.random();
+  if(q<.4)chirp(.01);
+  else if(q<.7){const n=3+(Math.random()*4|0);for(let i=0;i<n;i++)T2(rnd(520,700),.05,.006,i*rnd(.11,.2),rnd(380,460),'sawtooth')}// hens
+  else if(q<.8&&now>(A.ch||0)){A.ch=now+20;T2(150,1.1,.008,0,112,'sawtooth')}// a cow, far off
+  A.next=now+rnd(1.5,4);return}
+ if(k==='hilltop'){// wind coming and going up on the hill, and birds
+  A.f.frequency.setTargetAtTime(rnd(260,560),now,1);A.bg.gain.setTargetAtTime(AMBP.hilltop[2]*rnd(.4,1.5),now,1);if(Math.random()<.45)chirp(.009);A.next=now+rnd(1.6,3.4);return}
+ if(k==='office'){const q=Math.random();
+  if(q<.6){const n=4+(Math.random()*10|0);let d=0;for(let i=0;i<n;i++){d+=rnd(.05,.13);T2(rnd(1700,2600),.01,.0035,d,null,'triangle')}if(Math.random()<.5)T2(900,.02,.005,d+.14,null,'triangle')}// typing, then the space bar
+  else if(q<.75){T2(2200,.008,.004,0,null,'triangle');T2(1900,.008,.004,.09,null,'triangle')}// a mouse click
+  else if(q<.82&&loc==='office'&&now>(A.ch||0)){A.ch=now+25;for(let j=0;j<2;j++)for(let i=0;i<6;i++)T2(i%2?1100:880,.05,.004,j*1.6+i*.06)}// a phone down the hall
+  else if(q<.9)T2(rnd(170,230),.2,.006,0,rnd(120,160),'triangle');// a chair
+  A.next=now+rnd(1.2,3.6);return}
  if(k==='rooftop'){// a rooftop bar at night: glasses, ice, a bottle set down, the city far below. Nothing during the dance.
   if(mode==='dance'){A.next=now+1;return}const q=Math.random();
   if(q<.35){const f=rnd(2300,3300);T2(f,.16,.006);T2(f*1.5,.12,.003,.01)}
@@ -3439,6 +3459,8 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
   if(typeof c5!=='undefined'&&c5&&c5.ct&&c5.ct.mode==='play'){A.next=now+1;return}
   A.rc=(A.rc||0)+1;ambPock(.045,A.rc%2);if(A.rc%2)tone(230,.05,'sine',.02,120,.36,A.g);if(Math.random()<.12)tone(2400,.06,'sine',.012,3000,.2,A.g);A.next=now+(A.rc%7?.74:rnd(2,3.4));return}
  if((loc==='ephouse'||loc==='pooplot'||loc==='lot7')&&Math.random()<.2)ambCar(.045,2.8);
+ if((loc==='epyard'||loc==='epfam')&&Math.random()<.2){const N=[1568,1760,2093,2349,2637];for(let i=0;i<2+(Math.random()*3|0);i++)tone(N[Math.random()*5|0],1.1,'sine',.004,null,i*rnd(.12,.3),A.g)}
+ if(loc==='epporch'&&Math.random()<.08&&now>(A.ch||0)){A.ch=now+18;tone(340,.28,'sine',.008,320,0,A.g);tone(330,.45,'sine',.008,300,.42,A.g)}
  if(k==='birds'){const f=rnd(2600,4400),n=2+(Math.random()*3|0);for(let i=0;i<n;i++)tone(f*rnd(.9,1.15),.07,'sine',.012,f*rnd(1.1,1.5),i*.11,A.g);A.next=now+rnd(1.6,5)}
  else if(k==='night'){if(loc==='street'&&Math.random()<.22)ambCar(.05,2.6);const f=rnd(3900,4500);for(let j=0;j<2;j++)for(let i=0;i<3;i++)tone(f,.03,'sine',.007,null,j*.34+i*.055,A.g);A.next=now+rnd(.9,2.2)}
  else if(k==='crowd'){// the murmur swells and dips, with the odd glass clink
