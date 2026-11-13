@@ -75,11 +75,13 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 @keyframes in{to{opacity:1}}
 @keyframes bl{0%,100%{opacity:.25}50%{opacity:1}}
 #hud{position:absolute;top:calc(var(--u)*3);left:calc(var(--u)*3);right:calc(var(--u)*14);display:none;text-align:center;font-size:calc(var(--u)*3.3);line-height:1.7;color:#fff6e0;background:rgba(30,18,60,.82);border:2px solid #ffd86b;border-radius:calc(var(--u)*2);padding:calc(var(--u)*2)}
-#dlg{position:absolute;left:calc(var(--u)*4);right:calc(var(--u)*4);bottom:calc(var(--u)*5);display:none;background:#fff1cf;border:calc(var(--u)*1.1) solid #6b3f2a;box-shadow:0 0 0 calc(var(--u)*.8) #c99a5b,0 calc(var(--u)*1.8) 0 calc(var(--u)*.8) rgba(0,0,0,.35);border-radius:calc(var(--u)*2);padding:calc(var(--u)*5) calc(var(--u)*4) calc(var(--u)*4);color:#3b2314;font-size:calc(var(--u)*4.1);line-height:1.7}
-#nm{position:absolute;top:calc(var(--u)*-5);left:calc(var(--u)*3);padding:calc(var(--u)*1.4) calc(var(--u)*3);font-size:calc(var(--u)*3.4);color:#fff;border:2px solid #3b2314;border-radius:calc(var(--u)*1.5)}
+#dlg{position:absolute;left:calc(var(--u)*4);right:calc(var(--u)*4);bottom:calc(var(--u)*5);display:none;background:#fff;border:calc(var(--u)*0.9) solid #2b1830;box-shadow:calc(var(--u)*1) calc(var(--u)*1.6) 0 rgba(10,4,30,.45);border-radius:calc(var(--u)*6);padding:calc(var(--u)*4) calc(var(--u)*5);color:#2b1830;font-size:calc(var(--u)*4.1);line-height:1.7;--tx:40}
+#dlg::before,#dlg::after{content:'';position:absolute;border-style:solid;border-color:transparent;display:none}#dlg.tail::before,#dlg.tail::after{display:block}
+#dlg::before{top:calc(var(--u)*-5.6);left:calc(var(--u)*var(--tx));border-width:calc(var(--u)*2.8);border-bottom-color:#2b1830}#dlg::after{top:calc(var(--u)*-3.6);left:calc(var(--u)*(var(--tx) + .9));border-width:calc(var(--u)*1.9);border-bottom-color:#fff}
+#nm{font-size:calc(var(--u)*3.4);margin-bottom:calc(var(--u)*1.5);color:#e0468c}
 #tx{min-height:calc(var(--u)*14)}
-#ch button{display:block;width:100%;margin-top:calc(var(--u)*2.5);padding:calc(var(--u)*2.6);font:inherit;font-size:calc(var(--u)*3.7);text-align:left;color:#3b2314;background:#ffd98a;border:2px solid #6b3f2a;border-radius:calc(var(--u)*1.5)}
-#ch button:active{background:#ffb347}
+#ch button{display:block;width:100%;margin-top:calc(var(--u)*2.5);padding:calc(var(--u)*2.6) calc(var(--u)*5);font:inherit;font-size:calc(var(--u)*3.7);text-align:left;color:#2b1830;background:#fff;border:calc(var(--u)*0.6) solid #2b1830;border-radius:999px}
+#ch button:active{background:#ffe0ee}
 #nx{position:absolute;right:calc(var(--u)*3);bottom:calc(var(--u)*2);font-style:normal;animation:bn .8s infinite}
 @keyframes bn{50%{transform:translateY(calc(var(--u)*1.2))}}
 #card{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:calc(var(--u)*14);color:#fff6e0;font-size:calc(var(--u)*4.6);line-height:2.1;opacity:0;transition:opacity 1s;pointer-events:none}
@@ -151,7 +153,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.67</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.68</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -272,7 +274,8 @@ function body(p,t){
  if(p.veil&&!MONO){cx.globalAlpha=.55;r(x-4,y-18,8,1,'#fff');r(x-5,y-17,1,14,'#fff');r(x+4,y-17,1,14,'#fff');if(up)r(x-4,y-17,8,12,'#fff');cx.globalAlpha=1}
  if(p.tears&&!up&&!MONO){const k=Math.floor(t*3)%3;r(x-2,y-11+k,1,1,'#8ad8ff');r(x+1,y-12+((k+1)%3),1,1,'#8ad8ff')}
  if(p.hold&&!p.dance)drawHold(p,x,y,t,up);
- if(dlg&&!MONO&&!photo&&p.n){const L=dlg.l[dlg.i];if(L&&L.n===p.n){if(dlg._ei!==dlg.i){dlg._ei=dlg.i;dlg._et=T;dlg._em=emoKind(L.t||'')}if(dlg._em)emoDraw(dlg._em,x,y-(p.mortar||p.chat?31:28),T-dlg._et)}}
+ if(dlg&&!MONO&&!photo&&p.n){const L=dlg.l[dlg.i];if(L&&L.n===p.n){if(dlg._ei!==dlg.i){dlg._ei=dlg.i;dlg._et=T;dlg._em=emoKind(L.t||'')}if(dlg._em)emoDraw(dlg._em,x,y-(p.mortar||p.chat?31:28),T-dlg._et);
+  if(cx===CX0)try{const m=cx.getTransform();let px=m.a*x+m.e;DLGX={d:dlg,i:dlg.i,t:T,f:PZ?(px-PZ.sx)/PZ.sw:px/W}}catch(e){}}}
 }
 /* little emote bubbles that pop over whoever is talking */
 function emoKind(s){if(/♪|🎵/.test(s))return 'n';if(/love you|I love|♥|❤|🥰|😍/i.test(s))return 'h';if(/^\W*(\.\.\.|…)\W*$/.test(s))return 'd';if(/\(laugh|haha/i.test(s))return 'l';if(/\?!|!\?|!!|[A-Z]{4,}[^a-z]*!/.test(s))return '!';if(s.length<16&&/\?\s*$/.test(s))return '?';return 0}
@@ -739,7 +742,7 @@ function mv(p,dt,col){
 
 /* ---------- dialogue ---------- */
 function say(lines,done){dlg={l:lines,i:0,done};showLine()}
-function showLine(){const L=dlg.l[dlg.i];faceFor(L);if(L.anim)L.anim();dlg.k=0;dlg.ch=false;dlg.rk=-1;if(/\*(snap|bite|knock|SLAM)/i.test(L.t))sfx(/snap/i.test(L.t)?'snap':/bite/i.test(L.t)?'bite':/knock/i.test(L.t)?'knock':'slam');$('dlg').style.display='block';$('dlg').style.opacity=L.a||1;const nm=$('nm');nm.textContent=L.n||'';nm.style.display=L.n?'block':'none';nm.style.background=NC[L.n]||'#6b3f2a';$('ch').innerHTML='';$('nx').style.display='none';$('tx').textContent=''}
+function showLine(){const L=dlg.l[dlg.i];faceFor(L);if(L.anim)L.anim();dlg.k=0;dlg.ch=false;dlg.rk=-1;if(/\*(snap|bite|knock|SLAM)/i.test(L.t))sfx(/snap/i.test(L.t)?'snap':/bite/i.test(L.t)?'bite':/knock/i.test(L.t)?'knock':'slam');$('dlg').style.display='block';$('dlg').style.opacity=L.a||1;const nm=$('nm');nm.textContent=L.n||'';nm.style.display=L.n?'block':'none';nm.style.color=NC[L.n]||'#6b3f2a';$('ch').innerHTML='';$('nx').style.display='none';$('tx').textContent=''}
 function adv(){if(!dlg)return;const L=dlg.l[dlg.i];if(dlg.k<L.t.length){dlg.k=L.t.length;return}if(L.c)return;sfx('adv');dlg.i++;if(dlg.i>=dlg.l.length){const d=dlg.done;dlg=null;faceClear();$('dlg').style.display='none';if(MGM&&MGM.played&&!MGM.done&&!MGM.modes.includes(mode)){mgFinish();return}d&&d()}else showLine()}
 $('dlg').addEventListener('pointerdown',adv);$('hud').addEventListener('pointerdown',e=>{if(dlg&&!e.target.closest('button'))adv()});
 ['touchstart','touchend'].forEach(ev=>[cv,$('dlg'),$('hud')].forEach(el=>el.addEventListener(ev,e=>{if(!e.target.closest('button'))e.preventDefault()},{passive:false})));G.addEventListener('dblclick',e=>e.preventDefault());
@@ -8487,7 +8490,9 @@ function render(){
  present()}
 function present(){const DW=dv.width,DH=dv.height;dx.setTransform(1,0,0,1,0,0);dx.imageSmoothingEnabled=false;dx.fillStyle='#000';dx.fillRect(0,0,DW,DH);
  if(PZ){let {sx,sy,sw,sh}=PZ;sw=Math.min(W,sw);sh=Math.min(H,sh);sx=Math.max(0,Math.min(W-sw,sx));sy=Math.max(0,Math.min(H-sh,sy));dx.drawImage(cv,sx,sy,sw,sh,0,0,DW,DH)}else dx.drawImage(cv,0,0,DW,DH);
- dx.drawImage(uc,0,0,DW,DH);ambBars()}
+ dx.drawImage(uc,0,0,DW,DH);ambBars();dlgTail()}
+/* the speech bubble's tail slides along to point at whoever is talking; narration gets no tail */
+let DLGX=null;function dlgTail(){const e=$('dlg');if(!dlg||!DLGX||DLGX.d!==dlg||DLGX.i!==dlg.i||T-DLGX.t>.25||!(DLGX.f>-.1&&DLGX.f<1.1)){if(e._t){e._t=0;e.classList.remove('tail')}return}const v=Math.max(8,Math.min(138,DLGX.f*160-6.8));if(!e._t||Math.abs(v-e._v)>.4){e._t=1;e._v=v;e.style.setProperty('--tx',v.toFixed(1));e.classList.add('tail')}}
 /* the space above and below the game on tall phones glows with the colours of the scene's top and bottom edges */
 let ambN=0,ambG=null;function ambBars(){if(ambN++%3)return;try{if(!ambG){ambG=$('amb').getContext('2d');ambG.imageSmoothingEnabled=true}const b=Math.max(1,dv.height*.04|0);ambG.globalAlpha=ambN<4?1:.22;ambG.drawImage(dv,0,0,dv.width,b,0,0,16,4);ambG.drawImage(dv,0,dv.height-b,dv.width,b,0,4,16,4)}catch(e){}}
 buildBG();buildStreet();buildIcons();c3Icons();c5Icons();
