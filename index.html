@@ -46,7 +46,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 @keyframes lsh{20%{transform:translateX(calc(var(--u)*-3))}40%{transform:translateX(calc(var(--u)*3))}60%{transform:translateX(calc(var(--u)*-2))}80%{transform:translateX(calc(var(--u)*2))}}
 #title h1{font-size:calc(var(--u)*12);line-height:1.4;font-weight:400;color:#ffd86b;text-shadow:calc(var(--u)*.9) calc(var(--u)*.9) 0 #c2417a,calc(var(--u)*1.8) calc(var(--u)*1.8) 0 #3a1f6e;opacity:0;animation:in 2s .8s forwards}
 #title #logo{width:calc(var(--u)*128);height:calc(var(--u)*76);image-rendering:pixelated;image-rendering:crisp-edges;opacity:0;animation:logoIn 1.5s 1.1s cubic-bezier(.2,.7,.2,1) forwards}
-#gfx{position:absolute;inset:0;width:100%;height:100%;z-index:31;pointer-events:none;image-rendering:pixelated;image-rendering:crisp-edges;transition:opacity .5s}#giftc{opacity:0}
+#gfx{position:absolute;inset:0;width:100%;height:100%;z-index:31;pointer-events:none;image-rendering:pixelated;image-rendering:crisp-edges;transition:opacity .2s}#giftc{opacity:0}
 @keyframes logoIn{0%{opacity:0;transform:translateY(calc(var(--u)*186)) scale(.1)}12%{opacity:1}78%{opacity:1;transform:translateY(calc(var(--u)*-3)) scale(1.03)}100%{opacity:1;transform:none}}
 @keyframes tagUp{0%{opacity:0;transform:translateY(var(--dy)) scale(.2) rotate(24deg)}15%{opacity:1}75%{opacity:1;transform:translateY(calc(var(--u)*-2.5)) scale(1.05) rotate(var(--rot))}100%{opacity:1;transform:rotate(var(--rot))}}
 @keyframes sway{0%,100%{transform:rotate(var(--rot))}50%{transform:rotate(calc(var(--rot) + 1.6deg)) translateY(calc(var(--u)*-0.6))}}
@@ -151,7 +151,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.50</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.51</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -595,7 +595,7 @@ const GFX={p:[],lt:0,pop:0,land:0,lid:null,g:null,vis:1,stars:[]};
 function gfxP(o){GFX.p.push(Object.assign({t:0,l:2,vx:0,vy:0,g:0,d:0,k:'s',c:'#fff',ph:Math.random()*6.3},o))}
 const GCOL=['#ff5f9e','#ffd86b','#7ee8fa','#ff9ccb','#fff6e0','#b78cff','#8be28b'];
 function giftDraw(){const c=$('gfx');if(!c)return;if(!GFX.g){c.width=W;c.height=H;GFX.g=c.getContext('2d');GFX.g.imageSmoothingEnabled=false}
- const ti=$('title'),vis=mode==='title'&&!dlg&&$('chap').style.display!=='flex'&&$('pause').style.display!=='flex'?1:0;
+ const ti=$('title'),shown=id=>{const d=$(id).style.display;return d&&d!=='none'},vis=mode==='title'&&!dlg&&!shown('chap')&&!shown('pause')&&!shown('end')?1:0;
  if(vis!==GFX.vis){GFX.vis=vis;c.style.opacity=vis}if(!vis&&mode!=='title'){if(!GFX.cl){GFX.cl=1;GFX.g.clearRect(0,0,W,H);GFX.p=[]}return}GFX.cl=0;
  const g=GFX.g,m=cx,t=T,dt=Math.min(.05,Math.max(0,t-GFX.lt));GFX.lt=t;g.setTransform(1,0,0,1,0,0);g.globalAlpha=1;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);g._c=null;cx=g;try{
  const o=GIFT.open&&GIFT.t0?t-GIFT.t0:GIFT.done?99:-1,POP=.5,popped=o>=POP,q=o-POP;
