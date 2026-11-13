@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.39</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.40</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -7678,10 +7678,10 @@ function vEpHouse(t){for(let y=0;y<60;y+=2){const k=y/60;r(0,y,80,2,`rgb(${Math.
  [[9,44,14],[20,50,9],[0,50,9],[8,32,10],[17,38,9],[1,38,8],[10,56,8]].forEach(([x,y,q],i)=>{disc(x,y,q,i%2?'#3e7a34':'#4a8a3a',1)});[[6,38],[14,44],[20,48],[2,46],[10,30],[12,52]].forEach(([x,y])=>disc(x,y,3,'#5a9a46',1));
  r(7,58,5,8,'#6a4a2e');r(8,58,1,8,'#7a5a3a');
  // mailbox with the house number
- r(73,106,1,16,'#2a2a2e');r(70,102,7,4,'#1e1e22');r(70,102,7,1,'#3a3a40');r(76,100,1,3,'#e0303a');r(64,107,15,7,'#f4f4f8');r(64,107,15,1,'#fff');txt('3913',65,108,'#2a2a34',1);
+ const mbox=()=>{r(73,106,1,16,'#2a2a2e');r(70,102,7,4,'#1e1e22');r(70,102,7,1,'#3a3a40');r(76,100,1,3,'#e0303a');r(64,107,15,7,'#f4f4f8');r(64,107,15,1,'#fff');txt('3913',65,108,'#2a2a34',1)};
  // sold sign before the door is painted
  if(ep.door!==BLUSH){r(23,104,1,14,'#8a6a4a');r(17,98,14,8,'#f4f4f8');r(18,99,12,6,'#2a4a8a');r(19,101,10,1,'#fff');r(17,106,14,5,'#e0303a');r(18,107,12,1,'#ffb0b0')}
- const D=[{y:122,f:()=>corgi(20,124,'r',2,t,0,0)},{y:119,f:()=>crumpet(55,119,'l',t,1,0)}];epPeople(t,D)}
+ const D=[{y:122,f:()=>corgi(20,124,'r',2,t,0,0)},{y:113,f:()=>crumpet(65,113,'l',t,1,0)},{y:122,f:mbox}];epPeople(t,D)}
 
 /* ---- paint the door blush pink ---- */
 const PD={x:42,y:36,w:76,h:212,c:4};
