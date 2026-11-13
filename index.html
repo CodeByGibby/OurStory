@@ -163,7 +163,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.5.2</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.5.3</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -239,11 +239,11 @@ const all=[hunter,morgan,abi,bart,dj,...dancers];
 function body(p,t){if(photo||p.dance||p._raw){body0(p,t);return}
  if(p._fT!==T){const gap=p._fT==null||T-p._fT>.3;p._fT=T;const d=p.dir,OPP={l:'r',r:'l',u:'d',d:'u'};
   if(!gap&&p._pd&&p._pd!==d&&OPP[p._pd]===d){p._tT=T;p._tv=d==='l'||d==='r'?'d':(p._lr||'r')}if(d==='l'||d==='r')p._lr=d;p._pd=d;
-  const st=p.sit?1:p.kneel?2:0;if(!gap&&p._ps!=null&&p._ps!==st){p._sT=T;p._sv=st?1:-1}p._ps=st;
+  const st=p.sit?1:p.kneel?2:0;if(!gap&&p._ps!=null&&p._ps!==st){p._zT=T;p._sv=st?1:-1}p._ps=st;
   if(p.hold){p._hh=p.hold;p._hr=null}else if(p._hh){if(gap){p._hh=null;p._h=null}else if(p._hr==null)p._hr=T;else if(T-p._hr>.16){p._hh=null;p._h=null;p._hr=null}}}
  const d0=p.dir,y0=p.y,h0=p.hold,hs0=p.hs;
  if(p._tT!=null&&T-p._tT<.085)p.dir=p._tv;
- if(p._sT!=null&&T-p._sT<.16){const k=(T-p._sT)/.16;p.y=y0+(p._sv>0?-Math.round((1-k)*3):Math.round((1-k)*2))}
+ if(p._zT!=null&&T-p._zT<.16){const k=(T-p._zT)/.16;p.y=y0+(p._sv>0?-Math.round((1-k)*3):Math.round((1-k)*2))}
  if(!h0&&p._hh&&p._hr!=null&&h0!==p._hh){p.hold=p._hh;p._h=p._hh;p.hs=t-.35*Math.max(0,1-(T-p._hr)/.16)}
  try{body0(p,t)}finally{p.dir=d0;p.y=y0;if(!h0){p.hold=h0;if(hs0!==undefined)p.hs=hs0}}}
 function body0(p,t){
