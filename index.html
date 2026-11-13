@@ -151,7 +151,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.64</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.65</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3224,7 +3224,7 @@ const AU={ctx:null,on:true,cur:null,want:null,step:0,nt:0,last:{},song:null,song
 AU.on=true;
 function auInit(){if(AU.ctx){if(AU.ctx.state!=='running'&&!document.hidden){AU.ctx.resume();if(AU.hid)auHide(0)}return}
  const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const c=AU.ctx=new C();
- AU.master=c.createGain();AU.master.gain.value=AU.on?1:0;{const cp=c.createDynamicsCompressor();cp.threshold.value=-10;cp.ratio.value=6;AU.master.connect(cp);cp.connect(c.destination)}
+ AU.master=c.createGain();AU.master.gain.value=AU.on?1:0;{const cp=c.createDynamicsCompressor();cp.threshold.value=-10;cp.ratio.value=6;AU.master.connect(cp);AU.wd=c.createGain();AU.wd.gain.value=0;cp.connect(AU.wd);AU.wd.connect(c.destination)}
  AU.mvol=c.createGain();AU.mvol.connect(AU.master);AU.mus=c.createGain();AU.mus.gain.value=0;AU.mus.connect(AU.mvol);
  AU.fx=c.createGain();AU.fx.connect(AU.master);
  AU.sng=c.createGain();AU.sng.gain.value=0;AU.sng.connect(AU.mvol);applyVol();
@@ -3235,7 +3235,7 @@ function auMute(){AU.on=!AU.on;try{localStorage.setItem('ourstory_mute',AU.on?'0
 /* leaving the app: fade out and pause the audio clock, then fade back in where we left off (no buzz, no note pile-up) */
 function auHide(h){const c=AU.ctx;if(!c||!AU.master)return;const now=c.currentTime,G=AU.master.gain;
  if(h){if(AU.hid)return;AU.hid=1;// phones freeze the page the instant it is hidden, so silence and pause the audio right now: a timer or a fade may never get to run, which leaves the last sliver of sound stuttering
-  try{G.cancelScheduledValues(now);G.setValueAtTime(0,now);G.value=0}catch(e){}try{c.suspend()}catch(e){}clearTimeout(AU.hidT);AU.hidT=setTimeout(()=>{if(AU.hid)try{c.suspend()}catch(e){}},60);return}
+  try{G.cancelScheduledValues(now);G.setValueAtTime(0,now);G.value=0;if(AU.wd){AU.wd.gain.cancelScheduledValues(now);AU.wd.gain.setValueAtTime(0,now)}}catch(e){}try{c.suspend()}catch(e){}clearTimeout(AU.hidT);AU.hidT=setTimeout(()=>{if(AU.hid)try{c.suspend()}catch(e){}},60);return}
  if(!AU.hid)return;AU.hid=0;clearTimeout(AU.hidT);const go=()=>{const n=c.currentTime;if(AMP&&AMP.next<n+.05)AMP.next=n+.12;if(AU.songOn&&AU.snt<n+.05)AU.snt=n+.12;if(AU.nt<n)AU.nt=n+.12;try{G.cancelScheduledValues(n);G.setValueAtTime(0,n);G.linearRampToValueAtTime(AU.on?1:0,n+.45)}catch(e){}};
  try{c.state!=='running'?c.resume().then(go,go):go()}catch(e){go()}}
 document.addEventListener('visibilitychange',()=>auHide(document.hidden));document.addEventListener('freeze',()=>auHide(1));document.addEventListener('resume',()=>{if(!document.hidden)auHide(0)});addEventListener('pagehide',()=>auHide(1));addEventListener('pageshow',()=>{if(!document.hidden)auHide(0)});const AUTOUCH=(()=>{try{return matchMedia('(pointer:coarse)').matches}catch(e){return false}})();addEventListener('blur',()=>{if(document.hidden||AUTOUCH)auHide(1)});addEventListener('focus',()=>{if(!document.hidden)auHide(0)});
@@ -3342,7 +3342,11 @@ function mnote(f,dur,type,vol,t0,cut){const c=AU.ctx,t=c.currentTime+t0,o=c.crea
 function organ(f,dur,t0,vol){const c=AU.ctx,t=c.currentTime+t0,g=c.createGain(),fl=c.createBiquadFilter();fl.type='lowpass';fl.frequency.value=2600;fl.connect(g);g.connect(AU.mus);
  [[f,1,'sine'],[f*2,.45,'sine'],[f/2,.35,'sine'],[f*3,.12,'sine'],[f,.14,'square']].forEach(([fr,v,ty])=>{const o=c.createOscillator(),og=c.createGain();o.type=ty;o.frequency.setValueAtTime(fr,t);og.gain.value=v;o.connect(og);og.connect(fl);o.start(t);o.stop(t+dur+.25)});
  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.05);g.gain.setValueAtTime(vol,t+Math.max(.06,dur-.06));g.gain.linearRampToValueAtTime(0,t+dur+.18)}
-function musTick(){const c=AU.ctx;if(!c)return;songTick();try{amUpdate()}catch(e){}try{ambTick()}catch(e){}}
+/* A dead-man's switch for sound. The output only stays open while the game keeps renewing it a few times a second.
+   If the phone freezes the page without warning (app switcher, home screen), nothing renews it and the audio closes
+   itself within a third of a second, instead of droning on with whatever was playing. */
+function auKick(){const c=AU.ctx,w=AU.wd;if(!c||!w||AU.hid)return;try{const n=c.currentTime;w.gain.cancelScheduledValues(n);w.gain.setValueAtTime(1,n);w.gain.setValueAtTime(1,n+.3);w.gain.linearRampToValueAtTime(0,n+.42)}catch(e){}}
+function musTick(){const c=AU.ctx;if(!c)return;auKick();songTick();try{amUpdate()}catch(e){}try{ambTick()}catch(e){}}
 /* quiet background ambience under the music: birdsong, crickets, room chatter, cabin hum, road noise, wind */
 let DOGT=-9,DOGR=-9;const DUSTY={birds:1,farm:1,hilltop:1,water:1,garden:1,pump:1,tennis:1,night:1,city:1};const AMBS={};(()=>{const put=(k,l)=>l.split(' ').forEach(n=>AMBS[n]=k);
  put('birds','ephouse eppaint epyard epfam field7 bench pooplot lot7 epvillage couple8 epcoach');put('water','lake river');put('farm','farm7');put('hilltop','hill bonnell climb pea');put('office','office epcyber c3class hunt');put('garden','uk8');put('church','church8 walk8 door8 pov8 kiss8');put('nursery','epnurse');
