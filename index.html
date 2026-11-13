@@ -140,7 +140,7 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <div id="g">
 <canvas id="c"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.36</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.37</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -7351,7 +7351,7 @@ function vEpMap(t){const ft=ep.ft||0;
  r(0,0,80,144,'#e6e1d8');for(let y=0;y<144;y+=12)r(0,y,80,1,'#ddd8ce');r(0,0,80,22,'#d4d0c8');r(0,20,80,3,'#bcb8b0');for(let x=0;x<80;x+=20){r(x,2,19,17,'#e0dcd4');r(x+8,15,4,1,'#9a968e')}
  for(let i=0;i<4;i++)disc(10+i*20,24,1,'#fff8d8',.9);
  // overhead screen with the route
- r(24,26,34,16,'#1a1a22');r(25,27,32,14,'#0e2a4a');r(28,36,24,1,'#3a6a9a');for(let x=28;x<=Math.round(28+24*ep.fp);x+=2)r(x,36,1,1,'#fff');txt('MO',26,29,'#7ec8f0',1);txt('LDN',45,29,'#ffd86b',1);
+ r(24,26,34,16,'#1a1a22');r(25,27,32,14,'#0e2a4a');r(28,36,24,1,'#3a6a9a');for(let x=28;x<=Math.round(28+24*ep.fp);x+=2)r(x,36,1,1,'#fff');txt('MO',26,29,'#7ec8f0',1);txt('NCL',45,29,'#ffd86b',1);
  const px=Math.round(28+24*ep.fp);r(px-1,35,3,1,'#fff');r(px,34,1,3,'#fff');
  // the window: day -> night -> dawn
  const sky=ft<1?[[130,190,240],[20,24,60]].reduce((a,b)=>a.map((v,i)=>v+(b[i]-v)*ft)):[[20,24,60],[250,170,120]].reduce((a,b)=>a.map((v,i)=>v+(b[i]-v)*(ft-1)));
@@ -7380,7 +7380,7 @@ function epNcl(){setLoc('epncl');mode='ep';epDress();ep.ppl=[abi,hunter,meggs];a
    {n:'Abigail',t:'I told you. Every single day. For YEARS.'},{n:'Hunter',t:'I’m getting four more. For emergencies.'},{n:'Meggs',t:'(laughing) He’s a proper convert, this one.'}],()=>{abi.hold=hunter.hold=null;fadeTo(epVillage)})})))}
 function vEpNcl(t){r(0,0,80,96,'#d8dce4');for(let x=0;x<80;x+=10)r(x,0,1,96,'#c8ccd6');
  r(0,8,80,38,'#4a5a72');for(let x=0;x<80;x+=16){r(x+1,9,14,36,'#a8c8e8');r(x+1,32,14,13,'#8a9aa8');ell(x+8,16,5,1,'#fff',.8)}
- {const px=((t*6)%120)-20;r(Math.round(px),24,18,3,'#f4f4f8');r(Math.round(px)+13,20,3,4,'#f4f4f8');r(Math.round(px)+4,27,8,1,'#c8c8d0');r(Math.round(px)+15,24,3,1,'#3a5ac8')}
+ {cx.save();cx.beginPath();for(let x=0;x<80;x+=16)cx.rect(x+1,9,14,23);cx.clip();const px=((t*6)%120)-20;r(Math.round(px),24,18,3,'#f4f4f8');r(Math.round(px)+13,20,3,4,'#f4f4f8');r(Math.round(px)+4,27,8,1,'#c8c8d0');r(Math.round(px)+15,24,3,1,'#3a5ac8');cx.restore()}
  r(0,46,80,4,'#9aa0aa');r(4,52,32,9,'#2a3a6a');txt('ARRIVALS',6,54,'#ffd86b',1);r(4,52,32,1,'#4a5a8a');
  r(1,64,42,16,'#fff');r(1,64,42,1,'#e0463c');txt('WELCOME TO',2,66,'#2a2a3a',1);txt('NEWCASTLE',4,73,'#c8282a',1);
  // Meggs shop
@@ -7389,7 +7389,7 @@ function vEpNcl(t){r(0,0,80,96,'#d8dce4');for(let x=0;x<80;x+=10)r(x,0,1,96,'#c8
  r(0,96,80,48,'#b8b4ac');for(let y=96;y<144;y+=8)for(let x=((y/8)%2)*8;x<80;x+=16)r(x,y,8,8,'#aca8a0');r(0,96,80,1,'#8a8680');
  epPeople(t,[{y:101,f:()=>{r(44,90,36,12,'#e8e0d0');r(44,90,36,1,'#fff');r(44,101,36,1,'#a8a090')}}])}
 /* ---- 2b. London (and, somehow, no rain) ---- */
-function epLondon(){setLoc('eplondon');mode='ep';epDress();at(abi,-8,136,'r');at(hunter,-18,136,'r');hunter.hold='umb';ep.bus=120;ep.busGo=0;ep.mv=[abi,hunter];
+function epLondon(){setLoc('eplondon');mode='ep';epDress();ep.ppl=[abi,hunter];at(abi,-8,136,'r');at(hunter,-18,136,'r');hunter.hold='umb';ep.bus=120;ep.busGo=0;ep.mv=[abi,hunter];
  go(abi,[[38,136]],22);go(hunter,[[28,136]],22);
  after(.8,()=>say([{n:'',t:'London. And, to everyone’s surprise...'},{n:'',t:'...it is NOT raining.'},{n:'Hunter',t:'(umbrella fully open) I was TOLD it always rains here.'},
   {n:'Abigail',t:'I swear it doesn’t rain here as much as people say! Put that away before someone sees you.'},{n:'Hunter',t:'I’m keeping it ready. Just in case.',anim:()=>{hunter.hold=null;sfx('snap')}}],()=>waitTill(()=>abi.tx==null,()=>{abi.dir=hunter.dir='d';ep.busGo=1;
@@ -7597,8 +7597,8 @@ function vEpCoach(t){
 
 
 /* ---- 7. Crumpet ---- */
-function epCrumpet(){setLoc('epcrump');mode='ep';epDress();at(abi,30,118,'r');at(hunter,18,114,'r');ep.ppl=[abi,hunter];ep.mv=[abi,hunter];
- ep.dn={x:40,y:128,dir:'r',run:0,laps:0,a:0};ep.cr={x:90,y:122,dir:'l',pose:0,show:0,eye:0};
+function epCrumpet(){setLoc('epcrump');mode='ep';epDress();at(abi,30,126,'r');at(hunter,18,124,'r');ep.ppl=[abi,hunter];ep.mv=[abi,hunter];
+ ep.dn={x:42,y:134,dir:'r',run:0,laps:0,a:0};ep.cr={x:90,y:128,dir:'l',pose:0,show:0,eye:0};
  after(.8,()=>say([{n:'',t:'And then... the family grew by four very short legs.'},{n:'Abigail',t:'Donut! Come meet your new little sister...'},
   {n:'Abigail',t:'...CRUMPET!',anim:()=>{ep.cr.show=1;ep.cr.walk=1;sfx('pop')}}],()=>waitTill(()=>ep.cr.x<=56,()=>{ep.cr.walk=0;ep.cr.pose=1;
   say([{n:'',t:'Donut zooms three laps around the room at FULL speed.',anim:()=>{ep.dn.zoom=T;sfx('whoosh')}},{n:'',t:'Crumpet watches. Sits down. Does not move.'},
@@ -7619,14 +7619,12 @@ function crumpet(x,y,dir,t,pose,eye){x=Math.round(x);y=Math.round(y);ell(x,y,8,1
   r(x+5,y-14,7,7,CO);r(x+7,y-13,1,4,CW);r(x+9,y-10,4,3,CW);r(x+12,y-10,1,1,N);r(x+9,y-12,1,1,N);r(x+5,y-17,2,3,CO);r(x+9,y-17,2,3,CO);r(x+10,y-16,1,2,'#f0a0a0');r(x+4,y-16,3,2,BW);r(x+5,y-15,1,1,'#ffa8d0');
   if(wd>0)r(x-10,y-9,2,1,CO)}
  cx.restore()}
-function vEpCrump(t){r(0,0,80,96,'#efe2cc');for(let x=0;x<80;x+=10)r(x,0,1,96,'#e4d4ba');r(0,94,80,2,'#fff');
- r(8,20,22,22,'#f4f4f8');r(10,22,18,18,'#9ad0f0');r(18,22,1,18,'#f4f4f8');r(10,30,18,1,'#f4f4f8');r(6,18,26,3,'#c89a6a');r(5,18,3,30,'#e8a8b8');r(30,18,3,30,'#e8a8b8');
- r(40,26,12,9,'#c8a060');r(41,27,10,7,'#bfe6ff');corgiMini(46,33);r(56,24,8,10,'#8a5a3a');r(57,25,6,8,'#f4d8b0');
- r(66,46,12,48,'#a8784a');r(67,47,10,46,'#b8885a');r(75,70,1,2,'#ffd86b');
- r(4,64,40,26,'#6a8a9a');r(4,64,40,4,'#7a9aaa');r(2,70,4,22,'#5a7a8a');r(42,70,4,22,'#5a7a8a');r(8,78,32,10,'#7a9aaa');r(10,66,8,8,'#f0c8a0');r(30,66,8,8,'#e8a8b8');
- r(0,96,80,48,'#c8a070');for(let y=96;y<144;y+=6)r(0,y,80,1,'#b8905e');ell(40,124,30,12,'#e8d0b0',1);ell(40,124,26,10,'#d8a8a8',1);ell(40,124,18,6,'#e8c8b8',1);
+function vEpCrump(t){// the same apartment living room as before, in daylight, with nobody parked on the couch
+ const k6=['day','couch','h6'].map(k=>c6[k]),k7=['home','sitH','sitA','dim','lap'].map(k=>c7[k]),hx0=hx;
+ c6.day=1;c6.couch=0;c6.h6=0;c7.home=0;c7.sitH=c7.sitA=0;c7.dim=0;c7.lap=0;hx=null;
+ try{vHome6(t)}finally{['day','couch','h6'].forEach((k,i)=>c6[k]=k6[i]);['home','sitH','sitA','dim','lap'].forEach((k,i)=>c7[k]=k7[i]);hx=hx0}
  const D=ep.dn,C=ep.cr,L=[];
- if(D){let dx=D.x,dy=D.y,dir=D.dir,run=0;if(D.zoom&&T-D.zoom<3.4){const a=(T-D.zoom)*5.6;dx=40+Math.cos(a)*24;dy=124+Math.sin(a)*12;dir=-Math.sin(a)>0?'r':'l';run=1}L.push({y:dy,f:()=>corgi(dx,dy,dir,2,t,run,0)})}
+ if(D){let dx=D.x,dy=D.y,dir=D.dir,run=0;if(D.zoom&&T-D.zoom<3.4){const a=(T-D.zoom)*5.6;dx=44+Math.cos(a)*22;dy=128+Math.sin(a)*9;dir=-Math.sin(a)>0?'r':'l';run=1}L.push({y:dy,f:()=>corgi(dx,dy,dir,2,t,run,0)})}
  if(C&&C.show)L.push({y:C.y,f:()=>crumpet(C.x,C.y,C.dir,t,C.walk?0:C.pose,C.eye)});
  epPeople(t,L)}
 
@@ -7660,7 +7658,7 @@ function vEpHouse(t){for(let y=0;y<60;y+=2){const k=y/60;r(0,y,80,2,`rgb(${Math.
  r(39,63,9,31,TRIM);r(40,64,7,29,ep.door||TRIM);r(40,64,7,1,'#fff');if(ep.door===BLUSH){r(41,66,5,7,'#e8a4b6');r(41,76,5,14,'#e8a4b6');r(42,67,3,5,'#f6c4d0');r(42,77,3,12,'#f6c4d0')}else{r(41,66,5,7,'#e8e6de');r(41,76,5,14,'#e8e6de')}
  r(45,79,1,2,'#d8a840');r(38,62,1,32,TRIM);r(48,62,1,32,TRIM);cx.globalAlpha=.18;r(40,64,3,29,'#cfe8f8');cx.globalAlpha=1;r(37,66,1,6,'#3a3a44');
  // garage door
- r(52,64,25,32,TRIM);r(53,65,23,31,'#ecebe4');for(let y=69;y<96;y+=7){r(53,y,23,1,'#c8c6be')}for(let x=56;x<76;x+=6)for(let y=66;y<95;y+=7)r(x,y,4,4,'#e0ded6');r(64,95,2,1,'#9a9890');r(52,64,25,1,'#d8d6ce');
+ r(52,64,25,32,TRIM);r(53,65,23,31,'#ecebe4');for(let y=69;y<96;y+=7){r(53,y,23,1,'#c8c6be')}for(let x=54;x<76;x+=6)for(let y=66;y<95;y+=7)r(x,y,3,4,'#e0ded6');r(64,95,2,1,'#9a9890');r(52,64,25,1,'#d8d6ce');
  // porch, railing, steps, shrubs
  r(26,92,24,4,'#c8c4bc');r(26,92,24,1,'#dedad2');r(36,96,12,2,'#bab6ae');
  [[26,36],[48,52]].forEach(([a,b])=>{r(a,85,b-a,1,TRIM);r(a,91,b-a,1,TRIM);for(let x=a;x<b;x+=2)r(x,86,1,5,TRIM)});r(26,84,1,8,TRIM);r(35,84,1,8,TRIM);r(48,84,1,8,TRIM);
@@ -7679,7 +7677,7 @@ function vEpHouse(t){for(let y=0;y<60;y+=2){const k=y/60;r(0,y,80,2,`rgb(${Math.
  r(73,106,1,16,'#2a2a2e');r(70,102,7,4,'#1e1e22');r(70,102,7,1,'#3a3a40');r(76,100,1,3,'#e0303a');r(64,107,15,7,'#f4f4f8');r(64,107,15,1,'#fff');txt('3913',65,108,'#2a2a34',1);
  // sold sign before the door is painted
  if(ep.door!==BLUSH){r(23,104,1,14,'#8a6a4a');r(17,98,14,8,'#f4f4f8');r(18,99,12,6,'#2a4a8a');r(19,101,10,1,'#fff');r(17,106,14,5,'#e0303a');r(18,107,12,1,'#ffb0b0')}
- const D=[{y:122,f:()=>corgi(20,124,'r',2,t,0,0)},{y:119,f:()=>crumpet(60,119,'l',t,1,0)}];epPeople(t,D)}
+ const D=[{y:122,f:()=>corgi(20,124,'r',2,t,0,0)},{y:119,f:()=>crumpet(55,119,'l',t,1,0)}];epPeople(t,D)}
 
 /* ---- paint the door blush pink ---- */
 const PD={x:42,y:36,w:76,h:212,c:4};
@@ -7769,8 +7767,8 @@ function vEpYard(t){
  // wooden privacy fence down the whole right side, from the back corner to the house
  for(let x=60;x<80;x++){const k=Math.pow((x-60)/20,1.5),base=Math.round(63+k*66),top=Math.round(55+k*8);r(x,top,1,base-top,x%3?'#9a7650':'#86603c');r(x,top,1,1,'#b89068');r(x,base-1,1,1,'#6a4a2a');for(let y=top+4;y<base;y+=Math.max(3,Math.round(6*k+2)))r(x,y,1,1,'#7a5634')}
  // the trees in the yard: a slim one in the middle, a big golden one on the right, darker ones on the left
- r(39,24,2,40,'#5a4a3a');r(38,60,4,4,'#5a4a3a');for(let i=0;i<5;i++)r(37+(i%2)*4,30+i*6,3,1,'#5a4a3a');
- cx.globalAlpha=.75;[[36,26,5],[43,30,5],[39,20,5],[41,38,4],[35,36,4]].forEach(([x,y,q],i)=>disc(x,y,q,i%2?'#6a8a3a':'#8aa04a',1));cx.globalAlpha=1;
+ r(39,28,2,36,'#5a4a3a');r(40,28,1,36,'#6a5a48');r(38,61,4,3,'#5a4a3a');r(36,34,3,1,'#5a4a3a');r(41,30,3,1,'#5a4a3a');
+ [[39,24,7],[34,29,5],[44,28,5],[39,33,5],[35,19,4],[43,19,4],[39,15,4]].forEach(([x,y,q],i)=>disc(x,y,q,i%2?'#6a8a3a':'#7a9a42',1));[[37,21],[42,25],[36,30],[41,31]].forEach(([x,y])=>disc(x,y,2,'#9ab04e',1));r(39,34,2,3,'#5a4a3a');
  r(60,26,3,46,'#5a4030');r(61,26,1,46,'#6a5040');r(58,70,7,2,'#4a3020');r(56,40,4,1,'#5a4030');r(63,36,5,1,'#5a4030');
  [[64,12,13],[72,20,11],[54,18,9],[76,8,8],[60,32,9],[72,34,8],[52,30,6]].forEach(([x,y,q],i)=>disc(x,y,q,['#c8a83a','#b89a34','#d8b84a','#a88a2e','#c0a040','#9a8a30','#d0b04a'][i],1));
  [[60,10],[68,16],[56,22],[74,28],[64,30]].forEach(([x,y])=>disc(x,y,3,'#e8cc60',1));
@@ -7891,9 +7889,9 @@ function vEpNurse(t){r(0,0,80,100,'#d8c8e8');for(let y=4;y<96;y+=12)for(let x=((
  // ELLA letters over the crib
  const LC=['#ff9ccb','#ffd86b','#9ad0f0','#b8e0a0'];'ELLA'.split('').forEach((c,i)=>{r(46+i*7,22,6,8,LC[i]);txt(c,47+i*7,23,'#fff',1)});
  // crib
- r(44,62,32,30,'#fbfbff');r(44,62,32,2,'#fff');for(let x=46;x<76;x+=3)r(x,64,1,24,'#e8e8f4');r(44,88,32,3,'#e8e8f4');r(44,92,2,6,'#e8e8f4');r(74,92,2,6,'#e8e8f4');r(46,80,28,8,'#ffd0e0');
+ ell(60,113,17,2,'#000',.15);r(44,74,32,32,'#fbfbff');r(44,74,32,2,'#fff');for(let x=46;x<76;x+=3)r(x,76,1,24,'#e8e8f4');r(46,92,28,8,'#ffd0e0');r(46,92,28,1,'#ffe4ee');r(44,100,32,3,'#e8e8f4');r(44,103,2,10,'#e8e8f4');r(74,103,2,10,'#e8e8f4');r(44,103,32,1,'#d0d0e0');
  // mobile
- r(59,34,1,10,'#c8b8d8');r(52,44,16,1,'#c8b8d8');for(let i=0;i<4;i++){const a=t*.8+i*1.57,x=60+Math.cos(a)*7,y=50+Math.sin(a)*1.5;r(Math.round(x),45,1,Math.round(y)-45,'#c8b8d8');heart(Math.round(x)-2,Math.round(y),LC[i],1)}
+ r(75,48,1,28,'#e8e8f4');r(60,48,16,1,'#e8e8f4');r(59,48,1,6,'#c8b8d8');r(52,54,16,1,'#c8b8d8');for(let i=0;i<4;i++){const a=t*.8+i*1.57,x=60+Math.cos(a)*7,y=60+Math.sin(a)*1.5;r(Math.round(x),55,1,Math.round(y)-55,'#c8b8d8');heart(Math.round(x)-2,Math.round(y),LC[i],1)}
  // night light glow
  disc(10,92,10,'#ffe8a0',.12);disc(10,92,5,'#ffe8a0',.2);r(8,88,4,5,'#fff0c0');
  r(0,100,80,44,'#b89878');for(let y=100;y<144;y+=6)r(0,y,80,1,'#a88868');ell(34,120,24,9,'#f0e0f0',1);ell(34,120,20,7,'#e8c8e0',1);
