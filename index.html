@@ -146,16 +146,17 @@ canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pi
 #pause input{width:100%;height:calc(var(--u)*8);accent-color:#ff7eb6}
 #pause button{font:inherit;font-size:calc(var(--u)*4);line-height:1.5;color:#5a2148;border:0;border-radius:0;box-shadow:none;text-align:left;padding:calc(var(--u)*3.2) calc(var(--u)*4) calc(var(--u)*3.6) calc(var(--u)*10.5);background:radial-gradient(circle at calc(var(--u)*5.6) 50%,#24143c 0 calc(var(--u)*1.15),#e8b84a calc(var(--u)*1.2) calc(var(--u)*1.85),transparent calc(var(--u)*1.9)),linear-gradient(#fff7e8,#fff0d8 calc(100% - calc(var(--u)*1.1)),#d9c2a4 0);clip-path:polygon(calc(var(--u)*4.6) 0,100% 0,100% 100%,calc(var(--u)*4.6) 100%,0 50%)}
 #pause button.alt{background:radial-gradient(circle at calc(var(--u)*5.6) 50%,#24143c 0 calc(var(--u)*1.15),#e8b84a calc(var(--u)*1.2) calc(var(--u)*1.85),transparent calc(var(--u)*1.9)),linear-gradient(#ffd6e8,#ffbcd8 calc(100% - calc(var(--u)*1.1)),#d98aae 0)}
-#end{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*8);text-align:center;color:#fff6e0;background:rgba(20,10,50,.88);padding:calc(var(--u)*8);line-height:1.9}
-#end h2{font-size:calc(var(--u)*7.5);font-weight:400;color:#ffd86b}
-#end p{font-size:calc(var(--u)*3.8)}
-#end button{font:inherit;font-size:calc(var(--u)*4);padding:calc(var(--u)*3) calc(var(--u)*6);color:#2a1240;background:#ff7eb6;border:2px solid #fff6e0;border-radius:calc(var(--u)*2)}
+#end{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*5);text-align:center;color:#fff6e0;background:radial-gradient(circle at 50% 38%,rgba(70,36,110,.9),rgba(14,8,40,.95));padding:calc(var(--u)*8);line-height:1.9}
+#end h2{font-size:calc(var(--u)*7.5);font-weight:400;color:#ffd86b;text-shadow:calc(var(--u)*0.8) calc(var(--u)*0.8) 0 #c2417a;animation:endIn .5s cubic-bezier(.2,.9,.3,1.3) both}
+#end p{font-size:calc(var(--u)*3.8);color:#ffd0e4;margin-bottom:calc(var(--u)*4);animation:in .6s .3s both}
+@keyframes endIn{0%{transform:scale(.3) rotate(-8deg);opacity:0}100%{transform:none;opacity:1}}
+#end button{font:inherit;font-size:calc(var(--u)*4);line-height:1.5;color:#5a2148;border:0;border-radius:0;box-shadow:none;text-align:left;width:calc(var(--u)*96);padding:calc(var(--u)*3.2) calc(var(--u)*4) calc(var(--u)*3.6) calc(var(--u)*10.5);background:radial-gradient(circle at calc(var(--u)*5.6) 50%,#24143c 0 calc(var(--u)*1.15),#e8b84a calc(var(--u)*1.2) calc(var(--u)*1.85),transparent calc(var(--u)*1.9)),linear-gradient(#fff7e8,#fff0d8 calc(100% - calc(var(--u)*1.1)),#d9c2a4 0);clip-path:polygon(calc(var(--u)*4.6) 0,100% 0,100% 100%,calc(var(--u)*4.6) 100%,0 50%);animation:in .4s .5s both}#end button:active{filter:brightness(.88)}
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <canvas id="amb" width="16" height="8"></canvas>
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.71</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.4.72</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -607,9 +608,22 @@ const GMON=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','D
 const GFX={p:[],lt:0,pop:0,land:0,lid:null,g:null,vis:1,stars:[]};
 function gfxP(o){GFX.p.push(Object.assign({t:0,l:2,vx:0,vy:0,g:0,d:0,k:'s',c:'#fff',ph:Math.random()*6.3},o))}
 const GCOL=['#ff5f9e','#ffd86b','#7ee8fa','#ff9ccb','#fff6e0','#b78cff','#8be28b'];
+function gfxParts(dt,t){GFX.p=GFX.p.filter(P=>{P.t+=dt;if(P.t>P.l)return false;const dr=Math.exp(-P.d*dt);P.vx*=dr;P.vy=P.vy*dr+P.g*dt;if(P.k==='c'&&P.vy>36)P.vy=36;P.x+=(P.vx+(P.k==='c'&&P.vy>0?Math.sin(t*5+P.ph)*18:P.k==='m'||P.k==='h'?Math.sin(t*2+P.ph)*5:0))*dt;P.y+=P.vy*dt;
+  const a=Math.min(1,(P.l-P.t)/.5),x=Math.round(P.x),y=Math.round(P.y);if(y>H+4)return false;cx.globalAlpha=a;
+  if(P.k==='c'){const f=Math.sin(t*11+P.ph);r(x,y,f>0?2:1,Math.abs(f)>.5?2:1,f>-.3?P.c:sh(P.c,.7))}
+  else if(P.k==='h')heart(x-2,y,P.c,P.z||1);
+  else if(P.k==='m'){cx.globalAlpha=a*(.5+.5*Math.sin(t*9+P.ph));r(x,y,1,1,P.c);if(P.ph>4.4){r(x-1,y,3,1,'rgba(255,255,255,.35)');r(x,y-1,1,3,'rgba(255,255,255,.35)')}}
+  else{r(x,y,1,1,P.c);r(x-1,y,3,1,'rgba(255,255,255,.4)');r(x,y-1,1,3,'rgba(255,255,255,.4)')}
+  return true});cx.globalAlpha=1}
+/* confetti over anything: a win in a minigame, the end of a chapter */
+function winFx(){if(GFX.wf&&T-GFX.wf<1.5)return;GFX.wf=T;for(let i=0;i<70;i++)gfxP({k:'c',x:Math.random()*W,y:-4-Math.random()*40,vx:(Math.random()-.5)*30,vy:20+Math.random()*50,g:50,d:.6,l:2.6+Math.random()*1.8,c:GCOL[i%7]});
+ [[0,1],[W,-1]].forEach(([x0,sg])=>{for(let i=0;i<26;i++){const a=-Math.PI/2+sg*(.25+Math.random()*.7),v=120+Math.random()*170;gfxP({k:'c',x:x0,y:H-30,vx:Math.cos(a)*v,vy:Math.sin(a)*v,g:170,d:1.4,l:2.4+Math.random()*1.4,c:GCOL[i%7]})}})}
+let HSTOP=0;function hitFx(n){if(mode==='title')return;if(n==='hit'||n==='ouch'||n==='slam'||n==='lose'){if(shakeT<.14)shakeT=.14;if(n==='hit')HSTOP=.05}else if(n==='win')winFx()}
 function giftDraw(){const c=$('gfx');if(!c)return;if(!GFX.g){c.width=W;c.height=H;GFX.g=c.getContext('2d');GFX.g.imageSmoothingEnabled=false}
  const ti=$('title'),shown=id=>{const d=$(id).style.display;return d&&d!=='none'},vis=mode==='title'&&!dlg&&!shown('chap')&&!shown('pause')&&!shown('end')?1:0;
- if(vis!==GFX.vis){GFX.vis=vis;c.style.opacity=vis}if(!vis&&mode!=='title'){if(!GFX.cl){GFX.cl=1;GFX.g.clearRect(0,0,W,H);GFX.p=[]}return}GFX.cl=0;
+ const tm=mode==='title';if(!tm&&GFX.tm)GFX.p=[];GFX.tm=tm;const on=vis||(!tm&&GFX.p.length>0)?1:0;
+ if(on!==GFX.vis){GFX.vis=on;c.style.opacity=on}if(!on&&!tm){if(!GFX.cl){GFX.cl=1;GFX.g.clearRect(0,0,W,H)}return}GFX.cl=0;
+ if(!tm){const g=GFX.g,m=cx,dt=Math.min(.05,Math.max(0,T-GFX.lt));GFX.lt=T;g.setTransform(1,0,0,1,0,0);g.globalAlpha=1;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);g._c=null;cx=g;try{gfxParts(dt,T)}finally{cx=m}return}
  const g=GFX.g,m=cx,t=T,dt=Math.min(.05,Math.max(0,t-GFX.lt));GFX.lt=t;g.setTransform(1,0,0,1,0,0);g.globalAlpha=1;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);g._c=null;cx=g;try{
  const o=GIFT.open&&GIFT.t0?t-GIFT.t0:GIFT.done?99:-1,POP=.5,popped=o>=POP,q=o-POP;
  // where the box is: in the middle of the gift screen, then gliding down to rest at the bottom of the title screen
@@ -663,13 +677,7 @@ function giftDraw(){const c=$('gfx');if(!c)return;if(!GFX.g){c.width=W;c.height=
  // twinkles around the wrapped present
  if(o<0)for(let i=0;i<5;i++){const ph=(t*.7+i*.4)%1;if(ph>.5)continue;const kk=Math.sin(ph/.5*Math.PI),x=bx-18+((i*37)%80),y=by-42+((i*23)%40);cx.globalAlpha=kk;r(x,y,1,1,'#fff');r(x-1,y,3,1,'rgba(255,255,255,.5)');r(x,y-1,1,3,'rgba(255,255,255,.5)')}cx.globalAlpha=1;
  // ---------- confetti, hearts, sparks, glitter ----------
- GFX.p=GFX.p.filter(P=>{P.t+=dt;if(P.t>P.l)return false;const dr=Math.exp(-P.d*dt);P.vx*=dr;P.vy=P.vy*dr+P.g*dt;if(P.k==='c'&&P.vy>36)P.vy=36;P.x+=(P.vx+(P.k==='c'&&P.vy>0?Math.sin(t*5+P.ph)*18:P.k==='m'||P.k==='h'?Math.sin(t*2+P.ph)*5:0))*dt;P.y+=P.vy*dt;
-  const a=Math.min(1,(P.l-P.t)/.5),x=Math.round(P.x),y=Math.round(P.y);if(y>H+4)return false;cx.globalAlpha=a;
-  if(P.k==='c'){const f=Math.sin(t*11+P.ph);r(x,y,f>0?2:1,Math.abs(f)>.5?2:1,f>-.3?P.c:sh(P.c,.7))}
-  else if(P.k==='h')heart(x-2,y,P.c,P.z||1);
-  else if(P.k==='m'){cx.globalAlpha=a*(.5+.5*Math.sin(t*9+P.ph));r(x,y,1,1,P.c);if(P.ph>4.4){r(x-1,y,3,1,'rgba(255,255,255,.35)');r(x,y-1,1,3,'rgba(255,255,255,.35)')}}
-  else{r(x,y,1,1,P.c);r(x-1,y,3,1,'rgba(255,255,255,.4)');r(x,y-1,1,3,'rgba(255,255,255,.4)')}
-  return true});cx.globalAlpha=1
+ gfxParts(dt,t)
  }finally{cx=m}}
 /* the gift only opens on Hunter's website (testing from a local file or localhost always works) */
 const SITE_HOSTS=['ourstory.sterlingit.org','codebygibby.github.io'];
@@ -941,7 +949,7 @@ const card=h=>{const m=/CHAPTER (\d)<\/span><br><br>([^<]*)(?:<br><br><span[^>]*
  if(m){CHT={n:m[1],title:m[2].replace(/[\u2019’]/g,"'").replace(/&amp;/g,'+'),sub:(m[3]||'').replace(/&amp;/g,'+').replace(/&/g,'+'),t0:T,out:0};$('card').innerHTML='';$('card').style.opacity=1;return}
  if(CHT){if(!CHT.out)CHT.out=T;const w8=()=>{if(CHT)after(.05,w8);else{$('card').innerHTML='<div>'+h+'</div>';$('card').style.opacity=1}};w8();return}
  $('card').innerHTML='<div>'+h+'</div>';$('card').style.opacity=1};
-function showEnd(h,p,btns){if(/^CHAPTER|EPILOGUE/.test(h)){setLoc('newsbg');fd=0;fade=1}sfx('fanfare');$('end').innerHTML='<h2>'+h+'</h2><p>'+p+'</p>'+btns;$('end').style.display='flex';mode='end'}
+function showEnd(h,p,btns){try{GFX.wf=0;winFx()}catch(e){}if(/^CHAPTER|EPILOGUE/.test(h)){setLoc('newsbg');fd=0;fade=1}sfx('fanfare');$('end').innerHTML='<h2>'+h+'</h2><p>'+p+'</p>'+btns;$('end').style.display='flex';mode='end'}
 function setLoc(l){if(l!==loc)try{[abi,hunter,morgan,jay].forEach(p=>{if(p){p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null}})}catch(e){}loc=l;parts=[];setHud('');CAMX=0}
 
 /* ---- montage scenes ---- */
@@ -3319,7 +3327,7 @@ const SFX={
  cheer:()=>{nz(.9,.12,1800,'bandpass');[0,.12,.25].forEach(d=>tone(700+Math.random()*300,.25,'sawtooth',.02,900,d))},
  flap:()=>{[0,.07,.14,.21].forEach(d=>nz(.04,.1,1500,'bandpass',d))}};
 const SFXQ=[];function sfxFlush(){while(SFXQ.length){const [n,a]=SFXQ.shift();try{SFX[n]&&SFX[n](a)}catch(e){}}}
-function sfx(n,a){if(n==='kiss')CAMK=T;if(!AU.ctx||!AU.on)return;if(INPUT){const now=performance.now();if(AU.last[n]&&now-AU.last[n]<55)return;AU.last[n]=now;SFXQ.push([n,a]);return}const now=performance.now();if(AU.last[n]&&now-AU.last[n]<(n=='blip'?40:55))return;AU.last[n]=now;try{SFX[n]&&SFX[n](a)}catch(e){}}
+function sfx(n,a){if(n==='kiss')CAMK=T;try{hitFx(n)}catch(e){}if(!AU.ctx||!AU.on)return;if(INPUT){const now=performance.now();if(AU.last[n]&&now-AU.last[n]<55)return;AU.last[n]=now;SFXQ.push([n,a]);return}const now=performance.now();if(AU.last[n]&&now-AU.last[n]<(n=='blip'?40:55))return;AU.last[n]=now;try{SFX[n]&&SFX[n](a)}catch(e){}}
 const VOICE={Hunter:150,Abigail:300,Morgan:260,Dad:120,Mom:240,Bartender:180,DJ:200,Nurse:280,Boss:140,Worker:230,Manager:290,Speaker:170,Poet:210,'Poet 2':160,Dancer:270,Tourist:220,Cashier:250,Driver:170};
 Object.assign(VOICE,{Mum:285,J:132,Meggs:268,Pilot:145,Auntie:305,Vet:255,Baker:165,Florist:275,Tailor:155,Waiter:190,Director:160});
 // anyone without a set voice still gets their own steady pitch, worked out from their name
@@ -8519,7 +8527,7 @@ let DLGX=null;function dlgTail(){const e=$('dlg');if(!dlg||!DLGX||DLGX.d!==dlg||
 let ambN=0,ambG=null;function ambBars(){if(ambN++%3)return;try{if(!ambG){ambG=$('amb').getContext('2d');ambG.imageSmoothingEnabled=true}const b=Math.max(1,dv.height*.04|0);ambG.globalAlpha=ambN<4?1:.22;ambG.drawImage(dv,0,0,dv.width,b,0,0,16,4);ambG.drawImage(dv,0,dv.height-b,dv.width,b,0,4,16,4)}catch(e){}}
 buildBG();buildStreet();buildIcons();c3Icons();c5Icons();
 let last=0;
-let avgDt=1/60,dtDebt=0;function loop(ts){let raw=(ts-last)/1000||0;last=ts;if(raw>.25){raw=avgDt;dtDebt=0}if(raw>0&&raw<.1)avgDt+=(raw-avgDt)*.05;let dt=Math.min(raw,avgDt*1.2);dtDebt=Math.min(.1,dtDebt+raw-dt);const pay=Math.min(dtDebt,avgDt*.25);dt+=pay;dtDebt-=pay;dt=Math.min(dt,.05);sfxFlush();if(!PAUSED){T+=dt;update(dt)}render();requestAnimationFrame(loop)}
+let avgDt=1/60,dtDebt=0;function loop(ts){let raw=(ts-last)/1000||0;last=ts;if(raw>.25){raw=avgDt;dtDebt=0}if(raw>0&&raw<.1)avgDt+=(raw-avgDt)*.05;let dt=Math.min(raw,avgDt*1.2);dtDebt=Math.min(.1,dtDebt+raw-dt);const pay=Math.min(dtDebt,avgDt*.25);dt+=pay;dtDebt-=pay;dt=Math.min(dt,.05);sfxFlush();if(!PAUSED){if(HSTOP>0)HSTOP-=Math.max(raw,.001);else{T+=dt;update(dt)}}render();requestAnimationFrame(loop)}
 requestAnimationFrame(loop);
 /* works offline once installed to the home screen (only when served from a website) */
 try{try{const l=document.getElementById('ld');l.classList.add('off')}catch(e){}
