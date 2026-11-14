@@ -163,7 +163,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.5.6</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev &middot; scenes &middot; v1.5.7</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1208,7 +1208,10 @@ function vLiving(t){
  if(lv.pace){if(!qprops.remote&&qprops.lap!=='remote'){r(58,111,7,3,'#1a1a22');r(59,111,1,1,'#e0463c')}person(abi,t)}
  drawQx(t);
  if(n){cx.globalAlpha=.42;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1;cx.globalCompositeOperation='lighter';const fl=.02+.012*Math.sin(t*7)+.008*Math.sin(t*13);for(let i=0;i<6;i++){cx.globalAlpha=fl;r(8+i*4,52+i*3,64-i*8,92-i*3,'#6ab0ff')}cx.globalAlpha=1;disc(76,46,6,'#ffd88a',.1);cx.globalCompositeOperation='source-over'}
- if(lv.eve){cx.globalAlpha=.12;r(0,0,80,144,'#ff9a4a');cx.globalAlpha=1}
+ if(lv.eve){// golden hour: a warm wash over the room, low sun pouring in from the window across the floor
+  cx.globalAlpha=.14;r(0,0,80,144,'#3a1a10');cx.globalAlpha=.16;r(0,0,80,144,'#ff9a4a');cx.globalAlpha=1;
+  cx.globalCompositeOperation='lighter';const g=cx.createRadialGradient(56,30,2,56,30,62);g.addColorStop(0,'rgba(255,200,120,.32)');g.addColorStop(.5,'rgba(255,170,90,.12)');g.addColorStop(1,'rgba(255,150,80,0)');cx.fillStyle=g;cx.fillRect(0,0,80,144);
+  cx.globalAlpha=.07;cx.fillStyle='#ffc888';cx.beginPath();cx.moveTo(46,40);cx.lineTo(70,40);cx.lineTo(56,144);cx.lineTo(14,144);cx.closePath();cx.fill();cx.globalAlpha=1;cx.globalCompositeOperation='source-over'}
  if(lv.kiss){heart(47,52-((t*8)%10|0),'#ff5f9e',2)}}
 function vEntry(t){
  r(0,0,80,144,'#8a9ab8');for(let x=0;x<80;x+=6)r(x,0,3,104,'#8292b0');r(0,100,80,4,'#d8d8e4');
@@ -1446,7 +1449,7 @@ function knockTap(){if(kt>0)return;sfx('knock');knock++;kt=.4;if(knock>=3){mode=
 function calShow(d,next){tv=null;qprops.lap=null;setLoc('cal');calD=d;calT0=T;mode='cal';$('card').style.opacity=0;fd=-1;after(3.2,()=>fadeTo(next))}
 function qStart(){qprops={remote:0,sw:0};hm=0;sick=1;tissues=4;fade=1;fd=2;fhold=.1;calShow(1,qDay1)}
 const addH=n=>{hm=Math.min(10,hm+n)};
-let QPN=null;function qScene(o,lines,next){const fromWalk=mode==='qx'&&qx&&qx.room==='living';if(fromWalk&&!o.loc){if((o.q||0)>=3&&o.bk==null)o={...o,bk:T};if((o.q||0)>=2&&o.st==null)o={...o,st:T-.2}}setLoc(o.loc||'living');lv={night:0,mor:0,q:0,...o};showHM=1;mode='q';after(1,()=>say(lines,next))}
+let QPN=null,QSAT=null;function qScene(o,lines,next){const fromWalk=QSAT!=null&&T-QSAT<.5;QSAT=null;if(fromWalk&&!o.loc){if((o.q||0)>=3&&o.bk==null)o={...o,bk:T};if((o.q||0)>=2&&o.st==null)o={...o,st:T-.2}}setLoc(o.loc||'living');lv={night:0,mor:0,q:0,...o};showHM=1;mode='q';after(1,()=>say(lines,next))}
 function _qDay1(){qScene({mor:0,q:0,mb:1},[{n:'',t:'Everything feels heavy. Foggy. Like your head is stuffed with cotton wool.'},
  {n:'Morgan',t:'(sniff) Tissues are... everywhere. Help yourself.'},{n:'Hunter',t:'I feel totally fine, by the way. Zero symptoms.'},{n:'Abigail',t:'Of course you do. Ugh. My nose is a faucet.'},
  {n:'',t:'HOW TO BLOW YOUR NOSE: tap as fast as you can to fill the meter. Fill it 3 times for 3 big HONKS!',c:[{l:'Grab a tissue',f:startNose}]}])}
@@ -1487,7 +1490,7 @@ function qxTap(x,y){if(qx.phase)return;const it=qxItems().find(i=>x>=i.x&&x<=i.x
 function qxToKitchen(after){qx.phase='walkOut';go(abi,qxRoute(72,138).concat([[92,140]]),40);qx.out=()=>fadeTo(()=>{setLoc('mkit');qx.room='kitchen';at(abi,-6,138,'r');go(abi,[[16,124]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(qx.hud)})}
 function qxToLiving(after){qx.phase='walkOut';go(abi,[[8,138],[-10,140]],40);qx.out=()=>fadeTo(()=>{setLoc('living');qx.room='living';at(abi,90,138,'l');go(abi,[[66,126]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(mode==='qx'?qx.hud:'')})}
 function qxUpdate(dt){if(!qx||(loc!=='living'&&loc!=='mkit'))return;if(qx.tap){qx.tap.t+=dt;if(qx.tap.t>.4)qx.tap=null}
- if(qx.phase){if(dlg)return;if(qx.phase==='sit'){qx.st+=dt;if(qx.st>=.75){qx.sx=qx.sy=null;QPN=qx.room==='living'&&!qx.cnt.phone&&!(qprops.ph&&qprops.ph[qx.d])?qx.d:null;qx.phase=null;lv.ex=0;abi.hold=null;abi.carry=null;sfx('step');qx.cont()}return}
+ if(qx.phase){if(dlg)return;if(qx.phase==='sit'){qx.st+=dt;if(qx.st>=.75){QSAT=T;qx.sx=qx.sy=null;QPN=qx.room==='living'&&!qx.cnt.phone&&!(qprops.ph&&qprops.ph[qx.d])?qx.d:null;qx.phase=null;lv.ex=0;abi.hold=null;abi.carry=null;sfx('step');qx.cont()}return}
   if(qx.phase==='wait')return;mv(abi,dt);if(abi.tx==null){const P=qx.phase;abi.moving=false;
    if(P==='toSeat'){qx.phase='sit';qx.st=0;abi.dir='d'}else if(P==='exit'){qx.phase=null;qx.cont()}
    else if(P==='walkOut'){qx.phase='wait';const f=qx.out;qx.out=null;f()}else if(P==='walkIn'){qx.phase=null;const f=qx.afterIn;qx.afterIn=null;if(f)f()}}return}
@@ -1530,7 +1533,7 @@ function vMKit(t){const n=lv.night;r(0,0,80,96,'#f0e6c8');for(let y=60;y<96;y+=6
  [[12,64,'#ff9ccb'],[22,64,'#7ec8f0'],[28,63,'#ffd86b']].forEach(([x,y,c])=>{r(x,y,3,3,c);r(x+3,y+1,1,1,c)});
  r(38,66,16,30,'#3a3a46');r(38,66,16,3,'#5a5a66');disc(42,67,2,'#1a1a22',1);disc(50,67,2,'#1a1a22',1);r(39,74,14,14,'#2a2a34');r(44,80,4,1,'#c8c8d0');
  r(40,58,10,8,'#8a3a2a');r(40,58,10,1,'#a84a3a');r(39,60,1,2,'#5a2a1a');r(50,60,1,2,'#5a2a1a');for(let i=0;i<3;i++){const y=54-((t*8+i*4)%10|0);r(42+i*3,y,1,2,'#e8e8f0')}
- const fo=qx&&qx.fopen;r(56,44,18,52,'#e8e8f0');r(56,44,18,1,'#fff');r(56,62,18,1,'#b8b8c8');r(58,48,1,10,'#9a9aaa');r(58,66,1,18,'#9a9aaa');r(62,50,4,3,'#ffd86b');r(68,52,3,4,'#ff9ccb');r(63,70,6,5,'#f4f4f8');r(64,71,4,3,'#7ab0d8');
+ const fo=qx&&qx.fopen;r(56,44,18,52,'#e8e8f0');r(56,44,18,1,'#fff');r(56,62,18,1,'#b8b8c8');r(71,48,1,10,'#9a9aaa');r(71,66,1,18,'#9a9aaa');r(62,50,4,3,'#ffd86b');r(68,52,3,4,'#ff9ccb');r(63,70,6,5,'#f4f4f8');r(64,71,4,3,'#7ab0d8');
  if(fo){r(40,62,16,34,'#dcdce6');r(40,62,1,34,'#b8b8c8');r(57,63,16,32,'#fff8d8');r(58,72,14,1,'#e0d8c0');r(58,82,14,1,'#e0d8c0');r(60,66,5,5,'#f8e0a0');r(66,67,3,4,'#c83a3a');r(60,75,10,6,'#8a3a2a');r(62,85,4,8,'#f4f4f8');disc(64,78,10,'#fff8d0',.15)}
  r(0,96,80,48,'#e8e4dc');for(let y=96;y<144;y+=8)for(let x=((y/8)%2)*8;x<80;x+=16)r(x,y,8,8,'#d4ccc0');r(0,138,26,6,'#a0784e');
  if(qx&&qx.room==='kitchen'){txt('LIVING',2,139,'#7a5a3a',1);qxAbi(t)}
