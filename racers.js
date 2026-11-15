@@ -21,8 +21,19 @@ function ptxtS(s,x,y,c,z,al,sc){ptxt(s,x+1,y+1,sc||'#2b1830',z,al);return ptxt(s
 const SK='ourstory_racers';
 function defSave(){return {v:1,tutS:1,tips:{},week:1,lg:0,money:0,lv:1,xp:0,sp:0,st:{spd:14,acc:12,sta:9,agi:10,foc:6,cha:15},en:100,mood:75,ap:3,raced:0,gym:1,eq:{},own:['bandana'],wear:{head:null,body:'bandana',paws:null,charm:null},sk:[],bag:{},boss:0,lp:0,rp:0,wins:0,races:0,spon:null,fl:{},best:{},seen:{}}}
 let S=defSave();
-function load(){try{const o=JSON.parse(localStorage.getItem(SK)||'null');if(o&&o.v===1){S=Object.assign(defSave(),o);if(o.tutS==null)S.tutS=(o.races||0)>0?5:1;S.st=Object.assign(defSave().st,o.st);S.wear=Object.assign(defSave().wear,o.wear)}}catch(e){}}
-function save(){try{localStorage.setItem(SK,JSON.stringify(S))}catch(e){}}
+/* Saving: every change is written within half a second, and again whenever the app is hidden or closed.
+   Two copies are kept (main + backup, each stamped with a time) and the newer good one is loaded. */
+const SKB=SK+'_bak';let lastJ='',saveWarned=0,saveT=0;
+function readSave(k){try{const o=JSON.parse(localStorage.getItem(k)||'null');return o&&o.v===1&&o.st?o:null}catch(e){return null}}
+function load(){const a=readSave(SK),b=readSave(SKB),o=a&&b?((b.ts||0)>(a.ts||0)?b:a):(a||b);
+ if(o){S=Object.assign(defSave(),o);if(o.tutS==null)S.tutS=(o.races||0)>0?5:1;S.st=Object.assign(defSave().st,o.st);S.wear=Object.assign(defSave().wear,o.wear)}else S=defSave();
+ lastJ=snap();try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}}
+const snap=()=>{const {ts,...rest}=S;return JSON.stringify(rest)};
+function save(){S.ts=Date.now();const j=JSON.stringify(S);let ok=0;try{localStorage.setItem(SK,j);ok=1}catch(e){}try{localStorage.setItem(SKB,j);ok=1}catch(e){}
+ if(ok)lastJ=snap();else if(!saveWarned&&ui){saveWarned=1;toast('Couldn’t save! Phone storage may be full.')}}
+function autosave(force){if(S&&(force||snap()!==lastJ))save()}
+const flush=()=>{try{if(root)autosave(1)}catch(e){}};
+addEventListener('pagehide',flush);addEventListener('beforeunload',flush);addEventListener('blur',flush);document.addEventListener('visibilitychange',()=>{if(document.hidden)flush()});document.addEventListener('freeze',flush);
 
 /* ---------------- styles ---------------- */
 function css(){if($('crzcss'))return;const s=document.createElement('style');s.id='crzcss';const u=n=>U(n);
@@ -112,7 +123,7 @@ function mount(){if(root)return;css();root=document.createElement('div');root.id
  document.addEventListener('visibilitychange',()=>{if(document.hidden&&on&&scr&&scr.pause)scr.pause()})}
 const IN={down:0,x0:0,y0:0,x:0,y:0,t0:0,sw:0,id:null};
 function go(s){if(scr&&scr.exit)scr.exit();scr=s;IN.down=0;ui.innerHTML='';if(s.enter)s.enter();if(s.ui)s.ui()}
-function frame(ts){if(!on)return;let dt=(ts-lastTs)/1000||0;lastTs=ts;dt=Math.min(dt,.05);tm+=dt;
+function frame(ts){if(!on)return;let dt=(ts-lastTs)/1000||0;lastTs=ts;dt=Math.min(dt,.05);tm+=dt;saveT+=dt;if(saveT>.5){saveT=0;try{autosave()}catch(e){}}
  try{if(scr&&scr.upd)scr.upd(dt);withCx(bg,()=>{r(0,0,BW,BH,'#0e0828');if(scr&&scr.draw)scr.draw(tm)})}catch(e){console.error(e)}
  const w=BW*(typeof DS!=='undefined'?DS:4);if(dcv.width!==w){dcv.width=w;dcv.height=BH*w/BW}dctx.imageSmoothingEnabled=false;dctx.drawImage(buf,0,0,dcv.width,dcv.height);
  try{if(typeof AU!=='undefined'){AU.want=mus()}}catch(e){}requestAnimationFrame(frame)}
