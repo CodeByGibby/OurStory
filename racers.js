@@ -24,7 +24,7 @@ let S=defSave();
 /* Saving: every change is written within half a second, and again whenever the app is hidden or closed.
    Two copies are kept (main + backup, each stamped with a time) and the newer good one is loaded. */
 const SKB=SK+'_bak';let lastJ='',saveWarned=0,saveT=0;
-function readSave(k){try{const o=JSON.parse(localStorage.getItem(k)||'null');return o&&o.v===1&&o.st?o:null}catch(e){return null}}
+function readSave(k){try{const o=JSON.parse(localStorage.getItem(k)||'null');return o&&o.v===1&&typeof o==='object'?o:null}catch(e){return null}}
 function load(){const a=readSave(SK),b=readSave(SKB),o=a&&b?((b.ts||0)>(a.ts||0)?b:a):(a||b);
  if(o){S=Object.assign(defSave(),o);if(o.tutS==null)S.tutS=(o.races||0)>0?5:1;S.st=Object.assign(defSave().st,o.st);S.wear=Object.assign(defSave().wear,o.wear)}else S=defSave();
  lastJ=snap();try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}}
@@ -391,10 +391,14 @@ function gus(x,y,t,dir,talk){x=Math.round(x);y=Math.round(y);ell(x,y,13,1,'#000'
 
 /* simple people for the circuit: announcer, executive, fans */
 const PEO={};
-function ppl(k,x,y,t,dir){try{if(!PEO[k]){const base={buzz:['morgan',{n:'Buzz',skin:'#f1c9a0',hair:'#e8e4d8',hl:0,eye:'#3a5a9a',top:'#e8a020',pants:'#3a2a1a',shoe:'#1a1a1a'}],
+function ppl(k,x,y,t,dir,walk){try{if(!PEO[k]){const base={buzz:['morgan',{n:'Buzz',skin:'#f1c9a0',hair:'#e8e4d8',hl:0,eye:'#3a5a9a',top:'#e8a020',pants:'#3a2a1a',shoe:'#1a1a1a'}],
   viv:['abi',{n:'Vivian',skin:'#f6d2b0',hair:'#1a1420',hl:2,eye:'#5a3a7a',top:'#7a2fe0',skirt:'#2a2030',pants:'#2a2030',shoe:'#111'}],
-  hunter:['hunter',{}],abi:['abi',{}]}[k];PEO[k]=mk(base[0],x,y,base[1])}
- const p=PEO[k];p.x=x;p.y=y;p.dir=dir||'d';p.moving=false;p.hold=null;p.sit=0;p.tag=0;person(p,t)}catch(e){r(x-3,y-18,6,18,'#888')}}
+  pup:['morgan',{n:'Pup-Cup Lady',skin:'#f6d2b0',hair:'#e8b84a',hl:1,eye:'#3a7a5a',top:'#ff7eb6',apron:1,pants:'#5a6a8a',shoe:'#fff6e0'}],
+  vet:['morgan',{n:'Vet',skin:'#c98e62',hair:'#1e1e1e',hl:1,eye:'#2a2a2a',top:'#5ac8c0',pants:'#5ac8c0',shoe:'#f6f6f0'}],
+  nigel:['hunter',{n:'Sir Nigel',skin:'#f4dcc8',hair:'#d8d4cc',hl:0,eye:'#5a6a8a',top:'#2a2a3a',stripe:'#2a2a3a',collar:'#f6f6f0',pants:'#2a2a3a',shoe:'#111'}],
+  driver:['hunter',{n:'Driver',skin:'#a8744a',hair:'#1a1a1a',hl:0,eye:'#2a2a2a',top:'#1a1a22',stripe:'#1a1a22',collar:'#f6f6f0',pants:'#1a1a22',shoe:'#111',cap:'#1a1a22'}],
+  hunter:['hunter',{}],abi:['abi',{}]}[k]||['hunter',{n:k,top:k.startsWith('#')?k:'#5a7a4a',stripe:k.startsWith('#')?k:'#5a7a4a',collar:'#fff6e0',hair:'#3a2a1a',skin:'#e8c0a0',pants:'#3a3a4a'}];PEO[k]=mk(base[0],x,y,base[1])}
+ const p=PEO[k];p.x=x;p.y=y;p.dir=dir||'d';p.moving=!!walk;p.hold=null;p.sit=0;p.tag=0;person(p,t)}catch(e){r(x-3,y-18,6,18,'#888')}}
 
 /* pixel icons for menus: drawn once, cached as data URLs */
 const ICN={};
@@ -954,8 +958,8 @@ function gus2(x,y,t,dir,talk){x=Math.round(x);y=Math.round(y);ell(x,y,11,1,'#000
  r(hx-1,hy+1,2,9,E);r(hx,hy+9,1,1,E);r(hx-1,hy-2,6,2,'#d8352f');r(hx+5,hy-1,3,1,'#a02a2a');r(hx+1,hy-2,2,1,'#fff6e0');
  r(hx+2,hy+6,1,2,'#3a3a4a');r(hx+1,hy+8,2,1,'#ffd86b');cx.restore()}
 /* our two people, sitting or standing, without disturbing the story's own copies */
-function p2(k,x,y,t,dir,sit){const p=k==='abi'?abi:k==='hunter'?hunter:null;if(!p){ppl(k,x,y,t,dir);return}
- const keep=['x','y','dir','sit','sitF','hold','moving','tx','ty','reach','tag'].reduce((o,q)=>(o[q]=p[q],o),{});Object.assign(p,{x,y,dir:dir||'d',sit:sit?1:0,sitF:sit?1:0,hold:null,moving:false,tx:null,ty:null,reach:null,tag:0});
+function p2(k,x,y,t,dir,sit,walk){const p=k==='abi'?abi:k==='hunter'?hunter:null;if(!p){ppl(k,x,y,t,dir,walk);return}
+ const keep=['x','y','dir','sit','sitF','hold','moving','tx','ty','reach','tag'].reduce((o,q)=>(o[q]=p[q],o),{});Object.assign(p,{x,y,dir:dir||'d',sit:sit?1:0,sitF:sit?1:0,hold:null,moving:!!walk,tx:null,ty:null,reach:null,tag:0});
  try{person(p,t)}finally{Object.assign(p,keep)}}
 const ppl2=(k,x,y,t,dir)=>p2(k,x,y,t,dir,0);
 
@@ -1030,6 +1034,166 @@ function equip2(lv,t){const e=S.eq;
  if(e.cha){if(e.cha>2){r(46,38,1,28,'#3a3a44');r(63,38,1,28,'#3a3a44');r(45,37,20,2,'#5a5a66');r(47,39,16,25,'#ff9ccb');r(47,39,16,1,'#ffb8d8');r(47,64,16,3,'#ffb0d4');r(45,66,3,1,'#3a3a44');r(62,66,3,1,'#3a3a44')}
   r(71,42,7,22,'#8a6a4a');r(72,43,5,20,'#d8e8f4');r(73,45,1,6,'#f4fafe');r(74,47,1,3,'#f4fafe');r(70,64,3,1,'#6a4a2a');r(76,64,3,1,'#6a4a2a');
   if(e.cha>1){r(66,48,1,17,'#3a3a44');r(64,65,5,1,'#3a3a44');for(let a=0;a<16;a++){const q=a/16*Math.PI*2;r(Math.round(66+Math.cos(q)*3.5),Math.round(45+Math.sin(q)*3.5),1,1,'#fff6d0')}cx.globalCompositeOperation='lighter';disc(66,45,6,'#fff6d0',.08);cx.globalCompositeOperation='source-over'}}}
+/* ---------------- cutscenes ----------------
+   A cutscene is a scene that keeps a beat number and the moment that beat started.
+   Dialogue lines move it to the next beat (a:bt(K,n)), and the scene animates from there:
+   cars pull up, people walk in, things get handed over. */
+function cutScr(fn){const C={b:0,bt:tm,v:{}};return {C,draw:t=>fn(C,tm-C.bt,t)}}
+const bt=(K,n,f)=>()=>{K.C.b=n;K.C.bt=tm;if(f)f()};
+const ez=k=>{k=clamp(k,0,1);return k*k*(3-2*k)};
+const tw=(a,b,u,d,dl)=>a+(b-a)*ez((u-(dl||0))/d);
+const castDraw=L=>L.sort((a,b)=>a.y-b.y).forEach(q=>q.f());
+function homeBack(t){cx.translate(0,-12);gymBg(S.gym,t);equip2(S.gym,t)}
+const dust=(x,y,u,n)=>{for(let i=0;i<(n||5);i++){const k=(u*2+i/(n||5))%1;disc(Math.round(x-k*10-i),Math.round(y-k*4),1+(k*3|0),'#e8e0d0',.6*(1-k))}};
+const glint=(x,y,u)=>{const k=(u*1.4)%1;if(k<.3){const s=Math.round(k*10);r(x,y-s,1,s*2+1,'#ffffff');r(x-s,y,s*2+1,1,'#ffffff')}};
+/* vehicles at story scale */
+function limo(x,y,o){x=Math.round(x);y=Math.round(y);const B='#5a2a8a',H='#9a6aca';cx.save();if(o.dir==='l'){cx.translate(2*x+1,0);cx.scale(-1,1)}
+ ell(x,y,22,2,'#000',.25);r(x-21,y-10,42,7,B);r(x-21,y-10,42,1,H);r(x+15,y-12,6,2,B);r(x+15,y-12,6,1,H);r(x-21,y-12,6,2,B);r(x-12,y-17,24,7,'#4a2072');r(x-11,y-17,22,1,H);
+ r(x-10,y-16,9,5,'#26304a');r(x+1,y-16,9,5,'#26304a');r(x-9,y-16,3,1,'#6a7ab0');r(x+2,y-16,3,1,'#6a7ab0');r(x-21,y-6,42,1,'#d8d4e0');r(x+20,y-10,1,3,'#fff6c0');r(x-21,y-9,1,2,'#ff4a4a');r(x+8,y-8,3,1,'#d8d4e0');
+ [x-13,x+13].forEach(wx=>{disc(wx,y-2,3,'#141418',1);disc(wx,y-2,1,'#d8d4e0',1);const a=o.spin||0;r(wx+Math.round(Math.cos(a)*2),y-2+Math.round(Math.sin(a)*2),1,1,'#b8b4c0')});
+ if(o.door){const w=Math.round(o.door*6);r(x-2,y-16,3,11,'#2a1240');r(x+1,y-16,w,11,B);r(x+1,y-16,w,1,H)}
+ if(o.shine!=null){const sx=x-20+Math.round((o.shine*50)%44);r(sx,y-10,3,1,'#ffffff');r(sx+1,y-11,1,3,'#ffffff')}cx.restore()}
+function kibTruck(x,y,o){x=Math.round(x);y=Math.round(y);cx.save();if(o.dir==='l'){cx.translate(2*x+1,0);cx.scale(-1,1)}
+ ell(x,y,24,2,'#000',.25);r(x-24,y-21,34,16,'#ffd86b');r(x-24,y-21,34,1,'#fff0b0');r(x-24,y-6,34,1,'#c89a20');
+ const k=o.open||0,ph=Math.round(k*12);if(k>0){r(x-22,y-19,30,12,'#5a3a1a');for(let i=0;i<5;i++){r(x-21+i*6,y-15,5,8,'#e8b820');r(x-21+i*6,y-15,5,1,'#fff0b0');r(x-19+i*6,y-12,1,1,'#d8352f')}}
+ r(x-22,y-19-ph,30,Math.max(1,12-ph),'#f0c84a');r(x-22,y-19-ph,30,1,'#c89a20');if(k<.5){ptxt('KIBBLE',x-7,y-17,'#8a5a1a',1,'c');r(x-10,y-10,6,3,'#d8352f');r(x-9,y-12,1,2,'#ffd86b');r(x-7,y-13,1,3,'#ffd86b');r(x-5,y-12,1,2,'#ffd86b')}
+ r(x+10,y-16,12,11,'#e8b820');r(x+10,y-16,12,1,'#fff0b0');r(x+15,y-14,6,5,'#7ab8e8');r(x+16,y-14,2,1,'#b8dcf8');r(x+21,y-8,1,2,'#fff6c0');r(x-24,y-6,46,2,'#5a5a66');
+ [x-16,x+14].forEach(wx=>{disc(wx,y-2,3,'#141418',1);disc(wx,y-2,1,'#d8d4e0',1)});cx.restore()}
+/* bits that get held up or handed over */
+const neonSuit=(x,y,u)=>{const g=.5+Math.sin(u*14)*.5;cx.globalCompositeOperation='lighter';disc(x,y,9,'#b8ff3a',.12+g*.12);cx.globalCompositeOperation='source-over';r(x-5,y-3,10,7,'#b8ff3a');r(x-5,y-1,10,1,'#ff3ad8');r(x-5,y+2,10,1,'#ff3ad8');r(x-7,y-3,2,3,'#b8ff3a');r(x+5,y-3,2,3,'#b8ff3a');glint(x+4,y-4,u)};
+const bandanaAt=(x,y,c)=>{r(x-3,y,6,1,c);r(x-2,y+1,4,1,c);r(x-1,y+2,2,1,c);r(x-2,y,1,1,'#fff6e0')};
+const capelet=(x,y,u)=>{r(x-6,y-3,12,6,'#c2417a');r(x-6,y-3,12,1,'#ff9ccb');r(x-4,y+3,8,2,'#c2417a');for(let i=0;i<3;i++)r(x-4+i*4,y-1,1,1,'#ffd86b');glint(x+5,y-4,u)};
+const clipboard=(x,y)=>{r(x,y,4,5,'#a87a42');r(x+1,y+1,2,3,'#fff6e0');r(x+1,y-1,2,1,'#8a8a96')};
+const crown2=(x,y)=>{r(x,y,5,2,'#ffd86b');r(x,y-1,1,1,'#ffd86b');r(x+2,y-2,1,2,'#ffd86b');r(x+4,y-1,1,1,'#ffd86b');r(x+2,y+1,1,1,'#d8352f')};
+const pillow=(x,y)=>{r(x-5,y,10,3,'#7a2fe0');r(x-5,y,10,1,'#9a5af0');r(x-6,y+2,1,2,'#ffd86b');r(x+5,y+2,1,2,'#ffd86b')};
+
+/* ---- the sponsor and story cutscenes ---- */
+/* Pup-Cup Treats: a lady in a pink apron sprints over with a clipboard */
+function cutPupCup(ven,then){const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx.translate(0,-VOY);venueDraw(ven,-8,t,0);venueFg(ven,-8);const b=C.b,L=[];
+  const lx=b===0?tw(-12,14,u,1.3):b===4?tw(14,-14,u,1.6):14,run=(b===0&&u<1.3)||b===4,ly=178+(b===2||b===3?-Math.round(Math.abs(Math.sin(u*8))*2):0);
+  L.push({y:ly,f:()=>{ppl('pup',lx,ly,t,b===4?'l':'r',run);if(b<3||b===4)clipboard(lx+3,ly-15);if(b===0&&u>1.2&&u<1.6)dust(lx-6,ly,u,4)}});
+  L.push({y:176,f:()=>gcorgi(38,176,{c:'red',st:b===3?'stand':'stand',t,dir:'l',tongue:b>=1,g:dGear(),jy:b===3&&u<1?Math.round(Math.abs(Math.sin(u*9))*3):0})});
+  L.push({y:180,f:()=>p2('abi',58,180,t,'l')});L.push({y:182,f:()=>p2('hunter',70,182,t,'l')});
+  if(b===2)bandanaAt(lx+2,ly-30+Math.round(Math.sin(u*6)),'#ff7eb6');
+  if(b===3&&u<.8){const k=ez(u/.8);bandanaAt(Math.round(lx+2+(32-lx-2)*k),Math.round(ly-30+(176-9-(ly-30))*k-Math.sin(k*Math.PI)*10),'#ff7eb6')}
+  castDraw(L);if(b===1)hearts(lx+2,ly-26,u,2);if(b===3)confetti(u,22);cx.restore()});
+ talk([{n:'',t:'Somebody in a pink apron is SPRINTING across the grass toward you, waving a clipboard.',a:bt(K,0)},
+  {n:'Pup-Cup Lady',t:'Hi! HI! Sorry! Hi! I’m with Pup-Cup Treats!',a:bt(K,1)},
+  {n:'Pup-Cup Lady',t:'We’ve been watching Donut all season. We’d love her to wear OUR bandana. $40 a week!',a:bt(K,2)},
+  {n:'',t:'Pup-Cup Treats: '+fmt$(SPON.pupcup.pay)+' a week. Donut wears the Pup-Cup Bandana for full pay.',c:[{l:'Sign the deal',f:()=>{signSpon('pupcup');bt(K,3)()}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save();bt(K,4)()}}]},
+  {n:'Pup-Cup Lady',get t(){return S.spon==='pupcup'?'Welcome to the Pup-Cup family! Free treats for LIFE. Well. For a while.':'Totally get it! Here’s a free Pup Cup anyway. Bye Donut!'}}],then,K.draw)}
+function signSpon(id){const P=SPON[id];S.spon=id;if(!S.own.includes(P.it))S.own.push(P.it);S.wear[GEAR[P.it].sl]=P.it;save();snd('kaching');toast('New sponsor: '+P.n)}
+/* Vivian Vance-Paws arrives: a very shiny car */
+function cutVivian(then){S.fl.viv=1;save();const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];
+  const cx0=b===0?tw(120,52,u,2.2):b>=7?tw(52,-40,u,2.4,1.6):52,door=b===0?0:b===1?ez(u/.5):b>=7?(u<1.2?1-ez((u-.6)/.5):0):1;
+  L.push({y:80,f:()=>{limo(cx0,80,{spin:b===0?u*14:b>=7&&u>1.6?u*14:0,door,shine:u});if(b===0&&u<2.2)dust(cx0+22,80,u,4);if(b>=7&&u>1.6)dust(cx0+22,80,u,5);if(b===0&&u>2.2)glint(cx0-8,70,u)}});
+  const vx=b===1?tw(52,46,u,.8,.4):b>=2&&b<7?46:b>=7?tw(46,52,u,.6):52,vy=b===1?tw(80,90,u,.8,.4):b>=2&&b<7?90:b>=7?tw(90,82,u,.6):82;
+  if(b>=1&&!(b>=7&&u>.7))L.push({y:vy,f:()=>{ppl('viv',vx,vy,t,b>=7?'r':'l',(b===1&&u>.4&&u<1.2)||(b>=7&&u<.6));if(b===2&&u<.8)for(let i=0;i<4;i++)glint(vx-4+i*3,vy-30+i,u+i*.2);if(b>=3&&b<7)neonSuit(vx,vy-34,u)}});
+  L.push({y:84,f:()=>p2('abi',20,84,t,'r')});L.push({y:85,f:()=>p2('hunter',32,85,t,'r')});
+  const worn=b===6&&u>.8;L.push({y:97,f:()=>gcorgi(40,97,{c:'red',st:b===4?'sit':'stand',t,dir:'r',g:worn||S.wear.body==='neon'?Object.assign(dGear(),{body:'neon'}):dGear(),tongue:b===6})});
+  if(b===6&&u<.8){const k=ez(u/.8);neonSuit(Math.round(46+(40-46)*k),Math.round(56+(88-56)*k-Math.sin(k*Math.PI)*10),u)}
+  castDraw(L);if(b===4){r(23,60,1,2,'#7ee8fa');r(22,62,3,2,'#7ee8fa')}if(b===6&&u>.8){cx.globalCompositeOperation='lighter';disc(40,90,10,'#b8ff3a',.12);cx.globalCompositeOperation='source-over'}})});
+ talk([{n:'',t:'Monday morning. A long purple car purrs up to the gym. Very shiny. TOO shiny.',a:bt(K,0)},{n:'',t:'The door swings open.',a:bt(K,1)},
+  {n:'Vivian',t:'Vivian Vance-Paws. I run the Minor League. And I make stars.',a:bt(K,2)},{n:'Vivian',t:'Zoomies Energy wants Donut. $450 a week. She just has to wear... this.',a:bt(K,3)},
+  {n:'',t:'She holds up a neon green racing suit. It is very, very bright. It might be humming.'},{n:'Abigail',t:'(It’s hideous. But money is tight...)',a:bt(K,4)},
+  {n:'Vivian',t:'So? Do we have a deal?',a:bt(K,5),c:[{l:'Take the deal ($450/week)',f:()=>{signSpon('zoomies');bt(K,6)()}},{l:'She’s not wearing that',f:()=>{S.mood=clamp(S.mood+15,0,100);S.fl.noviv=1;save();bt(K,7)()}}]},
+  {n:'',get t(){return S.fl.noviv?'Vivian lowers her sunglasses. Sniffs. Gets back in the car without a word.':'The suit goes on. Donut glows faintly in the dark now.'}},
+  {get n(){return S.fl.noviv?'Abigail':'Vivian'},get t(){return S.fl.noviv?'We’ll make it on our own. Right, Donut?':'Fabulous. You’ll be hearing from me.'},a:()=>{if(!S.fl.noviv){K.C.b=6}}}],then,K.draw)}
+/* Royal Kibble: a golden truck, a fanfare, and a scarf */
+function cutKibble(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];
+  const tx=b===0?tw(124,54,u,2.2):b>=5?tw(54,-50,u,2.4,1.2):54,open=b===1?ez(u/.8):b>=2&&b<5?1:b>=5?1-ez(u/.6):0;
+  L.push({y:78,f:()=>{kibTruck(tx,78,{open});if(b===0&&u<2.2)dust(tx+24,78,u,4);if(b>=5&&u>1.2)dust(tx+24,78,u,5)}});
+  if(b===1&&u>.6)for(let i=0;i<3;i++)glint(36+i*12,58,u+i*.3);
+  const vx=b===1?tw(66,50,u,.8,.6):b>=2&&b<5?50:b>=5?tw(50,62,u,.7):66,show=b>=1&&!(b>=5&&u>.7)&&!(b===1&&u<.6);
+  if(show)L.push({y:90,f:()=>{ppl('viv',vx,90,t,b>=5?'r':'l',(b===1&&u<1.4)||(b>=5&&u<.7));if(b===3)bandanaAt(vx+2,58+Math.round(Math.sin(u*6)),'#2a6ad8')}});
+  L.push({y:84,f:()=>p2('abi',20,84,t,'r')});L.push({y:85,f:()=>p2('hunter',32,85,t,'r')});
+  const sc=b===4&&u>.8;L.push({y:97,f:()=>{gcorgi(40,97,{c:'red',st:'stand',t,dir:'r',g:dGear(),tongue:b===2||b===4,jy:b===1&&u>.4&&u<1?Math.round(Math.abs(Math.sin(u*10))*2):0});if(b===2)hearts(44,82,u,2)}});
+  if(b===4){if(u<.8){const k=ez(u/.8);bandanaAt(Math.round(52+(45-52)*k),Math.round(58+(89-58)*k-Math.sin(k*Math.PI)*8),'#2a6ad8')}r(52,92,8,10,'#ffd86b');r(52,92,8,1,'#fff0b0');r(54,95,4,3,'#d8352f');r(55,94,1,1,'#ffd86b')}
+  castDraw(L)})});
+ talk([{n:'',t:'BEEP. BEEP. BEEP. A golden truck backs right up to the gym.',a:bt(K,0)},{n:'',t:'The side rolls up. A trumpet plays. Inside: bags and bags of Royal Kibble.',a:bt(K,1,()=>snd('fanfare'))},
+  {n:'',t:'Donut has never wanted anything more in her life.',a:bt(K,2)},{n:'Vivian',t:'Royal Kibble called. They want Donut. $2,600 a week. Even I’m impressed.',a:bt(K,3)},
+  {n:'',t:'Royal Kibble: '+fmt$(SPON.kibble.pay)+' a week. Donut wears the Royal Kibble Scarf for full pay.',c:[{l:'Sign the deal',f:()=>{signSpon('kibble');bt(K,4)()}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save();bt(K,5)()}}]},
+  {get n(){return S.spon==='kibble'?'Vivian':''},get t(){return S.spon==='kibble'?'And a lifetime supply. Don’t say I never did anything for you.':'The truck pulls away. Donut watches it go. For a long, long time.'},a:()=>{if(S.spon!=='kibble')bt(K,5)()}}],then,K.draw)}
+/* Corgi Couture: a runway in Paris */
+function cutCouture(then){const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx.translate(0,-VOY);venueDraw('paris',-8,t,1);const b=C.b,L=[];
+  const w=b===0?Math.round(tw(0,80,u,1.4)):80;r(0,168,w,10,'#b8283a');r(0,168,w,1,'#e84a5a');for(let x=4;x<w;x+=8)r(x,173,3,1,'#ffd86b');if(w>0&&w<80){r(w-2,166,3,13,'#8a1a2a')}
+  for(let i=0;i<6;i++){const x=6+i*13;r(x,165,1,4,'#ffd86b');disc(x,164,1,'#ffd86b',1)}
+  const vx=b===1?tw(92,58,u,1.6):58;if(b>=1)L.push({y:172,f:()=>{ppl('viv',vx,172,t,'l',b===1&&u<1.6);if(b===2)capelet(vx+1,141+Math.round(Math.sin(u*6)),u);if(b===1&&u>1.6)glint(vx+2,150,u)}});
+  const dx=b===3?tw(10,36,u,2.2):b===4?20:24;L.push({y:174,f:()=>gcorgi(dx,174,{c:'red',st:b===3&&u<2.2?'run':'stand',t:b===3?u*.6:t,dir:'r',g:b>=3&&S.spon==='couture'?Object.assign(dGear(),{body:'capeP'}):dGear(),tongue:1})});
+  L.push({y:190,f:()=>{for(let i=0;i<5;i++)kid(8+i*16,192,u+i,['#2a2a3a','#5a5a66','#2a2a3a','#7a2fe0','#2a2a3a'][i],0)}});
+  castDraw(L);if(b>=1&&!(b===4))flashes(u,b===3?8:4);venueFg('paris',-8);cx.restore()});
+ talk([{n:'',t:'Paris. A red carpet rolls out right down the middle of the track.',a:bt(K,0)},{n:'',t:'Cameras everywhere. And at the end of the runway, in enormous sunglasses...',a:bt(K,1)},
+  {n:'Vivian',t:'Corgi Couture. Paris. They want her on the runway AND the racetrack. $9,500 a week, darling.',a:bt(K,2)},
+  {n:'',t:'Corgi Couture: '+fmt$(SPON.couture.pay)+' a week. Donut wears the Couture Capelet for full pay.',c:[{l:'Sign the deal',f:()=>{signSpon('couture');bt(K,3)()}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save();bt(K,4)()}}]},
+  {get n(){return S.spon==='couture'?'':'Vivian'},get t(){return S.spon==='couture'?'Donut struts the whole runway in her new capelet. Paris loses its mind.':'Non? ...Fine. Paris will wait. Paris always waits.'}}],then,K.draw)}
+/* Coach Gus: waiting by the gate at sunset */
+function cutGus(win,then){S.fl.gus=1;save();const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);cx.globalAlpha=.22;r(0,0,80,156,'#5a2a6a');cx.globalAlpha=1;const b=C.b,L=[];
+  const gx=b===0?8:b===1?tw(8,20,u,2.6):20,gy=b===0?72:b===1?tw(72,100,u,2.6):100;
+  L.push({y:gy,f:()=>{gus2(gx,gy,b===1?u:t,b===1||b>=2?'r':'r',b>=2&&b!==4);if(b===0){r(gx-4,gy-6,6,5,'#5a6a8a');r(gx-4,gy-6,6,1,'#7a8aaa')}if(b===4&&u<.8){for(let i=0;i<3;i++)r(gx+18+i*3,gy-12-i*2,2,1,'#fff6e0');}}});
+  L.push({y:84,f:()=>p2('abi',44,84,t,'l')});L.push({y:85,f:()=>p2('hunter',56,85,t,'l')});
+  const dx=b===4&&u<1?tw(40,48,u,.4):b>=4?48:40;L.push({y:97,f:()=>{gcorgi(dx,97,{c:'red',st:b>=4?'sit':'stand',t,dir:'l',g:dGear(),tongue:b===6});if(b===4&&u>.3&&u<1.2)ptxt('!',dx-2,72,'#ff7eb6')}});
+  castDraw(L);if(b===6)hearts(30,80,u,4)})});
+ talk([{n:'',t:'Back home, at sunset, someone is sitting by the gate. Low to the ground. Very long ears. A duffel bag.',a:bt(K,0)},
+  {n:'',t:'He waddles across the yard. It takes a while.',a:bt(K,1)},
+  {n:'Coach Gus',t:'Name’s Gus. Coach Gus. I raced the circuit back in ’87. Fastest basset hound in the Ozarks.',a:bt(K,2)},{n:'Hunter',t:'Is a basset hound... fast?',a:bt(K,3)},{n:'Coach Gus',t:'No. That’s what made it impressive.'},
+  {n:'Coach Gus',t:win?'Your pup beat Biscuit on day one. Raw talent. Zero plan. That’s where I come in.':'Your pup’s got wheels. No plan. Biscuit ate her lunch today. That’s where I come in.'},
+  {n:'',t:'He blows his whistle. FWEEEET. Donut sits at attention so fast she skids.',a:bt(K,4,()=>snd('alert'))},
+  {n:'Coach Gus',t:'Train smart. Rest when she’s tired. Buy her real equipment when you can. And for the love of kibble, watch the squirrels.',a:bt(K,5)},{n:'Abigail',t:'Welcome to the team, Coach.',a:bt(K,6)}],then,K.draw)}
+/* the sprained paw: couch, vet, and a bracelet */
+function cutInjury(then){const K=cutScr((C,u,t)=>{at2(()=>{const b=C.b,L=[];
+  if(b<=1){aptBg(t,1);const jx=b===0?tw(22,40,u,.6):40,jy=b===0&&u<.6?Math.round(Math.sin(u/.6*Math.PI)*8):0,yy=b===0?tw(92,112,u,.6):112;
+   L.push({y:yy,f:()=>{gcorgi(jx,yy,{c:'red',st:'stand',t,dir:'r',jy,g:dGear()});if(u>.7||b===1){r(jx+5,yy-5-Math.round(Math.abs(Math.sin(t*3))),2,2,'#fbf6ec')}}});
+   if(b===1)L.push({y:110,f:()=>p2('abi',tw(70,56,u,1),110,t,'l',u<1)});castDraw(L);if(b===0&&u>.7)ptxt('?',44,88,'#ff7eb6')}
+  else if(b<=4){r(0,0,80,144,'#e8f4f2');for(let x=0;x<80;x+=8)r(x,0,1,64,'#dcece8');r(0,62,80,2,'#b8d0cc');for(let y=64;y<144;y+=8)for(let x=((y-64)/8%2)*8;x<80;x+=16)r(x,y,8,8,'#f0f6f4');
+   r(4,20,16,20,'#fff6e0');r(4,20,16,4,'#5ac8c0');r(8,28,3,3,'#e0903a');r(13,30,4,2,'#e0903a');r(70,40,10,48,'#c8b8a0');r(71,41,8,46,'#d8c8b0');r(72,64,1,4,'#8a7a6a');r(26,14,22,10,'#2a3a4a');r(28,16,18,1,'#7ee8fa');
+   r(22,84,36,4,'#c8c8d0');r(22,84,36,1,'#e8e8f0');r(24,88,2,14,'#8a8a96');r(54,88,2,14,'#8a8a96');
+   L.push({y:84,f:()=>{gcorgi(40,84,{c:'red',st:'stand',t,dir:'l',g:dGear()});const bw=b===2?Math.round(tw(0,3,u,1.4)):3;if(bw)r(33,81,2,bw,'#ffffff')}});
+   L.push({y:100,f:()=>ppl('vet',30,100,t,'r')});L.push({y:104,f:()=>p2('abi',52,104,t,'l')});L.push({y:106,f:()=>p2('hunter',62,106,t,'l')});
+   if(b>=3)L.push({y:96,f:()=>ppl('viv',b===3?tw(84,72,u,1):b===4?tw(72,90,u,1.4,.6):72,96,t,b===4?'r':'l',(b===3&&u<1)||(b===4&&u>.6))});castDraw(L)}
+  else{aptBg(t,0);L.push({y:93,f:()=>gcorgi(20,93,{c:'red',st:'lie',sleep:b===6,g:{}})});L.push({y:110,f:()=>p2('abi',30,110,t,'l')});castDraw(L);
+   if(b>=5){const k=b===5?ez(u/1.2):1;for(let i=0;i<5;i++){if(i/5<k)r(23+i,86,1,1,['#7ee8fa','#ff7eb6','#ffd86b','#8be28b','#b78cff'][i])}}if(b===6)hearts(26,78,u,4)}})});
+ talk([{n:'',t:'Monday. Donut hops off the couch... and holds up one front paw.',a:bt(K,0)},{n:'Abigail',t:'Hunter. She’s limping.',a:bt(K,1)},
+  {n:'',t:'A trip to the vet. A sprained paw. Nothing broken, but she needs to rest.',a:bt(K,2)},
+  {n:'Vivian',t:'The Comet race is in two weeks. Sponsors are watching. Can she run hurt?',a:bt(K,3)},{n:'Abigail',t:'No. She’s not a racer first. She’s our dog first.'},
+  {n:'Hunter',t:'She sits out this week. End of discussion.',a:bt(K,4)},
+  {n:'',t:'That night, Abigail ties a little bracelet onto Donut’s collar.',a:bt(K,5)},{n:'Abigail',t:'For luck. And so you know we love you, win or lose.',a:bt(K,6)},
+  {n:'',t:'Got: Abigail’s Bracelet. Donut rests this week (no race).'}],then,K.draw)}
+/* Crumpet signs up for the relay */
+function cutRelay(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];const lw=b===0?Math.round(tw(0,56,u,2)):56;r(12,92,lw,2,'#fff6e0');r(12,92,lw,1,'#ffffff');
+  const gx=b===0?tw(10,66,u,2):66;L.push({y:96,f:()=>{gus2(gx,100,u,'r',b>=2);if(b===0&&u<2){r(gx+12,97,4,3,'#3a3a46');r(gx+11,98,1,1,'#ffffff')}}});
+  const cxp=b<=1?tw(84,40,u,2.4):40,cp=b===0||(b===1&&u<2.4)?0:b===3?(Math.floor(u*3)%2?2:3):3;L.push({y:92,f:()=>crumpet(cxp,92,'l',t,cp,0)});
+  L.push({y:84,f:()=>p2('abi',20,84,t,'r')});L.push({y:85,f:()=>p2('hunter',30,85,t,'r')});L.push({y:104,f:()=>gcorgi(54,104,{c:'red',st:'sit',t,g:dGear(),tongue:b>=3})});castDraw(L);if(b===3)hearts(40,78,u,3)})});
+ talk([{n:'',t:'Coach Gus is painting a starting line across the yard.',a:bt(K,0)},{n:'',t:'Crumpet walks right up to it. Slowly. Purposefully. And lies down ON the line.',a:bt(K,1)},
+  {n:'Hunter',t:'Does she... want to race?'},{n:'Coach Gus',t:'There’s a Doubles Relay Showcase this season. Sister runs first, Donut runs the anchor leg.',a:bt(K,2)},
+  {n:'Crumpet',t:'*rolls over. Ready.*',a:bt(K,3)},{n:'',t:'The Doubles Relay is open on the race list!'}],then,K.draw)}
+/* Crumpet gives Donut her chew toy */
+function cutChew(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];const cxp=b===0?tw(84,56,u,2.2):56,drop=b>=1;
+  L.push({y:100,f:()=>{crumpet(cxp,100,'l',t,b===0&&u<2.2?0:1,0);if(!drop){r(cxp-12,90,5,2,'#ff7eb6');r(cxp-13,89,2,2,'#ff7eb6');r(cxp-9,89,2,2,'#ff7eb6')}}});
+  if(drop){const ty=b===1?Math.round(tw(90,100,u,.4)):100;r(46,ty-2,5,2,'#ff7eb6');r(45,ty-3,2,2,'#ff7eb6');r(49,ty-3,2,2,'#ff7eb6')}
+  L.push({y:100,f:()=>gcorgi(36,100,{c:'red',st:b>=2?'stand':'sit',t,dir:'r',g:dGear(),tongue:b>=2})});L.push({y:84,f:()=>p2('abi',20,84,t,'r')});L.push({y:85,f:()=>p2('hunter',32,85,t,'r')});castDraw(L);if(b>=2)hearts(42,84,u,4)})});
+ talk([{n:'',t:'Crumpet waddles across the yard with something pink in her mouth.',a:bt(K,0)},{n:'',t:'She drops her favourite chew toy right at Donut’s feet.',a:bt(K,1,()=>snd('pop'))},
+  {n:'Abigail',t:'Oh my gosh. Crumpet is giving Donut her TOY. That’s her most prized possession.',a:bt(K,2)},{n:'',t:'Got: Crumpet’s Chew Toy (Charm: +4 Focus, +2 Stamina).'}],then,K.draw)}
+/* a palace, a velvet cushion, and the world champion */
+function palace(C,u,t){at2(()=>{r(0,0,80,144,'#4a1430');for(let y=0;y<70;y+=8)for(let x=((y/8)%2)*4;x<80;x+=8){r(x+2,y+2,2,2,'#5a1a3c');r(x+3,y+1,1,1,'#5a1a3c')}r(0,66,80,4,'#c89a20');r(0,70,80,74,'#2a1020');for(let y=74;y<144;y+=6)r(0,y,80,1,'#341428');
+  ell(40,104,30,8,'#7a1a2a',1);ell(40,104,26,6,'#9a2a3a',1);[[10,16],[56,16]].forEach(([x,y])=>{r(x,y,14,18,'#ffd86b');r(x+1,y+1,12,16,'#3a2a4a');r(x+4,y+8,6,6,'#e8a050')});r(39,0,2,10,'#c89a20');for(let i=0;i<5;i++){r(32+i*4,10,2,4,'#fff6d0');disc(33+i*4,9,1,'#fff6d0',1)}
+  r(56,58,20,14,'#1a1a22');r(57,59,18,11,'#6ab0e8');r(57,65,18,5,'#3a8a3a');const k=(t*12)%22;r(57+k,64,3,2,'#e0903a');r(60+k,63,1,2,'#e0903a');r(64,72,4,10,'#c89a20');r(60,82,12,2,'#c89a20');
+  r(26,96,28,7,'#7a2fe0');r(26,96,28,1,'#9a5af0');r(25,101,1,3,'#ffd86b');r(54,101,1,3,'#ffd86b');gcorgi(38,98,{c:'fluff',st:'lie',sleep:C.v.yawn&&tm-C.v.yawn>1.2,g:{}});crown2(43,85);
+  if(C.v.yawn&&tm-C.v.yawn<1.2){r(46,92,2,2,'#5a1a2a')}ppl('nigel',16,110,t,'r')})}
+/* the boss walks out, the handler talks, Donut reacts */
+function bossWalkout(ev,cast0,st){const B=BOSS[ev.boss],V=VEN[ev.ven],ri=ri0();function ri0(){return Math.floor(Math.random()*4)}
+ const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx.translate(0,-VOY);venueDraw(ev.ven,-8,t,1);venueFg(ev.ven,-8);const b=C.b,L=[];
+  L.push({y:162,f:()=>{ppl('buzz',10,162,t,'r');if(b<=1){r(16,146,2,3,'#3a3a46');disc(17,145,1,'#8a8a96',1)}}});
+  const bx=b===0?92:b===1?tw(92,54,u,1.4):54;L.push({y:170,f:()=>{gcorgi(bx,170,{c:B.coat,g:B.gear,st:b===1&&u<1.4?'run':'stand',t,dir:'l'});if(b===1&&u<1.4)dust(bx+8,170,u,4)}});
+  if(b>=2)L.push({y:166,f:()=>ppl(B.hc,b===2?tw(90,68,u,1):68,166,t,'l',b===2&&u<1)});
+  const re=b===3,dx=30;L.push({y:176,f:()=>{if(re&&ri===1&&u<1.6){const a=u/1.6*Math.PI*2;gcorgi(dx+Math.cos(a)*7,176+Math.sin(a)*3,{c:'red',st:'run',t,dir:Math.sin(a)>0?'l':'r',g:dGear()})}
+   else gcorgi(dx,176,{c:'red',st:re&&ri===3&&Math.floor(u*2)%2?'sit':'stand',t,dir:'r',g:dGear(),tongue:re&&ri!==2});if(re&&ri===0&&u<.6){for(let i=0;i<4;i++)r(dx+12+i*2,166-i,1,1,'#e8f0ff')}
+   if(re&&ri===2){r(dx+12,164,2,1,'#ffffff');r(dx+15,163,2,1,'#ffffff');r(dx+12,168,4,1,'#ffffff')}}});
+  if(S.fl.gus)L.push({y:186,f:()=>gus2(64,186,t,'l',b===4)});castDraw(L);if(b<=1&&Math.floor(u*4)%2)flashes(u,3);cx.restore()});
+ const react=['*sneezes. Confidently.*','*does one small zoomie*','*stares straight ahead. Locked in.*','*sits. Then stands. Then sits again.*'][ri];
+ const L=[{n:'Buzz',t:'LADIES AND GENTLEMEN, welcome to the '+V.n+'!',a:bt(K,0)},{n:'Buzz',t:'In lane three... '+B.w.replace(/\.$/,'')+'... it’s '+B.n.toUpperCase()+'!',a:bt(K,1,()=>snd('cheer'))},{n:B.h,t:B.t,a:bt(K,2)},{n:'Donut',t:react,a:bt(K,3)}];
+ if(ev.boss==='fluff')L.splice(2,0,{n:'Buzz',t:'The undefeated world champion versus the park dog from Missouri. You could not WRITE this!'});
+ if(ev.boss==='chad')L.push({n:'Coach Gus',t:'He’s gonna bark at you mid-race. When he does: HOLD. Don’t you dare look at him.',a:bt(K,4)});
+ return {L,draw:K.draw}}
 /* ---------------- tutorial: a guided first week ----------------
    S.tutS: 1 tour of the gym, 2 after the first workout, 3 after the practice race,
    4 after the first real race, 5 done. One-off tips live in S.tips. */
@@ -1335,23 +1499,17 @@ function storyIntro(){const st={};MUS='cozy';
   {n:'Abigail',t:'Babe. I think she CAN do that.'},{n:'Hunter',t:'There’s an amateur race at the dog park this Saturday. First entry is free...'},
   {n:'Abigail',t:'Then it’s settled. Donut is going to be a racer!'},{n:'Crumpet',t:'*does not wake up*'}],
   ()=>{S.tutS=1;save();hub()},livingRoom(st))}
-function preBoss(ev,then){const B=BOSS[ev.boss],V=VEN[ev.ven],st={hype:1};MUS='tense';
- const cast=[{k:'buzz',x:10,y:162,dir:'r'},{k:'dog',c:'red',g:dGear(),x:30,y:176},{k:'dog',c:B.coat,g:B.gear,x:54,y:170,dir:'l'}];if(S.fl.gus)cast.push({k:'gus',x:64,y:186,dir:'l'});
- const react=pick(['*sneezes. Confidently.*','*does one small zoomie*','*stares straight ahead. Locked in.*','*sits. Then stands. Then sits again.*']);
- const L=[{n:'Buzz',t:'LADIES AND GENTLEMEN, welcome to the '+V.n+'!'},{n:'Buzz',t:'In lane three... '+B.w.replace(/\.$/,'')+'... it’s '+B.n.toUpperCase()+'!'},{n:B.h,t:B.t},{n:'Donut',t:react}];
- if(ev.boss==='fluff')L.splice(2,0,{n:'Buzz',t:'The undefeated world champion versus the park dog from Missouri. You could not WRITE this!'});
- if(ev.boss==='chad')L.push({n:'Coach Gus',t:'He’s gonna bark at you mid-race. When he does: HOLD. Don’t you dare look at him.'});
- talk(L,then,venueScene(ev.ven,cast,st))}
+function preBoss(ev,then){MUS='tense';const W=bossWalkout(ev);talk(W.L,then,W.draw)}
 function afterRace(ev,pl){const q=[];const B=ev.boss?BOSS[ev.boss]:null,win=pl===1;
  if(S.races===1)q.push(()=>talk([{n:'Abigail',t:win?'She WON?! Her very first race! Our girl is a RACER!':'Her very first race ever. Hunter, I’m so proud of her I could cry.'},{n:'Hunter',t:win?'Did you see her ears? They were FLAT. She was flying.':'Did you see her ears? Next week she’s gonna fly.'}],next));
  if(B){if(win)q.push(()=>talk([{n:B.h,t:{biscuit:'That’s okay Biscuit. You’re still the best at eating socks.',waddles:'Hmph. Sir Waddles shall return. Eventually. At his own pace.',tina:'She... she passed Tina? Nobody passes Tina.',loaf:'Big Mike respects that. The Loaf respects that.',pepper:'Pepper is going to be angry about this for a very long time.',
    chad:'Bro. BRO. That’s... okay that was actually sick. Respect.',duchess:'Well. Duchess has never been... second. How novel.',comet:'Hey, Kansas City! Give it up for the Missouri girl!',kenji:'Sato-san bows. Kenji bows. Donut... sniffs Kenji. That counts.',baguette:'Ze croissant was worth it. But zis dog... magnifique.',matilda:'Fair dinkum. She beat Matilda on SAND. Never seen it.',fluff:'...Well. Jolly good show, park dog.'}[ev.boss]}],next));
   else q.push(()=>talk([{n:S.fl.gus?'Coach Gus':'Abigail',t:pick(['We’ll get ’em next week. Back to work.','Close one. Train up and come back stronger.','That one stung. Good. Remember how it feels.'])}],next));
-  if(!S.fl.gus)q.push(()=>meetGus(win));
+  if(!S.fl.gus)q.push(()=>cutGus(win,next));
   }
- if(win&&!S.spon&&S.lg===0&&S.wins>=3)q.push(()=>offer('pupcup',[{n:'',t:'A lady in a pink apron runs over with a clipboard.'},{n:'',t:'"Hi! I’m with Pup-Cup Treats! We’d love Donut to wear our bandana. $40 a week!"'}]));
- if(win&&S.lg===2&&!S.fl.kib){S.fl.mjw=(S.fl.mjw||0)+1;if(S.fl.mjw>=2){S.fl.kib=1;q.push(()=>offer('kibble',[{n:'Vivian',t:'Royal Kibble called. They want Donut. $2,600 a week. Even I’m impressed.'}]))}}
- if(win&&S.lg===3&&!S.fl.cout&&!S.fl.champ){S.fl.cout=1;q.push(()=>offer('couture',[{n:'Vivian',t:'Corgi Couture. Paris. They want her on the runway AND the racetrack. $9,500 a week, darling.'}]))}
+ if(win&&!S.spon&&S.lg===0&&S.wins>=3)q.push(()=>cutPupCup(ev.ven,next));
+ if(win&&S.lg===2&&!S.fl.kib){S.fl.mjw=(S.fl.mjw||0)+1;if(S.fl.mjw>=2){S.fl.kib=1;q.push(()=>cutKibble(next))}}
+ if(win&&S.lg===3&&!S.fl.cout&&!S.fl.champ){S.fl.cout=1;q.push(()=>cutCouture(next))}
  if(B&&win&&S.boss>=LG[S.lg].boss.length&&!S.fl.champ)q.push(()=>S.lg<3?promote():ending());
  let k=0;function next(){const f=q[k++];if(f)f();else afterAny()}next()}
 function offer(id,lines){const P=SPON[id];talk(lines.concat([{n:'',t:P.n+': '+fmt$(P.pay)+' a week. Donut wears the '+GEAR[P.it].n+' for full pay.',c:[{l:'Sign the deal',f:()=>{S.spon=id;if(!S.own.includes(P.it))S.own.push(P.it);S.wear[GEAR[P.it].sl]=P.it;save();toast('New sponsor: '+P.n)}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save()}}]}]),()=>afterAny(),gymSc())}
@@ -1359,32 +1517,37 @@ function meetGus(win){S.fl.gus=1;save();talk([{n:'',t:'Back home, someone is wai
  {n:'Coach Gus',t:'Name’s Gus. Coach Gus. I raced the circuit back in ’87. Fastest basset hound in the Ozarks.'},{n:'Hunter',t:'Is a basset hound... fast?'},{n:'Coach Gus',t:'No. That’s what made it impressive.'},
  {n:'Coach Gus',t:win?'Your pup beat Biscuit on day one. Raw talent. Zero plan. That’s where I come in.':'Your pup’s got wheels. No plan. Biscuit ate her lunch today. That’s where I come in.'},
  {n:'Coach Gus',t:'Train smart. Rest when she’s tired. Buy her real equipment when you can. And for the love of kibble, watch the squirrels.'},{n:'Abigail',t:'Welcome to the team, Coach.'}],()=>afterAny(),gymSc())}
-function promote(){const from=S.lg;S.lg++;S.boss=0;S.lp=0;S.ap=apMax();save();const L=LG[S.lg];MUS='race';
+function promote(){const PC={v:{}};let PZ0=null;const from=S.lg;S.lg++;S.boss=0;S.lp=0;S.ap=apMax();save();const L=LG[S.lg];MUS='race';
  const lines={1:[{n:'Buzz',t:'Folks, the Amateur League has a new champion! DONUT is moving up to the MINOR LEAGUE!'},{n:'Coach Gus',t:'Ballparks. County fairs. Real crowds. Real money. Real squirrels.'},{n:'Abigail',t:'Minor league, here we come!'}],
   2:[{n:'Buzz',t:'She did it! Donut is headed to THE MAJOR LEAGUE! Stadiums! Halftime shows! Prime time!'},{n:'Hunter',t:'Abby. She’s gonna run at an NFL game.'},{n:'Abigail',t:'I need a bigger GO DONUT sign.'},{n:'Crumpet',t:'*stretches* *looks at the track* *looks at Donut* ...!'}],
-  3:[{n:'Buzz',t:'Ladies and gentlemen... Donut has qualified for the GLOBAL RANKINGS! She enters the world at number one hundred!'},{n:'',t:'Across the ocean, on a velvet cushion, Lord Fluffington watches the broadcast.'},{n:'Sir Nigel Pomfrey',t:'A park dog. How quaint. Lord Fluffington has not lost in four years.'},{n:'Coach Gus',t:'Then he’s due.'}]}[S.lg];
+  3:[{n:'Buzz',t:'Ladies and gentlemen... Donut has qualified for the GLOBAL RANKINGS! She enters the world at number one hundred!'},{n:'',t:'Across the ocean, in a palace, on a velvet cushion, Lord Fluffington watches the broadcast.',a:()=>{PZ0=scr.draw;scr.draw=t=>palace(PC,0,t)}},{n:'Sir Nigel Pomfrey',t:'A park dog. How quaint. Lord Fluffington has not lost in four years.'},{n:'',t:'Lord Fluffington yawns. Enormously.',a:()=>{PC.v.yawn=tm}},{n:'Coach Gus',t:'Then he’s due.',a:()=>{if(PZ0)scr.draw=PZ0}}]}[S.lg];
  talk(lines.concat([{n:'',t:'NOW ENTERING: '+L.n.toUpperCase()+'. New gear in the shop!'}]),()=>{S.week++;S.raced=0;save();weekStory()},venueScene(LG[from].boss.slice(-1)[0][1],[{k:'buzz',x:8,y:162,dir:'r'},{k:'dog',c:'red',g:dGear(),x:37,y:176,st:'cheer'},{k:'abi',x:60,y:184,dir:'l'},{k:'hunter',x:72,y:186,dir:'l'}],{hype:1,pod:1}))}
 function weekStory(){const q=[];
- if(S.lg===1&&!S.fl.viv){S.fl.viv=1;q.push(()=>talk([{n:'',t:'Monday morning. A shiny car pulls up to the gym. Very shiny. Too shiny.'},{n:'Vivian',t:'Vivian Vance-Paws. I run the Minor League. And I make stars.'},
-  {n:'Vivian',t:'Zoomies Energy wants Donut. $450 a week. She just has to wear... this.'},{n:'',t:'She holds up a neon green racing suit. It is very, very bright.'},{n:'Abigail',t:'(It’s hideous. But money is tight...)'},
-  {n:'Vivian',t:'So? Do we have a deal?',c:[{l:'Take the deal ($450/week)',f:()=>{S.spon='zoomies';S.own.push('neon');S.wear.body='neon';save();toast('New sponsor: Zoomies Energy')}},{l:'She’s not wearing that',f:()=>{S.mood=clamp(S.mood+15,0,100);S.fl.noviv=1;save()}}]},
-  {n:'',t:'',a:()=>{}}].filter(l=>l.t),()=>{if(S.fl.noviv)talk([{n:'Abigail',t:'We’ll make it on our own. Right, Donut?'},{n:'Donut',t:'*happy sneeze*'}],next,gymSc());else next()},gymSc()))}
- if(S.lg===2&&S.boss>=1&&!S.fl.inj){S.fl.inj=1;S.fl.rest=1;q.push(()=>talk([{n:'',t:'Monday. Donut hops off the couch... and holds up one front paw.'},{n:'Abigail',t:'Hunter. She’s limping.'},{n:'',t:'A trip to the vet. A sprained paw. Nothing broken, but she needs to rest.'},
-  {n:'Vivian',t:'The Comet race is in two weeks. Sponsors are watching. Can she run hurt?'},{n:'Abigail',t:'No. She’s not a racer first. She’s our dog first.'},{n:'Hunter',t:'She sits out this week. End of discussion.'},
-  {n:'',t:'That night, Abigail ties a little bracelet onto Donut’s collar.'},{n:'Abigail',t:'For luck. And so you know we love you, win or lose.'},{n:'',t:'Got: Abigail’s Bracelet. Donut rests this week (no race).'}],()=>{if(!S.own.includes('bracelet'))S.own.push('bracelet');if(!S.wear.charm)S.wear.charm='bracelet';S.mood=100;save();next()},gymSc()))}
- if(S.lg===2&&!S.fl.relay){S.fl.relay=1;q.push(()=>talk([{n:'',t:'Crumpet walks right up to the starting line Gus painted in the yard. And lies down on it.'},{n:'Hunter',t:'Does she... want to race?'},{n:'Coach Gus',t:'There’s a Doubles Relay Showcase this season. Sister runs first, Donut runs the anchor leg.'},{n:'Crumpet',t:'*rolls over. Ready.*'},{n:'',t:'The Doubles Relay is open on the race list!'}],next,gymSc()))}
+ if(S.lg===1&&!S.fl.viv)q.push(()=>cutVivian(next));
+ if(S.lg===2&&S.boss>=1&&!S.fl.inj){S.fl.inj=1;S.fl.rest=1;save();q.push(()=>cutInjury(()=>{if(!S.own.includes('bracelet'))S.own.push('bracelet');if(!S.wear.charm)S.wear.charm='bracelet';S.mood=100;save();next()}))}
+ if(S.lg===2&&!S.fl.relay){S.fl.relay=1;save();q.push(()=>cutRelay(next))}
  let k=0;function next(){const f=q[k++];if(f)f();else afterAny()}next()}
-function checkGifts(){if((S.fl.plays||0)>=3&&!S.own.includes('chew')&&on&&scr===HUB){S.own.push('chew');save();talk([{n:'',t:'Crumpet waddles over and drops her favourite chew toy at Donut’s feet.'},{n:'Abigail',t:'Oh my gosh. Crumpet is giving Donut her TOY. That’s her most prized possession.'},{n:'',t:'Got: Crumpet’s Chew Toy (Charm: +4 Focus, +2 Stamina).'}],()=>hubUI())}}
-function gymUpgraded(){hub();const n=GYM[S.gym].n;talk([{n:'',t:'Welcome to '+n+'!'},{n:S.fl.gus?'Coach Gus':'Hunter',t:{2:'A real home gym. Well. A garage. With mats. It counts.',3:'My old gym. I never thought I’d see a corgi in here. Feels right.',4:'Now THIS is a training facility. One more workout every week, starting now.',5:'A dome. With a giant donut on it. I’ve seen everything now.'}[S.gym]}],()=>hubUI())}
+function checkGifts(){if((S.fl.plays||0)>=3&&!S.own.includes('chew')&&on&&scr===HUB){S.own.push('chew');save();cutChew(()=>hub())}}
+function gymUpgraded(){const n=GYM[S.gym].n,t0=tm;snd('whoosh');talk([{n:'',t:'*CRASH* *BANG* *drill noises* ... The dust settles. Welcome to '+n+'!'},{n:S.fl.gus?'Coach Gus':'Hunter',t:{2:'A real home gym. Well. A garage. With mats. It counts.',3:'My old gym. I never thought I’d see a corgi in here. Feels right.',4:'Now THIS is a training facility. One more workout every week, starting now.',5:'A dome. With a giant donut on it. I’ve seen everything now.'}[S.gym]}],()=>hub(),t=>{hubScene(t);const u=tm-t0;if(u<2.2){const k=u/2.2;for(let i=0;i<26;i++){const a=i*2.39,d=10+k*70*(.5+(i%5)/8);disc(Math.round(80+Math.cos(a)*d),Math.round(170+Math.sin(a)*d*.5),Math.round(12*(1-k)+4),'#efe8dc',.85*(1-k))}if(u<.5){cx.globalAlpha=1-u*2;r(0,0,160,288,'#efe8dc');cx.globalAlpha=1}}else{for(let i=0;i<6;i++){const ph=(u*1.3+i/6)%1;if(ph<.4){cx.save();cx.scale(2,2);glint(10+(i*13)%60,40+(i*17)%50,ph);cx.restore()}}}})}
 function champPhoto(h){try{const c=mkc(160,288,()=>homeScene({flop:0})(1));const p=mkc(120,120,(w,hh,g)=>g.drawImage(c,8,112,120,120,0,0,120,120));ALB.put('crzchamp',p)}catch(e){}}
-function ending(){S.fl.champ=1;save();const st={hype:1,pod:1};MUS='race';
- talk([{n:'Buzz',t:'She’s done it! DONUT! IS! THE! WORLD! CHAMPION!'},{n:'',t:'The stadium in Newcastle shakes. Three fans in very large orange shirts are crying.'},{n:'Sir Nigel Pomfrey',t:'Lord Fluffington... would like to present the crown.'},
-  {n:'',t:'Lord Fluffington walks over. Bows low. And sets the Champion’s Crown on Donut’s head.'},{n:'Coach Gus',t:'Fastest basset in the Ozarks, ’87. Coach of the fastest corgi in the world. I can retire happy.'}],()=>{
+function ending(){S.fl.champ=1;save();MUS='race';
+ const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx.translate(0,-VOY);venueDraw('final',-8,t,1);const b=C.b,L=[];
+  const P=(x,y,w,h,c,n)=>{r(x,y,w,h,c);r(x,y,w,1,sh(c,1.25));r(x,y+h-1,w,1,sh(c,.75));ptxt(n,x+w/2,y+3,'#5a2148',1,'c')};P(18,183,14,15,'#c8c4d0','2');P(32,176,14,22,'#ffd86b','1');P(46,187,14,11,'#c87a3a','3');venueFg('final',-8);
+  L.push({y:162,f:()=>ppl('buzz',8,162,t,'r')});
+  const nx=b===2?tw(92,58,u,1.6):b>=3?58:92;if(b>=2)L.push({y:172,f:()=>{ppl('nigel',nx,172,t,'l',b===2&&u<1.6);pillow(nx-7,157);if(b<3||u<.2)crown2(nx-9,154)}});
+  const fx=b===3?tw(25,31,u,.8):b>=4?31:25,fy=b===3?tw(183,190,u,.8):b>=4?190:183;L.push({y:fy,f:()=>gcorgi(fx,fy,{c:'fluff',g:{body:'royal'},st:b===3&&u>.8&&u<2?'lie':'stand',t,dir:'r'})});
+  const crowned=b>=4||(b===3&&u>2);L.push({y:176,f:()=>{gcorgi(39,176,{c:'red',g:crowned?Object.assign(dGear(),{head:'crown'}):dGear(),st:'stand',t,tongue:1,jy:b<=1||b>=4?Math.round(Math.abs(Math.sin(t*5))*3):0,dir:'l'});
+   if(b===3&&u>.8&&u<2){const k=ez((u-.8)/1.2);crown2(Math.round(49+(36-49)*k),Math.round(154+(162-154)*k-Math.sin(k*Math.PI)*14))}}});
+  L.push({y:178,f:()=>p2('abi',62,178,t,'l')});L.push({y:180,f:()=>p2('hunter',72,180,t,'l')});if(b>=4)L.push({y:192,f:()=>gus2(64,192,t,'l',1)});castDraw(L);cx.restore();
+  for(let i=0;i<30;i++){const x=(i*37+Math.floor(t*40)*(i%3+1))%160,y=(i*53+t*60*(1+i%4))%230;r(x,y,2,2,['#ffd86b','#ff7eb6','#7ee8fa','#8be28b'][i%4])}if(b===1||b===3&&u>2)at2(()=>flashes(u,8))});
+ talk([{n:'Buzz',t:'She’s done it! DONUT! IS! THE! WORLD! CHAMPION!',a:bt(K,0)},{n:'',t:'The stadium in Newcastle shakes. Three fans in very large orange shirts are crying.',a:bt(K,1)},
+  {n:'Sir Nigel Pomfrey',t:'Lord Fluffington... would like to present the crown.',a:bt(K,2)},
+  {n:'',t:'Lord Fluffington walks over. Bows low. And sets the Champion’s Crown on Donut’s head.',a:bt(K,3,()=>after2(2,()=>snd('fanfare')))},{n:'Coach Gus',t:'Fastest basset in the Ozarks, ’87. Coach of the fastest corgi in the world. I can retire happy.',a:bt(K,4)}],()=>{
   const h={flop:0};MUS='sunset';talk([{n:'',t:'That night. Back home. The trophy sits on the porch between them.'},{n:'Hunter',t:'The fastest corgi in the whole world.'},{n:'Abigail',t:'And she still just wants to be on the couch with us.'},
    {n:'',t:'Donut waddles over... and flops right onto Abigail’s shoes. Just like the day she picked you.',a:()=>{h.flop=1;snd('bump')}},{n:'Crumpet',t:'*does not move*'},{n:'Abigail',t:'Good girl, Donut. Our good, good girl.'},
-   {n:'',t:'CORGI RACERS: COMPLETE. Donut is the World Champion! A new photo is in your album, and you can keep racing anytime.',a:()=>champPhoto(h)}],()=>{if(!S.own.includes('crown'))S.own.push('crown');save();afterAny()},homeScene(h))},
-  venueScene('final',[{k:'buzz',x:8,y:162,dir:'r'},{k:'dog',c:'fluff',g:{body:'royal'},x:23,y:183,dir:'r'},{k:'dog',c:'red',g:{head:'crown'},x:37,y:176,st:'cheer'},{k:'abi',x:60,y:178,dir:'l'},{k:'hunter',x:72,y:180,dir:'l'},{k:'gus',x:62,y:192,dir:'l'}],st))}
+   {n:'',t:'CORGI RACERS: COMPLETE. Donut is the World Champion! A new photo is in your album, and you can keep racing anytime.',a:()=>champPhoto(h)}],()=>{if(!S.own.includes('crown'))S.own.push('crown');save();afterAny()},homeScene(h))},K.draw)}
+const after2=(s2,f)=>setTimeout(f,s2*1000);
 try{C4CAP.crzchamp='WORLD CHAMPION'}catch(e){}
 /* ---------------- entry points ---------------- */
-return {get on(){return on},open,close,mus,_S:()=>S,_go:go,_race:ev=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(raceScreen(ev))},_mg:k=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(mgShell(MGS[k]))},_dbg:{FUN,vignette,scr:()=>scr,livingRoom,tvClose,hubScene,venueScene,homeScene,gcorgi,gus2,at2,gymBg,equip2,rdog,gus,mkc,venueArt,venueDraw,venueFg,obsDraw,disDraw,gymArt,S:()=>S,save,hub,raceScreen,MGS,go,talk,ending,promote}};
+return {get on(){return on},open,close,mus,_S:()=>S,_go:go,_race:ev=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(raceScreen(ev))},_mg:k=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(mgShell(MGS[k]))},_dbg:{cutPupCup,cutVivian,cutKibble,cutCouture,cutGus,cutInjury,cutRelay,cutChew,bossWalkout,preBoss,FUN,vignette,scr:()=>scr,livingRoom,tvClose,hubScene,venueScene,homeScene,gcorgi,gus2,at2,gymBg,equip2,rdog,gus,mkc,venueArt,venueDraw,venueFg,obsDraw,disDraw,gymArt,S:()=>S,save,hub,raceScreen,MGS,go,talk,ending,promote}};
 })();
