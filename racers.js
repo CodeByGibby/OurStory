@@ -990,9 +990,16 @@ function panHelp(){const h='<div class="card" style="display:block"><b style="co
  '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">EACH WEEK</b><small>3 actions: train, nap, play with Crumpet or work a side gig<br>1 race: circuit races earn money and league points<br>END WEEK to rest up and get paid by sponsors</small></div>'+
  '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">MOVING UP</b><small>League points unlock boss races. Beat every boss to move up: Amateur, Minor, Major, then the Global Rankings, where your world rank unlocks the bosses.</small></div>'+
  '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">GETTING STRONGER</b><small>Training raises stats; equipment and gym upgrades multiply it. Gear adds bonuses. Level-ups give +1 to every stat and a skill point.</small></div>'+
- '<button class="tag" data-h="race">Replay the practice race</button><button class="tag" data-h="tour">Show me around again</button>';
+ '<button class="tag" data-h="race">Replay the practice race</button><button class="tag" data-h="tour">Show me around again</button>'+
+ '<p class="hd" style="margin-top:'+U(4)+'">START OVER</p><p class="sub" style="text-align:left">Restart Corgi Racers from Week 1, with the intro and tutorial. Your Our Story progress, stars and photos are not touched.</p><button class="tag pink" data-h="reset">Start Corgi Racers over</button>';
  panel('HOW TO PLAY',null,h,p=>{p.querySelector('[data-h="race"]').onclick=()=>{snd('confirm');go(raceScreen({ven:'park',tut:1}))};
+  p.querySelector('[data-h="reset"]').onclick=()=>{snd('select');confirmReset()};
   p.querySelector('[data-h="tour"]').onclick=()=>{snd('confirm');p.remove();hubUI();S.tutS=4;setTimeout(()=>{if(!ui.querySelector('.coach'))tutCheck()},400)}})}
+
+/* start the career over from week 1: only Corgi Racers' own save is cleared */
+function confirmReset(){const d=el('<div class="res fadein"><h2 style="font-size:'+U(6)+'">START OVER?</h2><p class="ln">Donut goes back to <em>Week 1</em> in the Amateur League.<br>Her stats, money, gear, skills, gym and wins in Corgi Racers will be reset.</p><p class="ln" style="color:#8be28b">Your Our Story progress, stars<br>and photo album stay just as they are.</p><div class="btns"><button class="tag pink" data-r="1">Yes, start over</button><button class="tag" data-r="0">Keep my progress</button></div></div>');
+ ui.appendChild(d);d.querySelector('[data-r="0"]').onclick=()=>{snd('select');d.remove()};
+ d.querySelector('[data-r="1"]').onclick=()=>{snd('confirm');S=defSave();save();for(const k in ICN)if(k.startsWith('big'))delete ICN[k];HUBD.zt=HUBD.ct=-9;d.remove();storyIntro()}}
 /* ---------------- progression ---------------- */
 const xpNeed=lv=>40+lv*18;
 function addXP(n){S.xp+=Math.round(n);const ups=[];while(S.lv<50&&S.xp>=xpNeed(S.lv)){S.xp-=xpNeed(S.lv);S.lv++;S.sp++;STATS.forEach(([k])=>S.st[k]+=1);ups.push(S.lv)}return ups}
