@@ -274,9 +274,16 @@ const SLOTS=[['head','Head'],['body','Body'],['paws','Paws'],['charm','Charm']];
 const EQ={spd:['Treadmill','Pro Treadmill','Turbo Treadmill'],acc:['Ball Launcher','Sled Pull','Starting Blocks'],sta:['Kiddie Pool','Lap Pool','Hydro Treadmill'],
  agi:['Cone Set','Weave Poles','Agility Course'],foc:['Squirrel Plush','Meditation Mat','Distract-O-Tron'],cha:['Mirror','Ring Light','Photo Studio']};
 const EQP=[80,900,7000],EQG=[1,2,4],EQM=[1,1.35,1.75,2.2];
-const GYM=[null,{n:'The Backyard',p:0,m:1,d:'A tire, some cones and a lot of heart.'},{n:'Garage Gym',p:400,m:1.25,d:'Rubber mats and a space heater. Very official.'},
- {n:'Gus’s Gym',p:2500,m:1.55,d:'Coach Gus’s old gym. Smells like champions.'},{n:'Pro Facility',p:15000,m:1.9,d:'Indoor track, real lights, +1 action every week.'},
- {n:'The Donut Dome',p:60000,m:2.3,d:'A dome. With a giant donut on top. Obviously.'}];
+/* each gym sets how high Donut's stats can be trained, and opens up something new to do */
+const GYM=[null,{n:'The Backyard',p:0,cap:25,d:'A tire, some cones and a lot of heart.',u:['Five training games','Rest, playtime and side gigs']},
+ {n:'Garage Gym',p:400,cap:40,d:'Rubber mats and a space heater. Very official.',u:['Crumpet becomes Donut’s training buddy: workouts lift her Mood instead of draining it, and Crumpet cheers her on']},
+ {n:'Gus’s Gym',p:2500,cap:58,d:'Coach Gus’s old gym. Smells like champions.',u:['Coach Gus’s Weekly Drill: once a week, a tougher version of any workout for DOUBLE gains']},
+ {n:'Pro Facility',p:15000,cap:75,d:'Indoor track, real lights, a real kitchen.',u:['+1 action every week','The Nutrition Kitchen: cook race-day meals','The Recovery Pool: naps, spa days and weekends restore more']},
+ {n:'The Donut Dome',p:60000,cap:99,d:'A dome. With a giant donut on top. Obviously.',u:['Photo Shoot training (Charm)','The Trophy Room','Rematch any boss you’ve beaten','Legend skills: a 6th tier in every skill tree','The Merch Stand: weekly income from Donut fans']}];
+const capOf=()=>GYM[S.gym].cap;
+/* the Nutrition Kitchen's menu */
+const MEALS=[['salmon','Salmon & Sweet Potato Bowl',{spd:8,sta:8}],['chicken','Chicken & Rice Power Plate',{acc:8,agi:8}],['blue','Blueberry Pupcakes',{foc:10,cha:6}],['feast','The Champion’s Feast',{spd:5,acc:5,sta:5,agi:5,foc:5,cha:5}]];
+const meal$=()=>[200,200,600,3500][S.lg];
 
 /* training games */
 const TR=[['spd','Treadmill Tempo','Tap on the beat'],['acc','Fetch Sprint','Go the instant the ball flies'],['sta','Pool Laps','Paddle left, right, left, right'],
@@ -291,9 +298,9 @@ const TREAT={pupcup:{n:'Pup Cup',p:12,d:'+25 Mood',f:()=>{S.mood=clamp(S.mood+25
  honey:{n:'Honey Biscuit',p:1500,d:'+6 to every stat next race',buff:{spd:6,acc:6,sta:6,agi:6,foc:6,cha:6},t:2}};
 
 /* skill trees */
-const SKT=[['Sprinter','#ff7e7e',[['quick','Quick Feet','Accelerate 15% faster',1],['rocket','Rocket Start','Perfect starts launch twice as hard',1],['wind','Second Wind','Once a race, an empty tank refills halfway',2],['after','Afterburner','+6% top speed in the final stretch',2],['turbo','Turbo Zoomies','Zoomies last twice as long and hit harder',3]]],
- ['Tactician','#7ee8fa',[['light','Light Paws','Wider jump window, fewer clipped hurdles',1],['pacer','Pacer','Sprinting uses 20% less stamina',1],['iron','Iron Focus','Ignore distractions 40% faster',2],['draft','Draft Slip','+7% speed tucked in behind a rival',2],['shake','Shake It Off','Stumbles cost half as much',3]]],
- ['Superstar','#ff9ccb',[['crowd','Crowd Pleaser','Zoomies meter fills 30% faster',1],['fan','Fan Favorite','+20% race winnings',1],['show','Showboat','Perfect jumps give a speed pop',2],['magnet','Sponsor Magnet','+30% sponsor and gig pay',2],['star','Star Power','Zoomies refill stamina and the crowd roar rattles rivals',3]]]];
+const SKT=[['Sprinter','#ff7e7e',[['quick','Quick Feet','Accelerate 15% faster',1],['rocket','Rocket Start','Perfect starts launch twice as hard',1],['wind','Second Wind','Once a race, an empty tank refills halfway',2],['after','Afterburner','+6% top speed in the final stretch',2],['turbo','Turbo Zoomies','Zoomies last twice as long and hit harder',3],['lgS','LEGEND: Comet Legs','+5% top speed for the whole race',4,1]]],
+ ['Tactician','#7ee8fa',[['light','Light Paws','Wider jump window, fewer clipped hurdles',1],['pacer','Pacer','Sprinting uses 20% less stamina',1],['iron','Iron Focus','Ignore distractions 40% faster',2],['draft','Draft Slip','+7% speed tucked in behind a rival',2],['shake','Shake It Off','Stumbles cost half as much',3],['lgT','LEGEND: Perfect Line','Never trips: missed obstacles only slow her a little',4,1]]],
+ ['Superstar','#ff9ccb',[['crowd','Crowd Pleaser','Zoomies meter fills 30% faster',1],['fan','Fan Favorite','+20% race winnings',1],['show','Showboat','Perfect jumps give a speed pop',2],['magnet','Sponsor Magnet','+30% sponsor and gig pay',2],['star','Star Power','Zoomies refill stamina and the crowd roar rattles rivals',3],['lgP','LEGEND: Born Star','Every race starts with a full Zoomies meter',4,1]]]];
 const hasSk=k=>S.sk.includes(k);
 
 /* sponsors and side gigs */
@@ -609,8 +616,8 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
  /* field */const names=RIVN.slice().sort(()=>Math.random()-.5);const riv=[];const nR=ev.tut?1:3;
  for(let i=0;i<nR;i++){const isB=boss&&i===nR-1;const R=mkRival(i,lg,isB?boss:null,isB?2:i);if(!isB)R.n=names[i];if(ev.tut){R.coat='cream';R.g={};R.lane=1;STATS.forEach(([k])=>R.s[k]=4)}riv.push(R)}
  riv.forEach(R=>{const s=R.s;Object.assign(R,{x:0,v:0,ph:Math.random()*4,vm:vOf(s.spd),ac:30+s.acc*1.1,form:rr(.97,1.03),jt:-1,dk:0,trip:0,chase:0,fin:null,done:{},st:'stand',surge:0})});
- const D={smoke:[],n:'Donut',coat:'red',x:0,v:0,ph:0,d:0,sta:100,gas:0,jt:-1,jh:0,dk:0,trip:0,chase:0,chX:0,fin:null,lane:3,done:{},zm:0,zt:0,wind:hasSk('wind'),st:'stand',held:0,pf:0};
- const vm=vOf(E.spd)*(V.gr==='sand'&&!sandOK()?.93:1),ac=(30+E.acc*1.1)*(hasSk('quick')?1.15:1),focusNeed=clamp((.9-E.foc*.0058)*(hasSk('iron')?.6:1)*(S.mood<30?1.25:1),.22,1.2);
+ const D={smoke:[],n:'Donut',coat:'red',x:0,v:0,ph:0,d:0,sta:100,gas:0,jt:-1,jh:0,dk:0,trip:0,chase:0,chX:0,fin:null,lane:3,done:{},zm:hasSk('lgP')?1:0,zt:0,wind:hasSk('wind'),st:'stand',held:0,pf:0};
+ const vm=vOf(E.spd)*(V.gr==='sand'&&!sandOK()?.93:1)*(hasSk('lgS')?1.05:1),ac=(30+E.acc*1.1)*(hasSk('quick')?1.15:1),focusNeed=clamp((.9-E.foc*.0058)*(hasSk('iron')?.6:1)*(S.mood<30?1.25:1),.22,1.2);
  const tired=S.en<30,stCost=3.3*(1-E.sta/230)*(hasSk('pacer')?.8:1)*(tired?1.35:1);
  /* course */const obs=[];let x=260;const types=V.o,du=V.du;let k=0;
  while(x<len-160){const duck=k>1&&Math.random()<.22;obs.push({x,k:duck?pick(du):pick(types),duck});x+=rr(150,250)-Math.min(40,lg*12);k++}
@@ -667,7 +674,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
    /* obstacles */
    obs.forEach((o,i)=>{if(D.done[i])return;const dx=o.x-(D.x+6);if(dx<0){D.done[i]=1;
      const ok=o.duck?D.dk>0:D.jh>3;if(ok){const perf=o.duck?D.dk>.25:D.jh>11;if(perf){pop('PERFECT!','#8be28b');D.zm=Math.min(1,D.zm+.18*(hasSk('crowd')?1.3:1));if(hasSk('show')){D.v*=1.08}snd('ding')}else{snd('step')}}
-     else if(!(hasSk('light')&&!o.duck&&D.jh>1)){D.trip=hasSk('shake')?.28:.5;D.v*=hasSk('shake')?.72:.5;D.d=0;pop(o.duck?'BONK!':'OOF!','#ff7e7e');snd('bump');shake=.25}}});
+     else if(!(hasSk('light')&&!o.duck&&D.jh>1)){if(hasSk('lgT')){D.v*=.86;pop('CLIPPED IT','#ffd86b');snd('step')}else{D.trip=hasSk('shake')?.28:.5;D.v*=hasSk('shake')?.72:.5;D.d=0;pop(o.duck?'BONK!':'OOF!','#ff7e7e');snd('bump');shake=.25}}}});
    /* distractions */
    dis.forEach(q=>{if(q.hit||q.res)return;const dx=q.x-D.x;if(dx<95&&dx>-6){q.on=1;if(IN.down)D.held+=dt;if(D.held>=focusNeed){q.res=1;q.on=0;D.held=0;pop('FOCUSED!','#b78cff');D.zm=Math.min(1,D.zm+.22);snd('chime')}}
     else if(dx<=-6&&q.on){q.on=0;q.hit=1;D.held=0;D.chase=1.1;D.d=0;pop(q.chad?'DISTRACTED!':{squirrel:'SQUIRREL!!',ball:'BALL!!',hotdog:'HOT DOG!!',pigeon:'BIRD!!',seagull:'BIRD!!'}[q.k]||'OOH! SNACK!','#ffd86b');snd('alert')}});
@@ -743,26 +750,27 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
 /* ---------------- training minigames ----------------
    Every game reports each move to the shell as good or bad, and the shell answers right away:
    a coloured edge flash, sparkles or a puff, a little shake on mistakes, a sound, and a combo count. */
-function mgShell(def){const G={t:0,ph:'how',sc:0,pops:[],parts:[],combo:0,best:0,fl:0,flc:'#8be28b',shk:0};let doneT=0,cdn=3;
+function mgShell(def,hard){const G={t:0,ph:'how',sc:0,pops:[],parts:[],combo:0,best:0,fl:0,flc:'#8be28b',shk:0,hard:!!hard,cheer:0};let doneT=0,cdn=3;
  const pop=(s,c,x,y,big)=>{x=x||80;y=y||120;G.pops=G.pops.filter(p=>Math.abs(p.x-x)>24||Math.abs(p.y-y)>16);G.pops.push({s,c:c||'#ffd86b',x,y,t:0,big})};G.pop=pop;
- G.good=(x,y,s,lvl)=>{G.combo++;G.best=Math.max(G.best,G.combo);G.fl=.3;G.flc=lvl===2?'#ffd86b':'#8be28b';pop(s,lvl===2?'#ffd86b':'#8be28b',x,y,lvl===2);
+ G.good=(x,y,s,lvl)=>{G.cheer=.45;G.combo++;G.best=Math.max(G.best,G.combo);G.fl=.3;G.flc=lvl===2?'#ffd86b':'#8be28b';pop(s,lvl===2?'#ffd86b':'#8be28b',x,y,lvl===2);
   for(let i=0;i<(lvl===2?12:8);i++){const a=i/(lvl===2?12:8)*Math.PI*2;G.parts.push({x,y:y+4,vx:Math.cos(a)*(30+Math.random()*20),vy:Math.sin(a)*(30+Math.random()*20)-10,c:['#ffd86b','#8be28b','#fff6e0'][i%3],t:0,life:.5,k:'s'})}
   if(G.combo>=3&&G.combo%5===0){snd('chime');pop(G.combo+' IN A ROW!','#ff9ccb',80,40,1)}};
  G.bad=(x,y,s)=>{G.combo=0;G.fl=.35;G.flc='#ff5a5a';G.shk=.25;pop(s,'#ff7e7e',x,y,1);
   for(let i=0;i<7;i++){const a=i/7*Math.PI*2;G.parts.push({x,y:y+4,vx:Math.cos(a)*18,vy:Math.sin(a)*12-6,c:'#d8d0e0',t:0,life:.45,k:'p'})}G.parts.push({x,y:y+4,t:0,life:.45,k:'x'})};
  def.init(G);MUS='crzRace';
  return {down(x,y){if(G.ph==='play'&&def.down)def.down(G,x,y)},tap(x,y){if(G.ph==='how'){G.ph='cd';snd('confirm');return}if(G.ph==='play'&&def.tap)def.tap(G,x,y)},swipe(d){if(G.ph==='play'&&def.swipe)def.swipe(G,d)},up(x,y){if(G.ph==='play'&&def.up)def.up(G,x,y)},
-  upd(dt){if(G.fl>0)G.fl-=dt;if(G.shk>0)G.shk-=dt;G.parts.forEach(p=>{p.t+=dt;if(p.vx!=null){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=60*dt}});G.parts=G.parts.filter(p=>p.t<p.life);G.pops.forEach(p=>p.t+=dt);G.pops=G.pops.filter(p=>p.t<1);
+  upd(dt){if(G.cheer>0)G.cheer-=dt;if(G.fl>0)G.fl-=dt;if(G.shk>0)G.shk-=dt;G.parts.forEach(p=>{p.t+=dt;if(p.vx!=null){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=60*dt}});G.parts=G.parts.filter(p=>p.t<p.life);G.pops.forEach(p=>p.t+=dt);G.pops=G.pops.filter(p=>p.t<1);
    if(G.ph==='cd'){const a=Math.ceil(cdn);cdn-=dt;if(Math.ceil(cdn)!==a&&cdn>0)snd('beep');if(cdn<=0){G.ph='play';snd('go')}return}
    if(G.ph==='play'){G.t+=dt;def.upd(G,dt);if(G.t>=def.dur||G.over){G.ph='done';G.sc=clamp(def.score(G),.3,1.5);snd(G.sc>1?'win':'coin')}}
-   if(G.ph==='done'){doneT+=dt;if(doneT>1.8&&!G.fin){G.fin=1;trainDone(def.k,G.sc,0)}}},
+   if(G.ph==='done'){doneT+=dt;if(doneT>1.8&&!G.fin){G.fin=1;trainDone(def.k,G.sc,0,G.hard)}}},
   draw(t){const sx=G.shk>0?Math.round(Math.sin(t*80)*2):0;cx.save();cx.translate(sx,0);def.draw(G,t);
    G.parts.forEach(p=>{const a=1-p.t/p.life;cx.globalAlpha=a;if(p.k==='s'){r(p.x,p.y,2,2,p.c);r(p.x-1,p.y+.5,4,1,p.c)}else if(p.k==='p')disc(p.x,p.y,1+p.t*6|0,p.c,a*.8);else{for(let i=-3;i<=3;i++){r(p.x+i,p.y+i-6,2,2,'#ff5a5a');r(p.x+i,p.y-i-6,2,2,'#ff5a5a')}}cx.globalAlpha=1});
    G.pops.forEach(p=>{const z=p.big?2:1,w=p.s.length*4*z;cx.globalAlpha=Math.min(1,(1-p.t)*3);ptxtS(p.s,clamp(p.x,w/2+3,157-w/2),p.y-p.t*14,p.c,z,'c');cx.globalAlpha=1});cx.restore();
+   if(S.gym>=2&&G.ph!=='how'){const hop=G.cheer>0?Math.round(Math.abs(Math.sin(G.cheer*14))*3):0;crumpet(149,62-hop,'l',t,1,0);if(G.cheer>0)heart(144,40-Math.round((.45-G.cheer)*20),'#ff5f9e')}
    if(G.fl>0){const a=Math.min(1,G.fl*3);cx.globalAlpha=a*.85;r(0,0,BW,3,G.flc);r(0,BH-3,BW,3,G.flc);r(0,0,3,BH,G.flc);r(BW-3,0,3,BH,G.flc);cx.globalAlpha=a*.12;r(0,0,BW,BH,G.flc);cx.globalAlpha=1}
-   r(0,0,BW,18,'rgba(14,8,40,.85)');ptxtS(def.n.toUpperCase(),4,4,SN[def.k][2]);if(G.ph==='play'){r(4,13,152,2,'#3a2e5a');r(4,13,Math.round(152*(1-G.t/def.dur)),2,SN[def.k][2])}
+   r(0,0,BW,18,'rgba(14,8,40,.85)');ptxtS(G.hard?'GUS DRILL X2':def.n.toUpperCase(),4,4,G.hard?'#ffd86b':SN[def.k][2]);if(G.ph==='play'){r(4,13,152,2,'#3a2e5a');r(4,13,Math.round(152*(1-G.t/def.dur)),2,SN[def.k][2])}
    if(G.combo>=2&&G.ph==='play'){const s='X'+G.combo;ptxtS(s,156,4,G.combo>=5?'#ffd86b':'#fff6e0',1,'r');if(G.combo>=5){const f=Math.floor(t*10)%2;r(156-s.length*4-6,5+f,3,4,'#ff8a3a');r(156-s.length*4-5,4,1,2,'#ffd86b')}}
-   if(G.ph==='how'){r(10,70,140,112,'rgba(14,8,40,.94)');r(10,70,140,1,SN[def.k][2]);ptxtS(def.n.toUpperCase(),80,80,'#ffd86b',1,'c');def.how.forEach((s,i)=>ptxt(s,80,96+i*10,'#fff6e0',1,'c'));
+   if(G.ph==='how'){r(10,70,140,112,'rgba(14,8,40,.94)');r(10,70,140,1,SN[def.k][2]);ptxtS(def.n.toUpperCase(),80,80,'#ffd86b',1,'c');def.how.forEach((s,i)=>ptxt(s,80,96+i*10,'#fff6e0',1,'c'));if(G.hard)ptxtS('COACH GUS DRILL: HARDER, GAINS X2',80,138,'#ffd86b',1,'c');
     ptxt('TRAINS '+SN[def.k][1].toUpperCase(),80,150,SN[def.k][2],1,'c');if(Math.floor(t*2)%2)ptxtS('TAP TO START',80,166,'#ff9ccb',1,'c')}
    if(G.ph==='cd')ptxtS(String(Math.ceil(cdn)),80,110,'#fff6e0',5,'c');
    if(G.ph==='done'&&!G.fin){r(20,96,120,60,'rgba(14,8,40,.92)');ptxtS(G.sc>=1.2?'AMAZING!':G.sc>=.9?'GREAT!':G.sc>=.6?'GOOD':'KEEP AT IT',80,104,'#ffd86b',2,'c');const n=G.sc>=1.2?3:G.sc>=.8?2:1;for(let i=0;i<3;i++)starPx(62+i*14,124,i<n);if(G.best>=3)ptxt('BEST STREAK '+G.best,80,142,'#cdb8e8',1,'c')}}}}
@@ -772,7 +780,7 @@ const DUST=(G,x,y)=>{for(let i=0;i<3;i++)G.parts.push({x:x-i*3,y,vx:-20-i*10,vy:
 
 /* 1. Treadmill Tempo: tap on the beat */
 const MG_SPD={k:'spd',n:'Treadmill Tempo',dur:17,how:['TAP WHEN EACH PAW','PRINT HITS THE RING.','THE BEAT GETS FASTER!'],
- init(G){G.notes=[];let tt=1.0,bpm=96;while(tt<16.5){G.notes.push({t:tt,h:0});bpm=Math.min(168,bpm+3.2);tt+=60/bpm}G.p=0;G.g=0;G.m=0;G.run=0;G.ring=0;G.ringC='#ff9ccb';G.trip=0;G.zip=0},
+ init(G){G.notes=[];let tt=1.0,bpm=G.hard?120:96;while(tt<16.5){G.notes.push({t:tt,h:0});bpm=Math.min(G.hard?196:168,bpm+(G.hard?4.4:3.2));tt+=60/bpm}G.p=0;G.g=0;G.m=0;G.run=0;G.ring=0;G.ringC='#ff9ccb';G.trip=0;G.zip=0},
  upd(G,dt){if(G.ring>0)G.ring-=dt;if(G.trip>0)G.trip-=dt;if(G.zip>0)G.zip-=dt;
   G.notes.forEach(n=>{if(!n.h&&G.t-n.t>.16){n.h=-1;G.m++;G.ring=.25;G.ringC='#ff5a5a';G.trip=.3;G.bad(40,192,'MISS')}});
   const nx=G.notes.find(n=>n.t>G.t);if(nx&&!nx.tk&&nx.t-G.t<.02){nx.tk=1;snd('tick')}G.run+=dt*(4+G.t*.5)*(G.trip>0?.5:1)},
@@ -791,12 +799,12 @@ const MG_SPD={k:'spd',n:'Treadmill Tempo',dur:17,how:['TAP WHEN EACH PAW','PRINT
 
 /* 2. Fetch Sprint: react the instant the ball flies */
 const MG_ACC={k:'acc',n:'Fetch Sprint',dur:60,how:['HUNTER WILL THROW','THE BALL. TAP THE','INSTANT IT FLIES.','DON’T FALL FOR FAKES!'],
- init(G){G.rd=0;G.sc2=[];G.st='wait';G.at=rr(1.2,2.4);G.fake=Math.random()<.5?rr(.5,G.at-.3):-1;G.lt=0;G.dx=0;G.bx=0;G.rt=null;G.skid=0},
+ init(G){G.rd=0;G.sc2=[];G.st='wait';G.at=rr(1.2,2.4);G.fake=Math.random()<(G.hard?.85:.5)?rr(.5,G.at-.3):-1;G.lt=0;G.dx=0;G.bx=0;G.rt=null;G.skid=0},
  upd(G,dt){G.lt+=dt;if(G.skid>0)G.skid-=dt;
   if(G.st==='wait'){if(G.lt>=G.at){G.st='fly';G.ft=G.lt;snd('throw')}}
   else if(G.st==='fly'){G.bx+=dt;if(G.lt-G.ft>1.1){G.sc2.push(.3);G.rt=1.1;G.bad(80,120,'TOO SLOW');G.st='run'}}
   else if(G.st==='run'){G.dx+=dt*150;if(Math.random()<.4)DUST(G,20+G.dx-8,196);if(G.dx>110){G.st='back';G.lt=0}}
-  else if(G.st==='back'){if(G.lt>1){G.rd++;if(G.rd>=5){G.over=1;return}G.st='wait';G.lt=0;G.at=rr(1,2.6);G.fake=Math.random()<.55?rr(.45,G.at-.3):-1;G.dx=0;G.bx=0;G.rt=null}}},
+  else if(G.st==='back'){if(G.lt>1){G.rd++;if(G.rd>=5){G.over=1;return}G.st='wait';G.lt=0;G.at=rr(1,2.6);G.fake=Math.random()<(G.hard?.85:.55)?rr(.45,G.at-.3):-1;G.dx=0;G.bx=0;G.rt=null}}},
  tap(G){if(G.st==='wait'){G.sc2.push(0);const fk=G.fake>0&&Math.abs(G.lt-G.fake)<.4;G.bad(80,120,fk?'FAKED OUT!':'FALSE START!');snd('miss');G.st='back';G.lt=0;G.skid=.5;G.dx=12;return}if(G.st!=='fly')return;const rt=G.lt-G.ft;G.rt=rt;
   const s=rt<.24?1.5:rt<.34?1.2:rt<.48?.9:rt<.7?.6:.35;G.sc2.push(s);if(s>=1.2){G.good(80,120,rt<.24?'LIGHTNING!':'QUICK!',rt<.24?2:1);snd('boost')}else if(s>=.9){G.good(80,120,'GOOD');snd('step')}else{G.bad(80,120,'SLOW START');snd('step')}G.st='run'},
  score:G=>G.sc2.reduce((a,b)=>a+b,0)/5,
@@ -814,7 +822,7 @@ const MG_ACC={k:'acc',n:'Fetch Sprint',dur:60,how:['HUNTER WILL THROW','THE BALL
 /* 3. Pool Laps: alternate left and right */
 const MG_STA={k:'sta',n:'Pool Laps',dur:15,how:['TAP LEFT, THEN RIGHT,','THEN LEFT, THEN RIGHT.','A STEADY RHYTHM','SWIMS FARTHEST.'],
  init(G){G.x=0;G.v=0;G.last=null;G.good2=0;G.bad2=0;G.pl=0;G.pc='#8be28b';G.ps=null},
- upd(G,dt){G.v=Math.max(0,G.v-dt*14);G.x+=G.v*dt;if(G.pl>0)G.pl-=dt},
+ upd(G,dt){G.v=Math.max(0,G.v-dt*(G.hard?21:14));G.x+=G.v*dt;if(G.pl>0)G.pl-=dt},
  down(G,x){const s=x<80?'l':'r';G.ps=s;G.pl=.2;if(s===G.last){G.bad2++;G.v*=.5;G.pc='#ff5a5a';G.bad(x<80?40:120,170,'SAME SIDE!');snd('splash')}
   else{G.good2++;G.v=Math.min(46,G.v+8);G.pc='#8be28b';snd('blip');G.combo++;G.best=Math.max(G.best,G.combo);if(G.combo%8===0)G.good(70,130,'GREAT RHYTHM!',2);
    for(let i=0;i<3;i++)G.parts.push({x:60-i*4,y:150,vx:-30-i*8,vy:-20-Math.random()*10,c:'#c8ecff',t:0,life:.35,k:'s'})}G.last=s},
@@ -837,8 +845,8 @@ function dogBack(x,y,t,run,lean){x=Math.round(x);y=Math.round(y);const O='#e0903
  const hy=by-6+(lean?1:0),hx=x-4+(lean||0);r(hx,hy,9,7,O);r(hx,hy,9,1,L);r(hx,hy+1,1,6,D);r(hx+8,hy+1,1,6,D);
  for(let k=0;k<5;k++){const w=1+Math.round(k*.6);r(hx,hy-5+k,w,1,O);r(hx+9-w,hy-5+k,w,1,O)}r(hx,hy-5,1,1,L);r(hx+8,hy-5,1,1,L)}
 const MG_AGI={k:'agi',n:'Weave Poles',dur:32,how:['TAP LEFT OR RIGHT TO','WEAVE AROUND EACH POLE:','LEFT OF ONE, RIGHT OF','THE NEXT. FOLLOW THE PAWS!'],
- init(G){G.y=0;G.v=42;G.side=-1;G.dx=-13;G.poles=[];for(let i=0;i<18;i++)G.poles.push({y:-40-i*46,need:i%2?1:-1,res:0,wob:0});G.ok=0;G.bad2=0;G.st=0;G.lastSw=-9},
- upd(G,dt){G.v=Math.min(104,G.v+dt*3.2);if(G.st>0){G.st-=dt}G.y+=G.v*dt*(G.st>0?.4:1);G.dx=lerp(G.dx,G.side*13,Math.min(1,dt*16));
+ init(G){G.y=0;G.v=G.hard?58:42;G.side=-1;G.dx=-13;G.poles=[];for(let i=0;i<18;i++)G.poles.push({y:-40-i*46,need:i%2?1:-1,res:0,wob:0});G.ok=0;G.bad2=0;G.st=0;G.lastSw=-9},
+ upd(G,dt){G.v=Math.min(G.hard?128:104,G.v+dt*(G.hard?4:3.2));if(G.st>0){G.st-=dt}G.y+=G.v*dt*(G.st>0?.4:1);G.dx=lerp(G.dx,G.side*13,Math.min(1,dt*16));
   G.poles.forEach(p=>{if(p.wob>0)p.wob-=dt;if(p.res)return;const Y=p.y+G.y;if(Y>206){const ok=Math.sign(G.dx)===p.need&&Math.abs(G.dx)>6;p.res=ok?1:-1;
    if(ok){G.ok++;G.good(80,Y-24,G.combo>=4?'SMOOTH!':'NICE',G.combo>=4?2:1);snd('blip')}else{G.bad2++;p.wob=.5;G.st=.35;G.bad(80,Y-24,'WRONG SIDE');snd('bump')}}});
   if(G.poles.every(p=>p.res))G.over=1},
@@ -862,7 +870,7 @@ const MG_AGI={k:'agi',n:'Weave Poles',dur:32,how:['TAP LEFT OR RIGHT TO','WEAVE 
 /* 5. Squirrel Watch: tap treats, ignore squirrels */
 const MG_FOC={k:'foc',n:'Squirrel Watch',dur:16,how:['DONUT IS ON A SIT-STAY.','TAP THE TREATS THAT POP UP.','DO NOT TAP THE SQUIRRELS.','(SHE WANTS TO. SO BAD.)'],
  init(G){G.it=[];G.nt=.6;G.hit=0;G.sq=0;G.ms=0;G.tot=0;G.wob=0;G.happy=0},
- upd(G,dt){G.nt-=dt;if(G.happy>0)G.happy-=dt;if(G.nt<=0){G.nt=rr(.45,.95)-G.t*.012;const holes=[[30,150],[80,136],[130,150],[48,186],[112,186]];const free=holes.filter(h=>!G.it.some(i=>i.h===h&&!i.gone));if(free.length){const h=pick(free),tr=Math.random()<.45;if(tr)G.tot++;G.it.push({h,tr,t:0,life:rr(.8,1.1)-G.t*.015})}}
+ upd(G,dt){G.nt-=dt;if(G.happy>0)G.happy-=dt;if(G.nt<=0){G.nt=(rr(.45,.95)-G.t*.012)*(G.hard?.72:1);const holes=[[30,150],[80,136],[130,150],[48,186],[112,186]];const free=holes.filter(h=>!G.it.some(i=>i.h===h&&!i.gone));if(free.length){const h=pick(free),tr=Math.random()<(G.hard?.36:.45);if(tr)G.tot++;G.it.push({h,tr,t:0,life:(rr(.8,1.1)-G.t*.015)*(G.hard?.75:1)})}}
   G.it.forEach(i=>{i.t+=dt;if(i.t>i.life&&!i.gone){i.gone=1;if(i.tr&&!i.got){G.ms++;G.combo=0;G.pop('MISSED','#cdb8e8',i.h[0],i.h[1]-14);for(let k=0;k<5;k++)G.parts.push({x:i.h[0],y:i.h[1]-6,vx:(k-2)*8,vy:-10,c:'#d8d0e0',t:0,life:.35,k:'p'})}}});
   G.it=G.it.filter(i=>!i.gone||i.t<i.life+.2);if(G.wob>0)G.wob-=dt},
  tap(G,x,y){const i=G.it.find(i=>!i.gone&&Math.abs(i.h[0]-x)<14&&Math.abs(i.h[1]-8-y)<14);if(!i)return;i.gone=1;i.got=1;
@@ -882,7 +890,7 @@ const MG_FOC={k:'foc',n:'Squirrel Watch',dur:16,how:['DONUT IS ON A SIT-STAY.','
 const POSES=[['SIT','sit'],['BOW','bow'],['TILT','tilt'],['WAVE','wave']];
 function posed(x,y,p,t){if(p==='bow'){rdog(x,y,{c:'red',st:'duck',g:dGear(),tongue:1});r(x-10,y-12,2,3,'#e0903a')}else{rdog(x,y,{c:'red',st:'sit',g:dGear(),tongue:p!=='sit'});if(p==='tilt')ptxtS('?',x+12,y-26,'#fff6e0',1);if(p==='wave'){r(x+8,y-14+Math.round(Math.sin(t*12)),2,6,'#fbf6ec')}}}
 const MG_CHA={k:'cha',n:'Photo Shoot',dur:40,how:['THE PHOTOGRAPHER CALLS','A POSE. TAP THE MATCHING','POSE BEFORE THE','SHUTTER CLICKS!'],
- init(G){G.n=0;G.ok=0;G.pk=-1;G.pkT=0;G.pkOk=0;G.shots=[];G.next=()=>{G.want=pick(POSES)[1];G.lim=Math.max(1.05,2.3-G.n*.16);G.lt=0;G.cur=G.cur||'sit';G.n++};G.next();G.fl2=0},
+ init(G){G.n=0;G.ok=0;G.pk=-1;G.pkT=0;G.pkOk=0;G.shots=[];G.next=()=>{G.want=pick(POSES)[1];G.lim=G.hard?Math.max(.85,1.8-G.n*.14):Math.max(1.05,2.3-G.n*.16);G.lt=0;G.cur=G.cur||'sit';G.n++};G.next();G.fl2=0},
  upd(G,dt){G.lt+=dt;if(G.fl2>0)G.fl2-=dt;if(G.pkT>0)G.pkT-=dt;if(G.lt>=G.lim){G.shots.push(0);G.bad(80,150,'TOO SLOW');snd('miss');if(G.n>=8)G.over=1;else G.next()}},
  tap(G,x,y){if(y<236)return;const i=clamp(Math.floor(x/40),0,3);const p=POSES[i][1];G.cur=p;G.pk=i;G.pkT=.3;
   if(p===G.want){const q=Math.max(0,(G.lim-G.lt)/G.lim);G.ok+=1+q*.5;G.fl2=.25;G.pkOk=1;G.shots.push(q>.5?2:1);snd('shutter');G.good(80,150,q>.5?'PERFECT SHOT!':'SNAP!',q>.5?2:1)}
@@ -1250,7 +1258,7 @@ function tutCheck(){if(!on||scr!==HUB||ui.querySelector('.coach,.dlg,.res,.pan')
   {sel:'[data-a="shop"]',n:'Abigail',t:'The <b>SHOP</b> sells gear Donut can wear, equipment that boosts training, and treats for race day.'},
   {sel:'[data-a="gear"]',n:'Abigail',t:'<b>DONUT</b> shows her stats and lets you change her outfit. Every piece of gear gives a bonus.'},
   {sel:'[data-a="skill"]',n:'Abigail',t:'Each level-up gives a <b>skill point</b>. Spend them in <b>SKILLS</b> on special moves.'},
-  {sel:'[data-a="gym"]',n:'Abigail',t:'Upgrade the <b>GYM</b> so every workout counts for more.'},
+  {sel:'[data-a="gym"]',n:'Abigail',t:'Each <b>GYM</b> has a stat limit. When Donut hits it, upgrade the gym to keep growing. Every new gym unlocks something new to do, too.'},
   {sel:'[data-a="week"]',n:'Abigail',t:'When you’re done, <b>END WEEK</b>. Donut rests, sponsors pay, and a new week begins. Go get ’em, Donut!',pre:()=>{S.tutS=5;save()}}]);
  else tipCheck()}
 /* one-off tips the first time something new shows up */
@@ -1258,7 +1266,8 @@ function tipCheck(){S.tips=S.tips||{};const T=S.tips,nb=nextBoss();
  const one=(k,steps)=>{T[k]=1;save();coach(steps);return 1};
  if(nb&&nb.ok&&!S.raced&&!T['boss'+S.lg+S.boss])return one('boss'+S.lg+S.boss,[{sel:'[data-a="race"]',n:S.fl.gus?'Coach Gus':'Abigail',t:'A <b>boss race</b> is open: <b>'+BOSS[nb.b].n+'</b>. '+BOSS[nb.b].w+' Find it at the top of RACE DAY.'}]);
  if(S.sp>0&&!T.sk)return one('sk',[{sel:'[data-a="skill"]',n:'Abigail',t:'Level up! You have a <b>skill point</b> to spend. Tap SKILLS to pick a special move.'}]);
- if(S.money>=GYM[2].p&&S.gym===1&&!T.gym)return one('gym',[{sel:'[data-a="gym"]',n:'Hunter',t:'We can afford the <b>Garage Gym</b> now! Bigger gym, bigger gains.'}]);
+ if(S.money>=GYM[2].p&&S.gym===1&&!T.gym)return one('gym',[{sel:'[data-a="gym"]',n:'Hunter',t:'We can afford the <b>Garage Gym</b> now! Donut’s stats can go up to 40 there, and Crumpet can train with her.'}]);
+ if(GYM[S.gym+1]&&STATS.some(([k])=>S.st[k]>=capOf())&&!T['cap'+S.gym])return one('cap'+S.gym,[{sel:'[data-a="gym"]',n:S.fl.gus?'Coach Gus':'Abigail',t:'One of Donut’s stats has hit this gym’s limit of <b>'+capOf()+'</b>. Upgrade to <b>'+GYM[S.gym+1].n+'</b> to keep growing.'}]);
  if(S.en<30&&!T.tired)return one('tired',[{sel:'[data-a="care"]',n:'Abigail',t:'Donut is pooped. Low energy makes her run out of stamina faster. Take a <b>nap</b> or <b>end the week</b>.'}]);
  if(S.lg===1&&!T.lg1)return one('lg1',[{sel:'[data-a="shop"]',n:'Coach Gus',t:'New league, new gear. Check the <b>SHOP</b>, and remember: equipment makes every workout count for more.'}])}
 function tutRaceDone(pl,time){if((S.tutS||5)<3)S.tutS=3;const ups=addXP(20);save();
@@ -1267,7 +1276,7 @@ function tutRaceDone(pl,time){if((S.tutS||5)<3)S.tutS=3;const ups=addXP(20);save
 function panHelp(){const h='<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">RACE CONTROLS</b><small>TAP to sprint (uses stamina)<br>SWIPE UP to jump &middot; SWIPE DOWN to duck<br>HOLD your finger down when a squirrel or snack appears<br>Tap ZOOM when the meter is full</small></div>'+
  '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">EACH WEEK</b><small>3 actions: train, nap, play with Crumpet or work a side gig<br>1 race: circuit races earn money and league points<br>END WEEK to rest up and get paid by sponsors</small></div>'+
  '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">MOVING UP</b><small>League points unlock boss races. Beat every boss to move up: Amateur, Minor, Major, then the Global Rankings, where your world rank unlocks the bosses.</small></div>'+
- '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">GETTING STRONGER</b><small>Training raises stats; equipment and gym upgrades multiply it. Gear adds bonuses. Level-ups give +1 to every stat and a skill point.</small></div>'+
+ '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">GETTING STRONGER</b><small>Training raises stats and equipment multiplies it. Each gym has a stat limit (25, 40, 58, 75, 99): upgrade to keep growing, and each gym unlocks something new. Gear adds bonuses on top. Level-ups give a skill point and +1 to every stat.</small></div>'+
  '<button class="tag" data-h="race">Replay the practice race</button><button class="tag" data-h="tour">Show me around again</button>'+
  '<p class="hd" style="margin-top:'+U(4)+'">START OVER</p><p class="sub" style="text-align:left">Restart Corgi Racers from Week 1, with the intro and tutorial. Your Our Story progress, stars and photos are not touched.</p><button class="tag pink" data-h="reset">Start Corgi Racers over</button>';
  panel('HOW TO PLAY',null,h,p=>{p.querySelector('[data-h="race"]').onclick=()=>{snd('confirm');go(raceScreen({ven:'park',tut:1}))};
@@ -1336,16 +1345,34 @@ function vignette(k,o,then){const F=FUN[k],t0=tm;let done=0;const end=()=>{if(do
    const p=clamp((u-(F.d-1.6))/.3,0,1);if(p>0){const L=(o&&o.lines)||[];const h=10+L.length*10,y0=284-h;r(14,y0,132,h,'rgba(14,8,40,'+(.88*p)+')');r(14,y0,132,1,'rgba(255,216,107,'+p+')');cx.globalAlpha=p;L.forEach((s,i)=>ptxtS(s,80,y0+5+i*10,s[0]==='-'?'#ff9a9a':'#8be28b',1,'c'));cx.globalAlpha=1}
    else if(u>1)ptxt('TAP TO SKIP',80,278,'rgba(255,246,224,.5)',1,'c');if(u>=F.d)end()},
   tap(){if(tm-t0>.5)end()}});snd(k==='nap'?'chime':k==='snack'?'bite':'confirm')}
+/* ---------------- gym unlocks: the Nutrition Kitchen and the Trophy Room ---------------- */
+function panKitchen(){const pr=meal$(),bon=b=>Object.keys(b).map(k=>'+'+b[k]+' '+SN[k][1]).join(', ');let h='<p class="sub">Cook one meal before race day. Its boost lasts for your next race. No action needed.</p><p class="sub">You have <span style="color:#8be28b">'+fmt$(S.money)+'</span></p>';
+ MEALS.forEach(([id,n,b],i)=>{const p2$=i===3?pr*3:pr;h+='<div class="card"><div class="bd">'+n+'<small>'+bon(b)+'</small></div><button class="go" data-m="'+i+'"'+(S.money<p2$?' disabled':'')+'>'+fmt$(p2$)+'</button></div>'});
+ if(S.buff)h+='<p class="sub" style="color:#8be28b">Next race boost: '+bon(S.buff)+'</p>';
+ panel('THE KITCHEN','Pro Facility',h,p=>p.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const i=+b.dataset.m,[id,n,bf]=MEALS[i],cost=i===3?pr*3:pr;S.money-=cost;S.buff=S.buff||{};for(const k in bf)S.buff[k]=(S.buff[k]||0)+bf[k];save();snd('kaching');
+  vignette('cook',{title:n.toUpperCase().replace(/’/g,'').replace(/&/g,'AND'),lines:Object.keys(bf).length>2?['+5 TO EVERY STAT','FOR YOUR NEXT RACE']:Object.keys(bf).map(k=>'+'+bf[k]+' '+SN[k][1].toUpperCase()).concat(['FOR YOUR NEXT RACE','-'+fmt$(cost)])},()=>{hub();panCare()})}))}
+FUN.cook={t:'THE KITCHEN',d:5,draw(u,t){r(0,0,80,144,'#f4e8d8');for(let y=30;y<62;y+=4)for(let x=((y-30)/4%2)*4;x<80;x+=8)r(x,y,7,3,'#fff6ec');r(0,62,80,82,'#c89a6a');for(let y=62;y<144;y+=6)r(0,y,80,1,'#b88a5a');
+ r(0,52,80,12,'#8a5a3a');r(0,52,80,2,'#d8d0c0');r(34,52,22,12,'#3a3a46');r(36,53,8,1,'#5a5a66');r(46,53,8,1,'#5a5a66');r(4,8,24,16,'#7ab8e8');r(4,8,24,16,'rgba(255,255,255,.2)');r(15,8,2,16,'#f4e8d8');r(60,10,16,14,'#e8e0d0');r(62,12,12,4,'#c8b8a0');
+ const fl=Math.floor(t*12)%2;r(38,50,6,2,fl?'#ff8a3a':'#ffd060');r(40,44,8,7,'#8a8a96');r(40,44,8,1,'#b8b8c4');for(let i=0;i<3;i++){const k=(u*.8+i/3)%1;disc(41+i*3,Math.round(42-k*16),1+Math.round(k*2),'#ffffff',.6*(1-k))}
+ p2('hunter',48,72,t,'u');const served=u>3;gcorgi(26,96,{c:'red',st:served&&u>3.4?'stand':'sit',t,tongue:1,g:dGear(),dir:'r'});if(!served&&Math.floor(u*2)%2)r(30,82,1,2,'#7ee8fa');
+ if(served){const k=ez((u-3)/.4);const bx=Math.round(48+(36-48)*k),by=Math.round(72+(98-72)*k);r(bx-3,by-2,7,3,'#c2417a');r(bx-2,by-3,5,1,'#e8b860');if(u>3.6)hearts(28,80,u-3.6,3)}}};
+function panTrophy(){let h='<p class="sub">Every boss trophy Donut has won, and her records.</p>';const own=k=>S.own.includes(k);
+ LG.forEach(l=>{h+='<p class="hd">'+l.n.toUpperCase()+'</p>';l.boss.forEach(b=>{const B=BOSS[b[0]],it=B.drop,got=it&&own(it);h+='<div class="card'+(got?'':' dim')+'"><img class="ic" src="'+dogIcon(B.coat,B.gear,'b'+b[0])+'"><div class="bd">'+(got?GEAR[it].n:'???')+'<small>'+(got?'Beat '+B.n+' at the '+VEN[b[1]].n:'Not won yet')+'</small></div>'+(got?'<img class="ic" style="width:'+U(12)+'" src="'+gearIcon(it)+'">':'')+'</div>'})});
+ h+='<p class="hd">RECORDS</p><div class="card" style="display:block"><small>'+S.wins+' wins in '+S.races+' races &middot; level '+S.lv+'<br>'+(S.fl.champ?'WORLD CHAMPION':'World rank #'+rankOf())+'</small></div>';
+ panel('TROPHY ROOM','The Donut Dome',h)}
 /* ---------------- progression ---------------- */
 const xpNeed=lv=>40+lv*18;
-function addXP(n){S.xp+=Math.round(n);const ups=[];while(S.lv<50&&S.xp>=xpNeed(S.lv)){S.xp-=xpNeed(S.lv);S.lv++;S.sp++;STATS.forEach(([k])=>S.st[k]+=1);ups.push(S.lv)}return ups}
-const apMax=()=>3+(S.gym>=4?1:0);
+function addXP(n){S.xp+=Math.round(n);const ups=[];while(S.lv<50&&S.xp>=xpNeed(S.lv)){S.xp-=xpNeed(S.lv);S.lv++;S.sp++;STATS.forEach(([k])=>S.st[k]=Math.max(S.st[k],Math.min(capOf(),S.st[k]+1)));ups.push(S.lv)}return ups}
+const apMax=()=>3+(S.gym>=4?1:0);const pool=()=>S.gym>=4;const buddy=()=>S.gym>=2;const drillOK=()=>S.gym>=3&&S.drillW!==S.week;
 const spa$=()=>[40,250,1500,6000][S.lg];
-function trainDone(k,perf,quick){const before=S.st[k],m=GYM[S.gym].m*EQM[S.eq[k]||0]*(.75+S.mood/250)*Math.max(.1,1-S.st[k]/118);
- const g=Math.round(2.6*m*perf*10)/10;S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-(quick?14:18),0,100);S.mood=clamp(S.mood-(quick?2:3),0,100);
- const ups=addXP(18+perf*10);save();const lines=['<b>+'+g.toFixed(1)+' '+SN[k][1]+'</b>','+'+Math.round(18+perf*10)+' XP'];if(ups.length)lines.push('<em>LEVEL UP! Lv '+S.lv+'</em><br>+1 skill point &middot; +1 to every stat');
+function trainDone(k,perf,quick,drill){const before=S.st[k],cap=capOf(),m=EQM[S.eq[k]||0]*(.75+S.mood/250)*(.55+.45*Math.max(0,1-S.st[k]/120))*(drill?2:1);
+ const g=Math.max(0,Math.min(cap-S.st[k],Math.round(2.8*m*perf*10)/10));S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-(quick?14:18),0,100);S.mood=clamp(S.mood+(buddy()?4:-(quick?2:3)),0,100);if(drill)S.drillW=S.week;
+ const ups=addXP(18+perf*10);save();const lines=['<b>+'+g.toFixed(1)+' '+SN[k][1]+'</b>'+(drill?' <em>(DRILL x2)</em>':''),'+'+Math.round(18+perf*10)+' XP'];if(buddy())lines.push('+4 Mood (training with Crumpet)');
+ if(S.st[k]>=cap)lines.push('<em>'+SN[k][1]+' is maxed for '+GYM[S.gym].n+'</em>'+(GYM[S.gym+1]?'<br>Upgrade the gym to go higher':''));if(ups.length)lines.push('<em>LEVEL UP! Lv '+S.lv+'</em><br>+1 skill point &middot; +1 to every stat (up to '+cap+')');
  resultCard({title:quick?'QUICK SESSION':perf>=1.2?'AMAZING!':perf>=.9?'GREAT SESSION!':perf>=.6?'NICE WORK':'TOUGH ONE',stars:quick?0:perf>=1.2?3:perf>=.8?2:1,lines,sub:SN[k][1]+' '+Math.floor(before)+' &rarr; '+Math.floor(S.st[k]),btn:'Back to the gym',then:()=>afterAny()})}
-function raceDone(ev,pl,time,riv){const L=LG[S.lg],boss=ev.boss,V=VEN[ev.ven];S.races++;S.raced=1;S.buff=null;
+function raceDone(ev,pl,time,riv){const L=LG[S.lg],boss=ev.boss,V=VEN[ev.ven];
+ if(ev.exhib){const lgB=LG.findIndex(l=>l.boss.some(b=>b[0]===boss)),LB=LG[Math.max(0,lgB)],purse=Math.round(LB.boss$*.25*[1,.5,.25,.1][pl-1]),xp=Math.round(LB.xp*.5*[1,.75,.55,.4][pl-1]);S.money+=purse;const ups=addXP(xp);S.en=clamp(S.en-15,0,100);S.mood=clamp(S.mood+(pl===1?8:0),0,100);S.buff=null;save();
+  resultCard({title:pl===1?'REMATCH WON!':ORD[pl-1]+' PLACE',stars:[3,2,1,0][pl-1],lines:['<b>+'+fmt$(purse)+'</b> exhibition purse','+'+xp+' XP'].concat(ups.length?['<em>LEVEL UP! Lv '+S.lv+'</em>']:[]),sub:'Exhibition &middot; '+BOSS[boss].n+' &middot; '+time.toFixed(2)+'s',btn:'Back to the gym',then:()=>afterAny()});return}S.races++;S.raced=1;S.buff=null;
  let purse=Math.round((boss?L.boss$:L.purse)*[1,.5,.25,.1][pl-1]*(hasSk('fan')?1.2:1));S.money+=purse;
  const xp=Math.round(L.xp*[1,.75,.55,.4][pl-1]*(boss?1.5:1));const ups=addXP(xp);
  S.en=clamp(S.en-28,0,100);S.mood=clamp(S.mood+[12,4,0,-6][pl-1],0,100);if(pl===1)S.wins++;
@@ -1412,32 +1439,41 @@ function panRace(){const L=LG[S.lg],blocked=S.raced||S.fl.rest;let h='';
  h+='<p class="hd">BOSS RACES</p>';L.boss.forEach((b,i)=>{const B=BOSS[b[0]],done=i<S.boss,cur=i===S.boss,nb=nextBoss(),ok=cur&&nb&&nb.ok;
   const req=S.lg===3?'Reach world rank #'+b[2]:'Needs '+b[2]+' league points';
   h+='<div class="card boss'+(done||ok?'':' dim')+'"><img class="ic" src="'+dogIcon(B.coat,B.gear,'b'+b[0])+'"><div class="bd">'+B.n+'<small>'+VEN[b[1]].n+'<br>'+(done?'Beaten &#10003;':cur?(ok?B.w:req+(S.lg<3?' ('+S.lp+' now)':' (#'+rankOf()+' now)')):'Locked')+'</small></div>'+(done?'':'<button class="go" data-b="'+i+'"'+(ok&&!blocked?'':' disabled')+'>RACE</button>')+'</div>'});
+ if(S.gym>=5){const beat=[];LG.forEach((l,li)=>l.boss.forEach((b,bi)=>{if(li<S.lg||(li===S.lg&&bi<S.boss)||S.fl.champ)beat.push(b)}));if(beat.length){h+='<p class="hd">REMATCHES &middot; DONUT DOME</p><p class="sub" style="text-align:left">Exhibition races: they don’t use your race for the week.</p>';
+  beat.forEach(b=>{const B=BOSS[b[0]];h+='<div class="card"><img class="ic" src="'+dogIcon(B.coat,B.gear,'b'+b[0])+'"><div class="bd">'+B.n+'<small>'+VEN[b[1]].n+'</small></div><button class="go" data-x="'+b[0]+'|'+b[1]+'"'+(S.en<15?' disabled':'')+'>REMATCH</button></div>'})}}
  h+='<p class="hd">CIRCUIT RACES &middot; '+fmt$(L.purse)+' TO WIN</p>';L.ev.forEach(v=>{const V=VEN[v],b=S.best[v];h+='<div class="card"><img class="ic" src="'+venueIcon(v)+'"><div class="bd">'+V.n+'<small>'+(V.relay?'Relay with Crumpet! ':'')+'3 rivals'+(b?' &middot; Best: '+ORD[b-1]:'')+'</small></div><button class="go" data-v="'+v+'"'+(blocked?' disabled':'')+'>RACE</button></div>'});
  panel(L.n.toUpperCase(),S.lg===3?'World rank #'+rankOf():'League points: '+S.lp,h,p=>{p.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{snd('confirm');startRace({ven:b.dataset.v})});
-  p.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{snd('confirm');const x=L.boss[+b.dataset.b];startRace({ven:x[1],boss:x[0]})})})}
+  p.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{snd('confirm');const x=L.boss[+b.dataset.b];startRace({ven:x[1],boss:x[0]})});
+  p.querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{snd('confirm');const [bo,ve]=b.dataset.x.split('|');startRace({ven:ve,boss:bo,exhib:1})})})}
 function venueIcon(v){return icon('v'+v,()=>{const A=venueArt(v);bg2(A,v)},28,22)}
 function bg2(A,v){cx.drawImage(A.sky,0,-40);cx.drawImage(A.mid[0],-20,-122);cx.drawImage(A.gr,0,14)}
 function startRace(ev){if(ev.boss)preBoss(ev,()=>go(raceScreen(ev)));else go(raceScreen(ev))}
 
 /* training */
-function panTrain(){let h='<p class="sub">Actions left this week: '+S.ap+' &middot; Energy '+Math.round(S.en)+'<br>Gym bonus x'+GYM[S.gym].m+'</p>';const can=S.ap>0&&S.en>=15;
+function panTrain(){const cap=capOf();let h='<p class="sub">Actions left this week: '+S.ap+' &middot; Energy '+Math.round(S.en)+'<br>'+GYM[S.gym].n+': stats can reach <span style="color:#ffd86b">'+cap+'</span></p>';const can=S.ap>0&&S.en>=15,dr=drillOK();
+ if(dr)h+='<div class="card boss" style="display:block"><b style="font-weight:400;color:#c2417a">COACH GUS’S WEEKLY DRILL</b><small>Tap DRILL on any workout: a tougher version for DOUBLE gains. Once a week.</small></div>';
+ if(buddy())h+='<p class="sub" style="color:#ff9ccb">Crumpet is training with Donut: workouts give +4 Mood.</p>';
  if(!S.ap)h+='<p class="sub" style="color:#ff9ccb">No actions left. End the week to keep training.</p>';else if(S.en<15)h+='<p class="sub" style="color:#ff7e7e">Donut is too tired to train. Rest first.</p>';
- TR.forEach(([k,n,d])=>{const t=S.eq[k]||0;h+='<div class="card"><img class="ic" src="'+trainIcon(k)+'"><div class="bd">'+n+'<small>'+SN[k][1]+' '+Math.floor(S.st[k])+(t?' &middot; '+EQ[k][t-1]:'')+'<br>'+d+'</small></div><div style="display:flex;flex-direction:column;gap:'+U(1.4)+'"><button class="go" data-p="'+k+'"'+(can?'':' disabled')+'>PLAY</button><button class="go" style="background:#8a7aa8" data-q="'+k+'"'+(can?'':' disabled')+'>QUICK</button></div></div>'});
+ TR.forEach(([k,n,d])=>{const t=S.eq[k]||0,mx=S.st[k]>=cap,lock=k==='cha'&&S.gym<5,ok=can&&!mx;
+  h+='<div class="card'+(mx?' dim':'')+'"><img class="ic" src="'+trainIcon(k)+'"><div class="bd">'+n+'<small>'+SN[k][1]+' <span style="color:'+(mx?'#c2417a':'inherit')+'">'+Math.floor(S.st[k])+' / '+cap+(mx?' MAXED':'')+'</span>'+(t?' &middot; '+EQ[k][t-1]:'')+'<br>'+(mx?(GYM[S.gym+1]?'Upgrade to '+GYM[S.gym+1].n+' to go higher':'At the very top!'):lock?'Photo Shoot opens with the Donut Dome. Quick sessions only for now.':d)+'</small></div><div style="display:flex;flex-direction:column;gap:'+U(1.4)+'">'+
+  (lock?'':'<button class="go" data-p="'+k+'"'+(ok?'':' disabled')+'>PLAY</button>')+(dr&&!lock?'<button class="go" style="background:#e8a020" data-d="'+k+'"'+(ok?'':' disabled')+'>DRILL</button>':'')+'<button class="go" style="background:#8a7aa8" data-q="'+k+'"'+(ok?'':' disabled')+'>QUICK</button></div></div>'});
  h+='<p class="sub">QUICK skips the minigame for a smaller gain.</p>';
- panel('TRAINING',null,h,p=>{p.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{snd('confirm');go(mgShell(MGS[b.dataset.p]))});p.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{snd('confirm');p.remove();trainDone(b.dataset.q,.62,1)})})}
+ panel('TRAINING',null,h,p=>{p.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{snd('confirm');go(mgShell(MGS[b.dataset.p]))});p.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{snd('confirm');go(mgShell(MGS[b.dataset.d],1))});p.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{snd('confirm');p.remove();trainDone(b.dataset.q,.62,1)})})}
 function trainIcon(k){return icon('t'+k,()=>{r(0,0,28,22,SN[k][2]);r(0,0,28,1,sh(SN[k][2],1.2));r(0,21,28,1,sh(SN[k][2],.8));const st={spd:'run',acc:'run',sta:'swim',agi:'jump',foc:'sit',cha:'sit'}[k];rdog(st==='sit'?14:12,19,{c:'red',st,ph:1,nt:1,jy:k==='agi'?2:0})},28,22)}
 
 /* rest, play and side gigs */
 function panCare(){const can=S.ap>0;let h='<p class="sub">Actions left: '+S.ap+'</p>';
  const card=(id,n,d,btn,dis)=>'<div class="card"><div class="bd">'+n+'<small>'+d+'</small></div><button class="go" data-c="'+id+'"'+(dis?' disabled':'')+'>'+btn+'</button></div>';
- h+=card('nap','Nap on the couch','+40 Energy &middot; 1 action','NAP',!can)+card('play','Play with Crumpet','+25 Mood, +10 Energy &middot; 1 action','PLAY',!can)+card('spa','Spa day','+35 Energy, +35 Mood &middot; no action &middot; '+fmt$(spa$()),'BOOK',S.money<spa$());
+ const NP=pool()?60:40,SP=pool()?50:35;h+=card('nap','Nap on the couch','+'+NP+' Energy &middot; 1 action'+(pool()?' &middot; Recovery Pool bonus':''),'NAP',!can)+card('play','Play with Crumpet','+25 Mood, +10 Energy &middot; 1 action','PLAY',!can)+card('spa','Spa day','+'+SP+' Energy, +'+SP+' Mood &middot; no action &middot; '+fmt$(spa$()),'BOOK',S.money<spa$());
+ if(S.gym>=4)h+=card('kitchen','The Nutrition Kitchen','Cook a race-day meal &middot; no action','COOK',0);
  h+='<p class="hd">SIDE GIGS &middot; 1 action, -15 energy</p>';GIGS.filter(g=>g[0]<=S.lg).forEach((g,i)=>{const pay=Math.round(g[2]*(hasSk('magnet')?1.3:1)),ok=eff().cha>=g[3];h+=card('g'+GIGS.indexOf(g),g[1],(ok?'Pays '+fmt$(pay)+' &middot; +1 Charm':'Needs '+g[3]+' Charm'),'GO',!can||!ok||S.en<15)});
  const p=panel('REST &amp; GIGS',null,h,p=>p.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{const c=b.dataset.c;snd('coin');
   const back=()=>{hub();panCare();checkGifts()};
-  if(c==='nap'){S.ap--;S.en=clamp(S.en+40,0,100);save();vignette('nap',{lines:['+40 ENERGY']},back)}
+  if(c==='kitchen'){p.remove();panKitchen();return}
+  if(c==='nap'){const NP=pool()?60:40;S.ap--;S.en=clamp(S.en+NP,0,100);save();vignette('nap',{lines:['+'+NP+' ENERGY']},back)}
   else if(c==='play'){S.ap--;S.mood=clamp(S.mood+25,0,100);S.en=clamp(S.en+10,0,100);S.fl.plays=(S.fl.plays||0)+1;save();vignette('play',{lines:['+25 MOOD','+10 ENERGY']},back)}
-  else if(c==='spa'){S.money-=spa$();S.en=clamp(S.en+35,0,100);S.mood=clamp(S.mood+35,0,100);save();vignette('spa',{lines:['+35 ENERGY','+35 MOOD','-'+fmt$(spa$())]},back)}
-  else{const gi=+c.slice(1),g=GIGS[gi],pay=Math.round(g[2]*(hasSk('magnet')?1.3:1));S.ap--;S.en=clamp(S.en-15,0,100);S.money+=pay;S.st.cha+=1;S.mood=clamp(S.mood+5,0,100);save();
+  else if(c==='spa'){const SP=pool()?50:35,pr=spa$();S.money-=pr;S.en=clamp(S.en+SP,0,100);S.mood=clamp(S.mood+SP,0,100);save();vignette('spa',{lines:['+'+SP+' ENERGY','+'+SP+' MOOD','-'+fmt$(pr)]},back)}
+  else{const gi=+c.slice(1),g=GIGS[gi],pay=Math.round(g[2]*(hasSk('magnet')?1.3:1));S.ap--;S.en=clamp(S.en-15,0,100);S.money+=pay;S.st.cha=Math.max(S.st.cha,Math.min(capOf(),S.st.cha+1));S.mood=clamp(S.mood+5,0,100);save();
    vignette('gig',{gig:gi,title:g[1].toUpperCase().replace(/’/g,''),lines:['+'+fmt$(pay),'+1 CHARM','+5 MOOD','-15 ENERGY']},back)}}))}
 
 /* shop */
@@ -1465,22 +1501,24 @@ function bigDonut(){const k='big'+JSON.stringify(S.wear);if(ICN[k])return ICN[k]
 
 /* skills */
 function panSkill(){let h='<p class="sub">Skill points: <span style="color:#ffd86b">'+S.sp+'</span><br>Earn one every level. Each tree unlocks top to bottom.</p><div class="tree">';
- SKT.forEach(([tn,c,L])=>{h+='<div class="col" style="--c:'+c+'"><p class="tn">'+tn.toUpperCase()+'</p>';L.forEach(([id,n,d,cost],i)=>{const own=hasSk(id),can=!own&&(i===0||hasSk(L[i-1][0]))&&S.sp>=cost;
-  h+='<button class="sk'+(own?' own':can?' can':'')+'" data-s="'+id+'" data-c="'+cost+'"'+(can?'':' disabled')+'>'+n+'<b>'+d+'</b><b>'+(own?'LEARNED':cost+' PT'+(cost>1?'S':''))+'</b></button>'});h+='</div>'});h+='</div>';
+ SKT.forEach(([tn,c,L])=>{h+='<div class="col" style="--c:'+c+'"><p class="tn">'+tn.toUpperCase()+'</p>';L.forEach(([id,n,d,cost,lg],i)=>{const gate=lg&&S.gym<5,own=hasSk(id),can=!own&&!gate&&(i===0||hasSk(L[i-1][0]))&&S.sp>=cost;
+  h+='<button class="sk'+(own?' own':can?' can':'')+'" data-s="'+id+'" data-c="'+cost+'"'+(can?'':' disabled')+(lg?' style="box-shadow:inset 0 0 0 '+U(.6)+' #ffd86b"':'')+'>'+n+'<b>'+d+'</b><b>'+(own?'LEARNED':gate?'NEEDS THE DONUT DOME':cost+' PT'+(cost>1?'S':''))+'</b></button>'});h+='</div>'});h+='</div>';
  const p=panel('SKILLS',null,h,p=>p.querySelectorAll('.sk.can').forEach(b=>b.onclick=()=>{S.sp-=+b.dataset.c;S.sk.push(b.dataset.s);snd('fanfare');save();refresh(p,panSkill)}));return p}
 
 /* gym */
 function panGym(){const n=GYM[S.gym+1];let h='<img src="'+gymThumb(S.gym)+'" style="width:'+U(90)+';align-self:center;image-rendering:pixelated;box-shadow:0 0 0 '+U(.8)+' #ffd86b">';
- h+='<p class="sub">'+GYM[S.gym].d+'<br>Training x'+GYM[S.gym].m+(S.gym>=4?' &middot; 4 actions a week':'')+'</p>';
- if(n)h+='<p class="hd">NEXT UPGRADE</p><div class="card"><img class="ic" src="'+gymThumb(S.gym+1)+'"><div class="bd">'+n.n+'<small>'+n.d+'<br>Training x'+n.m+'</small></div><button class="go" data-u="1"'+(S.money<n.p?' disabled':'')+'>'+fmt$(n.p)+'</button></div>';else h+='<p class="sub" style="color:#ffd86b">The Donut Dome is complete.</p>';
+ h+='<p class="sub">'+GYM[S.gym].d+'<br>Stats can reach <span style="color:#ffd86b">'+GYM[S.gym].cap+'</span>'+(S.gym>=4?' &middot; 4 actions a week':'')+'</p>';
+ if(n)h+='<p class="hd">NEXT UPGRADE</p><div class="card boss"><img class="ic" src="'+gymThumb(S.gym+1)+'"><div class="bd">'+n.n+'<small>Stat limit '+GYM[S.gym].cap+' &rarr; <b style="font-weight:400;color:#c2417a">'+n.cap+'</b><br>'+n.u.join('<br>')+'</small></div><button class="go" data-u="1"'+(S.money<n.p?' disabled':'')+'>'+fmt$(n.p)+'</button></div>';else h+='<p class="sub" style="color:#ffd86b">The Donut Dome is complete. Everything is unlocked.</p>';
+ if(S.gym>=5)h+='<button class="tag" data-tr="1" style="align-self:center;width:'+U(96)+'">Visit the Trophy Room</button>';
+ h+='<p class="hd">ALL GYMS</p>';for(let i=1;i<GYM.length;i++){const G=GYM[i],have=S.gym>=i;h+='<div class="card'+(have?'':' dim')+'" style="display:block"><b style="font-weight:400;color:'+(have?'#3a8a3a':'#8a7aa8')+'">'+(have?'&#10003; ':'&#128274; ')+G.n+'</b> <span style="float:right;font-size:.8em">limit '+G.cap+'</span><small>'+G.u.join('<br>')+'</small></div>'}
  h+='<p class="hd">EQUIPMENT</p><p class="sub" style="text-align:left">'+STATS.map(([k,nm])=>nm+': '+(S.eq[k]?EQ[k][S.eq[k]-1]:'none')).join('<br>')+'</p>';
- const p=panel('THE GYM',GYM[S.gym].n,h,p=>{const b=p.querySelector('[data-u]');if(b)b.onclick=()=>{S.money-=n.p;S.gym++;snd('fanfare');save();p.remove();gymUpgraded()}});return p}
+ const p=panel('THE GYM',GYM[S.gym].n,h,p=>{const b=p.querySelector('[data-u]');if(b)b.onclick=()=>{S.money-=n.p;S.gym++;snd('fanfare');save();p.remove();gymUpgraded()};const tr=p.querySelector('[data-tr]');if(tr)tr.onclick=()=>{snd('select');p.remove();panTrophy()}});return p}
 function gymThumb(lv){return icon('gy'+lv,()=>{cx.save();cx.translate(0,-40);at2(()=>gymBg(lv,0));cx.restore()},160,150)}
 
 /* end of the week */
 function endWeek(){const sp=S.spon?SPON[S.spon]:null;let pay=0;if(sp){const w=S.wear[GEAR[sp.it].sl]===sp.it;pay=Math.round(sp.pay*(w?1:.5)*(hasSk('magnet')?1.3:1));S.money+=pay}
- S.week++;S.ap=apMax();S.raced=0;S.fl.rest=0;const en0=S.en;S.en=clamp(S.en+50+S.gym*3,0,100);S.mood=clamp(S.mood+(68-S.mood)*.3,0,100);save();snd('chime');
- const lines=['Energy '+Math.round(en0)+' &rarr; '+Math.round(S.en),'Mood '+Math.round(S.mood)];if(pay)lines.unshift('<b>+'+fmt$(pay)+'</b> from '+sp.n);
+ let merch=0;if(S.gym>=5){merch=Math.round(800+S.wins*150+eff().cha*60);S.money+=merch}S.week++;S.ap=apMax();S.raced=0;S.fl.rest=0;const en0=S.en;S.en=clamp(S.en+50+S.gym*3+(pool()?15:0),0,100);S.mood=clamp(S.mood+(68-S.mood)*.3,0,100);save();snd('chime');
+ const lines=['Energy '+Math.round(en0)+' &rarr; '+Math.round(S.en)+(pool()?' (Recovery Pool)':''),'Mood '+Math.round(S.mood)];if(pay)lines.unshift('<b>+'+fmt$(pay)+'</b> from '+sp.n);if(merch)lines.unshift('<b>+'+fmt$(merch)+'</b> from the Merch Stand');
  resultCard({title:'WEEK '+S.week,stars:-1,lines,sub:LG[S.lg].n,btn:'Let’s go',then:()=>weekStory()})}
 function afterAny(){hub();checkGifts()}
 /* ---------------- dialogue ---------------- */
