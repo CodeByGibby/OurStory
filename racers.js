@@ -19,9 +19,9 @@ function ptxtS(s,x,y,c,z,al,sc){ptxt(s,x+1,y+1,sc||'#2b1830',z,al);return ptxt(s
 
 /* ---------------- save ---------------- */
 const SK='ourstory_racers';
-function defSave(){return {v:1,week:1,lg:0,money:0,lv:1,xp:0,sp:0,st:{spd:14,acc:12,sta:9,agi:10,foc:6,cha:15},en:100,mood:75,ap:3,raced:0,gym:1,eq:{},own:['bandana'],wear:{head:null,body:'bandana',paws:null,charm:null},sk:[],bag:{},boss:0,lp:0,rp:0,wins:0,races:0,spon:null,fl:{},best:{},seen:{}}}
+function defSave(){return {v:1,tutS:1,tips:{},week:1,lg:0,money:0,lv:1,xp:0,sp:0,st:{spd:14,acc:12,sta:9,agi:10,foc:6,cha:15},en:100,mood:75,ap:3,raced:0,gym:1,eq:{},own:['bandana'],wear:{head:null,body:'bandana',paws:null,charm:null},sk:[],bag:{},boss:0,lp:0,rp:0,wins:0,races:0,spon:null,fl:{},best:{},seen:{}}}
 let S=defSave();
-function load(){try{const o=JSON.parse(localStorage.getItem(SK)||'null');if(o&&o.v===1){S=Object.assign(defSave(),o);S.st=Object.assign(defSave().st,o.st);S.wear=Object.assign(defSave().wear,o.wear)}}catch(e){}}
+function load(){try{const o=JSON.parse(localStorage.getItem(SK)||'null');if(o&&o.v===1){S=Object.assign(defSave(),o);if(o.tutS==null)S.tutS=(o.races||0)>0?5:1;S.st=Object.assign(defSave().st,o.st);S.wear=Object.assign(defSave().wear,o.wear)}}catch(e){}}
 function save(){try{localStorage.setItem(SK,JSON.stringify(S))}catch(e){}}
 
 /* ---------------- styles ---------------- */
@@ -81,7 +81,15 @@ function css(){if($('crzcss'))return;const s=document.createElement('style');s.i
 #crz .res .news b{display:block;font-size:${u(2)};color:#a0302a;font-weight:400}
 #crz .res .btns{display:flex;flex-direction:column;gap:${u(2.6)};margin-top:${u(2)}}#crz .res .btns .tag{width:${u(96)}}
 @keyframes zin{0%{opacity:0;transform:scale(.6)}100%{opacity:1;transform:none}}@keyframes zpop{0%{opacity:0;transform:scale(0) rotate(-40deg)}100%{opacity:1;transform:none}}
-#crz .fadein{animation:zfade .35s both}@keyframes zfade{0%{opacity:0}}
+#crz .fadein{animation:zfade .35s both}
+#crz .coach{position:absolute;inset:0;z-index:40}#crz .coach.dim{background:rgba(10,4,30,.62)}
+#crz .coach .hole{position:absolute;display:none;border-radius:${u(2.4)};box-shadow:0 0 0 9999px rgba(10,4,30,.62),0 0 0 ${u(.8)} #ffd86b,0 0 ${u(6)} ${u(1)} rgba(255,216,107,.8);animation:zglow 1.2s ease-in-out infinite;pointer-events:none}
+@keyframes zglow{50%{box-shadow:0 0 0 9999px rgba(10,4,30,.62),0 0 0 ${u(1.2)} #fff6e0,0 0 ${u(9)} ${u(2)} rgba(255,216,107,.95)}}
+#crz .coach .hole.nudge{animation:zglow 1.2s ease-in-out infinite,znudge .35s}@keyframes znudge{25%{transform:translateX(${u(-1.5)})}75%{transform:translateX(${u(1.5)})}}
+#crz .coach .tip{position:absolute;left:${u(5)};right:${u(5)};background:#fff;border:${u(.9)} solid #2b1830;border-radius:${u(5)};padding:${u(3.4)} ${u(4.4)} ${u(2.4)};color:#2b1830;font-size:${u(3.4)};line-height:1.7;box-shadow:${u(1)} ${u(1.6)} 0 rgba(10,4,30,.45)}
+#crz .coach .tip.pop{animation:zpopt .22s ease-out}@keyframes zpopt{0%{transform:translateY(${u(2)}) scale(.96);opacity:.4}100%{transform:none;opacity:1}}
+#crz .coach .tip .nm{font-size:${u(3)};margin-bottom:${u(1)}}#crz .coach .tip b{font-weight:400;color:#c2417a}
+#crz .coach .tip .ft{display:flex;justify-content:space-between;align-items:center;margin-top:${u(2.2)}}#crz .coach .skip{font-size:${u(2.3)};background:none;color:#8a7aa8;padding:${u(1)} 0}#crz .coach .go{font-size:${u(2.4)};color:#e0468c}@keyframes zfade{0%{opacity:0}}
 #crz .tree{display:grid;grid-template-columns:1fr 1fr 1fr;gap:${u(2)}}
 #crz .tree .col{display:flex;flex-direction:column;gap:${u(2)}}
 #crz .tree .tn{font-size:${u(2.4)};color:var(--c);margin-bottom:${u(.6)}}
@@ -567,8 +575,8 @@ function mkRival(i,lg,boss,lane){if(boss){const B=BOSS[boss],[spd,acc,sta,agi,fo
  const s={};STATS.forEach(([k])=>s[k]=ri(a,b));return {n:'',coat:pick(RCOATS),g:pick(RGEAR)||{},sz:pick([1,1,1,.9,1.08]),s,lane,trait:'none'}}
 const rankOf=()=>S.fl.champ?1:Math.max(2,100-Math.round(S.rp*1.15));
 function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.boss,relay=!!V.relay;
- /* field */const names=RIVN.slice().sort(()=>Math.random()-.5);const riv=[];const nR=3;
- for(let i=0;i<nR;i++){const isB=boss&&i===nR-1;const R=mkRival(i,lg,isB?boss:null,isB?2:i);if(!isB)R.n=names[i];riv.push(R)}
+ /* field */const names=RIVN.slice().sort(()=>Math.random()-.5);const riv=[];const nR=ev.tut?1:3;
+ for(let i=0;i<nR;i++){const isB=boss&&i===nR-1;const R=mkRival(i,lg,isB?boss:null,isB?2:i);if(!isB)R.n=names[i];if(ev.tut){R.coat='cream';R.g={};R.lane=1;STATS.forEach(([k])=>R.s[k]=4)}riv.push(R)}
  riv.forEach(R=>{const s=R.s;Object.assign(R,{x:0,v:0,ph:Math.random()*4,vm:vOf(s.spd),ac:30+s.acc*1.1,form:rr(.97,1.03),jt:-1,dk:0,trip:0,chase:0,fin:null,done:{},st:'stand',surge:0})});
  const D={n:'Donut',coat:'red',x:0,v:0,ph:0,d:0,sta:100,gas:0,jt:-1,jh:0,dk:0,trip:0,chase:0,chX:0,fin:null,lane:3,done:{},zm:0,zt:0,wind:hasSk('wind'),st:'stand',held:0,pf:0};
  const vm=vOf(E.spd)*(V.gr==='sand'&&!sandOK()?.93:1),ac=(30+E.acc*1.1)*(hasSk('quick')?1.15:1),focusNeed=clamp((.9-E.foc*.0058)*(hasSk('iron')?.6:1)*(S.mood<30?1.25:1),.22,1.2);
@@ -577,6 +585,8 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
  while(x<len-160){const duck=k>1&&Math.random()<.22;obs.push({x,k:duck?pick(du):pick(types),duck});x+=rr(150,250)-Math.min(40,lg*12);k++}
  const dis=[];const nd=lg===0?2:3;for(let i=0;i<nd;i++){const at=len*(.25+i*.6/nd)+rr(-40,40);obs.forEach(o=>{if(Math.abs(o.x-at)<70)o.x+=90});dis.push({x:at,k:pick(V.d),hit:0,res:0,on:0})}
  if(boss==='chad')dis.push({x:len*.48,k:'bark',hit:0,res:0,on:0,chad:1});
+ if(ev.tut){obs.length=0;dis.length=0;obs.push({x:430,k:'cone'},{x:800,k:'banner',duck:true},{x:1420,k:'hay'});dis.push({x:1100,k:'squirrel',hit:0,res:0,on:0})}
+ let gate=null;const TG={};
  const all=[D,...riv];let phase='count',ct=3.4,time=0,cam=-40,pops=[],endT=0,hype=0,crum=relay,handed=0,flop=0,flopTaps=0,shake=0,falseT=0,msg=null;
  const pop=(s,c,big)=>{pops.push({s,c:c||'#ffd86b',t:0,big})};
  const say=(s,d)=>{msg={s,t:d||1.6}};
@@ -591,12 +601,21 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
   if(D.gas>0){snd('miss');return}D.d=Math.min(1,D.d+.2);D.sta-=stCost;D.puff=.18;snd('foot');if(D.sta<=0){D.sta=0;if(D.wind){D.wind=0;D.sta=50;pop('SECOND WIND!','#8be28b');snd('boost')}else{D.gas=1.5;pop('PANTING...','#ff7e7e')}}}
  const SCR={
   enter(){},
-  down(px,py){if(py>238&&px>104&&D.zm>=1)special();else tap()},
-  swipe(dir){if(phase!=='run'||D.fin!=null||D.trip>0||D.chase>0||flop>0)return;if(dir==='u'&&D.jt<0&&D.dk<=0){D.jt=0;snd('jump')}else if(dir==='d'&&D.jt<0){D.dk=.62;snd('whoosh')}},
+  down(px,py){if(gate&&gate.need==='zoom'){if(py>238&&px>104){gate=null;special()}return}if(gate&&gate.need==='tap'){tap();if(++gate.c>=3){gate=null;snd('confirm')}return}if(gate&&gate.need!=='hold')return;if(py>238&&px>104&&D.zm>=1)special();else tap()},
+  swipe(dir){if(gate){if(gate.need===dir){gate=null;snd('confirm')}else return}if(phase!=='run'||D.fin!=null||D.trip>0||D.chase>0||flop>0)return;if(dir==='u'&&D.jt<0&&D.dk<=0){D.jt=0;snd('jump')}else if(dir==='d'&&D.jt<0){D.dk=.62;snd('whoosh')}},
   pause(){},
-  _st:()=>({D,riv,phase,len,time}),
+  _st:()=>({D,riv,phase,len,time,gate:gate&&gate.need}),
   upd(dt){if(phase==='count'){ct-=dt;if(falseT>0)falseT-=dt;const c0=Math.ceil(ct+dt),c1=Math.ceil(ct);if(c1!==c0&&c1>0)snd('beep');if(ct<=0){startGo();if(falseT>0){D.trip=falseT}}cam=lerp(cam,D.x-46,dt*3);return}
    if(phase==='end'){endT+=dt;all.forEach(R=>{R.v=lerp(R.v,R.fin!=null?vOf(20)*.35:R.v,dt*1.5);R.x+=R.v*dt;R.ph+=R.v*dt*.11});cam=lerp(cam,D.x-46,dt*2);pops.forEach(p=>p.t+=dt);if(endT>2.2)finish();return}
+   if(ev.tut){if(gate){if(gate.need==='hold'&&IN.down){gate=null;snd('confirm')}else{pops.forEach(p=>p.t+=dt*.3);return}}
+    const G2=(k,o)=>{if(!TG[k]){TG[k]=1;gate=Object.assign({c:0},o);snd('alert')}};const o0=obs[0],o1=obs[1],o2=obs[2],q=dis[0];
+    if(time>.7)G2('tap',{need:'tap',l:['TAP TAP TAP TO SPRINT!','EVERY TAP USES A LITTLE STAMINA']});
+    if(!D.done[0]&&o0.x-(D.x+6)<D.v*.26+3)G2('u',{need:'u',l:['A CONE! SWIPE UP','TO JUMP OVER IT']});
+    if(!D.done[1]&&o1.x-(D.x+6)<D.v*.27+3)G2('d',{need:'d',l:['A LOW BANNER!','SWIPE DOWN TO DUCK']});
+    if(q.x-D.x<92&&!q.res&&!q.hit)G2('h',{need:'hold',l:['A SQUIRREL!','HOLD YOUR FINGER DOWN','UNTIL DONUT IS FOCUSED']});
+    if((q.res||q.hit)&&!TG.z){D.zm=1;G2('z',{need:'zoom',l:['ZOOMIES ARE READY!','TAP THE ZOOM BUTTON']})}
+    if(TG.z&&!D.done[2]&&o2.x-D.x<190&&!TG.f){TG.f=1;say('Last one: jump the hay bale yourself!',2.4)}
+    if(gate)return}
    if(SCR.auto)autoP(dt);time+=dt;if(hype>0)hype-=dt;if(msg){msg.t-=dt;if(msg.t<=0)msg=null}if(shake>0)shake-=dt;
    const prog=D.x/len;
    /* Donut */
@@ -672,14 +691,20 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
    ptxtS(zf?'ZOOM':D.zt>0?'GO!':'',zx,zy-3,'#fff6e0',1,'c');if(!zf&&D.zt<=0)ptxt(Math.floor(D.zm*100)+'%',zx,zy-2,'#8a7aa8',1,'c');if(zf&&Math.floor(t*4)%2)disc(zx,zy,19,'#fff6e0',.25);
    ptxt('TAP SPRINT',6,268,'#8a7aa8');arw(54,268,true,'#8a7aa8');ptxt('JUMP',60,268,'#8a7aa8');arw(9,278,false,'#8a7aa8');ptxt('DUCK',15,277,'#8a7aa8');ptxt('HOLD FOCUS',38,277,'#8a7aa8');
    if(msg){const ws=msg.s.toUpperCase().split(' '),ls=[''];ws.forEach(w=>{if((ls[ls.length-1]+' '+w).trim().length>36)ls.push(w);else ls[ls.length-1]=(ls[ls.length-1]+' '+w).trim()});r(4,26,152,4+ls.length*8,'rgba(14,8,40,.88)');ls.forEach((l,i)=>ptxt(l,80,29+i*8,'#fff6e0',1,'c'))}
-   if(phase==='count'){const n=Math.ceil(ct);r(0,96,BW,40,'rgba(14,8,40,.4)');ptxtS(n>0?String(n):'GO!',80,104,n>0?'#fff6e0':'#8be28b',5,'c');if(ct>2.6)ptxtS('READY...',80,140,'#ffd86b',1,'c')}
+   if(gate){const g=gate,k=Math.sin(t*6);r(0,0,BW,238,'rgba(14,8,40,.45)');r(8,70,144,16+g.l.length*9,'#fff6e0');r(8,70,144,2,'#ff9ccb');r(8,84+g.l.length*9,144,2,'#d9c2a4');
+    g.l.forEach((s,i)=>ptxt(s,80,78+i*9,i?'#5a2148':'#c2417a',1,'c'));const gy=110+g.l.length*9;
+    if(g.need==='u'||g.need==='d'){const up=g.need==='u',o=Math.round(k*5)*(up?-1:1);disc(80,gy+14+o,5,'#fff6e0',1);disc(80,gy+14+o,3,'#ff9ccb',1);arw(80,gy+(up?0:26),up,'#ffd86b');arw(80,gy+(up?-6:32),up,'#ffd86b')}
+    else if(g.need==='tap'){const p=(t*3)%1;disc(80,gy+14,4,'#ff9ccb',1);for(let a=0;a<20;a++){const q2=a/20*Math.PI*2,rr2=5+p*10;r(Math.round(80+Math.cos(q2)*rr2),Math.round(gy+14+Math.sin(q2)*rr2),1,1,'#fff6e0')}}
+    else if(g.need==='hold'){disc(80,gy+14,6,'#ff9ccb',1);for(let a=0;a<24;a++){const q2=a/24*Math.PI*2;r(Math.round(80+Math.cos(q2)*10),Math.round(gy+14+Math.sin(q2)*10),2,2,a/24<((t*.8)%1)?'#b78cff':'#5a4a7a')}}
+    else if(g.need==='zoom'){const b=Math.round(Math.abs(k)*4);arw(130,236-b,false,'#ffd86b');arw(130,230-b,false,'#ffd86b');disc(130,262,20,'#ffd86b',.35+Math.abs(k)*.3)}}
+   if(phase==='count'){const n=Math.ceil(ct);if(ev.tut&&ct>.6){r(8,150,144,20,'#fff6e0');ptxt('TAP RIGHT AT GO',80,154,'#c2417a',1,'c');ptxt('FOR A FAST START',80,162,'#5a2148',1,'c')}r(0,96,BW,40,'rgba(14,8,40,.4)');ptxtS(n>0?String(n):'GO!',80,104,n>0?'#fff6e0':'#8be28b',5,'c');if(ct>2.6)ptxtS('READY...',80,140,'#ffd86b',1,'c')}
    else if(phase==='run'&&time<.9)ptxtS('GO!',80,104,'#8be28b',5,'c');
    if(phase==='end'){const pl=placeOf();ptxtS(ORD[pl-1]+'!',80,90,pl===1?'#ffd86b':'#fff6e0',4,'c')}}};
  let at=0;function autoP(dt){const A=SCR.auto;at-=dt;const o=obs.find((o,i)=>!D.done[i]);if(o){const dx=o.x-(D.x+6);if(!o.duck&&D.jt<0&&dx<D.v*.27&&dx>0&&Math.random()<A.k)SCR.swipe('u');if(o.duck&&D.dk<=0&&dx<D.v*.28&&dx>0&&Math.random()<A.k)SCR.swipe('d')}
   IN.down=dis.some(q=>q.on)&&A.k>.5?1:0;if(at<=0){at=A.rate||.36;if(D.sta>(A.save||25)||D.zt>0)tap()}if(D.zm>=1&&D.x/len>(A.zat||.6))special()}
  function placeOf(){const t=D.fin;return 1+riv.filter(R=>R.fin!=null&&R.fin<t).length}
  if(window.CRZ_AUTO)SCR.auto=window.CRZ_AUTO;
- let finished=0;function finish(){if(finished)return;finished=1;const pl=placeOf();raceDone(ev,pl,D.fin,riv)}
+ let finished=0;function finish(){if(finished)return;finished=1;const pl=placeOf();if(ev.tut)tutRaceDone(pl,D.fin);else raceDone(ev,pl,D.fin,riv)}
  return SCR}
 /* ---------------- training minigames ---------------- */
 function mgShell(def){const G={t:0,ph:'how',sc:0,pops:[]};let doneT=0,cdn=3;
@@ -687,7 +712,7 @@ function mgShell(def){const G={t:0,ph:'how',sc:0,pops:[]};let doneT=0,cdn=3;
  return {down(x,y){if(G.ph==='play'&&def.down)def.down(G,x,y)},tap(x,y){if(G.ph==='how'){G.ph='cd';snd('confirm');return}if(G.ph==='play'&&def.tap)def.tap(G,x,y)},swipe(d){if(G.ph==='play'&&def.swipe)def.swipe(G,d)},up(x,y){if(G.ph==='play'&&def.up)def.up(G,x,y)},
   upd(dt){if(G.ph==='cd'){const a=Math.ceil(cdn);cdn-=dt;if(Math.ceil(cdn)!==a&&cdn>0)snd('beep');if(cdn<=0){G.ph='play';snd('go')}return}
    if(G.ph==='play'){G.t+=dt;def.upd(G,dt);if(G.t>=def.dur||G.over){G.ph='done';G.sc=clamp(def.score(G),.3,1.5);snd(G.sc>1?'win':'coin')}}
-   if(G.ph==='done'){doneT+=dt;if(doneT>1.8)trainDone(def.k,G.sc,0)}G.pops.forEach(p=>p.t+=dt);G.pops=G.pops.filter(p=>p.t<1)},
+   if(G.ph==='done'){doneT+=dt;if(doneT>1.8&&!G.fin){G.fin=1;trainDone(def.k,G.sc,0)}}G.pops.forEach(p=>p.t+=dt);G.pops=G.pops.filter(p=>p.t<1)},
   draw(t){def.draw(G,t);G.pops.forEach(p=>{cx.globalAlpha=Math.min(1,(1-p.t)*3);ptxtS(p.s,p.x,p.y-p.t*14,p.c,1,'c');cx.globalAlpha=1});
    r(0,0,BW,18,'rgba(14,8,40,.8)');ptxtS(def.n.toUpperCase(),4,4,SN[def.k][2]);if(G.ph==='play'){r(4,13,152,2,'#3a2e5a');r(4,13,Math.round(152*(1-G.t/def.dur)),2,SN[def.k][2])}
    if(G.ph==='how'){r(10,70,140,112,'rgba(14,8,40,.92)');r(10,70,140,1,SN[def.k][2]);ptxtS(def.n.toUpperCase(),80,80,'#ffd86b',1,'c');def.how.forEach((s,i)=>ptxt(s,80,96+i*10,'#fff6e0',1,'c'));
@@ -909,6 +934,65 @@ function equip2(lv,t){const e=S.eq;
  if(e.cha){if(e.cha>2){r(46,38,1,28,'#3a3a44');r(63,38,1,28,'#3a3a44');r(45,37,20,2,'#5a5a66');r(47,39,16,25,'#ff9ccb');r(47,39,16,1,'#ffb8d8');r(47,64,16,3,'#ffb0d4');r(45,66,3,1,'#3a3a44');r(62,66,3,1,'#3a3a44')}
   r(71,42,7,22,'#8a6a4a');r(72,43,5,20,'#d8e8f4');r(73,45,1,6,'#f4fafe');r(74,47,1,3,'#f4fafe');r(70,64,3,1,'#6a4a2a');r(76,64,3,1,'#6a4a2a');
   if(e.cha>1){r(66,48,1,17,'#3a3a44');r(64,65,5,1,'#3a3a44');for(let a=0;a<16;a++){const q=a/16*Math.PI*2;r(Math.round(66+Math.cos(q)*3.5),Math.round(45+Math.sin(q)*3.5),1,1,'#fff6d0')}cx.globalCompositeOperation='lighter';disc(66,45,6,'#fff6d0',.08);cx.globalCompositeOperation='source-over'}}}
+/* ---------------- tutorial: a guided first week ----------------
+   S.tutS: 1 tour of the gym, 2 after the first workout, 3 after the practice race,
+   4 after the first real race, 5 done. One-off tips live in S.tips. */
+function coach(steps,done){let i=-1,cur=null;const ov=el('<div class="coach"><div class="hole"></div><div class="tip"><div class="nm"></div><div class="tx"></div><div class="ft"><button class="skip">Skip tutorial</button><span class="go"></span></div></div></div>');
+ ui.appendChild(ov);const hole=ov.querySelector('.hole'),tip=ov.querySelector('.tip'),nm=ov.querySelector('.nm'),tx=ov.querySelector('.tx'),gl=ov.querySelector('.go');
+ const tgt=s=>!s.sel?null:typeof s.sel==='function'?s.sel():ui.querySelector(s.sel);
+ function place(){const s=steps[i],t=tgt(s),R0=root.getBoundingClientRect(),u=R0.width/BW;
+  if(t){const b=t.getBoundingClientRect(),p=u*1.6;ov.classList.remove('dim');hole.style.display='block';Object.assign(hole.style,{left:(b.left-R0.left-p)+'px',top:(b.top-R0.top-p)+'px',width:(b.width+p*2)+'px',height:(b.height+p*2)+'px'});
+   const below=(b.top+b.bottom)/2<R0.top+R0.height*.5;tip.style.top=below?(b.bottom-R0.top+p+u*5)+'px':'';tip.style.bottom=below?'':(R0.bottom-b.top+p+u*5)+'px'}
+  else{ov.classList.add('dim');hole.style.display='none';tip.style.top='';tip.style.bottom=(R0.height*.38)+'px'}}
+ function next(){i++;if(i>=steps.length){ov.remove();removeEventListener('resize',place);if(done)done();return}const s=steps[i];if(s.pre)s.pre();
+  const show=()=>{const t=tgt(s);if(t&&t.scrollIntoView)t.scrollIntoView({block:'center'});setTimeout(()=>{place();nm.textContent=s.n||'';nm.style.color=NC2[s.n]||'#e0468c';tx.innerHTML=s.t;gl.textContent=s.act?'Tap the glowing button':'Tap to continue ▸';tip.classList.remove('pop');void tip.offsetWidth;tip.classList.add('pop')},40)};
+  setTimeout(show,s.wait||0);snd('blip')}
+ ov.addEventListener('click',e=>{if(e.target.closest('.skip')){snd('select');S.tutS=5;save();ov.remove();removeEventListener('resize',place);hubUI();return}
+  const s=steps[i];if(!s)return;if(s.act){const t=tgt(s);if(!t)return;const b=t.getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom){hole.classList.remove('nudge');void hole.offsetWidth;hole.classList.add('nudge');return}
+   ov.style.display='none';if(s.do)s.do();else t.click();ov.style.display='';setTimeout(next,90)}else next()});
+ addEventListener('resize',place);next();return ov}
+function tutCheck(){if(!on||scr!==HUB||ui.querySelector('.coach,.dlg,.res,.pan'))return;const st=S.tutS||5;
+ if(st===1)coach([
+  {n:'Abigail',t:'Welcome to Donut’s racing career! Let me show you around the gym.'},
+  {sel:'.top .r1',n:'Abigail',t:'Up here: the week, which league Donut is in, and how much money we have.'},
+  {sel:'.top .meters',n:'Abigail',t:'<b>Energy</b> goes down when she trains or races. <b>Mood</b> makes training work better. Races and workouts earn XP to level her up.'},
+  {sel:'.top .aps',n:'Abigail',t:'Every week Donut gets <b>3 actions</b>. Training, naps, playtime and side gigs each use one.'},
+  {sel:'[data-a="train"]',act:1,n:'Abigail',t:'Let’s start with a workout. Tap <b>TRAIN</b>.'},
+  {sel:'[data-p="spd"]',act:1,wait:350,n:'Abigail',t:'Each workout raises one stat. <b>PLAY</b> the minigame for the biggest boost, or <b>QUICK</b> to skip it. Try Treadmill Tempo!',pre:()=>{S.tutS=2;save()}}]);
+ else if(st===2)coach([
+  {n:'Abigail',t:'Nice workout! Her Speed went up. Now let’s try a <b>practice race</b> before the real thing.'},
+  {sel:'[data-a="race"]',act:1,n:'Abigail',t:'Tap <b>RACE DAY</b>.',do:()=>{go(raceScreen({ven:'park',tut:1}))}}]);
+ else if(st===3)coach([
+  {sel:'[data-a="race"]',act:1,n:'Abigail',t:'She’s ready for a real race! Donut gets <b>one race a week</b>. Tap <b>RACE DAY</b>.'},
+  {sel:'#crz .pan .boss',wait:350,n:'Abigail',t:'These are the <b>boss corgis</b>. Beat them all to move up to the next league. They unlock as you earn <b>league points</b>.'},
+  {sel:'[data-v="park"]',act:1,n:'Abigail',t:'Circuit races earn prize money and league points (3 for 1st, 2 for 2nd, 1 for 3rd). Let’s race at the dog park!',pre:()=>{S.tutS=4;save()}}]);
+ else if(st===4)coach([
+  {n:'Abigail',t:'Her first real race! A few more things before you’re on your own.'},
+  {sel:'[data-a="care"]',n:'Abigail',t:'Tired pup? <b>REST &amp; GIGS</b> has naps, playtime with Crumpet, and side gigs that pay extra money.'},
+  {sel:'[data-a="shop"]',n:'Abigail',t:'The <b>SHOP</b> sells gear Donut can wear, equipment that boosts training, and treats for race day.'},
+  {sel:'[data-a="gear"]',n:'Abigail',t:'<b>DONUT</b> shows her stats and lets you change her outfit. Every piece of gear gives a bonus.'},
+  {sel:'[data-a="skill"]',n:'Abigail',t:'Each level-up gives a <b>skill point</b>. Spend them in <b>SKILLS</b> on special moves.'},
+  {sel:'[data-a="gym"]',n:'Abigail',t:'Upgrade the <b>GYM</b> so every workout counts for more.'},
+  {sel:'[data-a="week"]',n:'Abigail',t:'When you’re done, <b>END WEEK</b>. Donut rests, sponsors pay, and a new week begins. Go get ’em, Donut!',pre:()=>{S.tutS=5;save()}}]);
+ else tipCheck()}
+/* one-off tips the first time something new shows up */
+function tipCheck(){S.tips=S.tips||{};const T=S.tips,nb=nextBoss();
+ const one=(k,steps)=>{T[k]=1;save();coach(steps);return 1};
+ if(nb&&nb.ok&&!S.raced&&!T['boss'+S.lg+S.boss])return one('boss'+S.lg+S.boss,[{sel:'[data-a="race"]',n:S.fl.gus?'Coach Gus':'Abigail',t:'A <b>boss race</b> is open: <b>'+BOSS[nb.b].n+'</b>. '+BOSS[nb.b].w+' Find it at the top of RACE DAY.'}]);
+ if(S.sp>0&&!T.sk)return one('sk',[{sel:'[data-a="skill"]',n:'Abigail',t:'Level up! You have a <b>skill point</b> to spend. Tap SKILLS to pick a special move.'}]);
+ if(S.money>=GYM[2].p&&S.gym===1&&!T.gym)return one('gym',[{sel:'[data-a="gym"]',n:'Hunter',t:'We can afford the <b>Garage Gym</b> now! Bigger gym, bigger gains.'}]);
+ if(S.en<30&&!T.tired)return one('tired',[{sel:'[data-a="care"]',n:'Abigail',t:'Donut is pooped. Low energy makes her run out of stamina faster. Take a <b>nap</b> or <b>end the week</b>.'}]);
+ if(S.lg===1&&!T.lg1)return one('lg1',[{sel:'[data-a="shop"]',n:'Coach Gus',t:'New league, new gear. Check the <b>SHOP</b>, and remember: equipment makes every workout count for more.'}])}
+function tutRaceDone(pl,time){if((S.tutS||5)<3)S.tutS=3;const ups=addXP(20);save();
+ resultCard({title:'PRACTICE DONE!',stars:3,lines:['Donut knows all the moves!','+20 XP'].concat(ups.length?['<em>LEVEL UP! Lv '+S.lv+'</em>']:[]),sub:'Practice run &middot; '+time.toFixed(2)+'s',btn:'Back to the gym',then:()=>hub()})}
+/* the help page: controls and the weekly loop, plus replays */
+function panHelp(){const h='<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">RACE CONTROLS</b><small>TAP to sprint (uses stamina)<br>SWIPE UP to jump &middot; SWIPE DOWN to duck<br>HOLD your finger down when a squirrel or snack appears<br>Tap ZOOM when the meter is full</small></div>'+
+ '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">EACH WEEK</b><small>3 actions: train, nap, play with Crumpet or work a side gig<br>1 race: circuit races earn money and league points<br>END WEEK to rest up and get paid by sponsors</small></div>'+
+ '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">MOVING UP</b><small>League points unlock boss races. Beat every boss to move up: Amateur, Minor, Major, then the Global Rankings, where your world rank unlocks the bosses.</small></div>'+
+ '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">GETTING STRONGER</b><small>Training raises stats; equipment and gym upgrades multiply it. Gear adds bonuses. Level-ups give +1 to every stat and a skill point.</small></div>'+
+ '<button class="tag" data-h="race">Replay the practice race</button><button class="tag" data-h="tour">Show me around again</button>';
+ panel('HOW TO PLAY',null,h,p=>{p.querySelector('[data-h="race"]').onclick=()=>{snd('confirm');go(raceScreen({ven:'park',tut:1}))};
+  p.querySelector('[data-h="tour"]').onclick=()=>{snd('confirm');p.remove();hubUI();S.tutS=4;setTimeout(()=>{if(!ui.querySelector('.coach'))tutCheck()},400)}})}
 /* ---------------- progression ---------------- */
 const xpNeed=lv=>40+lv*18;
 function addXP(n){S.xp+=Math.round(n);const ups=[];while(S.lv<50&&S.xp>=xpNeed(S.lv)){S.xp-=xpNeed(S.lv);S.lv++;S.sp++;STATS.forEach(([k])=>S.st[k]+=1);ups.push(S.lv)}return ups}
@@ -962,17 +1046,17 @@ const HUB={enter(){MUS='crzHub'},ui(){hubUI()},
 function hub(){go(HUB)}
 function bar(lbl,v,c){return '<div class="mtr">'+lbl+'<i><b style="width:calc('+clamp(v,0,100)+'% - var(--u)*.8);--c:'+c+'"></b></i></div>'}
 function hubUI(){const L=LG[S.lg],ap=apMax();ui.innerHTML='';
- const top=el('<div class="top"><div class="r1"><button class="xbtn" style="position:static">&#10005; Exit</button><span class="lg">WEEK '+S.week+' &middot; '+L.s+'</span><span class="mo">'+fmt$(S.money)+'</span></div>'+
+ const top=el('<div class="top"><div class="r1"><span style="display:flex;gap:var(--u)"><button class="xbtn" style="position:static">&#10005; Exit</button><button class="xbtn hbtn" style="position:static">?</button></span><span class="lg">WEEK '+S.week+' &middot; '+L.s+'</span><span class="mo">'+fmt$(S.money)+'</span></div>'+
   '<div class="meters">'+bar('ENERGY '+Math.round(S.en),S.en,S.en>30?'#8be28b':'#ff7e7e')+bar('MOOD '+Math.round(S.mood),S.mood,'#ff9ccb')+bar('LV '+S.lv,S.xp/xpNeed(S.lv)*100,'#ffd86b')+'</div>'+
   '<div class="aps">ACTIONS '+Array.from({length:ap},(_,i)=>'<span style="display:inline-block;width:'+U(2.6)+';height:'+U(2.6)+';border-radius:50%;background:'+(i<S.ap?'#ffd86b':'#3a2e5a')+'"></span>').join('')+'<span style="margin-left:auto">'+(S.lg===3?'WORLD RANK #'+rankOf():'')+'</span></div></div>');
- ui.appendChild(top);top.querySelector('.xbtn').onclick=()=>{snd('select');close()};
+ ui.appendChild(top);top.querySelector('.xbtn').onclick=()=>{snd('select');close()};top.querySelector('.hbtn').onclick=()=>{snd('select');panHelp()};
  const nxt=nextBoss(),rc=S.raced?'Raced this week':S.fl.rest?'Resting this week':nxt&&nxt.ok?'Boss race ready: '+BOSS[nxt.b].n:'Pick a race';
  const dock=el('<div class="dock"><button class="tile big" data-a="race">RACE DAY<small>'+rc+'</small></button>'+
   '<button class="tile" data-a="train">TRAIN<small>'+S.ap+' action'+(S.ap==1?'':'s')+' left</small></button><button class="tile" data-a="care">REST &amp; GIGS<small>Nap, play, earn</small></button>'+
   '<button class="tile" data-a="shop">SHOP<small>Gear, treats, equipment</small></button><button class="tile" data-a="gear">DONUT<small>Stats &amp; outfit</small></button>'+
   '<button class="tile" data-a="skill">SKILLS<small>Level '+S.lv+'</small>'+(S.sp?'<span class="bdg">'+S.sp+'</span>':'')+'</button><button class="tile" data-a="gym">GYM<small>'+GYM[S.gym].n+'</small></button>'+
   '<button class="tag pink" data-a="week" style="grid-column:1/3;justify-self:center;width:'+U(96)+'">End week &#9656;<small>Rest up, get paid, new week</small></button></div>');
- ui.appendChild(dock);dock.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{snd('select');({race:panRace,train:panTrain,care:panCare,shop:panShop,gear:panGear,skill:panSkill,gym:panGym,week:endWeek})[b.dataset.a]()})}
+ ui.appendChild(dock);dock.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{snd('select');({race:panRace,train:panTrain,care:panCare,shop:panShop,gear:panGear,skill:panSkill,gym:panGym,week:endWeek})[b.dataset.a]()});clearTimeout(hubUI.tt);hubUI.tt=setTimeout(tutCheck,450)}
 function panel(title,sub,body,wire){const p=el('<div class="pan fadein"><h2>'+title+'</h2>'+(sub?'<p class="sub">'+sub+'</p>':'')+body+'<button class="tag back">Back</button></div>');ui.appendChild(p);
  p.querySelector('.back').onclick=()=>{snd('select');p.remove();hubUI()};if(wire)wire(p);return p}
 function refresh(p,fn){const st=p.scrollTop;p.remove();const q=fn();if(q)q.scrollTop=st}
@@ -1087,9 +1171,7 @@ function storyIntro(){const st={};MUS='cozy';
   {n:'Donut',t:'*ears straight up* *butt wiggling at maximum power*',a:()=>{st.zoom=tm;snd('whoosh')}},{n:'Hunter',t:'Oh no. She thinks she can do that.'},
   {n:'Abigail',t:'Babe. I think she CAN do that.'},{n:'Hunter',t:'There’s an amateur race at the dog park this Saturday. First entry is free...'},
   {n:'Abigail',t:'Then it’s settled. Donut is going to be a racer!'},{n:'Crumpet',t:'*does not wake up*'}],
-  ()=>{hub();talk([{n:'Abigail',t:'Okay Donut, here’s the plan. Every week you get a few actions: train, rest, or do side gigs.'},
-   {n:'Abigail',t:'Then on race day, pick a race. TAP to sprint, SWIPE UP to jump, SWIPE DOWN to duck.'},{n:'Hunter',t:'And when a squirrel shows up, HOLD your finger down so she stays focused.'},
-   {n:'Abigail',t:'Win races, earn league points, and beat the boss corgis to move up. Next stop: the world!'}],()=>hubUI())},livingRoom(st))}
+  ()=>{S.tutS=1;save();hub()},livingRoom(st))}
 function preBoss(ev,then){const B=BOSS[ev.boss],V=VEN[ev.ven],st={hype:1};MUS='tense';
  const cast=[{k:'buzz',x:10,y:162,dir:'r'},{k:'dog',c:'red',g:dGear(),x:30,y:176},{k:'dog',c:B.coat,g:B.gear,x:54,y:170,dir:'l'}];if(S.fl.gus)cast.push({k:'gus',x:64,y:186,dir:'l'});
  const react=pick(['*sneezes. Confidently.*','*does one small zoomie*','*stares straight ahead. Locked in.*','*sits. Then stands. Then sits again.*']);
@@ -1141,5 +1223,5 @@ function ending(){S.fl.champ=1;save();const st={hype:1,pod:1};MUS='race';
   venueScene('final',[{k:'buzz',x:8,y:162,dir:'r'},{k:'dog',c:'fluff',g:{body:'royal'},x:23,y:183,dir:'r'},{k:'dog',c:'red',g:{head:'crown'},x:37,y:176,st:'cheer'},{k:'abi',x:60,y:178,dir:'l'},{k:'hunter',x:72,y:180,dir:'l'},{k:'gus',x:62,y:192,dir:'l'}],st))}
 try{C4CAP.crzchamp='WORLD CHAMPION'}catch(e){}
 /* ---------------- entry points ---------------- */
-return {get on(){return on},open,close,mus,_S:()=>S,_go:go,_race:ev=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(raceScreen(ev))},_mg:k=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(mgShell(MGS[k]))},_dbg:{livingRoom,tvClose,hubScene,venueScene,homeScene,gcorgi,gus2,at2,gymBg,equip2,rdog,gus,mkc,venueArt,venueDraw,venueFg,obsDraw,disDraw,gymArt,S:()=>S,save,hub,raceScreen,MGS,go,talk,ending,promote}};
+return {get on(){return on},open,close,mus,_S:()=>S,_go:go,_race:ev=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(raceScreen(ev))},_mg:k=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(mgShell(MGS[k]))},_dbg:{scr:()=>scr,livingRoom,tvClose,hubScene,venueScene,homeScene,gcorgi,gus2,at2,gymBg,equip2,rdog,gus,mkc,venueArt,venueDraw,venueFg,obsDraw,disDraw,gymArt,S:()=>S,save,hub,raceScreen,MGS,go,talk,ending,promote}};
 })();
