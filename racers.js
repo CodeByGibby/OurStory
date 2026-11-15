@@ -992,7 +992,23 @@ function tvClose(){return t=>{r(0,0,160,288,'#141a30');for(let y=0;y<288;y+=6)fo
   r(31,110,18,18,O);r(31,110,18,1,L1);r(31,111,1,16,D1);r(48,111,1,16,D1);r(36,118,8,1,sh(O,.93));
   for(let k=0;k<10;k++){const w=1+Math.round(k*.62),q=k<3?tw:0;r(31-q,100+k,w,1,O);r(31-q,100+k,1,1,D1);r(49-w+q,100+k,w,1,O);r(48+q,100+k,1,1,D1)}r(31,100,1,1,L1);r(48,100,1,1,L1)})}}
 /* the backyard of the house (gym level 1) and the porch at night (the ending) come straight from the story */
-function yard(t){borrow('vEpYard',t,'epyard')}
+function yard(t){
+ for(let y=0;y<60;y+=2){const k=y/60;r(0,y,80,2,`rgb(${Math.round(60+k*90)},${Math.round(130+k*70)},${Math.round(230-k*10)})`)}
+ cx.globalCompositeOperation='lighter';for(let k=16;k>=6;k-=2)disc(34,10,k,'#fff6d0',.035);cx.globalCompositeOperation='source-over';disc(34,10,4,'#fffbe8',1);disc(34,10,3,'#ffffff',1);
+ for(let i=0;i<8;i++){const a=i/8*6.283+t*.05;for(let k=6;k<18;k+=2){cx.globalAlpha=.18*(1-k/18);r(Math.round(34+Math.cos(a)*k),Math.round(10+Math.sin(a)*k),1,1,'#fffbe0')}}cx.globalAlpha=1;
+ const TC=['#2e5a2a','#3a6a32','#4a7a3a','#7a8a3a','#a89a3a'];const farT=()=>{for(let i=0;i<18;i++){const x=(i*9+3)%84-2,y=38+((i*7)%8),q=6+((i*5)%5);disc(x,y,q,TC[(i*3)%5],1)}for(let i=0;i<12;i++){const x=(i*13+6)%80,y=46+((i*5)%6);disc(x,y,4+(i%3),TC[(i+2)%4],1)}};farT();
+ r(0,56,80,1,'#a8a8b0');for(let x=0;x<80;x+=2)for(let y=57;y<63;y+=2)r(x+(y%4?1:0),y,1,1,'#8a8a92');for(let x=2;x<80;x+=12)r(x,55,1,8,'#7a7a82');
+ for(let y=60;y<160;y++){const k=(y-60)/84,band=Math.floor(Math.pow(Math.min(k,1.2),.6)*12)%2;r(0,y,80,1,band?'#7aa64a':'#709c44')}
+ for(let i=0;i<90;i++){const x=Math.floor(hsh(i,41)*80),y=62+Math.floor(hsh(i,42)*96);r(x,y,1,1,i%3?'#8ab858':'#9a8a4a')}
+ for(let i=0;i<14;i++){const x=Math.floor(hsh(i,51)*78),y=66+Math.floor(hsh(i,52)*80);r(x,y,1,1,['#fff6e0','#ffd86b','#ff9ccb'][i%3]);r(x+1,y+1,1,1,'#5a8a3a')}
+ cx.globalAlpha=.18;for(let s=0;s<3;s++){for(let y=62;y<112;y++){const x=Math.round([9,40,26][s]+(y-62)*[-.8,-.35,-.6][s]);r(x,y,4+((y-62)>>4),1,'#1e3a14')}}for(let y=72;y<108;y++){const x=Math.round(60+(y-72)*.2);r(x,y,6+((y-72)>>3),1,'#1e3a14')}cx.globalAlpha=1;
+ r(46,55,15,8,'#c8c8c0');for(let x=46;x<61;x+=2)r(x,55,1,8,'#b0b0a8');r(52,56,1,7,'#8a8a84');r(54,56,1,7,'#8a8a84');r(46,62,15,1,'#9a9a92');r(45,52,17,3,'#8a4a2a');r(45,52,17,1,'#a85a34');for(let x=46;x<62;x+=3)r(x,53,1,2,'#6a3a20');
+ r(39,28,2,36,'#5a4a3a');r(40,28,1,36,'#6a5a48');r(38,61,4,3,'#5a4a3a');r(36,34,3,1,'#5a4a3a');r(41,30,3,1,'#5a4a3a');
+ r(60,26,3,46,'#5a4030');r(61,26,1,46,'#6a5040');r(58,70,7,2,'#4a3020');r(56,40,4,1,'#5a4030');r(63,36,5,1,'#5a4030');r(10,46,2,18,'#4a3a2a');r(26,48,2,14,'#4a3a2a');
+ cx.save();cx.beginPath();cx.rect(0,0,80,52);cx.rect(0,52,45,4);cx.rect(62,52,18,3);cx.clip();farT();cx.restore();
+ [[39,24,7],[34,29,5],[44,28,5],[39,33,5],[35,19,4],[43,19,4],[39,15,4]].forEach(([x,y,q],i)=>disc(x,y,q,i%2?'#6a8a3a':'#7a9a42',1));[[37,21],[42,25],[36,30],[41,31]].forEach(([x,y])=>disc(x,y,2,'#9ab04e',1));
+ [[64,12,13],[72,20,11],[54,18,9],[76,8,8],[60,32,9],[72,34,8],[52,30,6]].forEach(([x,y,q],i)=>disc(x,y,q,['#c8a83a','#b89a34','#d8b84a','#a88a2e','#c0a040','#9a8a30','#d0b04a'][i],1));[[60,10],[68,16],[56,22],[74,28],[64,30]].forEach(([x,y])=>disc(x,y,3,'#e8cc60',1));
+ [[8,40,8],[15,44,6],[26,40,7],[2,46,6]].forEach(([x,y,q],i)=>disc(x,y,q,i%2?'#2e5a2a':'#3e6a30',1))}
 function porch(t){borrow('vEpPorch',t,'epporch',{keepRocker:1})}
 /* ---------------- the gym, five levels, at story scale ---------------- */
 function gymBg(lv,t){if(lv===1){yard(t);return}
@@ -1025,15 +1041,17 @@ function gymBg(lv,t){if(lv===1){yard(t);return}
   r(0,64,80,80,'#4a3080');for(let y=64;y<144;y+=8)r(0,y,80,1,'#5a3a94');ell(40,90,22,6,'#6a4aa8',.6);ptxt('D',40,86,'#ffd86b',1,'c');
   cx.globalCompositeOperation='lighter';[14,66].forEach((x,i)=>{for(let y=0;y<90;y++){const w=2+y*.12;cx.globalAlpha=.04;r(x-w+Math.sin(t*.6+i)*y*.15,y,w*2,1,'#fff6d0')}});cx.globalAlpha=1;cx.globalCompositeOperation='source-over'}}
 /* equipment she owns shows up in the gym */
-function equip2(lv,t){const e=S.eq;
- if(e.spd){const c=['#3a3a44','#2a6ad8','#d8352f'][e.spd-1];r(3,72,18,4,'#1e1e24');r(3,72,18,1,'#4a4a56');for(let i=0;i<5;i++)r(4+((i*4+Math.floor(t*10))%16),74,1,1,'#5a5a66');r(3,76,2,2,c);r(19,76,2,2,c);r(18,60,2,12,c);r(15,58,7,3,c);r(16,59,5,1,'#7ee8fa')}
- if(e.acc){const c=['#e8b820','#8a5a2a','#2a2a3a'][e.acc-1];r(66,66,10,9,c);r(66,66,10,1,sh(c,1.3));r(63,67,4,3,'#3a3a46');disc(69,70,1,'#2a2a34',1);r(68,75,2,2,'#2a2a34');r(73,75,2,2,'#2a2a34');disc(61,64,1,'#c8e83a',1)}
- if(e.sta){const px=68,py=100;ell(px,py,11,3,['#4a8ac8','#3a7ac0','#2a6ab0'][e.sta-1],1);ell(px,py-1,9,2,'#8ac8f0',1);r(px-6+((t*6|0)%10),py-1,2,1,'#c8ecff');r(px-11,py-1,1,2,'#ff7eb6');r(px+11,py-1,1,2,'#ff7eb6');if(e.sta>1){r(px+6,py-8,1,7,'#c8c4d0');r(px+6,py-8,3,1,'#c8c4d0')}}
- if(e.agi){for(let i=0;i<(e.agi>1?5:3);i++){const x=24+i*5;if(e.agi===1){r(x,75,3,1,'#d85a1a');r(x+1,72,1,3,'#ff8a3a')}else{r(x,66,1,10,i%2?'#fff6e0':'#d8352f');r(x,66,1,1,'#ffd86b');if(e.agi>2)r(x-1,76,3,1,'#5a5a66')}}}
- if(e.foc){const fx=26,fy=108;if(e.foc===1){ell(fx+2,fy,4,1,'#000',.15);r(fx,fy-4,5,4,'#8a6a5a');r(fx+4,fy-6,2,3,'#8a6a5a');r(fx+5,fy-5,1,1,'#2a1a1a');r(fx-2,fy-7,2,6,'#a8887a')}else if(e.foc===2){r(fx-2,fy-3,14,3,'#7a4ab8');r(fx-2,fy-3,14,1,'#9a6ad8')}else{r(fx,fy-10,10,10,'#3a3a46');r(fx,fy-10,10,1,'#5a5a66');r(fx+1,fy-9,8,5,'#1e2a1e');r(fx+2,fy-8,1+Math.floor(t*3)%6,1,'#8be28b');r(fx+7,fy-3,1,1,Math.floor(t*4)%2?'#ff4a4a':'#4a1a1a')}}
- if(e.cha){if(e.cha>2){r(46,38,1,28,'#3a3a44');r(63,38,1,28,'#3a3a44');r(45,37,20,2,'#5a5a66');r(47,39,16,25,'#ff9ccb');r(47,39,16,1,'#ffb8d8');r(47,64,16,3,'#ffb0d4');r(45,66,3,1,'#3a3a44');r(62,66,3,1,'#3a3a44')}
-  r(71,42,7,22,'#8a6a4a');r(72,43,5,20,'#d8e8f4');r(73,45,1,6,'#f4fafe');r(74,47,1,3,'#f4fafe');r(70,64,3,1,'#6a4a2a');r(76,64,3,1,'#6a4a2a');
-  if(e.cha>1){r(66,48,1,17,'#3a3a44');r(64,65,5,1,'#3a3a44');for(let a=0;a<16;a++){const q=a/16*Math.PI*2;r(Math.round(66+Math.cos(q)*3.5),Math.round(45+Math.sin(q)*3.5),1,1,'#fff6d0')}cx.globalCompositeOperation='lighter';disc(66,45,6,'#fff6d0',.08);cx.globalCompositeOperation='source-over'}}}
+/* Equipment lines the back of the gym (and one small item in a front corner) so the middle and the right side stay open:
+   that's where Donut runs her zoomies and where visitors walk in. */
+function equip2(lv,t){const e=S.eq,B=77;
+ if(e.spd){const c=['#3a3a44','#2a6ad8','#d8352f'][e.spd-1];r(2,B-5,18,4,'#1e1e24');r(2,B-5,18,1,'#4a4a56');for(let i=0;i<5;i++)r(3+((i*4+Math.floor(t*10))%16),B-3,1,1,'#5a5a66');r(2,B-1,2,2,c);r(18,B-1,2,2,c);r(17,B-17,2,12,c);r(14,B-19,7,3,c);r(15,B-18,5,1,'#7ee8fa')}
+ if(e.agi){for(let i=0;i<(e.agi>1?5:3);i++){const x=24+i*4;if(e.agi===1){r(x,B-1,3,1,'#d85a1a');r(x+1,B-4,1,3,'#ff8a3a')}else{r(x,B-10,1,10,i%2?'#fff6e0':'#d8352f');r(x,B-10,1,1,'#ffd86b')}}if(e.agi>2)r(23,B,19,1,'#5a5a66')}
+ if(e.sta){const px=52,py=B-2;ell(px,py,8,2,['#4a8ac8','#3a7ac0','#2a6ab0'][e.sta-1],1);ell(px,py-1,6,1,'#8ac8f0',1);r(px-4+((t*5|0)%8),py-1,2,1,'#c8ecff');r(px-8,py-1,1,2,'#ff7eb6');r(px+8,py-1,1,2,'#ff7eb6');if(e.sta>1){r(px+5,py-7,1,6,'#c8c4d0');r(px+5,py-7,3,1,'#c8c4d0')}}
+ if(e.acc){const c=['#e8b820','#8a5a2a','#2a2a3a'][e.acc-1];r(64,B-9,9,8,c);r(64,B-9,9,1,sh(c,1.3));r(61,B-8,4,3,'#3a3a46');disc(67,B-5,1,'#2a2a34',1);r(65,B-1,2,2,'#2a2a34');r(70,B-1,2,2,'#2a2a34');disc(59,B-11,1,'#c8e83a',1)}
+ if(e.cha){if(e.cha>2){r(66,B-34,1,26,'#3a3a44');r(79,B-34,1,26,'#3a3a44');r(65,B-35,16,2,'#5a5a66');r(67,B-33,12,22,'#ff9ccb');r(67,B-33,12,1,'#ffb8d8')}
+  r(74,B-28,5,18,'#8a6a4a');r(75,B-27,3,16,'#d8e8f4');r(76,B-25,1,5,'#f4fafe');r(73,B-10,3,1,'#6a4a2a');r(77,B-10,3,1,'#6a4a2a');
+  if(e.cha>1){const rx=68;r(rx,B-24,1,14,'#3a3a44');r(rx-2,B-10,5,1,'#3a3a44');for(let a=0;a<16;a++){const q=a/16*Math.PI*2;r(Math.round(rx+Math.cos(q)*3),Math.round(B-27+Math.sin(q)*3),1,1,'#fff6d0')}}}
+ if(e.foc){const fx=72,fy=110;if(e.foc===1){ell(fx+2,fy,4,1,'#000',.15);r(fx,fy-4,5,4,'#8a6a5a');r(fx+4,fy-6,2,3,'#8a6a5a');r(fx+5,fy-5,1,1,'#2a1a1a');r(fx-2,fy-7,2,6,'#a8887a')}else if(e.foc===2){r(fx-4,fy-3,12,3,'#7a4ab8');r(fx-4,fy-3,12,1,'#9a6ad8')}else{r(fx-2,fy-10,10,10,'#3a3a46');r(fx-2,fy-10,10,1,'#5a5a66');r(fx-1,fy-9,8,5,'#1e2a1e');r(fx,fy-8,1+Math.floor(t*3)%6,1,'#8be28b');r(fx+5,fy-3,1,1,Math.floor(t*4)%2?'#ff4a4a':'#4a1a1a')}}}
 /* ---------------- cutscenes ----------------
    A cutscene is a scene that keeps a beat number and the moment that beat started.
    Dialogue lines move it to the next beat (a:bt(K,n)), and the scene animates from there:
@@ -1089,10 +1107,10 @@ function cutVivian(then){S.fl.viv=1;save();const K=cutScr((C,u,t)=>{at2(()=>{hom
   L.push({y:80,f:()=>{limo(cx0,80,{spin:b===0?u*14:b>=7&&u>1.6?u*14:0,door,shine:u});if(b===0&&u<2.2)dust(cx0+22,80,u,4);if(b>=7&&u>1.6)dust(cx0+22,80,u,5);if(b===0&&u>2.2)glint(cx0-8,70,u)}});
   const vx=b===1?tw(52,46,u,.8,.4):b>=2&&b<7?46:b>=7?tw(46,52,u,.6):52,vy=b===1?tw(80,90,u,.8,.4):b>=2&&b<7?90:b>=7?tw(90,82,u,.6):82;
   if(b>=1&&!(b>=7&&u>.7))L.push({y:vy,f:()=>{ppl('viv',vx,vy,t,b>=7?'r':'l',(b===1&&u>.4&&u<1.2)||(b>=7&&u<.6));if(b===2&&u<.8)for(let i=0;i<4;i++)glint(vx-4+i*3,vy-30+i,u+i*.2);if(b>=3&&b<7)neonSuit(vx,vy-34,u)}});
-  L.push({y:84,f:()=>p2('abi',20,84,t,'r')});L.push({y:85,f:()=>p2('hunter',32,85,t,'r')});
-  const worn=b===6&&u>.8;L.push({y:97,f:()=>gcorgi(40,97,{c:'red',st:b===4?'sit':'stand',t,dir:'r',g:worn||S.wear.body==='neon'?Object.assign(dGear(),{body:'neon'}):dGear(),tongue:b===6})});
-  if(b===6&&u<.8){const k=ez(u/.8);neonSuit(Math.round(46+(40-46)*k),Math.round(56+(88-56)*k-Math.sin(k*Math.PI)*10),u)}
-  castDraw(L);if(b===4){r(23,60,1,2,'#7ee8fa');r(22,62,3,2,'#7ee8fa')}if(b===6&&u>.8){cx.globalCompositeOperation='lighter';disc(40,90,10,'#b8ff3a',.12);cx.globalCompositeOperation='source-over'}})});
+  L.push({y:86,f:()=>p2('abi',20,86,t,'r')});L.push({y:87,f:()=>p2('hunter',32,87,t,'r')});
+  const worn=b===6&&u>.8;L.push({y:98,f:()=>gcorgi(42,98,{c:'red',st:b===4?'sit':'stand',t,dir:'r',g:worn||S.wear.body==='neon'?Object.assign(dGear(),{body:'neon'}):dGear(),tongue:b===6})});
+  if(b===6&&u<.8){const k=ez(u/.8);neonSuit(Math.round(48+(42-48)*k),Math.round(56+(89-56)*k-Math.sin(k*Math.PI)*10),u)}
+  castDraw(L);if(b===4){r(23,60,1,2,'#7ee8fa');r(22,62,3,2,'#7ee8fa')}if(b===6&&u>.8){cx.globalCompositeOperation='lighter';disc(42,91,10,'#b8ff3a',.12);cx.globalCompositeOperation='source-over'}})});
  talk([{n:'',t:'Monday morning. A long purple car purrs up to the gym. Very shiny. TOO shiny.',a:bt(K,0)},{n:'',t:'The door swings open.',a:bt(K,1)},
   {n:'Vivian',t:'Vivian Vance-Paws. I run the Minor League. And I make stars.',a:bt(K,2)},{n:'Vivian',t:'Zoomies Energy wants Donut. $450 a week. She just has to wear... this.',a:bt(K,3)},
   {n:'',t:'She holds up a neon green racing suit. It is very, very bright. It might be humming.'},{n:'Abigail',t:'(It’s hideous. But money is tight...)',a:bt(K,4)},
@@ -1106,9 +1124,9 @@ function cutKibble(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C
   if(b===1&&u>.6)for(let i=0;i<3;i++)glint(36+i*12,58,u+i*.3);
   const vx=b===1?tw(66,50,u,.8,.6):b>=2&&b<5?50:b>=5?tw(50,62,u,.7):66,show=b>=1&&!(b>=5&&u>.7)&&!(b===1&&u<.6);
   if(show)L.push({y:90,f:()=>{ppl('viv',vx,90,t,b>=5?'r':'l',(b===1&&u<1.4)||(b>=5&&u<.7));if(b===3)bandanaAt(vx+2,58+Math.round(Math.sin(u*6)),'#2a6ad8')}});
-  L.push({y:84,f:()=>p2('abi',20,84,t,'r')});L.push({y:85,f:()=>p2('hunter',32,85,t,'r')});
-  const sc=b===4&&u>.8;L.push({y:97,f:()=>{gcorgi(40,97,{c:'red',st:'stand',t,dir:'r',g:dGear(),tongue:b===2||b===4,jy:b===1&&u>.4&&u<1?Math.round(Math.abs(Math.sin(u*10))*2):0});if(b===2)hearts(44,82,u,2)}});
-  if(b===4){if(u<.8){const k=ez(u/.8);bandanaAt(Math.round(52+(45-52)*k),Math.round(58+(89-58)*k-Math.sin(k*Math.PI)*8),'#2a6ad8')}r(52,92,8,10,'#ffd86b');r(52,92,8,1,'#fff0b0');r(54,95,4,3,'#d8352f');r(55,94,1,1,'#ffd86b')}
+  L.push({y:86,f:()=>p2('abi',20,86,t,'r')});L.push({y:87,f:()=>p2('hunter',32,87,t,'r')});
+  const sc=b===4&&u>.8;L.push({y:98,f:()=>{gcorgi(42,98,{c:'red',st:'stand',t,dir:'r',g:dGear(),tongue:b===2||b===4,jy:b===1&&u>.4&&u<1?Math.round(Math.abs(Math.sin(u*10))*2):0});if(b===2)hearts(46,83,u,2)}});
+  if(b===4){if(u<.8){const k=ez(u/.8);bandanaAt(Math.round(52+(47-52)*k),Math.round(58+(90-58)*k-Math.sin(k*Math.PI)*8),'#2a6ad8')}r(54,93,8,10,'#ffd86b');r(54,93,8,1,'#fff0b0');r(56,96,4,3,'#d8352f');r(57,95,1,1,'#ffd86b')}
   castDraw(L)})});
  talk([{n:'',t:'BEEP. BEEP. BEEP. A golden truck backs right up to the gym.',a:bt(K,0)},{n:'',t:'The side rolls up. A trumpet plays. Inside: bags and bags of Royal Kibble.',a:bt(K,1,()=>snd('fanfare'))},
   {n:'',t:'Donut has never wanted anything more in her life.',a:bt(K,2)},{n:'Vivian',t:'Royal Kibble called. They want Donut. $2,600 a week. Even I’m impressed.',a:bt(K,3)},
@@ -1128,10 +1146,10 @@ function cutCouture(then){const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx.tr
   {get n(){return S.spon==='couture'?'':'Vivian'},get t(){return S.spon==='couture'?'Donut struts the whole runway in her new capelet. Paris loses its mind.':'Non? ...Fine. Paris will wait. Paris always waits.'}}],then,K.draw)}
 /* Coach Gus: waiting by the gate at sunset */
 function cutGus(win,then){S.fl.gus=1;save();const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);cx.globalAlpha=.22;r(0,0,80,156,'#5a2a6a');cx.globalAlpha=1;const b=C.b,L=[];
-  const gx=b===0?8:b===1?tw(8,20,u,2.6):20,gy=b===0?72:b===1?tw(72,100,u,2.6):100;
+  const gx=b===0?8:b===1?tw(8,22,u,2.6):22,gy=b===0?84:b===1?tw(84,102,u,2.6):102;
   L.push({y:gy,f:()=>{gus2(gx,gy,b===1?u:t,b===1||b>=2?'r':'r',b>=2&&b!==4);if(b===0){r(gx-4,gy-6,6,5,'#5a6a8a');r(gx-4,gy-6,6,1,'#7a8aaa')}if(b===4&&u<.8){for(let i=0;i<3;i++)r(gx+18+i*3,gy-12-i*2,2,1,'#fff6e0');}}});
-  L.push({y:84,f:()=>p2('abi',44,84,t,'l')});L.push({y:85,f:()=>p2('hunter',56,85,t,'l')});
-  const dx=b===4&&u<1?tw(40,48,u,.4):b>=4?48:40;L.push({y:97,f:()=>{gcorgi(dx,97,{c:'red',st:b>=4?'sit':'stand',t,dir:'l',g:dGear(),tongue:b===6});if(b===4&&u>.3&&u<1.2)ptxt('!',dx-2,72,'#ff7eb6')}});
+  L.push({y:86,f:()=>p2('abi',44,86,t,'l')});L.push({y:87,f:()=>p2('hunter',56,87,t,'l')});
+  const dx=b===4&&u<1?tw(42,48,u,.4):b>=4?48:42;L.push({y:98,f:()=>{gcorgi(dx,98,{c:'red',st:b>=4?'sit':'stand',t,dir:'l',g:dGear(),tongue:b===6});if(b===4&&u>.3&&u<1.2)ptxt('!',dx-2,73,'#ff7eb6')}});
   castDraw(L);if(b===6)hearts(30,80,u,4)})});
  talk([{n:'',t:'Back home, at sunset, someone is sitting by the gate. Low to the ground. Very long ears. A duffel bag.',a:bt(K,0)},
   {n:'',t:'He waddles across the yard. It takes a while.',a:bt(K,1)},
@@ -1159,18 +1177,18 @@ function cutInjury(then){const K=cutScr((C,u,t)=>{at2(()=>{const b=C.b,L=[];
   {n:'',t:'That night, Abigail ties a little bracelet onto Donut’s collar.',a:bt(K,5)},{n:'Abigail',t:'For luck. And so you know we love you, win or lose.',a:bt(K,6)},
   {n:'',t:'Got: Abigail’s Bracelet. Donut rests this week (no race).'}],then,K.draw)}
 /* Crumpet signs up for the relay */
-function cutRelay(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];const lw=b===0?Math.round(tw(0,56,u,2)):56;r(12,92,lw,2,'#fff6e0');r(12,92,lw,1,'#ffffff');
-  const gx=b===0?tw(10,66,u,2):66;L.push({y:96,f:()=>{gus2(gx,100,u,'r',b>=2);if(b===0&&u<2){r(gx+12,97,4,3,'#3a3a46');r(gx+11,98,1,1,'#ffffff')}}});
-  const cxp=b<=1?tw(84,40,u,2.4):40,cp=b===0||(b===1&&u<2.4)?0:b===3?(Math.floor(u*3)%2?2:3):3;L.push({y:92,f:()=>crumpet(cxp,92,'l',t,cp,0)});
-  L.push({y:84,f:()=>p2('abi',20,84,t,'r')});L.push({y:85,f:()=>p2('hunter',30,85,t,'r')});L.push({y:104,f:()=>gcorgi(54,104,{c:'red',st:'sit',t,g:dGear(),tongue:b>=3})});castDraw(L);if(b===3)hearts(40,78,u,3)})});
+function cutRelay(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];const lw=b===0?Math.round(tw(0,60,u,2)):60;r(14,96,lw,2,'#fff6e0');r(14,96,lw,1,'#ffffff');
+  const gx=b===0?tw(8,72,u,2):72;L.push({y:104,f:()=>{gus2(gx,104,u,'r',b>=2);if(b===0&&u<2){r(gx+12,96,4,3,'#3a3a46');r(gx+11,97,1,1,'#ffffff')}}});
+  const cxp=b<=1?tw(92,44,u,2.4):44,cp=b===0||(b===1&&u<2.4)?0:b===3?(Math.floor(u*3)%2?2:3):3;L.push({y:96,f:()=>crumpet(cxp,96,'l',t,cp,0)});
+  L.push({y:86,f:()=>p2('abi',20,86,t,'r')});L.push({y:85,f:()=>p2('hunter',30,85,t,'r')});L.push({y:110,f:()=>gcorgi(44,110,{c:'red',st:'sit',t,g:dGear(),tongue:b>=3})});castDraw(L);if(b===3)hearts(44,82,u,3)})});
  talk([{n:'',t:'Coach Gus is painting a starting line across the yard.',a:bt(K,0)},{n:'',t:'Crumpet walks right up to it. Slowly. Purposefully. And lies down ON the line.',a:bt(K,1)},
   {n:'Hunter',t:'Does she... want to race?'},{n:'Coach Gus',t:'There’s a Doubles Relay Showcase this season. Sister runs first, Donut runs the anchor leg.',a:bt(K,2)},
   {n:'Crumpet',t:'*rolls over. Ready.*',a:bt(K,3)},{n:'',t:'The Doubles Relay is open on the race list!'}],then,K.draw)}
 /* Crumpet gives Donut her chew toy */
-function cutChew(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];const cxp=b===0?tw(84,56,u,2.2):56,drop=b>=1;
+function cutChew(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];const cxp=b===0?tw(92,58,u,2.2):58,drop=b>=1;
   L.push({y:100,f:()=>{crumpet(cxp,100,'l',t,b===0&&u<2.2?0:1,0);if(!drop){r(cxp-12,90,5,2,'#ff7eb6');r(cxp-13,89,2,2,'#ff7eb6');r(cxp-9,89,2,2,'#ff7eb6')}}});
   if(drop){const ty=b===1?Math.round(tw(90,100,u,.4)):100;r(46,ty-2,5,2,'#ff7eb6');r(45,ty-3,2,2,'#ff7eb6');r(49,ty-3,2,2,'#ff7eb6')}
-  L.push({y:100,f:()=>gcorgi(36,100,{c:'red',st:b>=2?'stand':'sit',t,dir:'r',g:dGear(),tongue:b>=2})});L.push({y:84,f:()=>p2('abi',20,84,t,'r')});L.push({y:85,f:()=>p2('hunter',32,85,t,'r')});castDraw(L);if(b>=2)hearts(42,84,u,4)})});
+  L.push({y:100,f:()=>gcorgi(38,100,{c:'red',st:b>=2?'stand':'sit',t,dir:'r',g:dGear(),tongue:b>=2})});L.push({y:86,f:()=>p2('abi',20,86,t,'r')});L.push({y:87,f:()=>p2('hunter',32,87,t,'r')});castDraw(L);if(b>=2)hearts(42,84,u,4)})});
  talk([{n:'',t:'Crumpet waddles across the yard with something pink in her mouth.',a:bt(K,0)},{n:'',t:'She drops her favourite chew toy right at Donut’s feet.',a:bt(K,1,()=>snd('pop'))},
   {n:'Abigail',t:'Oh my gosh. Crumpet is giving Donut her TOY. That’s her most prized possession.',a:bt(K,2)},{n:'',t:'Got: Crumpet’s Chew Toy (Charm: +4 Focus, +2 Stamina).'}],then,K.draw)}
 /* a palace, a velvet cushion, and the world champion */
@@ -1357,11 +1375,11 @@ function resultCard(o){const d=el('<div class="res fadein"><p class="rn">'+(o.su
 
 /* ---------------- hub ---------------- */
 const HUBD={zt:-9,ct:-9};
-const HUBPOS={1:{abi:[20,84],hun:[32,85],gus:[12,101],dn:[40,97],cr:[50,108]},d:{abi:[46,82],hun:[58,83],gus:[12,101],dn:[38,97],cr:[50,108]}};
+const HP0={abi:[20,86],hun:[32,87],gus:[12,104],dn:[42,98],cr:[54,110]},HUBPOS={1:HP0,d:HP0};
 function hubScene(t,cast){at2(()=>{cx.translate(0,-12);const lv=S.gym,P=HUBPOS[lv===1?1:'d'];gymBg(lv,t);equip2(lv,t);const L=[];
  L.push({y:P.abi[1],f:()=>ppl2('abi',P.abi[0],P.abi[1],t,'d')});L.push({y:P.hun[1],f:()=>ppl2('hunter',P.hun[0],P.hun[1],t,'d')});
  if(S.fl.gus)L.push({y:P.gus[1],f:()=>gus2(P.gus[0],P.gus[1],t,'r',cast&&cast.gusTalk)});
- const z=tm-HUBD.zt;if(z<1.6){const a=z/1.6*Math.PI*2,x=P.dn[0]+Math.cos(a)*20,y=P.dn[1]+Math.sin(a)*5;L.push({y,f:()=>gcorgi(x,y,{c:'red',st:'run',t:tm,dir:-Math.sin(a)>0?'r':'l',g:dGear()})})}
+ const z=tm-HUBD.zt;if(z<1.6){const a=z/1.6*Math.PI*2,x=P.dn[0]+Math.cos(a)*18,y=P.dn[1]+Math.sin(a)*4;L.push({y,f:()=>gcorgi(x,y,{c:'red',st:'run',t:tm,dir:-Math.sin(a)>0?'r':'l',g:dGear()})})}
  else L.push({y:P.dn[1],f:()=>gcorgi(P.dn[0],P.dn[1],{c:'red',st:Math.floor(t/5)%3===2?'stand':'sit',t,dir:'r',g:dGear(),tongue:Math.floor(t*1.3)%4<2})});
  const c=tm-HUBD.ct;L.push({y:P.cr[1],f:()=>crumpet(P.cr[0],P.cr[1],'l',t,c<.8?1:3,0)});
  L.sort((a,b)=>a.y-b.y).forEach(q=>q.f())})}
