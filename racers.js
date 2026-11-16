@@ -66,7 +66,7 @@ function css(){if($('crzcss'))return;const s=document.createElement('style');s.i
 #crz .top{position:absolute;left:0;right:0;top:0;padding:${u(2.4)} ${u(3)} ${u(1.6)};background:linear-gradient(rgba(14,8,40,.92),rgba(14,8,40,.78));display:flex;flex-direction:column;gap:${u(1.4)};font-size:${u(2.7)}}
 #crz .top .r1{display:flex;justify-content:space-between;align-items:center}
 #crz .top .lg{color:#ffd86b}#crz .top .mo{color:#8be28b;font-size:${u(3.4)}}
-#crz .meters{display:grid;grid-template-columns:1fr 1fr 1fr;gap:${u(2)}}
+#crz .meters{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:${u(2)}}
 #crz .mtr{font-size:${u(2.2)};color:#cdb8e8}#crz .mtr i{display:block;height:${u(2)};margin-top:${u(.6)};background:#2b1830;box-shadow:inset 0 0 0 ${u(.4)} #4a3a6a;position:relative}
 #crz .mtr i b{position:absolute;left:${u(.4)};top:${u(.4)};bottom:${u(.4)};background:var(--c);transition:width .4s}
 #crz .xbtn{position:absolute;font-size:${u(2.6)};padding:${u(1.6)} ${u(2.6)};background:rgba(255,246,224,.12);color:#fff6e0;border-radius:${u(2)}}
@@ -678,7 +678,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
  for(let i=0;i<nR&&!ev.scrim;i++){const isB=boss&&i===nR-1;const R=mkRival(i,lg,isB?boss:null,isB?2:i);if(!isB)R.n=names[i];if(ev.tut){R.coat='cream';R.g={};R.lane=1;STATS.forEach(([k])=>R.s[k]=4)}riv.push(R)}
  riv.forEach(R=>{const s=R.s;Object.assign(R,{x:0,v:0,ph:Math.random()*4,vm:vOf(s.spd),ac:30+s.acc*1.1,form:rr(.97,1.03),jt:-1,dk:0,trip:0,chase:0,fin:null,done:{},st:'stand',surge:0})});
  const D={smoke:[],n:'Donut',coat:'red',x:0,v:0,ph:0,d:0,sta:100,gas:0,jt:-1,jh:0,dk:0,trip:0,chase:0,chX:0,fin:null,lane:3,done:{},zm:hasSk('lgP')?1:0,zt:0,wind:hasSk('wind'),st:'stand',held:0,pf:0};
- const PL=ev.plan||'';const vm=vOf(E.spd)*(V.gr==='sand'&&!sandOK()?.93:1)*(hasSk('lgS')?1.05:1),ac=(30+E.acc*1.1)*(hasSk('quick')?1.15:1),focusNeed=clamp((.9-E.foc*.0058)*(hasSk('iron')?.6:1)*(S.mood<30?1.25:1)*(PL==='focus'?.6:1),.22,1.2);
+ const PL=ev.plan||'',FM=formMul();const vm=FM*vOf(E.spd)*(V.gr==='sand'&&!sandOK()?.93:1)*(hasSk('lgS')?1.05:1),ac=FM*(30+E.acc*1.1)*(hasSk('quick')?1.15:1),focusNeed=clamp((.9-E.foc*.0058)*(hasSk('iron')?.6:1)*(S.mood<30?1.25:1)*(PL==='focus'?.6:1),.22,1.2);
  const tired=S.en<30,stCost=3.3*(1-E.sta/230)*(hasSk('pacer')?.8:1)*(tired?1.35:1)*(PL==='save'?.75:1);
  const ghost=ev.tt&&S.tt&&S.tt[ev.ven]&&S.tt[ev.ven].g?S.tt[ev.ven].g:null,rec=[];let recT=0;
  /* course */const obs=[];let x=260;const types=V.o,du=V.du;let k=0;
@@ -1195,8 +1195,8 @@ function cutPupCup(ven,then){const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx
   castDraw(L);if(b===1)hearts(lx+2,ly-26,u,2);if(b===3)confetti(u,22);cx.restore()});
  talk([{n:'',t:'Somebody in a pink apron is SPRINTING across the grass toward you, waving a clipboard.',a:bt(K,0)},
   {n:'Pup-Cup Lady',t:'Hi! HI! Sorry! Hi! I’m with Pup-Cup Treats!',a:bt(K,1)},
-  {n:'Pup-Cup Lady',t:'We’ve been watching Donut all season. We’d love her to wear OUR bandana. $40 a week!',a:bt(K,2)},
-  {n:'',t:'Pup-Cup Treats: '+fmt$(SPON.pupcup.pay)+' a week. Donut wears the Pup-Cup Bandana for full pay.',c:[{l:'Sign the deal',f:()=>{signSpon('pupcup');bt(K,3)()}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save();bt(K,4)()}}]},
+  {n:'Pup-Cup Lady',t:'We’ve been watching Donut all season. We’d love her to wear OUR bandana. $40 every race!',a:bt(K,2)},
+  {n:'',t:'Pup-Cup Treats: '+fmt$(SPON.pupcup.pay)+' every race she runs, +50% when she wins. Donut wears the Pup-Cup Bandana for full pay.',c:[{l:'Sign the deal',f:()=>{signSpon('pupcup');bt(K,3)()}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save();bt(K,4)()}}]},
   {n:'Pup-Cup Lady',get t(){return S.spon==='pupcup'?'Welcome to the Pup-Cup family! Free treats for LIFE. Well. For a while.':'Totally get it! Here’s a free Pup Cup anyway. Bye Donut!'}}],then,K.draw)}
 function signSpon(id){const P=SPON[id];S.spon=id;if(!S.own.includes(P.it))S.own.push(P.it);S.wear[GEAR[P.it].sl]=P.it;save();snd('kaching');toast('New sponsor: '+P.n)}
 /* Vivian Vance-Paws arrives: a very shiny car */
@@ -1210,9 +1210,9 @@ function cutVivian(then){S.fl.viv=1;save();const K=cutScr((C,u,t)=>{at2(()=>{hom
   if(b===6&&u<.8){const k=ez(u/.8);neonSuit(Math.round(48+(42-48)*k),Math.round(56+(89-56)*k-Math.sin(k*Math.PI)*10),u)}
   castDraw(L);if(b===4){r(23,60,1,2,'#7ee8fa');r(22,62,3,2,'#7ee8fa')}if(b===6&&u>.8){cx.globalCompositeOperation='lighter';disc(42,91,10,'#b8ff3a',.12);cx.globalCompositeOperation='source-over'}})});
  talk([{n:'',t:'Monday morning. A long purple car purrs up to the gym. Very shiny. TOO shiny.',a:bt(K,0)},{n:'',t:'The door swings open.',a:bt(K,1)},
-  {n:'Vivian',t:'Vivian Vance-Paws. I run the Minor League. And I make stars.',a:bt(K,2)},{n:'Vivian',t:'Zoomies Energy wants Donut. $450 a week. She just has to wear... this.',a:bt(K,3)},
+  {n:'Vivian',t:'Vivian Vance-Paws. I run the Minor League. And I make stars.',a:bt(K,2)},{n:'Vivian',t:'Zoomies Energy wants Donut. $450 every race. She just has to wear... this.',a:bt(K,3)},
   {n:'',t:'She holds up a neon green racing suit. It is very, very bright. It might be humming.'},{n:'Abigail',t:'(It’s hideous. But money is tight...)',a:bt(K,4)},
-  {n:'Vivian',t:'So? Do we have a deal?',a:bt(K,5),c:[{l:'Take the deal ($450/week)',f:()=>{signSpon('zoomies');bt(K,6)()}},{l:'She’s not wearing that',f:()=>{S.mood=clamp(S.mood+15,0,100);S.fl.noviv=1;save();bt(K,7)()}}]},
+  {n:'Vivian',t:'So? Do we have a deal?',a:bt(K,5),c:[{l:'Take the deal ($450/race)',f:()=>{signSpon('zoomies');bt(K,6)()}},{l:'She’s not wearing that',f:()=>{S.mood=clamp(S.mood+15,0,100);S.fl.noviv=1;save();bt(K,7)()}}]},
   {n:'',get t(){return S.fl.noviv?'Vivian lowers her sunglasses. Sniffs. Gets back in the car without a word.':'The suit goes on. Donut glows faintly in the dark now.'}},
   {get n(){return S.fl.noviv?'Abigail':'Vivian'},get t(){return S.fl.noviv?'We’ll make it on our own. Right, Donut?':'Fabulous. You’ll be hearing from me.'},a:()=>{if(!S.fl.noviv){K.C.b=6}}}],then,K.draw)}
 /* Royal Kibble: a golden truck, a fanfare, and a scarf */
@@ -1227,8 +1227,8 @@ function cutKibble(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C
   if(b===4){if(u<.8){const k=ez(u/.8);bandanaAt(Math.round(52+(47-52)*k),Math.round(58+(90-58)*k-Math.sin(k*Math.PI)*8),'#2a6ad8')}r(54,93,8,10,'#ffd86b');r(54,93,8,1,'#fff0b0');r(56,96,4,3,'#d8352f');r(57,95,1,1,'#ffd86b')}
   castDraw(L)})});
  talk([{n:'',t:'BEEP. BEEP. BEEP. A golden truck backs right up to the gym.',a:bt(K,0)},{n:'',t:'The side rolls up. A trumpet plays. Inside: bags and bags of Royal Kibble.',a:bt(K,1,()=>snd('fanfare'))},
-  {n:'',t:'Donut has never wanted anything more in her life.',a:bt(K,2)},{n:'Vivian',t:'Royal Kibble called. They want Donut. $2,600 a week. Even I’m impressed.',a:bt(K,3)},
-  {n:'',t:'Royal Kibble: '+fmt$(SPON.kibble.pay)+' a week. Donut wears the Royal Kibble Scarf for full pay.',c:[{l:'Sign the deal',f:()=>{signSpon('kibble');bt(K,4)()}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save();bt(K,5)()}}]},
+  {n:'',t:'Donut has never wanted anything more in her life.',a:bt(K,2)},{n:'Vivian',t:'Royal Kibble called. They want Donut. $2,600 every race. Even I’m impressed.',a:bt(K,3)},
+  {n:'',t:'Royal Kibble: '+fmt$(SPON.kibble.pay)+' every race she runs, +50% when she wins. Donut wears the Royal Kibble Scarf for full pay.',c:[{l:'Sign the deal',f:()=>{signSpon('kibble');bt(K,4)()}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save();bt(K,5)()}}]},
   {get n(){return S.spon==='kibble'?'Vivian':''},get t(){return S.spon==='kibble'?'And a lifetime supply. Don’t say I never did anything for you.':'The truck pulls away. Donut watches it go. For a long, long time.'},a:()=>{if(S.spon!=='kibble')bt(K,5)()}}],then,K.draw)}
 /* Corgi Couture: a runway in Paris */
 function cutCouture(then){const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx.translate(0,-VOY);venueDraw('paris',-8,t,1);const b=C.b,L=[];
@@ -1239,8 +1239,8 @@ function cutCouture(then){const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx.tr
   L.push({y:190,f:()=>{for(let i=0;i<5;i++)kid(8+i*16,192,u+i,['#2a2a3a','#5a5a66','#2a2a3a','#7a2fe0','#2a2a3a'][i],0)}});
   castDraw(L);if(b>=1&&!(b===4))flashes(u,b===3?8:4);venueFg('paris',-8);cx.restore()});
  talk([{n:'',t:'Paris. A red carpet rolls out right down the middle of the track.',a:bt(K,0)},{n:'',t:'Cameras everywhere. And at the end of the runway, in enormous sunglasses...',a:bt(K,1)},
-  {n:'Vivian',t:'Corgi Couture. Paris. They want her on the runway AND the racetrack. $9,500 a week, darling.',a:bt(K,2)},
-  {n:'',t:'Corgi Couture: '+fmt$(SPON.couture.pay)+' a week. Donut wears the Couture Capelet for full pay.',c:[{l:'Sign the deal',f:()=>{signSpon('couture');bt(K,3)()}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save();bt(K,4)()}}]},
+  {n:'Vivian',t:'Corgi Couture. Paris. They want her on the runway AND the racetrack. $9,500 a race, darling.',a:bt(K,2)},
+  {n:'',t:'Corgi Couture: '+fmt$(SPON.couture.pay)+' every race she runs, +50% when she wins. Donut wears the Couture Capelet for full pay.',c:[{l:'Sign the deal',f:()=>{signSpon('couture');bt(K,3)()}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save();bt(K,4)()}}]},
   {get n(){return S.spon==='couture'?'':'Vivian'},get t(){return S.spon==='couture'?'Donut struts the whole runway in her new capelet. Paris loses its mind.':'Non? ...Fine. Paris will wait. Paris always waits.'}}],then,K.draw)}
 /* Coach Gus: waiting by the gate at sunset */
 function cutGus(win,then){S.fl.gus=1;save();const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);cx.globalAlpha=.22;r(0,0,80,156,'#5a2a6a');cx.globalAlpha=1;const b=C.b,L=[];
@@ -1557,7 +1557,7 @@ function tutRaceDone(pl,time){if((S.tutS||5)<3)S.tutS=3;const ups=addXP(20);save
  resultCard({title:'PRACTICE DONE!',stars:3,lines:['Donut knows all the moves!','+20 XP'].concat(ups.length?['<em>LEVEL UP! Lv '+S.lv+'</em>']:[]),sub:'Practice run &middot; '+time.toFixed(2)+'s',btn:'Back to the gym',then:()=>hub()})}
 /* the help page: controls and the weekly loop, plus replays */
 function panHelp(){const h='<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">RACE CONTROLS</b><small>TAP to sprint (uses stamina)<br>SWIPE UP to jump &middot; SWIPE DOWN to duck<br>HOLD your finger down when a squirrel or snack appears<br>Tap ZOOM when the meter is full</small></div>'+
- '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">EACH WEEK</b><small>3 actions: train, nap, play with Crumpet or work a side gig<br>1 race: circuit races earn money and league points<br>END WEEK to rest up and get paid by sponsors</small></div>'+
+ '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">EACH WEEK</b><small>3 actions: train, nap, play with Crumpet or work a side gig<br>1 race: circuit races earn money and league points<br>Sponsors and merch pay at races, +50% for a win<br>END WEEK: energy recovers a little, gym bills are paid, and Form drops if she sat idle</small></div>'+
  '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">MOVING UP</b><small>League points unlock boss races. Beat every boss to move up: Amateur, Minor, Major, then the Global Rankings, where your world rank unlocks the bosses.</small></div>'+
  '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">GETTING STRONGER</b><small>Training raises stats and equipment multiplies it. Each gym has a stat limit (25, 40, 58, 75, 99): upgrade to keep growing, and each gym unlocks something new. Gear adds bonuses on top. Level-ups give a skill point and +1 to every stat.</small></div>'+
  '<button class="tag" data-h="race">Replay the practice race</button><button class="tag" data-h="tour">Show me around again</button>'+
@@ -1643,6 +1643,35 @@ function panTrophy(){let h='<p class="sub">Every boss trophy Donut has won, and 
  LG.forEach(l=>{h+='<p class="hd">'+l.n.toUpperCase()+'</p>';l.boss.forEach(b=>{const B=BOSS[b[0]],it=B.drop,got=it&&own(it);h+='<div class="card'+(got?'':' dim')+'"><img class="ic" src="'+dogIcon(B.coat,B.gear,'b'+b[0])+'"><div class="bd">'+(got?GEAR[it].n:'???')+'<small>'+(got?'Beat '+B.n+' at the '+VEN[b[1]].n:'Not won yet')+'</small></div>'+(got?'<img class="ic" style="width:'+U(12)+'" src="'+gearIcon(it)+'">':'')+'</div>'})});
  h+='<p class="hd">RECORDS</p><div class="card" style="display:block"><small>'+S.wins+' wins in '+S.races+' races &middot; level '+S.lv+'<br>'+(S.fl.champ?'WORLD CHAMPION':'World rank #'+rankOf())+'</small></div>';
  panel('TROPHY ROOM','The Donut Dome',h)}
+/* ---------------- money, bills, form and rest ----------------
+   Sponsors and the merch stand pay at races, not for weeks passing. Every week costs gym upkeep and food.
+   Form rises with racing and training and falls in idle weeks; it nudges race speed. Weekly energy recovery is
+   smaller, so naps and playtime matter, and running exhausted can leave Donut sore for a week. */
+const UPKEEP=[0,0,40,250,1200,4000];
+const formOf=()=>S.form==null?60:S.form;
+const formMul=()=>.94+.1*clamp(formOf(),0,100)/100;
+const wkMark=k=>{S.wk=S.wk||{};S.wk[k]=1};
+function formAdd(n){S.form=clamp(formOf()+n,0,100)}
+/* sponsor appearance fee and merch sales for a race that uses the week's race */
+function raceIncome(pl){const out={cash:0,lines:[]},sp=S.spon?SPON[S.spon]:null;
+ if(sp){const w=S.wear[GEAR[sp.it].sl]===sp.it,pay=Math.round(sp.pay*(w?1:.5)*(pl===1?1.5:1)*(hasSk('magnet')?1.3:1)*sponMul());out.cash+=pay;
+  out.lines.push('<b>+'+fmt$(pay)+'</b> '+sp.n+(pl===1?' (win bonus)':'')+(w?'':' (half pay: not in their gear)'))}
+ if(S.gym>=5){const m=Math.round((800+S.wins*150+eff().cha*60)*(pl===1?1.5:1));out.cash+=m;out.lines.push('<b>+'+fmt$(m)+'</b> merch sold at the track')}
+ S.money+=out.cash;return out}
+/* running on an empty tank can leave her sore: she sits out next week's race */
+function soreCheck(en0,ev){if(en0<25&&!ev.tut&&!(ev.boss==='fluff'&&!S.fl.champ)&&(S.races||0)>=3&&Math.random()<.3){S.sore=1;return '<em style="color:#ff9a9a">Donut ran tired and came up sore. She needs next week off from racing.</em>'}return ''}
+function endWeek(){const wk=S.wk||{},idle=!wk.r&&!wk.t,bored=idle&&!wk.p,bill=UPKEEP[S.gym]||0,paid=Math.min(bill,Math.max(0,S.money)),short=paid<bill;S.money-=paid;
+ const f0=formOf();S.form=clamp(f0-6-(idle?20:0),0,100);let sore=0;
+ S.week++;S.ap=apMax();S.raced=0;S.fl.rest=0;if(S.sore){S.fl.rest=1;S.sore=0;sore=1}
+ const en0=S.en;S.en=clamp(S.en+38+S.gym*2+(pool()?15:0)+(perk(2,0)?5:0),0,100);S.mood=clamp(S.mood+(68-S.mood)*.3-(bored?15:0)-(short?10:0),0,100);S.wk={};save();snd('chime');
+ const lines=[];if(bill)lines.push(short?'<em style="color:#ff9a9a">Couldn’t cover the '+fmt$(bill)+' bills. Plain kibble this week (-10 Mood)</em>':'<b style="color:#ff9a9a">-'+fmt$(bill)+'</b> gym upkeep &amp; food');
+ lines.push('Energy '+Math.round(en0)+' &gt; '+Math.round(S.en)+(pool()?' (Recovery Pool)':''),'Form '+Math.round(f0)+' &gt; '+Math.round(S.form)+(idle?' <em style="color:#ff9a9a">(no racing or training)</em>':''),'Mood '+Math.round(S.mood)+(bored?' <em style="color:#ff9a9a">(Donut got restless)</em>':''));
+ if(sore)lines.push('<em style="color:#ff9a9a">Sore paw: Donut sits out this week’s race</em>');
+ resultCard({title:'WEEK '+S.week,stars:-1,lines,sub:LG[S.lg].n,btn:'Let’s go',then:()=>weekStory()})}
+/* ending a week without doing anything asks first */
+function endWeekAsk(){const wk=S.wk||{};if(S.raced||wk.r||wk.t||wk.p||wk.n){endWeek();return}
+ const d=el('<div class="res fadein"><h2 style="font-size:'+U(5.5)+'">END THE WEEK?</h2><p class="ln">Donut still has <em>'+S.ap+' actions</em> and hasn’t raced.</p><p class="ln" style="color:#ff9ccb">An empty week costs '+fmt$(UPKEEP[S.gym]||0)+' in bills, drops her Form, and makes her restless.</p><div class="btns"><button class="tag pink" data-r="1">End week anyway</button><button class="tag" data-r="0">Keep playing</button></div></div>');
+ ui.appendChild(d);d.querySelector('[data-r="1"]').onclick=()=>{snd('confirm');d.remove();endWeek()};d.querySelector('[data-r="0"]').onclick=()=>{snd('select');d.remove()}}
 /* ---------------- gym perks: everything a new gym brings ---------------- */
 const moodFloor=()=>{if(perk(3,0))S.mood=Math.max(S.mood,40)};
 const sponMul=()=>(S.gym>=4?1.25:1)*(perk(4,1)?1.15:1);
@@ -1705,7 +1734,7 @@ function hubTapExtra(wx,wy){const lv=S.gym;
  return 0}
 
 /* ---- Garage: scrimmage, workout plan ---- */
-function autoTrain(){const cap=capOf();let n=0;const before=Object.assign({},S.st);while(S.ap>0&&S.en>=15){const k=STATS.map(s=>s[0]).filter(k=>S.st[k]<cap).sort((a,b)=>S.st[a]-S.st[b])[0];if(!k)break;
+function autoTrain(){const cap=capOf();let n=0;const before=Object.assign({},S.st);while(S.ap>0&&S.en>=15){const k=STATS.map(s=>s[0]).filter(k=>S.st[k]<cap).sort((a,b)=>S.st[a]-S.st[b])[0];if(!k)break;formAdd(3);wkMark('t');
   const m=EQM[S.eq[k]||0]*(.75+S.mood/250)*(.55+.45*Math.max(0,1-S.st[k]/120)),g=Math.max(0,Math.min(cap-S.st[k],Math.round(2.8*m*(1+.15*((S.gym||1)-1))*.62*10)/10));S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-14,0,100);S.mood=clamp(S.mood+(buddy()?4:-2),0,100);addXP(18+6.2);n++}
  save();const lines=STATS.filter(([k])=>S.st[k]>before[k]).map(([k,nm])=>'<b>+'+(S.st[k]-before[k]).toFixed(1)+' '+nm+'</b>');
  resultCard({title:n?'WORKOUT PLAN':'NOTHING TO TRAIN',stars:-1,lines:n?lines.concat(['+'+Math.round(n*24.2)+' XP']):['Out of actions, energy, or every stat is maxed.'],sub:n+' quick session'+(n===1?'':'s'),btn:'Back to the gym',then:()=>afterAny()})}
@@ -1736,7 +1765,7 @@ function loungeOffer(then){S.fl.speedy=1;save();let dec=0;const K=cutScr((C,u,t)
   castDraw(L);if(b===2)for(let i=0;i<3;i++)glint(24+i*6,60,u+i*.3);if(worn){glint(46,86,u);hearts(40,80,u,3)}})});
  talk([{n:'',t:'The sponsor lounge has its first visitor. Vivian, of course. With a briefcase.',a:bt(K,0)},
   {n:'Vivian',t:'Speedy Paws Athletic. The real deal. Inside: one proper racing suit.',a:bt(K,1,()=>snd('item'))},
-  {n:'Vivian',t:fmt$(SPON.speedy.pay)+' a week (before lounge bonuses). Donut wears the suit for full pay.',a:bt(K,2)},
+  {n:'Vivian',t:fmt$(SPON.speedy.pay)+' every race (before lounge bonuses), +50% when she wins. Donut wears the suit for full pay.',a:bt(K,2)},
   {n:'Abigail',t:'(No neon. No humming. It’s actually... nice?)',c:[{l:'Sign the deal',f:()=>{signSpon('speedy');bt(K,3)()}},{l:'No thanks',f:()=>{dec=1;bt(K,4)()}}]},
   {n:'',get t(){return dec?'Vivian snaps the briefcase shut. “Your loss, darling.”':'Donut models the suit. Vivian is, for once, speechless.'}}],then,K.draw)}
 
@@ -1898,23 +1927,23 @@ function addXP(n){S.xp+=Math.round(n*(perk(3,1)?1.15:1));const ups=[];while(S.lv
 const apMax=()=>3+(S.gym>=4?1:0)+(perk(5,0)?1:0);const pool=()=>S.gym>=4;const buddy=()=>S.gym>=2;const drillOK=()=>S.gym>=3&&S.drillW!==S.week;
 const spa$=()=>[40,250,1500,6000][S.lg];
 function trainDone(k,perf,quick,drill,flawless){const before=S.st[k],cap=capOf(),m=EQM[S.eq[k]||0]*(.75+S.mood/250)*(.55+.45*Math.max(0,1-S.st[k]/120))*(drill?2:1);
- const flaw=!quick&&!!flawless,gm=(1+.15*((S.gym||1)-1))*(flaw?1.25:1),g=Math.max(0,Math.min(cap-S.st[k],Math.round(2.8*m*gm*perf*10)/10));S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-(quick?14:18),0,100);S.mood=clamp(S.mood+(buddy()?4:-(quick?2:3)),0,100);if(drill)S.drillW=S.week;
+ const flaw=!quick&&!!flawless,gm=(1+.15*((S.gym||1)-1))*(flaw?1.25:1),g=Math.max(0,Math.min(cap-S.st[k],Math.round(2.8*m*gm*perf*10)/10));S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-(quick?14:18),0,100);formAdd(quick?3:5);wkMark('t');S.mood=clamp(S.mood+(buddy()?4:-(quick?2:3)),0,100);if(drill)S.drillW=S.week;
  const ups=addXP(18+perf*10);save();const lines=['<b>+'+g.toFixed(1)+' '+SN[k][1]+'</b>'+(drill?' <em>(DRILL x2)</em>':''),'+'+Math.round(18+perf*10)+' XP'];if(flaw)lines.splice(1,0,'<em>FLAWLESS! +25%</em>');if(S.gym>1&&!quick)lines.push('Level '+mgLv(drill)+' workout: +'+Math.round((S.gym-1)*15)+'% gains');if(buddy())lines.push('+4 Mood (training with Crumpet)');
  if(S.st[k]>=cap)lines.push('<em>'+SN[k][1]+' is maxed for '+GYM[S.gym].n+'</em>'+(GYM[S.gym+1]?'<br>Upgrade the gym to go higher':''));if(ups.length)lines.push('<em>LEVEL UP! Lv '+S.lv+'</em><br>+1 skill point &middot; +1 to every stat (up to '+cap+')');
  resultCard({title:quick?'QUICK SESSION':perf>=1.2?'AMAZING!':perf>=.9?'GREAT SESSION!':perf>=.6?'NICE WORK':'TOUGH ONE',stars:quick?0:perf>=1.2?3:perf>=.8?2:1,lines,sub:SN[k][1]+' '+Math.floor(before)+' &rarr; '+Math.floor(S.st[k]),btn:'Back to the gym',then:()=>afterAny()})}
 function raceDone(ev,pl,time,riv){const L=LG[S.lg],boss=ev.boss,V=VEN[ev.ven];
- if(ev.scrim){S.scrimW=S.week;const ups=addXP(30);S.mood=clamp(S.mood+5,0,100);S.en=clamp(S.en-10,0,100);S.buff=null;save();
+ if(ev.scrim){S.scrimW=S.week;formAdd(6);wkMark('t');const ups=addXP(30);S.mood=clamp(S.mood+5,0,100);S.en=clamp(S.en-10,0,100);S.buff=null;save();
   resultCard({title:pl===1?'DONUT WINS!':'CRUMPET WINS?!',stars:pl===1?2:1,lines:['+30 XP','+5 Mood'].concat(ups.length?['<em>LEVEL UP! Lv '+S.lv+'</em>']:[]),sub:'Scrimmage with Crumpet &middot; '+time.toFixed(2)+'s',btn:'Back to the gym',then:()=>afterAny()});return}
  if(ev.tt){S.tt=S.tt||{};const T=S.tt[ev.ven]||{},M=TTM(ev.ven),m=time<=M[0]?3:time<=M[1]?2:time<=M[2]?1:0,old=T.m||0,pb=!T.b||time<T.b;let cash=0;for(let q=old+1;q<=m;q++)cash+=[0,500,1500,4000][q];
-  S.tt[ev.ven]={b:pb?Math.round(time*100)/100:T.b,g:pb?(ev.rec||[]):T.g,m:Math.max(old,m)};S.money+=cash;const ups=addXP(20);S.en=clamp(S.en-10,0,100);S.buff=null;save();
+  S.tt[ev.ven]={b:pb?Math.round(time*100)/100:T.b,g:pb?(ev.rec||[]):T.g,m:Math.max(old,m)};S.money+=cash;formAdd(5);wkMark('t');const ups=addXP(20);S.en=clamp(S.en-10,0,100);S.buff=null;save();
   resultCard({title:m===3?'GOLD!':m===2?'SILVER!':m===1?'BRONZE':'NO MEDAL',stars:m,lines:[time.toFixed(2)+'s'+(pb?' <em>NEW BEST</em>':' (best '+T.b.toFixed(2)+'s)')].concat(cash?['<b>+'+fmt$(cash)+'</b> medal bonus']:[]).concat(['+20 XP'],ups.length?['<em>LEVEL UP! Lv '+S.lv+'</em>']:[]),sub:'Time trial &middot; '+VEN[ev.ven].n,btn:'Back to the gym',then:()=>afterAny()});return}
- if(ev.cup){S.raced=1;S.cup=S.cup||{r:0,won:0};const C=S.cup,ups=addXP(L.xp);S.en=clamp(S.en-28,0,100);S.buff=null;let title,lines=['+'+L.xp+' XP'],adv=pl<=2;
+ if(ev.cup){S.raced=1;S.cup=S.cup||{r:0,won:0};const C=S.cup,ups=addXP(L.xp),soreL=soreCheck(S.en,ev),inc=raceIncome(pl);formAdd(15);wkMark('r');S.en=clamp(S.en-28,0,100);S.buff=null;let title,lines=inc.lines.concat(['+'+L.xp+' XP']),adv=pl<=2;if(soreL)lines.push(soreL);
   if(adv){C.r++;if(C.r>=3){C.r=0;C.won=(C.won||0)+1;S.money+=100000;if(!S.own.includes('cupT'))S.own.push('cupT');title='DONUT CUP CHAMPION!';lines.unshift('<b>+'+fmt$(100000)+'</b>','Trophy: <em>The Donut Cup</em>')}else{title=ORD[pl-1]+': ON TO THE '+(C.r===1?'SEMIS':'FINAL');lines.unshift('Next week: '+['','the semi-final','THE FINAL'][C.r])}}
   else{C.r=0;title='KNOCKED OUT';lines.unshift('Finished '+ORD[pl-1]+'. The Cup starts over next week.')}if(ups.length)lines.push('<em>LEVEL UP! Lv '+S.lv+'</em>');S.mood=clamp(S.mood+(adv?10:-4),0,100);save();
   resultCard({title,stars:[3,2,1,0][pl-1],lines,sub:'The Donut Cup &middot; '+VEN[ev.ven].n+' &middot; '+time.toFixed(2)+'s',btn:'Continue',then:()=>afterAny()});return}
- if(ev.exhib){const lgB=LG.findIndex(l=>l.boss.some(b=>b[0]===boss)),LB=LG[Math.max(0,lgB)],purse=Math.round(LB.boss$*.25*[1,.5,.25,.1][pl-1]*purseMul()),xp=Math.round(LB.xp*.5*[1,.75,.55,.4][pl-1]);S.money+=purse;const ups=addXP(xp);S.en=clamp(S.en-15,0,100);S.mood=clamp(S.mood+(pl===1?8:0),0,100);S.buff=null;save();
+ if(ev.exhib){const lgB=LG.findIndex(l=>l.boss.some(b=>b[0]===boss)),LB=LG[Math.max(0,lgB)],purse=Math.round(LB.boss$*.25*[1,.5,.25,.1][pl-1]*purseMul()),xp=Math.round(LB.xp*.5*[1,.75,.55,.4][pl-1]);S.money+=purse;S.exW=S.week;formAdd(8);wkMark('r');const ups=addXP(xp);S.en=clamp(S.en-15,0,100);S.mood=clamp(S.mood+(pl===1?8:0),0,100);S.buff=null;save();
   resultCard({title:pl===1?'REMATCH WON!':ORD[pl-1]+' PLACE',stars:[3,2,1,0][pl-1],lines:['<b>+'+fmt$(purse)+'</b> exhibition purse','+'+xp+' XP'].concat(ups.length?['<em>LEVEL UP! Lv '+S.lv+'</em>']:[]),sub:'Exhibition &middot; '+BOSS[boss].n+' &middot; '+time.toFixed(2)+'s',btn:'Back to the gym',then:()=>afterAny()});return}S.races++;S.raced=1;S.buff=null;
- let purse=Math.round((boss?L.boss$:L.purse)*[1,.5,.25,.1][pl-1]*(hasSk('fan')?1.2:1)*purseMul());S.money+=purse;
+ let purse=Math.round((boss?L.boss$:L.purse)*[1,.5,.25,.1][pl-1]*(hasSk('fan')?1.2:1)*purseMul());S.money+=purse;const inc=raceIncome(pl);formAdd(15);wkMark('r');const soreL=soreCheck(S.en,ev);
  const xp=Math.round(L.xp*[1,.75,.55,.4][pl-1]*(boss?1.5:1));const ups=addXP(xp);
  S.en=clamp(S.en-28,0,100);S.mood=clamp(S.mood+[12,4,0,-6][pl-1],0,100);if(pl===1)S.wins++;
  let lp=0,rp=0,beat=0;if(!boss&&S.lg<3){lp=L.lp[pl-1]||0;S.lp+=lp}
@@ -1922,7 +1951,7 @@ function raceDone(ev,pl,time,riv){const L=LG[S.lg],boss=ev.boss,V=VEN[ev.ven];
  const key=boss||ev.ven;S.best[key]=Math.min(S.best[key]||9,pl);
  if(boss&&pl===1){beat=1;S.boss++;const it=BOSS[boss].drop;if(it&&!S.own.includes(it))S.own.push(it)}
  S.last={boss,pl,ven:ev.ven,beat};save();
- const lines=['<b>+'+fmt$(purse)+'</b> prize money','+'+xp+' XP'];if(lp)lines.push('+'+lp+' league points');if(rp)lines.push('World rank: <em>#'+rankOf()+'</em>');
+ const lines=['<b>+'+fmt$(purse)+'</b> prize money'].concat(inc.lines,['+'+xp+' XP']);if(soreL)lines.push(soreL);if(lp)lines.push('+'+lp+' league points');if(rp)lines.push('World rank: <em>#'+rankOf()+'</em>');
  if(ups.length)lines.push('<em>LEVEL UP! Lv '+S.lv+'</em><br>+1 skill point &middot; +1 to every stat');if(beat&&BOSS[boss].drop)lines.push('Trophy: <em>'+GEAR[BOSS[boss].drop].n+'</em>');
  resultCard({title:pl===1?(boss?'BOSS BEATEN!':'1ST PLACE!'):ORD[pl-1]+' PLACE',stars:[3,2,1,0][pl-1],lines,sub:(boss?BOSS[boss].n+' &middot; ':'')+V.n+' &middot; '+time.toFixed(2)+'s',news:news(pl,boss),
   btn:'Continue',then:()=>afterRace(ev,pl)})}
@@ -1959,7 +1988,7 @@ function hub(){go(HUB)}
 function bar(lbl,v,c){return '<div class="mtr">'+lbl+'<i><b style="width:calc('+clamp(v,0,100)+'% - var(--u)*.8);--c:'+c+'"></b></i></div>'}
 function hubUI(){const L=LG[S.lg],ap=apMax();ui.innerHTML='';
  const top=el('<div class="top"><div class="r1"><span style="display:flex;gap:var(--u)"><button class="xbtn" style="position:static">&#10005; Exit</button><button class="xbtn hbtn" style="position:static">?</button></span><span class="lg">WEEK '+S.week+' &middot; '+L.s+'</span><span class="mo">'+fmt$(S.money)+'</span></div>'+
-  '<div class="meters">'+bar('ENERGY '+Math.round(S.en),S.en,S.en>30?'#8be28b':'#ff7e7e')+bar('MOOD '+Math.round(S.mood),S.mood,'#ff9ccb')+bar('LV '+S.lv,S.xp/xpNeed(S.lv)*100,'#ffd86b')+'</div>'+
+  '<div class="meters">'+bar('ENERGY '+Math.round(S.en),S.en,S.en>30?'#8be28b':'#ff7e7e')+bar('MOOD '+Math.round(S.mood),S.mood,'#ff9ccb')+bar('FORM '+Math.round(formOf()),formOf(),formOf()>=60?'#7ee8fa':formOf()>=30?'#b78cff':'#ff7e7e')+bar('LV '+S.lv,S.xp/xpNeed(S.lv)*100,'#ffd86b')+'</div>'+
   '<div class="aps">ACTIONS '+Array.from({length:ap},(_,i)=>'<span style="display:inline-block;width:'+U(2.6)+';height:'+U(2.6)+';border-radius:50%;background:'+(i<S.ap?'#ffd86b':'#3a2e5a')+'"></span>').join('')+'<span style="margin-left:auto">'+(S.lg===3?'WORLD RANK #'+rankOf():'')+'</span></div></div>');
  ui.appendChild(top);top.querySelector('.xbtn').onclick=()=>{snd('select');close()};top.querySelector('.hbtn').onclick=()=>{snd('select');panHelp()};
  const nxt=nextBoss(),rc=S.raced?'Raced this week':S.fl.rest?'Resting this week':nxt&&nxt.ok?'Boss race ready: '+BOSS[nxt.b].n:'Pick a race';
@@ -1967,8 +1996,8 @@ function hubUI(){const L=LG[S.lg],ap=apMax();ui.innerHTML='';
   '<button class="tile" data-a="train">TRAIN<small>'+S.ap+' action'+(S.ap==1?'':'s')+' left</small></button><button class="tile" data-a="care">REST &amp; GIGS<small>Nap, play, earn</small></button>'+
   '<button class="tile" data-a="shop">SHOP<small>Gear, treats, equipment</small></button><button class="tile" data-a="gear">DONUT<small>Stats &amp; outfit</small></button>'+
   '<button class="tile" data-a="skill">SKILLS<small>Level '+S.lv+'</small>'+(S.sp?'<span class="bdg">'+S.sp+'</span>':'')+'</button><button class="tile" data-a="gym">GYM<small>'+GYM[S.gym].n+'</small></button>'+
-  '<button class="tag pink" data-a="week" style="grid-column:1/3;justify-self:center;width:'+U(96)+'">End week &#9656;<small>Rest up, get paid, new week</small></button></div>');
- ui.appendChild(dock);dock.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{snd('select');({race:panRace,train:panTrain,care:panCare,shop:panShop,gear:panGear,skill:panSkill,gym:panGym,week:endWeek})[b.dataset.a]()});clearTimeout(hubUI.tt);hubUI.tt=setTimeout(tutCheck,450)}
+  '<button class="tag pink" data-a="week" style="grid-column:1/3;justify-self:center;width:'+U(96)+'">End week &#9656;<small>Rest up, pay the bills, new week</small></button></div>');
+ ui.appendChild(dock);dock.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{snd('select');({race:panRace,train:panTrain,care:panCare,shop:panShop,gear:panGear,skill:panSkill,gym:panGym,week:endWeekAsk})[b.dataset.a]()});clearTimeout(hubUI.tt);hubUI.tt=setTimeout(tutCheck,450)}
 function panel(title,sub,body,wire){const p=el('<div class="pan fadein"><h2>'+title+'</h2>'+(sub?'<p class="sub">'+sub+'</p>':'')+body+'<button class="tag back">Back</button></div>');ui.appendChild(p);
  p.querySelector('.back').onclick=()=>{snd('select');p.remove();hubUI()};if(wire)wire(p);return p}
 function refresh(p,fn){const st=p.scrollTop;p.remove();const q=fn();if(q)q.scrollTop=st}
@@ -1984,8 +2013,8 @@ function panRace(){const L=LG[S.lg],blocked=S.raced||S.fl.rest;let h='';
  if(S.gym>=2){const done=S.scrimW===S.week;h+='<p class="hd">PRACTICE</p><div class="card"><div class="bd">Scrimmage with Crumpet<small>Once a week. Doesn’t use your race. +30 XP, +5 Mood</small></div><button class="go" data-sc="1"'+(done||S.en<10?' disabled':'')+'>'+(done?'DONE':'GO')+'</button></div>'}
  if(S.gym>=4)h+='<div class="card"><div class="bd">Time trials<small>Race Donut’s ghost for medals</small></div><button class="go" data-ttp="1">OPEN</button></div>';
  if(S.gym>=5)h+='<div class="card boss"><div class="bd">THE DONUT CUP<small>'+(S.cup&&S.cup.r?'In progress: '+['','semi-final next','FINAL next'][S.cup.r]:'Three heats against the bosses. '+fmt$(100000)+' to the winner.')+'</small></div><button class="go" data-cupp="1">OPEN</button></div>';
- if(S.gym>=5){const beat=[];LG.forEach((l,li)=>l.boss.forEach((b,bi)=>{if(li<S.lg||(li===S.lg&&bi<S.boss)||S.fl.champ)beat.push(b)}));if(beat.length){h+='<p class="hd">REMATCHES &middot; DONUT DOME</p><p class="sub" style="text-align:left">Exhibition races: they don’t use your race for the week.</p>';
-  beat.forEach(b=>{const B=BOSS[b[0]];h+='<div class="card"><img class="ic" src="'+dogIcon(B.coat,B.gear,'b'+b[0])+'"><div class="bd">'+B.n+'<small>'+VEN[b[1]].n+'</small></div><button class="go" data-x="'+b[0]+'|'+b[1]+'"'+(S.en<15?' disabled':'')+'>REMATCH</button></div>'})}}
+ if(S.gym>=5){const beat=[];LG.forEach((l,li)=>l.boss.forEach((b,bi)=>{if(li<S.lg||(li===S.lg&&bi<S.boss)||S.fl.champ)beat.push(b)}));if(beat.length){h+='<p class="hd">REMATCHES &middot; DONUT DOME</p><p class="sub" style="text-align:left">Exhibition races: one a week, and they don’t use your race. Sponsors only pay at real races.</p>';
+  beat.forEach(b=>{const B=BOSS[b[0]];h+='<div class="card"><img class="ic" src="'+dogIcon(B.coat,B.gear,'b'+b[0])+'"><div class="bd">'+B.n+'<small>'+VEN[b[1]].n+'</small></div><button class="go" data-x="'+b[0]+'|'+b[1]+'"'+(S.en<15||S.exW===S.week?' disabled':'')+'>'+(S.exW===S.week?'DONE':'REMATCH')+'</button></div>'})}}
  h+='<p class="hd">CIRCUIT RACES &middot; '+fmt$(L.purse)+' TO WIN</p>';L.ev.forEach(v=>{const V=VEN[v],b=S.best[v];h+='<div class="card"><img class="ic" src="'+venueIcon(v)+'"><div class="bd">'+V.n+'<small>'+(V.relay?'Relay with Crumpet! ':'')+'3 rivals'+(b?' &middot; Best: '+ORD[b-1]:'')+'</small></div><button class="go" data-v="'+v+'"'+(blocked?' disabled':'')+'>RACE</button></div>'});
  panel(L.n.toUpperCase(),S.lg===3?'World rank #'+rankOf():'League points: '+S.lp,h,p=>{p.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{snd('confirm');startRace({ven:b.dataset.v})});
   p.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{snd('confirm');const x=L.boss[+b.dataset.b];startRace({ven:x[1],boss:x[0]})});
@@ -2013,16 +2042,16 @@ function trainIcon(k){return icon('t'+k,()=>{r(0,0,28,22,SN[k][2]);r(0,0,28,1,sh
 /* rest, play and side gigs */
 function panCare(){const can=S.ap>0;let h='<p class="sub">Actions left: '+S.ap+'</p>';
  const card=(id,n,d,btn,dis)=>'<div class="card"><div class="bd">'+n+'<small>'+d+'</small></div><button class="go" data-c="'+id+'"'+(dis?' disabled':'')+'>'+btn+'</button></div>';
- const NP=pool()?60:40,SP=pool()?50:35;h+=card('nap','Nap on the couch','+'+NP+' Energy &middot; 1 action'+(pool()?' &middot; Recovery Pool bonus':''),'NAP',!can)+card('play','Play with Crumpet','+25 Mood, +10 Energy &middot; 1 action','PLAY',!can)+card('spa','Spa day','+'+SP+' Energy, +'+SP+' Mood &middot; no action &middot; '+fmt$(spa$()),'BOOK',S.money<spa$());
+ const NP=pool()?60:40,SP=pool()?50:35;h+=card('nap','Nap on the couch','+'+NP+' Energy &middot; 1 action'+(pool()?' &middot; Recovery Pool bonus':''),'NAP',!can)+card('play','Play with Crumpet','+25 Mood, +10 Energy &middot; 1 action','PLAY',!can)+card('spa','Spa day','+'+SP+' Energy, +'+SP+' Mood &middot; no action &middot; '+fmt$(spa$())+' &middot; once a week',S.spaW===S.week?'DONE':'BOOK',S.money<spa$()||S.spaW===S.week);
  if(S.gym>=4)h+=card('kitchen','The Nutrition Kitchen','Cook a race-day meal &middot; no action','COOK',0);
  h+='<p class="hd">SIDE GIGS &middot; 1 action, -15 energy</p>';GIGS.filter(g=>g[0]<=S.lg).forEach((g,i)=>{const pay=Math.round(g[2]*(hasSk('magnet')?1.3:1)),ok=eff().cha>=g[3];h+=card('g'+GIGS.indexOf(g),g[1],(ok?'Pays '+fmt$(pay)+' &middot; +1 Charm':'Needs '+g[3]+' Charm'),'GO',!can||!ok||S.en<15)});
  const p=panel('REST &amp; GIGS',null,h,p=>p.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{const c=b.dataset.c;snd('coin');
   const back=()=>{hub();panCare();checkGifts()};
   if(c==='kitchen'){p.remove();panKitchen();return}
-  if(c==='nap'){const NP=pool()?60:40;S.ap--;S.en=clamp(S.en+NP,0,100);save();vignette('nap',{lines:['+'+NP+' ENERGY']},back)}
-  else if(c==='play'){S.ap--;S.mood=clamp(S.mood+25,0,100);S.en=clamp(S.en+10,0,100);S.fl.plays=(S.fl.plays||0)+1;save();vignette('play',{lines:['+25 MOOD','+10 ENERGY']},back)}
-  else if(c==='spa'){const SP=pool()?50:35,pr=spa$();S.money-=pr;S.en=clamp(S.en+SP,0,100);S.mood=clamp(S.mood+SP,0,100);save();vignette('spa',{lines:['+'+SP+' ENERGY','+'+SP+' MOOD','-'+fmt$(pr)]},back)}
-  else{const gi=+c.slice(1),g=GIGS[gi],pay=Math.round(g[2]*(hasSk('magnet')?1.3:1));S.ap--;S.en=clamp(S.en-15,0,100);S.money+=pay;S.st.cha=Math.max(S.st.cha,Math.min(capOf(),S.st.cha+1));S.mood=clamp(S.mood+5,0,100);save();
+  if(c==='nap'){wkMark('n');const NP=pool()?60:40;S.ap--;S.en=clamp(S.en+NP,0,100);save();vignette('nap',{lines:['+'+NP+' ENERGY']},back)}
+  else if(c==='play'){wkMark('p');S.ap--;S.mood=clamp(S.mood+25,0,100);S.en=clamp(S.en+10,0,100);S.fl.plays=(S.fl.plays||0)+1;save();vignette('play',{lines:['+25 MOOD','+10 ENERGY']},back)}
+  else if(c==='spa'){wkMark('p');S.spaW=S.week;const SP=pool()?50:35,pr=spa$();S.money-=pr;S.en=clamp(S.en+SP,0,100);S.mood=clamp(S.mood+SP,0,100);save();vignette('spa',{lines:['+'+SP+' ENERGY','+'+SP+' MOOD','-'+fmt$(pr)]},back)}
+  else{wkMark('p');const gi=+c.slice(1),g=GIGS[gi],pay=Math.round(g[2]*(hasSk('magnet')?1.3:1));S.ap--;S.en=clamp(S.en-15,0,100);S.money+=pay;S.st.cha=Math.max(S.st.cha,Math.min(capOf(),S.st.cha+1));S.mood=clamp(S.mood+5,0,100);save();
    vignette('gig',{gig:gi,title:g[1].toUpperCase().replace(/’/g,''),lines:['+'+fmt$(pay),'+1 CHARM','+5 MOOD','-15 ENERGY']},back)}}))}
 
 /* shop */
@@ -2066,10 +2095,6 @@ function panGym(){const n=GYM[S.gym+1];let h='<img src="'+gymThumb(S.gym)+'" sty
 function gymThumb(lv){return icon('gy'+lv,()=>{cx.save();cx.translate(0,-40);at2(()=>gymBg(lv,0));cx.restore()},160,150)}
 
 /* end of the week */
-function endWeek(){const sp=S.spon?SPON[S.spon]:null;let pay=0;if(sp){const w=S.wear[GEAR[sp.it].sl]===sp.it;pay=Math.round(sp.pay*(w?1:.5)*(hasSk('magnet')?1.3:1)*sponMul());S.money+=pay}
- let merch=0;if(S.gym>=5){merch=Math.round(800+S.wins*150+eff().cha*60);S.money+=merch}S.week++;S.ap=apMax();S.raced=0;S.fl.rest=0;const en0=S.en;S.en=clamp(S.en+50+S.gym*3+(pool()?15:0)+(perk(2,0)?5:0),0,100);S.mood=clamp(S.mood+(68-S.mood)*.3,0,100);save();snd('chime');
- const lines=['Energy '+Math.round(en0)+' &rarr; '+Math.round(S.en)+(pool()?' (Recovery Pool)':''),'Mood '+Math.round(S.mood)];if(pay)lines.unshift('<b>+'+fmt$(pay)+'</b> from '+sp.n);if(merch)lines.unshift('<b>+'+fmt$(merch)+'</b> from the Merch Stand');
- resultCard({title:'WEEK '+S.week,stars:-1,lines,sub:LG[S.lg].n,btn:'Let’s go',then:()=>weekStory()})}
 function afterAny(){hub();checkGifts()}
 /* ---------------- dialogue ---------------- */
 function talk(lines,then,scene){if(scene)go(sceneScr(scene));let i=-1,typ=null,full='';
@@ -2121,7 +2146,7 @@ function afterRace(ev,pl){const q=[];const B=ev.boss?BOSS[ev.boss]:null,win=pl==
  if(win&&S.lg===3&&!S.fl.cout&&!S.fl.champ){S.fl.cout=1;q.push(()=>cutCouture(next))}
  if(B&&win&&S.boss>=LG[S.lg].boss.length&&!S.fl.champ)q.push(()=>S.lg<3?promote():ending());
  let k=0;function next(){const f=q[k++];if(f)f();else afterAny()}next()}
-function offer(id,lines){const P=SPON[id];talk(lines.concat([{n:'',t:P.n+': '+fmt$(P.pay)+' a week. Donut wears the '+GEAR[P.it].n+' for full pay.',c:[{l:'Sign the deal',f:()=>{S.spon=id;if(!S.own.includes(P.it))S.own.push(P.it);S.wear[GEAR[P.it].sl]=P.it;save();toast('New sponsor: '+P.n)}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save()}}]}]),()=>afterAny(),gymSc())}
+function offer(id,lines){const P=SPON[id];talk(lines.concat([{n:'',t:P.n+': '+fmt$(P.pay)+' every race she runs, +50% when she wins. Donut wears the '+GEAR[P.it].n+' for full pay.',c:[{l:'Sign the deal',f:()=>{S.spon=id;if(!S.own.includes(P.it))S.own.push(P.it);S.wear[GEAR[P.it].sl]=P.it;save();toast('New sponsor: '+P.n)}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save()}}]}]),()=>afterAny(),gymSc())}
 function meetGus(win){S.fl.gus=1;save();talk([{n:'',t:'Back home, someone is waiting by the gate. Low to the ground. Very long ears.'},
  {n:'Coach Gus',t:'Name’s Gus. Coach Gus. I raced the circuit back in ’87. Fastest basset hound in the Ozarks.'},{n:'Hunter',t:'Is a basset hound... fast?'},{n:'Coach Gus',t:'No. That’s what made it impressive.'},
  {n:'Coach Gus',t:win?'Your pup beat Biscuit on day one. Raw talent. Zero plan. That’s where I come in.':'Your pup’s got wheels. No plan. Biscuit ate her lunch today. That’s where I come in.'},
@@ -2149,5 +2174,5 @@ function champPhoto(h){try{const c=mkc(160,288,()=>homeScene({flop:0})(1));const
 const after2=(s2,f)=>setTimeout(f,s2*1000);
 try{C4CAP.crzchamp='WORLD CHAMPION'}catch(e){}
 /* ---------------- entry points ---------------- */
-return {get on(){return on},open,close,dev(){if(!on)open();setTimeout(devPanel,60)},mus,_S:()=>S,_go:go,_race:ev=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(raceScreen(ev))},_mg:k=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(mgShell(MGS[k]))},_dbg:{weekStory,startRace,cutFence,cutBuyout,cutOffer,cutPedigree,cutLeak,cutDognap,ending,parkEnd,ppl,p2,limo,venueDraw,venueFg,homeScene,TTM,VEN,gymUpgraded,fanMeet,gusStory,loungeOffer,panScout,planPick,panTT,panCup,panWardrobe,autoTrain,startRace,HUB:()=>HUB,cutPupCup,cutVivian,cutKibble,cutCouture,cutGus,cutInjury,cutRelay,cutChew,bossWalkout,preBoss,FUN,vignette,scr:()=>scr,livingRoom,tvClose,hubScene,venueScene,homeScene,gcorgi,gus2,at2,gymBg,equip2,rdog,gus,mkc,venueArt,venueDraw,venueFg,obsDraw,disDraw,gymArt,S:()=>S,save,hub,raceScreen,MGS,go,talk,ending,promote}};
+return {get on(){return on},open,close,dev(){if(!on)open();setTimeout(devPanel,60)},mus,_S:()=>S,_go:go,_race:ev=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(raceScreen(ev))},_mg:k=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(mgShell(MGS[k]))},_dbg:{raceDoneT:raceDone,weekStory,startRace,cutFence,cutBuyout,cutOffer,cutPedigree,cutLeak,cutDognap,ending,parkEnd,ppl,p2,limo,venueDraw,venueFg,homeScene,TTM,VEN,gymUpgraded,fanMeet,gusStory,loungeOffer,panScout,planPick,panTT,panCup,panWardrobe,autoTrain,startRace,HUB:()=>HUB,cutPupCup,cutVivian,cutKibble,cutCouture,cutGus,cutInjury,cutRelay,cutChew,bossWalkout,preBoss,FUN,vignette,scr:()=>scr,livingRoom,tvClose,hubScene,venueScene,homeScene,gcorgi,gus2,at2,gymBg,equip2,rdog,gus,mkc,venueArt,venueDraw,venueFg,obsDraw,disDraw,gymArt,S:()=>S,save,hub,raceScreen,MGS,go,talk,ending,promote}};
 })();
