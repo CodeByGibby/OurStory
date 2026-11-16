@@ -42,6 +42,8 @@ function css(){if($('crzcss'))return;const s=document.createElement('style');s.i
  const tag='background:radial-gradient(circle at '+u(5.6)+' 50%,#24143c 0 '+u(1.15)+',#e8b84a '+u(1.2)+' '+u(1.85)+',transparent '+u(1.9)+'),linear-gradient(#fff7e8,#fff0d8 calc(100% - '+u(1.1)+'),#d9c2a4 0);clip-path:polygon('+u(4.6)+' 0,100% 0,100% 100%,'+u(4.6)+' 100%,0 50%)';
  s.textContent=`
 #crz{position:absolute;inset:0;z-index:70;display:none;background:#0e0828;overflow:hidden;font-family:inherit}
+#crz .pan .infob{position:absolute;top:${u(6.5)};right:${u(5)};width:${u(8)};height:${u(8)};border-radius:50%;background:#ffd86b;color:#24143c;font-size:${u(4.2)};line-height:1;padding:0;box-shadow:0 ${u(.6)} 0 #b8862a;z-index:2}
+#crz .pan .sinfo{display:block;text-align:left}#crz .pan .sinfo b{font-weight:400}#crz .pan .sinfo small{display:block;margin-top:${u(.8)}}
 #crz #crzdevb{position:absolute;left:0;top:46%;z-index:30;font:inherit;font-size:${u(2.4)};padding:${u(3)} ${u(1.2)};writing-mode:vertical-rl;background:rgba(255,90,140,.75);color:#fff;border:0;border-radius:0 ${u(1.5)} ${u(1.5)} 0;opacity:.75}
 #crz #crzdev{position:absolute;inset:0;z-index:40;background:#0a061c;color:#fff6e0;display:flex;flex-direction:column;font-size:${u(2.6)};line-height:1.35}
 #crz #crzdev .dtop{display:flex;align-items:center;gap:${u(2)};padding:${u(3)} ${u(3)} ${u(1.5)}}#crz #crzdev .dtop b{font-weight:400;color:#ff7eb6;font-size:${u(3.6)}}#crz #crzdev .dtop span{flex:1;color:#8a7aa8}
@@ -682,7 +684,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
  for(let i=0;i<nR&&!ev.scrim;i++){const isB=boss&&i===nR-1;const R=mkRival(i,lg,isB?boss:null,isB?2:i,isB?0:V.relay?0:(tierOf(ev)||2));if(!isB)R.n=names[i];if(ev.tut){R.coat='cream';R.g={};R.lane=1;STATS.forEach(([k])=>R.s[k]=4)}riv.push(R)}
  riv.forEach(R=>{const s=R.s;Object.assign(R,{x:0,v:0,ph:Math.random()*4,vm:vOf(s.spd),ac:30+s.acc*1.1,form:rr(1-BAL.fs,1+BAL.fs),jt:-1,dk:0,trip:0,chase:0,fin:null,done:{},st:'stand',surge:0})});
  const D={smoke:[],n:'Donut',coat:'red',x:0,v:0,ph:0,d:0,sta:100,gas:0,jt:-1,jh:0,dk:0,trip:0,chase:0,chX:0,fin:null,lane:3,done:{},zm:hasSk('lgP')?1:0,zt:0,wind:hasSk('wind'),st:'stand',held:0,pf:0};
- const PL=ev.plan||'',FM=formMul();const vm=FM*vOf(E.spd)*(V.gr==='sand'&&!sandOK()?.93:1)*(hasSk('lgS')?1.05:1),ac=FM*(30+E.acc*1.1)*(hasSk('quick')?1.15:1),focusNeed=clamp((.9-E.foc*.0058)*(hasSk('iron')?.6:1)*(S.mood<30?1.25:1)*(PL==='focus'?.6:1),.22,1.2);
+ const PL=ev.plan||'',FM=formMul(),AG=1+(clamp(E.agi,0,120)-40)/600,CH=.85+clamp(E.cha,0,120)/300;const vm=FM*vOf(E.spd)*(V.gr==='sand'&&!sandOK()?.93:1)*(hasSk('lgS')?1.05:1),ac=FM*(30+E.acc*1.1)*(hasSk('quick')?1.15:1),focusNeed=clamp((.9-E.foc*.0058)*(hasSk('iron')?.6:1)*(S.mood<30?1.25:1)*(PL==='focus'?.6:1),.22,1.2);
  const tired=S.en<30,stCost=3.3*(1-E.sta/230)*(hasSk('pacer')?.8:1)*(tired?1.35:1)*(PL==='save'?.75:1);
  const ghost=ev.tt&&S.tt&&S.tt[ev.ven]&&S.tt[ev.ven].g?S.tt[ev.ven].g:null,rec=[];let recT=0;
  /* course */const obs=[];let x=260;const types=V.o,du=V.du;let k=0;
@@ -714,7 +716,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
  const SCR={
   enter(){},
   down(px,py){if(gate&&gate.need==='zoom'){if(py>238&&px>104){gate=null;special()}return}if(gate&&gate.need==='tap'){tap();if(++gate.c>=3){gate=null;snd('confirm')}return}if(gate&&gate.need!=='hold')return;if(py>238&&px>104&&D.zm>=1)special();else tap()},
-  swipe(dir){if(gate){if(gate.need===dir){gate=null;snd('confirm')}else return}if(phase!=='run'||D.fin!=null||D.trip>0||D.chase>0||flop>0)return;if(dir==='u'&&D.jt<0&&D.dk<=0){D.jt=0;snd('jump')}else if(dir==='d'&&D.jt<0){D.dk=.62;snd('whoosh')}},
+  swipe(dir){if(gate){if(gate.need===dir){gate=null;snd('confirm')}else return}if(phase!=='run'||D.fin!=null||D.trip>0||D.chase>0||flop>0)return;if(dir==='u'&&D.jt<0&&D.dk<=0){D.jt=0;snd('jump')}else if(dir==='d'&&D.jt<0){D.dk=.62*AG;snd('whoosh')}},
   pause(){},
   _st:()=>({D,riv,phase,len,time,gate:gate&&gate.need,rec}),
   upd(dt){if(phase==='count'){ct-=dt;if(falseT>0)falseT-=dt;const c0=Math.ceil(ct+dt),c1=Math.ceil(ct);if(c1!==c0&&c1>0)snd('beep');if(ct<=0){startGo();if(falseT>0){D.trip=falseT}}cam=lerp(cam,D.x-46,dt*3);return}
@@ -738,15 +740,15 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
    if(crum&&!handed)vt*=.82;if(flop>0)vt=0;
    if(D.trip>0){D.trip-=dt;vt*=.35}if(D.chase>0){D.chase-=dt;vt*=.28}
    const a=vt>D.v?ac:ac*1.6;D.v+=clamp(vt-D.v,-a*dt,a*dt);if(D.fin==null){D.x+=D.v*dt}D.ph+=D.v*dt*.11;
-   if(D.jt>=0){D.jt+=dt;const jd=hasSk('light')?.6:.52;D.jh=Math.sin(Math.min(1,D.jt/jd)*Math.PI)*15;if(D.jt>=jd){D.jt=-1;D.jh=0;snd('step')}}if(D.dk>0)D.dk-=dt;
-   D.zm=Math.min(1,D.zm+.032*dt*(hasSk('crowd')?1.3:1)*(perk(5,1)?1.25:1));if(ev.tt){recT+=dt;if(recT>=.1){recT-=.1;rec.push(Math.round(D.x))}}
+   if(D.jt>=0){D.jt+=dt;const jd=(hasSk('light')?.6:.52)*AG;D.jh=Math.sin(Math.min(1,D.jt/jd)*Math.PI)*15;if(D.jt>=jd){D.jt=-1;D.jh=0;snd('step')}}if(D.dk>0)D.dk-=dt;
+   D.zm=Math.min(1,D.zm+.032*dt*CH*(hasSk('crowd')?1.3:1)*(perk(5,1)?1.25:1));if(ev.tt){recT+=dt;if(recT>=.1){recT-=.1;rec.push(Math.round(D.x))}}
    /* relay: Crumpet runs the first half */
    if(crum&&!handed){if(!flop&&prog>.12&&prog<.45&&Math.random()<dt*.18&&!D.flopped){D.flopped=1;flop=1;flopTaps=0;pop('CRUMPET LIES DOWN','#ff9ccb');say('Tap tap tap to get her up!',2)}
     if(prog>=.5){handed=1;crum=0;pop('TAG! GO DONUT!','#ffd86b',1);snd('confirm');D.d=1;D.v=Math.max(D.v,vm*.8)}}
    /* obstacles */
    obs.forEach((o,i)=>{if(D.done[i])return;const dx=o.x-(D.x+6);if(dx<0){D.done[i]=1;
-     const ok=o.duck?D.dk>0:D.jh>3;if(ok){const perf=o.duck?D.dk>.25:D.jh>11;if(perf){pop('PERFECT!','#8be28b');D.zm=Math.min(1,D.zm+.18*(hasSk('crowd')?1.3:1));if(hasSk('show')){D.v*=1.08}snd('ding')}else{snd('step')}}
-     else if(!(hasSk('light')&&!o.duck&&D.jh>1)){if(hasSk('lgT')){D.v*=.86;pop('CLIPPED IT','#ffd86b');snd('step')}else{D.trip=hasSk('shake')?.28:.5;D.v*=hasSk('shake')?.72:.5;D.d=0;pop(o.duck?'BONK!':'OOF!','#ff7e7e');snd('bump');shake=.25}}}});
+     const ok=o.duck?D.dk>0:D.jh>3;if(ok){const perf=o.duck?D.dk>.25:D.jh>11;if(perf){pop('PERFECT!','#8be28b');D.zm=Math.min(1,D.zm+.18*CH*(hasSk('crowd')?1.3:1));if(hasSk('show')){D.v*=1.08}snd('ding')}else{snd('step')}}
+     else if(!(hasSk('light')&&!o.duck&&D.jh>1)){if(hasSk('lgT')){D.v*=.86;pop('CLIPPED IT','#ffd86b');snd('step')}else{D.trip=(hasSk('shake')?.28:.5)*clamp(1.15-E.agi/250,.7,1.15);D.v*=hasSk('shake')?.72:.5;D.d=0;pop(o.duck?'BONK!':'OOF!','#ff7e7e');snd('bump');shake=.25}}}});
    /* distractions */
    dis.forEach(q=>{if(q.hit||q.res)return;const dx=q.x-D.x;if(dx<95&&dx>-6){q.on=1;if(IN.down)D.held+=dt;if(D.held>=focusNeed){q.res=1;q.on=0;D.held=0;pop('FOCUSED!','#b78cff');D.zm=Math.min(1,D.zm+.22);snd('chime')}}
     else if(dx<=-6&&q.on){q.on=0;q.hit=1;D.held=0;D.chase=1.1;D.d=0;pop(q.chad?'DISTRACTED!':{squirrel:'SQUIRREL!!',ball:'BALL!!',hotdog:'HOT DOG!!',pigeon:'BIRD!!',seagull:'BIRD!!'}[q.k]||'OOH! SNACK!','#ffd86b');snd('alert')}});
@@ -1699,6 +1701,24 @@ function endWeek(){const wk=S.wk||{},idle=!wk.r&&!wk.t,bored=idle&&!wk.p,bill=UP
 function endWeekAsk(){const wk=S.wk||{};if(S.raced||wk.r||wk.t||wk.p||wk.n){endWeek();return}
  const d=el('<div class="res fadein"><h2 style="font-size:'+U(5.5)+'">END THE WEEK?</h2><p class="ln">Donut still has <em>'+S.ap+' actions</em> and hasn’t raced.</p><p class="ln" style="color:#ff9ccb">An empty week costs '+fmt$(UPKEEP[S.gym]||0)+' in bills, drops her Form, and makes her restless.</p><div class="btns"><button class="tag pink" data-r="1">End week anyway</button><button class="tag" data-r="0">Keep playing</button></div></div>');
  ui.appendChild(d);d.querySelector('[data-r="1"]').onclick=()=>{snd('confirm');d.remove();endWeek()};d.querySelector('[data-r="0"]').onclick=()=>{snd('select');d.remove()}}
+/* ---------------- what the stats (and skill trees) do ----------------
+   Opened from the round ? button on the Donut, Training and Skills screens. */
+const STATINFO={
+ spd:['Top running speed. The biggest single factor in winning a race.','Treadmill Tempo'],
+ acc:['How fast she gets back up to full speed: off the start, after every jump, and after a trip or a distraction.','Fetch Sprint'],
+ sta:['Sprinting drains her stamina bar. More Stamina means it drains slower and refills faster, so she can sprint for longer.','Pool Laps'],
+ agi:['Longer jumps and ducks, so the timing is more forgiving, and a quicker recovery when she clips an obstacle.','Weave Poles'],
+ foc:['How long you have to hold to resist a distraction (squirrels, hot dogs, balls). Higher Focus means a shorter hold.','Squirrel Watch'],
+ cha:['Fills the Zoomies meter faster during races. Also unlocks better side gigs and sells more merch.','Photo Shoot']};
+function panStatInfo(which){let h='';
+ if(which==='skills'){h+='<p class="sub">Every level gives one skill point. There are more skills than points, so pick a style. Each tree unlocks top to bottom; Legend skills need the Donut Dome.</p>';
+  SKT.forEach(([n,c,list])=>{h+='<div class="card sinfo"><b style="color:'+sh(c,.7)+'">'+n.toUpperCase()+'</b>'+list.map(s=>'<small><span style="color:#5a2148">'+s[1]+'</span> ('+s[3]+' pt): '+s[2]+'</small>').join('')+'</div>'})}
+ else{h+='<p class="sub">Stats shown on the Donut screen include gear bonuses. Each gym has a stat limit; the last stretch to it takes extra work.</p>';
+  STATS.forEach(([k,n,c])=>{const I=STATINFO[k];h+='<div class="card sinfo"><b style="color:'+sh(c,.8)+'">'+n.toUpperCase()+'</b><small>'+I[0]+'</small><small style="color:#8a6a9a">Train it with: '+I[1]+'</small></div>'});
+  h+='<p class="hd">ALSO</p><div class="card sinfo"><b style="color:#2e9a3e">ENERGY</b><small>Training and racing use it. Under 30 she is tired and stamina drains faster; racing on an empty tank can leave her sore for a week. Naps, playtime and the spa refill it.</small></div>'+
+   '<div class="card sinfo"><b style="color:#c2417a">MOOD</b><small>A happy dog trains better. Low mood makes distractions harder to resist. Playtime, wins and the spa help; idle weeks hurt.</small></div>'+
+   '<div class="card sinfo"><b style="color:#2a8ab8">FORM</b><small>Race sharpness. High Form gives a little extra speed and acceleration, low Form takes some away. Racing and training raise it; it drops every week, and a lot in a week with no racing or training.</small></div>'}
+ const p=panel(which==='skills'?'SKILL TREES':'WHAT STATS DO',null,h);p.querySelector('.back').onclick=()=>{snd('select');p.remove()}}
 /* ---------------- gym perks: everything a new gym brings ---------------- */
 const moodFloor=()=>{if(perk(3,0))S.mood=Math.max(S.mood,40)};
 const sponMul=()=>(S.gym>=4?1.25:1)*(perk(4,1)?1.15:1);
@@ -2026,6 +2046,7 @@ function hubUI(){const L=LG[S.lg],ap=apMax();ui.innerHTML='';
   '<button class="tag pink" data-a="week" style="grid-column:1/3;justify-self:center;width:'+U(96)+'">End week &#9656;<small>Rest up, pay the bills, new week</small></button></div>');
  ui.appendChild(dock);dock.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{snd('select');({race:panRace,train:panTrain,care:panCare,shop:panShop,gear:panGear,skill:panSkill,gym:panGym,week:endWeekAsk})[b.dataset.a]()});clearTimeout(hubUI.tt);hubUI.tt=setTimeout(tutCheck,450)}
 function panel(title,sub,body,wire){const p=el('<div class="pan fadein"><h2>'+title+'</h2>'+(sub?'<p class="sub">'+sub+'</p>':'')+body+'<button class="tag back">Back</button></div>');ui.appendChild(p);
+ if(title==='DONUT'||title==='TRAINING'||title==='SKILLS'){const ib=el('<button class="infob" aria-label="What do the stats do?">?</button>');ib.onclick=e=>{e.stopPropagation();snd('select');panStatInfo(title==='SKILLS'?'skills':'stats')};p.appendChild(ib)}
  p.querySelector('.back').onclick=()=>{snd('select');p.remove();hubUI()};if(wire)wire(p);return p}
 function refresh(p,fn){const st=p.scrollTop;p.remove();const q=fn();if(q)q.scrollTop=st}
 
