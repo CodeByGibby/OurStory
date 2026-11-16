@@ -143,11 +143,11 @@ function frame(ts){if(!on)return;let dt=(ts-lastTs)/1000||0;lastTs=ts;dt=Math.mi
  const w=BW*(typeof DS!=='undefined'?DS:4);if(dcv.width!==w){dcv.width=w;dcv.height=BH*w/BW}dctx.imageSmoothingEnabled=false;dctx.drawImage(buf,0,0,dcv.width,dcv.height);
  try{if(typeof AU!=='undefined'){AU.want=mus()}}catch(e){}requestAnimationFrame(frame)}
 let MUS='crzHub';function mus(){return MUS}
-function snd(n,a){try{sfx(n,a)}catch(e){}}
+function snd(n,a){try{if(document.hidden||(typeof AU!=='undefined'&&AU.hid))return;sfx(n,a)}catch(e){}}
 function toast(s){const d=document.createElement('div');d.className='toast';d.innerHTML=s;ui.appendChild(d);setTimeout(()=>d.remove(),2300)}
 function el(h){const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild}
 function open(){mount();load();on=1;root.style.display='block';$('chap').style.display='none';lastTs=performance.now();requestAnimationFrame(frame);
- try{if(AU.ctx&&AU.ctx.state!=='running')AU.ctx.resume()}catch(e){}
+ try{if(AU.ctx&&AU.ctx.state!=='running'&&!document.hidden&&!AU.hid)AU.ctx.resume()}catch(e){}
  if(!S.seen.intro){S.seen.intro=1;save();storyIntro()}else hub()}
 function close(){on=0;if(scr&&scr.exit)scr.exit();scr=null;root.style.display='none';ui.innerHTML='';try{AU.want=null}catch(e){}save();try{openMini()}catch(e){}}
 
@@ -1234,7 +1234,7 @@ function cutKibble(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C
  talk([{n:'',t:'BEEP. BEEP. BEEP. A golden truck backs right up to the gym.',a:bt(K,0)},{n:'',t:'The side rolls up. A trumpet plays. Inside: bags and bags of Royal Kibble.',a:bt(K,1,()=>snd('fanfare'))},
   {n:'',t:'Donut has never wanted anything more in her life.',a:bt(K,2)},{n:'Vivian',t:'Royal Kibble called. They want Donut. $2,600 every race. Even I’m impressed.',a:bt(K,3)},
   {n:'',t:'Royal Kibble: '+fmt$(SPON.kibble.pay)+' every race she runs, +50% when she wins. Donut wears the Royal Kibble Scarf for full pay.',c:[{l:'Sign the deal',f:()=>{signSpon('kibble');bt(K,4)()}},{l:'No thanks',f:()=>{S.mood=clamp(S.mood+5,0,100);save();bt(K,5)()}}]},
-  {get n(){return S.spon==='kibble'?'Vivian':''},get t(){return S.spon==='kibble'?'And a lifetime supply. Don’t say I never did anything for you.':'The truck pulls away. Donut watches it go. For a long, long time.'},a:()=>{if(S.spon!=='kibble')bt(K,5)()}}],then,K.draw)}
+  {get n(){return S.spon==='kibble'?'Vivian':''},get t(){return S.spon==='kibble'?'And a lifetime supply. Don’t say I never did anything for you.':'The truck pulls away. Donut watches it go. For a long, long time.'},a:()=>{if(S.spon!=='kibble'&&K.C.b!==5)bt(K,5)()}}],then,K.draw)}
 /* Corgi Couture: a runway in Paris */
 function cutCouture(then){const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx.translate(0,-VOY);venueDraw('paris',-8,t,1);const b=C.b,L=[];
   const w=b===0?Math.round(tw(0,80,u,1.4)):80;r(0,168,w,10,'#b8283a');r(0,168,w,1,'#e84a5a');for(let x=4;x<w;x+=8)r(x,173,3,1,'#ffd86b');if(w>0&&w<80){r(w-2,166,3,13,'#8a1a2a')}
@@ -1282,7 +1282,7 @@ function cutInjury(then){const K=cutScr((C,u,t)=>{at2(()=>{const b=C.b,L=[];
 /* Crumpet signs up for the relay */
 function cutRelay(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];const lw=b===0?Math.round(tw(0,60,u,2)):60;r(14,96,lw,2,'#fff6e0');r(14,96,lw,1,'#ffffff');
   const gx=b===0?tw(8,72,u,2):72;L.push({y:104,f:()=>{gus2(gx,104,u,'r',b>=2);if(b===0&&u<2){r(gx+12,96,4,3,'#3a3a46');r(gx+11,97,1,1,'#ffffff')}}});
-  const cxp=b<=1?tw(92,44,u,2.4):44,cp=b===0||(b===1&&u<2.4)?0:b===3?(Math.floor(u*3)%2?2:3):3;L.push({y:96,f:()=>crumpet(cxp,96,'l',t,cp,0)});
+  const cxp=b===0?96:b===1?tw(96,44,u,2.4):44,cp=b===0||(b===1&&u<2.4)?0:b===3?(Math.floor(u*3)%2?2:3):3;L.push({y:96,f:()=>crumpet(cxp,96,'l',t,cp,0)});
   L.push({y:86,f:()=>p2('abi',20,86,t,'r')});L.push({y:85,f:()=>p2('hunter',30,85,t,'r')});L.push({y:110,f:()=>gcorgi(44,110,{c:'red',st:'sit',t,g:dGear(),tongue:b>=3})});castDraw(L);if(b===3)hearts(44,82,u,3)})});
  talk([{n:'',t:'Coach Gus is painting a starting line across the yard.',a:bt(K,0)},{n:'',t:'Crumpet walks right up to it. Slowly. Purposefully. And lies down ON the line.',a:bt(K,1)},
   {n:'Hunter',t:'Does she... want to race?'},{n:'Coach Gus',t:'There’s a Doubles Relay Showcase this season. Sister runs first, Donut runs the anchor leg.',a:bt(K,2)},
@@ -1379,10 +1379,10 @@ function cutBuyout(then){S.fl.bar2=1;save();const K=cutScr((C,u,t)=>newsTV(C,u,t
 
 /* ---- 3. Major: the Baron tries to buy Donut ---- */
 function cutOffer(then){S.fl.bar3=1;save();let gone=0;const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];
-  const lx=b===0?tw(120,62,u,2.2):b>=6?tw(62,-60,u,2.4,1.6):62,door=b===0?0:b>=6?(u<1.4?1-ez((u-.8)/.5):0):1;
-  if(lx>-50)L.push({y:80,f:()=>{limo(lx,80,{spin:b===0?u*14:b>=6&&u>1.6?u*14:0,door,shine:u});if(b===0&&u<2.2)dust(lx+22,80,u,4);if(b>=6&&u>1.6)dust(lx+22,80,u,5)}});
+  const lx=b===0?tw(120,62,u,2.2):b===6?tw(62,-60,u,2.4,1.6):b>=7?-80:62,door=b===0?0:b===6?(u<1.4?1-ez((u-.8)/.5):0):b>=7?0:1;
+  if(lx>-50)L.push({y:80,f:()=>{limo(lx,80,{spin:b===0?u*14:b===6&&u>1.6?u*14:0,door,shine:u});if(b===0&&u<2.2)dust(lx+22,80,u,4);if(b===6&&u>1.6)dust(lx+22,80,u,5)}});
   const nx=b===1?tw(62,70,u,.8,.2):b>=1&&b<6?70:b===6?tw(70,64,u,.6):64,bx=b===1?tw(60,58,u,1,.6):b>=1&&b<6?58:b===6?tw(58,62,u,.7,.3):62,by=b===1?tw(92,96,u,1,.6):b>=1&&b<6?96:b===6?tw(96,92,u,.7,.3):92;
-  const inCar=b===0||b>=6&&u>.92;
+  const inCar=b===0||b>=7||(b===6&&u>.92);
   if(!inCar&&b>=1){L.push({y:90,f:()=>{cx.globalAlpha=b===1?clamp(u/.3,0,1):b===6?clamp(1-(u-.6)/.3,0,1):1;ppl('nigel',nx,90,t,b===6?'r':'l',(b===1&&u<1)||b===6);if(b>=3&&b<6)cash(nx-1,78,u);cx.globalAlpha=1}});
    L.push({y:by,f:()=>{const hop=b===5&&u>.5&&u<.9?2:0;cx.globalAlpha=b===1?clamp((u-.5)/.3,0,1):b===6?clamp(1-(u-.6)/.3,0,1):1;baron(bx,by-hop,t,b===6?'r':'l',b===1&&u>.6&&u<1.6||b===6,{mad:b>=5});cx.globalAlpha=1}})}
   const ax=b===4?tw(20,46,u,.9):b===7?tw(46,24,u,1.2):b>=8?24:b>4?46:20,ay=b===4?tw(86,93,u,.9):b===7?tw(93,86,u,1.2):b>=8?86:b>4?93:86;L.push({y:ay,f:()=>p2('abi',ax,ay,t,b===7&&u<1.2?'l':'r',(b===4&&u<.9)||(b===7&&u<1.2))});L.push({y:87,f:()=>p2('hunter',hx0(b,u),87,t,'r')});
@@ -1711,7 +1711,7 @@ function fanMeet(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b
   ['fan1','fan2','fan3'].forEach((k,i)=>{const x=fx+i*9,y=88+(i===1?2:0);L.push({y,f:()=>{ppl(k,x,y,t,b===0?'l':'l',walk);if(b>=2&&i===1&&u>.4){const d=Math.floor(t*6)%3;r(x-2,y-13+d,1,2,'#7ee8fa');r(x+2,y-13+((d+1)%3),1,2,'#7ee8fa')}}})});
   if(b<=1)L.push({y:91,f:()=>{const sx=fx-1,sy=60;r(sx+1,sy+9,1,10,'#8a6a4a');r(sx+26,sy+9,1,10,'#8a6a4a');r(sx-1,sy,30,10,'#fff6e0');r(sx-1,sy,30,1,'#ffd0e4');r(sx-1,sy+9,30,1,'#e8d8c0');heart(sx+2,sy+3,'#e0468c');ptxt('DONUT',sx+9,sy+3,'#e0468c')}});
   if(lvGus())L.push({y:104,f:()=>gus2(12,104,t,'r')});
-  const dx=b>=2?tw(42,44,u,.4):42;L.push({y:98,f:()=>gcorgi(dx,98,{c:'red',st:b>=2?'stand':'sit',t,dir:'r',g:dGear(),tongue:1,jy:b>=2?Math.round(Math.abs(Math.sin(u*6))*2):0})});
+  const dx=b===2?tw(42,44,u,.4):b>2?44:42;L.push({y:98,f:()=>gcorgi(dx,98,{c:'red',st:b>=2?'stand':'sit',t,dir:'r',g:dGear(),tongue:1,jy:b>=2?Math.round(Math.abs(Math.sin(u*6))*2):0})});
   L.push({y:86,f:()=>p2('abi',20,86,t,'r')});L.push({y:87,f:()=>p2('hunter',32,87,t,'r')});castDraw(L);if(b===3&&u<.3){cx.globalAlpha=1-u/.3;r(0,0,80,156,'#ffffff');cx.globalAlpha=1}if(b>=2)hearts(58,66,u,4)})});
  talk([{n:'',t:'Three people in very, very large orange shirts are at the door. They’re holding a sign.',a:bt(K,0)},{n:'Superfan',t:'We’ve been to EVERY race. Since the dog park. Every. Single. One.',a:bt(K,1)},
   {n:'',t:'Donut walks right up to them. One of the superfans immediately starts crying.',a:bt(K,2)},{n:'Superfan',t:'Can we... can we get a picture?',a:bt(K,3,()=>snd('shutter'))},
@@ -2109,7 +2109,7 @@ function talk(lines,then,scene){if(scene)go(sceneScr(scene));let i=-1,typ=null,f
  const cat=el('<div style="position:absolute;inset:0"></div>'),box=el('<div class="dlg fadein"><div class="nm"></div><div class="tx"></div><div class="chs"></div><span class="nx">&#9660;</span></div>');ui.appendChild(cat);ui.appendChild(box);
  const nm=box.querySelector('.nm'),tx=box.querySelector('.tx'),chs=box.querySelector('.chs'),nx=box.querySelector('.nx');
  function show(){const L=lines[i];if(L.a)L.a();nm.textContent=L.n||'';nm.style.color=NC2[L.n]||(L.n?'#e0468c':'#8a7aa8');nm.style.display=L.n?'':'none';full=L.t;tx.textContent='';chs.innerHTML='';nx.style.display='none';let k=0;
-  clearInterval(typ);typ=setInterval(()=>{k++;tx.textContent=full.slice(0,k);if(k%2==0&&L.n)snd('blip');if(k>=full.length){clearInterval(typ);typ=null;done()}},22)}
+  clearInterval(typ);typ=setInterval(()=>{k++;if(document.hidden){k=full.length}tx.textContent=full.slice(0,k);if(k%2==0&&L.n)snd('blip');if(k>=full.length){clearInterval(typ);typ=null;done()}},22)}
  function done(){const L=lines[i];if(L.c){nx.style.display='none';L.c.forEach(c=>{const b=el('<button>'+c.l+'</button>');b.onclick=e=>{e.stopPropagation();snd('confirm');if(c.f)c.f();adv(1)};chs.appendChild(b)})}else nx.style.display=''}
  function adv(force){if(typ){clearInterval(typ);typ=null;tx.textContent=full;done();return}if(lines[i]&&lines[i].c&&!force)return;i++;if(i>=lines.length){clearInterval(typ);cat.remove();box.remove();if(then)then();return}snd('adv');show()}
  cat.onclick=()=>adv();box.onclick=()=>adv();adv()}
