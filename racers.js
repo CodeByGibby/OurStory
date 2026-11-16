@@ -26,7 +26,9 @@ let S=defSave();
 const SKB=SK+'_bak';let lastJ='',saveWarned=0,saveT=0;
 function readSave(k){try{const o=JSON.parse(localStorage.getItem(k)||'null');return o&&o.v===1&&typeof o==='object'?o:null}catch(e){return null}}
 function load(){const a=readSave(SK),b=readSave(SKB),o=a&&b?((b.ts||0)>(a.ts||0)?b:a):(a||b);
- if(o){S=Object.assign(defSave(),o);if(o.tutS==null)S.tutS=(o.races||0)>0?5:1;S.st=Object.assign(defSave().st,o.st);S.wear=Object.assign(defSave().wear,o.wear)}else S=defSave();
+ if(o){S=Object.assign(defSave(),o);if(o.tutS==null)S.tutS=(o.races||0)>0?5:1;S.st=Object.assign(defSave().st,o.st);S.wear=Object.assign(defSave().wear,o.wear);
+  /* repair: a save that has clearly been played never replays the opening or the tutorial */
+  if((S.races||0)>=1||S.week>1||S.lg>0)S.seen.intro=1;if(((S.races||0)>=2||S.week>2||S.lg>0)&&(S.tutS||1)<5)S.tutS=5}else S=defSave();
  lastJ=snap();try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist()}catch(e){}}
 const snap=()=>{const {ts,...rest}=S;return JSON.stringify(rest)};
 function save(){try{moodFloor()}catch(e){}S.ts=Date.now();const j=JSON.stringify(S);let ok=0;try{localStorage.setItem(SK,j);ok=1}catch(e){}try{localStorage.setItem(SKB,j);ok=1}catch(e){}
@@ -2099,13 +2101,13 @@ function crumpetLike(t){/* Donut flopped across Abigail's feet */const x=28,y=12
 const gymSc=()=>t=>{HUB.draw(t)};
 
 /* ---------------- story beats ---------------- */
-function storyIntro(){const st={};MUS='cozy';
+function storyIntro(){const st={};MUS='cozy';S.seen.intro=1;save();
  talk([{n:'',t:'One quiet Sunday night...'},{n:'Abigail',t:'Hunter. Come look at Donut.'},{n:'Hunter',t:'Is she... watching TV?'},
   {n:'',t:'On the screen: the World Corgi Racing Championship. Tiny legs. Enormous speed.',a:()=>{swapDraw(tvClose())}},{n:'Abigail',t:'Donut. Are you watching corgi racing?',a:()=>{swapDraw(livingRoom(st));st.ear=1}},
   {n:'Donut',t:'*ears straight up* *butt wiggling at maximum power*',a:()=>{st.zoom=tm;snd('whoosh')}},{n:'Hunter',t:'Oh no. She thinks she can do that.'},
   {n:'Abigail',t:'Babe. I think she CAN do that.'},{n:'Hunter',t:'There’s an amateur race at the dog park this Saturday. First entry is free...'},
   {n:'Abigail',t:'Then it’s settled. Donut is going to be a racer!'},{n:'Crumpet',t:'*does not wake up*'}],
-  ()=>{S.tutS=1;save();hub()},livingRoom(st))}
+  ()=>{if(!(S.races>0)&&S.week<=1)S.tutS=1;save();hub()},livingRoom(st))}
 function preBoss(ev,then){MUS='tense';const W=bossWalkout(ev);talk(W.L,then,W.draw)}
 function afterRace(ev,pl){const q=[];const B=ev.boss?BOSS[ev.boss]:null,win=pl===1;
  if(S.races===1)q.push(()=>talk([{n:'Abigail',t:win?'She WON?! Her very first race! Our girl is a RACER!':'Her very first race ever. Hunter, I’m so proud of her I could cry.'},{n:'Hunter',t:win?'Did you see her ears? They were FLAT. She was flying.':'Did you see her ears? Next week she’s gonna fly.'}],next));
