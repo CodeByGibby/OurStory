@@ -1658,7 +1658,12 @@ function panTrophy(){let h='<p class="sub">Every boss trophy Donut has won, and 
 const PARS=[[15,24],[30,44],[50,70],[72,96]];
 function parOf(lg){const P=PARS[lg]||PARS[3],nB=LG[lg]?LG[lg].boss.length:1;return P[0]+(P[1]-P[0])*clamp((S.boss||0)/nB,0,1)}
 const TIERD=[-8,-2,4,10],BAL={fs:.05,tp:null},TIERP=[.03,.11,.18,.25],TIERL=[1.25,1.1,.85,.75];
-const rivalCenter=(lg,t)=>{const P=parOf(lg);return BAL.tp!=null?P*(1+BAL.tp):t===0?P*.84:P*(1+TIERP[t-1]*TIERL[lg])};
+/* circuit rivals don't grow with Donut: each league has a fixed ladder from where a newly promoted Donut
+   stands (entry) to where she is when she's ready for the league's last boss (exit). Easy races are winnable
+   on arrival, Expert races need exit-level stats. The last number is the edge Donut's sprinting, zoomies
+   and perfect starts give her, so rival stats sit that much higher. */
+const LBAND=[[12,25,.25],[26,44,.22],[42,68,.18],[70,96,.15]],TFRAC=[0,.35,.65,.95];
+const rivalCenter=(lg,t)=>{if(BAL.tp!=null)return parOf(lg)*(1+BAL.tp);const [E,X,m]=LBAND[lg]||LBAND[3],k=t===0?TFRAC[1]:TFRAC[(t||2)-1];return (E+(X-E)*k)*(1+m)*(t===0?.8:1)};
 /* training gain for one session (perf ~0.3-1.5) */
 function gainOf(k,perf,drill,flaw){const cap=capOf(),st=S.st[k],low=S.gym>1?GYM[S.gym-1].cap:0,band=Math.max(1,cap-low),fr=clamp((st-low)/band,0,1);
  const near=1-.5*clamp((fr-.6)/.4,0,1),m=EQM[S.eq[k]||0]*(.75+S.mood/250)*(.55+.45*Math.max(0,1-st/120))*(drill?2:1)*near*(1+.08*((S.gym||1)-1))*(flaw?1.25:1);
@@ -2064,7 +2069,7 @@ function panRace(){const L=LG[S.lg],blocked=S.raced||S.fl.rest;let h='';
  if(S.gym>=5){const beat=[];LG.forEach((l,li)=>l.boss.forEach((b,bi)=>{if(li<S.lg||(li===S.lg&&bi<S.boss)||S.fl.champ)beat.push(b)}));if(beat.length){h+='<p class="hd">REMATCHES &middot; DONUT DOME</p><p class="sub" style="text-align:left">Exhibition races: one a week, and they don’t use your race. Sponsors only pay at real races.</p>';
   beat.forEach(b=>{const B=BOSS[b[0]];h+='<div class="card"><img class="ic" src="'+dogIcon(B.coat,B.gear,'b'+b[0])+'"><div class="bd">'+B.n+'<small>'+VEN[b[1]].n+'</small></div><button class="go" data-x="'+b[0]+'|'+b[1]+'"'+(S.en<15||S.exW===S.week?' disabled':'')+'>'+(S.exW===S.week?'DONE':'REMATCH')+'</button></div>'})}}
  h+='<p class="hd">CIRCUIT RACES &middot; EASY TO EXPERT</p>';const E0=eff(),dav=Math.round(STATS.reduce((a,[k])=>a+E0[k],0)/6*formMul());
- L.ev.slice().sort((a,b)=>(VT[a]||0)-(VT[b]||0)).forEach(v=>{const V=VEN[v],b=S.best[v],t=VT[v]||2,T=TIERS[t];const rav=Math.round(rivalCenter(S.lg,V.relay?0:t)),gap=dav/Math.max(1,rav),mu=gap>=.95?['Favored','#2e9a3e']:gap>=.85?['Even match','#c08a10']:['Underdog','#c8283a'];
+ L.ev.slice().sort((a,b)=>(VT[a]||0)-(VT[b]||0)).forEach(v=>{const V=VEN[v],b=S.best[v],t=VT[v]||2,T=TIERS[t];const rav=Math.round(rivalCenter(S.lg,V.relay?0:t)),gap=dav/Math.max(1,rav),mu=gap>=.9?['Favored','#2e9a3e']:gap>=.78?['Even match','#c08a10']:gap>=.66?['Underdog','#d0602a']:['Long shot','#c8283a'];
   const notes=[];if(V.relay)notes.push('Relay with Crumpet');if(V.gr==='sand')notes.push(sandOK()?'Sand (you have Sand Boots)':'Sand: slow without Sand Boots');if(t>=3)notes.push('More jumps');const pts=S.lg<3?' &middot; '+T.lp[0]+' pts':'';
   h+='<div class="card"><img class="ic" src="'+venueIcon(v)+'"><div class="bd">'+V.n+'<small><b style="font-weight:400;color:'+T.c+'">'+[1,2,3,4].map(q=>'<span style="display:inline-block;width:'+U(1.6)+';height:'+U(1.6)+';margin-right:'+U(.5)+';background:'+(q<=t?T.c:'#d8c8b0')+'"></span>').join('')+' '+T.n+'</b> &middot; '+fmt$(Math.round(L.purse*T.pm))+' to win'+pts+'<br>Rivals ~'+rav+' &middot; Donut '+dav+': <span style="color:'+mu[1]+'">'+mu[0]+'</span>'+(notes.length?'<br>'+notes.join(' &middot; '):'')+(b?' &middot; Best: '+ORD[b-1]:'')+'</small></div><button class="go" data-v="'+v+'"'+(blocked?' disabled':'')+'>RACE</button></div>'});
  panel(L.n.toUpperCase(),S.lg===3?'World rank #'+rankOf():'League points: '+S.lp,h,p=>{p.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{snd('confirm');startRace({ven:b.dataset.v})});
