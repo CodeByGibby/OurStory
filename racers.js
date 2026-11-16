@@ -295,7 +295,7 @@ const SLOTS=[['head','Head'],['body','Body'],['paws','Paws'],['charm','Charm']];
 /* training equipment, three tiers per stat */
 const EQ={spd:['Treadmill','Pro Treadmill','Turbo Treadmill'],acc:['Ball Launcher','Sled Pull','Starting Blocks'],sta:['Kiddie Pool','Lap Pool','Hydro Treadmill'],
  agi:['Cone Set','Weave Poles','Agility Course'],foc:['Squirrel Plush','Meditation Mat','Distract-O-Tron'],cha:['Mirror','Ring Light','Photo Studio']};
-const EQP=[80,900,7000],EQG=[1,2,4],EQM=[1,1.35,1.75,2.2];
+const EQP=[80,900,7000],EQG=[1,2,4],EQM=[1,1.3,1.55,1.8];
 /* each gym sets how high Donut's stats can be trained, and opens up something new to do */
 const GYM=[null,{n:'The Backyard',p:0,cap:25,d:'A tire, some cones and a lot of heart.',u:['Five training games','Rest, playtime and side gigs','A water bowl (tap it)']},
  {n:'Garage Gym',p:400,cap:40,d:'Rubber mats and a space heater. Very official.',u:['Crumpet becomes Donut’s training buddy (workouts lift Mood)','Weekly scrimmage with Crumpet','Workout plan: auto-train in one tap','A pegboard of Donut’s ribbons and a zoomies bell','Pick a perk']},
@@ -331,9 +331,9 @@ const TREAT={pupcup:{n:'Pup Cup',p:12,d:'+25 Mood',f:()=>{S.mood=clamp(S.mood+25
  honey:{n:'Honey Biscuit',p:1500,d:'+6 to every stat next race',buff:{spd:6,acc:6,sta:6,agi:6,foc:6,cha:6},t:2}};
 
 /* skill trees */
-const SKT=[['Sprinter','#ff7e7e',[['quick','Quick Feet','Accelerate 15% faster',1],['rocket','Rocket Start','Perfect starts launch twice as hard',1],['wind','Second Wind','Once a race, an empty tank refills halfway',2],['after','Afterburner','+6% top speed in the final stretch',2],['turbo','Turbo Zoomies','Zoomies last twice as long and hit harder',3],['lgS','LEGEND: Comet Legs','+5% top speed for the whole race',4,1]]],
- ['Tactician','#7ee8fa',[['light','Light Paws','Wider jump window, fewer clipped hurdles',1],['pacer','Pacer','Sprinting uses 20% less stamina',1],['iron','Iron Focus','Ignore distractions 40% faster',2],['draft','Draft Slip','+7% speed tucked in behind a rival',2],['shake','Shake It Off','Stumbles cost half as much',3],['lgT','LEGEND: Perfect Line','Never trips: missed obstacles only slow her a little',4,1]]],
- ['Superstar','#ff9ccb',[['crowd','Crowd Pleaser','Zoomies meter fills 30% faster',1],['fan','Fan Favorite','+20% race winnings',1],['show','Showboat','Perfect jumps give a speed pop',2],['magnet','Sponsor Magnet','+30% sponsor and gig pay',2],['star','Star Power','Zoomies refill stamina and the crowd roar rattles rivals',3],['lgP','LEGEND: Born Star','Every race starts with a full Zoomies meter',4,1]]]];
+const SKT=[['Sprinter','#ff7e7e',[['quick','Quick Feet','Accelerate 15% faster',1],['rocket','Rocket Start','Perfect starts launch twice as hard',1],['wind','Second Wind','Once a race, an empty tank refills halfway',2],['after','Afterburner','+6% top speed in the final stretch',2],['turbo','Turbo Zoomies','Zoomies last twice as long and hit harder',3],['lgS','LEGEND: Comet Legs','+5% top speed for the whole race',5,1]]],
+ ['Tactician','#7ee8fa',[['light','Light Paws','Wider jump window, fewer clipped hurdles',1],['pacer','Pacer','Sprinting uses 20% less stamina',1],['iron','Iron Focus','Ignore distractions 40% faster',2],['draft','Draft Slip','+7% speed tucked in behind a rival',2],['shake','Shake It Off','Stumbles cost half as much',3],['lgT','LEGEND: Perfect Line','Never trips: missed obstacles only slow her a little',5,1]]],
+ ['Superstar','#ff9ccb',[['crowd','Crowd Pleaser','Zoomies meter fills 30% faster',1],['fan','Fan Favorite','+20% race winnings',1],['show','Showboat','Perfect jumps give a speed pop',2],['magnet','Sponsor Magnet','+30% sponsor and gig pay',2],['star','Star Power','Zoomies refill stamina and the crowd roar rattles rivals',3],['lgP','LEGEND: Born Star','Every race starts with a full Zoomies meter',5,1]]]];
 const hasSk=k=>S.sk.includes(k);
 
 /* sponsors and side gigs */
@@ -673,22 +673,22 @@ function finishFans(lg){if(FFC[lg])return FFC[lg];const C=FFS[lg]||FFS[3],W2=C.W
   if(f)for(let i=0;i<4+C.rows*4;i++)r(pri(4,W2-4),pri(0,Math.max(4,top)),1,1,ppk(['#ffd86b','#ff7eb6','#7ee8fa']))}))}
 function arw(x,y,up,c){for(let i=0;i<4;i++){const w=up?i*2+1:7-i*2;r(x-(w>>1),y+i,w,1,c)}r(x,up?y+4:y-3,1,3,c)}
 function mkRival(i,lg,boss,lane,off){if(boss){const B=BOSS[boss],[spd,acc,sta,agi,foc,cha]=B.st;return {n:B.n,coat:B.coat,g:B.gear,sz:B.sz||1,boss,trait:B.trait,s:{spd,acc,sta,agi,foc,cha},lane}}
- const L=LG[lg];let [a,b]=L.r;if(lg===3){const k=clamp((100-rankOf())/100,0,1);a+=k*8;b+=k*8}if(lg===0&&S.races<2){a-=3;b-=4}if(off){a=Math.max(4,a+off);b=Math.max(a+2,b+off)}
- const s={};STATS.forEach(([k])=>s[k]=ri(a,b));return {n:'',coat:pick(RCOATS),g:pick(RGEAR)||{},sz:pick([1,1,1,.9,1.08]),s,lane,trait:'none'}}
+ const RS=rivalStats(lg,off||0,i);return {n:'',coat:pick(RCOATS),g:pick(RGEAR)||{},sz:pick([1,1,1,.9,1.08]),s:RS.s,lane,trait:RS.trait}}
 const rankOf=()=>S.fl.champ?1:Math.max(2,100-Math.round(S.rp*1.15));
 function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.boss,relay=!!V.relay&&!ev.tt&&!ev.scrim&&!ev.field;if(perk(4,0))E.sta+=8;
  /* field */const names=RIVN.slice().sort(()=>Math.random()-.5);const riv=[];const nR=ev.tt?0:ev.tut||ev.scrim?1:ev.field?0:3;
  if(ev.field)ev.field.forEach((b,i)=>{const R=mkRival(i,lg,b,i);riv.push(R)});
  if(ev.scrim){const R=mkRival(0,lg,null,1);R.n='Crumpet';R.coat='red';R.bow=1;R.g={};R.sz=1.05;STATS.forEach(([k])=>R.s[k]=Math.max(4,Math.round(S.st[k]*.82)));riv.push(R)}
- for(let i=0;i<nR&&!ev.scrim;i++){const isB=boss&&i===nR-1;const R=mkRival(i,lg,isB?boss:null,isB?2:i,isB?0:tierOff(tierOf(ev),lg));if(!isB)R.n=names[i];if(ev.tut){R.coat='cream';R.g={};R.lane=1;STATS.forEach(([k])=>R.s[k]=4)}riv.push(R)}
- riv.forEach(R=>{const s=R.s;Object.assign(R,{x:0,v:0,ph:Math.random()*4,vm:vOf(s.spd),ac:30+s.acc*1.1,form:rr(.97,1.03),jt:-1,dk:0,trip:0,chase:0,fin:null,done:{},st:'stand',surge:0})});
+ for(let i=0;i<nR&&!ev.scrim;i++){const isB=boss&&i===nR-1;const R=mkRival(i,lg,isB?boss:null,isB?2:i,isB?0:V.relay?0:(tierOf(ev)||2));if(!isB)R.n=names[i];if(ev.tut){R.coat='cream';R.g={};R.lane=1;STATS.forEach(([k])=>R.s[k]=4)}riv.push(R)}
+ riv.forEach(R=>{const s=R.s;Object.assign(R,{x:0,v:0,ph:Math.random()*4,vm:vOf(s.spd),ac:30+s.acc*1.1,form:rr(1-BAL.fs,1+BAL.fs),jt:-1,dk:0,trip:0,chase:0,fin:null,done:{},st:'stand',surge:0})});
  const D={smoke:[],n:'Donut',coat:'red',x:0,v:0,ph:0,d:0,sta:100,gas:0,jt:-1,jh:0,dk:0,trip:0,chase:0,chX:0,fin:null,lane:3,done:{},zm:hasSk('lgP')?1:0,zt:0,wind:hasSk('wind'),st:'stand',held:0,pf:0};
  const PL=ev.plan||'',FM=formMul();const vm=FM*vOf(E.spd)*(V.gr==='sand'&&!sandOK()?.93:1)*(hasSk('lgS')?1.05:1),ac=FM*(30+E.acc*1.1)*(hasSk('quick')?1.15:1),focusNeed=clamp((.9-E.foc*.0058)*(hasSk('iron')?.6:1)*(S.mood<30?1.25:1)*(PL==='focus'?.6:1),.22,1.2);
  const tired=S.en<30,stCost=3.3*(1-E.sta/230)*(hasSk('pacer')?.8:1)*(tired?1.35:1)*(PL==='save'?.75:1);
  const ghost=ev.tt&&S.tt&&S.tt[ev.ven]&&S.tt[ev.ven].g?S.tt[ev.ven].g:null,rec=[];let recT=0;
  /* course */const obs=[];let x=260;const types=V.o,du=V.du;let k=0;
- while(x<len-160){const duck=k>1&&Math.random()<.22;obs.push({x,k:duck?pick(du):pick(types),duck});x+=rr(150,250)-Math.min(40,lg*12)-Math.max(0,tierOf(ev)-2)*14;k++}
- const dis=[];const nd=lg===0?2:3;for(let i=0;i<nd;i++){const at=len*(.25+i*.6/nd)+rr(-40,40);obs.forEach(o=>{if(Math.abs(o.x-at)<70)o.x+=90});dis.push({x:at,k:pick(V.d),hit:0,res:0,on:0})}
+ const TT=tierOf(ev),vE=vOf(rivalCenter(lg,V.relay?0:(TT||2))),minG=Math.max(110,vE*1.05);let duck=false;
+ while(x<len-160){obs.push({x,k:duck?pick(du):pick(types),duck});const nd=k+1>2&&Math.random()<.22;let gp=rr(150,250)-Math.min(30,lg*10)-Math.max(0,TT-2)*10;if(nd!==duck)gp+=vE*.3;x+=Math.max(gp,minG+(nd!==duck?vE*.25:0));duck=nd;k++}
+ const dis=[];const nd=lg===0?2:3;for(let i=0;i<nd;i++){const at=len*(.25+i*.6/nd)+rr(-40,40);for(let q=obs.length-1;q>=0;q--)if(Math.abs(obs[q].x-at)<75)obs.splice(q,1);dis.push({x:at,k:pick(V.d),hit:0,res:0,on:0})}
  if(boss==='chad')dis.push({x:len*.48,k:'bark',hit:0,res:0,on:0,chad:1});
  if(ev.tut){obs.length=0;dis.length=0;obs.push({x:430,k:'cone'},{x:800,k:'banner',duck:true},{x:1420,k:'hay'});dis.push({x:1100,k:'squirrel',hit:0,res:0,on:0})}
  /* the Baron's sabotage, and the World Final with his helicopter and his fake finish line */
@@ -760,7 +760,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
     if(R.trait==='closer')dr=p<.6?.42:1.05;if(R.trait==='rocket'){if(p<.25){dr=1;mul*=1.07}else if(p>.5)dr=.5}if(R.trait==='surge'&&p>.7)mul*=1.12;if(R.trait==='royal'&&p>.7){mul*=1.1;if(!R.said){R.said=1;say('LORD FLUFFINGTON: THE ROYAL SURGE!',1.8)}}
     if(R.trait==='snack'&&p>.55&&!R.ate){R.ate=1;R.chase=1.1;say('Le Baguette stops for a croissant!',1.8)}
     if(R.trait==='tank'){dr=.82}else if(p>.7)mul*=1-Math.max(0,.1-s.sta*.0011);
-    if(V.gr==='sand'&&R.trait!=='sand')mul*=.93;
+    if(V.gr==='sand'&&R.trait!=='sand')mul*=.98;
     if(crum&&!handed)mul*=.97;
     let vt=R.vm*(.74+.26*Math.min(1.05,dr))*mul;if(R.trip>0)vt*=.35;if(R.chase>0)vt*=.28;
     if(FIN&&R.trait==='royal'&&p>.82&&D.fin==null){if(!R.kind){R.kind=1;say('LORD FLUFFINGTON IS SLOWING DOWN... TO RUN WITH DONUT!',2.4)}vt=R.x>D.x+3?Math.min(vt,D.v*.55):Math.min(vt,D.v*.985)}
@@ -1564,7 +1564,7 @@ function tutRaceDone(pl,time){if((S.tutS||5)<3)S.tutS=3;const ups=addXP(20);save
 function panHelp(){const h='<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">RACE CONTROLS</b><small>TAP to sprint (uses stamina)<br>SWIPE UP to jump &middot; SWIPE DOWN to duck<br>HOLD your finger down when a squirrel or snack appears<br>Tap ZOOM when the meter is full</small></div>'+
  '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">EACH WEEK</b><small>3 actions: train, nap, play with Crumpet or work a side gig<br>1 race: circuit races earn money and league points<br>Sponsors and merch pay at races, +50% for a win<br>END WEEK: energy recovers a little, gym bills are paid, and Form drops if she sat idle</small></div>'+
  '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">MOVING UP</b><small>League points unlock boss races. Beat every boss to move up: Amateur, Minor, Major, then the Global Rankings, where your world rank unlocks the bosses.</small></div>'+
- '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">GETTING STRONGER</b><small>Training raises stats and equipment multiplies it. Each gym has a stat limit (25, 40, 58, 75, 99): upgrade to keep growing, and each gym unlocks something new. Gear adds bonuses on top. Level-ups give a skill point and +1 to every stat.</small></div>'+
+ '<div class="card" style="display:block"><b style="color:#c2417a;font-weight:400">GETTING STRONGER</b><small>Training raises stats and equipment multiplies it. Each gym has a stat limit (25, 40, 58, 75, 99): upgrade to keep growing, and each gym unlocks something new. Gear adds bonuses on top. Level-ups give a skill point: you won’t have enough for every skill, so pick a style.</small></div>'+
  '<button class="tag" data-h="race">Replay the practice race</button><button class="tag" data-h="tour">Show me around again</button>'+
  '<p class="hd" style="margin-top:'+U(4)+'">START OVER</p><p class="sub" style="text-align:left">Restart Corgi Racers from Week 1, with the intro and tutorial. Your Our Story progress, stars and photos are not touched.</p><button class="tag pink" data-h="reset">Start Corgi Racers over</button>';
  panel('HOW TO PLAY',null,h,p=>{p.querySelector('[data-h="race"]').onclick=()=>{snd('confirm');go(raceScreen({ven:'park',tut:1}))};
@@ -1648,6 +1648,28 @@ function panTrophy(){let h='<p class="sub">Every boss trophy Donut has won, and 
  LG.forEach(l=>{h+='<p class="hd">'+l.n.toUpperCase()+'</p>';l.boss.forEach(b=>{const B=BOSS[b[0]],it=B.drop,got=it&&own(it);h+='<div class="card'+(got?'':' dim')+'"><img class="ic" src="'+dogIcon(B.coat,B.gear,'b'+b[0])+'"><div class="bd">'+(got?GEAR[it].n:'???')+'<small>'+(got?'Beat '+B.n+' at the '+VEN[b[1]].n:'Not won yet')+'</small></div>'+(got?'<img class="ic" style="width:'+U(12)+'" src="'+gearIcon(it)+'">':'')+'</div>'})});
  h+='<p class="hd">RECORDS</p><div class="card" style="display:block"><small>'+S.wins+' wins in '+S.races+' races &middot; level '+S.lv+'<br>'+(S.fl.champ?'WORLD CHAMPION':'World rank #'+rankOf())+'</small></div>';
  panel('TROPHY ROOM','The Donut Dome',h)}
+/* ---------------- difficulty balance ----------------
+   Rivals are measured against "par": the effective stats a well-trained Donut has at that point of the
+   career (gym cap plus a little gear). It rises through each league as bosses fall. Circuit races sit
+   below or above par by difficulty; bosses sit well above it. Stats only come from training, and the
+   last stretch to each gym's cap takes about twice the work. */
+const PARS=[[15,24],[30,44],[50,70],[72,96]];
+function parOf(lg){const P=PARS[lg]||PARS[3],nB=LG[lg]?LG[lg].boss.length:1;return P[0]+(P[1]-P[0])*clamp((S.boss||0)/nB,0,1)}
+const TIERD=[-8,-2,4,10],BAL={fs:.05,tp:null},TIERP=[.03,.11,.18,.25],TIERL=[1.25,1.1,.85,.75];
+const rivalCenter=(lg,t)=>{const P=parOf(lg);return BAL.tp!=null?P*(1+BAL.tp):t===0?P*.84:P*(1+TIERP[t-1]*TIERL[lg])};
+/* training gain for one session (perf ~0.3-1.5) */
+function gainOf(k,perf,drill,flaw){const cap=capOf(),st=S.st[k],low=S.gym>1?GYM[S.gym-1].cap:0,band=Math.max(1,cap-low),fr=clamp((st-low)/band,0,1);
+ const near=1-.5*clamp((fr-.6)/.4,0,1),m=EQM[S.eq[k]||0]*(.75+S.mood/250)*(.55+.45*Math.max(0,1-st/120))*(drill?2:1)*near*(1+.08*((S.gym||1)-1))*(flaw?1.25:1);
+ return Math.max(0,Math.min(cap-st,Math.round(2.8*m*perf*10)/10))}
+/* bosses: keep each one's strengths, but set the overall level */
+/* tuned with the autopilot so a clean race at par wins roughly 60-70% of the time (a person, a bit less) */
+const BOSSAVG={biscuit:26,waddles:29,tina:41,loaf:45,pepper:53,chad:60,duchess:73,comet:70,kenji:90,baguette:97,matilda:97,fluff:108};
+for(const id in BOSSAVG){const B=BOSS[id];if(!B)continue;const a=B.st.reduce((x,y)=>x+y,0)/6,k=BOSSAVG[id]/a;B.st=B.st.map(v=>Math.round(v*k))}
+/* gear: bonuses trimmed so training matters most (the crown stays a post-game reward) */
+for(const id in GEAR){const G=GEAR[id];if(!G.b||id==='crown')continue;for(const s in G.b){const v=G.b[s];if(v)G.b[s]=Math.sign(v)*Math.max(1,Math.round(Math.abs(v)*.65))}}
+/* circuit rivals: par plus the race's difficulty, a little spread, and personalities on hard and expert courses */
+function rivalStats(lg,t,i){let c=rivalCenter(lg,t);if(lg===0&&S.races<2)c-=4;const s={};STATS.forEach(([k])=>s[k]=Math.max(4,Math.round(c+rr(-4,4))));
+ const trait=t>=4&&i<2?pick(['rocket','closer','surge']):t===3&&i===0?pick(['rocket','closer']):'none';return {s,trait}}
 /* ---------------- money, bills, form and rest ----------------
    Sponsors and the merch stand pay at races, not for weeks passing. Every week costs gym upkeep and food.
    Form rises with racing and training and falls in idle weeks; it nudges race speed. Weekly energy recovery is
@@ -1740,9 +1762,9 @@ function hubTapExtra(wx,wy){const lv=S.gym;
 
 /* ---- Garage: scrimmage, workout plan ---- */
 function autoTrain(){const cap=capOf();let n=0;const before=Object.assign({},S.st);while(S.ap>0&&S.en>=15){const k=STATS.map(s=>s[0]).filter(k=>S.st[k]<cap).sort((a,b)=>S.st[a]-S.st[b])[0];if(!k)break;formAdd(3);wkMark('t');
-  const m=EQM[S.eq[k]||0]*(.75+S.mood/250)*(.55+.45*Math.max(0,1-S.st[k]/120)),g=Math.max(0,Math.min(cap-S.st[k],Math.round(2.8*m*(1+.15*((S.gym||1)-1))*.62*10)/10));S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-14,0,100);S.mood=clamp(S.mood+(buddy()?4:-2),0,100);addXP(18+6.2);n++}
+  const g=gainOf(k,.62,0,0);S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-14,0,100);S.mood=clamp(S.mood+(buddy()?4:-2),0,100);addXP(24);n++}
  save();const lines=STATS.filter(([k])=>S.st[k]>before[k]).map(([k,nm])=>'<b>+'+(S.st[k]-before[k]).toFixed(1)+' '+nm+'</b>');
- resultCard({title:n?'WORKOUT PLAN':'NOTHING TO TRAIN',stars:-1,lines:n?lines.concat(['+'+Math.round(n*24.2)+' XP']):['Out of actions, energy, or every stat is maxed.'],sub:n+' quick session'+(n===1?'':'s'),btn:'Back to the gym',then:()=>afterAny()})}
+ resultCard({title:n?'WORKOUT PLAN':'NOTHING TO TRAIN',stars:-1,lines:n?lines.concat(['+'+n*24+' XP']):['Out of actions, energy, or every stat is maxed.'],sub:n+' quick session'+(n===1?'':'s'),btn:'Back to the gym',then:()=>afterAny()})}
 
 /* ---- Gus's Gym: scouting notebook, race-day plans, stories ---- */
 function panScout(bid){const B=BOSS[bid],E=eff();let h='<img src="'+dogIcon(B.coat,B.gear,'b'+bid)+'" style="width:'+U(40)+';align-self:center;image-rendering:pixelated"><p class="sub">'+B.w+'</p>';
@@ -1829,7 +1851,7 @@ const DEVSTAGES=[['Fresh start (intro + tutorial)',-1,0],['Amateur, tutorial don
 function devStage(lg,boss){if(lg<0){S=defSave();save();return 'intro'}
  const keepOwn=S.own;S=defSave();S.seen.intro=1;S.tutS=5;S.lg=lg;S.boss=Math.min(boss,LG[lg].boss.length);S.week=1+lg*9+boss*3;S.races=lg*8+boss*3+2;S.wins=Math.round(S.races*.6);
  S.gym=[1,2,3,5][lg]+(lg===2&&boss>=1?1:0);if(S.gym>5)S.gym=5;S.lv=1+lg*6+boss*2;S.sp=2;S.money=[600,3000,20000,90000][lg];
- const target=Math.min(capOf(),[18,36,56,80][lg]+boss*5);STATS.forEach(([k])=>S.st[k]=target);S.eq={};STATS.forEach(([k])=>S.eq[k]=Math.min(3,lg));
+ const target=Math.min(capOf(),Math.round(parOf(lg))+2);STATS.forEach(([k])=>S.st[k]=target);S.eq={};STATS.forEach(([k])=>S.eq[k]=Math.min(3,lg));
  const F=S.fl;F.gus=1;if(lg>0||boss>0)F.bar1=1;if(lg>=1){F.viv=1;F.noviv=1}if(lg>1||lg===1&&boss>=1)F.bar2=1;if(lg>=2){F.relay=1;F.bar3=1}if(lg>2||lg===2&&boss>=1){F.inj=1;F.kib=1}
  if(lg>=3){F.bar4=1;F.cout=1}if(lg===3&&boss>=3)F.bar5=1;if(S.gym>=4)F.speedy=1;if(lg===3&&boss>=4){F.champ=1;F.bar6=1;S.own.push('crown')}
  for(let i=2;i<=S.gym;i++){S.perk=S.perk||{};S.perk[i]=0}S.tips=devAllTips();S.ap=apMax();S.en=100;S.mood=80;save();return 'hub'}
@@ -1927,14 +1949,14 @@ function devAct(a,p){const [k,v,w]=a.split(':');const n=+v;
   case 'reset':devClose();S=defSave();save();for(const q in ICN)if(q.startsWith('big'))delete ICN[q];storyIntro();return;
   case 'delbak':try{localStorage.removeItem(SKB)}catch(e){}toast('Backup deleted');return}}
 /* ---------------- progression ---------------- */
-const xpNeed=lv=>40+lv*18;
-function addXP(n){S.xp+=Math.round(n*(perk(3,1)?1.15:1));const ups=[];while(S.lv<50&&S.xp>=xpNeed(S.lv)){S.xp-=xpNeed(S.lv);S.lv++;S.sp++;STATS.forEach(([k])=>S.st[k]=Math.max(S.st[k],Math.min(capOf(),S.st[k]+1)));ups.push(S.lv)}return ups}
+const xpNeed=lv=>50+lv*24+Math.round(lv*lv*.6);
+function addXP(n){S.xp+=Math.round(n*(perk(3,1)?1.15:1));const ups=[];while(S.lv<50&&S.xp>=xpNeed(S.lv)){S.xp-=xpNeed(S.lv);S.lv++;S.sp++;ups.push(S.lv)}return ups}
 const apMax=()=>3+(S.gym>=4?1:0)+(perk(5,0)?1:0);const pool=()=>S.gym>=4;const buddy=()=>S.gym>=2;const drillOK=()=>S.gym>=3&&S.drillW!==S.week;
 const spa$=()=>[40,250,1500,6000][S.lg];
-function trainDone(k,perf,quick,drill,flawless){const before=S.st[k],cap=capOf(),m=EQM[S.eq[k]||0]*(.75+S.mood/250)*(.55+.45*Math.max(0,1-S.st[k]/120))*(drill?2:1);
- const flaw=!quick&&!!flawless,gm=(1+.15*((S.gym||1)-1))*(flaw?1.25:1),g=Math.max(0,Math.min(cap-S.st[k],Math.round(2.8*m*gm*perf*10)/10));S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-(quick?14:18),0,100);formAdd(quick?3:5);wkMark('t');S.mood=clamp(S.mood+(buddy()?4:-(quick?2:3)),0,100);if(drill)S.drillW=S.week;
- const ups=addXP(18+perf*10);save();const lines=['<b>+'+g.toFixed(1)+' '+SN[k][1]+'</b>'+(drill?' <em>(DRILL x2)</em>':''),'+'+Math.round(18+perf*10)+' XP'];if(flaw)lines.splice(1,0,'<em>FLAWLESS! +25%</em>');if(S.gym>1&&!quick)lines.push('Level '+mgLv(drill)+' workout: +'+Math.round((S.gym-1)*15)+'% gains');if(buddy())lines.push('+4 Mood (training with Crumpet)');
- if(S.st[k]>=cap)lines.push('<em>'+SN[k][1]+' is maxed for '+GYM[S.gym].n+'</em>'+(GYM[S.gym+1]?'<br>Upgrade the gym to go higher':''));if(ups.length)lines.push('<em>LEVEL UP! Lv '+S.lv+'</em><br>+1 skill point &middot; +1 to every stat (up to '+cap+')');
+function trainDone(k,perf,quick,drill,flawless){const before=S.st[k],cap=capOf();
+ const flaw=!quick&&!!flawless,g=gainOf(k,perf,drill,flaw);S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-(quick?14:18),0,100);formAdd(quick?3:5);wkMark('t');S.mood=clamp(S.mood+(buddy()?4:-(quick?2:3)),0,100);if(drill)S.drillW=S.week;
+ const ups=addXP(18+perf*10);save();const lines=['<b>+'+g.toFixed(1)+' '+SN[k][1]+'</b>'+(drill?' <em>(DRILL x2)</em>':''),'+'+Math.round(18+perf*10)+' XP'];if(flaw)lines.splice(1,0,'<em>FLAWLESS! +25%</em>');if(S.gym>1&&!quick)lines.push('Level '+mgLv(drill)+' workout: +'+Math.round((S.gym-1)*8)+'% gains');if(buddy())lines.push('+4 Mood (training with Crumpet)');
+ if(S.st[k]>=cap)lines.push('<em>'+SN[k][1]+' is maxed for '+GYM[S.gym].n+'</em>'+(GYM[S.gym+1]?'<br>Upgrade the gym to go higher':''));if(ups.length)lines.push('<em>LEVEL UP! Lv '+S.lv+'</em><br>+1 skill point');
  resultCard({title:quick?'QUICK SESSION':perf>=1.2?'AMAZING!':perf>=.9?'GREAT SESSION!':perf>=.6?'NICE WORK':'TOUGH ONE',stars:quick?0:perf>=1.2?3:perf>=.8?2:1,lines,sub:SN[k][1]+' '+Math.floor(before)+' &rarr; '+Math.floor(S.st[k]),btn:'Back to the gym',then:()=>afterAny()})}
 function raceDone(ev,pl,time,riv){const L=LG[S.lg],boss=ev.boss,V=VEN[ev.ven];
  if(ev.scrim){S.scrimW=S.week;formAdd(6);wkMark('t');const ups=addXP(30);S.mood=clamp(S.mood+5,0,100);S.en=clamp(S.en-10,0,100);S.buff=null;save();
@@ -1957,7 +1979,7 @@ function raceDone(ev,pl,time,riv){const L=LG[S.lg],boss=ev.boss,V=VEN[ev.ven];
  if(boss&&pl===1){beat=1;S.boss++;const it=BOSS[boss].drop;if(it&&!S.own.includes(it))S.own.push(it)}
  S.last={boss,pl,ven:ev.ven,beat};save();
  const lines=['<b>+'+fmt$(purse)+'</b> prize money'].concat(inc.lines,['+'+xp+' XP']);if(soreL)lines.push(soreL);if(lp)lines.push('+'+lp+' league points');if(rp)lines.push('World rank: <em>#'+rankOf()+'</em>');
- if(ups.length)lines.push('<em>LEVEL UP! Lv '+S.lv+'</em><br>+1 skill point &middot; +1 to every stat');if(beat&&BOSS[boss].drop)lines.push('Trophy: <em>'+GEAR[BOSS[boss].drop].n+'</em>');
+ if(ups.length)lines.push('<em>LEVEL UP! Lv '+S.lv+'</em><br>+1 skill point');if(beat&&BOSS[boss].drop)lines.push('Trophy: <em>'+GEAR[BOSS[boss].drop].n+'</em>');
  resultCard({title:pl===1?(boss?'BOSS BEATEN!':'1ST PLACE!'):ORD[pl-1]+' PLACE',stars:[3,2,1,0][pl-1],lines,sub:(boss?BOSS[boss].n+' &middot; ':'')+V.n+' &middot; '+time.toFixed(2)+'s',news:news(pl,boss),
   btn:'Continue',then:()=>afterRace(ev,pl)})}
 function news(pl,boss){const n=S.races,w=S.wins,lg=S.lg;
@@ -2021,7 +2043,7 @@ function panRace(){const L=LG[S.lg],blocked=S.raced||S.fl.rest;let h='';
  if(S.gym>=5){const beat=[];LG.forEach((l,li)=>l.boss.forEach((b,bi)=>{if(li<S.lg||(li===S.lg&&bi<S.boss)||S.fl.champ)beat.push(b)}));if(beat.length){h+='<p class="hd">REMATCHES &middot; DONUT DOME</p><p class="sub" style="text-align:left">Exhibition races: one a week, and they don’t use your race. Sponsors only pay at real races.</p>';
   beat.forEach(b=>{const B=BOSS[b[0]];h+='<div class="card"><img class="ic" src="'+dogIcon(B.coat,B.gear,'b'+b[0])+'"><div class="bd">'+B.n+'<small>'+VEN[b[1]].n+'</small></div><button class="go" data-x="'+b[0]+'|'+b[1]+'"'+(S.en<15||S.exW===S.week?' disabled':'')+'>'+(S.exW===S.week?'DONE':'REMATCH')+'</button></div>'})}}
  h+='<p class="hd">CIRCUIT RACES &middot; EASY TO EXPERT</p>';const E0=eff(),dav=Math.round(STATS.reduce((a,[k])=>a+E0[k],0)/6*formMul());
- L.ev.slice().sort((a,b)=>(VT[a]||0)-(VT[b]||0)).forEach(v=>{const V=VEN[v],b=S.best[v],t=VT[v]||2,T=TIERS[t];let [ra,rb]=L.r;if(S.lg===3){const k=clamp((100-rankOf())/100,0,1);ra+=k*8;rb+=k*8}const rav=Math.round((ra+rb)/2+tierOff(t,S.lg)),gap=dav-rav,mu=gap>=6?['Favored','#2e9a3e']:gap>=-4?['Even match','#c08a10']:['Underdog','#c8283a'];
+ L.ev.slice().sort((a,b)=>(VT[a]||0)-(VT[b]||0)).forEach(v=>{const V=VEN[v],b=S.best[v],t=VT[v]||2,T=TIERS[t];const rav=Math.round(rivalCenter(S.lg,V.relay?0:t)),gap=dav/Math.max(1,rav),mu=gap>=.95?['Favored','#2e9a3e']:gap>=.85?['Even match','#c08a10']:['Underdog','#c8283a'];
   const notes=[];if(V.relay)notes.push('Relay with Crumpet');if(V.gr==='sand')notes.push(sandOK()?'Sand (you have Sand Boots)':'Sand: slow without Sand Boots');if(t>=3)notes.push('More jumps');const pts=S.lg<3?' &middot; '+T.lp[0]+' pts':'';
   h+='<div class="card"><img class="ic" src="'+venueIcon(v)+'"><div class="bd">'+V.n+'<small><b style="font-weight:400;color:'+T.c+'">'+[1,2,3,4].map(q=>'<span style="display:inline-block;width:'+U(1.6)+';height:'+U(1.6)+';margin-right:'+U(.5)+';background:'+(q<=t?T.c:'#d8c8b0')+'"></span>').join('')+' '+T.n+'</b> &middot; '+fmt$(Math.round(L.purse*T.pm))+' to win'+pts+'<br>Rivals ~'+rav+' &middot; Donut '+dav+': <span style="color:'+mu[1]+'">'+mu[0]+'</span>'+(notes.length?'<br>'+notes.join(' &middot; '):'')+(b?' &middot; Best: '+ORD[b-1]:'')+'</small></div><button class="go" data-v="'+v+'"'+(blocked?' disabled':'')+'>RACE</button></div>'});
  panel(L.n.toUpperCase(),S.lg===3?'World rank #'+rankOf():'League points: '+S.lp,h,p=>{p.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{snd('confirm');startRace({ven:b.dataset.v})});
@@ -2182,5 +2204,5 @@ function champPhoto(h){try{const c=mkc(160,288,()=>homeScene({flop:0})(1));const
 const after2=(s2,f)=>setTimeout(f,s2*1000);
 try{C4CAP.crzchamp='WORLD CHAMPION'}catch(e){}
 /* ---------------- entry points ---------------- */
-return {get on(){return on},open,close,dev(){if(!on)open();setTimeout(devPanel,60)},mus,_S:()=>S,_go:go,_race:ev=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(raceScreen(ev))},_mg:k=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(mgShell(MGS[k]))},_dbg:{raceDoneT:raceDone,weekStory,startRace,cutFence,cutBuyout,cutOffer,cutPedigree,cutLeak,cutDognap,ending,parkEnd,ppl,p2,limo,venueDraw,venueFg,homeScene,TTM,VEN,gymUpgraded,fanMeet,gusStory,loungeOffer,panScout,planPick,panTT,panCup,panWardrobe,autoTrain,startRace,HUB:()=>HUB,cutPupCup,cutVivian,cutKibble,cutCouture,cutGus,cutInjury,cutRelay,cutChew,bossWalkout,preBoss,FUN,vignette,scr:()=>scr,livingRoom,tvClose,hubScene,venueScene,homeScene,gcorgi,gus2,at2,gymBg,equip2,rdog,gus,mkc,venueArt,venueDraw,venueFg,obsDraw,disDraw,gymArt,S:()=>S,save,hub,raceScreen,MGS,go,talk,ending,promote}};
+return {get on(){return on},open,close,dev(){if(!on)open();setTimeout(devPanel,60)},mus,_S:()=>S,_go:go,_race:ev=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(raceScreen(ev))},_mg:k=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(mgShell(MGS[k]))},_dbg:{TIERD,BAL,BOSS,raceDoneT:raceDone,weekStory,startRace,cutFence,cutBuyout,cutOffer,cutPedigree,cutLeak,cutDognap,ending,parkEnd,ppl,p2,limo,venueDraw,venueFg,homeScene,TTM,VEN,gymUpgraded,fanMeet,gusStory,loungeOffer,panScout,planPick,panTT,panCup,panWardrobe,autoTrain,startRace,HUB:()=>HUB,cutPupCup,cutVivian,cutKibble,cutCouture,cutGus,cutInjury,cutRelay,cutChew,bossWalkout,preBoss,FUN,vignette,scr:()=>scr,livingRoom,tvClose,hubScene,venueScene,homeScene,gcorgi,gus2,at2,gymBg,equip2,rdog,gus,mkc,venueArt,venueDraw,venueFg,obsDraw,disDraw,gymArt,S:()=>S,save,hub,raceScreen,MGS,go,talk,ending,promote}};
 })();
