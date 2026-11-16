@@ -1454,7 +1454,7 @@ function parkEnd(){MUS='sunset';let splat=0;const K=cutScr((C,u,t)=>venueCut('pa
   parkFence(b>=1?(b===1?u/1.6:1):0);
   const oldA=b<4?1:b===4?Math.max(0,1-u/.5):0,newA=b<4?0:b===4?ez(Math.min(1,(u-.4)/.6)):1;if(b<4||(b===4&&u<.5))estSign(40,146-(b===4?Math.round(ez(u/.5)*20):0),0,oldA);if(newA>0)estSign(40,146,1,newA);
   /* the rivals run in from the left one after another, then stay to watch */
-  if(b>=2){['biscuit','waddles','tina','loaf','pepper','chad','duchess','comet'].forEach((id,i)=>{const k=b===2?clamp((u-i*.22)/1.7,0,1):1,tx=7+i*9.4,ty=157+(i%2)*4,x=-14+(tx+14)*ez(k),moving=k>0&&k<1;
+  if(b>=2){['biscuit','waddles','tina','loaf','pepper','chad','duchess','comet'].forEach((id,i)=>{const k=b===2?clamp((u-i*.22)/1.7,0,1):1,tx=7+i*9.4,ty=162+(i%2)*3,x=-14+(tx+14)*ez(k),moving=k>0&&k<1;
     L.push({y:ty,f:()=>gcorgi(x,ty,{c:BOSS[id].coat,g:BOSS[id].gear,st:moving?'run':i%3===1?'stand':'sit',t:t+i,dir:'r',tongue:!moving})})})}
   /* the Baron: limo, the hat, the mud */
   ell(64,184,12,3,'#5a3a1a',.95);r(56,183,16,1,'#6a4a2a');r(60,185,6,1,'#4a2a10');
