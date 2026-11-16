@@ -680,7 +680,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
  if(SAB){const c=obs.filter(o=>!o.duck&&o.x>len*.3&&o.x<len*.8);if(c.length){const o=pick(c);o.k='puddle';o.oil=1}}
  if(FIN){const put=(at,o)=>{for(let i=obs.length-1;i>=0;i--)if(Math.abs(obs[i].x-at)<60)obs.splice(i,1);obs.push(Object.assign({x:at},o))};
   [.36,.43,.5].forEach(f=>put(len*f,{k:'crate',heli:1}));put(len*.64,{k:'banner',duck:true,fake:1});obs.sort((a,b)=>a.x-b.x);dis.forEach(q=>{obs.forEach(o=>{if(Math.abs(o.x-q.x)<50)q.x=o.x+70})})}
- let gate=null;const TG={};
+ const RT0=tm;let gate=null;const TG={};
  const all=[D,...riv];let phase='count',ct=3.4,time=0,cam=-40,pops=[],endT=0,hype=0,crum=relay,handed=0,flop=0,flopTaps=0,shake=0,falseT=0,msg=null;
  const pop=(s,c,big)=>{pops.forEach(p=>p.dy=(p.dy||0)+(big?18:10));pops.push({s,c:c||'#ffd86b',t:0,big,dy:0})};
  const say=(s,d)=>{msg={s,t:d||1.6}};
@@ -802,7 +802,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
    if(phase==='count'){const n=Math.ceil(ct);if(ev.tut&&ct>.6){r(8,150,144,20,'#fff6e0');ptxt('TAP RIGHT AT GO',80,154,'#c2417a',1,'c');ptxt('FOR A FAST START',80,162,'#5a2148',1,'c')}r(0,96,BW,40,'rgba(14,8,40,.4)');ptxtS(n>0?String(n):'GO!',80,104,n>0?'#fff6e0':'#8be28b',5,'c');if(ct>2.6)ptxtS('READY...',80,140,'#ffd86b',1,'c')}
    else if(phase==='run'&&time<.9)ptxtS('GO!',80,104,'#8be28b',5,'c');
    if(FIN&&D.x>len*.24&&D.x<len*.56){const k=(D.x-len*.24)/(len*.32),hx=Math.round(BW*.72+Math.sin(t*1.3)*14+(k<.08?(.08-k)*1000:0)-(k>.9?(k-.9)*1000:0)),hy=Math.round(60+Math.sin(t*2.1)*3);heli(hx,hy,t)}
-   if(phase==='end'){const pl=placeOf();if(ev.tt)ptxtS(D.fin.toFixed(2),80,90,'#ffd86b',4,'c');else ptxtS(ORD[pl-1]+'!',80,90,pl===1?'#ffd86b':'#fff6e0',4,'c')}}};
+   if(phase==='end'){const pl=placeOf();if(ev.tt)ptxtS(D.fin.toFixed(2),80,90,'#ffd86b',4,'c');else ptxtS(ORD[pl-1]+'!',80,90,pl===1?'#ffd86b':'#fff6e0',4,'c')}fadeOv(RT0,.4)}};
  let at=0;function autoP(dt){const A=SCR.auto;at-=dt;const o=obs.find((o,i)=>!D.done[i]);if(o){const dx=o.x-(D.x+6);if(!o.duck&&D.jt<0&&dx<D.v*.27&&dx>0&&Math.random()<A.k)SCR.swipe('u');if(o.duck&&D.dk<=0&&dx<D.v*.28&&dx>0&&Math.random()<A.k)SCR.swipe('d')}
   IN.down=dis.some(q=>q.on)&&A.k>.5?1:0;if(at<=0){at=A.rate||.36;if(D.sta>(A.save||25)||D.zt>0)tap()}if(D.zm>=1&&D.x/len>(A.zat||.6))special()}
  function placeOf(){const t=D.fin;return 1+riv.filter(R=>R.fin!=null&&R.fin<t).length}
@@ -1193,7 +1193,7 @@ function cutVivian(then){S.fl.viv=1;save();const K=cutScr((C,u,t)=>{at2(()=>{hom
   const cx0=b===0?tw(120,52,u,2.2):b>=7?tw(52,-40,u,2.4,1.6):52,door=b===0?0:b===1?ez(u/.5):b>=7?(u<1.2?1-ez((u-.6)/.5):0):1;
   L.push({y:80,f:()=>{limo(cx0,80,{spin:b===0?u*14:b>=7&&u>1.6?u*14:0,door,shine:u});if(b===0&&u<2.2)dust(cx0+22,80,u,4);if(b>=7&&u>1.6)dust(cx0+22,80,u,5);if(b===0&&u>2.2)glint(cx0-8,70,u)}});
   const vx=b===1?tw(52,46,u,.8,.4):b>=2&&b<7?46:b>=7?tw(46,52,u,.6):52,vy=b===1?tw(80,90,u,.8,.4):b>=2&&b<7?90:b>=7?tw(90,82,u,.6):82;
-  if(b>=1&&!(b>=7&&u>.7))L.push({y:vy,f:()=>{ppl('viv',vx,vy,t,b>=7?'r':'l',(b===1&&u>.4&&u<1.2)||(b>=7&&u<.6));if(b===2&&u<.8)for(let i=0;i<4;i++)glint(vx-4+i*3,vy-30+i,u+i*.2);if(b>=3&&b<7)neonSuit(vx,vy-34,u)}});
+  if(b>=1&&!(b>=7&&u>.75))L.push({y:vy,f:()=>{cx.globalAlpha=b===1?clamp((u-.2)/.3,0,1):b>=7?clamp(1-(u-.45)/.3,0,1):1;ppl('viv',vx,vy,t,b>=7?'r':'l',(b===1&&u>.4&&u<1.2)||(b>=7&&u<.6));cx.globalAlpha=1;if(b===2&&u<.8)for(let i=0;i<4;i++)glint(vx-4+i*3,vy-30+i,u+i*.2);if(b>=3&&b<7)neonSuit(vx,vy-34,u)}});
   L.push({y:86,f:()=>p2('abi',20,86,t,'r')});L.push({y:87,f:()=>p2('hunter',32,87,t,'r')});
   const worn=b===6&&u>.8;L.push({y:98,f:()=>gcorgi(42,98,{c:'red',st:b===4?'sit':'stand',t,dir:'r',g:worn||S.wear.body==='neon'?Object.assign(dGear(),{body:'neon'}):dGear(),tongue:b===6})});
   if(b===6&&u<.8){const k=ez(u/.8);neonSuit(Math.round(48+(42-48)*k),Math.round(56+(89-56)*k-Math.sin(k*Math.PI)*10),u)}
@@ -1209,8 +1209,8 @@ function cutKibble(then){const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C
   const tx=b===0?tw(124,54,u,2.2):b>=5?tw(54,-50,u,2.4,1.2):54,open=b===1?ez(u/.8):b>=2&&b<5?1:b>=5?1-ez(u/.6):0;
   L.push({y:78,f:()=>{kibTruck(tx,78,{open});if(b===0&&u<2.2)dust(tx+24,78,u,4);if(b>=5&&u>1.2)dust(tx+24,78,u,5)}});
   if(b===1&&u>.6)for(let i=0;i<3;i++)glint(36+i*12,58,u+i*.3);
-  const vx=b===1?tw(66,50,u,.8,.6):b>=2&&b<5?50:b>=5?tw(50,62,u,.7):66,show=b>=1&&!(b>=5&&u>.7)&&!(b===1&&u<.6);
-  if(show)L.push({y:90,f:()=>{ppl('viv',vx,90,t,b>=5?'r':'l',(b===1&&u<1.4)||(b>=5&&u<.7));if(b===3)bandanaAt(vx+2,58+Math.round(Math.sin(u*6)),'#2a6ad8')}});
+  const vx=b===1?tw(92,50,u,1.6,.3):b>=2&&b<5?50:b>=5?tw(50,94,u,1.8):92,show=b>=1&&!(b>=5&&u>1.8);
+  if(show)L.push({y:90,f:()=>{ppl('viv',vx,90,t,b>=5?'r':'l',(b===1&&u>.3&&u<1.9)||(b>=5&&u<1.8));if(b===3)bandanaAt(vx+2,58+Math.round(Math.sin(u*6)),'#2a6ad8')}});
   L.push({y:86,f:()=>p2('abi',20,86,t,'r')});L.push({y:87,f:()=>p2('hunter',32,87,t,'r')});
   const sc=b===4&&u>.8;L.push({y:98,f:()=>{gcorgi(42,98,{c:'red',st:'stand',t,dir:'r',g:dGear(),tongue:b===2||b===4,jy:b===1&&u>.4&&u<1?Math.round(Math.abs(Math.sin(u*10))*2):0});if(b===2)hearts(46,83,u,2)}});
   if(b===4){if(u<.8){const k=ez(u/.8);bandanaAt(Math.round(52+(47-52)*k),Math.round(58+(90-58)*k-Math.sin(k*Math.PI)*8),'#2a6ad8')}r(54,93,8,10,'#ffd86b');r(54,93,8,1,'#fff0b0');r(56,96,4,3,'#d8352f');r(57,95,1,1,'#ffd86b')}
@@ -1224,7 +1224,7 @@ function cutCouture(then){const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx.tr
   const w=b===0?Math.round(tw(0,80,u,1.4)):80;r(0,168,w,10,'#b8283a');r(0,168,w,1,'#e84a5a');for(let x=4;x<w;x+=8)r(x,173,3,1,'#ffd86b');if(w>0&&w<80){r(w-2,166,3,13,'#8a1a2a')}
   for(let i=0;i<6;i++){const x=6+i*13;r(x,165,1,4,'#ffd86b');disc(x,164,1,'#ffd86b',1)}
   const vx=b===1?tw(92,58,u,1.6):58;if(b>=1)L.push({y:172,f:()=>{ppl('viv',vx,172,t,'l',b===1&&u<1.6);if(b===2)capelet(vx+1,141+Math.round(Math.sin(u*6)),u);if(b===1&&u>1.6)glint(vx+2,150,u)}});
-  const dx=b===3?tw(10,36,u,2.2):b===4?20:24;L.push({y:174,f:()=>gcorgi(dx,174,{c:'red',st:b===3&&u<2.2?'run':'stand',t:b===3?u*.6:t,dir:'r',g:b>=3&&S.spon==='couture'?Object.assign(dGear(),{body:'capeP'}):dGear(),tongue:1})});
+  const dx=b===3?tw(24,44,u,2.2):24;L.push({y:174,f:()=>gcorgi(dx,174,{c:'red',st:b===3&&u<2.2?'run':'stand',t:b===3?u*.6:t,dir:'r',g:b>=3&&S.spon==='couture'?Object.assign(dGear(),{body:'capeP'}):dGear(),tongue:1})});
   L.push({y:190,f:()=>{for(let i=0;i<5;i++)kid(8+i*16,192,u+i,['#2a2a3a','#5a5a66','#2a2a3a','#7a2fe0','#2a2a3a'][i],0)}});
   castDraw(L);if(b>=1&&!(b===4))flashes(u,b===3?8:4);venueFg('paris',-8);cx.restore()});
  talk([{n:'',t:'Paris. A red carpet rolls out right down the middle of the track.',a:bt(K,0)},{n:'',t:'Cameras everywhere. And at the end of the runway, in enormous sunglasses...',a:bt(K,1)},
@@ -1248,15 +1248,15 @@ function cutGus(win,then){S.fl.gus=1;save();const K=cutScr((C,u,t)=>{at2(()=>{ho
 function cutInjury(then){const K=cutScr((C,u,t)=>{at2(()=>{const b=C.b,L=[];
   if(b<=1){aptBg(t,1);const jx=b===0?tw(22,40,u,.6):40,jy=b===0&&u<.6?Math.round(Math.sin(u/.6*Math.PI)*8):0,yy=b===0?tw(92,112,u,.6):112;
    L.push({y:yy,f:()=>{gcorgi(jx,yy,{c:'red',st:'stand',t,dir:'r',jy,g:dGear()});if(u>.7||b===1){r(jx+5,yy-5-Math.round(Math.abs(Math.sin(t*3))),2,2,'#fbf6ec')}}});
-   if(b===1)L.push({y:110,f:()=>p2('abi',tw(70,56,u,1),110,t,'l',u<1)});castDraw(L);if(b===0&&u>.7)ptxt('?',44,88,'#ff7eb6')}
+   if(b===1)L.push({y:110,f:()=>p2('abi',tw(90,56,u,1.4),110,t,'l',u<1.4)});castDraw(L);if(b===0&&u>.7)ptxt('?',44,88,'#ff7eb6')}
   else if(b<=4){r(0,0,80,144,'#e8f4f2');for(let x=0;x<80;x+=8)r(x,0,1,64,'#dcece8');r(0,62,80,2,'#b8d0cc');for(let y=64;y<144;y+=8)for(let x=((y-64)/8%2)*8;x<80;x+=16)r(x,y,8,8,'#f0f6f4');
    r(4,20,16,20,'#fff6e0');r(4,20,16,4,'#5ac8c0');r(8,28,3,3,'#e0903a');r(13,30,4,2,'#e0903a');r(70,40,10,48,'#c8b8a0');r(71,41,8,46,'#d8c8b0');r(72,64,1,4,'#8a7a6a');r(26,14,22,10,'#2a3a4a');r(28,16,18,1,'#7ee8fa');
    r(22,84,36,4,'#c8c8d0');r(22,84,36,1,'#e8e8f0');r(24,88,2,14,'#8a8a96');r(54,88,2,14,'#8a8a96');
    L.push({y:84,f:()=>{gcorgi(40,84,{c:'red',st:'stand',t,dir:'l',g:dGear()});const bw=b===2?Math.round(tw(0,3,u,1.4)):3;if(bw)r(33,81,2,bw,'#ffffff')}});
    L.push({y:100,f:()=>ppl('vet',30,100,t,'r')});L.push({y:104,f:()=>p2('abi',52,104,t,'l')});L.push({y:106,f:()=>p2('hunter',62,106,t,'l')});
-   if(b>=3)L.push({y:96,f:()=>ppl('viv',b===3?tw(84,72,u,1):b===4?tw(72,90,u,1.4,.6):72,96,t,b===4?'r':'l',(b===3&&u<1)||(b===4&&u>.6))});castDraw(L)}
+   if(b>=3)L.push({y:96,f:()=>ppl('viv',b===3?tw(90,72,u,1.3):b===4?tw(72,94,u,1.6,.6):72,96,t,b===4?'r':'l',(b===3&&u<1.3)||(b===4&&u>.6))});castDraw(L);if(b===2)fadeOv(C.bt)}
   else{aptBg(t,0);L.push({y:93,f:()=>gcorgi(20,93,{c:'red',st:'lie',sleep:b===6,g:dGear()})});L.push({y:110,f:()=>p2('abi',30,110,t,'l')});castDraw(L);
-   if(b>=5){const k=b===5?ez(u/1.2):1;for(let i=0;i<5;i++){if(i/5<k)r(23+i,86,1,1,['#7ee8fa','#ff7eb6','#ffd86b','#8be28b','#b78cff'][i])}}if(b===6)hearts(26,78,u,4)}})});
+   if(b===5)fadeOv(C.bt,.6);if(b>=5){const k=b===5?ez(u/1.2):1;for(let i=0;i<5;i++){if(i/5<k)r(23+i,86,1,1,['#7ee8fa','#ff7eb6','#ffd86b','#8be28b','#b78cff'][i])}}if(b===6)hearts(26,78,u,4)}})});
  talk([{n:'',t:'Monday. Donut hops off the couch... and holds up one front paw.',a:bt(K,0)},{n:'Abigail',t:'Hunter. She’s limping.',a:bt(K,1)},
   {n:'',t:'A trip to the vet. A sprained paw. Nothing broken, but she needs to rest.',a:bt(K,2)},
   {n:'Vivian',t:'The Comet race is in two weeks. Sponsors are watching. Can she run hurt?',a:bt(K,3)},{n:'Abigail',t:'No. She’s not a racer first. She’s our dog first.'},
@@ -1344,7 +1344,7 @@ function newsTV(C,u,t){at2(()=>{const b=C.b;r(0,0,80,144,'#2a2238');for(let y=0;
  r(3,18,74,58,'#141418');r(4,19,72,56,'#22222a');r(35,76,10,3,'#141418');r(18,79,44,4,'#5a3a2a');r(18,79,44,1,'#7a5a3a');
  cx.save();cx.beginPath();cx.rect(6,21,68,52);cx.clip();r(6,21,68,52,'#1e3a6a');for(let i=0;i<68;i+=8)r(6+i,21,4,52,'#21406f');
  r(6,21,68,9,'#2a4a8a');ptxt('FLUFFINGTON',40,23,'#ffd86b',1,'c');
- if(b>=2)ppl('viv',19,60,t,'d');if(b>=2){const sw=(t*2)%1;r(24,42+Math.round(sw*4),1,2,'#7ee8fa')}
+ if(b>=2){const vx=b===2?tw(-4,19,u,1.1):19;ppl('viv',vx,60,t,b===2&&u<1.1?'r':'d',b===2&&u<1.1)}if(b>=2){const sw=(t*2)%1;r(24,42+Math.round(sw*4),1,2,'#7ee8fa')}
  baron(40,60,t,'d',0,{mad:b===4});r(32,51,16,10,'#5a2a6a');r(32,51,16,1,'#8a4a9a');r(38,53,4,4,'#ffd86b');r(39,54,2,2,'#c89a20');r(36,48,1,4,'#2a2a2a');r(43,48,1,4,'#2a2a2a');r(35,47,3,2,'#3a3a3a');r(42,47,3,2,'#3a3a3a');
  
  if(b>=3){const k=b===3?ez(Math.min(1,u/.5)):1;cx.globalAlpha=k;r(54,30,16,22,'#2a6ad8');r(55,31,14,20,'#3a7ae8');disc(62,38,6,'#ffd86b',1);disc(62,38,4,'#e8b820',1);r(58,44,3,9,'#2a6ad8');r(63,44,3,9,'#2a6ad8');ptxt('SHOW',62,52-9,'#fff6e0',1,'c');cx.globalAlpha=1}
@@ -1366,9 +1366,9 @@ function cutOffer(then){S.fl.bar3=1;save();let gone=0;const K=cutScr((C,u,t)=>{a
   const lx=b===0?tw(120,62,u,2.2):b>=6?tw(62,-60,u,2.4,1.6):62,door=b===0?0:b>=6?(u<1.4?1-ez((u-.8)/.5):0):1;
   if(lx>-50)L.push({y:80,f:()=>{limo(lx,80,{spin:b===0?u*14:b>=6&&u>1.6?u*14:0,door,shine:u});if(b===0&&u<2.2)dust(lx+22,80,u,4);if(b>=6&&u>1.6)dust(lx+22,80,u,5)}});
   const nx=b===1?tw(62,70,u,.8,.2):b>=1&&b<6?70:b===6?tw(70,64,u,.6):64,bx=b===1?tw(60,58,u,1,.6):b>=1&&b<6?58:b===6?tw(58,62,u,.7,.3):62,by=b===1?tw(92,96,u,1,.6):b>=1&&b<6?96:b===6?tw(96,92,u,.7,.3):92;
-  const inCar=b===0||b>=6&&u>.9;
-  if(!inCar&&b>=1){L.push({y:90,f:()=>{ppl('nigel',nx,90,t,b===6?'r':'l',(b===1&&u<1)||b===6);if(b>=3&&b<6)cash(nx-1,78,u)}});
-   L.push({y:by,f:()=>{const hop=b===5&&u>.5&&u<.9?2:0;baron(bx,by-hop,t,b===6?'r':'l',b===1&&u>.6&&u<1.6||b===6,{mad:b>=5})}})}
+  const inCar=b===0||b>=6&&u>.92;
+  if(!inCar&&b>=1){L.push({y:90,f:()=>{cx.globalAlpha=b===1?clamp(u/.3,0,1):b===6?clamp(1-(u-.6)/.3,0,1):1;ppl('nigel',nx,90,t,b===6?'r':'l',(b===1&&u<1)||b===6);if(b>=3&&b<6)cash(nx-1,78,u);cx.globalAlpha=1}});
+   L.push({y:by,f:()=>{const hop=b===5&&u>.5&&u<.9?2:0;cx.globalAlpha=b===1?clamp((u-.5)/.3,0,1):b===6?clamp(1-(u-.6)/.3,0,1):1;baron(bx,by-hop,t,b===6?'r':'l',b===1&&u>.6&&u<1.6||b===6,{mad:b>=5});cx.globalAlpha=1}})}
   const ax=b===4?tw(20,46,u,.9):b===7?tw(46,24,u,1.2):b>=8?24:b>4?46:20,ay=b===4?tw(86,93,u,.9):b===7?tw(93,86,u,1.2):b>=8?86:b>4?93:86;L.push({y:ay,f:()=>p2('abi',ax,ay,t,b===7&&u<1.2?'l':'r',(b===4&&u<.9)||(b===7&&u<1.2))});L.push({y:87,f:()=>p2('hunter',hx0(b,u),87,t,'r')});
   const dx=b===5?tw(38,50,u,.5):b===6?50:b===7?tw(50,44,u,.8,.3):b>=8?44:38,dst=(b===5&&u<.5)||(b===7&&u>.3&&u<1.1)?'run':b===5||b===6?'stand':'sit';L.push({y:98,f:()=>gcorgi(dx,98,{c:'red',g:dGear(),st:dst,t,dir:b===7&&u<1.1?'l':'r',tongue:b>=7})});if(S.fl.gus)L.push({y:104,f:()=>gus2(b>=7?tw(12,24,u,1.2):12,104,t,'r',b>=7)});
   castDraw(L);if(b===5&&u>.6&&u<1.4){const k=(u-.6)/.8;for(let i=0;i<5;i++)r(Math.round(55+k*3+i),Math.round(91+k*3-(i%2)),1,1,'#e8f4ff')}if(b===5&&u>.6&&u<1.6)ptxtS('ACHOO!',52,72,'#fff6e0',1,'c')})});
@@ -1427,7 +1427,7 @@ function cutDognap(then){S.fl.bar6=1;save();const K=cutScr((C,u,t)=>{at2(()=>{cx
   const nx=b===0?tw(96,53,u,3.2):b>=1&&b<=3?53:b===4?tw(53,100,u,1.6,.3):200,jump=(b===2||b===3)&&u<.4?3:0;
   if(nx<95)L.push({y:136,f:()=>{ppl('nigel',nx,136-jump,t,b===4?'r':'l',b===0||(b===4&&u>.3));if(b<4||u<.3)r(Math.round(nx)-11,125-jump,8,6,'#c8c4d0'),r(Math.round(nx)-10,126-jump,6,1,'#8a8a96'),r(Math.round(nx)-10,128-jump,6,1,'#8a8a96')}});
   if(b>=4&&!(b===4&&u<.3))L.push({y:137,f:()=>{r(56,131,8,6,'#c8c4d0');r(57,132,6,1,'#8a8a96');r(57,134,6,1,'#8a8a96')}});
-  if(b>=3){L.push({y:124,f:()=>p2('hunter',22,122,t,'r')});L.push({y:124,f:()=>p2('abi',12,122,t,'r')})}
+  if(b>=3){const hx=b===3?tw(-8,22,u,.9,.2):22,ax=b===3?tw(-16,12,u,1.1,.4):12;L.push({y:124,f:()=>p2('hunter',hx,122,t,'r',b===3&&u<1.1)});L.push({y:124,f:()=>p2('abi',ax,122,t,'r',b===3&&u<1.5)})}
   castDraw(L);const lit=b>=3;NIGHT(lit?.32:.62);if(lit){cx.globalCompositeOperation='lighter';disc(40,104,40,'#ffd86b',.07);cx.globalCompositeOperation='source-over'}
   for(let i=0;i<10;i++){const tw2=(Math.sin(t*2+i)*.5+.5);r((i*17+5)%80,30+(i*11)%30,1,1,'rgba(255,255,255,'+(.3+tw2*.6)+')')}if(b===5)hearts(60,116,u,3)})});
  MUS='cozy';talk([{n:'',t:'The night before the World Final. Everyone is asleep.',a:bt(K,0)},{n:'',t:'Well. Almost everyone. Someone is tiptoeing up the porch steps. With a pet carrier.'},
@@ -1452,20 +1452,25 @@ function ending(){S.fl.champ=1;save();MUS='race';
   {n:'Abigail',t:'The parks?'},{n:'Vivian',t:'Staying open. Every single one.'}],()=>parkEnd(),K.draw)}
 function parkEnd(){MUS='sunset';let splat=0;const K=cutScr((C,u,t)=>venueCut('park',t,()=>{const b=C.b,L=[];
   parkFence(b>=1?(b===1?u/1.6:1):0);
-  const oldA=b<4?1:Math.max(0,1-u/.5),newA=b<4?0:ez(Math.min(1,(u-.4)/.6));if(b<4||u<.5)estSign(40,146-(b===4?Math.round(ez(u/.5)*20):0),0,oldA);if(newA>0)estSign(40,146,1,newA);
-  if(b===2||b===3){const run=['biscuit','waddles','tina','loaf','pepper','chad','duchess','comet'];run.forEach((id,i)=>{const k=((b===2?u:u+3)*.45+i*.11),x=-20+((k*130)%120),y=162+(i%3)*3;if(b===2&&x>-15&&x<90)L.push({y,f:()=>gcorgi(x,y,{c:BOSS[id].coat,g:BOSS[id].gear,st:'run',t:t+i,dir:'r'})})})}
+  const oldA=b<4?1:b===4?Math.max(0,1-u/.5):0,newA=b<4?0:b===4?ez(Math.min(1,(u-.4)/.6)):1;if(b<4||(b===4&&u<.5))estSign(40,146-(b===4?Math.round(ez(u/.5)*20):0),0,oldA);if(newA>0)estSign(40,146,1,newA);
+  /* the rivals run in from the left one after another, then stay to watch */
+  if(b>=2){['biscuit','waddles','tina','loaf','pepper','chad','duchess','comet'].forEach((id,i)=>{const k=b===2?clamp((u-i*.22)/1.7,0,1):1,tx=7+i*9.4,ty=157+(i%2)*4,x=-14+(tx+14)*ez(k),moving=k>0&&k<1;
+    L.push({y:ty,f:()=>gcorgi(x,ty,{c:BOSS[id].coat,g:BOSS[id].gear,st:moving?'run':i%3===1?'stand':'sit',t:t+i,dir:'r',tongue:!moving})})})}
   /* the Baron: limo, the hat, the mud */
   ell(64,184,12,3,'#5a3a1a',.95);r(56,183,16,1,'#6a4a2a');r(60,185,6,1,'#4a2a10');
-  if(b===3){const lx=tw(110,72,u,1.2);if(u<3.6)L.push({y:191,f:()=>limo(lx,191,{dir:'l',spin:u<1.2?-u*14:0,door:u>1.2?1:0})});
-   const bk=u<1.4?-1:u<2.2?(u-1.4)/.8:1,bx=u<1.4?72:tw(60,64,u,.8,1.4),hx=u<1.6?bx:Math.min(74,bx+(u-1.6)*30),hy=u<1.6?165:165-Math.sin(Math.min(1,(u-1.6)/1.2)*Math.PI)*14+(u>2.8?16:0);
-   if(u>1.3){const fall=u>2.6?ez((u-2.6)/.4):0;L.push({y:184,f:()=>{cx.save();cx.translate(Math.round(bx),184);cx.rotate(-fall*Math.PI/2);cx.translate(-Math.round(bx),-184);baron(bx,184,t,'r',u<2.6,{nohat:u>1.6,mad:1});cx.restore();
+  /* the limo parks half off the right edge, waits, then leaves without him */
+  const lx=b===3?tw(124,90,u,1.2):b===4?tw(90,130,u,1.8,.5):200;if(lx<120)L.push({y:178,f:()=>limo(lx,178,{dir:b===4?'r':'l',spin:(b===3&&u<1.2)||(b===4&&u>.5)?(b===4?u:-u)*14:0,door:b===3&&u>1.1&&u<2?1:0})});
+  if(b===3){const bx=u<1.5?78:u<2.1?tw(78,60,u,.6,1.5):tw(60,64,u,.5,2.1),hx=u<1.6?bx:Math.min(72,bx+(u-1.6)*24),hy=u<1.6?165:165-Math.sin(Math.min(1,(u-1.6)/1.2)*Math.PI)*14+(u>2.8?16:0);
+   if(u>1.15){const fall=u>2.6?ez((u-2.6)/.4):0;L.push({y:184,f:()=>{cx.globalAlpha=clamp((u-1.15)/.3,0,1);cx.save();cx.translate(Math.round(bx),184);cx.rotate(-fall*Math.PI/2);cx.translate(-Math.round(bx),-184);baron(bx,184,t,bx>63&&u<2.1?'l':'r',u>1.5&&u<2.6,{nohat:u>1.6,mad:1});cx.restore();cx.globalAlpha=1;
      if(fall>=1){r(Math.round(bx)-10,180,20,4,'#5a3a1a');for(let i=0;i<6;i++)r(Math.round(bx)-8+i*3,177+(i%2),2,2,'#6a4a2a')}}})}
-   if(u>1.6&&u<4)L.push({y:200,f:()=>tophat(Math.round(hx),Math.round(Math.min(hy,182)))});if(u>2.9&&!splat){splat=1;snd('bump')}}
-  if(b>=4){L.push({y:185,f:()=>{baron(64,186,t,'l',0,{nohat:1,mad:1});r(54,178,20,8,'#5a3a1a');r(54,178,20,1,'#6a4a2a');for(let i=0;i<5;i++)r(56+i*4,176+(i%2),2,2,'#6a4a2a');tophat(74,182)}})}
+   if(u>1.6)L.push({y:200,f:()=>tophat(Math.round(hx),Math.round(Math.min(hy,182)))});if(u>2.9&&!splat){splat=1;snd('bump')}}
+  if(b>=4){L.push({y:185,f:()=>{const up=b===4?1-ez(u/.6):0;cx.save();cx.translate(64,186);cx.rotate(-up*Math.PI/2);cx.translate(-64,-186);baron(64,186,t,'l',0,{nohat:1,mad:1});cx.restore();r(54,178,20,8,'#5a3a1a');r(54,178,20,1,'#6a4a2a');for(let i=0;i<5;i++)r(56+i*4,176+(i%2),2,2,'#6a4a2a');tophat(72,182)}})}
   const F=b>=5;L.push({y:172,f:()=>p2('abi',13,172,t,'r')});L.push({y:173,f:()=>p2('hunter',23,173,t,'r')});
-  L.push({y:175,f:()=>gcorgi(35,175,{c:'red',g:b>=6||(b===5&&u>2.4)?Object.assign(dGear(),{head:'crown'}):dGear(),st:b===2?'run':'stand',t,dir:'r',tongue:1,jy:b===2?Math.round(Math.abs(Math.sin(t*6))*2):0})});
+  L.push({y:175,f:()=>gcorgi(35,175,{c:'red',g:b>=6||(b===5&&u>2.4)?Object.assign(dGear(),{head:'crown'}):dGear(),st:'stand',t,dir:'r',tongue:1,jy:b===2?Math.round(Math.abs(Math.sin(t*6))*2):0})});
   L.push({y:183,f:()=>crumpet(28,184,'r',t,b>=5?1:3,0)});if(S.fl.gus)L.push({y:184,f:()=>gus2(9,185,t,'r',b>=6)});
-  if(F){const fx=b===5?tw(72,49,u,1.4):49;L.push({y:175,f:()=>gcorgi(fx,175,{c:'fluff',g:{body:'royal'},st:'stand',t,dir:'l',tongue:1})});L.push({y:170,f:()=>{ppl('nigel',60,170,t,'l');pillow(53,154);if(b===5&&u<1.4)crown2(51,151)}});L.push({y:168,f:()=>ppl('viv',71,168,t,'l')})}
+  if(F){const fx=b===5?tw(96,49,u,1.4):49,nx=b===5?tw(94,60,u,1.2):60,vx=b===5?tw(104,71,u,1.7):71;
+   L.push({y:175,f:()=>gcorgi(fx,175,{c:'fluff',g:{body:'royal'},st:b===5&&u<1.4?'run':'stand',t,dir:'l',tongue:1})});
+   L.push({y:170,f:()=>{ppl('nigel',nx,170,t,'l',b===5&&u<1.2);pillow(Math.round(nx)-7,154);if(b===5&&u<1.4)crown2(Math.round(nx)-9,151)}});L.push({y:168,f:()=>ppl('viv',vx,168,t,'l',b===5&&u<1.7)})}
   castDraw(L);if(b===5&&u>1.4&&u<2.4){const k=ez((u-1.4)/1.0);crown2(Math.round(51+(35-51)*k),Math.round(151+(157-151)*k-Math.sin(k*Math.PI)*12))}
   if(b===4&&u>.4)for(let i=0;i<4;i++)glint(22+i*12,128,u+i*.25);if(b===1)for(let i=0;i<8;i++)if(u>i*.15&&u<i*.15+.6)dust(i*10+6,158,u-i*.15,3);
   if(b>=6)for(let i=0;i<24;i++){const x=(i*37+Math.floor(t*40)*(i%3+1))%80,y=72+(i*53+t*40*(1+i%4))%130;r(x,y,1,1,['#ffd86b','#ff7eb6','#7ee8fa','#8be28b'][i%4])}}));
@@ -1477,7 +1482,7 @@ function parkEnd(){MUS='sunset';let splat=0;const K=cutScr((C,u,t)=>venueCut('pa
   {n:'Coach Gus',t:'Fastest basset in the Ozarks, ’87. Coach of the fastest corgi in the world. I can retire happy.',a:bt(K,6,()=>snd('fanfare'))},
   {n:'Abigail',t:'Donut Park. All dogs welcome.'}],()=>{
   const h={flop:0};MUS='sunset';talk([{n:'',t:'That night. Back home. The trophy sits on the porch between them.'},{n:'Hunter',t:'The fastest corgi in the whole world.'},{n:'Abigail',t:'And she still just wants to be on the couch with us.'},
-   {n:'',t:'Donut waddles over... and flops right onto Abigail’s shoes. Just like the day she picked you.',a:()=>{h.flop=1;snd('bump')}},{n:'Crumpet',t:'*does not move* (She has earned it.)'},{n:'Abigail',t:'Good girl, Donut. Our good, good girl.'},
+   {n:'',t:'Donut waddles over... and flops right onto Abigail’s shoes. Just like the day she picked you.',a:()=>{h.flop=tm;after2(.9,()=>snd('bump'))}},{n:'Crumpet',t:'*does not move* (She has earned it.)'},{n:'Abigail',t:'Good girl, Donut. Our good, good girl.'},
    {n:'',t:'CORGI RACERS: COMPLETE. Donut is the World Champion! A new photo is in your album, and you can keep racing anytime.',a:()=>champPhoto(h)}],()=>{if(!S.own.includes('crown'))S.own.push('crown');save();afterAny()},homeScene(h))},K.draw)}
 
 /* race-scale pieces: oil from the saboteurs, the fake finish banner, the Baron's helicopter */
@@ -1936,9 +1941,9 @@ function hubScene(t,cast){at2(()=>{cx.translate(0,-12);const lv=S.gym,P=HUBPOS[l
  else L.push({y:P.dn[1],f:()=>gcorgi(P.dn[0],P.dn[1],{c:'red',st:Math.floor(t/5)%3===2?'stand':'sit',t,dir:'r',g:dGear(),tongue:Math.floor(t*1.3)%4<2})});
  const c=tm-HUBD.ct;L.push({y:P.cr[1],f:()=>crumpet(P.cr[0],P.cr[1],'l',t,c<.8?1:3,0)});
  L.sort((a,b)=>a.y-b.y).forEach(q=>q.f())})}
-const HUB={enter(){MUS='crzHub';devHub()},ui(){hubUI()},
+const HUB={enter(){MUS='crzHub';devHub();HUB.t0=tm},ui(){hubUI()},
  tap(x,y){const P=HUBPOS[S.gym===1?1:'d'],wx=x/2,wy=y/2+12;if(hubTapExtra(wx,wy))return;if(Math.abs(wx-P.dn[0])<9&&wy<P.dn[1]+3&&wy>P.dn[1]-16){HUBD.zt=tm;snd('whoosh')}else if(Math.abs(wx-P.cr[0])<11&&wy<P.cr[1]+3&&wy>P.cr[1]-14){HUBD.ct=tm;snd('pop')}},
- draw(t){hubScene(t)}};
+ draw(t){hubScene(t);fadeOv(HUB.t0||0,.35)}};
 function hub(){go(HUB)}
 function bar(lbl,v,c){return '<div class="mtr">'+lbl+'<i><b style="width:calc('+clamp(v,0,100)+'% - var(--u)*.8);--c:'+c+'"></b></i></div>'}
 function hubUI(){const L=LG[S.lg],ap=apMax();ui.innerHTML='';
@@ -2064,7 +2069,10 @@ function talk(lines,then,scene){if(scene)go(sceneScr(scene));let i=-1,typ=null,f
  function done(){const L=lines[i];if(L.c){nx.style.display='none';L.c.forEach(c=>{const b=el('<button>'+c.l+'</button>');b.onclick=e=>{e.stopPropagation();snd('confirm');if(c.f)c.f();adv(1)};chs.appendChild(b)})}else nx.style.display=''}
  function adv(force){if(typ){clearInterval(typ);typ=null;tx.textContent=full;done();return}if(lines[i]&&lines[i].c&&!force)return;i++;if(i>=lines.length){clearInterval(typ);cat.remove();box.remove();if(then)then();return}snd('adv');show()}
  cat.onclick=()=>adv();box.onclick=()=>adv();adv()}
-function sceneScr(fn){return {enter(){},draw:fn}}
+/* every new scene (and every change of location inside one) fades up from dark instead of cutting */
+const fadeOv=(t0,d)=>{const k=(tm-t0)/(d||.45);if(k<1){cx.save();cx.setTransform(1,0,0,1,0,0);cx.globalAlpha=1-ez(k);r(0,0,BW,BH,'#0e0828');cx.restore()}};
+const swapDraw=f=>{const t0=tm;scr.draw=t=>{f(t);fadeOv(t0)}};
+function sceneScr(fn){const t0=tm;return {enter(){},draw:t=>{fn(t);fadeOv(t0)}}}
 /* a venue at story scale: the crowd and the track, with our cast standing on it */
 const VOY=72;
 function venueScene(ven,cast,st){return t=>{cx.save();cx.scale(2,2);cx.translate(0,-VOY);venueDraw(ven,-8,t,st&&st.hype);
@@ -2074,7 +2082,7 @@ function venueScene(ven,cast,st){return t=>{cx.save();cx.scale(2,2);cx.translate
  if(st&&st.pod){for(let i=0;i<30;i++){const x=(i*37+Math.floor(t*40)*(i%3+1))%160,y=(i*53+t*60*(1+i%4))%230;r(x,y,2,2,['#ffd86b','#ff7eb6','#7ee8fa','#8be28b'][i%4])}}}}
 /* home, that night, on the back porch */
 function homeScene(st){return t=>at2(()=>{cx.translate(0,-18);r(0,140,80,30,'#4e4e56');r(0,144,80,1,'#3a3a42');porch(t);const L=[{y:124,f:()=>p2('abi',30,122,t,'d',1)},{y:124,f:()=>p2('hunter',48,122,t,'d',1)},
-  {y:134,f:()=>st.flop?gcorgi(28,128,{c:'red',st:'lie',t,g:Object.assign(dGear(),{head:'crown'}),dir:'r'}):gcorgi(16,134,{c:'red',st:'sit',t,g:Object.assign(dGear(),{head:'crown'}),tongue:1})},{y:135,f:()=>crumpet(66,135,'l',t,3,0)}];
+  {y:134,f:()=>{const fk=st.flop?clamp((tm-st.flop)/1,0,1):-1,G=Object.assign(dGear(),{head:'crown'});if(fk>=1)gcorgi(28,128,{c:'red',st:'lie',t,g:G,dir:'r'});else if(fk>=0)gcorgi(16+12*ez(fk),134-6*ez(fk),{c:'red',st:'run',t,g:G,dir:'r'});else gcorgi(16,134,{c:'red',st:'sit',t,g:Object.assign(dGear(),{head:'crown'}),tongue:1})}},{y:135,f:()=>crumpet(66,135,'l',t,3,0)}];
  L.sort((a,b)=>a.y-b.y).forEach(q=>q.f());/* the trophy on the porch floor between them */const tx=39,ty=134;r(tx-1,ty-8,4,4,'#ffd86b');r(tx-2,ty-8,6,1,'#ffe8a0');r(tx,ty-4,2,2,'#c89a20');r(tx-1,ty-2,4,2,'#c89a20');
  cx.globalCompositeOperation='lighter';disc(tx+1,ty-6,4,'#ffd86b',.15);cx.globalCompositeOperation='source-over'})}
 function crumpetLike(t){/* Donut flopped across Abigail's feet */const x=28,y=128;r(x-6,y-4,13,4,'#e0903a');r(x-6,y-4,13,1,'#eaa456');r(x-5,y-1,10,1,'#fbf6ec');r(x+6,y-7,5,5,'#e0903a');r(x+9,y-5,3,2,'#fbf6ec');r(x+11,y-5,1,1,'#2a1a1a');r(x+8,y-6,2,1,'#2a1a1a');r(x+6,y-9,2,2,'#e0903a');r(x+9,y-9,2,2,'#e0903a');
@@ -2084,7 +2092,7 @@ const gymSc=()=>t=>{HUB.draw(t)};
 /* ---------------- story beats ---------------- */
 function storyIntro(){const st={};MUS='cozy';
  talk([{n:'',t:'One quiet Sunday night...'},{n:'Abigail',t:'Hunter. Come look at Donut.'},{n:'Hunter',t:'Is she... watching TV?'},
-  {n:'',t:'On the screen: the World Corgi Racing Championship. Tiny legs. Enormous speed.',a:()=>{scr.draw=tvClose()}},{n:'Abigail',t:'Donut. Are you watching corgi racing?',a:()=>{scr.draw=livingRoom(st);st.ear=1}},
+  {n:'',t:'On the screen: the World Corgi Racing Championship. Tiny legs. Enormous speed.',a:()=>{swapDraw(tvClose())}},{n:'Abigail',t:'Donut. Are you watching corgi racing?',a:()=>{swapDraw(livingRoom(st));st.ear=1}},
   {n:'Donut',t:'*ears straight up* *butt wiggling at maximum power*',a:()=>{st.zoom=tm;snd('whoosh')}},{n:'Hunter',t:'Oh no. She thinks she can do that.'},
   {n:'Abigail',t:'Babe. I think she CAN do that.'},{n:'Hunter',t:'There’s an amateur race at the dog park this Saturday. First entry is free...'},
   {n:'Abigail',t:'Then it’s settled. Donut is going to be a racer!'},{n:'Crumpet',t:'*does not wake up*'}],
@@ -2110,7 +2118,7 @@ function meetGus(win){S.fl.gus=1;save();talk([{n:'',t:'Back home, someone is wai
 function promote(){const PC={v:{}};let PZ0=null;const from=S.lg;S.lg++;S.boss=0;S.lp=0;S.ap=apMax();save();const L=LG[S.lg];MUS='race';
  const lines={1:[{n:'Buzz',t:'Folks, the Amateur League has a new champion! DONUT is moving up to the MINOR LEAGUE!'},{n:'Coach Gus',t:'Ballparks. County fairs. Real crowds. Real money. Real squirrels.'},{n:'Abigail',t:'Minor league, here we come!'}],
   2:[{n:'Buzz',t:'She did it! Donut is headed to THE MAJOR LEAGUE! Stadiums! Halftime shows! Prime time!'},{n:'Hunter',t:'Abby. She’s gonna run at an NFL game.'},{n:'Abigail',t:'I need a bigger GO DONUT sign.'},{n:'Crumpet',t:'*stretches* *looks at the track* *looks at Donut* ...!'}],
-  3:[{n:'Buzz',t:'Ladies and gentlemen... Donut has qualified for the GLOBAL RANKINGS! She enters the world at number one hundred!'},{n:'',t:'Across the ocean, in a palace, on a velvet cushion, Lord Fluffington watches the broadcast.',a:()=>{PZ0=scr.draw;scr.draw=t=>palace(PC,0,t)}},{n:'Sir Nigel Pomfrey',t:'A park dog. How quaint. Lord Fluffington has not lost in four years.'},{n:'',t:'Lord Fluffington yawns. Enormously.',a:()=>{PC.v.yawn=tm}},{n:'Coach Gus',t:'Then he’s due.',a:()=>{if(PZ0)scr.draw=PZ0}}]}[S.lg];
+  3:[{n:'Buzz',t:'Ladies and gentlemen... Donut has qualified for the GLOBAL RANKINGS! She enters the world at number one hundred!'},{n:'',t:'Across the ocean, in a palace, on a velvet cushion, Lord Fluffington watches the broadcast.',a:()=>{PZ0=scr.draw;swapDraw(t=>palace(PC,0,t))}},{n:'Sir Nigel Pomfrey',t:'A park dog. How quaint. Lord Fluffington has not lost in four years.'},{n:'',t:'Lord Fluffington yawns. Enormously.',a:()=>{PC.v.yawn=tm}},{n:'Coach Gus',t:'Then he’s due.',a:()=>{if(PZ0)swapDraw(PZ0)}}]}[S.lg];
  talk(lines.concat([{n:'',t:'NOW ENTERING: '+L.n.toUpperCase()+'. New gear in the shop!'}]),()=>{S.week++;S.raced=0;save();weekStory()},venueScene(LG[from].boss.slice(-1)[0][1],[{k:'buzz',x:8,y:162,dir:'r'},{k:'dog',c:'red',g:dGear(),x:37,y:176,st:'cheer'},{k:'abi',x:60,y:184,dir:'l'},{k:'hunter',x:72,y:186,dir:'l'}],{hype:1,pod:1}))}
 function weekStory(){const q=[];
  const ch=S.fl.champ;
