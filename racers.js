@@ -788,27 +788,29 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
 /* ---------------- training minigames ----------------
    Every game reports each move to the shell as good or bad, and the shell answers right away:
    a coloured edge flash, sparkles or a puff, a little shake on mistakes, a sound, and a combo count. */
-function mgShell(def,hard){const G={t:0,ph:'how',sc:0,pops:[],parts:[],combo:0,best:0,fl:0,flc:'#8be28b',shk:0,hard:!!hard,cheer:0};let doneT=0,cdn=3;
+/* difficulty grows with the gym: level 1 (Backyard) to 5 (Dome); Gus's drill plays one level up (6 = Dome drill) */
+const mgLv=hard=>Math.min(6,(S.gym||1)+(hard?1:0)),H=(G,a,b)=>a+(b-a)*G.d;
+function mgShell(def,hard){const lv=mgLv(hard),G={t:0,ph:'how',sc:0,pops:[],parts:[],combo:0,best:0,fl:0,flc:'#8be28b',shk:0,hard:!!hard,lv,d:(lv-1)/5,cheer:0};let doneT=0,cdn=3;
  const pop=(s,c,x,y,big)=>{x=x||80;y=y||120;G.pops=G.pops.filter(p=>Math.abs(p.x-x)>24||Math.abs(p.y-y)>16);G.pops.push({s,c:c||'#ffd86b',x,y,t:0,big})};G.pop=pop;
  G.good=(x,y,s,lvl)=>{G.cheer=.45;G.combo++;G.best=Math.max(G.best,G.combo);G.fl=.3;G.flc=lvl===2?'#ffd86b':'#8be28b';pop(s,lvl===2?'#ffd86b':'#8be28b',x,y,lvl===2);
   for(let i=0;i<(lvl===2?12:8);i++){const a=i/(lvl===2?12:8)*Math.PI*2;G.parts.push({x,y:y+4,vx:Math.cos(a)*(30+Math.random()*20),vy:Math.sin(a)*(30+Math.random()*20)-10,c:['#ffd86b','#8be28b','#fff6e0'][i%3],t:0,life:.5,k:'s'})}
   if(G.combo>=3&&G.combo%5===0){snd('chime');pop(G.combo+' IN A ROW!','#ff9ccb',80,40,1)}};
- G.bad=(x,y,s)=>{G.combo=0;G.fl=.35;G.flc='#ff5a5a';G.shk=.25;pop(s,'#ff7e7e',x,y,1);
+ G.bad=(x,y,s)=>{G.nbad=(G.nbad||0)+1;G.combo=0;G.fl=.35;G.flc='#ff5a5a';G.shk=.25;pop(s,'#ff7e7e',x,y,1);
   for(let i=0;i<7;i++){const a=i/7*Math.PI*2;G.parts.push({x,y:y+4,vx:Math.cos(a)*18,vy:Math.sin(a)*12-6,c:'#d8d0e0',t:0,life:.45,k:'p'})}G.parts.push({x,y:y+4,t:0,life:.45,k:'x'})};
  def.init(G);MUS='crzRace';
  return {down(x,y){if(G.ph==='play'&&def.down)def.down(G,x,y)},tap(x,y){if(G.ph==='how'){G.ph='cd';snd('confirm');return}if(G.ph==='play'&&def.tap)def.tap(G,x,y)},swipe(d){if(G.ph==='play'&&def.swipe)def.swipe(G,d)},up(x,y){if(G.ph==='play'&&def.up)def.up(G,x,y)},
   upd(dt){if(G.cheer>0)G.cheer-=dt;if(G.fl>0)G.fl-=dt;if(G.shk>0)G.shk-=dt;G.parts.forEach(p=>{p.t+=dt;if(p.vx!=null){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=60*dt}});G.parts=G.parts.filter(p=>p.t<p.life);G.pops.forEach(p=>p.t+=dt);G.pops=G.pops.filter(p=>p.t<1);
    if(G.ph==='cd'){const a=Math.ceil(cdn);cdn-=dt;if(Math.ceil(cdn)!==a&&cdn>0)snd('beep');if(cdn<=0){G.ph='play';snd('go')}return}
    if(G.ph==='play'){G.t+=dt;def.upd(G,dt);if(G.t>=def.dur||G.over){G.ph='done';G.sc=clamp(def.score(G),.3,1.5);snd(G.sc>1?'win':'coin')}}
-   if(G.ph==='done'){doneT+=dt;if(doneT>1.8&&!G.fin){G.fin=1;trainDone(def.k,G.sc,0,G.hard)}}},
+   if(G.ph==='done'){doneT+=dt;if(doneT>1.8&&!G.fin){G.fin=1;trainDone(def.k,G.sc,0,G.hard,!G.nbad&&G.sc>=1)}}},
   draw(t){const sx=G.shk>0?Math.round(Math.sin(t*80)*2):0;cx.save();cx.translate(sx,0);def.draw(G,t);
    G.parts.forEach(p=>{const a=1-p.t/p.life;cx.globalAlpha=a;if(p.k==='s'){r(p.x,p.y,2,2,p.c);r(p.x-1,p.y+.5,4,1,p.c)}else if(p.k==='p')disc(p.x,p.y,1+p.t*6|0,p.c,a*.8);else{for(let i=-3;i<=3;i++){r(p.x+i,p.y+i-6,2,2,'#ff5a5a');r(p.x+i,p.y-i-6,2,2,'#ff5a5a')}}cx.globalAlpha=1});
    G.pops.forEach(p=>{const z=p.big?2:1,w=p.s.length*4*z;cx.globalAlpha=Math.min(1,(1-p.t)*3);ptxtS(p.s,clamp(p.x,w/2+3,157-w/2),p.y-p.t*14,p.c,z,'c');cx.globalAlpha=1});cx.restore();
    if(S.gym>=2&&G.ph!=='how'){const hop=G.cheer>0?Math.round(Math.abs(Math.sin(G.cheer*14))*3):0;crumpet(149,62-hop,'l',t,1,0);if(G.cheer>0)heart(144,40-Math.round((.45-G.cheer)*20),'#ff5f9e')}
    if(G.fl>0){const a=Math.min(1,G.fl*3);cx.globalAlpha=a*.85;r(0,0,BW,3,G.flc);r(0,BH-3,BW,3,G.flc);r(0,0,3,BH,G.flc);r(BW-3,0,3,BH,G.flc);cx.globalAlpha=a*.12;r(0,0,BW,BH,G.flc);cx.globalAlpha=1}
-   r(0,0,BW,18,'rgba(14,8,40,.85)');ptxtS(G.hard?'GUS DRILL X2':def.n.toUpperCase(),4,4,G.hard?'#ffd86b':SN[def.k][2]);if(G.ph==='play'){r(4,13,152,2,'#3a2e5a');r(4,13,Math.round(152*(1-G.t/def.dur)),2,SN[def.k][2])}
+   r(0,0,BW,18,'rgba(14,8,40,.85)');ptxtS((G.hard?'GUS DRILL X2':def.n.toUpperCase())+' LV'+G.lv,4,4,G.hard?'#ffd86b':SN[def.k][2]);if(G.ph==='play'){r(4,13,152,2,'#3a2e5a');r(4,13,Math.round(152*(1-G.t/def.dur)),2,SN[def.k][2])}
    if(G.combo>=2&&G.ph==='play'){const s='X'+G.combo;ptxtS(s,156,4,G.combo>=5?'#ffd86b':'#fff6e0',1,'r');if(G.combo>=5){const f=Math.floor(t*10)%2;r(156-s.length*4-6,5+f,3,4,'#ff8a3a');r(156-s.length*4-5,4,1,2,'#ffd86b')}}
-   if(G.ph==='how'){r(10,70,140,112,'rgba(14,8,40,.94)');r(10,70,140,1,SN[def.k][2]);ptxtS(def.n.toUpperCase(),80,80,'#ffd86b',1,'c');def.how.forEach((s,i)=>ptxt(s,80,96+i*10,'#fff6e0',1,'c'));if(G.hard)ptxtS('COACH GUS DRILL: HARDER, GAINS X2',80,138,'#ffd86b',1,'c');
+   if(G.ph==='how'){r(10,70,140,112,'rgba(14,8,40,.94)');r(10,70,140,1,SN[def.k][2]);ptxtS(def.n.toUpperCase(),80,78,'#ffd86b',1,'c');ptxt('LEVEL '+G.lv+(G.lv>1?' - FASTER, BIGGER GAINS':''),80,87,G.lv>1?'#8be28b':'#8a7aa8',1,'c');def.how.forEach((s,i)=>ptxt(s,80,96+i*10,'#fff6e0',1,'c'));if(G.hard)ptxtS('COACH GUS DRILL: HARDER, GAINS X2',80,138,'#ffd86b',1,'c');
     ptxt('TRAINS '+SN[def.k][1].toUpperCase(),80,150,SN[def.k][2],1,'c');if(Math.floor(t*2)%2)ptxtS('TAP TO START',80,166,'#ff9ccb',1,'c')}
    if(G.ph==='cd')ptxtS(String(Math.ceil(cdn)),80,110,'#fff6e0',5,'c');
    if(G.ph==='done'&&!G.fin){r(20,96,120,60,'rgba(14,8,40,.92)');ptxtS(G.sc>=1.2?'AMAZING!':G.sc>=.9?'GREAT!':G.sc>=.6?'GOOD':'KEEP AT IT',80,104,'#ffd86b',2,'c');const n=G.sc>=1.2?3:G.sc>=.8?2:1;for(let i=0;i<3;i++)starPx(62+i*14,124,i<n);if(G.best>=3)ptxt('BEST STREAK '+G.best,80,142,'#cdb8e8',1,'c')}}}}
@@ -818,7 +820,7 @@ const DUST=(G,x,y)=>{for(let i=0;i<3;i++)G.parts.push({x:x-i*3,y,vx:-20-i*10,vy:
 
 /* 1. Treadmill Tempo: tap on the beat */
 const MG_SPD={k:'spd',n:'Treadmill Tempo',dur:17,how:['TAP WHEN EACH PAW','PRINT HITS THE RING.','THE BEAT GETS FASTER!'],
- init(G){G.notes=[];let tt=1.0,bpm=G.hard?120:96;while(tt<16.5){G.notes.push({t:tt,h:0});bpm=Math.min(G.hard?196:168,bpm+(G.hard?4.4:3.2));tt+=60/bpm}G.p=0;G.g=0;G.m=0;G.run=0;G.ring=0;G.ringC='#ff9ccb';G.trip=0;G.zip=0},
+ init(G){G.notes=[];let tt=1.0,bpm=H(G,96,120);while(tt<16.5){G.notes.push({t:tt,h:0});bpm=Math.min(H(G,168,196),bpm+H(G,3.2,4.4));tt+=60/bpm}G.p=0;G.g=0;G.m=0;G.run=0;G.ring=0;G.ringC='#ff9ccb';G.trip=0;G.zip=0},
  upd(G,dt){if(G.ring>0)G.ring-=dt;if(G.trip>0)G.trip-=dt;if(G.zip>0)G.zip-=dt;
   G.notes.forEach(n=>{if(!n.h&&G.t-n.t>.16){n.h=-1;G.m++;G.ring=.25;G.ringC='#ff5a5a';G.trip=.3;G.bad(40,192,'MISS')}});
   const nx=G.notes.find(n=>n.t>G.t);if(nx&&!nx.tk&&nx.t-G.t<.02){nx.tk=1;snd('tick')}G.run+=dt*(4+G.t*.5)*(G.trip>0?.5:1)},
@@ -837,12 +839,12 @@ const MG_SPD={k:'spd',n:'Treadmill Tempo',dur:17,how:['TAP WHEN EACH PAW','PRINT
 
 /* 2. Fetch Sprint: react the instant the ball flies */
 const MG_ACC={k:'acc',n:'Fetch Sprint',dur:60,how:['HUNTER WILL THROW','THE BALL. TAP THE','INSTANT IT FLIES.','DON’T FALL FOR FAKES!'],
- init(G){G.rd=0;G.sc2=[];G.st='wait';G.at=rr(1.2,2.4);G.fake=Math.random()<(G.hard?.85:.5)?rr(.5,G.at-.3):-1;G.lt=0;G.dx=0;G.bx=0;G.rt=null;G.skid=0},
+ init(G){G.rd=0;G.sc2=[];G.st='wait';G.at=rr(1.2,2.4);G.fake=Math.random()<H(G,.5,.85)?rr(.5,G.at-.3):-1;G.lt=0;G.dx=0;G.bx=0;G.rt=null;G.skid=0},
  upd(G,dt){G.lt+=dt;if(G.skid>0)G.skid-=dt;
   if(G.st==='wait'){if(G.lt>=G.at){G.st='fly';G.ft=G.lt;snd('throw')}}
   else if(G.st==='fly'){G.bx+=dt;if(G.lt-G.ft>1.1){G.sc2.push(.3);G.rt=1.1;G.bad(80,120,'TOO SLOW');G.st='run'}}
   else if(G.st==='run'){G.dx+=dt*150;if(Math.random()<.4)DUST(G,20+G.dx-8,196);if(G.dx>110){G.st='back';G.lt=0}}
-  else if(G.st==='back'){if(G.lt>1){G.rd++;if(G.rd>=5){G.over=1;return}G.st='wait';G.lt=0;G.at=rr(1,2.6);G.fake=Math.random()<(G.hard?.85:.55)?rr(.45,G.at-.3):-1;G.dx=0;G.bx=0;G.rt=null}}},
+  else if(G.st==='back'){if(G.lt>1){G.rd++;if(G.rd>=5){G.over=1;return}G.st='wait';G.lt=0;G.at=rr(1,2.6);G.fake=Math.random()<H(G,.55,.85)?rr(.45,G.at-.3):-1;G.dx=0;G.bx=0;G.rt=null}}},
  tap(G){if(G.st==='wait'){G.sc2.push(0);const fk=G.fake>0&&Math.abs(G.lt-G.fake)<.4;G.bad(80,120,fk?'FAKED OUT!':'FALSE START!');snd('miss');G.st='back';G.lt=0;G.skid=.5;G.dx=12;return}if(G.st!=='fly')return;const rt=G.lt-G.ft;G.rt=rt;
   const s=rt<.24?1.5:rt<.34?1.2:rt<.48?.9:rt<.7?.6:.35;G.sc2.push(s);if(s>=1.2){G.good(80,120,rt<.24?'LIGHTNING!':'QUICK!',rt<.24?2:1);snd('boost')}else if(s>=.9){G.good(80,120,'GOOD');snd('step')}else{G.bad(80,120,'SLOW START');snd('step')}G.st='run'},
  score:G=>G.sc2.reduce((a,b)=>a+b,0)/5,
@@ -860,7 +862,7 @@ const MG_ACC={k:'acc',n:'Fetch Sprint',dur:60,how:['HUNTER WILL THROW','THE BALL
 /* 3. Pool Laps: alternate left and right */
 const MG_STA={k:'sta',n:'Pool Laps',dur:15,how:['TAP LEFT, THEN RIGHT,','THEN LEFT, THEN RIGHT.','A STEADY RHYTHM','SWIMS FARTHEST.'],
  init(G){G.x=0;G.v=0;G.last=null;G.good2=0;G.bad2=0;G.pl=0;G.pc='#8be28b';G.ps=null},
- upd(G,dt){G.v=Math.max(0,G.v-dt*(G.hard?21:14));G.x+=G.v*dt;if(G.pl>0)G.pl-=dt},
+ upd(G,dt){G.v=Math.max(0,G.v-dt*H(G,14,21));G.x+=G.v*dt;if(G.pl>0)G.pl-=dt},
  down(G,x){const s=x<80?'l':'r';G.ps=s;G.pl=.2;if(s===G.last){G.bad2++;G.v*=.5;G.pc='#ff5a5a';G.bad(x<80?40:120,170,'SAME SIDE!');snd('splash')}
   else{G.good2++;G.v=Math.min(46,G.v+8);G.pc='#8be28b';snd('blip');G.combo++;G.best=Math.max(G.best,G.combo);if(G.combo%8===0)G.good(70,130,'GREAT RHYTHM!',2);
    for(let i=0;i<3;i++)G.parts.push({x:60-i*4,y:150,vx:-30-i*8,vy:-20-Math.random()*10,c:'#c8ecff',t:0,life:.35,k:'s'})}G.last=s},
@@ -883,8 +885,8 @@ function dogBack(x,y,t,run,lean){x=Math.round(x);y=Math.round(y);const O='#e0903
  const hy=by-6+(lean?1:0),hx=x-4+(lean||0);r(hx,hy,9,7,O);r(hx,hy,9,1,L);r(hx,hy+1,1,6,D);r(hx+8,hy+1,1,6,D);
  for(let k=0;k<5;k++){const w=1+Math.round(k*.6);r(hx,hy-5+k,w,1,O);r(hx+9-w,hy-5+k,w,1,O)}r(hx,hy-5,1,1,L);r(hx+8,hy-5,1,1,L)}
 const MG_AGI={k:'agi',n:'Weave Poles',dur:32,how:['TAP LEFT OR RIGHT TO','WEAVE AROUND EACH POLE:','LEFT OF ONE, RIGHT OF','THE NEXT. FOLLOW THE PAWS!'],
- init(G){G.y=0;G.v=G.hard?58:42;G.side=-1;G.dx=-13;G.poles=[];for(let i=0;i<18;i++)G.poles.push({y:-40-i*46,need:i%2?1:-1,res:0,wob:0});G.ok=0;G.bad2=0;G.st=0;G.lastSw=-9},
- upd(G,dt){G.v=Math.min(G.hard?128:104,G.v+dt*(G.hard?4:3.2));if(G.st>0){G.st-=dt}G.y+=G.v*dt*(G.st>0?.4:1);G.dx=lerp(G.dx,G.side*13,Math.min(1,dt*16));
+ init(G){G.y=0;G.v=H(G,42,58);G.side=-1;G.dx=-13;G.poles=[];for(let i=0;i<18;i++)G.poles.push({y:-40-i*46,need:i%2?1:-1,res:0,wob:0});G.ok=0;G.bad2=0;G.st=0;G.lastSw=-9},
+ upd(G,dt){G.v=Math.min(H(G,104,128),G.v+dt*H(G,3.2,4));if(G.st>0){G.st-=dt}G.y+=G.v*dt*(G.st>0?.4:1);G.dx=lerp(G.dx,G.side*13,Math.min(1,dt*16));
   G.poles.forEach(p=>{if(p.wob>0)p.wob-=dt;if(p.res)return;const Y=p.y+G.y;if(Y>206){const ok=Math.sign(G.dx)===p.need&&Math.abs(G.dx)>6;p.res=ok?1:-1;
    if(ok){G.ok++;G.good(80,Y-24,G.combo>=4?'SMOOTH!':'NICE',G.combo>=4?2:1);snd('blip')}else{G.bad2++;p.wob=.5;G.st=.35;G.bad(80,Y-24,'WRONG SIDE');snd('bump')}}});
   if(G.poles.every(p=>p.res))G.over=1},
@@ -908,7 +910,7 @@ const MG_AGI={k:'agi',n:'Weave Poles',dur:32,how:['TAP LEFT OR RIGHT TO','WEAVE 
 /* 5. Squirrel Watch: tap treats, ignore squirrels */
 const MG_FOC={k:'foc',n:'Squirrel Watch',dur:16,how:['DONUT IS ON A SIT-STAY.','TAP THE TREATS THAT POP UP.','DO NOT TAP THE SQUIRRELS.','(SHE WANTS TO. SO BAD.)'],
  init(G){G.it=[];G.nt=.6;G.hit=0;G.sq=0;G.ms=0;G.tot=0;G.wob=0;G.happy=0},
- upd(G,dt){G.nt-=dt;if(G.happy>0)G.happy-=dt;if(G.nt<=0){G.nt=(rr(.45,.95)-G.t*.012)*(G.hard?.72:1);const holes=[[30,150],[80,136],[130,150],[48,186],[112,186]];const free=holes.filter(h=>!G.it.some(i=>i.h===h&&!i.gone));if(free.length){const h=pick(free),tr=Math.random()<(G.hard?.36:.45);if(tr)G.tot++;G.it.push({h,tr,t:0,life:(rr(.8,1.1)-G.t*.015)*(G.hard?.75:1)})}}
+ upd(G,dt){G.nt-=dt;if(G.happy>0)G.happy-=dt;if(G.nt<=0){G.nt=(rr(.45,.95)-G.t*.012)*H(G,1,.72);const holes=[[30,150],[80,136],[130,150],[48,186],[112,186]];const free=holes.filter(h=>!G.it.some(i=>i.h===h&&!i.gone));if(free.length){const h=pick(free),tr=Math.random()<H(G,.45,.36);if(tr)G.tot++;G.it.push({h,tr,t:0,life:(rr(.8,1.1)-G.t*.015)*H(G,1,.75)})}}
   G.it.forEach(i=>{i.t+=dt;if(i.t>i.life&&!i.gone){i.gone=1;if(i.tr&&!i.got){G.ms++;G.combo=0;G.pop('MISSED','#cdb8e8',i.h[0],i.h[1]-14);for(let k=0;k<5;k++)G.parts.push({x:i.h[0],y:i.h[1]-6,vx:(k-2)*8,vy:-10,c:'#d8d0e0',t:0,life:.35,k:'p'})}}});
   G.it=G.it.filter(i=>!i.gone||i.t<i.life+.2);if(G.wob>0)G.wob-=dt},
  tap(G,x,y){const i=G.it.find(i=>!i.gone&&Math.abs(i.h[0]-x)<14&&Math.abs(i.h[1]-8-y)<14);if(!i)return;i.gone=1;i.got=1;
@@ -928,7 +930,7 @@ const MG_FOC={k:'foc',n:'Squirrel Watch',dur:16,how:['DONUT IS ON A SIT-STAY.','
 const POSES=[['SIT','sit'],['BOW','bow'],['TILT','tilt'],['WAVE','wave']];
 function posed(x,y,p,t){if(p==='bow'){rdog(x,y,{c:'red',st:'duck',g:dGear(),tongue:1});r(x-10,y-12,2,3,'#e0903a')}else{rdog(x,y,{c:'red',st:'sit',g:dGear(),tongue:p!=='sit'});if(p==='tilt')ptxtS('?',x+12,y-26,'#fff6e0',1);if(p==='wave'){r(x+8,y-14+Math.round(Math.sin(t*12)),2,6,'#fbf6ec')}}}
 const MG_CHA={k:'cha',n:'Photo Shoot',dur:40,how:['THE PHOTOGRAPHER CALLS','A POSE. TAP THE MATCHING','POSE BEFORE THE','SHUTTER CLICKS!'],
- init(G){G.n=0;G.ok=0;G.pk=-1;G.pkT=0;G.pkOk=0;G.shots=[];G.next=()=>{G.want=pick(POSES)[1];G.lim=G.hard?Math.max(.85,1.8-G.n*.14):Math.max(1.05,2.3-G.n*.16);G.lt=0;G.cur=G.cur||'sit';G.n++};G.next();G.fl2=0},
+ init(G){G.n=0;G.ok=0;G.pk=-1;G.pkT=0;G.pkOk=0;G.shots=[];G.next=()=>{G.want=pick(POSES)[1];G.lim=Math.max(H(G,1.05,.85),H(G,2.3,1.8)-G.n*H(G,.16,.14));G.lt=0;G.cur=G.cur||'sit';G.n++};G.next();G.fl2=0},
  upd(G,dt){G.lt+=dt;if(G.fl2>0)G.fl2-=dt;if(G.pkT>0)G.pkT-=dt;if(G.lt>=G.lim){G.shots.push(0);G.bad(80,150,'TOO SLOW');snd('miss');if(G.n>=8)G.over=1;else G.next()}},
  tap(G,x,y){if(y<236)return;const i=clamp(Math.floor(x/40),0,3);const p=POSES[i][1];G.cur=p;G.pk=i;G.pkT=.3;
   if(p===G.want){const q=Math.max(0,(G.lim-G.lt)/G.lim);G.ok+=1+q*.5;G.fl2=.25;G.pkOk=1;G.shots.push(q>.5?2:1);snd('shutter');G.good(80,150,q>.5?'PERFECT SHOT!':'SNAP!',q>.5?2:1)}
@@ -1476,7 +1478,7 @@ function hubTapExtra(wx,wy){const lv=S.gym;
 
 /* ---- Garage: scrimmage, workout plan ---- */
 function autoTrain(){const cap=capOf();let n=0;const before=Object.assign({},S.st);while(S.ap>0&&S.en>=15){const k=STATS.map(s=>s[0]).filter(k=>S.st[k]<cap).sort((a,b)=>S.st[a]-S.st[b])[0];if(!k)break;
-  const m=EQM[S.eq[k]||0]*(.75+S.mood/250)*(.55+.45*Math.max(0,1-S.st[k]/120)),g=Math.max(0,Math.min(cap-S.st[k],Math.round(2.8*m*.62*10)/10));S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-14,0,100);S.mood=clamp(S.mood+(buddy()?4:-2),0,100);addXP(18+6.2);n++}
+  const m=EQM[S.eq[k]||0]*(.75+S.mood/250)*(.55+.45*Math.max(0,1-S.st[k]/120)),g=Math.max(0,Math.min(cap-S.st[k],Math.round(2.8*m*(1+.15*((S.gym||1)-1))*.62*10)/10));S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-14,0,100);S.mood=clamp(S.mood+(buddy()?4:-2),0,100);addXP(18+6.2);n++}
  save();const lines=STATS.filter(([k])=>S.st[k]>before[k]).map(([k,nm])=>'<b>+'+(S.st[k]-before[k]).toFixed(1)+' '+nm+'</b>');
  resultCard({title:n?'WORKOUT PLAN':'NOTHING TO TRAIN',stars:-1,lines:n?lines.concat(['+'+Math.round(n*24.2)+' XP']):['Out of actions, energy, or every stat is maxed.'],sub:n+' quick session'+(n===1?'':'s'),btn:'Back to the gym',then:()=>afterAny()})}
 
@@ -1534,9 +1536,9 @@ const xpNeed=lv=>40+lv*18;
 function addXP(n){S.xp+=Math.round(n*(perk(3,1)?1.15:1));const ups=[];while(S.lv<50&&S.xp>=xpNeed(S.lv)){S.xp-=xpNeed(S.lv);S.lv++;S.sp++;STATS.forEach(([k])=>S.st[k]=Math.max(S.st[k],Math.min(capOf(),S.st[k]+1)));ups.push(S.lv)}return ups}
 const apMax=()=>3+(S.gym>=4?1:0)+(perk(5,0)?1:0);const pool=()=>S.gym>=4;const buddy=()=>S.gym>=2;const drillOK=()=>S.gym>=3&&S.drillW!==S.week;
 const spa$=()=>[40,250,1500,6000][S.lg];
-function trainDone(k,perf,quick,drill){const before=S.st[k],cap=capOf(),m=EQM[S.eq[k]||0]*(.75+S.mood/250)*(.55+.45*Math.max(0,1-S.st[k]/120))*(drill?2:1);
- const g=Math.max(0,Math.min(cap-S.st[k],Math.round(2.8*m*perf*10)/10));S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-(quick?14:18),0,100);S.mood=clamp(S.mood+(buddy()?4:-(quick?2:3)),0,100);if(drill)S.drillW=S.week;
- const ups=addXP(18+perf*10);save();const lines=['<b>+'+g.toFixed(1)+' '+SN[k][1]+'</b>'+(drill?' <em>(DRILL x2)</em>':''),'+'+Math.round(18+perf*10)+' XP'];if(buddy())lines.push('+4 Mood (training with Crumpet)');
+function trainDone(k,perf,quick,drill,flawless){const before=S.st[k],cap=capOf(),m=EQM[S.eq[k]||0]*(.75+S.mood/250)*(.55+.45*Math.max(0,1-S.st[k]/120))*(drill?2:1);
+ const flaw=!quick&&!!flawless,gm=(1+.15*((S.gym||1)-1))*(flaw?1.25:1),g=Math.max(0,Math.min(cap-S.st[k],Math.round(2.8*m*gm*perf*10)/10));S.st[k]=Math.round((S.st[k]+g)*10)/10;S.ap--;S.en=clamp(S.en-(quick?14:18),0,100);S.mood=clamp(S.mood+(buddy()?4:-(quick?2:3)),0,100);if(drill)S.drillW=S.week;
+ const ups=addXP(18+perf*10);save();const lines=['<b>+'+g.toFixed(1)+' '+SN[k][1]+'</b>'+(drill?' <em>(DRILL x2)</em>':''),'+'+Math.round(18+perf*10)+' XP'];if(flaw)lines.splice(1,0,'<em>FLAWLESS! +25%</em>');if(S.gym>1&&!quick)lines.push('Level '+mgLv(drill)+' workout: +'+Math.round((S.gym-1)*15)+'% gains');if(buddy())lines.push('+4 Mood (training with Crumpet)');
  if(S.st[k]>=cap)lines.push('<em>'+SN[k][1]+' is maxed for '+GYM[S.gym].n+'</em>'+(GYM[S.gym+1]?'<br>Upgrade the gym to go higher':''));if(ups.length)lines.push('<em>LEVEL UP! Lv '+S.lv+'</em><br>+1 skill point &middot; +1 to every stat (up to '+cap+')');
  resultCard({title:quick?'QUICK SESSION':perf>=1.2?'AMAZING!':perf>=.9?'GREAT SESSION!':perf>=.6?'NICE WORK':'TOUGH ONE',stars:quick?0:perf>=1.2?3:perf>=.8?2:1,lines,sub:SN[k][1]+' '+Math.floor(before)+' &rarr; '+Math.floor(S.st[k]),btn:'Back to the gym',then:()=>afterAny()})}
 function raceDone(ev,pl,time,riv){const L=LG[S.lg],boss=ev.boss,V=VEN[ev.ven];
