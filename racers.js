@@ -435,6 +435,7 @@ function ppl(k,x,y,t,dir,walk){try{if(!PEO[k]){const base={buzz:['morgan',{n:'Bu
   vet:['morgan',{n:'Vet',skin:'#c98e62',hair:'#1e1e1e',hl:1,eye:'#2a2a2a',top:'#5ac8c0',pants:'#5ac8c0',shoe:'#f6f6f0'}],
   nigel:['hunter',{n:'Sir Nigel',skin:'#f4dcc8',hair:'#d8d4cc',hl:0,eye:'#5a6a8a',top:'#2a2a3a',stripe:'#2a2a3a',collar:'#f6f6f0',pants:'#2a2a3a',shoe:'#111'}],
   driver:['hunter',{n:'Driver',skin:'#a8744a',hair:'#1a1a1a',hl:0,eye:'#2a2a2a',top:'#1a1a22',stripe:'#1a1a22',collar:'#f6f6f0',pants:'#1a1a22',shoe:'#111',cap:'#1a1a22'}],
+  baron:['hunter',{n:'Baron von Snoot',skin:'#f4dcc8',hair:'#2a1a2a',hl:0,eye:'#3a2a4a',top:'#5a2a6a',stripe:'#5a2a6a',collar:'#ffd86b',pants:'#2a1a2a',shoe:'#111'}],
   fan1:['morgan',{n:'Superfan',skin:'#f1c9a0',hair:'#e8c860',hl:1,eye:'#3a5a9a',top:'#f08a2a',pants:'#3a4a6b',shoe:'#fff6e0'}],
   fan2:['hunter',{n:'Superfan',skin:'#8a5a3a',hair:'#1a1a1a',hl:0,eye:'#2a2a2a',top:'#f08a2a',stripe:'#f08a2a',collar:'#f08a2a',pants:'#3a4a6b',shoe:'#1a1a1a',cap:'#f08a2a'}],
   fan3:['abi',{n:'Superfan',skin:'#f6d2b0',hair:'#c0502a',hl:2,eye:'#3a7a5a',top:'#f08a2a',skirt:'#3a4a6b',pants:'#3a4a6b',shoe:'#fff6e0'}],
@@ -661,6 +662,11 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
  const dis=[];const nd=lg===0?2:3;for(let i=0;i<nd;i++){const at=len*(.25+i*.6/nd)+rr(-40,40);obs.forEach(o=>{if(Math.abs(o.x-at)<70)o.x+=90});dis.push({x:at,k:pick(V.d),hit:0,res:0,on:0})}
  if(boss==='chad')dis.push({x:len*.48,k:'bark',hit:0,res:0,on:0,chad:1});
  if(ev.tut){obs.length=0;dis.length=0;obs.push({x:430,k:'cone'},{x:800,k:'banner',duck:true},{x:1420,k:'hay'});dis.push({x:1100,k:'squirrel',hit:0,res:0,on:0})}
+ /* the Baron's sabotage, and the World Final with his helicopter and his fake finish line */
+ const FIN=boss==='fluff'&&!ev.exhib&&!S.fl.champ,SAB=!FIN&&S.fl.bar3&&!S.fl.champ&&lg>=2&&!ev.tt&&!ev.scrim&&!ev.tut&&!ev.exhib&&!ev.cup&&(ev.sab||Math.random()<.45),FE={};
+ if(SAB){const c=obs.filter(o=>!o.duck&&o.x>len*.3&&o.x<len*.8);if(c.length){const o=pick(c);o.k='puddle';o.oil=1}}
+ if(FIN){const put=(at,o)=>{for(let i=obs.length-1;i>=0;i--)if(Math.abs(obs[i].x-at)<60)obs.splice(i,1);obs.push(Object.assign({x:at},o))};
+  [.36,.43,.5].forEach(f=>put(len*f,{k:'crate',heli:1}));put(len*.64,{k:'banner',duck:true,fake:1});obs.sort((a,b)=>a.x-b.x);dis.forEach(q=>{obs.forEach(o=>{if(Math.abs(o.x-q.x)<50)q.x=o.x+70})})}
  let gate=null;const TG={};
  const all=[D,...riv];let phase='count',ct=3.4,time=0,cam=-40,pops=[],endT=0,hype=0,crum=relay,handed=0,flop=0,flopTaps=0,shake=0,falseT=0,msg=null;
  const pop=(s,c,big)=>{pops.forEach(p=>p.dy=(p.dy||0)+(big?18:10));pops.push({s,c:c||'#ffd86b',t:0,big,dy:0})};
@@ -717,6 +723,9 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
     else if(dx<=-6&&q.on){q.on=0;q.hit=1;D.held=0;D.chase=1.1;D.d=0;pop(q.chad?'DISTRACTED!':{squirrel:'SQUIRREL!!',ball:'BALL!!',hotdog:'HOT DOG!!',pigeon:'BIRD!!',seagull:'BIRD!!'}[q.k]||'OOH! SNACK!','#ffd86b');snd('alert')}});
    if(boss==='chad'){const q=dis[dis.length-1];if(!q.said&&q.x-D.x<120){q.said=1;say('Chad Barkley: BARK BARK! (HOLD to stay focused!)',2.4);snd('buzz')}}
    /* rivals */
+   if(FIN&&phase==='run'){const pd=D.x/len;if(pd>.03&&!FE.a){FE.a=1;say('THE WORLD FINAL! THE PEDIGREE ACT IS ON THE LINE!',2.4)}if(pd>.27&&!FE.h){FE.h=1;snd('alert');say('THE BARON’S HELICOPTER! JUMP THE CRATES!',2.2)}
+    if(pd>.58&&!FE.f){FE.f=1;snd('alert');say('A FAKE FINISH LINE! DUCK UNDER IT!',2.2)}if(pd>.93&&!FE.c){FE.c=1;say('DO-NUT! DO-NUT! DO-NUT!',2)}}
+   if(SAB&&phase==='run'&&!FE.o){const o=obs.find(o=>o.oil);if(o&&o.x-D.x<300){FE.o=1;snd('alert');say('SABOTAGE! SOMEONE OILED THE TRACK!',1.8)}}
    riv.forEach(R=>{if(R.trip>0)R.trip-=dt;if(R.chase>0)R.chase-=dt;const p=R.x/len,s=R.s;
     let dr=.6+.22*s.sta/100+Math.sin(time*.9+R.ph)*.08,mul=R.form;
     if(R.trait==='closer')dr=p<.6?.42:1.05;if(R.trait==='rocket'){if(p<.25){dr=1;mul*=1.07}else if(p>.5)dr=.5}if(R.trait==='surge'&&p>.7)mul*=1.12;if(R.trait==='royal'&&p>.7){mul*=1.1;if(!R.said){R.said=1;say('LORD FLUFFINGTON: THE ROYAL SURGE!',1.8)}}
@@ -725,6 +734,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
     if(V.gr==='sand'&&R.trait!=='sand')mul*=.93;
     if(crum&&!handed)mul*=.97;
     let vt=R.vm*(.74+.26*Math.min(1.05,dr))*mul;if(R.trip>0)vt*=.35;if(R.chase>0)vt*=.28;
+    if(FIN&&R.trait==='royal'&&p>.82&&D.fin==null){if(!R.kind){R.kind=1;say('LORD FLUFFINGTON IS SLOWING DOWN... TO RUN WITH DONUT!',2.4)}vt=R.x>D.x+3?Math.min(vt,D.v*.55):Math.min(vt,D.v*.985)}
     const a=vt>R.v?R.ac:R.ac*1.6;R.v+=clamp(vt-R.v,-a*dt,a*dt);if(R.fin==null)R.x+=R.v*dt;R.ph+=R.v*dt*.11;
     if(R.jt>=0){R.jt+=dt;R.jh=Math.sin(Math.min(1,R.jt/.5)*Math.PI)*13;if(R.jt>=.5){R.jt=-1;R.jh=0}}if(R.dk>0)R.dk-=dt;
     obs.forEach((o,i)=>{if(R.done[i])return;const dx=o.x-R.x;if(dx<18&&dx>0&&!R.pre){R.pre=i+1;const sp=R.trait==='perfect'||R.trait==='nimble'||R.trait==='royal'?0:clamp(.3-s.agi*.0032,.03,.3);R.fail=Math.random()<sp;
@@ -747,7 +757,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
    dis.forEach(q=>{if(q.chad)return;const X=q.x-cam;if(X<-20||X>BW+20)return;const tx=q.hit&&D.chase>0?X:X;disDraw(q.k,tx,TRK+TRH+2,t,q.on);
     if(q.on){const need=focusNeed,k=Math.min(1,D.held/need);for(let a=0;a<24;a++){const qq=a/24*Math.PI*2;if(a/24<=k)r(Math.round(X+Math.cos(qq-Math.PI/2)*9),Math.round(TRK+TRH-24+Math.sin(qq-Math.PI/2)*9),2,2,'#b78cff');else r(Math.round(X+Math.cos(qq-Math.PI/2)*9),Math.round(TRK+TRH-24+Math.sin(qq-Math.PI/2)*9),1,1,'rgba(255,255,255,.7)')}ptxtS('HOLD',X,TRK+TRH-26,'#fff6e0',1,'c')}});
    /* draw lanes back to front: obstacles in each lane, then the racer in it */
-   for(let ln=0;ln<4;ln++){const y=LANE[ln];obs.forEach(o=>{const X=o.x-cam;if(X>-14&&X<BW+14)obsDraw(o.k,X,y,t)});
+   for(let ln=0;ln<4;ln++){const y=LANE[ln];obs.forEach(o=>{const X=o.x-cam;if(X>-14&&X<BW+14){if(o.oil)oilDraw(X,y,t);else if(o.fake)fakeFin(X,y,t);else if(o.heli){const air=Math.round(clamp((o.x-D.x-130)*.6,0,90));cx.save();cx.translate(0,-air);obsDraw(o.k,X,y,t);cx.restore();if(air>0)ell(Math.round(X),y,5,1,'#000',.25*(1-air/90))}else obsDraw(o.k,X,y,t)}});
     if(ghost&&ln===2&&phase!=='count'){const i=Math.min(ghost.length-1,Math.floor(time*10)),gx=i>=0?ghost[i]+(ghost[Math.min(ghost.length-1,i+1)]-ghost[i])*((time*10)%1):0,X=gx-cam;if(X>-30&&X<BW+30){cx.globalAlpha=.42;rdog(X,y,{c:'red',st:'run',ph:time*9,g:dGear()});cx.globalAlpha=1;ptxt('GHOST',X,y-30,'#cdb8e8',1,'c')}}
     all.filter(R=>R.lane===ln).forEach(R=>{const X=R.x-cam;if(X<-30||X>BW+30)return;const isD=R===D;
      if(isD)D.smoke.forEach(p=>{const k=p.t/p.life,rad=1.5+k*5,sx=Math.round(p.x-cam),sy=Math.round(p.y);if(sx<-10||sx>BW+10)return;disc(sx,sy,rad|0,k<.18?'hsl('+p.h+',90%,82%)':k<.5?'#f4f0f8':'#c8c4d4',.75*(1-k))});
@@ -778,6 +788,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
     else if(g.need==='zoom'){const b=Math.round(Math.abs(k)*4);arw(130,236-b,false,'#ffd86b');arw(130,230-b,false,'#ffd86b');disc(130,262,20,'#ffd86b',.35+Math.abs(k)*.3)}}
    if(phase==='count'){const n=Math.ceil(ct);if(ev.tut&&ct>.6){r(8,150,144,20,'#fff6e0');ptxt('TAP RIGHT AT GO',80,154,'#c2417a',1,'c');ptxt('FOR A FAST START',80,162,'#5a2148',1,'c')}r(0,96,BW,40,'rgba(14,8,40,.4)');ptxtS(n>0?String(n):'GO!',80,104,n>0?'#fff6e0':'#8be28b',5,'c');if(ct>2.6)ptxtS('READY...',80,140,'#ffd86b',1,'c')}
    else if(phase==='run'&&time<.9)ptxtS('GO!',80,104,'#8be28b',5,'c');
+   if(FIN&&D.x>len*.24&&D.x<len*.56){const k=(D.x-len*.24)/(len*.32),hx=Math.round(BW*.72+Math.sin(t*1.3)*14-(k>.9?(k-.9)*900:0)),hy=Math.round(34+Math.sin(t*2.1)*3-(k<.08?(.08-k)*500:0));heli(hx,hy,t)}
    if(phase==='end'){const pl=placeOf();if(ev.tt)ptxtS(D.fin.toFixed(2),80,90,'#ffd86b',4,'c');else ptxtS(ORD[pl-1]+'!',80,90,pl===1?'#ffd86b':'#fff6e0',4,'c')}}};
  let at=0;function autoP(dt){const A=SCR.auto;at-=dt;const o=obs.find((o,i)=>!D.done[i]);if(o){const dx=o.x-(D.x+6);if(!o.duck&&D.jt<0&&dx<D.v*.27&&dx>0&&Math.random()<A.k)SCR.swipe('u');if(o.duck&&D.dk<=0&&dx<D.v*.28&&dx>0&&Math.random()<A.k)SCR.swipe('d')}
   IN.down=dis.some(q=>q.on)&&A.k>.5?1:0;if(at<=0){at=A.rate||.36;if(D.sta>(A.save||25)||D.zt>0)tap()}if(D.zm>=1&&D.x/len>(A.zat||.6))special()}
@@ -1275,6 +1286,194 @@ function bossWalkout(ev,cast0,st){const B=BOSS[ev.boss],V=VEN[ev.ven],ri=ri0();f
  if(ev.boss==='fluff')L.splice(2,0,{n:'Buzz',t:'The undefeated world champion versus the park dog from Missouri. You could not WRITE this!'});
  if(ev.boss==='chad')L.push({n:'Coach Gus',t:'He’s gonna bark at you mid-race. When he does: HOLD. Don’t you dare look at him.',a:bt(K,4)});
  return {L,draw:K.draw}}
+/* ---------------- Baron von Snoot and the Pedigree Act ----------------
+   The Baron owns Lord Fluffington and a pet food empire. He buys up racing one league at a time,
+   tries to buy Donut, and finally tries to ban short-legged dogs and close every public dog park.
+   The World Final decides it. Pantomime evil: he loses his hat in the mud. */
+const tophat=(x,y)=>{r(x-3,y-6,7,6,'#1e1a22');r(x-3,y-6,7,1,'#3a3442');r(x-3,y-2,7,1,'#a02a3a');r(x-5,y,11,1,'#1e1a22')};
+function baron(x,y,t,dir,walk,o){o=o||{};ppl('baron',x,y,t,dir||'d',walk);x=Math.round(x);y=Math.round(y);
+ const fx=dir==='l'?-1:1;/* waxed moustache, monocle on its chain, and the hat */
+ r(x-2,y-11,5,1,'#d8d4cc');r(x-3,y-12,1,1,'#d8d4cc');r(x+3,y-12,1,1,'#d8d4cc');
+ const mx=dir==='l'?x-2:x+2;r(mx-1,y-14,3,1,'#ffd86b');r(mx+fx,y-13,1,2,'#ffd86b');r(mx+fx,y-10,1,3,'#c8a040');
+ if(!o.nohat)tophat(x,y-19);if(o.mad){r(x-3,y-16,2,1,'#2a1a2a');r(x+1,y-16,2,1,'#2a1a2a');r(x-1,y-22-(Math.floor(t*6)%2),1,2,'#ff5a5a');r(x+1,y-23,1,2,'#ff5a5a')}}
+const NIGHT=a=>{cx.globalAlpha=a;r(-10,-20,100,200,'#0a0e2a');cx.globalAlpha=1};
+/* a venue at story scale, the same framing as the crown scene */
+function venueCut(ven,t,fn){cx.save();cx.scale(2,2);cx.translate(0,-VOY);venueDraw(ven,-8,t,0);fn();venueFg(ven,-8);cx.restore()}
+/* the fence the Baron puts around Riverside: 8 panels that can fall over one by one */
+function parkFence(fall){for(let i=0;i<8;i++){const x=i*10,f=clamp(((fall||0)-i*.07)/.25,0,1),h=Math.round(14*(1-ez(f)));
+  if(h<=1){r(x,157,10,2,'#8a8a96');r(x,157,10,1,'#b8b8c4');continue}
+  const top=158-h;r(x,top,1,h,'#6a6a76');r(x+9,top,1,h,'#6a6a76');r(x,top,10,1,'#9a9aa6');for(let yy=top+2;yy<158;yy+=2)for(let xx=x+1+((yy/2)%2);xx<x+9;xx+=2)r(xx,yy,1,1,'rgba(200,200,215,.55)')}}
+function estSign(x,y,kind,a){if(a===0)return;cx.globalAlpha=a==null?1:a;const C=kind?{b:'#3aa84a',e:'#2a7a3a',t:'#fff6e0'}:{b:'#f6efe0',e:'#c8a040',t:'#5a2a6a'};
+ r(x-20,y,2,14,'#6a4a2a');r(x+18,y,2,14,'#6a4a2a');r(x-24,y-21,48,22,C.e);r(x-23,y-20,46,20,C.b);
+ if(kind){ptxt('DONUT PARK',x,y-17,'#ffd86b',1,'c');ptxt('ALL DOGS',x,y-10,C.t,1,'c');ptxt('WELCOME',x,y-4,C.t,1,'c');heart(x-22,y-19,'#ff7eb6')}
+ else{ptxt('COMING SOON',x,y-18,C.t,1,'c');ptxt('FLUFFINGTON',x,y-11,'#a02a3a',1,'c');ptxt('ESTATES',x,y-5,C.t,1,'c')}cx.globalAlpha=1}
+/* the limo again, with the Baron in the back window and his hat through the sunroof */
+function baronLimo(x,y,o,t){limo(x,y,o);x=Math.round(x);y=Math.round(y);const wx=o.dir==='l'?x+5:x-5;
+ r(wx-2,y-15,5,4,'#f4dcc8');r(wx-2,y-12,5,1,'#d8d4cc');r(wx+(o.dir==='l'?-1:1),y-14,1,1,'#2a1a2a');r(wx-1,y-15,3,1,'#2a1a2a');tophat(wx,y-17)}
+function cash(x,y,u){r(x-7,y,14,7,'#3a2a20');r(x-6,y+1,12,5,'#2a6a3a');for(let i=0;i<3;i++){r(x-6+i*4,y+1,3,5,'#3a8a4a');r(x-6+i*4,y+3,3,1,'#8be28b')}glint(x+4,y,u)}
+
+/* ---- 1. Amateur: a fence goes up around Riverside ---- */
+function cutFence(then){S.fl.bar1=1;save();const K=cutScr((C,u,t)=>venueCut('park',t,()=>{const b=C.b,L=[];
+  parkFence(0);estSign(40,154,0);
+  const ax=b===0?tw(-12,20,u,2.4):20,hx2=b===0?tw(-20,30,u,2.6):30,dx=b===0?tw(-6,44,u,2):44;
+  L.push({y:176,f:()=>p2('abi',ax,176,t,b===0?'r':'r',b===0&&u<2.4)});L.push({y:178,f:()=>p2('hunter',hx2,178,t,'r',b===0&&u<2.6)});
+  L.push({y:170,f:()=>gcorgi(dx,170,{c:'red',g:dGear(),t,dir:'r',st:b===0&&u<2?'run':b>=1?'sit':'stand',tongue:b===0})});
+  if(b>=2){const lx=b===2?tw(110,54,u,2.2):b===3?tw(54,-50,u,2.6,1.2):-60;if(lx>-50)L.push({y:192,f:()=>{baronLimo(lx,192,{dir:'l',spin:-u*14,shine:u},t);if((b===2&&u<2.2)||(b===3&&u>1.2))dust(lx+24,192,u,4)}})}
+  castDraw(L);if(b===1)glint(52,136,u);if(b===4){r(46,160,1,1,'#7ee8fa');r(46,161,1,1,'#7ee8fa')}}));
+ MUS='cozy';talk([{n:'',t:'Saturday morning. Back to Riverside Dog Park, where it all started.',a:bt(K,0)},
+  {n:'',t:'There’s a fence around it. And a sign.',a:bt(K,1)},{n:'Abigail',t:'“Fluffington Estates”? “Pedigree dogs only”?! This is a PUBLIC park!'},
+  {n:'',t:'A long purple limo rolls past. Slowly. The back window hums down.',a:bt(K,2)},
+  {n:'Baron von Snoot',t:'Hmph. Short legs. No papers. Muddy. This park is wasted on dogs like THAT.'},{n:'Baron von Snoot',t:'Drive on, Nigel.',a:bt(K,3)},
+  {n:'Hunter',t:'Who WAS that?',a:bt(K,4)},{n:'Abigail',t:'I don’t know. But nobody calls our girl “that.”'}],then,K.draw)}
+
+/* ---- 2. Minor: the Baron buys the league, live on the news ---- */
+function newsTV(C,u,t){at2(()=>{const b=C.b;r(0,0,80,144,'#2a2238');for(let y=0;y<84;y+=6)r(0,y,80,1,'#322a42');r(0,84,80,60,'#6a4a3a');r(0,84,80,1,'#8a6a4a');
+ r(3,18,74,58,'#141418');r(4,19,72,56,'#22222a');r(35,76,10,3,'#141418');r(18,79,44,4,'#5a3a2a');r(18,79,44,1,'#7a5a3a');
+ cx.save();cx.beginPath();cx.rect(6,21,68,52);cx.clip();r(6,21,68,52,'#1e3a6a');for(let i=0;i<68;i+=8)r(6+i,21,4,52,'#21406f');
+ r(6,21,68,9,'#2a4a8a');ptxt('FLUFFINGTON',40,23,'#ffd86b',1,'c');
+ if(b>=2)ppl('viv',19,60,t,'d');if(b>=2){const sw=(t*2)%1;r(24,42+Math.round(sw*4),1,2,'#7ee8fa')}
+ baron(40,60,t,'d',0,{mad:b===4});r(32,51,16,10,'#5a2a6a');r(32,51,16,1,'#8a4a9a');r(38,53,4,4,'#ffd86b');r(39,54,2,2,'#c89a20');r(36,48,1,4,'#2a2a2a');r(43,48,1,4,'#2a2a2a');r(35,47,3,2,'#3a3a3a');r(42,47,3,2,'#3a3a3a');
+ 
+ if(b>=3){const k=b===3?ez(Math.min(1,u/.5)):1;cx.globalAlpha=k;r(54,30,16,22,'#2a6ad8');r(55,31,14,20,'#3a7ae8');disc(62,38,6,'#ffd86b',1);disc(62,38,4,'#e8b820',1);r(58,44,3,9,'#2a6ad8');r(63,44,3,9,'#2a6ad8');ptxt('SHOW',62,52-9,'#fff6e0',1,'c');cx.globalAlpha=1}
+ r(6,61,68,6,'#d8352f');ptxt(b===0?'BREAKING NEWS':'BARON BUYS LEAGUE',40,62,'#fff6e0',1,'c');r(6,67,68,6,'#141418');
+ const tk='  NEW RULE: SHOW DOGS ONLY RIBBONS  +  ENTRY FEES TRIPLED  +  BARON: “RACING NEEDS STANDARDS”  +',w=tk.length*4,ox=Math.round((t*22)%w);ptxt(tk,6-ox,68,'#ffd86b');ptxt(tk,6-ox+w,68,'#ffd86b');
+ if(b===0){const s=Math.floor(t*10)%2;if(s)r(6,21,68,52,'rgba(255,255,255,.05)')}cx.restore();
+ r(3,18,74,1,'#3a3a44');glint(70,22,u);
+ gcorgi(12,104,{c:'red',g:dGear(),st:'sit',t,dir:'r',tongue:0});crumpet(70,104,'l',t,3,0);if(b>=4){r(15,88,1,2,'#ff5a5a');r(17,87,1,3,'#ff5a5a')}
+ p2('abi',33,125,t,'u',1);p2('hunter',47,125,t,'u',1);r(20,118,40,12,'#7a3a4a');r(20,118,40,1,'#9a5a6a');r(18,116,4,16,'#6a2a3a');r(58,116,4,16,'#6a2a3a');for(let i=1;i<3;i++)r(20+i*13,119,1,10,'#6a2a3a')})}
+function cutBuyout(then){S.fl.bar2=1;save();const K=cutScr((C,u,t)=>newsTV(C,u,t));MUS='tense';
+ talk([{n:'Buzz',t:'Breaking news from the Minor League! It has a new owner.',a:bt(K,0)},
+  {n:'Baron von Snoot',t:'Baron Reginald von Snoot. Pet food, private clubs, and now: racing.',a:bt(K,1)},
+  {n:'Baron von Snoot',t:'My dear friend Vivian will keep running things. Won’t you, Vivian?',a:bt(K,2)},{n:'Vivian',t:'...Of course, Baron. Yay.'},
+  {n:'Baron von Snoot',t:'New rule: “Show Dogs Only” ribbons. Proper dogs, with proper papers, and proper legs.',a:bt(K,3)},
+  {n:'Hunter',t:'That’s the limo guy. From the park.',a:bt(K,4)},{n:'Abigail',t:'Then Donut will just have to win the races without the ribbons.'},{n:'Crumpet',t:'*does not wake up*'}],then,K.draw)}
+
+/* ---- 3. Major: the Baron tries to buy Donut ---- */
+function cutOffer(then){S.fl.bar3=1;save();let gone=0;const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];
+  const lx=b===0?tw(120,62,u,2.2):b>=6?tw(62,-60,u,2.4,1.6):62,door=b===0?0:b>=6?(u<1.4?1-ez((u-.8)/.5):0):1;
+  if(lx>-50)L.push({y:80,f:()=>{limo(lx,80,{spin:b===0?u*14:b>=6&&u>1.6?u*14:0,door,shine:u});if(b===0&&u<2.2)dust(lx+22,80,u,4);if(b>=6&&u>1.6)dust(lx+22,80,u,5)}});
+  const nx=b===1?tw(62,70,u,.8,.2):b>=1&&b<6?70:b===6?tw(70,64,u,.6):64,bx=b===1?tw(60,58,u,1,.6):b>=1&&b<6?58:b===6?tw(58,62,u,.7,.3):62,by=b===1?tw(92,96,u,1,.6):b>=1&&b<6?96:b===6?tw(96,92,u,.7,.3):92;
+  const inCar=b===0||b>=6&&u>.9;
+  if(!inCar&&b>=1){L.push({y:90,f:()=>{ppl('nigel',nx,90,t,b===6?'r':'l',(b===1&&u<1)||b===6);if(b>=3&&b<6)cash(nx-1,78,u)}});
+   L.push({y:by,f:()=>{const hop=b===5&&u>.5&&u<.9?2:0;baron(bx,by-hop,t,b===6?'r':'l',b===1&&u>.6&&u<1.6||b===6,{mad:b>=5})}})}
+  const ax=b===4?tw(20,46,u,.9):b>=4?46:20,ay=b===4?tw(86,93,u,.9):b>=4?93:86;L.push({y:ay,f:()=>p2('abi',ax,ay,t,'r',b===4&&u<.7)});L.push({y:87,f:()=>p2('hunter',hx0(b,u),87,t,'r')});
+  const dx=b===5?tw(38,50,u,.5):b>=6?50:38,dst=b===5&&u<.5?'run':b===5?'stand':'sit';L.push({y:98,f:()=>gcorgi(dx,98,{c:'red',g:dGear(),st:dst,t,dir:'r',tongue:b>=7})});if(S.fl.gus)L.push({y:104,f:()=>gus2(b>=7?tw(12,24,u,1.2):12,104,t,'r',b>=7)});
+  castDraw(L);if(b===5&&u>.6&&u<1.4){const k=(u-.6)/.8;for(let i=0;i<5;i++)r(Math.round(55+k*3+i),Math.round(91+k*3-(i%2)),1,1,'#e8f4ff')}if(b===5&&u>.6&&u<1.6)ptxtS('ACHOO!',52,72,'#fff6e0',1,'c')})});
+ const hx0=(b,u)=>32;MUS='tense';
+ talk([{n:'',t:'A long purple limo pulls up to the gym. You’ve seen it before.',a:bt(K,0)},
+  {n:'',t:'A butler gets out first. Then the Baron.',a:bt(K,1)},{n:'Baron von Snoot',t:'So THIS is the park dog. Hm. Lower to the ground than I imagined.',a:bt(K,2)},
+  {n:'Baron von Snoot',t:'I’ll be brief. Nigel?',a:bt(K,3,()=>snd('item'))},{n:'Sir Nigel Pomfrey',t:'One million dollars. For the dog. Terribly sorry about all this.'},
+  {n:'Abigail',t:'She’s not for sale.',a:bt(K,4)},{n:'Baron von Snoot',t:'Everything is for sale, my dear.'},
+  {n:'',t:'Donut walks right up to the Baron... and sneezes on his shoes.',a:bt(K,5,()=>after2(.5,()=>snd('bump')))},
+  {n:'Baron von Snoot',t:'GAH! Then she won’t race at ALL. Not when I’m finished. Nigel! The car!',a:bt(K,6)},
+  {n:'Coach Gus',t:'Von Snoot. I knew I’d heard that name.',a:bt(K,7)},{n:'Coach Gus',t:'’87 Ozark Derby. I beat his daddy’s show dog. The next week I was banned. “Ears too long,” they said.'},
+  {n:'Coach Gus',t:'Watch the track, kids. Men like that don’t lose quietly.'}],then,K.draw)}
+
+/* ---- 4. Global: the Pedigree Act ---- */
+function pressHall(C,u,t){at2(()=>{const b=C.b;r(0,0,80,144,'#4a1020');for(let x=0;x<80;x+=6){r(x,0,2,144,'#3a0a18');r(x+3,0,1,144,'#5a1a2a')}
+ r(6,14,68,44,'#141418');r(8,16,64,40,'#22222a');cx.save();cx.beginPath();cx.rect(8,16,64,40);cx.clip();
+ if(b<=1){r(8,16,64,40,'#3a1a5a');ptxt('THE',40,22,'#ffd86b',1,'c');ptxt('PEDIGREE',40,30,'#ffd86b',2,'c');ptxt('ACT',40,44,'#ffd86b',1,'c');r(56,46,8,3,'#8a5a2a');r(59,43,2,6,'#6a4a2a')}
+ else if(b===2){r(8,16,64,40,'#f6efe0');gcorgi(40,46,{c:{b:'#2a2a32',l:'#3a3a44',d:'#1a1a22',w:'#2a2a32'},st:'stand',t:0,dir:'r'});const k=ez(Math.min(1,u/.4));if(k>0){for(let i=-12;i<=12;i++){r(40+i,36+Math.round(i*.6*k),2,2,'#d8352f');r(40+i,36-Math.round(i*.6*k),2,2,'#d8352f')}}ptxt('NO SHORT LEGS',40,49,'#a02a3a',1,'c')}
+ else if(b===3){r(8,16,64,40,'#1e4a8a');[[14,22,14,10],[30,20,10,8],[44,24,16,12],[24,34,8,10],[50,38,10,8]].forEach(([x,y,w,h])=>r(x,y,w,h,'#3aa84a'));
+  for(let i=0;i<9;i++){const x=16+(i*13)%44,y=24+(i*7)%20,on=u>.2+i*.25;disc(x,y,1,on?'#ff3a3a':'#8be28b',1)}ptxt('EVERY PARK:',40,44,'#fff6e0',1,'c');ptxt('FLUFFINGTON CLUB',40,50,'#ffd86b',1,'c')}
+ else{r(8,16,64,40,'#5a2a6a');r(26,20,28,26,'#ffd86b');r(28,22,24,22,'#7a2fe0');gcorgi(40,40,{c:'fluff',g:{body:'royal',head:'crown'},st:'stand',t,dir:'r'});ptxt('OUR CHAMPION',40,49,'#ffd86b',1,'c')}
+ cx.restore();r(6,14,68,1,'#3a3a44');
+ baron(40,100,t,'d',0,{mad:b===4&&u<1});r(29,92,22,14,'#5a2a6a');r(29,92,22,1,'#8a4a9a');r(38,96,4,4,'#ffd86b');[31,34,46,49].forEach((x,i)=>{r(x,89,1,4,'#2a2a2a');r(x-1,88,3,2,['#d8352f','#2a6ad8','#3aa84a','#e8b820'][i])});
+ for(let i=0;i<9;i++){const x=4+i*9,y=118+(i%2)*4;disc(x,y,4,'#141018',1);r(x-2,y+3,5,9,'#141018');if(i%3===1){r(x-3,y-6,6,4,'#2a2a32');r(x-1,y-5,2,2,'#7ee8fa')}}
+ flashes(u,6)})}
+function cutPedigree(then){S.fl.bar4=1;save();const K=cutScr((C,u,t)=>pressHall(C,u,t));MUS='tense';
+ talk([{n:'Buzz',t:'We interrupt the Global Rankings for a press conference from Baron von Snoot.',a:bt(K,0)},
+  {n:'Baron von Snoot',t:'For too long, racing has been overrun by... short dogs. Muddy dogs. Dogs from PARKS.',a:bt(K,1)},
+  {n:'Baron von Snoot',t:'And so I bring to the World Racing Federation: the Pedigree Act.',a:bt(K,2,()=>snd('bump'))},{n:'Baron von Snoot',t:'Rule one: no more short legs on the track. Ever.'},
+  {n:'Baron von Snoot',t:'Rule two: every public dog park in the world becomes a private Fluffington Club. Members only.',a:bt(K,3)},
+  {n:'Baron von Snoot',t:'The Federation votes on the night of the World Final. If my Lord Fluffington wins, the Act passes.',a:bt(K,4)},
+  {n:'Abigail',t:'Every dog park. In the WORLD.'},{n:'Hunter',t:'And every corgi in racing.'},
+  {n:'Coach Gus',t:'Then it’s not just about Donut anymore. Every short-legged dog out there is watching her now.'},{n:'Abigail',t:'Then let’s give them something to watch.'}],then,K.draw)}
+
+/* ---- 5. Global: Vivian switches sides ---- */
+function cutLeak(then){S.fl.bar5=1;save();const K=cutScr((C,u,t)=>{at2(()=>{homeBack(t);const b=C.b,L=[];
+  const vx=b===0?tw(96,56,u,2.2):56;L.push({y:92,f:()=>{ppl('viv',vx,92,t,'l',b===0&&u<2.2);if(b<=1)r(Math.round(vx)-7,79,5,6,'#e8c060')}});
+  L.push({y:86,f:()=>p2('abi',b>=3?tw(20,30,u,.8):20,86,t,'r')});L.push({y:87,f:()=>p2('hunter',b>=3?tw(32,38,u,.8):32,87,t,'r')});
+  L.push({y:98,f:()=>gcorgi(42,98,{c:'red',g:dGear(),st:'lie',t,dir:'r',sleep:b<2})});L.push({y:110,f:()=>crumpet(54,110,'l',t,3,0)});castDraw(L);
+  NIGHT(.5);
+  if(b===2||b===3){const k=b===2?ez(Math.min(1,u/.5)):1;cx.globalAlpha=k;r(9,19,62,44,'#c8a050');r(10,20,60,42,'#f6efe0');ptxt('THE FINAL',40,22,'#5a2a6a',1,'c');r(22,28,36,1,'#d8352f');
+   r(15,32,14,4,'#5a2a8a');r(27,33,6,1,'#5a2a8a');r(16,31,12,1,'#3a3a44');r(19,36,1,4,'#8a6a40');r(25,36,1,4,'#8a6a40');r(17,40,4,4,'#c8944a');r(23,41,4,4,'#c8944a');ptxt('CRATES',24,49,'#a02a3a',1,'c');
+   r(46,31,1,12,'#8a8a96');r(62,31,1,12,'#8a8a96');for(let i=0;i<7;i++){r(47+i*2,32,2,2,i%2?'#141418':'#fff6e0');r(47+i*2,34,2,2,i%2?'#fff6e0':'#141418')}ptxt('FAKE',54,46,'#a02a3a',1,'c');ptxt('FINISH',54,52,'#a02a3a',1,'c');
+   r(12,56,24,1,'#d8352f');r(42,58,24,1,'#d8352f');cx.globalAlpha=1}})});
+ MUS='cozy';talk([{n:'',t:'Late. The gym lights are off. Someone knocks.',a:bt(K,0,()=>snd('bump'))},
+  {n:'Vivian',t:'Don’t say anything. Just listen. I’ve been working for him for years and I am DONE.',a:bt(K,1)},
+  {n:'Vivian',t:'His plans for the World Final. Look.',a:bt(K,2,()=>snd('item'))},{n:'Vivian',t:'A helicopter dropping crates on the track. A fake finish line, low enough to trip a corgi.'},
+  {n:'Abigail',t:'Why are you helping us?',a:bt(K,3)},{n:'Vivian',t:'Because I came to racing for dogs like Donut. Not for HIM. Duck under the fake one. Jump the crates. Win.'},
+  {n:'Vivian',t:'And darling... lose that neon suit. It was always hideous.'}],then,K.draw)}
+
+/* ---- 6. The night before the final: Sir Nigel tries to take Donut, and Crumpet finally wakes up ---- */
+function cutDognap(then){S.fl.bar6=1;save();const K=cutScr((C,u,t)=>{at2(()=>{cx.translate(0,-24);r(0,140,80,30,'#4e4e56');r(0,144,80,1,'#3a3a42');porch(t);const b=C.b,L=[];
+  r(28,131,22,4,'#8a4a6a');r(28,131,22,1,'#a86a8a');
+  L.push({y:133,f:()=>gcorgi(38,133,{c:'red',g:dGear(),st:b>=4?'stand':'lie',sleep:b<4,t,dir:'r'})});
+  const awake=b>=1,bark=b===2||b===3&&u<1;L.push({y:136,f:()=>{crumpet(67,136,'l',t,awake?1:3,0);if(b===1){ptxtS('!',67,114,'#ffd86b',1,'c')}if(bark&&Math.floor(t*6)%2)ptxtS('BARK!',64,112,'#fff6e0',1,'c')}});
+  const nx=b===0?tw(96,53,u,3.2):b===1||b===2?53:b===3?tw(53,100,u,1.6,.3):200,jump=b===2&&u<.4?3:0;
+  if(nx<95)L.push({y:136,f:()=>{ppl('nigel',nx,136-jump,t,b===3?'r':'l',b===0||b===3);if(b<3)r(Math.round(nx)-11,125-jump,8,6,'#c8c4d0'),r(Math.round(nx)-10,126-jump,6,1,'#8a8a96'),r(Math.round(nx)-10,128-jump,6,1,'#8a8a96')}});
+  if(b===3&&u>.3)L.push({y:137,f:()=>{r(56,131,8,6,'#c8c4d0');r(57,132,6,1,'#8a8a96');r(57,134,6,1,'#8a8a96')}});
+  if(b>=3){L.push({y:124,f:()=>p2('hunter',22,122,t,'r')});L.push({y:124,f:()=>p2('abi',12,122,t,'r')})}
+  castDraw(L);const lit=b>=3;NIGHT(lit?.32:.62);if(lit){cx.globalCompositeOperation='lighter';disc(40,104,40,'#ffd86b',.07);cx.globalCompositeOperation='source-over'}
+  for(let i=0;i<10;i++){const tw2=(Math.sin(t*2+i)*.5+.5);r((i*17+5)%80,30+(i*11)%30,1,1,'rgba(255,255,255,'+(.3+tw2*.6)+')')}if(b>=5)hearts(60,116,u,3)})});
+ MUS='cozy';talk([{n:'',t:'The night before the World Final. Everyone is asleep.',a:bt(K,0)},{n:'',t:'Well. Almost everyone. Someone is tiptoeing up the porch steps. With a pet carrier.'},
+  {n:'',t:'And then, for the first time in her entire life...',a:bt(K,1)},{n:'Crumpet',t:'*WAKES UP*'},
+  {n:'Crumpet',t:'BARK! BARK BARK BARK BARK!',a:bt(K,2,()=>snd('bump'))},{n:'Sir Nigel Pomfrey',t:'Oh, good heavens. Terribly sorry. Wrong porch. Wrong everything.'},
+  {n:'',t:'The porch light snaps on.',a:bt(K,3,()=>snd('select'))},{n:'Hunter',t:'NIGEL?!'},{n:'Sir Nigel Pomfrey',t:'The Baron insisted! I don’t even LIKE this job! Goodnight!'},
+  {n:'',t:'Sir Nigel flees into the night. He leaves the carrier behind.',a:bt(K,4)},{n:'Abigail',t:'Crumpet. You saved her. You actually woke up and saved her.',a:bt(K,5)},{n:'Crumpet',t:'*goes straight back to sleep*'}],then,K.draw)}
+
+/* ---- the ending: the race is won, the Act is dead, the park is free, and the crown goes on in Donut Park ---- */
+function ending(){S.fl.champ=1;save();MUS='race';
+ const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx.translate(0,-VOY);venueDraw('final',-8,t,1);const b=C.b,L=[];
+  const P=(x,y,w,h,c,n)=>{r(x,y,w,h,c);r(x,y,w,1,sh(c,1.25));r(x,y+h-1,w,1,sh(c,.75));ptxt(n,x+w/2,y+3,'#5a2148',1,'c')};P(18,183,14,15,'#c8c4d0','2');P(32,176,14,22,'#ffd86b','1');P(46,187,14,11,'#c87a3a','3');venueFg('final',-8);
+  L.push({y:162,f:()=>ppl('buzz',8,162,t,'r')});
+  L.push({y:183,f:()=>gcorgi(b>=2?tw(25,31,u,.8):25,183,{c:'fluff',g:{body:'royal'},st:'stand',t,dir:'r',tongue:b>=2})});
+  L.push({y:176,f:()=>gcorgi(39,176,{c:'red',g:dGear(),st:'stand',t,tongue:1,jy:b<=1||b>=4?Math.round(Math.abs(Math.sin(t*5))*3):0,dir:'l'})});
+  if(b>=3){const vx=tw(92,60,u,1.4);L.push({y:170,f:()=>{ppl('viv',vx,170,t,'l',u<1.4);r(Math.round(vx)-5,152,2,4,'#2a2a32')}})}
+  L.push({y:178,f:()=>p2('abi',b>=3?66:62,178,t,'l')});L.push({y:180,f:()=>p2('hunter',72,180,t,'l')});castDraw(L);if(b===2)hearts(34,160,u,4);cx.restore();
+  for(let i=0;i<30;i++){const x=(i*37+Math.floor(t*40)*(i%3+1))%160,y=(i*53+t*60*(1+i%4))%230;r(x,y,2,2,['#ffd86b','#ff7eb6','#7ee8fa','#8be28b'][i%4])}if(b===1)at2(()=>flashes(u,8))});
+ talk([{n:'Buzz',t:'DONUT WINS! BY A NOSE! DONUT! IS! THE! WORLD! CHAMPION!',a:bt(K,0)},{n:'',t:'The stadium in Newcastle shakes. Three fans in very large orange shirts are crying.',a:bt(K,1)},
+  {n:'',t:'Lord Fluffington hops off his step and touches noses with Donut. He never wanted to beat her. He wanted to run with her.',a:bt(K,2)},
+  {n:'Vivian',t:'The Federation just voted. Without a Fluffington win, nobody would back him. The Pedigree Act is DEAD!',a:bt(K,3,()=>snd('fanfare'))},
+  {n:'Abigail',t:'The parks?'},{n:'Vivian',t:'Staying open. Every single one.'}],()=>parkEnd(),K.draw)}
+function parkEnd(){MUS='sunset';let splat=0;const K=cutScr((C,u,t)=>venueCut('park',t,()=>{const b=C.b,L=[];
+  parkFence(b>=1?(b===1?u/1.6:1):0);
+  const oldA=b<4?1:Math.max(0,1-u/.5),newA=b<4?0:ez(Math.min(1,(u-.4)/.6));if(b<4||u<.5)estSign(40,146-(b===4?Math.round(ez(u/.5)*20):0),0,oldA);if(newA>0)estSign(40,146,1,newA);
+  if(b===2||b===3){const run=['biscuit','waddles','tina','loaf','pepper','chad','duchess','comet'];run.forEach((id,i)=>{const k=((b===2?u:u+3)*.45+i*.11),x=-20+((k*130)%120),y=162+(i%3)*3;if(b===2&&x>-15&&x<90)L.push({y,f:()=>gcorgi(x,y,{c:BOSS[id].coat,g:BOSS[id].gear,st:'run',t:t+i,dir:'r'})})})}
+  /* the Baron: limo, the hat, the mud */
+  ell(64,188,12,3,'#5a3a1a',.95);r(56,187,16,1,'#6a4a2a');r(60,189,6,1,'#4a2a10');
+  if(b===3){const lx=tw(110,72,u,1.2);if(u<3.6)L.push({y:194,f:()=>limo(lx,194,{dir:'l',spin:u<1.2?-u*14:0,door:u>1.2?1:0})});
+   const bk=u<1.4?-1:u<2.2?(u-1.4)/.8:1,bx=u<1.4?72:tw(60,64,u,.8,1.4),hx=u<1.6?bx:Math.min(74,bx+(u-1.6)*30),hy=u<1.6?169:169-Math.sin(Math.min(1,(u-1.6)/1.2)*Math.PI)*14+(u>2.8?16:0);
+   if(u>1.3){const fall=u>2.6?ez((u-2.6)/.4):0;L.push({y:188,f:()=>{cx.save();cx.translate(Math.round(bx),188);cx.rotate(-fall*Math.PI/2);cx.translate(-Math.round(bx),-188);baron(bx,188,t,'r',u<2.6,{nohat:u>1.6,mad:1});cx.restore();
+     if(fall>=1){r(Math.round(bx)-10,184,20,4,'#5a3a1a');for(let i=0;i<6;i++)r(Math.round(bx)-8+i*3,181+(i%2),2,2,'#6a4a2a')}}})}
+   if(u>1.6&&u<4)L.push({y:200,f:()=>tophat(Math.round(hx),Math.round(Math.min(hy,186)))});if(u>2.9&&!splat){splat=1;snd('bump')}}
+  if(b>=4){L.push({y:189,f:()=>{baron(64,190,t,'l',0,{nohat:1,mad:1});r(54,182,20,8,'#5a3a1a');r(54,182,20,1,'#6a4a2a');for(let i=0;i<5;i++)r(56+i*4,180+(i%2),2,2,'#6a4a2a');tophat(74,186)}})}
+  const F=b>=5;L.push({y:176,f:()=>p2('abi',13,176,t,'r')});L.push({y:177,f:()=>p2('hunter',23,177,t,'r')});
+  L.push({y:178,f:()=>gcorgi(35,178,{c:'red',g:b>=6||(b===5&&u>2.4)?Object.assign(dGear(),{head:'crown'}):dGear(),st:b===2?'run':'stand',t,dir:'r',tongue:1,jy:b===2?Math.round(Math.abs(Math.sin(t*6))*2):0})});
+  L.push({y:186,f:()=>crumpet(28,190,'r',t,b>=5?1:3,0)});if(S.fl.gus)L.push({y:188,f:()=>gus2(7,190,t,'r',b>=6)});
+  if(F){const fx=b===5?tw(72,49,u,1.4):49;L.push({y:178,f:()=>gcorgi(fx,178,{c:'fluff',g:{body:'royal'},st:'stand',t,dir:'l',tongue:1})});L.push({y:170,f:()=>{ppl('nigel',60,170,t,'l');pillow(53,154);if(b===5&&u<1.4)crown2(51,151)}});L.push({y:168,f:()=>ppl('viv',71,168,t,'l')})}
+  castDraw(L);if(b===5&&u>1.4&&u<2.4){const k=ez((u-1.4)/1.0);crown2(Math.round(51+(35-51)*k),Math.round(151+(160-151)*k-Math.sin(k*Math.PI)*12))}
+  if(b===4&&u>.4)for(let i=0;i<4;i++)glint(22+i*12,128,u+i*.25);if(b===1)for(let i=0;i<8;i++)if(u>i*.15&&u<i*.15+.6)dust(i*10+6,158,u-i*.15,3);
+  if(b>=6)for(let i=0;i<24;i++){const x=(i*37+Math.floor(t*40)*(i%3+1))%80,y=72+(i*53+t*40*(1+i%4))%130;r(x,y,1,1,['#ffd86b','#ff7eb6','#7ee8fa','#8be28b'][i%4])}}));
+ talk([{n:'',t:'The next morning. Riverside Dog Park.',a:bt(K,0)},{n:'',t:'The fence comes down. One panel at a time.',a:bt(K,1,()=>snd('bump'))},
+  {n:'',t:'And every dog in town comes running back in. Biscuit. Sir Waddles. Turbo Tina. Even The Loaf.',a:bt(K,2,()=>snd('whoosh'))},
+  {n:'Baron von Snoot',t:'STOP! This is MY park! I have PAPERS! I have—',a:bt(K,3,()=>after2(1.6,()=>snd('whoosh')))},{n:'',t:'A gust of wind takes his hat. He chases it. Straight into the mud.'},
+  {n:'Baron von Snoot',t:'...Nigel?',a:bt(K,4)},{n:'',t:'The old sign comes down. The new one goes up.'},
+  {n:'Lord Fluffington',t:'*trots over with the crown, wagging the whole time*',a:bt(K,5)},{n:'',t:'He sets the Champion’s Crown on Donut’s head. Right here, where it all started.'},
+  {n:'Coach Gus',t:'Fastest basset in the Ozarks, ’87. Coach of the fastest corgi in the world. I can retire happy.',a:bt(K,6,()=>snd('fanfare'))},
+  {n:'Abigail',t:'Donut Park. All dogs welcome.'}],()=>{
+  const h={flop:0};MUS='sunset';talk([{n:'',t:'That night. Back home. The trophy sits on the porch between them.'},{n:'Hunter',t:'The fastest corgi in the whole world.'},{n:'Abigail',t:'And she still just wants to be on the couch with us.'},
+   {n:'',t:'Donut waddles over... and flops right onto Abigail’s shoes. Just like the day she picked you.',a:()=>{h.flop=1;snd('bump')}},{n:'Crumpet',t:'*does not move* (She has earned it.)'},{n:'Abigail',t:'Good girl, Donut. Our good, good girl.'},
+   {n:'',t:'CORGI RACERS: COMPLETE. Donut is the World Champion! A new photo is in your album, and you can keep racing anytime.',a:()=>champPhoto(h)}],()=>{if(!S.own.includes('crown'))S.own.push('crown');save();afterAny()},homeScene(h))},K.draw)}
+
+/* race-scale pieces: oil from the saboteurs, the fake finish banner, the Baron's helicopter */
+function oilDraw(x,y,t){x=Math.round(x);ell(x,y,8,2,'#141418',.92);r(x-5,y-1,3,1,'#7a3ad8');r(x-1,y-1,2,1,'#3ad8a8');r(x+2,y,3,1,'#d8a83a');if(Math.floor(t*3)%2)r(x+3,y-1,1,1,'#ffffff')}
+function fakeFin(x,y,t){x=Math.round(x);r(x-6,y-18,1,18,'#8a8a96');r(x+6,y-18,1,18,'#8a8a96');for(let i=0;i<6;i++){r(x-5+i*2,y-17,2,2,i%2?'#141418':'#fff6e0');r(x-5+i*2,y-15,2,2,i%2?'#fff6e0':'#141418')}r(x-5,y-13,11,1,'#a02a3a')}
+function heli(x,y,t){const B='#5a2a8a',H='#9a6aca';r(x-11,y-5,18,9,B);r(x-11,y-5,18,1,H);r(x+7,y-2,14,3,B);r(x+19,y-6,2,6,B);r(x-9,y-4,7,5,'#26304a');r(x-8,y-4,2,1,'#6a7ab0');
+ r(x-6,y-3,3,3,'#f4dcc8');r(x-7,y-7,5,4,'#1e1a22');r(x-8,y-4,7,1,'#1e1a22');r(x-7,y-5,5,1,'#a02a3a');
+ r(x-9,y+6,16,1,'#3a3a44');r(x-7,y+4,1,2,'#3a3a44');r(x+3,y+4,1,2,'#3a3a44');r(x-2,y-7,1,2,'#3a3a44');const w=Math.round(Math.abs(Math.cos(t*30))*18);r(x-2-w,y-8,w*2+1,1,'#d8d4e0');
+ const tw2=Math.floor(t*30)%2;r(x+19,y-6+tw2*3,1,4,'#d8d4e0');r(x+1,y-2,3,3,'#ffd86b');r(x+2,y-1,1,1,'#a02a3a')}
 /* ---------------- tutorial: a guided first week ----------------
    S.tutS: 1 tour of the gym, 2 after the first workout, 3 after the practice race,
    4 after the first real race, 5 done. One-off tips live in S.tips. */
@@ -1633,7 +1832,8 @@ function panRace(){const L=LG[S.lg],blocked=S.raced||S.fl.rest;let h='';
   const tt=p.querySelector('[data-ttp]');if(tt)tt.onclick=()=>{snd('select');p.remove();panTT()};const cu=p.querySelector('[data-cupp]');if(cu)cu.onclick=()=>{snd('select');p.remove();panCup()}})}
 function venueIcon(v){return icon('v'+v,()=>{const A=venueArt(v);bg2(A,v)},28,22)}
 function bg2(A,v){cx.drawImage(A.sky,0,-40);cx.drawImage(A.mid[0],-20,-122);cx.drawImage(A.gr,0,14)}
-function startRace(ev){const run=()=>{if(ev.boss)preBoss(ev,()=>go(raceScreen(ev)));else go(raceScreen(ev))};if(S.gym>=3&&!ev.tt&&!ev.scrim&&!ev.tut)planPick(ev,run);else run()}
+function startRace(ev){const run=()=>{if(ev.boss)preBoss(ev,()=>go(raceScreen(ev)));else go(raceScreen(ev))};const go2=()=>{if(S.gym>=3&&!ev.tt&&!ev.scrim&&!ev.tut)planPick(ev,run);else run()};
+ if(ev.boss==='fluff'&&!ev.exhib&&!S.fl.champ&&!S.fl.bar6)cutDognap(go2);else go2()}
 
 /* training */
 function panTrain(){const cap=capOf();let h='<p class="sub">Actions left this week: '+S.ap+' &middot; Energy '+Math.round(S.en)+'<br>'+GYM[S.gym].n+': stats can reach <span style="color:#ffd86b">'+cap+'</span></p>';const can=S.ap>0&&S.en>=15,dr=drillOK();
@@ -1767,32 +1967,22 @@ function promote(){const PC={v:{}};let PZ0=null;const from=S.lg;S.lg++;S.boss=0;
   3:[{n:'Buzz',t:'Ladies and gentlemen... Donut has qualified for the GLOBAL RANKINGS! She enters the world at number one hundred!'},{n:'',t:'Across the ocean, in a palace, on a velvet cushion, Lord Fluffington watches the broadcast.',a:()=>{PZ0=scr.draw;scr.draw=t=>palace(PC,0,t)}},{n:'Sir Nigel Pomfrey',t:'A park dog. How quaint. Lord Fluffington has not lost in four years.'},{n:'',t:'Lord Fluffington yawns. Enormously.',a:()=>{PC.v.yawn=tm}},{n:'Coach Gus',t:'Then he’s due.',a:()=>{if(PZ0)scr.draw=PZ0}}]}[S.lg];
  talk(lines.concat([{n:'',t:'NOW ENTERING: '+L.n.toUpperCase()+'. New gear in the shop!'}]),()=>{S.week++;S.raced=0;save();weekStory()},venueScene(LG[from].boss.slice(-1)[0][1],[{k:'buzz',x:8,y:162,dir:'r'},{k:'dog',c:'red',g:dGear(),x:37,y:176,st:'cheer'},{k:'abi',x:60,y:184,dir:'l'},{k:'hunter',x:72,y:186,dir:'l'}],{hype:1,pod:1}))}
 function weekStory(){const q=[];
+ const ch=S.fl.champ;
+ if(!ch&&S.lg===0&&S.week>=3&&!S.fl.bar1)q.push(()=>cutFence(next));
  if(S.lg===1&&!S.fl.viv)q.push(()=>cutVivian(next));
+ if(!ch&&S.lg===1&&S.fl.viv&&S.boss>=1&&!S.fl.bar2&&!q.length)q.push(()=>cutBuyout(next));
+ if(!ch&&S.lg===3&&!S.fl.bar4)q.push(()=>cutPedigree(next));
+ if(!ch&&S.lg===3&&S.boss>=3&&!S.fl.bar5&&!q.length)q.push(()=>cutLeak(next));
  if(S.lg===2&&S.boss>=1&&!S.fl.inj){S.fl.inj=1;S.fl.rest=1;save();q.push(()=>cutInjury(()=>{if(!S.own.includes('bracelet'))S.own.push('bracelet');if(!S.wear.charm)S.wear.charm='bracelet';S.mood=100;save();next()}))}
  if(S.lg===2&&!S.fl.relay){S.fl.relay=1;save();q.push(()=>cutRelay(next))}
+ if(!ch&&S.lg===2&&S.fl.relay&&!S.fl.bar3&&!q.length)q.push(()=>cutOffer(next));
  if(S.gym>=4&&!S.fl.speedy)q.push(()=>loungeOffer(next));
  if(S.gym>=3&&S.week-(S.storyW||0)>=3&&(S.stories||0)<STORIES.length&&!q.length)q.push(()=>gusStory(next));
  let k=0;function next(){const f=q[k++];if(f)f();else afterAny()}next()}
 function checkGifts(){if((S.fl.plays||0)>=3&&!S.own.includes('chew')&&on&&scr===HUB){S.own.push('chew');save();cutChew(()=>hub())}}
 function champPhoto(h){try{const c=mkc(160,288,()=>homeScene({flop:0})(1));const p=mkc(120,120,(w,hh,g)=>g.drawImage(c,8,112,120,120,0,0,120,120));ALB.put('crzchamp',p)}catch(e){}}
-function ending(){S.fl.champ=1;save();MUS='race';
- const K=cutScr((C,u,t)=>{cx.save();cx.scale(2,2);cx.translate(0,-VOY);venueDraw('final',-8,t,1);const b=C.b,L=[];
-  const P=(x,y,w,h,c,n)=>{r(x,y,w,h,c);r(x,y,w,1,sh(c,1.25));r(x,y+h-1,w,1,sh(c,.75));ptxt(n,x+w/2,y+3,'#5a2148',1,'c')};P(18,183,14,15,'#c8c4d0','2');P(32,176,14,22,'#ffd86b','1');P(46,187,14,11,'#c87a3a','3');venueFg('final',-8);
-  L.push({y:162,f:()=>ppl('buzz',8,162,t,'r')});
-  const nx=b===2?tw(92,58,u,1.6):b>=3?58:92;if(b>=2)L.push({y:172,f:()=>{ppl('nigel',nx,172,t,'l',b===2&&u<1.6);pillow(nx-7,157);if(b<3||u<.2)crown2(nx-9,154)}});
-  const fx=b===3?tw(25,31,u,.8):b>=4?31:25,fy=b===3?tw(183,190,u,.8):b>=4?190:183;L.push({y:fy,f:()=>gcorgi(fx,fy,{c:'fluff',g:{body:'royal'},st:b===3&&u>.8&&u<2?'lie':'stand',t,dir:'r'})});
-  const crowned=b>=4||(b===3&&u>2);L.push({y:176,f:()=>{gcorgi(39,176,{c:'red',g:crowned?Object.assign(dGear(),{head:'crown'}):dGear(),st:'stand',t,tongue:1,jy:b<=1||b>=4?Math.round(Math.abs(Math.sin(t*5))*3):0,dir:'l'});
-   if(b===3&&u>.8&&u<2){const k=ez((u-.8)/1.2);crown2(Math.round(49+(36-49)*k),Math.round(154+(162-154)*k-Math.sin(k*Math.PI)*14))}}});
-  L.push({y:178,f:()=>p2('abi',62,178,t,'l')});L.push({y:180,f:()=>p2('hunter',72,180,t,'l')});if(b>=4)L.push({y:192,f:()=>gus2(64,192,t,'l',1)});castDraw(L);cx.restore();
-  for(let i=0;i<30;i++){const x=(i*37+Math.floor(t*40)*(i%3+1))%160,y=(i*53+t*60*(1+i%4))%230;r(x,y,2,2,['#ffd86b','#ff7eb6','#7ee8fa','#8be28b'][i%4])}if(b===1||b===3&&u>2)at2(()=>flashes(u,8))});
- talk([{n:'Buzz',t:'She’s done it! DONUT! IS! THE! WORLD! CHAMPION!',a:bt(K,0)},{n:'',t:'The stadium in Newcastle shakes. Three fans in very large orange shirts are crying.',a:bt(K,1)},
-  {n:'Sir Nigel Pomfrey',t:'Lord Fluffington... would like to present the crown.',a:bt(K,2)},
-  {n:'',t:'Lord Fluffington walks over. Bows low. And sets the Champion’s Crown on Donut’s head.',a:bt(K,3,()=>after2(2,()=>snd('fanfare')))},{n:'Coach Gus',t:'Fastest basset in the Ozarks, ’87. Coach of the fastest corgi in the world. I can retire happy.',a:bt(K,4)}],()=>{
-  const h={flop:0};MUS='sunset';talk([{n:'',t:'That night. Back home. The trophy sits on the porch between them.'},{n:'Hunter',t:'The fastest corgi in the whole world.'},{n:'Abigail',t:'And she still just wants to be on the couch with us.'},
-   {n:'',t:'Donut waddles over... and flops right onto Abigail’s shoes. Just like the day she picked you.',a:()=>{h.flop=1;snd('bump')}},{n:'Crumpet',t:'*does not move*'},{n:'Abigail',t:'Good girl, Donut. Our good, good girl.'},
-   {n:'',t:'CORGI RACERS: COMPLETE. Donut is the World Champion! A new photo is in your album, and you can keep racing anytime.',a:()=>champPhoto(h)}],()=>{if(!S.own.includes('crown'))S.own.push('crown');save();afterAny()},homeScene(h))},K.draw)}
 const after2=(s2,f)=>setTimeout(f,s2*1000);
 try{C4CAP.crzchamp='WORLD CHAMPION'}catch(e){}
 /* ---------------- entry points ---------------- */
-return {get on(){return on},open,close,mus,_S:()=>S,_go:go,_race:ev=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(raceScreen(ev))},_mg:k=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(mgShell(MGS[k]))},_dbg:{TTM,VEN,gymUpgraded,fanMeet,gusStory,loungeOffer,panScout,planPick,panTT,panCup,panWardrobe,autoTrain,startRace,HUB:()=>HUB,cutPupCup,cutVivian,cutKibble,cutCouture,cutGus,cutInjury,cutRelay,cutChew,bossWalkout,preBoss,FUN,vignette,scr:()=>scr,livingRoom,tvClose,hubScene,venueScene,homeScene,gcorgi,gus2,at2,gymBg,equip2,rdog,gus,mkc,venueArt,venueDraw,venueFg,obsDraw,disDraw,gymArt,S:()=>S,save,hub,raceScreen,MGS,go,talk,ending,promote}};
+return {get on(){return on},open,close,mus,_S:()=>S,_go:go,_race:ev=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(raceScreen(ev))},_mg:k=>{mount();load();on=1;root.style.display='block';lastTs=performance.now();requestAnimationFrame(frame);go(mgShell(MGS[k]))},_dbg:{weekStory,startRace,cutFence,cutBuyout,cutOffer,cutPedigree,cutLeak,cutDognap,ending,parkEnd,ppl,p2,limo,venueDraw,venueFg,homeScene,TTM,VEN,gymUpgraded,fanMeet,gusStory,loungeOffer,panScout,planPick,panTT,panCup,panWardrobe,autoTrain,startRace,HUB:()=>HUB,cutPupCup,cutVivian,cutKibble,cutCouture,cutGus,cutInjury,cutRelay,cutChew,bossWalkout,preBoss,FUN,vignette,scr:()=>scr,livingRoom,tvClose,hubScene,venueScene,homeScene,gcorgi,gus2,at2,gymBg,equip2,rdog,gus,mkc,venueArt,venueDraw,venueFg,obsDraw,disDraw,gymArt,S:()=>S,save,hub,raceScreen,MGS,go,talk,ending,promote}};
 })();
