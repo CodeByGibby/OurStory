@@ -194,6 +194,11 @@ const LG=[
  {n:'Global Rankings',s:'GLOBAL',c:'#ff9ccb',r:[64,86],purse:12000,boss$:30000,xp:220,lp:[3,2,1],gear:3,
   ev:['london','tokyo','paris','sydney'],boss:[['kenji','tokyo',40],['baguette','paris',25],['matilda','sydney',12],['fluff','final',8]]}];
 
+/* every league's four circuit races run from easy to expert: tougher rivals, more obstacles, bigger purses and more league points */
+const VT={park:1,market:2,brewery:3,funrun:4,ballpark:1,fair:2,college:3,boardwalk:4,nfl:1,showcase:2,kc:3,vegas:4,london:1,tokyo:2,paris:3,sydney:4};
+const TIERS=[null,{n:'EASY',c:'#2e9a3e',pm:.8,xm:.85,lp:[2,1,1],rp:.8},{n:'MEDIUM',c:'#c08a10',pm:1,xm:1,lp:[3,2,1],rp:1},{n:'HARD',c:'#d0602a',pm:1.3,xm:1.15,lp:[4,2,1],rp:1.25},{n:'EXPERT',c:'#c8283a',pm:1.7,xm:1.35,lp:[5,3,2],rp:1.5}];
+const tierOf=ev=>ev&&!ev.boss&&!ev.tut&&!ev.cup&&!ev.exhib&&!ev.tt&&!ev.scrim&&!ev.field?(VT[ev.ven]||0):0;
+const tierOff=(t,lg)=>t?[-1,0,1,2][t-1]*[3,4,5,5][lg]:0;
 /* venues: sky, backdrop, ground, obstacle mix, distractions */
 const VEN={
  park:{n:'Riverside Dog Park',sky:'day',bg:'park',gr:'grass',len:1700,o:['puddle','cone','log'],d:['squirrel','ball'],du:['branch']},
@@ -667,22 +672,22 @@ function finishFans(lg){if(FFC[lg])return FFC[lg];const C=FFS[lg]||FFS[3],W2=C.W
   r(sx-sw/2+3,sy+sh2,1,Math.max(2,top-sy-sh2+2),'#8a6a4a');r(sx+sw/2-4,sy+sh2,1,Math.max(2,top-sy-sh2+2),'#8a6a4a');
   if(f)for(let i=0;i<4+C.rows*4;i++)r(pri(4,W2-4),pri(0,Math.max(4,top)),1,1,ppk(['#ffd86b','#ff7eb6','#7ee8fa']))}))}
 function arw(x,y,up,c){for(let i=0;i<4;i++){const w=up?i*2+1:7-i*2;r(x-(w>>1),y+i,w,1,c)}r(x,up?y+4:y-3,1,3,c)}
-function mkRival(i,lg,boss,lane){if(boss){const B=BOSS[boss],[spd,acc,sta,agi,foc,cha]=B.st;return {n:B.n,coat:B.coat,g:B.gear,sz:B.sz||1,boss,trait:B.trait,s:{spd,acc,sta,agi,foc,cha},lane}}
- const L=LG[lg];let [a,b]=L.r;if(lg===3){const k=clamp((100-rankOf())/100,0,1);a+=k*8;b+=k*8}if(lg===0&&S.races<2){a-=3;b-=4}
+function mkRival(i,lg,boss,lane,off){if(boss){const B=BOSS[boss],[spd,acc,sta,agi,foc,cha]=B.st;return {n:B.n,coat:B.coat,g:B.gear,sz:B.sz||1,boss,trait:B.trait,s:{spd,acc,sta,agi,foc,cha},lane}}
+ const L=LG[lg];let [a,b]=L.r;if(lg===3){const k=clamp((100-rankOf())/100,0,1);a+=k*8;b+=k*8}if(lg===0&&S.races<2){a-=3;b-=4}if(off){a=Math.max(4,a+off);b=Math.max(a+2,b+off)}
  const s={};STATS.forEach(([k])=>s[k]=ri(a,b));return {n:'',coat:pick(RCOATS),g:pick(RGEAR)||{},sz:pick([1,1,1,.9,1.08]),s,lane,trait:'none'}}
 const rankOf=()=>S.fl.champ?1:Math.max(2,100-Math.round(S.rp*1.15));
 function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.boss,relay=!!V.relay&&!ev.tt&&!ev.scrim&&!ev.field;if(perk(4,0))E.sta+=8;
  /* field */const names=RIVN.slice().sort(()=>Math.random()-.5);const riv=[];const nR=ev.tt?0:ev.tut||ev.scrim?1:ev.field?0:3;
  if(ev.field)ev.field.forEach((b,i)=>{const R=mkRival(i,lg,b,i);riv.push(R)});
  if(ev.scrim){const R=mkRival(0,lg,null,1);R.n='Crumpet';R.coat='red';R.bow=1;R.g={};R.sz=1.05;STATS.forEach(([k])=>R.s[k]=Math.max(4,Math.round(S.st[k]*.82)));riv.push(R)}
- for(let i=0;i<nR&&!ev.scrim;i++){const isB=boss&&i===nR-1;const R=mkRival(i,lg,isB?boss:null,isB?2:i);if(!isB)R.n=names[i];if(ev.tut){R.coat='cream';R.g={};R.lane=1;STATS.forEach(([k])=>R.s[k]=4)}riv.push(R)}
+ for(let i=0;i<nR&&!ev.scrim;i++){const isB=boss&&i===nR-1;const R=mkRival(i,lg,isB?boss:null,isB?2:i,isB?0:tierOff(tierOf(ev),lg));if(!isB)R.n=names[i];if(ev.tut){R.coat='cream';R.g={};R.lane=1;STATS.forEach(([k])=>R.s[k]=4)}riv.push(R)}
  riv.forEach(R=>{const s=R.s;Object.assign(R,{x:0,v:0,ph:Math.random()*4,vm:vOf(s.spd),ac:30+s.acc*1.1,form:rr(.97,1.03),jt:-1,dk:0,trip:0,chase:0,fin:null,done:{},st:'stand',surge:0})});
  const D={smoke:[],n:'Donut',coat:'red',x:0,v:0,ph:0,d:0,sta:100,gas:0,jt:-1,jh:0,dk:0,trip:0,chase:0,chX:0,fin:null,lane:3,done:{},zm:hasSk('lgP')?1:0,zt:0,wind:hasSk('wind'),st:'stand',held:0,pf:0};
  const PL=ev.plan||'',FM=formMul();const vm=FM*vOf(E.spd)*(V.gr==='sand'&&!sandOK()?.93:1)*(hasSk('lgS')?1.05:1),ac=FM*(30+E.acc*1.1)*(hasSk('quick')?1.15:1),focusNeed=clamp((.9-E.foc*.0058)*(hasSk('iron')?.6:1)*(S.mood<30?1.25:1)*(PL==='focus'?.6:1),.22,1.2);
  const tired=S.en<30,stCost=3.3*(1-E.sta/230)*(hasSk('pacer')?.8:1)*(tired?1.35:1)*(PL==='save'?.75:1);
  const ghost=ev.tt&&S.tt&&S.tt[ev.ven]&&S.tt[ev.ven].g?S.tt[ev.ven].g:null,rec=[];let recT=0;
  /* course */const obs=[];let x=260;const types=V.o,du=V.du;let k=0;
- while(x<len-160){const duck=k>1&&Math.random()<.22;obs.push({x,k:duck?pick(du):pick(types),duck});x+=rr(150,250)-Math.min(40,lg*12);k++}
+ while(x<len-160){const duck=k>1&&Math.random()<.22;obs.push({x,k:duck?pick(du):pick(types),duck});x+=rr(150,250)-Math.min(40,lg*12)-Math.max(0,tierOf(ev)-2)*14;k++}
  const dis=[];const nd=lg===0?2:3;for(let i=0;i<nd;i++){const at=len*(.25+i*.6/nd)+rr(-40,40);obs.forEach(o=>{if(Math.abs(o.x-at)<70)o.x+=90});dis.push({x:at,k:pick(V.d),hit:0,res:0,on:0})}
  if(boss==='chad')dis.push({x:len*.48,k:'bark',hit:0,res:0,on:0,chad:1});
  if(ev.tut){obs.length=0;dis.length=0;obs.push({x:430,k:'cone'},{x:800,k:'banner',duck:true},{x:1420,k:'hay'});dis.push({x:1100,k:'squirrel',hit:0,res:0,on:0})}
@@ -1943,11 +1948,11 @@ function raceDone(ev,pl,time,riv){const L=LG[S.lg],boss=ev.boss,V=VEN[ev.ven];
   resultCard({title,stars:[3,2,1,0][pl-1],lines,sub:'The Donut Cup &middot; '+VEN[ev.ven].n+' &middot; '+time.toFixed(2)+'s',btn:'Continue',then:()=>afterAny()});return}
  if(ev.exhib){const lgB=LG.findIndex(l=>l.boss.some(b=>b[0]===boss)),LB=LG[Math.max(0,lgB)],purse=Math.round(LB.boss$*.25*[1,.5,.25,.1][pl-1]*purseMul()),xp=Math.round(LB.xp*.5*[1,.75,.55,.4][pl-1]);S.money+=purse;S.exW=S.week;formAdd(8);wkMark('r');const ups=addXP(xp);S.en=clamp(S.en-15,0,100);S.mood=clamp(S.mood+(pl===1?8:0),0,100);S.buff=null;save();
   resultCard({title:pl===1?'REMATCH WON!':ORD[pl-1]+' PLACE',stars:[3,2,1,0][pl-1],lines:['<b>+'+fmt$(purse)+'</b> exhibition purse','+'+xp+' XP'].concat(ups.length?['<em>LEVEL UP! Lv '+S.lv+'</em>']:[]),sub:'Exhibition &middot; '+BOSS[boss].n+' &middot; '+time.toFixed(2)+'s',btn:'Back to the gym',then:()=>afterAny()});return}S.races++;S.raced=1;S.buff=null;
- let purse=Math.round((boss?L.boss$:L.purse)*[1,.5,.25,.1][pl-1]*(hasSk('fan')?1.2:1)*purseMul());S.money+=purse;const inc=raceIncome(pl);formAdd(15);wkMark('r');const soreL=soreCheck(S.en,ev);
- const xp=Math.round(L.xp*[1,.75,.55,.4][pl-1]*(boss?1.5:1));const ups=addXP(xp);
+ const TR=TIERS[tierOf(ev)]||TIERS[2];let purse=Math.round((boss?L.boss$:L.purse*TR.pm)*[1,.5,.25,.1][pl-1]*(hasSk('fan')?1.2:1)*purseMul());S.money+=purse;const inc=raceIncome(pl);formAdd(15);wkMark('r');const soreL=soreCheck(S.en,ev);
+ const xp=Math.round(L.xp*[1,.75,.55,.4][pl-1]*(boss?1.5:TR.xm));const ups=addXP(xp);
  S.en=clamp(S.en-28,0,100);S.mood=clamp(S.mood+[12,4,0,-6][pl-1],0,100);if(pl===1)S.wins++;
- let lp=0,rp=0,beat=0;if(!boss&&S.lg<3){lp=L.lp[pl-1]||0;S.lp+=lp}
- if(S.lg===3){rp=[12,7,4,1][pl-1]*(boss?2:1);S.rp+=rp}
+ let lp=0,rp=0,beat=0;if(!boss&&S.lg<3){lp=TR.lp[pl-1]||0;S.lp+=lp}
+ if(S.lg===3){rp=Math.round([12,7,4,1][pl-1]*(boss?2:TR.rp));S.rp+=rp}
  const key=boss||ev.ven;S.best[key]=Math.min(S.best[key]||9,pl);
  if(boss&&pl===1){beat=1;S.boss++;const it=BOSS[boss].drop;if(it&&!S.own.includes(it))S.own.push(it)}
  S.last={boss,pl,ven:ev.ven,beat};save();
@@ -2015,7 +2020,10 @@ function panRace(){const L=LG[S.lg],blocked=S.raced||S.fl.rest;let h='';
  if(S.gym>=5)h+='<div class="card boss"><div class="bd">THE DONUT CUP<small>'+(S.cup&&S.cup.r?'In progress: '+['','semi-final next','FINAL next'][S.cup.r]:'Three heats against the bosses. '+fmt$(100000)+' to the winner.')+'</small></div><button class="go" data-cupp="1">OPEN</button></div>';
  if(S.gym>=5){const beat=[];LG.forEach((l,li)=>l.boss.forEach((b,bi)=>{if(li<S.lg||(li===S.lg&&bi<S.boss)||S.fl.champ)beat.push(b)}));if(beat.length){h+='<p class="hd">REMATCHES &middot; DONUT DOME</p><p class="sub" style="text-align:left">Exhibition races: one a week, and they don’t use your race. Sponsors only pay at real races.</p>';
   beat.forEach(b=>{const B=BOSS[b[0]];h+='<div class="card"><img class="ic" src="'+dogIcon(B.coat,B.gear,'b'+b[0])+'"><div class="bd">'+B.n+'<small>'+VEN[b[1]].n+'</small></div><button class="go" data-x="'+b[0]+'|'+b[1]+'"'+(S.en<15||S.exW===S.week?' disabled':'')+'>'+(S.exW===S.week?'DONE':'REMATCH')+'</button></div>'})}}
- h+='<p class="hd">CIRCUIT RACES &middot; '+fmt$(L.purse)+' TO WIN</p>';L.ev.forEach(v=>{const V=VEN[v],b=S.best[v];h+='<div class="card"><img class="ic" src="'+venueIcon(v)+'"><div class="bd">'+V.n+'<small>'+(V.relay?'Relay with Crumpet! ':'')+'3 rivals'+(b?' &middot; Best: '+ORD[b-1]:'')+'</small></div><button class="go" data-v="'+v+'"'+(blocked?' disabled':'')+'>RACE</button></div>'});
+ h+='<p class="hd">CIRCUIT RACES &middot; EASY TO EXPERT</p>';const E0=eff(),dav=Math.round(STATS.reduce((a,[k])=>a+E0[k],0)/6*formMul());
+ L.ev.slice().sort((a,b)=>(VT[a]||0)-(VT[b]||0)).forEach(v=>{const V=VEN[v],b=S.best[v],t=VT[v]||2,T=TIERS[t];let [ra,rb]=L.r;if(S.lg===3){const k=clamp((100-rankOf())/100,0,1);ra+=k*8;rb+=k*8}const rav=Math.round((ra+rb)/2+tierOff(t,S.lg)),gap=dav-rav,mu=gap>=6?['Favored','#2e9a3e']:gap>=-4?['Even match','#c08a10']:['Underdog','#c8283a'];
+  const notes=[];if(V.relay)notes.push('Relay with Crumpet');if(V.gr==='sand')notes.push(sandOK()?'Sand (you have Sand Boots)':'Sand: slow without Sand Boots');if(t>=3)notes.push('More jumps');const pts=S.lg<3?' &middot; '+T.lp[0]+' pts':'';
+  h+='<div class="card"><img class="ic" src="'+venueIcon(v)+'"><div class="bd">'+V.n+'<small><b style="font-weight:400;color:'+T.c+'">'+[1,2,3,4].map(q=>'<span style="display:inline-block;width:'+U(1.6)+';height:'+U(1.6)+';margin-right:'+U(.5)+';background:'+(q<=t?T.c:'#d8c8b0')+'"></span>').join('')+' '+T.n+'</b> &middot; '+fmt$(Math.round(L.purse*T.pm))+' to win'+pts+'<br>Rivals ~'+rav+' &middot; Donut '+dav+': <span style="color:'+mu[1]+'">'+mu[0]+'</span>'+(notes.length?'<br>'+notes.join(' &middot; '):'')+(b?' &middot; Best: '+ORD[b-1]:'')+'</small></div><button class="go" data-v="'+v+'"'+(blocked?' disabled':'')+'>RACE</button></div>'});
  panel(L.n.toUpperCase(),S.lg===3?'World rank #'+rankOf():'League points: '+S.lp,h,p=>{p.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{snd('confirm');startRace({ven:b.dataset.v})});
   p.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{snd('confirm');const x=L.boss[+b.dataset.b];startRace({ven:x[1],boss:x[0]})});
   p.querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>{snd('confirm');const [bo,ve]=b.dataset.x.split('|');startRace({ven:ve,boss:bo,exhib:1})});
