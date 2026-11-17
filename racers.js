@@ -765,6 +765,8 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
     if(V.gr==='sand'&&R.trait!=='sand')mul*=.98;
     if(crum&&!handed)mul*=.97;
     let vt=R.vm*(.74+.26*Math.min(1.05,dr))*mul;if(R.trip>0)vt*=.35;if(R.chase>0)vt*=.28;
+    /* rivals get one burst of zoomies too, later in the race; better Charm means a longer burst */
+    if(R.zat==null)R.zat=rr(.5,.85);if(!R.zd&&p>=R.zat&&!ev.tut&&!ev.scrim){R.zd=1;R.zt=1+R.s.cha/120;if(R.boss)say(R.n.toUpperCase()+' HAS THE ZOOMIES!',1.4)}if(R.zt>0){R.zt-=dt;vt=Math.max(vt,R.vm*1.22)}
     if(FIN&&R.trait==='royal'&&p>.82&&D.fin==null){if(!R.kind){R.kind=1;say('LORD FLUFFINGTON IS SLOWING DOWN... TO RUN WITH DONUT!',2.4)}vt=R.x>D.x+3?Math.min(vt,D.v*.55):Math.min(vt,D.v*.985)}
     const a=vt>R.v?R.ac:R.ac*1.6;R.v+=clamp(vt-R.v,-a*dt,a*dt);if(R.fin==null)R.x+=R.v*dt;R.ph+=R.v*dt*.11;
     if(R.jt>=0){R.jt+=dt;R.jh=Math.sin(Math.min(1,R.jt/.5)*Math.PI)*13;if(R.jt>=.5){R.jt=-1;R.jh=0}}if(R.dk>0)R.dk-=dt;
