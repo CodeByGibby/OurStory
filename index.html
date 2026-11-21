@@ -185,7 +185,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.16</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.17</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1195,19 +1195,23 @@ function clinicBack(t){const C=clinicCrew();
  r(48,58,30,1,'#e0e0ea');txt('LAB',57,46,'#3a7ac8',1)}
 function clinicFront(t){const C=clinicCrew();
  /* the car ahead in line, mid-swab */
- const cy=92;r(3,cy-8,22,6,'#3a9a8a');r(6,cy-12,13,4,'#3a9a8a');r(7,cy-11,5,3,'#a8d0e8');r(13,cy-11,5,3,'#a8d0e8');r(3,cy-3,22,1,'#2a6a5e');r(23,cy-7,2,2,'#ffe8a0');r(3,cy-7,1,2,'#d8352f');
- disc(8,cy-2,2,'#1a1a22',1);disc(20,cy-2,2,'#1a1a22',1);r(8,cy-2,1,1,'#8a8a96');r(20,cy-2,1,1,'#8a8a96');
- r(15,cy-11,3,3,C.drv.skin);r(15,cy-11,3,1,C.drv.hair);r(17,cy-10,1,1,'#2a1a12');
- const sk=(t*.8)%3,in2=sk>.6&&sk<2.2;C.sw.x=30;C.sw.y=cy;C.sw.dir='l';person(C.sw,t);ppeOn(C.sw,t);
- r(26,cy-7,1,1,'#3a8ad8');const tip=in2?18+Math.round(Math.sin(t*9)):22;for(let x=tip;x<26;x++)r(x,cy-8-(x<22?1:0),1,1,'#ffffff');
- if(in2&&Math.floor(t*4)%2){txt('!',13,cy-19,'#d8352f',1)}
+ const cy=93,X=-2,B='#3a9a8a',BD='#2a6a5e',BL='#5ab8a8',GL='#a8d0e8',OL='#1a2a2e';
+ r(X+7,cy-16,17,1,OL);r(X+6,cy-15,19,6,OL);r(X,cy-10,33,8,OL);
+ r(X+7,cy-15,17,6,B);r(X+1,cy-9,31,6,B);r(X+1,cy-9,31,1,BL);r(X+7,cy-15,17,1,BL);r(X+1,cy-4,31,1,BD);
+ r(X+8,cy-14,6,4,GL);r(X+16,cy-14,7,4,GL);r(X+8,cy-14,6,1,'#d0e8f4');r(X+16,cy-14,7,1,'#d0e8f4');r(X+15,cy-14,1,5,BD);
+ r(X+15,cy-9,1,5,BD);r(X+18,cy-7,2,1,BD);r(X+9,cy-7,2,1,BD);r(X+32,cy-8,1,2,'#ffe8a0');r(X,cy-8,1,2,'#d8352f');r(X+1,cy-3,31,1,'#3a3a44');
+ [X+7,X+25].forEach(wx=>{disc(wx,cy-2,3,'#1a1a22',1);disc(wx,cy-2,1,'#8a8a96',1)});
+ r(X+19,cy-13,3,3,C.drv.skin);r(X+19,cy-14,3,1,C.drv.hair);r(X+19,cy-13,1,3,C.drv.hair);r(X+21,cy-12,1,1,'#2a1a12');
+ const sk=(t*.8)%3,in2=sk>.6&&sk<2.2;C.sw.x=36;C.sw.y=cy;C.sw.dir='l';person(C.sw,t);ppeOn(C.sw,t);
+ r(32,cy-7,1,1,'#3a8ad8');const tip=in2?X+22+Math.round(Math.sin(t*9)):X+26;for(let x=tip;x<32;x++)r(x,cy-8-(x<X+27?2:x<X+30?1:0),1,1,'#ffffff');
+ if(in2&&Math.floor(t*4)%2){txt('!',X+20,cy-21,'#d8352f',1)}
  /* two staff chatting outside the tent */
  C.a.x=62;C.a.y=92;C.a.dir='r';C.b.x=71;C.b.y=92;C.b.dir='l';const bob=Math.floor(t*1.3)%2;
  person(C.a,t);ppeOn(C.a,t);person(C.b,t);ppeOn(C.b,t);
  const who=Math.floor(t/2.4)%2,bx=who?72:61,by=68+(bob?0:1);r(bx-4,by,9,5,'#ffffff');r(bx-3,by+5,2,1,'#ffffff');r(bx-3,by-1,7,1,'#ffffff');
  for(let i=0;i<3;i++)if(Math.floor(t*3)%4>i)r(bx-2+i*2,by+2,1,1,'#5a5a6a');
  /* a clipboard on a stand */
- r(41,80,1,12,'#8a8a96');r(38,74,7,7,'#c89a5a');r(39,75,5,5,'#f8f8f0');for(let y=76;y<80;y+=2)r(40,y,3,1,'#8a8aa0')}
+ r(48,80,1,12,'#8a8a96');r(45,74,7,7,'#c89a5a');r(46,75,5,5,'#f8f8f0');for(let y=76;y<80;y+=2)r(47,y,3,1,'#8a8aa0')}
 function startNeedle(){mode='needle';ndl={t:0,z:20+Math.random()*140|0,pos:0};setHud('Tap when the needle is in the GREEN zone!')}
 function needleTap(){const n=ndl;if(!n||n.done)return;n.done=1;const ok=n.pos>=n.z-2&&n.pos<=n.z+8+2;n.ok=ok;setHud('');sfx(ok?'ding':'ouch');
  after(.7,()=>{mode='swabbing';swab={t:0,ok};if(!ok){after(1.1,()=>{(shakeT=.6,sfx('hit'));hunter.bleed=1})}})}
@@ -8636,7 +8640,7 @@ function crzCelebrate(inStory){const o=$('crzu');o.innerHTML='<div class="cu"><d
  const go=$('cuGo');if(go)go.onclick=()=>{sfx('confirm');close();const en=$('end');en.style.display='none';en.classList.remove('res');openMini();LS('ourstory_crzo','1');crzLoad(()=>CRZ.open())}}
 /* ---------- Corgi Racers: the 120-star unlock, loaded on demand ---------- */
 function crzJustUnlocked(){const BS=MGBEST.get(),tot=MGAMES.reduce((a,g)=>a+((BS[g[1]]&&BS[g[1]].s)||0),0);if(tot<MGAMES.length*3||LS('ourstory_crzu'))return false;LS('ourstory_crzu','1');return true}
-function crzLoad(cb){if(window.CRZ){cb();return}const l=$('ld');if(l)l.classList.remove('off');const s=document.createElement('script');s.src='racers.js?v=1.13.16';s.onload=()=>{if(l)l.classList.add('off');cb()};s.onerror=()=>{if(l)l.classList.add('off');alert('Corgi Racers could not load. Check your connection and try again.')};document.head.appendChild(s)}
+function crzLoad(cb){if(window.CRZ){cb();return}const l=$('ld');if(l)l.classList.remove('off');const s=document.createElement('script');s.src='racers.js?v=1.13.17';s.onload=()=>{if(l)l.classList.add('off');cb()};s.onerror=()=>{if(l)l.classList.add('off');alert('Corgi Racers could not load. Check your connection and try again.')};document.head.appendChild(s)}
 /* ---------- debug: scene select ---------- */
 const DEBUG_MODE=true;
 const dbgRoof=()=>{setLoc('roof');cam=R;FX=30;FY=532;ZM=2;zk=zkT=0;st=0;skipDone=0;pink=0;wob=wobT=0;abi.hold=null};
