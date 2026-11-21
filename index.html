@@ -1486,7 +1486,9 @@ function pxFrame(dark){cx.globalAlpha=.35;rrect(30,26,108,246,10,'#000');cx.glob
 const AVS={};function avSized(n,im,d){const k=n+'|'+d;let c=AVS[k];if(c&&c._im===im)return c;const sw=im.naturalWidth||im.width,sh=im.naturalHeight||im.height;if(!sw||!sh)return null;
  const t=document.createElement('canvas');t.width=sw;t.height=sh;const tg=t.getContext('2d');tg.drawImage(im,0,0);const S=tg.getImageData(0,0,sw,sh).data;
  c=document.createElement('canvas');c.width=c.height=d;const g=c.getContext('2d'),O=g.createImageData(d,d);
- for(let y=0;y<d;y++){const sy=Math.min(sh-1,Math.floor((y+.5)*sh/d));for(let x=0;x<d;x++){const sx=Math.min(sw-1,Math.floor((x+.5)*sw/d)),i=(sy*sw+sx)*4,o=(y*d+x)*4;O.data[o]=S[i];O.data[o+1]=S[i+1];O.data[o+2]=S[i+2];O.data[o+3]=S[i+3]}}
+ /* whole-pixel scale then centre-crop: a fractional resize drops columns (it was eating one of Hunter's eyes) */
+ const kz=Math.max(1,Math.round(d/sw)),ox=Math.floor((sw*kz-d)/2),oy=Math.floor((sh*kz-d)/2);
+ for(let y=0;y<d;y++){const sy=Math.max(0,Math.min(sh-1,Math.floor((y+oy)/kz)));for(let x=0;x<d;x++){const sx=Math.max(0,Math.min(sw-1,Math.floor((x+ox)/kz))),i=(sy*sw+sx)*4,o=(y*d+x)*4;O.data[o]=S[i];O.data[o+1]=S[i+1];O.data[o+2]=S[i+2];O.data[o+3]=S[i+3]}}
  g.putImageData(O,0,0);c._im=im;AVS[k]=c;return c}
 function pxAv(n,x,y,s,col){const im=avImg(n);r(x-s,y-s,s*2,s*2,col||'#ff9ccb');const c=im&&avSized(n,im,s*2-2);if(c){cx.drawImage(c,Math.round(x-s+1),Math.round(y-s+1))}else txt(String(n)[0].toUpperCase(),x-1,y-2,'#ffffff',1)}
 function pxHeader(n,sub){r(32,34,98,22,'#e4dcec');r(32,55,98,1,'#d0c6dc');pxAv(n,48,45,7);txt(String(n).toUpperCase(),59,41,'#2a2a3a',1);txt(sub||'TEXT',59,49,'#8a8a9a',1);heart(118,42,'#ff5f9e')}
