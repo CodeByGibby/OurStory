@@ -887,16 +887,46 @@ const MG_ACC={k:'acc',n:'Fetch Sprint',dur:60,how:['HUNTER WILL THROW','THE BALL
  upd(G,dt){G.lt+=dt;if(G.skid>0)G.skid-=dt;
   if(G.st==='wait'){if(G.lt>=G.at){G.st='fly';G.ft=G.lt;snd('throw')}}
   else if(G.st==='fly'){G.bx+=dt;if(G.lt-G.ft>H(G,1.4,1.1)){G.sc2.push(.3);G.rt=1.1;G.bad(80,120,'TOO SLOW');G.st='run'}}
-  else if(G.st==='run'){G.dx+=dt*150;if(Math.random()<.4)DUST(G,20+G.dx-8,196);if(G.dx>110){G.st='back';G.lt=0}}
-  else if(G.st==='back'){if(G.lt>1){G.rd++;if(G.rd>=5){G.over=1;return}G.st='wait';G.lt=0;G.at=rr(1,2.6);G.fake=Math.random()<H(G,.3,.85)?rr(.45,G.at-.3):-1;G.dx=0;G.bx=0;G.rt=null}}},
- down(G){if(G.st==='wait'){G.sc2.push(0);const fk=G.fake>0&&Math.abs(G.lt-G.fake)<.4;G.bad(80,120,fk?'FAKED OUT!':'FALSE START!');snd('miss');G.st='back';G.lt=0;G.skid=.5;G.dx=12;return}if(G.st!=='fly')return;const rt=G.lt-G.ft;G.rt=rt;
+  else if(G.st==='run'){G.dx+=dt*150;if(Math.random()<.4&&G.dx<130)DUST(G,34+G.dx-8,196);if(G.dx>152){G.st='back';G.lt=0;G.b0=G.dx;G.fs=0}}
+  else if(G.st==='back'){if(G.lt>1.25){G.rd++;if(G.rd>=5){G.over=1;return}G.st='wait';G.lt=0;G.at=rr(1,2.6);G.fake=Math.random()<H(G,.3,.85)?rr(.45,G.at-.3):-1;G.dx=0;G.bx=0;G.rt=null}}},
+ down(G){if(G.st==='wait'){G.sc2.push(0);const fk=G.fake>0&&Math.abs(G.lt-G.fake)<.4;G.bad(80,120,fk?'FAKED OUT!':'FALSE START!');snd('miss');G.st='back';G.lt=0;G.skid=.5;G.dx=12;G.b0=12;G.fs=1;G.ba=G._a==null?18:G._a;return}if(G.st!=='fly')return;const rt=G.lt-G.ft;G.rt=rt;
   const s=rt<H(G,.32,.24)?1.5:rt<H(G,.46,.34)?1.2:rt<H(G,.64,.48)?.9:rt<H(G,.9,.7)?.6:.35;G.sc2.push(s);if(s>=1.2){G.good(80,120,s>=1.5?'LIGHTNING!':'QUICK!',s>=1.5?2:1);snd('boost')}else if(s>=.9){G.good(80,120,'GOOD');snd('step')}else{G.bad(80,120,'SLOW START');snd('step')}G.st='run'},
  score:G=>G.sc2.reduce((a,b)=>a+b,0)/5,
  draw(G,t){skyPaint('day');r(0,140,160,148,'#5aa83a');for(let y=140;y<288;y+=12)r(0,y,160,6,'#5fac3e');
-  const hx=128,thr=G.st==='fly'||G.st==='run';const fakeArm=G.st==='wait'&&G.fake>0&&Math.abs(G.lt-G.fake)<.25;
-  ppl('hunter',hx,182,t,'l');if(G.st==='wait'&&!fakeArm)disc(hx-5,166,2,'#c8e83a',1);if(fakeArm){r(hx-8,158,2,6,'#f1c9a0');disc(hx-8,156,2,'#c8e83a',1)}
-  if(thr){const k=Math.min(1,G.bx/1.1),bx=hx-8-k*120,by=160-Math.sin(k*Math.PI)*60+k*30;disc(bx,by,3,'#c8e83a',1);r(Math.round(bx)-1,Math.round(by)-2,2,1,'#f0ff9a');if(G.st==='fly'&&G.lt-G.ft<.25){for(let i=0;i<3;i++)r(hx-4+i*2,150-i*5,6,1,'#fff6e0');r(hx-12,152,3,8,'#f1c9a0')}if(G.st==='fly'){cx.globalAlpha=.5;disc(bx+3,by-2,1,'#c8e83a',1);cx.globalAlpha=1}}
-  const dx=20+G.dx;rdog(dx,196,{c:'red',st:G.st==='run'?'run':G.skid>0?'trip':G.st==='wait'?'duck':'stand',ph:G.dx*.2,g:dGear()});
+  /* Hunter (left) winds up and throws right; the dog chases it off-screen and trots back with it */
+  const sm=(a,b,v)=>{const k=Math.max(0,Math.min(1,(v-a)/(b-a)));return k*k*(3-2*k)},kf=(v,K)=>{if(v<=K[0][0])return K[0][1];for(let i=1;i<K.length;i++)if(v<K[i][0])return K[i-1][1]+(K[i][1]-K[i-1][1])*sm(K[i-1][0],K[i][0],v);return K[K.length-1][1]};
+  const BASE=18+Math.sin(t*2.4)*3,UP=188,fk=G.fake>0?G.fake:-9;
+  const aF=v=>fk<0?BASE:kf(v-fk,[[-.22,BASE],[-.06,UP],[.04,150],[.18,150],[.42,BASE]]);
+  const aT=(v,A)=>{const b0=aF(A-.28);return kf(v-A,[[-.28,b0],[-.08,UP+6],[0,128],[.12,40],[.5,BASE]])};
+  let a,hold=1,lean=0,back=G.st==='back';
+  if(G.st==='wait'){const A=G.at;a=G.lt<A-.28?aF(G.lt):aT(G.lt,A);const wv=G.lt<A-.28?G.lt-fk:G.lt-A;lean=wv>-.22&&wv<-.04?-1:wv>=-.04&&wv<.16?1:0}
+  else if(G.st==='fly'||G.st==='run'){const u=G.lt-G.ft;a=aT(G.lt,G.ft);hold=0;lean=u<.16?1:0}
+  else{if(G.fs){a=G.ba+(BASE-G.ba)*sm(0,.3,G.lt)}else{hold=G.lt>1.12?1:0;a=BASE+Math.sin(Math.PI*sm(.9,1.2,G.lt))*42}}
+  G._a=a;const hx=14+lean,hy=182;ppl('hunter',hx,hy,t,'l');
+  const OL='#2b1830',grs=y=>((y-140)%12+12)%12<6?'#5fac3e':'#5aa83a';
+  r(hx+3,174,1,4,OL);for(let y=174;y<178;y++)r(hx+4,y,1,1,grs(y));
+  const rad=a*Math.PI/180,dxA=Math.sin(rad),dyA=Math.cos(rad),Sx=hx+4,Sy=174,L=6,pts=[];
+  for(let i=0;i<=L;i++)pts.push([Math.round(Sx+dxA*i),Math.round(Sy+dyA*i)]);
+  const inBody=(x,y)=>x>=hx-4&&x<=hx+2&&y>=172&&y<=178;
+  pts.forEach(([x,y])=>{for(let oy=-1;oy<=1;oy++)for(let ox=-1;ox<=1;ox++)if(!inBody(x+ox,y+oy))r(x+ox,y+oy,1,1,OL)});
+  pts.forEach(([x,y],i)=>r(x,y,1,1,i<3?(i<1?'#a82924':'#d8352f'):'#f1c9a0'));
+  const HX=Sx+dxA*(L+1.5),HY=Sy+dyA*(L+1.5);
+  const ball=(x,y)=>{disc(Math.round(x),Math.round(y),2,'#c8e83a',1);r(Math.round(x)-1,Math.round(y)-1,1,1,'#f0ff9a')};
+  /* swoosh along the arm's arc on the real throw (big) and the fake pump (small) */
+  const sw=(A0,A1,al)=>{cx.globalAlpha=al;for(let k=0;k<=6;k++){const q=(A0+(A1-A0)*k/6)*Math.PI/180;r(Math.round(Sx+Math.sin(q)*(L+3)),Math.round(Sy+Math.cos(q)*(L+3)),1,1,'#fff6e0')}cx.globalAlpha=1};
+  if(G.st==='wait'&&fk>0){const v=G.lt-fk;if(v>-.05&&v<.12)sw(UP,150,.55*(1-Math.abs(v-.03)/.1))}
+  if(G.st!=='back'){const u=G.lt-(G.st==='wait'?G.at:G.ft);if(u>-.08&&u<.14)sw(UP+6,Math.max(60,a),.7*(1-Math.max(0,u)/.14))}
+  if(hold&&!(back&&!G.fs&&G.lt<1.12))ball(HX,HY);
+  /* the ball in flight: leaves the hand at the release angle and arcs off the right edge */
+  if(G.st==='fly'||G.st==='run'){const u=G.lt-G.ft,k=Math.min(1,u/.85),r0=128*Math.PI/180,Rx=Sx+Math.sin(r0)*(L+1.5),Ry=Sy+Math.cos(r0)*(L+1.5);
+   if(k<1){const bx=Rx+k*(182-Rx),by=Ry-200*k*(1-k)+18*k;ell(Math.round(bx),Math.round(184+k*12),2,1,'#000',.18);
+    if(k>.08){const q=k-.06;cx.globalAlpha=.35;ball(Rx+q*(182-Rx),Ry-200*q*(1-q)+18*q);cx.globalAlpha=1}ball(bx,by)}}
+  /* the dog: crouch, sprint off right, trot back with the ball, hand it over */
+  let ddx=34+G.dx,dflip=0,dst=G.st==='run'?'run':G.skid>0?'trip':G.st==='wait'||G.st==='fly'?'duck':'stand',dph=G.dx*.2;
+  if(back&&!G.fs){const p=sm(0,.92,G.lt);ddx=34+G.b0*(1-p);dflip=1;dst=G.lt<.88?'run':'stand';dph=G.lt*14}
+  else if(back&&G.fs){const p=sm(.45,.95,G.lt);ddx=34+G.b0*(1-p);if(G.lt>.45&&G.lt<.95){dflip=1;dst='run';dph=G.lt*12}}
+  if(dflip){cx.save();cx.translate(Math.round(ddx),0);cx.scale(-1,1);rdog(0,196,{c:'red',st:dst,ph:dph,g:dGear()});cx.restore()}else rdog(ddx,196,{c:'red',st:dst,ph:dph,g:dGear()});
+  if(back&&!G.fs&&G.lt<1.12){const mx=ddx-12,my=187;if(G.lt<.95)ball(mx,my);else{const p=sm(.95,1.12,G.lt);ball(mx+(HX-mx)*p,my+(HY-my)*p-Math.sin(Math.PI*p)*8)}}
   if(G.st==='wait'){const p=(Math.sin(t*6)+1)/2;cx.globalAlpha=.6+p*.4;ptxtS('READY...',80,220,'#fff6e0',1,'c');cx.globalAlpha=1}
   if(G.st==='fly'&&Math.floor(t*12)%2)ptxtS('NOW!',80,220,'#ffd86b',2,'c');
   /* reaction meter */r(20,232,120,8,'#2b1830');r(20,232,22,8,'#8be28b');r(42,232,24,8,'#c8e870');r(66,232,30,8,'#ffd86b');r(96,232,44,8,'#ff9a6a');
