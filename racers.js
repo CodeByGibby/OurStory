@@ -927,7 +927,7 @@ const MG_ACC={k:'acc',n:'Fetch Sprint',dur:60,how:['HUNTER WILL THROW','THE BALL
   /* the ball in flight: leaves the cup at release and arcs off the right edge */
   if(G.st==='fly'||G.st==='run'){const u=G.lt-G.ft,k=Math.min(1,u/.8),q=pT(G.ft,G.ft),qa=q[0]*Math.PI/180,qs=q[1]*Math.PI/180,Rx=Sx+Math.sin(qa)*L+Math.sin(qs)*(LS2+2),Ry=Sy+Math.cos(qa)*L+Math.cos(qs)*(LS2+2);
    const P=k=>[Rx+k*(184-Rx),Ry-170*k*(1-k)+30*k];
-   if(k<1){const [bx,by]=P(k);ell(Math.round(bx),Math.round(184+k*12),2,1,'#000',.18);if(k>.08){const g=P(k-.06);cx.globalAlpha=.35;ball(g[0],g[1]);cx.globalAlpha=1}ball(bx,by)}}
+   if(k<1){const [bx,by]=P(k);ell(Math.round(bx),Math.round(184+k*12),2,1,'#000',.18);if(k>.04){cx.globalAlpha=.4;for(let q=1;q<=3;q++){const g=P(k-q*.018);r(Math.round(g[0]),Math.round(g[1]),1,1,'#fff6e0')}cx.globalAlpha=1}ball(bx,by)}}
   /* the dog: crouch, sprint off right, trot back with the ball, hand it over */
   let ddx=34+G.dx,dflip=0,dst=G.st==='run'?'run':G.skid>0?'trip':G.st==='wait'||G.st==='fly'?'duck':'stand',dph=G.dx*.2;
   if(back&&!G.fs){const p=sm(0,.92,G.lt);ddx=34+G.b0*(1-p);dflip=1;dst=G.lt<.88?'run':'stand';dph=G.lt*14}
