@@ -914,7 +914,7 @@ function c1Hunter(){mode='c1walk';say([{n:'',t:'Fifteen minutes later...'}],()=>
    {n:'Abigail',t:'(...Oh. He’s cute.)'},{n:'Morgan',t:'Okay! Let’s have FUN tonight.'}],()=>{zkT=0;st=1;mode='zoomout'})})})}
 const QUIPS=['♪ This song is my JAM!','Woo! Nice moves!','The Coop has the best view in town.','Are you here with someone? Hehe.'];
 let FHEART=0;const HEARTLOC={door:1,kiss8:1,balc8:1,epnurse:1,epfam:1,couple8:1,night2:1};
-const fadeTo=(cb,hold=0)=>{FHEART=HEARTLOC[loc]||(loc==='steak'&&typeof c6!=='undefined'&&c6&&c6.pr)?1:0;if(MGM&&MGM.played&&!MGM.done&&!MGM.modes.includes(mode)){MGM.done=1;cb=mgFinish;hold=0}else if(!MGM&&SGM&&!SGM.shown&&mgIdx(mode)!==SGM.i&&mode!=='end'){const c0=cb,h0=hold;mgStoryResult(()=>fadeTo(c0,h0));return}fd=1;fcb=cb;fhold=hold};
+const fadeTo=(cb,hold=0)=>{FHEART=HEARTLOC[loc]||(loc==='steak'&&typeof c6!=='undefined'&&c6&&c6.pr)?1:0;if(MGM&&MGM.played&&!MGM.done&&!MGM.modes.includes(mode)){MGM.done=1;cb=mgFinish;hold=0}else if(!MGM&&SGM&&!SGM.shown&&mgIdx(mode)!==SGM.i&&mode!=='end'&&!mgLater()){const c0=cb,h0=hold;mgStoryResult(()=>fadeTo(c0,h0));return}fd=1;fcb=cb;fhold=hold};
 const zoomTo=(x,y,z)=>{FX=x;FY=y;ZM=z;zkT=1};
 function goRoute(p,pts){if(pts._r||!pts.length)return pts;let plan=null,raw;
  if(typeof hx!=='undefined'&&hx&&HXF[hx.room]&&HXLOC[hx.room]===loc&&(p===hx.p||p===hx.f)){const R=HXF[hx.room];raw=(x,y)=>hxWalkable(R,x,y,0);plan=(a,b,c,d)=>hxPlan(R,a,b,c,d)}
@@ -8558,6 +8558,7 @@ function mgSnap(){const o={v:{},p:MGPPL().map(q=>[q,Object.assign({},q)])};for(c
 function mgRestore(o){for(const k in o.v){try{window.__mgv=o.v[k];eval(k+'=window.__mgv')}catch(e){}}window.__mgv=null;o.p.forEach(([q,c])=>{for(const k of Object.keys(q))if(!(k in c))delete q[k];Object.assign(q,c)})}
 // games played over several rounds in the story only get their card after the last round
 const MGLATER={'Dippin Donuts drive-thru':()=>typeof c3Day!=='undefined'&&c3Day<2};
+function mgLater(){const w=SGM&&MGAMES[SGM.i]&&MGLATER[MGAMES[SGM.i][1]];return !!(w&&w())}
 function mgStoryResult(cont){const G=SGM;{const w=MGLATER[MGAMES[G.i][1]];if(w&&w()){cont();return}}G.shown=1;const i=G.i,pm=mode,fdv=fd,fv=fade;mode='end';
  mgResults(i,G.res,[['&#9654;&nbsp;Continue','',()=>{mode=pm;cont()}],['&#8635;&nbsp;Play again','alt',()=>{const S=mgSnap();mgLaunch(i);MGM.ret={S,cont,pm}}]])}
 function mgReset(){hunter.kneel=0;chatClear();try{c8Extra.forEach(p=>{const i=all.indexOf(p);if(i>=0)all.splice(i,1);p.dance=0});c8Extra=[]}catch(e){}dlg=null;$('dlg').style.display='none';timers=[];['end','chap','phone','news','lap'].forEach(id=>{const e=$(id);if(e)e.style.display='none'});$('card').style.opacity=0;$('title').classList.add('out');cap('');
