@@ -681,7 +681,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
  /* field */const names=RIVN.slice().sort(()=>Math.random()-.5);const riv=[];const nR=ev.tt?0:ev.tut||ev.scrim?1:ev.field?0:3;
  if(ev.field)ev.field.forEach((b,i)=>{const R=mkRival(i,lg,b,i);riv.push(R)});
  if(ev.scrim){const R=mkRival(0,lg,null,1);R.n='Crumpet';R.coat='red';R.bow=1;R.g={};R.sz=1.05;STATS.forEach(([k])=>R.s[k]=Math.max(4,Math.round(S.st[k]*.82)));riv.push(R)}
- for(let i=0;i<nR&&!ev.scrim;i++){const isB=boss&&i===nR-1;const R=mkRival(i,lg,isB?boss:null,isB?2:i,isB?0:V.relay?0:(tierOf(ev)||2));if(!isB)R.n=names[i];if(ev.tut){R.coat='cream';R.g={};R.lane=1;STATS.forEach(([k])=>R.s[k]=4)}riv.push(R)}
+ for(let i=0;i<nR&&!ev.scrim;i++){const isB=boss&&i===nR-1;const R=mkRival(i,lg,isB?boss:null,isB?2:i,isB?0:V.relay||(boss==='fluff'&&!ev.exhib&&!S.fl.champ)?0:(tierOf(ev)||2));if(!isB)R.n=names[i];if(ev.tut){R.coat='cream';R.g={};R.lane=1;STATS.forEach(([k])=>R.s[k]=4)}riv.push(R)}
  riv.forEach(R=>{const s=R.s;Object.assign(R,{x:0,v:0,ph:Math.random()*4,vm:vOf(s.spd),ac:30+s.acc*1.1,form:rr(1-BAL.fs,1+BAL.fs),jt:-1,dk:0,trip:0,chase:0,fin:null,done:{},st:'stand',surge:0})});
  const D={smoke:[],n:'Donut',coat:'red',x:0,v:0,ph:0,d:0,sta:100,gas:0,jt:-1,jh:0,dk:0,trip:0,chase:0,chX:0,fin:null,lane:3,done:{},zm:hasSk('lgP')?1:0,zt:0,wind:hasSk('wind'),st:'stand',held:0,pf:0};
  const PL=ev.plan||'',FM=formMul(),AG=1+(clamp(E.agi,0,120)-40)/600,CH=.85+clamp(E.cha,0,120)/300;const vm=FM*vOf(E.spd)*(V.gr==='sand'&&!sandOK()?.93:1)*(hasSk('lgS')?1.05:1),ac=FM*(30+E.acc*1.1)*(hasSk('quick')?1.15:1),focusNeed=clamp((.9-E.foc*.0058)*(hasSk('iron')?.6:1)*(S.mood<30?1.25:1)*(PL==='focus'?.6:1),.22,1.2);
@@ -767,7 +767,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
     let vt=R.vm*(.74+.26*Math.min(1.05,dr))*mul;if(R.trip>0)vt*=.35;if(R.chase>0)vt*=.28;
     /* rivals get one burst of zoomies too, later in the race; better Charm means a longer burst */
     if(R.zat==null)R.zat=rr(.5,.85);if(!R.zd&&p>=R.zat&&!ev.tut&&!ev.scrim){R.zd=1;R.zt=1+R.s.cha/120;if(R.boss)say(R.n.toUpperCase()+' HAS THE ZOOMIES!',1.4)}if(R.zt>0){R.zt-=dt;vt=Math.max(vt,R.vm*1.22)}
-    if(FIN&&R.trait==='royal'&&p>.82&&D.fin==null){if(!R.kind){R.kind=1;say('LORD FLUFFINGTON IS SLOWING DOWN... TO RUN WITH DONUT!',2.4)}vt=R.x>D.x+3?Math.min(vt,D.v*.55):Math.min(vt,D.v*.985)}
+    if(FIN&&R.trait==='royal'&&p>.82&&D.fin==null){if(!R.kind){R.kind=1;say('LORD FLUFFINGTON IS SLOWING DOWN... TO RUN WITH DONUT!',2.4)}vt=R.x>D.x+3?Math.min(vt,D.v*(p>.94?.05:.35)):Math.min(vt,D.v*.985)}
     const a=vt>R.v?R.ac:R.ac*1.6;R.v+=clamp(vt-R.v,-a*dt,a*dt);if(R.fin==null)R.x+=R.v*dt;R.ph+=R.v*dt*.11;
     if(R.jt>=0){R.jt+=dt;R.jh=Math.sin(Math.min(1,R.jt/.5)*Math.PI)*13;if(R.jt>=.5){R.jt=-1;R.jh=0}}if(R.dk>0)R.dk-=dt;
     obs.forEach((o,i)=>{if(R.done[i])return;const dx=o.x-R.x;if(dx<18&&dx>0&&!R.pre){R.pre=i+1;const sp=R.trait==='perfect'||R.trait==='nimble'||R.trait==='royal'?0:clamp(.3-s.agi*.0032,.03,.3);R.fail=Math.random()<sp;
@@ -796,6 +796,7 @@ function raceScreen(ev){const V=VEN[ev.ven],E=eff(),lg=S.lg,len=V.len,boss=ev.bo
      if(isD)D.smoke.forEach(p=>{const k=p.t/p.life,rad=1.5+k*5,sx=Math.round(p.x-cam),sy=Math.round(p.y);if(sx<-10||sx>BW+10)return;disc(sx,sy,rad|0,k<.18?'hsl('+p.h+',90%,82%)':k<.5?'#f4f0f8':'#c8c4d4',.75*(1-k))});
      if(isD&&D.zt>0&&!(crum&&!handed)){glowDog(X,y,{c:'red',st:D.st,ph:D.ph,g:dGear(),jy:D.jh},t,Math.min(1,D.zt*3));if(D.drf)r(X-14,y-6,4,1,'#7ee8fa');heart(X+4,y-25-D.jh-(Math.floor(t*3)%2),'#ff5f9e');return}
      if(isD&&crum&&!handed){rdog(X,y,{c:'red',st:flop?'lie':D.st,ph:D.ph,jy:D.jh,bow:1,sz:.95,tongue:1});return}
+     if(!isD&&R.zt>0){/* a rival's zoomies: speed streaks and kicked-up dust so the burst reads */R.zd0=R.zd0||R.zt;const al=Math.min(1,R.zt*3,(R.zd0-R.zt)*6+.15),jj=R.jh||0;cx.globalAlpha=al*.85;for(let i=0;i<3;i++){const L=6+((Math.floor(t*14)+i*3)%5)*2;r(X-12-L-i*2,y-10+i*3-jj,L,1,i===1?'#ffd86b':'#fff6e0')}cx.globalAlpha=1;disc(X-11-(Math.floor(t*10)%3),y-1,1+(Math.floor(t*12)%2),'#efe6d6',al*.5)}
      rdog(X,y,{c:R.coat,st:R.st,ph:R.ph,g:isD?dGear():R.g,jy:R.jh||0,sz:R.sz||1,bow:R.bow,dir:isD&&D.chase>0&&Math.floor(t*6)%2?'l':'r'});
      if(R.boss&&R.trait!=='none'){ptxt('BOSS',X,y-30,'#ffd86b',1,'c')}
      if(isD){if(D.drf)r(X-14,y-6,4,1,'#7ee8fa');if(D.puff>0&&!D.jh){cx.globalAlpha=D.puff*3;r(X-12,y-2,2,1,'#efe6d6');r(X-15,y-3,2,1,'#efe6d6');cx.globalAlpha=1}heart(X+4,y-25-D.jh-(Math.floor(t*3)%2),'#ff5f9e')}})}
@@ -850,7 +851,7 @@ function mgShell(def,hard){const lv=mgLv(hard),G={t:0,ph:'how',sc:0,pops:[],part
   draw(t){const sx=G.shk>0?Math.round(Math.sin(t*80)*2):0;cx.save();cx.translate(sx,0);def.draw(G,t);
    G.parts.forEach(p=>{const a=1-p.t/p.life;cx.globalAlpha=a;if(p.k==='s'){r(p.x,p.y,2,2,p.c);r(p.x-1,p.y+.5,4,1,p.c)}else if(p.k==='p')disc(p.x,p.y,1+p.t*6|0,p.c,a*.8);else{for(let i=-3;i<=3;i++){r(p.x+i,p.y+i-6,2,2,'#ff5a5a');r(p.x+i,p.y-i-6,2,2,'#ff5a5a')}}cx.globalAlpha=1});
    G.pops.forEach(p=>{const z=p.big?2:1,w=p.s.length*4*z;cx.globalAlpha=Math.min(1,(1-p.t)*3);ptxtS(p.s,clamp(p.x,w/2+3,157-w/2),p.y-p.t*14,p.c,z,'c');cx.globalAlpha=1});cx.restore();
-   if(S.gym>=2&&G.ph!=='how'){const hop=G.cheer>0?Math.round(Math.abs(Math.sin(G.cheer*14))*3):0;crumpet(149,62-hop,'l',t,1,0);if(G.cheer>0)heart(144,40-Math.round((.45-G.cheer)*20),'#ff5f9e')}
+   if(S.gym>=2&&G.ph!=='how'){const hop=G.cheer>0?Math.round(Math.abs(Math.sin(G.cheer*14))*3):0;const CP={spd:[146,168],sta:[150,103],agi:[149,62],foc:[150,114],acc:[148,154],cha:[150,208]}[def.k]||[149,62];crumpet(CP[0],CP[1]-hop,'l',t,1,0);if(G.cheer>0)heart(CP[0]-5,CP[1]-22-Math.round((.45-G.cheer)*20),'#ff5f9e')}
    if(G.fl>0){const a=Math.min(1,G.fl*3);cx.globalAlpha=a*.85;r(0,0,BW,3,G.flc);r(0,BH-3,BW,3,G.flc);r(0,0,3,BH,G.flc);r(BW-3,0,3,BH,G.flc);cx.globalAlpha=a*.12;r(0,0,BW,BH,G.flc);cx.globalAlpha=1}
    r(0,0,BW,18,'rgba(14,8,40,.85)');ptxtS((G.hard?'GUS DRILL X2':def.n.toUpperCase())+' LV'+G.lv,4,4,G.hard?'#ffd86b':SN[def.k][2]);if(G.ph==='play'){r(4,13,152,2,'#3a2e5a');r(4,13,Math.round(152*(1-G.t/def.dur)),2,SN[def.k][2])}
    if(G.combo>=2&&G.ph==='play'){const s='X'+G.combo;ptxtS(s,156,4,G.combo>=5?'#ffd86b':'#fff6e0',1,'r');if(G.combo>=5){const f=Math.floor(t*10)%2;r(156-s.length*4-6,5+f,3,4,'#ff8a3a');r(156-s.length*4-5,4,1,2,'#ffd86b')}}
@@ -992,17 +993,20 @@ const MG_AGI={k:'agi',n:'Weave Poles',dur:32,how:['TAP LEFT OR RIGHT TO','WEAVE 
 /* 5. Squirrel Watch: tap treats, ignore squirrels */
 const MG_FOC={k:'foc',n:'Squirrel Watch',dur:16,how:['DONUT IS ON A SIT-STAY.','TAP THE TREATS THAT POP UP.','DO NOT TAP THE SQUIRRELS.','(SHE WANTS TO. SO BAD.)'],
  init(G){G.it=[];G.nt=.6;G.hit=0;G.sq=0;G.ms=0;G.tot=0;G.wob=0;G.happy=0},
- upd(G,dt){G.nt-=dt;if(G.happy>0)G.happy-=dt;if(G.nt<=0){G.nt=(rr(.45,.95)-G.t*.012)*H(G,1,.72);const holes=[[30,150],[80,136],[130,150],[48,186],[112,186]];const free=holes.filter(h=>!G.it.some(i=>i.h===h&&!i.gone));if(free.length){const h=pick(free),tr=Math.random()<H(G,.45,.36);if(tr)G.tot++;G.it.push({h,tr,t:0,life:(rr(.8,1.1)-G.t*.015)*H(G,1,.75)})}}
-  G.it.forEach(i=>{i.t+=dt;if(i.t>i.life&&!i.gone){i.gone=1;if(i.tr&&!i.got){G.ms++;G.combo=0;G.pop('MISSED','#cdb8e8',i.h[0],i.h[1]-14);for(let k=0;k<5;k++)G.parts.push({x:i.h[0],y:i.h[1]-6,vx:(k-2)*8,vy:-10,c:'#d8d0e0',t:0,life:.35,k:'p'})}}});
-  G.it=G.it.filter(i=>!i.gone||i.t<i.life+.2);if(G.wob>0)G.wob-=dt},
- down(G,x,y){let i=null,bd=1e9;G.it.forEach(q=>{if(q.gone||q.t<.03)return;const dx=q.h[0]-x,dy=q.h[1]-10-y,d=dx*dx+dy*dy;if(Math.abs(dx)<20&&dy<20&&dy>-22&&d<bd){bd=d;i=q}});if(!i)return;i.gone=1;i.got=1;
+ upd(G,dt){G.nt-=dt;if(G.happy>0)G.happy-=dt;if(G.nt<=0){G.nt=(rr(.45,.95)-G.t*.012)*H(G,1,.72);const holes=[[30,150],[80,136],[130,150],[48,186],[112,186]];const free=holes.filter(h=>!G.it.some(i=>i.h===h&&(!i.gone||i.t<i.gt+.2)));if(free.length){const h=pick(free),tr=Math.random()<H(G,.45,.36);if(tr)G.tot++;G.it.push({h,tr,t:0,life:(rr(.8,1.1)-G.t*.015)*H(G,1,.75)})}}
+  G.it.forEach(i=>{i.t+=dt;if(i.t>i.life&&!i.gone){i.gone=1;i.gt=i.t;if(i.tr&&!i.got){G.ms++;G.combo=0;G.pop('MISSED','#cdb8e8',i.h[0],i.h[1]-14);for(let k=0;k<5;k++)G.parts.push({x:i.h[0],y:i.h[1]-6,vx:(k-2)*8,vy:-10,c:'#d8d0e0',t:0,life:.35,k:'p'})}}});
+  G.it=G.it.filter(i=>!i.gone||i.t<i.gt+.3);if(G.wob>0)G.wob-=dt},
+ down(G,x,y){let i=null,bd=1e9;G.it.forEach(q=>{if(q.gone||q.t<.03)return;const dx=q.h[0]-x,dy=q.h[1]-10-y,d=dx*dx+dy*dy;if(Math.abs(dx)<20&&dy<20&&dy>-22&&d<bd){bd=d;i=q}});if(!i)return;i.gone=1;i.got=1;i.gt=i.t;
   if(i.tr){G.hit++;G.happy=.5;G.good(i.h[0],i.h[1]-20,G.combo>=3?'GOOD GIRL!!':'GOOD GIRL!',G.combo>=3?2:1);snd('coin')}else{G.sq++;G.wob=.6;G.bad(i.h[0],i.h[1]-20,'NO! STAY!');snd('alert')}},
  score:G=>(G.hit-G.sq*1.2-G.ms*.4)/Math.max(4,G.tot)*1.45,
  draw(G,t){skyPaint('day');r(0,100,160,188,'#5aa83a');for(let y=100;y<288;y+=12)r(0,y,160,6,'#5fac3e');for(let x=0;x<160;x+=10){r(x,80,8,22,'#c8945a');r(x,80,8,1,'#e0b070')}
   const H=[[30,150],[80,136],[130,150],[48,186],[112,186]];H.forEach(([x,y])=>{disc(x,y+2,10,'#3a8a3a',1);disc(x-5,y,6,'#4a9a3a',1)});
-  G.it.forEach(i=>{if(i.gone)return;const k=Math.min(1,i.t/.12),[x,y]=i.h,yy=y-Math.round(k*10),left=1-i.t/i.life;
+  G.it.forEach(i=>{const [x0,y]=i.h;let x=x0,k=Math.min(1,i.t/.12),left=Math.max(0,1-i.t/i.life),fly=0;
+   /* leaving: a caught treat flies to Donut, everything else ducks back into its bush */
+   if(i.gone){const s2=(i.t-i.gt)/(i.got&&i.tr?.24:.14);if(s2>=1)return;left=0;if(i.got&&i.tr){fly=s2}else k=Math.min(k,1-s2)}
+   let yy=y-Math.round(k*10);if(fly){const e=fly*fly*(3-2*fly);x=Math.round(x0+(80-x0)*e);yy=Math.round(y-10+(232-(y-10))*e-Math.sin(Math.PI*fly)*18)}
    if(i.tr){r(x-5,yy-3,10,3,'#e8c080');disc(x-5,yy-2,2,'#e8c080',1);disc(x+5,yy-2,2,'#e8c080',1);if(Math.floor(t*8)%2)r(x+6,yy-6,1,1,'#fff6e0')}else disDraw('squirrel',x,yy+3,t);
-   r(x-6,yy+5,12,1,'#2b1830');r(x-6,yy+5,Math.round(12*left),1,i.tr?'#8be28b':'#ff9a6a')});
+   if(!i.gone){r(x-6,yy+5,12,1,'#2b1830');r(x-6,yy+5,Math.round(12*left),1,i.tr?'#8be28b':'#ff9a6a')}});
   H.forEach(([x,y])=>{disc(x,y+6,9,'#3a8a3a',1)});
   const wb=G.wob>0?Math.round(Math.sin(t*40)*2):0,up=G.wob>.3;rdog(80+wb,244-(up?3:0),{c:'red',st:up?'stand':'sit',g:dGear(),tongue:G.happy>0,dir:up&&Math.floor(t*6)%2?'l':'r'});
   if(G.happy>0){heart(76,214-Math.round((.5-G.happy)*16),'#ff5f9e')}if(G.wob>0)ptxtS('!',96,214,'#ff7e7e',2);
@@ -1019,7 +1023,12 @@ const MG_CHA={k:'cha',n:'Photo Shoot',dur:40,how:['THE PHOTOGRAPHER CALLS','A PO
   else{G.pkOk=0;G.shots.push(0);snd('miss');G.bad(80,150,'WRONG POSE')}if(G.n>=8)G.over=1;else G.next()},
  score:G=>G.ok/8*1.15,
  draw(G,t){r(0,0,160,288,'#f0e6f6');r(0,180,160,56,'#e0d4ea');ell(80,196,40,6,'#d0c4dc',1);r(10,30,2,120,'#3a3a44');disc(11,26,8,'#fff6d0',1);r(148,30,2,120,'#3a3a44');disc(149,26,8,'#fff6d0',1);
-  ppl('abi',130,170,t,'l');r(118,150,8,6,'#2a2a34');r(116,152,3,3,'#5a5a66');posed(72,196,G.cur,t);
+  ppl('abi',130,170,t,'l');{/* Abigail holds the camera up to her eye, hand on the grip */
+   const ab=PEO.abi||{},top=ab.top||'#e8b84a',sk=ab.skin||'#f6d2b0',OL='#2b1830',bob=G.fl2>0?1:0;r(126,165,1,1,OL);r(125,160,1,3,top);r(124,161,1,2,OL);
+   const cx0=119+bob,cy0=155;r(cx0-1,cy0-1,8,7,OL);r(cx0,cy0,6,5,'#3a3a46');r(cx0,cy0,6,1,'#5a5a6a');r(cx0+2,cy0-2,3,2,OL);r(cx0+3,cy0-2,1,1,'#5a5a6a');
+   r(cx0-3,cy0+1,3,3,OL);r(cx0-2,cy0+1,2,3,'#6a6a7a');r(cx0-2,cy0+1,1,1,'#c8d8f0');r(cx0,cy0-2,2,1,'#e8e8f0');r(124,158,2,2,sk);
+   if(G.fl2>0){const fx=cx0+1,fy=cy0-3,a2=Math.min(1,G.fl2*5);cx.globalAlpha=a2;disc(fx,fy,2,'#fffbe0',1);r(fx-5,fy,11,1,'#fff6c0');r(fx,fy-5,1,11,'#fff6c0');r(fx-3,fy-3,1,1,'#fff6c0');r(fx+3,fy-3,1,1,'#fff6c0');r(fx-3,fy+3,1,1,'#fff6c0');r(fx+3,fy+3,1,1,'#fff6c0');cx.globalAlpha=1}}
+  posed(72,196,G.cur,t);
   const urg=G.lt/G.lim>.65&&Math.floor(t*8)%2;r(20,40,120,40,'#fff6e0');r(20,40,120,1,urg?'#ff5a5a':'#c2417a');ptxt('POSE:',80,46,'#8a7aa8',1,'c');ptxtS(POSES.find(p=>p[1]===G.want)[0],80,58,'#c2417a',2,'c');
   r(30,74,100,3,'#e8dcf0');const k=1-G.lt/G.lim;r(30,74,Math.round(100*k),3,k>.5?'#8be28b':k>.25?'#ffd86b':'#ff5a5a');
   for(let i=0;i<8;i++){const s=G.shots[i];r(44+i*9,86,7,6,s==null?'#e0d4ea':s===2?'#ffd86b':s===1?'#8be28b':'#ff9a9a');r(45+i*9,87,5,3,s==null?'#e8dcf0':'#fff6e0')}
@@ -1710,7 +1719,7 @@ function gainOf(k,perf,drill,flaw){const cap=capOf(),st=S.st[k],low=S.gym>1?GYM[
  return Math.max(0,Math.min(cap-st,Math.round(2.8*m*perf*10)/10))}
 /* bosses: keep each one's strengths, but set the overall level */
 /* tuned with the autopilot so a clean race at par wins roughly 60-70% of the time (a person, a bit less) */
-const BOSSAVG={biscuit:26,waddles:29,tina:41,loaf:45,pepper:53,chad:60,duchess:73,comet:70,kenji:90,baguette:97,matilda:97,fluff:108};
+const BOSSAVG={biscuit:26,waddles:29,tina:41,loaf:45,pepper:53,chad:60,duchess:73,comet:67,kenji:90,baguette:97,matilda:97,fluff:108};
 for(const id in BOSSAVG){const B=BOSS[id];if(!B)continue;const a=B.st.reduce((x,y)=>x+y,0)/6,k=BOSSAVG[id]/a;B.st=B.st.map(v=>Math.round(v*k))}
 /* gear: bonuses trimmed so training matters most (the crown stays a post-game reward) */
 for(const id in GEAR){const G=GEAR[id];if(!G.b||id==='crown')continue;for(const s in G.b){const v=G.b[s];if(v)G.b[s]=Math.sign(v)*Math.max(1,Math.round(Math.abs(v)*.65))}}
