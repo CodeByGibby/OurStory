@@ -902,7 +902,7 @@ const MG_ACC={k:'acc',n:'Fetch Sprint',dur:60,how:['HUNTER WILL THROW','THE BALL
   if(G.st==='wait'){const A=G.at;a=G.lt<A-.28?aF(G.lt):aT(G.lt,A);const wv=G.lt<A-.28?G.lt-fk:G.lt-A;lean=wv>-.22&&wv<-.04?-1:wv>=-.04&&wv<.16?1:0}
   else if(G.st==='fly'||G.st==='run'){const u=G.lt-G.ft;a=aT(G.lt,G.ft);hold=0;lean=u<.16?1:0}
   else{if(G.fs){a=G.ba+(BASE-G.ba)*sm(0,.3,G.lt)}else{hold=G.lt>1.12?1:0;a=BASE+Math.sin(Math.PI*sm(.9,1.2,G.lt))*42}}
-  G._a=a;const hx=14+lean,hy=182;ppl('hunter',hx,hy,t,'l');
+  G._a=a;const hx=14+lean,hy=182;ppl('hunter',hx,hy,t,'r');
   const OL='#2b1830',grs=y=>((y-140)%12+12)%12<6?'#5fac3e':'#5aa83a';
   r(hx+3,174,1,4,OL);for(let y=174;y<178;y++)r(hx+4,y,1,1,grs(y));
   const rad=a*Math.PI/180,dxA=Math.sin(rad),dyA=Math.cos(rad),Sx=hx+4,Sy=174,L=6,pts=[];
