@@ -195,7 +195,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.28</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.29</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -2074,17 +2074,58 @@ function dtIcon(id,x,y,bg){
  else if(id=='hash'){r(x+4,y+1,3,5,'#d8a050');r(x+8,y,3,6,'#e0b060');r(x+11,y+2,2,4,'#d8a050');r(x+3,y+5,10,10,'#f4e6d0');r(x+3,y+5,10,2,'#d86a2a')}}
 function vDT(t){
  for(let y=0;y<72;y+=3){const k=y/72;r(0,y,80,3,`rgb(${150+k*90|0},${200+k*30|0},${245-k*20|0})`)}
- disc(14,14,10,'#fff3b0',.2);disc(14,14,6,'#fff3b0',1);ell(34,10,7,2,'#fff',.8);
- for(let x=0;x<80;x+=9)disc(x+4,72,7,'#5a9a5a',1);r(0,72,80,24,'#6aa84a');
- r(46,30,34,66,'#e8d8c0');for(let y=34;y<96;y+=4)r(46,y,34,1,'#d8c4a8');r(44,26,36,5,'#7a3a2a');r(44,26,36,1,'#a85a3a');
+ disc(14,14,10,'#fff3b0',.2);disc(14,14,6,'#fff3b0',1);
+ // clouds drift by, birds cross now and then
+ [[0,10,7,.9],[47,20,5,.7]].forEach(([o,y,w,a])=>{const x=((t*1.6+o)%120)-20;ell(x,y,w,2,'#fff',a);ell(x+5,y-1,w-3,2,'#fff',a)});
+ [[0,18],[9,22]].forEach(([o,y])=>{const x=((t*7+o*6)%140)-30,fl=Math.floor(t*6+o)%2;if(x>-4&&x<46){r(x,y,1,1,'#3a4a5a');r(x+1,y+(fl?-1:1),1,1,'#3a4a5a');r(x-1,y+(fl?-1:1),1,1,'#3a4a5a')}});
+ // the town in the distance: a strip of buildings and the water tower, washed out by the haze
+ [[0,58,8],[8,54,6],[14,60,7],[21,52,5],[26,57,9],[35,61,6],[40,55,6]].forEach(([x,y,w])=>{r(x,y,w,72-y,'#a8c4d8');for(let yy=y+2;yy<70;yy+=3)for(let xx=x+1;xx<x+w-1;xx+=2)r(xx,yy,1,1,'#bcd4e4')});
+ r(30,38,1,20,'#98b4c8');r(36,38,1,20,'#98b4c8');r(31,46,5,1,'#98b4c8');ell(33,36,6,4,'#a8c4d8');r(27,36,12,2,'#98b4c8');ell(33,33,4,1,'#bcd4e4');
+ // power line and pole along the road, one bird on the wire
+ r(41,28,2,44,'#6a5a4a');r(37,30,10,1,'#6a5a4a');r(38,31,1,1,'#c8c8d0');r(45,31,1,1,'#c8c8d0');for(let x=0;x<38;x++)r(x,31+Math.round(Math.sin(x/38*Math.PI)*3),1,1,'#4a4a52');
+ {const bx=20,by=34+Math.round(Math.sin(20/38*Math.PI)*3)-3;r(bx,by,2,2,'#3a3a46');r(bx+2,by,1,1,'#e0a040');if(Math.floor(t*.7)%5===0)r(bx-1,by-1,1,1,'#3a3a46')}
+ for(let x=0;x<80;x+=9)disc(x+4,72,7,'#4e8e4e',1);for(let x=0;x<80;x+=9){disc(x+3,70,3,'#6aaa5a',1)}r(0,72,80,24,'#6aa84a');
+ // grass: tufts and a few little flowers
+ for(let i=0;i<26;i++){const x=(i*29+7)%46,y=76+(i*13)%18;r(x,y,1,2,'#5a9a3a');r(x+1,y+1,1,1,'#5a9a3a')}
+ [[6,88,'#fff'],[14,92,'#ffd86b'],[33,86,'#fff'],[24,90,'#ff9ccb'],[40,92,'#ffd86b']].forEach(([x,y,c])=>{r(x,y,1,1,c);r(x,y+1,1,2,'#4a8a3a')});
+ // a trash can and the drive-thru arrow sign on the grass
+ r(31,84,7,11,'#3a6a5a');r(30,83,9,2,'#2a4a42');r(32,86,1,8,'#4a8a7a');r(34,86,1,8,'#4a8a7a');r(36,86,1,8,'#4a8a7a');
+ r(43,76,1,20,'#8a8a96');r(36,72,11,6,'#c8352f');r(36,72,11,1,'#e8604a');r(38,74,5,2,'#fff');r(43,73,1,4,'#fff');r(44,74,1,2,'#fff');
+ // the building: brick base, trim, a little roof vent puffing coffee steam
+ r(44,21,4,5,'#8a8a96');r(43,20,6,2,'#6a6a76');for(let i=0;i<3;i++){const k=(t*.45+i/3)%1;cx.globalAlpha=.3*Math.sin(k*Math.PI);disc(46+Math.round(Math.sin(k*6+i)*2),19-k*12,2+k*2|0,'#fff',1);cx.globalAlpha=1}
+ r(46,30,34,66,'#e8d8c0');for(let y=34;y<86;y+=4)r(46,y,34,1,'#d8c4a8');r(44,26,36,5,'#7a3a2a');r(44,26,36,1,'#a85a3a');r(46,31,34,1,'#ff9ccb');
+ r(46,86,34,10,'#a8584a');for(let y=86;y<96;y+=3)for(let x=46+((y/3)%2)*3;x<80;x+=6)r(x,y,5,2,'#b86a5a');r(46,86,34,1,'#c8c0b0');
+ // roof sign with marquee bulbs that chase
  r(48,10,32,16,'#4a2a1a');r(49,11,30,14,'#6a3a2a');txt('DONUTS',51,12,'#ffe6c0',1);txt('COFFEE',51,19,'#f8c060',1);
- disc(75,40,4,'#c8843a',1);disc(75,40,3,'#ff9ccb',1);disc(75,40,1,'#e8d8c0',1);
+ for(let i=0;i<8;i++){const on=(Math.floor(t*4)+i)%3===0;r(50+i*4,9,1,1,on?'#fff6c0':'#a87a4a');r(50+i*4,26,1,1,on?'#fff6c0':'#a87a4a')}
+ disc(75,40,4,'#c8843a',1);disc(75,40,3,'#ff9ccb',1);disc(75,40,1,'#e8d8c0',1);r(74,38,1,1,'#fff');r(77,41,1,1,'#7ee8fa');r(73,42,1,1,'#ffd86b');
+ // neon OPEN sign and a wall lamp
+ {const fl=Math.sin(t*23)>.97?.35:1;r(51,38,19,8,'#2a1a1a');cx.globalAlpha=fl;txt('OPEN',52,40,'#ff5f9e',1);cx.globalCompositeOperation='lighter';disc(60,42,9,'#ff5f9e',.12*fl);cx.globalCompositeOperation='source-over';cx.globalAlpha=1}
+ r(47,40,3,2,'#3a3a46');r(48,42,1,2,'#3a3a46');r(47,44,3,2,'#fff6c0');
+ // striped awning over the drive-thru window
+ for(let x=50;x<75;x++){r(x,48,1,5,Math.floor((x-50)/3)%2?'#fff4f0':'#e0558a')}r(50,48,25,1,'#b83a6a');for(let x=50;x<75;x+=3){r(x,53,2,1,Math.floor((x-50)/3)%2?'#fff4f0':'#e0558a')}cx.globalAlpha=.18;r(50,54,25,2,'#000');cx.globalAlpha=1;
  r(52,54,20,22,'#5a3a2a');r(53,55,18,20,'#bfe0f0');
+ // inside: back wall, a rack of donuts and the coffee machine, behind the worker
+ r(53,55,18,20,'#f6e8d4');r(53,61,18,1,'#c8a07a');[['#ff9ccb',54],['#c8843a',57],['#ffe6c0',60],['#ff9ccb',63],['#8a5a3a',66]].forEach(([c,x])=>{disc(x+1,59,1,c,1)});r(53,66,18,1,'#c8a07a');[['#ffe6c0',55],['#ff9ccb',58],['#c8843a',61]].forEach(([c,x])=>disc(x+1,64,1,c,1));
+ r(66,62,5,8,'#3a3a46');r(67,63,3,2,'#c8352f');r(68,66,1,2,'#8a8a96');
  if(dtS&&dtS.worker){cx.save();cx.beginPath();cx.rect(53,55,18,20);cx.clip();worker.x=63;worker.y=80;worker.dir='l';person(worker,t);cx.restore()}
- cx.globalAlpha=.2;r(53,55,18,20,'#fff');cx.globalAlpha=1;r(51,75,22,2,'#8a5a3a');
- r(9,52,2,44,'#3a3a46');r(1,44,20,22,'#1a1a22');r(2,45,18,20,'#2a5a3a');for(let i=0;i<4;i++){r(4,48+i*4,6,2,'#f8c060');r(12,48+i*4,6,1,'#e8e8e8')}
- r(19,70,7,10,'#3a3a46');r(20,71,5,6,'#1a1a22');for(let i=0;i<3;i++)r(21,72+i*2,3,1,'#5a5a66');
- r(0,96,80,48,'#5a5a64');r(0,96,80,2,'#c8c8d0');for(let x=0;x<80;x+=14)r(x,136,7,1,'#e8e0a0');
+ cx.globalAlpha=.2;r(53,55,18,20,'#fff');cx.globalAlpha=1;r(54,56,1,6,'rgba(255,255,255,.55)');r(56,56,1,3,'rgba(255,255,255,.4)');r(51,75,22,2,'#8a5a3a');
+ // little sticker by the window, and a planter of flowers at the corner
+ r(74,60,5,5,'#fff');r(75,61,3,3,'#3aa8a0');r(75,66,4,1,'#c8c0b0');
+ r(73,88,7,8,'#7a4a3a');r(73,88,7,1,'#9a6a5a');disc(75,86,2,'#4a8a3a',1);disc(78,86,2,'#4a8a3a',1);r(74,84,1,1,'#ff5f9e');r(77,83,1,1,'#ffd86b');r(79,85,1,1,'#ff5f9e');
+ // menu board: little roof, pictures of the goods, prices
+ r(9,52,2,44,'#3a3a46');r(10,52,1,44,'#5a5a66');r(0,41,22,3,'#7a3a2a');r(0,41,22,1,'#a85a3a');r(1,44,20,22,'#1a1a22');r(2,45,18,20,'#2a5a3a');
+ [['#ff9ccb',48],['#c8843a',52],['#ffe6c0',56],['#f4f4f8',60]].forEach(([c,y],i)=>{if(i<3){disc(5,y+1,1,c,1);r(4,y+1,3,1,sh(c,.75))}else{r(4,y,3,3,'#f4f4f8');r(4,y,3,1,'#c8352f')}r(8,y,6,1,'#e8e8e8');r(8,y+2,4,1,'#9ab8a8');r(16,y,3,2,'#f8c060')});
+ r(2,45,18,1,'#3a7a52');
+ // the speaker post: mic grille and a light that blinks while she orders
+ r(21,80,2,16,'#3a3a46');r(19,70,7,10,'#3a3a46');r(20,71,5,6,'#1a1a22');for(let i=0;i<3;i++)r(21,72+i*2,3,1,'#5a5a66');r(19,70,7,1,'#5a5a66');
+ r(22,78,1,1,(mode==='dtTalk'||mode==='dtOrder')&&Math.floor(t*3)%2?'#5ae07a':'#2a4a2a');
+ // the lane: curb, worn asphalt, cracks, a painted arrow and an oil spot at the window
+ r(0,96,80,48,'#5a5a64');for(let i=0;i<60;i++)r((i*37+11)%80,98+(i*17)%44,1,1,i%2?'#52525c':'#64646e');r(0,96,80,2,'#c8c8d0');r(0,98,80,1,'#8a8a94');
+ r(8,112,4,1,'#4a4a54');r(11,113,3,1,'#4a4a54');r(13,114,2,1,'#4a4a54');r(70,128,5,1,'#4a4a54');r(74,129,2,1,'#4a4a54');
+ ell(62,132,6,1,'#46464e',1);ell(60,132,3,1,'#3e3e46',1);
+ for(let x=0;x<80;x+=14)r(x,136,7,1,'#e8e0a0');
+ r(4,140,9,1,'#d8d8d0');r(13,139,1,3,'#d8d8d0');r(14,140,1,1,'#d8d8d0');r(12,138,1,1,'#d8d8d0');r(12,142,1,1,'#d8d8d0');r(0,143,80,1,'#c8c8d0');
  const ccx=Math.round(dtS?dtS.cx:-15);coupe(ccx,124,[[abi,27],[hunter,39]],(dtS?dtS.cx:-15)/4.5);
  if(mode==='dtPull'){const hxw=ccx+42,ok=Math.abs(dtS.cx-DTX)<=2.5,b=Math.round(Math.sin(t*8)*2),gc=ok?'#5ae07a':'#ffd86b';
   for(let y=100;y<142;y+=4)r(61,y,2,2,gc);for(let i=0;i<5;i++)r(58+i,66+b+i,9-2*i,1,gc);r(61,60+b,2,6,gc);r(50,50+b,24,9,'rgba(10,6,30,.7)');txt(ok?'NOW!':'STOP',54,52+b,gc,1);
