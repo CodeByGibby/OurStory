@@ -195,7 +195,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.44</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.45</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3513,11 +3513,11 @@ function bsItems(){const I=[],F=bst.found;
 /* ---- the clothing section ---- */
 function bsWear(t){// back wall of the apparel corner: a sign and shelves of folded tees
  r(160,0,64,58,'#6a8a8a');for(let x=160;x<224;x+=6)r(x,0,1,58,'#5e7e7e');r(160,0,64,3,'#2a7a4a');r(160,56,64,2,'#4a5a5a');
- r(163,4,38,9,'#f0c030');r(163,4,38,1,'#fff6c0');r(163,12,38,1,'#c8962a');txt('BEAVER',165,6,'#c8282a',1);txt('WEAR',192,6,'#8a5a2a',1);
+ r(161,3,46,9,'#f0c030');r(161,3,46,1,'#fff6c0');r(161,11,46,1,'#c8962a');txt('BEAVER',163,5,'#c8282a',1);txt('WEAR',189,5,'#8a5a2a',1);
  const C=['#f0c030','#c8282a','#3a7ae8','#f4f4f8','#5ac85a','#2a2a34','#ff7eb6'];
  [18,30,42].forEach((y,j)=>{r(161,y+8,40,2,'#8a6a4a');r(161,y+8,40,1,'#a8845a');for(let i=0;i<6;i++){const c=C[(i+j*2)%C.length];r(163+i*6,y+3,5,5,c);r(163+i*6,y+3,5,1,sh(c,1.2));r(163+i*6,y+5,5,1,sh(c,.85));if(c==='#f0c030')r(165+i*6,y+5,1,1,'#8a5a2a')}});
  // the fitting room: wooden frame, a curtain that slides, a little sign
- r(203,12,20,58,'#5a3a2a');r(205,16,16,54,'#2a1a14');r(203,12,20,3,'#7a5a3a');r(207,6,12,5,'#f4f4f8');r(208,8,2,1,'#3a3a46');r(211,8,6,1,'#3a3a46');}
+ r(203,12,20,58,'#5a3a2a');r(205,16,16,54,'#2a1a14');r(203,12,20,3,'#7a5a3a');r(210,5,11,5,'#f4f4f8');r(211,7,2,1,'#3a3a46');r(214,7,6,1,'#3a3a46');}
 function bsCurtain(t){// drawn after the people so the curtain hides whoever is changing
  const op=bst.cur!=null?Math.max(0,Math.min(1,(T-bst.cur)/.35)):1,cl=bst.cur==null?0:bst.curC?op:1-op;// cl: how closed (0 open .. 1 closed)
  const w=Math.round(3+13*cl),x=205;r(x,16,w,54,'#c8282a');for(let i=1;i<w;i+=3)r(x+i,16,1,54,'#a81e22');r(x,16,w,1,'#e84a4a');r(204,15,18,1,'#c8c8d0');for(let i=0;i<w;i+=3)r(x+i,14,1,2,'#c8c8d0')}
