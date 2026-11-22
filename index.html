@@ -179,13 +179,23 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 @keyframes stPop{0%{transform:scale(0) rotate(-40deg);opacity:0}100%{transform:none;opacity:1}}
 #end .rib{background:#c2417a;color:#fff;font-size:calc(var(--u)*3.4);padding:calc(var(--u)*2.4) calc(var(--u)*10);clip-path:polygon(0 0,100% 0,95% 50%,100% 100%,0 100%,5% 50%);animation:in .4s 1.3s both}
 #end .rbest,#end .rhint{font-size:calc(var(--u)*2.6);color:#cdb8e8;margin:0;animation:in .4s 1.5s both}#end .rbest.nb{color:#ffd86b;font-size:calc(var(--u)*3.2)}#end .rhint{color:#ffb8d8}
+#end.chp{justify-content:flex-start;overflow-y:auto;gap:calc(var(--u)*3)}#end.chp>:first-child{margin-top:auto}#end.chp>:last-child{margin-bottom:auto}
+#end.chp h2{font-size:calc(var(--u)*6.4);line-height:1.35}
+#end .chc{margin:0;font-size:calc(var(--u)*3.2)}
+#end .chr{width:calc(var(--u)*96);display:flex;flex-direction:column;gap:calc(var(--u)*1.8);animation:in .5s .5s both}
+#end .chl{font-size:calc(var(--u)*2.5);color:#ffd86b;margin:0;text-align:left;animation:none}
+#end .chl.chp2{margin-top:calc(var(--u)*1.6)}
+#end button.mgr{display:flex;justify-content:space-between;align-items:center;gap:calc(var(--u)*2);width:100%;padding:calc(var(--u)*2.4) calc(var(--u)*3);background:rgba(255,255,255,.07);color:#fff6e0;font-size:calc(var(--u)*2.7);line-height:1.4;border:calc(var(--u)*.5) solid rgba(255,216,107,.4);box-shadow:none;animation:none}
+#end button.mgr .mst{display:flex;gap:calc(var(--u)*.8);flex:none}#end button.mgr .mstar{width:calc(var(--u)*3.4);height:calc(var(--u)*3.4)}
+#end .chh{font-size:calc(var(--u)*2.6);line-height:1.65;color:#ffb8d8;margin:calc(var(--u)*1) 0 0;text-align:left;animation:none}
+#end .chb{display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*3);margin-top:calc(var(--u)*1)}
 #end .rbtns{display:flex;flex-direction:column;gap:calc(var(--u)*3);margin-top:calc(var(--u)*3);align-items:center}#end .rbtns button{animation:in .4s 1.7s both}
 #ld{position:fixed;inset:0;z-index:2147483647;background:#0a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#ffd86b;font-family:'Press Start 2P',ui-monospace,monospace;font-size:14px}#ld.off{opacity:0;pointer-events:none;transition:opacity .3s}#ld i{display:block;width:10px;height:10px;background:#ff5f9e;box-shadow:0 0 0 0 #ff5f9e;animation:ldp 1s steps(2) infinite}#ld i:nth-child(2){animation-delay:.33s}#ld i:nth-child(3){animation-delay:.66s}@keyframes ldp{50%{transform:scale(1.6)}}#ld div{display:flex;gap:14px}</style></head><body><div id="ld"><span>LOADING</span><div><i></i><i></i><i></i></div></div>
 <canvas id="amb" width="16" height="8"></canvas>
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.25</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.26</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1076,7 +1086,42 @@ const card=h=>{const m=/CHAPTER (\d)<\/span><br><br>([^<]*)(?:<br><br><span[^>]*
  if(m){CHT={n:m[1],title:m[2].replace(/[\u2019’]/g,"'").replace(/&amp;/g,'+'),sub:(m[3]||'').replace(/&amp;/g,'+').replace(/&/g,'+'),t0:T,out:0};$('card').innerHTML='';$('card').style.opacity=1;return}
  if(CHT){if(!CHT.out)CHT.out=T;const w8=()=>{if(CHT)after(.05,w8);else{$('card').innerHTML='<div>'+h+'</div>';$('card').style.opacity=1}};w8();return}
  $('card').innerHTML='<div>'+h+'</div>';$('card').style.opacity=1};
-function showEnd(h,p,btns){try{GFX.wf=0;winFx()}catch(e){}if(/^CHAPTER|EPILOGUE/.test(h)){setLoc('newsbg');fd=0;fade=1}sfx('fanfare');$('end').innerHTML='<h2>'+h+'</h2><p>'+p+'</p>'+btns;$('end').style.display='flex';mode='end'}
+function showEnd(h,p,btns,back){if(!back){try{GFX.wf=0;winFx()}catch(e){}sfx('fanfare')}if(/^CHAPTER|EPILOGUE/.test(h)){setLoc('newsbg');fd=0;fade=1}const e=$('end'),cm=h.match(/^CHAPTER (\d+)/);e.classList.remove('res','chp');
+ if(cm){const n=+cm[1];CHEND=[h,p,btns,back&&CHEND&&CHEND[0]===h?CHEND[3]:chHints(n)];e.classList.add('chp');e.innerHTML='<h2>'+h+'</h2><p class="chc">'+p.replace(/<br><br>/,'<br>')+'</p>'+chRecap(n,CHEND[3])+'<div class="chb">'+btns+'</div>';
+  e.querySelectorAll('button.mgr').forEach(b=>b.onclick=()=>{sfx('select');const i=+b.dataset.m,S=mgSnap();e.style.display='none';e.classList.remove('chp');mgLaunch(i);MGM.ret={S,pm:'end',cont:()=>showEnd(CHEND[0],CHEND[1],CHEND[2],1)}});
+  if(!back&&crzJustUnlocked())setTimeout(()=>{if(e.style.display!=='none')crzCelebrate(1)},1800)}
+ else e.innerHTML='<h2>'+h+'</h2><p>'+p+'</p>'+btns;e.style.display='flex';mode='end'}
+/* ---------- the chapter card: this chapter's minigames and stars, photos caught, and two hints ---------- */
+let CHEND=null;
+const SEEN={get(){try{return JSON.parse(LS('ourstory_seen')||'{}')}catch(e){return {}}}};
+function seenMark(k){try{const o=SEEN.get();if(o[k])return;o[k]=1;LS('ourstory_seen',JSON.stringify(o))}catch(e){}}
+// a peek at the next chapter: only offered if that thing has not been tapped yet (on a second playthrough it may have been)
+const CHTIP={1:['q_living:cal','Hint: Morgan’s apartment is full of things to tap. Have you checked the calendar on the wall?'],
+ 2:['kitchen:fridge','Hint: Back at Mom’s, peek in the fridge. Something is always cooking.'],
+ 3:['trucks:grade','Hint: The food truck lot in Austin is a little... questionable. Check the health inspection sticker.'],
+ 4:['bath2:sched','Hint: In the new house, read the bathroom schedule on the wall. Trust us.'],
+ 5:['barcade:bar','Hint: At the barcade, take a look at the sign behind the bar.'],
+ 6:['office:printer','Hint: At the office, read the sticky note on the printer.'],
+ 7:['hotel8:roof','Hint: The night before the wedding, check the little card on the hotel desk.']};
+const CHGEN={tap:'Hint: Try tapping everything. Pictures, plants, people... most of them have something to say.',
+ photo:'Hint: Keep an eye out for photo spots. Some moments only come once, so snap them while you can!',
+ replay:'Hint: Not happy with a score? Replay any minigame from the Minigames menu.',
+ album:'Hint: Every photo you catch goes in your album on the title screen. Each one is a little memory.',
+ calm:'Hint: There’s no rush. Wander around and take it all in.',
+ sound:'Hint: Turn your sound up. A few moments are better with music.'};
+const CHROT=['tap','photo','replay','album','calm','sound'];
+function chHints(n){const M=mgStars(),L=[];
+ L.push(M.tot>=M.CRT?'Every minigame perfected. Something super special is yours! &#9829;':M.tot>=M.CRT/2?'Hint: You’re getting close. Something super special is waiting.':'Hint: get 3 stars on all mini games to unlock something super special.');
+ if(n>=8){L.push('Only the epilogue left. Take your time with it. &#9829;');return L}
+ const S=ALB.get(),missed=PHOTO_OPS.some(o=>o.ch===n&&!o.m&&!(PHC[o.st]||S[o.st])),tip=CHTIP[n];
+ if(missed&&!LS('ourstory_phh')){LS('ourstory_phh','1');L.push(CHGEN.photo)}
+ else if(tip&&n%2&&!SEEN.get()[tip[0]])L.push(tip[1]);
+ else{let k=+(LS('ourstory_hint')||0),g=CHROT[k%CHROT.length];if(g==='photo'&&LS('ourstory_phh'))g=CHROT[++k%CHROT.length];LS('ourstory_hint',String(k+1));L.push(CHGEN[g])}
+ return L}
+function chRecap(n,HN){const BS=MGBEST.get(),G=MGAMES.map((g,i)=>[g,i]).filter(([g])=>g[0]===n),S=ALB.get(),PO=PHOTO_OPS.filter(o=>o.ch===n&&!o.m),got=PO.filter(o=>PHC[o.st]||S[o.st]).length;
+ let h='<div class="chr">';if(G.length){h+='<p class="chl">MINIGAMES &middot; tap one to replay</p>';G.forEach(([g,i])=>{const v=(BS[g[1]]&&BS[g[1]].s)||0;h+='<button class="mgr" data-m="'+i+'"><span>'+g[1]+'</span><span class="mst">'+[0,1,2].map(k=>miniStar(k<v)).join('')+'</span></button>'})}
+ if(PO.length)h+='<p class="chl chp2">PHOTOS &middot; '+got+' / '+PO.length+(got>=PO.length?' &#9829;':'')+'</p>';
+ h+=(HN||chHints(n)).map(t=>'<p class="chh">'+t+'</p>').join('')+'</div>';return h}
 function setLoc(l){if(l!==loc)try{[abi,hunter,morgan,jay].forEach(p=>{if(p){p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null}})}catch(e){}loc=l;parts=[];setHud('');CAMX=0}
 
 /* ---- montage scenes ---- */
@@ -1623,7 +1668,7 @@ const lvWalk=m=>(x,y)=>{if(x<4||x>76||y<90||y>140)return false;if(x>21-m&&x<63+m
 function lvNear(x,y){const w=lvWalk(1);if(w(x,y))return [x,y];for(let d=1;d<30;d++)for(const [a,b] of [[0,-d],[0,d],[-d,0],[d,0],[-d,-d],[d,-d],[-d,d],[d,d]])if(w(x+a,y+b))return [x+a,y+b];return [x,y]}
 function qxRoute(tx,ty){if(qx.room!=='kitchen'){try{const P=planPath(abi.x,abi.y,tx,ty,lvWalk,4,90,76,140);if(P&&P.length){const l=P[P.length-1];if(Math.hypot(l[0]-tx,l[1]-ty)>.5)P.push([tx,ty]);P._r=1;return P}}catch(e){}}return qxRouteOld(tx,ty)}
 function qxRouteOld(tx,ty){const fx=abi.x,fy=abi.y,inT=x=>x>17&&x<67;if(qx.room!=='kitchen'&&((fy<97)!==(ty<97))&&(inT(fx)||inT(tx))){const side=(fx+tx)/2<42?14:70;return [[side,fy],[side,ty],[tx,ty]]}return [[tx,ty]]}
-function qxTap(x,y){if(qx.phase)return;const it=qxItems().find(i=>x>=i.x&&x<=i.x+i.w&&y>=i.y&&y<=i.y+i.h);let tx,ty;
+function qxTap(x,y){if(qx.phase)return;const it=qxItems().find(i=>x>=i.x&&x<=i.x+i.w&&y>=i.y&&y<=i.y+i.h);let tx,ty;if(it)seenMark('q_'+qx.room+':'+it.id);
  if(it){qx.pend=it;[tx,ty]=it.spot}else{qx.pend=null;tx=Math.max(6,Math.min(74,x));if(qx.room==='kitchen')ty=Math.max(102,Math.min(140,y));else if(y<97)ty=93;else{ty=Math.max(97,Math.min(140,y));[tx,ty]=lvNear(tx,ty)}qx.tap={x:tx,y:ty,t:0}}
  go(abi,qxRoute(tx,ty),44)}
 function qxToKitchen(after){qx.phase='walkOut';go(abi,qxRoute(72,138).concat([[92,140]]),40);qx.out=()=>fadeTo(()=>{setLoc('mkit');qx.room='kitchen';at(abi,-6,138,'r');go(abi,[[16,124]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(qx.hud)})}
@@ -1747,7 +1792,7 @@ function hxClamp(x,y){const R=HXF[hx.room];let best=[x,y],bd=1e9;hxRects(R).forE
 function hxWalk(tx,ty,sp,cb){const p=hx.p;go(p,hxRoute(p,tx,ty),sp||hx.sp||44);hx.arrive=cb||null}
 function hxTap(x,y){if(!hx||hx.phase||hx.arrive)return;if(hx.room==='austin'&&y>=98&&y<112&&!hxItems().some(i=>x>=i.x&&x<=i.x+i.w&&y>=i.y&&y<=i.y+i.h))y=105;const it=hxItems().find(i=>x>=i.x&&x<=i.x+i.w&&y>=i.y&&y<=i.y+i.h);
  if(it){hx.pend=it;hxWalk(it.spot[0],it.spot[1])}else{hx.pend=null;const [tx,ty]=hxClamp(x,y);hx.tap={x:tx,y:ty,t:0};hxWalk(tx,ty)}}
-function hxUse(it){const p=hx.p;p.dir=it.face||'u';const g=hxGoal();
+function hxUse(it){seenMark(hx.room+':'+it.id);const p=hx.p;p.dir=it.face||'u';const g=hxGoal();
  if(g&&g.room===hx.room&&g.id===it.id){mode='c3';setHud('');chatClear();g.fn(()=>{hx.gi++;mode='hx';hxHud()});return}
  if(it.exit){if(hx.stage==='home'&&hx.room==='kitchen'){bark([{n:'Hunter',t:'(I should talk to Mom first. And... is that Abigail in the window?)'}]);return}hxExit(it.exit);return}
  if(it.fn){it.fn();return}
@@ -8510,9 +8555,9 @@ const CK={get:()=>{const v=LS('ourstory_ck');return v==null?-1:+v},set:i=>LS('ou
 const FIN={get:()=>LS('ourstory_fin')==='1',set:()=>LS('ourstory_fin','1')};
 const hasData=()=>CK.get()>=0||Object.keys(ALB.get()).length>0;
 function updTitle(){const d=DEV.on(),ck=CK.get();$('bPlay').innerHTML=ck>=0?'&#9654;&nbsp;Continue':FIN.get()?'&#9654;&nbsp;Play again':'&#9654;&nbsp;Tap to start';
- $('bNew').style.display=ck>=0?'':'none';$('bAl').style.display=albList().length?'':'none';$('bCh').style.display=d?'':'none';$('bMg').style.display=d||FIN.get()?'':'none';$('bMg').innerHTML='Minigames'+(LS('ourstory_crzu')&&!LS('ourstory_crzo')?'<span class="nw">NEW!</span>':'');$('bDbg').style.display=d?'':'none';
+ $('bNew').style.display=ck>=0?'':'none';$('bAl').style.display=albList().length?'':'none';$('bCh').style.display=d?'':'none';$('bMg').style.display=d||FIN.get()||save.get()>=1?'':'none';$('bMg').innerHTML='Minigames'+(LS('ourstory_crzu')&&!LS('ourstory_crzo')?'<span class="nw">NEW!</span>':'');$('bDbg').style.display=d?'':'none';
  const row=$('bNew').parentNode;row.style.display=[...row.children].some(b=>b.style.display!=='none')?'':'none';$('pDev').textContent='Dev mode: '+(d?'ON':'OFF')}
-function newGame(){CK.clr();LS('ourstory_pk',null);LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';startPan()}
+function newGame(){CK.clr();LS('ourstory_phh',null);LS('ourstory_hint',null);LS('ourstory_pk',null);LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';startPan()}
 /* ---- the photo album on the title screen: every photo she has taken, to look through and to keep ---- */
 function albList(){const o=ALB.get(),ks=Object.keys(o);if(!ks.length)return [];const ord=PHOTO_OPS.map(p=>p.st);return ks.sort((a,b)=>(ord.indexOf(a)<0?99:ord.indexOf(a))-(ord.indexOf(b)<0?99:ord.indexOf(b)))}
 function albSrc(st){try{const im=ALB.img(st);if(im&&im.toDataURL)return im.toDataURL('image/png');if(im&&im.src)return im.src}catch(e){}return ALB.get()[st]||''}
@@ -8632,8 +8677,8 @@ function mgRestore(o){for(const k in o.v){try{window.__mgv=o.v[k];eval(k+'=windo
 // games played over several rounds in the story only get their card after the last round
 const MGLATER={'Dippin Donuts drive-thru':()=>typeof c3Day!=='undefined'&&c3Day<2};
 function mgLater(){const w=SGM&&MGAMES[SGM.i]&&MGLATER[MGAMES[SGM.i][1]];return !!(w&&w())}
-function mgStoryResult(cont){const G=SGM;{const w=MGLATER[MGAMES[G.i][1]];if(w&&w()){cont();return}}G.shown=1;const i=G.i,pm=mode,fdv=fd,fv=fade;mode='end';
- mgResults(i,G.res,[['&#9654;&nbsp;Continue','',()=>{mode=pm;cont()}],['&#8635;&nbsp;Play again','alt',()=>{const S=mgSnap();mgLaunch(i);MGM.ret={S,cont,pm}}]])}
+/* in the story a minigame's score is saved quietly and the story carries on; the stars are shown on the chapter card */
+function mgStoryResult(cont){const G=SGM;{const w=MGLATER[MGAMES[G.i][1]];if(w&&w()){cont();return}}G.shown=1;MGBEST.put(MGAMES[G.i][1],G.res||{s:3,l:'COMPLETE!',h:''});cont()}
 function mgReset(){hunter.kneel=0;chatClear();try{c8Extra.forEach(p=>{const i=all.indexOf(p);if(i>=0)all.splice(i,1);p.dance=0});c8Extra=[]}catch(e){}dlg=null;$('dlg').style.display='none';timers=[];['end','chap','phone','news','lap'].forEach(id=>{const e=$(id);if(e)e.style.display='none'});$('card').style.opacity=0;$('title').classList.add('out');cap('');
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;rd=null;pk=null;dtS=null;hill=null;clb=null;sc3=null;tv=null;nose=null;noseOn=0;ndl=null;swab=null;fs=null;shakeT=0;
  c5={};c6={day:1};c7={};c8={};c6Dress();c4={ph:[],pol:null,flash:0,album:null,capReq:null};hx=null;hunter.cap=0;hunter.capDot=0;abi.chat=0;[abi,hunter,morgan,jay].forEach(p=>{p.dance=0;p.zz=0;p.bleed=0;p.green=0;p.tears=0;p.gown=0;p.veil=0;p.kneel=0;p.sit=0;p.sitF=0;p.mortar=0;p.badge=0;p.hold=null;p.tx=null;p.moving=false});ep={};
@@ -8644,12 +8689,12 @@ function mgFinish(){const i=MGM.i,ret=MGM.ret,res=MGM.res;MGM.done=1;dlg=null;$(
  mgResults(i,res,[['&#9654;&nbsp;Minigames','',()=>openMini()],['&#8635;&nbsp;Play again','alt',()=>mgLaunch(i)],['Title screen','alt',()=>location.reload()]])}
 let MGF=0,DEVRET=0;
 const mgStars=()=>{const BS=MGBEST.get();let tot=0,pf=0;MGAMES.forEach(g=>{const v=(BS[g[1]]&&BS[g[1]].s)||0;tot+=v;if(v>=3)pf++});return {tot,pf,CRT:MGAMES.length*3,left:MGAMES.length-pf}};
-function openMini(){const e=$('chap'),done=MG_UNLOCK_ALL?99:save.get();$('end').style.display='none';const BS=MGBEST.get(),M=mgStars(),tot=M.tot,CRT=M.CRT,crOk=tot>=CRT||DEV.on(),nw=LS('ourstory_crzu')&&!LS('ourstory_crzo');
+function openMini(){const e=$('chap'),done=MG_UNLOCK_ALL&&DEV.on()?99:Math.max(save.get(),FIN.get()?99:0);$('end').style.display='none';const BS=MGBEST.get(),M=mgStars(),tot=M.tot,CRT=M.CRT,crOk=tot>=CRT||DEV.on(),nw=LS('ourstory_crzu')&&!LS('ourstory_crzo');
  let h='<h2>MINIGAMES</h2><p class="soon" style="text-align:center;color:#ffd86b;opacity:1">'+miniStar(1)+'&nbsp;'+tot+' / '+CRT+'</p><div class="mgpb"><i style="width:'+Math.round(tot/CRT*100)+'%"></i></div>'+
   '<button id="bCrz" class="crzb'+(crOk?'':' lk')+'">'+(crOk?'':'🔒 ')+(crOk?'CORGI RACERS':'SOMETHING SPECIAL')+(nw?'<span class="nw">NEW!</span>':'')+'<small>'+(crOk?'Donut\'s racing career &gt;':'Locked... for now')+'</small></button>'+
   (tot>=CRT?'<p class="mhint">Every minigame perfected. <b>Corgi Racers is yours!</b> &#9829;</p>':'<p class="mhint">Hint: get <b>3 stars</b> on all mini games<br>to unlock <b>something super special</b>.<br>'+M.pf+' of '+MGAMES.length+' perfected &middot; <b>'+M.left+' to go</b></p><button id="bFlt" class="flt">'+(MGF?'Show all games':'Show games to perfect ('+M.left+')')+'</button>');
- let last=0;MGAMES.forEach((g,i)=>{const bs=BS[g[1]],sv=(bs&&bs.s)||0;if(MGF&&sv>=3&&tot<CRT)return;if(g[0]!==last){last=g[0];h+='<p class="soon" style="margin:calc(var(--u)*2) 0 0">'+(CHAPS[g[0]-1][0]==='E'?'EPILOGUE':'CHAPTER '+g[0]+' · '+CHAPS[g[0]-1][1])+'</p>'}const ok=g[0]<=done+1;
-  h+='<button '+(ok?'':'disabled ')+'data-m="'+i+'"'+(ok&&sv>=3?' class="pf"':'')+'>'+(ok?'':'🔒 ')+g[1]+(ok?'<span class="mst">'+[0,1,2].map(k=>miniStar(k<sv)).join('')+'</span>'+(sv>=3?'<span class="pfc">PERFECT</span>':sv?'<span class="tgo">'+(3-sv)+' more star'+(sv===2?'':'s')+' to perfect</span>':'<span class="tgo">Not played yet</span>'):'')+'</button>'});
+ let last=0;MGAMES.forEach((g,i)=>{const bs=BS[g[1]],sv=(bs&&bs.s)||0;if(MGF&&sv>=3&&tot<CRT)return;if(g[0]!==last){last=g[0];h+='<p class="soon" style="margin:calc(var(--u)*2) 0 0">'+(CHAPS[g[0]-1][0]==='E'?'EPILOGUE':'CHAPTER '+g[0]+' · '+CHAPS[g[0]-1][1])+'</p>'}const ok=g[0]<=done;
+  h+='<button '+(ok?'':'disabled ')+'data-m="'+i+'"'+(ok&&sv>=3?' class="pf"':'')+'>'+(ok?'':'🔒 ')+g[1]+(ok?'':'<span class="tgo">'+(CHAPS[g[0]-1][0]==='E'?'Finish the story to unlock':'Finish Chapter '+g[0]+' to unlock')+'</span>')+(ok?'<span class="mst">'+[0,1,2].map(k=>miniStar(k<sv)).join('')+'</span>'+(sv>=3?'<span class="pfc">PERFECT</span>':sv?'<span class="tgo">'+(3-sv)+' more star'+(sv===2?'':'s')+' to perfect</span>':'<span class="tgo">Not played yet</span>'):'')+'</button>'});
  h+='<button class="back">Back</button>';const sy=e.style.display==='flex'&&e.querySelector('#bFlt')?e.scrollTop:0;e.innerHTML=h;e.style.display='flex';e.style.justifyContent='flex-start';e.style.overflowY='auto';e.style.gap='calc(var(--u)*2.5)';e.scrollTop=sy;
  e.querySelectorAll('button[data-m]').forEach(b=>b.onclick=()=>{sfx('confirm');DEVRET=0;e.style.display='none';mgLaunch(+b.dataset.m)});
  const fb=$('bFlt');if(fb)fb.onclick=()=>{sfx('select');MGF=!MGF;openMini()};
