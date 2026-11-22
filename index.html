@@ -195,7 +195,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.38</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.39</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3255,10 +3255,14 @@ function rwPick(){const A=abi,H=hunter;mode='c3';setHud('');chatClear();hx.phase
    go(A,[[118,88],[122,88]],34);go(H,[[138,88]],34);waitTill(()=>A.tx==null&&H.tx==null,()=>{A.sit=H.sit=1;A.sitF=H.sitF=0;A.shin=H.shin=1;A.dir='r';H.dir='l';rw.ate=1;sfx('step');
     after(1.2,()=>{fadeTo(()=>{rw.blk=1;rw.ate=2;card('45 minutes later...')});after(3.6,()=>{$('card').style.opacity=0;after(1,()=>fadeTo(()=>{rw.blk=0}));after(2.6,()=>say([{n:'',t:'*two margaritas and a mountain of enchiladas later*'},{n:'Hunter',t:'...Okay. That was incredible.'},{n:'Abigail',t:'Told you. Literally any of them.'},
      {n:'Hunter',t:'Next time, you pick.'},{n:'Abigail',t:'Next time? I ALWAYS pick.'}],()=>{fadeTo(()=>{A.sit=H.sit=0;A.shin=H.shin=0;hx=null;plazaStart()},2.4)}))})})})})})})}
+/* the band plays their tune for whole passes (so it ends where the song ends); a tip makes them play louder */
+function rwBand(loops,loud){let L=19.2;try{const C=amGet('mari');L=C.N*C.sd}catch(e){}
+ if(!(rw.play>0)){rw.ms=T+.3;rw.play=L*loops+.3}else{const rem=L-((T-rw.ms)%L);rw.play=Math.max(rw.play,rem+L*(loops-1))}
+ if(loud)after(.45,()=>{try{if(AMP&&AMP.k==='mari'&&AU.ctx)AMP.bus.g.gain.setTargetAtTime(AMP.C.S.vol*1.45,AU.ctx.currentTime,.3)}catch(e){}})}
 function rwMari(){const k=hx.cnt.mari||0;hx.cnt.mari=k+1;
- if(k===0)say([{n:'',t:'The mariachi band strikes up a song.',anim:()=>{rw.play=4.5;sfx('mari')}},{n:'Abigail',t:'Hunter! They are serenading us!'},{n:'Hunter',t:'They are serenading my wallet.'},
-  {n:'Abigail',t:'(dancing) Tip them!'},{n:'',t:'(Hunter tips them five dollars. They play LOUDER.)',anim:()=>{rw.play=4.5;sfx('mari');burst(64,52,'#ffd86b')}}]);
- else{rw.play=3;sfx('mari');say([[{n:'',t:'(The mariachis give Hunter a big thumbs up.)'}],[{n:'Abigail',t:'I would dance, but I do not have the energy. Because I have not EATEN.'}]][k%2])}}
+ if(k===0)say([{n:'',t:'The mariachi band strikes up a song.',anim:()=>rwBand(2)},{n:'Abigail',t:'Hunter! They are serenading us!'},{n:'Hunter',t:'They are serenading my wallet.'},
+  {n:'Abigail',t:'(dancing) Tip them!'},{n:'',t:'(Hunter tips them five dollars. They play LOUDER.)',anim:()=>{rwBand(2,1);burst(64,52,'#ffd86b')}}]);
+ else{rwBand(1);say([[{n:'',t:'(The mariachis give Hunter a big thumbs up.)'}],[{n:'Abigail',t:'I would dance, but I do not have the energy. Because I have not EATEN.'}]][k%2])}}
 function rwItems(){const I=[],bx=rwBoat(T),dx=rwDuck(T);
  I.push({id:'abi',x:abi.x-6,y:abi.y-22,w:12,h:24,spot:[abi.x+(abi.x<hunter.x?10:-10),abi.y],face:abi.x<hunter.x?'l':'r',lines:()=>[[{n:'Abigail',t:rw.n<2?'I would eat ANYWHERE. Literally anywhere.':'I can see the food. I can SMELL the food.'}],[{n:'Abigail',t:'Pick. A. Place.'}]]});
  I.push({id:'mari',x:52,y:46,w:26,h:28,spot:[65,82],face:'u',fn:rwMari});
@@ -3848,7 +3852,7 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
 const MUSMAP={roof:'roof',street:'night',hall:'sneak',door:'sunset',dinner:'waltz',bench:'lofi',bars:'bars',dorm:'sunset',news:'news',lake:'lofi',drive:'drive',clinic:'tense',apt:'news',entry:'sick',cal:null,kart:'kart',
  kitchen:'cozy',hroom:'lofi',dt:'lofi',pack:'cozy',road:'drive',txhouse:'texas',troom:'texas',river:'waltz',church:'stars',scoot:'drive',pump:'tense',store:'kart',bath:'stars',austin:'news',trucks:'texas',pea:'cozy',hill:'drive',bonnell:'sunset',plaza:'waltz',bstore:'kart',
  plane:'stars',hdrive:'jazz',bunk:'sneak',bath2:'sneak',split:'sad',office:'office',home:'lofi',hunt:'tense'};
-function musPick(){if(c8&&c8.bridal)return 'bridal';if(loc==='home6'&&c6.day)return 'cozy';if(loc==='steak'&&c6.pr)return 'sunset';if(loc==='steak'&&mode==='nerves')return 'tense';if(loc==='hotel'&&c6.panic&&hunter.tag)return 'tense';if(mode==='title')return 'stars';if(mode==='end')return 'sunset';if(mode==='news')return 'news';
+function musPick(){if(loc==='river'&&rw&&rw.play>0)return 'mari';if(c8&&c8.bridal)return 'bridal';if(loc==='home6'&&c6.day)return 'cozy';if(loc==='steak'&&c6.pr)return 'sunset';if(loc==='steak'&&mode==='nerves')return 'tense';if(loc==='hotel'&&c6.panic&&hunter.tag)return 'tense';if(mode==='title')return 'stars';if(mode==='end')return 'sunset';if(mode==='news')return 'news';
  if(loc==='court')return c5.ct&&c5.ct.style?'tennis':'jazz';if(loc==='hroom'&&hr.solo)return 'sad';if(loc==='troom'&&upk&&upk.solo)return 'sad';if(loc==='kitchen'&&kit.angry)return 'news';if(loc==='home'&&c5.hm&&c5.hm.hearts)return 'sunset';
  if(loc==='living')return lv&&lv.kiss?'sunset':sick?'sick':lv&&lv.sw?'kart':'cozy';if(loc==='newsbg'||loc==='cal')return AU.want;return MUSMAP[loc]!==undefined?MUSMAP[loc]:AU.want}
 function musUpdate(){if(!AU.ctx)return;let w=musPick();if(AU.songOn)w=null;AU.want=w}
@@ -5845,6 +5849,19 @@ AMS.texas={bpm:104,sw:.3,vol:0.709,dly:.43,chords:['G','C','D','G','G','C','D7',
   'E5 - G5 - C6 - - -','B5 - - - G5 - D5 -','C#5 - E5 - A5 - G5 -','F#5 - - - A5 - - -','B5 - - - D6 - B5 -','C6 - - - E5 - G5 -','F#5 - A5 - D5 - F#5 -','G5 - - - . . . .']}],
  bass:{i:'upright',v:.1,o:2,p:['R.......5.......']},stab:{i:'guit',v:.045,o:4,p:['....x.......x...']},
  drums:[{v:.7,p:['k.......k.......']},{v:.55,p:[AMBB]},{v:.45,p:['h.h.h.h.h.h.h.h.']}]};
+/* MARIACHI: "Serenata del Río" - the River Walk band's tune. 3/4 (oom-pa-pa): guitarrón on one,
+   vihuela strums on two and three, two trumpets in thirds, violins joining an octave up on the second half */
+Object.assign(AMI,{vln:{w:'sawtooth',a:.05,d:.2,s:.8,r:.16,v:.42,det:6,vib:[6,.016,.12],f:['lowpass',2600,1],fx:.35},
+ vih:{pw:.32,a:.002,d:.07,s:.12,r:.05,v:.75,f:['lowpass',2800,1.1]}});
+(()=>{const T1=['F#5 - F#5 G5 A5 -','A5 - D6 - A5 -','G5 - E5 - C#5 -','E5 - - - . A4','G5 - G5 A5 B5 -','A5 - E5 - G5 -','F#5 - D5 - A4 -','D5 - - - . A4',
+  'B4 - D5 - G5 -','B5 - - - A5 G5','F#5 - A5 - D6 -','A5 - - - F#5 G5','A5 - G5 - E5 -','C#6 - B5 - A5 G5','F#5 - E5 - D5 -','D5 - - - . .'];
+ const NM={1:'C#',2:'D',4:'E',6:'F#',7:'G',9:'A',11:'B'},third=t=>{const m=amMidi(t);if(m==null)return t;let x=m,k=0;while(k<2){x--;if(NM[x%12])k++}return NM[x%12]+(Math.floor(x/12)-1)};
+ const T2=T1.map(b=>b.split(' ').map(third).join(' '));
+ AMS.mari={bpm:150,bar:12,vol:0.62,dly:.3,chords:['D','D','A7','A7','A7','A7','D','D','G','G','D','D','A7','A7','D','D'],
+  lines:[{i:'horn',v:0.32,n:T1},{i:'horn',v:0.2,n:T2},{i:'vln',v:0.14,n:Array(8).fill(null).concat(amUp(T1.slice(8),1))}],
+  bass:{i:'tumb',v:.13,o:2,p:['R...........','5...........']},
+  stab:{i:'vih',v:0.07,o:4,p:['....x...x...']},
+  drums:[]}})();
 /* sunset: golden-hour romance */
 AMS.sunset={bpm:76,vol:0.379,dly:.4,chords:['F','Am','Bb','C','F','Am','Bb','C','Dm','Am','Bb','F','Gm','C','F','F'],
  lines:[{i:'flute',v:0.111,n:['C5 - - - F5 - A5 -','G5 - - - E5 - - -','D5 - F5 - Bb5 - A5 -','G5 - - - - - . .','A5 - - - C6 - - -','E5 - - - A5 - G5 -','F5 - D5 - Bb4 - D5 -','E5 - - - - - . .',
