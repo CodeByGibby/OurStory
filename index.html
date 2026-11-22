@@ -195,7 +195,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.46</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.47</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3530,24 +3530,26 @@ function bsMann(t){// the mannequin wearing THE shirt
  else{r(x-3,y-16,7,10,'#e8e0d0');r(x-4,y-15,1,4,'#e8e0d0');r(x+4,y-15,1,4,'#e8e0d0');r(x-2,y-10,5,1,'#d8d0c0')}
  disc(x,y-19,3,'#e8e0d0',1);r(x-1,y-22,3,1,'#d8d0c0');
  if(!bst.shirt&&!dlg&&mode==='hx'){const b=Math.floor(t*3)%2;r(x+5,y-20,1,1,b?'#fff':'#ffe066');r(x-6,y-17,1,1,b?'#ffe066':'#fff')}}
-// a tee shape: sloped shoulders, sleeves angled down with cuffs, a curved crew neck, body to the hem
-const TEE=[[27,0],[19,1],[10,4],[0,13],[7,21],[11,18],[11,54],[63,54],[63,18],[67,21],[74,13],[64,4],[55,1],[47,0],[44,4],[37,6],[30,4]];
+// a tee laid flat: sloped shoulders, sleeves angled down to a cuff, a curved crew neck, straight body to the hem
+const TEE=[[29,0],[22,1],[15,3],[8,6],[2,10],[7,24],[14,21],[14,56],[64,56],[64,21],[71,24],[76,10],[70,6],[63,3],[56,1],[49,0],[46,4],[39,6],[32,4]];
 function inPoly(P,x,y){let c=false;for(let i=0,j=P.length-1;i<P.length;j=i++){const [xi,yi]=P[i],[xj,yj]=P[j];if(((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))c=!c}return c}
+let TEEPX=null;
+function teePx(){if(TEEPX)return TEEPX;const IN=(x,y)=>inPoly(TEE,x+.5,y+.5),L=[];
+ const segD=(x,y,[ax,ay],[bx,by])=>{const dx=bx-ax,dy=by-ay,q=Math.max(0,Math.min(1,((x-ax)*dx+(y-ay)*dy)/(dx*dx+dy*dy)));return Math.hypot(x-(ax+dx*q),y-(ay+dy*q))};
+ for(let y=0;y<57;y++)for(let x=0;x<78;x++){if(!IN(x,y))continue;let c=0;// 0 body, 1 outline/shade, 2 highlight, 3 cuff band, 4 collar
+  const edge=!IN(x-1,y)||!IN(x+1,y)||!IN(x,y-1)||!IN(x,y+1);
+  if(edge)c=1;else if(segD(x+.5,y+.5,[2,10],[7,24])<2.4||segD(x+.5,y+.5,[76,10],[71,24])<2.4)c=3;
+  else if(y>=54||x>=62)c=1;else if(x>=15&&x<=16&&y>20)c=2;
+  if(y<=7&&x>=29&&x<=49&&(!IN(x,y-1)||!IN(x,y-2)))c=4;
+  // armhole seams from shoulder to underarm
+  if(c===0&&(segD(x+.5,y+.5,[15,4],[14,20])<.6||segD(x+.5,y+.5,[63,4],[64,20])<.6))c=1;
+  L.push([x,y,c])}return TEEPX=L}
 function bsShirtCard(t,X0){// the close-up of the shirt, held up
  const k=Math.min(1,(T-bst.view)/.3),e=1-(1-k)*(1-k),cy=58+Math.round((1-e)*20);cx.globalAlpha=.6*e;r(X0,0,80,144,'#1a1028');cx.globalAlpha=e;
- const x=X0+3,y=cy-30,Y='#f0c030',D='#c8962a',L='#ffd860';
- for(let yy=0;yy<55;yy++)for(let xx=0;xx<75;xx++){if(!inPoly(TEE,xx+.5,yy+.5))continue;let c=Y;
-  const sl=xx<11||xx>63;// sleeves
-  if(sl&&yy>=1){const edge=xx<11?(!inPoly(TEE,xx+.5,yy+2.5)||!inPoly(TEE,xx-1.5,yy+2.5)):(!inPoly(TEE,xx+.5,yy+2.5)||!inPoly(TEE,xx+2.5,yy+2.5));if(edge)c=D}
-  if(!sl&&(xx>=60||yy>=52))c=D;if(!sl&&xx<=13&&yy>18)c=L;
-  r(x+xx,y+yy,1,1,c)}
- // armhole seams, crew-neck rib, a couple of soft folds
- for(let i=0;i<5;i++){r(x+11+(i>2?0:0),y+18-i*3,1,2,D);r(x+63,y+18-i*3,1,2,D)}
- for(let xx=27;xx<=47;xx++){let yy=0;while(yy<8&&!inPoly(TEE,xx+.5,yy+.5))yy++;if(yy<8){r(x+xx,y+yy,1,2,'#c8282a')}}
- r(x+20,y+44,1,6,D);r(x+52,y+40,1,8,D);
- const lx=x+33;r(lx,y+11,8,7,'#8a5a2a');r(lx+1,y+14,6,4,'#e8c890');r(lx+2,y+13,1,1,'#fff');r(lx+5,y+13,1,1,'#fff');r(lx+3,y+15,2,1,'#2a1a1a');r(lx+3,y+16,2,2,'#fff');r(lx-1,y+9,10,2,'#c8282a');r(lx,y+11,1,1,'#6a3a1a');r(lx+7,y+11,1,1,'#6a3a1a');
- txt("EVERYTHING'S",x+14,y+23,'#c8282a',1);txt('BEAVER',x+26,y+31,'#8a5a2a',1);txt('IN TEXAS',x+22,y+39,'#c8282a',1);
- const s2=Math.floor(t*4)%2;r(x+5,y+10,1,1,s2?'#fff':'#fff6c0');r(x+70,y+11,1,1,s2?'#fff6c0':'#fff');r(x+57,y+48,1,1,s2?'#fff':'#fff6c0');cx.globalAlpha=1}
+ const x=X0+1,y=cy-31,C=['#f0c030','#c8962a','#ffd860','#d8a428','#c8282a'];teePx().forEach(([px,py,c])=>r(x+px,y+py,1,1,C[c]));
+ const lx=x+35;r(lx,y+11,8,7,'#8a5a2a');r(lx+1,y+14,6,4,'#e8c890');r(lx+2,y+13,1,1,'#fff');r(lx+5,y+13,1,1,'#fff');r(lx+3,y+15,2,1,'#2a1a1a');r(lx+3,y+16,2,2,'#fff');r(lx-1,y+9,10,2,'#c8282a');r(lx,y+11,1,1,'#6a3a1a');r(lx+7,y+11,1,1,'#6a3a1a');
+ txt("EVERYTHING'S",x+16,y+24,'#c8282a',1);txt('BEAVER',x+28,y+32,'#8a5a2a',1);txt('IN TEXAS',x+24,y+40,'#c8282a',1);
+ const s2=Math.floor(t*4)%2;r(x+7,y+11,1,1,s2?'#fff':'#fff6c0');r(x+70,y+11,1,1,s2?'#fff6c0':'#fff');cx.globalAlpha=1}
 function bsShirt(){if(bst.shirt){say([[{n:'Hunter',t:'(Best eighteen dollars I have ever spent.)'}],[{n:'Hunter',t:'(The mannequin looks cold without its shirt. Worth it.)'}]][(hx.cnt.sh=(hx.cnt.sh||0)+1)%2]);return}
  bst.view=T;sfx('select');say([{n:'Hunter',t:'(Whoa. A whole clothing section.)'},{n:'Hunter',t:'"EVERYTHING’S BEAVER IN TEXAS."'},{n:'Hunter',t:'...I need it. Do I need it?',c:[
   {l:'Buy it!',f:()=>{bst.view=null;bsBuy()}},{l:'Maybe not',f:()=>{bst.view=null;say([{n:'Hunter',t:'(...I will think about it. I will probably come back.)'}])}}]}])}
