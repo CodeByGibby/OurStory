@@ -195,7 +195,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.34</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.35</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -2274,7 +2274,7 @@ function vTx(t){
  r(0,80,80,64,'#a8b860');for(let i=0;i<60;i++)r(stars[i].x%80,82+(stars[i].y%60),2,1,i%2?'#98a850':'#b8c870');
  for(let y=96;y<144;y++){const k=(y-96)/48;r(50-k*6|0,y,30+k*6|0,1,y%5?'#d0ccc0':'#c4c0b4')}
  for(let y=42;y<56;y++){const k=(y-42)/14;r(10-k*10|0,y,46+k*20|0,1,y%3?'#7a5a4a':'#6a4a3a')}
- r(2,56,60,40,'#efe0c8');for(let y=58;y<86;y+=4)r(2,y,60,1,'#e2d0b4');r(2,86,60,10,'#b8a088');for(let x=2;x<62;x+=6)for(let y=86;y<96;y+=3)r(x+((y/3)%2)*3,y,1,3,'#9a8470');
+ r(2,56,60,40,'#efe0c8');for(let y=58;y<86;y+=4)r(2,y,60,1,'#e2d0b4');r(2,86,60,10,'#b8a088');for(let x=2;x<62;x+=6)for(let y=86;y<96;y+=3)r(x+((y/3)%2)*3,y,1,Math.min(3,96-y),'#9a8470');
  [[8,62],[20,62]].forEach(([x,y])=>{r(x-3,y,2,12,'#3a6a8a');r(x+10,y,2,12,'#3a6a8a');r(x-1,y,11,12,'#fff');r(x,y+1,9,10,'#9ad0f0');r(x+4,y+1,1,10,'#fff')});
  r(36,66,10,30,'#fff');r(37,67,8,29,'#5a7a9a');r(43,82,1,2,'#e0b84a');r(30,96,22,3,'#c8c0b0');
  const sx=52,sy=62;r(sx,sy+2,5,1,'#c8a040');r(sx+1,sy+1,3,1,'#c8a040');r(sx+2,sy,1,1,'#c8a040');r(sx+1,sy+3,1,2,'#c8a040');r(sx+3,sy+3,1,2,'#c8a040');
@@ -3061,7 +3061,7 @@ function vBonnell(t){const k=bon?Math.min(1,bon.k):0;
  bonRock(k);
  [poet1,poet2].forEach(p=>{p.moving=false;person(p,t)});
  if(bon&&bon.snap>0||(dlg&&dlg.l[dlg.i].fx)){const b=Math.floor(t*6)%2;txt('SNAP',6+b*12,56,'#fff',1)}
- r(0,98,58,10,'#c8b898');for(let x=0;x<58;x+=6)for(let y=98;y<108;y+=3)r(x+((y/3)%2)*3,y,1,3,'#a89878');r(0,98,58,1,'#e0d0b0');
+ r(0,98,58,10,'#c8b898');for(let x=0;x<58;x+=6)for(let y=98;y<108;y+=3)r(x+((y/3)%2)*3,y,1,Math.min(3,108-y),'#a89878');r(0,98,58,1,'#e0d0b0');
  r(0,108,80,36,'#d8c8a8');for(let i=0;i<40;i++)r(stars[i].x%80,110+(stars[i].y%34),2,1,'#c8b898');
  for(let i=0;i<6;i++){const y=118+i*4;r(0,y,15-i,4,'#a8a098');r(0,y,15-i,1,'#c8c0b8');r(14-i,y,1,4,'#8a8278')}r(29,99,15,9,'#4a3a2a');r(30,100,13,7,'#8a7a5a');r(30,100,13,1,'#a89a78');txt('775',31,101,'#f4ecd8',1);
  const D=[{y:133,f:()=>{ell(73,134,6,1,'#000',.18);r(72,104,3,30,'#5a3a2a');r(72,104,1,30,'#6a4a3a');disc(70,104,14,'#2a4a2a',1);disc(62,112,10,'#3a5a2a',1);disc(78,120,9,'#2a4a2a',1);disc(66,100,4,'#3a6a3a',1);disc(76,108,3,'#3a6a3a',1);if(k>0){const a2=k*.25;disc(70,104,14,'#ff7a3a',a2);disc(62,112,10,'#ff7a3a',a2);disc(78,120,9,'#ff7a3a',a2);cx.globalAlpha=a2;r(72,118,3,16,'#ff7a3a');cx.globalAlpha=1}}}];
