@@ -195,7 +195,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.32</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.33</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -2090,7 +2090,7 @@ function vDT(t){
  [[6,88,'#fff'],[14,92,'#ffd86b'],[33,86,'#fff'],[24,90,'#ff9ccb'],[40,92,'#ffd86b']].forEach(([x,y,c])=>{r(x,y,1,1,c);r(x,y+1,1,2,'#4a8a3a')});
  // a trash can and the drive-thru arrow sign on the grass
  ell(34,92,6,2,'#2a4a22',.45);r(31,82,7,10,'#3a6a5a');r(32,91,5,1,'#2a4a42');r(30,81,9,2,'#2a4a42');r(30,81,9,1,'#4a7a6a');r(32,84,1,6,'#4a8a7a');r(34,84,1,6,'#4a8a7a');r(36,84,1,6,'#4a8a7a');r(31,82,1,9,'#2e584a');
- r(43,76,1,20,'#8a8a96');r(36,72,11,6,'#c8352f');r(36,72,11,1,'#e8604a');r(38,74,5,2,'#fff');r(43,73,1,4,'#fff');r(44,74,1,2,'#fff');
+
  // the building: brick base, trim, a little roof vent puffing coffee steam
  r(44,21,4,5,'#8a8a96');r(43,20,6,2,'#6a6a76');for(let i=0;i<6;i++){const k=(t*.16+i/6)%1,a=k<.08?k/.08:1-(k-.08)/.92;disc(Math.round(46-k*7+Math.sin(k*9+i)*1.5),Math.round(19-k*34),2+Math.round(k*3),'#fff',.38*a*a)}
  r(46,30,34,66,'#e8d8c0');for(let y=34;y<86;y+=4)r(46,y,34,1,'#d8c4a8');r(44,26,36,5,'#7a3a2a');r(44,26,36,1,'#a85a3a');r(46,31,34,1,'#ff9ccb');
@@ -2113,6 +2113,8 @@ function vDT(t){
  // little sticker by the window, and a planter of flowers at the corner
  r(74,60,5,5,'#fff');r(75,61,3,3,'#3aa8a0');r(75,66,4,1,'#c8c0b0');
  r(73,88,7,8,'#7a4a3a');r(73,88,7,1,'#9a6a5a');disc(75,86,2,'#4a8a3a',1);disc(78,86,2,'#4a8a3a',1);r(74,84,1,1,'#ff5f9e');r(77,83,1,1,'#ffd86b');r(79,85,1,1,'#ff5f9e');
+ // the drive-thru arrow sign stands out on the grass, in front of the building
+ ell(43,95,3,1,'#2a4a22',.4);r(43,76,1,20,'#8a8a96');r(44,76,1,20,'#6a6a76');r(36,72,12,6,'#c8352f');r(36,72,12,1,'#e8604a');r(36,77,12,1,'#8a2420');r(38,74,5,2,'#fff');r(43,73,1,4,'#fff');r(44,74,1,2,'#fff');
  // menu board: little roof, pictures of the goods, prices
  r(9,52,2,44,'#3a3a46');r(10,52,1,44,'#5a5a66');r(0,41,22,3,'#7a3a2a');r(0,41,22,1,'#a85a3a');r(1,44,20,22,'#1a1a22');r(2,45,18,20,'#2a5a3a');
  [['#ff9ccb',48],['#c8843a',52],['#ffe6c0',56],['#f4f4f8',60]].forEach(([c,y],i)=>{if(i<3){disc(5,y+1,1,c,1);r(4,y+1,3,1,sh(c,.75))}else{r(4,y,3,3,'#f4f4f8');r(4,y,3,1,'#c8352f')}r(8,y,6,1,'#e8e8e8');r(8,y+2,4,1,'#9ab8a8');r(16,y,3,2,'#f8c060')});
