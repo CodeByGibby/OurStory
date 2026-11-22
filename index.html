@@ -195,7 +195,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.45</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.46</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3508,7 +3508,7 @@ function bsItems(){const I=[],F=bst.found;
  I.push({id:'shirt',x:184,y:62,w:16,h:36,spot:[192,104],face:'u',fn:bsShirt});
  I.push({id:'tees',x:160,y:14,w:40,h:42,spot:[180,74],face:'u',lines:[{n:'Hunter',t:'(Beaver tees in every colour. Beaver hoodies. A beaver onesie. For ADULTS.)'}]});
  I.push({id:'rack',x:164,y:80,w:26,h:22,spot:[176,110],face:'u',lines:[{n:'Hunter',t:'(A whole rack of beaver Hawaiian shirts. I respect it.)'}]});
- I.push({id:'fit',x:204,y:14,w:18,h:56,spot:[212,76],face:'u',lines:[{n:'Hunter',t:bst.shirt?'(The fitting room where I became a new man.)':'(The fitting room. Somebody in there is singing.)'}]});
+ I.push({id:'fit',x:204,y:18,w:18,h:42,spot:[212,74],face:'u',lines:[{n:'Hunter',t:bst.shirt?'(The fitting room where I became a new man.)':'(The fitting room. Somebody in there is singing.)'}]});
  I.push({id:'exit',x:126,y:132,w:30,h:12,spot:[142,138],face:'d',label:'EXIT',lx:134,ly:138});return I}
 /* ---- the clothing section ---- */
 function bsWear(t){// back wall of the apparel corner: a sign and shelves of folded tees
@@ -3517,10 +3517,10 @@ function bsWear(t){// back wall of the apparel corner: a sign and shelves of fol
  const C=['#f0c030','#c8282a','#3a7ae8','#f4f4f8','#5ac85a','#2a2a34','#ff7eb6'];
  [18,30,42].forEach((y,j)=>{r(161,y+8,40,2,'#8a6a4a');r(161,y+8,40,1,'#a8845a');for(let i=0;i<6;i++){const c=C[(i+j*2)%C.length];r(163+i*6,y+3,5,5,c);r(163+i*6,y+3,5,1,sh(c,1.2));r(163+i*6,y+5,5,1,sh(c,.85));if(c==='#f0c030')r(165+i*6,y+5,1,1,'#8a5a2a')}});
  // the fitting room: wooden frame, a curtain that slides, a little sign
- r(203,12,20,58,'#5a3a2a');r(205,16,16,54,'#2a1a14');r(203,12,20,3,'#7a5a3a');r(210,5,11,5,'#f4f4f8');r(211,7,2,1,'#3a3a46');r(214,7,6,1,'#3a3a46');}
+ r(203,18,20,41,'#5a3a2a');r(205,22,16,37,'#2a1a14');r(203,18,20,3,'#7a5a3a');r(203,58,20,1,'#3a2418');r(208,12,11,5,'#f4f4f8');r(209,14,2,1,'#3a3a46');r(212,14,6,1,'#3a3a46');}
 function bsCurtain(t){// drawn after the people so the curtain hides whoever is changing
  const op=bst.cur!=null?Math.max(0,Math.min(1,(T-bst.cur)/.35)):1,cl=bst.cur==null?0:bst.curC?op:1-op;// cl: how closed (0 open .. 1 closed)
- const w=Math.round(3+13*cl),x=205;r(x,16,w,54,'#c8282a');for(let i=1;i<w;i+=3)r(x+i,16,1,54,'#a81e22');r(x,16,w,1,'#e84a4a');r(204,15,18,1,'#c8c8d0');for(let i=0;i<w;i+=3)r(x+i,14,1,2,'#c8c8d0')}
+ const w=Math.round(3+13*cl),x=205;r(x,23,w,35,'#c8282a');for(let i=1;i<w;i+=3)r(x+i,23,1,35,'#a81e22');r(x,23,w,1,'#e84a4a');r(x,57,w,1,'#8a1418');r(204,22,18,1,'#c8c8d0');for(let i=0;i<w;i+=3)r(x+i,21,1,2,'#c8c8d0')}
 function bsRack(t){// a free-standing rack of shirts on hangers
  r(166,82,22,1,'#c8c8d0');r(166,82,1,21,'#a8a8b0');r(187,82,1,21,'#a8a8b0');r(164,102,26,2,'#8a8a96');
  const C=['#f0c030','#c8282a','#f4f4f8','#3a7ae8','#f0c030','#5ac85a'];for(let i=0;i<6;i++){const x=168+i*3+Math.round(Math.sin(t*1.5+i)*.4),c=C[i];r(x+1,83,1,2,'#8a8a92');r(x,85,3,10,c);r(x,85,3,1,sh(c,1.2));r(x+2,85,1,10,sh(c,.8))}}
@@ -3530,21 +3530,32 @@ function bsMann(t){// the mannequin wearing THE shirt
  else{r(x-3,y-16,7,10,'#e8e0d0');r(x-4,y-15,1,4,'#e8e0d0');r(x+4,y-15,1,4,'#e8e0d0');r(x-2,y-10,5,1,'#d8d0c0')}
  disc(x,y-19,3,'#e8e0d0',1);r(x-1,y-22,3,1,'#d8d0c0');
  if(!bst.shirt&&!dlg&&mode==='hx'){const b=Math.floor(t*3)%2;r(x+5,y-20,1,1,b?'#fff':'#ffe066');r(x-6,y-17,1,1,b?'#ffe066':'#fff')}}
+// a tee shape: sloped shoulders, sleeves angled down with cuffs, a curved crew neck, body to the hem
+const TEE=[[27,0],[19,1],[10,4],[0,13],[7,21],[11,18],[11,54],[63,54],[63,18],[67,21],[74,13],[64,4],[55,1],[47,0],[44,4],[37,6],[30,4]];
+function inPoly(P,x,y){let c=false;for(let i=0,j=P.length-1;i<P.length;j=i++){const [xi,yi]=P[i],[xj,yj]=P[j];if(((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))c=!c}return c}
 function bsShirtCard(t,X0){// the close-up of the shirt, held up
  const k=Math.min(1,(T-bst.view)/.3),e=1-(1-k)*(1-k),cy=58+Math.round((1-e)*20);cx.globalAlpha=.6*e;r(X0,0,80,144,'#1a1028');cx.globalAlpha=e;
- const x=X0+4,y=cy-30,Y='#f0c030',D='#c8962a';r(x+14,y,44,6,Y);r(x,y+2,16,16,Y);r(x+56,y+2,16,16,Y);r(x+10,y+4,52,50,Y);
- r(x+30,y,12,3,'#c8282a');r(x+31,y+3,10,1,'#c8282a');r(x,y+17,16,1,D);r(x+56,y+17,16,1,D);r(x+61,y+4,1,50,D);r(x+10,y+53,52,1,D);r(x+15,y+4,1,13,D);r(x+56,y+4,1,13,D);
- const lx=x+32;r(lx,y+9,8,7,'#8a5a2a');r(lx+1,y+12,6,4,'#e8c890');r(lx+2,y+11,1,1,'#fff');r(lx+5,y+11,1,1,'#fff');r(lx+3,y+13,2,1,'#2a1a1a');r(lx+3,y+14,2,2,'#fff');r(lx-1,y+7,10,2,'#c8282a');
- txt("EVERYTHING'S",x+13,y+21,'#c8282a',1);txt('BEAVER',x+25,y+29,'#8a5a2a',1);txt('IN TEXAS',x+21,y+37,'#c8282a',1);
- const s2=Math.floor(t*4)%2;r(x+6,y+8,1,1,s2?'#fff':'#fff6c0');r(x+66,y+10,1,1,s2?'#fff6c0':'#fff');r(x+56,y+46,1,1,s2?'#fff':'#fff6c0');cx.globalAlpha=1}
+ const x=X0+3,y=cy-30,Y='#f0c030',D='#c8962a',L='#ffd860';
+ for(let yy=0;yy<55;yy++)for(let xx=0;xx<75;xx++){if(!inPoly(TEE,xx+.5,yy+.5))continue;let c=Y;
+  const sl=xx<11||xx>63;// sleeves
+  if(sl&&yy>=1){const edge=xx<11?(!inPoly(TEE,xx+.5,yy+2.5)||!inPoly(TEE,xx-1.5,yy+2.5)):(!inPoly(TEE,xx+.5,yy+2.5)||!inPoly(TEE,xx+2.5,yy+2.5));if(edge)c=D}
+  if(!sl&&(xx>=60||yy>=52))c=D;if(!sl&&xx<=13&&yy>18)c=L;
+  r(x+xx,y+yy,1,1,c)}
+ // armhole seams, crew-neck rib, a couple of soft folds
+ for(let i=0;i<5;i++){r(x+11+(i>2?0:0),y+18-i*3,1,2,D);r(x+63,y+18-i*3,1,2,D)}
+ for(let xx=27;xx<=47;xx++){let yy=0;while(yy<8&&!inPoly(TEE,xx+.5,yy+.5))yy++;if(yy<8){r(x+xx,y+yy,1,2,'#c8282a')}}
+ r(x+20,y+44,1,6,D);r(x+52,y+40,1,8,D);
+ const lx=x+33;r(lx,y+11,8,7,'#8a5a2a');r(lx+1,y+14,6,4,'#e8c890');r(lx+2,y+13,1,1,'#fff');r(lx+5,y+13,1,1,'#fff');r(lx+3,y+15,2,1,'#2a1a1a');r(lx+3,y+16,2,2,'#fff');r(lx-1,y+9,10,2,'#c8282a');r(lx,y+11,1,1,'#6a3a1a');r(lx+7,y+11,1,1,'#6a3a1a');
+ txt("EVERYTHING'S",x+14,y+23,'#c8282a',1);txt('BEAVER',x+26,y+31,'#8a5a2a',1);txt('IN TEXAS',x+22,y+39,'#c8282a',1);
+ const s2=Math.floor(t*4)%2;r(x+5,y+10,1,1,s2?'#fff':'#fff6c0');r(x+70,y+11,1,1,s2?'#fff6c0':'#fff');r(x+57,y+48,1,1,s2?'#fff':'#fff6c0');cx.globalAlpha=1}
 function bsShirt(){if(bst.shirt){say([[{n:'Hunter',t:'(Best eighteen dollars I have ever spent.)'}],[{n:'Hunter',t:'(The mannequin looks cold without its shirt. Worth it.)'}]][(hx.cnt.sh=(hx.cnt.sh||0)+1)%2]);return}
  bst.view=T;sfx('select');say([{n:'Hunter',t:'(Whoa. A whole clothing section.)'},{n:'Hunter',t:'"EVERYTHING’S BEAVER IN TEXAS."'},{n:'Hunter',t:'...I need it. Do I need it?',c:[
   {l:'Buy it!',f:()=>{bst.view=null;bsBuy()}},{l:'Maybe not',f:()=>{bst.view=null;say([{n:'Hunter',t:'(...I will think about it. I will probably come back.)'}])}}]}])}
 function bsBuy(){const H=hunter;mode='c3';hx.phase='seq';hx.fstay=1;sfx('kaching');burst(H.x,H.y-20,'#ffd86b');
- bark([{n:'Hunter',t:'(Eighteen dollars. Worth every penny.)'}]);go(H,hxRoute(H,212,76),34);
- waitTill(()=>H.tx==null,()=>{H.dir='u';after(.15,()=>{go(H,[[212,70]],20);after(.35,()=>{bst.fit=1;bst.curC=1;bst.cur=T;sfx('whoosh');
-  [.5,.85,1.2,1.5].forEach(d=>after(d,()=>sfx('step')));after(1.8,()=>{beavShirt(1);bst.shirt=1;bst.curC=0;bst.cur=T;sfx('whoosh');at(H,212,72,'d');bst.fit=0;
-   go(H,[[212,80]],22);after(.5,()=>{burst(H.x,H.y-14,'#f0c030');sfx('cheer');const F=bst.found;
+ bark([{n:'Hunter',t:'(Eighteen dollars. Worth every penny.)'}]);go(H,hxRoute(H,212,74),34);
+ waitTill(()=>H.tx==null,()=>{H.dir='u';after(.15,()=>{go(H,[[212,64]],20);after(.35,()=>{bst.fit=1;bst.curC=1;bst.cur=T;sfx('whoosh');
+  [.5,.85,1.2,1.5].forEach(d=>after(d,()=>sfx('step')));after(1.8,()=>{beavShirt(1);bst.shirt=1;bst.curC=0;bst.cur=T;sfx('whoosh');at(H,212,64,'d');bst.fit=0;
+   go(H,[[212,78]],22);after(.5,()=>{burst(H.x,H.y-14,'#f0c030');sfx('cheer');const F=bst.found;
     say(F?[{n:'Hunter',t:'(stepping out) Ta-da.'},{n:'Abigail',t:'...Oh no.'},{n:'Hunter',t:'Everything’s beaver in Texas, babe.'},{n:'Abigail',t:'(trying very hard not to laugh) I love it. I hate that I love it.'}]
      :[{n:'Hunter',t:'(stepping out) Ta-da.'},{n:'Tourist',t:'Nice shirt!'},{n:'Hunter',t:'(Abigail is going to love this. ...Probably.)'}],()=>{hx.phase=null;hx.fstay=0;mode='hx';hxHud()})})})})})})}
 function bsJerky(){const k=hx.cnt.jerky||0;hx.cnt.jerky=k+1;if(k){say([{n:'Hunter',t:'(I can always come back for the other fifty-seven.)'}]);return}
