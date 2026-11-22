@@ -195,7 +195,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.39</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.40</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3258,7 +3258,7 @@ function rwPick(){const A=abi,H=hunter;mode='c3';setHud('');chatClear();hx.phase
 /* the band plays their tune for whole passes (so it ends where the song ends); a tip makes them play louder */
 function rwBand(loops,loud){let L=19.2;try{const C=amGet('mari');L=C.N*C.sd}catch(e){}
  if(!(rw.play>0)){rw.ms=T+.3;rw.play=L*loops+.3}else{const rem=L-((T-rw.ms)%L);rw.play=Math.max(rw.play,rem+L*(loops-1))}
- if(loud)after(.45,()=>{try{if(AMP&&AMP.k==='mari'&&AU.ctx)AMP.bus.g.gain.setTargetAtTime(AMP.C.S.vol*1.45,AU.ctx.currentTime,.3)}catch(e){}})}
+ if(loud)rw.loud=1}
 function rwMari(){const k=hx.cnt.mari||0;hx.cnt.mari=k+1;
  if(k===0)say([{n:'',t:'The mariachi band strikes up a song.',anim:()=>rwBand(2)},{n:'Abigail',t:'Hunter! They are serenading us!'},{n:'Hunter',t:'They are serenading my wallet.'},
   {n:'Abigail',t:'(dancing) Tip them!'},{n:'',t:'(Hunter tips them five dollars. They play LOUDER.)',anim:()=>{rwBand(2,1);burst(64,52,'#ffd86b')}}]);
@@ -3852,7 +3852,7 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
 const MUSMAP={roof:'roof',street:'night',hall:'sneak',door:'sunset',dinner:'waltz',bench:'lofi',bars:'bars',dorm:'sunset',news:'news',lake:'lofi',drive:'drive',clinic:'tense',apt:'news',entry:'sick',cal:null,kart:'kart',
  kitchen:'cozy',hroom:'lofi',dt:'lofi',pack:'cozy',road:'drive',txhouse:'texas',troom:'texas',river:'waltz',church:'stars',scoot:'drive',pump:'tense',store:'kart',bath:'stars',austin:'news',trucks:'texas',pea:'cozy',hill:'drive',bonnell:'sunset',plaza:'waltz',bstore:'kart',
  plane:'stars',hdrive:'jazz',bunk:'sneak',bath2:'sneak',split:'sad',office:'office',home:'lofi',hunt:'tense'};
-function musPick(){if(loc==='river'&&rw&&rw.play>0)return 'mari';if(c8&&c8.bridal)return 'bridal';if(loc==='home6'&&c6.day)return 'cozy';if(loc==='steak'&&c6.pr)return 'sunset';if(loc==='steak'&&mode==='nerves')return 'tense';if(loc==='hotel'&&c6.panic&&hunter.tag)return 'tense';if(mode==='title')return 'stars';if(mode==='end')return 'sunset';if(mode==='news')return 'news';
+function musPick(){if(c8&&c8.bridal)return 'bridal';if(loc==='home6'&&c6.day)return 'cozy';if(loc==='steak'&&c6.pr)return 'sunset';if(loc==='steak'&&mode==='nerves')return 'tense';if(loc==='hotel'&&c6.panic&&hunter.tag)return 'tense';if(mode==='title')return 'stars';if(mode==='end')return 'sunset';if(mode==='news')return 'news';
  if(loc==='court')return c5.ct&&c5.ct.style?'tennis':'jazz';if(loc==='hroom'&&hr.solo)return 'sad';if(loc==='troom'&&upk&&upk.solo)return 'sad';if(loc==='kitchen'&&kit.angry)return 'news';if(loc==='home'&&c5.hm&&c5.hm.hearts)return 'sunset';
  if(loc==='living')return lv&&lv.kiss?'sunset':sick?'sick':lv&&lv.sw?'kart':'cozy';if(loc==='newsbg'||loc==='cal')return AU.want;return MUSMAP[loc]!==undefined?MUSMAP[loc]:AU.want}
 function musUpdate(){if(!AU.ctx)return;let w=musPick();if(AU.songOn)w=null;AU.want=w}
@@ -5721,7 +5721,18 @@ const AMC={};const amGet=k=>AMC[k]||(AMC[k]=amComp(AMS[k]));
 /* looping player for the cabinets; follows the current location */
 const AMLOC={skee:'skee',arcClaw:'claw',arcQuiz:'quiz',arcFight:'fight',arcShoot:'shoot',arcRace:'race'};
 let AMP=null;
-function amUpdate(){const c=AU.ctx;if(!c)return;const k0=AU.on?(AMLOC[loc]||AU.want):null,want=k0&&AMS[k0]?k0:null,now=c.currentTime;
+/* the River Walk band is its own layer on top of the scene music: the closer Hunter is, the louder they are and the
+   further the background music ducks; walk far enough away and it is just the normal music again */
+let AMPB=null;
+function amBandUpd(c){const now=c.currentTime,on=AU.on&&loc==='river'&&typeof rw!=='undefined'&&rw&&rw.play>0;
+ if(!on){if(AMPB){const P=AMPB;AMPB=null;try{P.bus.g.gain.cancelScheduledValues(now);P.bus.g.gain.setTargetAtTime(0,now,.35);setTimeout(()=>{try{P.bus.g.disconnect()}catch(e){}},2500)}catch(e){}}
+  if(AMP&&AMP.duck!=null){try{AMP.bus.g.gain.setTargetAtTime(AMP.C.S.vol,now,.4)}catch(e){}AMP.duck=null}return}
+ if(!AMPB){const C=amGet('mari'),t0=now+.3;AMPB={C,pos:0,next:t0,bus:amBus(c,AU.mvol,0,C.S.dly),g:-1};AMPB.bus.g.gain.setValueAtTime(0,now)}
+ const B=AMPB,C=B.C;if(B.next<now-.1)B.next=now+.05;let n=0;while(B.next<now+.2&&n++<64){amStep(C,B.pos,B.next,B.bus);B.pos++;B.next+=C.sd}
+ const d=Math.hypot(hunter.x-65,(hunter.y-84)*.6),k=Math.max(0,Math.min(1,1-(d-14)/58)),p=k*k*(3-2*k),bg=C.S.vol*(rw.loud?1.45:1)*p;
+ if(Math.abs(bg-B.g)>.004){B.g=bg;B.bus.g.gain.setTargetAtTime(bg,Math.max(now,B.next-.25>now?now:now),.25)}
+ if(AMP&&AMP.k!=='mari'){const dv=AMP.C.S.vol*(1-.88*p);if(AMP.duck==null||Math.abs(dv-AMP.duck)>.004){AMP.duck=dv;AMP.bus.g.gain.setTargetAtTime(dv,now,.25)}}}
+function amUpdate(){const c=AU.ctx;if(!c)return;try{amBandUpd(c)}catch(e){}const k0=AU.on?(AMLOC[loc]||AU.want):null,want=k0&&AMS[k0]?k0:null,now=c.currentTime;
  if(AMP&&AMP.k!==want){const P=AMP;AMP=null;try{P.bus.g.gain.cancelScheduledValues(now);P.bus.g.gain.setValueAtTime(P.bus.g.gain.value,now);P.bus.g.gain.setTargetAtTime(0,now,.15);setTimeout(()=>{try{P.bus.g.disconnect()}catch(e){}},1600)}catch(e){}}
  if(!AMP&&want){const C=amGet(want),t0=now+.3;AMP={k:want,C,pos:0,next:t0,bus:amBus(c,AU.mvol,0,C.S.dly)};AMP.bus.g.gain.setValueAtTime(0,now);AMP.bus.g.gain.setTargetAtTime(C.S.vol,t0,.12)}
  if(!AMP)return;const C=AMP.C;if(AMP.next<now-.1)AMP.next=now+.05;
