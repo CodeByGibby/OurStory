@@ -195,7 +195,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.26</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.27</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1366,7 +1366,7 @@ function vLiving(t){
  r(44,8,28,34,'#e8e8f0');r(46,10,24,30,n?'#141a40':lv.eve?'#f2a868':'#9ad0f0');if(n){disc(64,16,3,'#fff3c4',1);r(50,14,1,1,'#fff');r(56,22,1,1,'#fff')}else if(lv.eve)disc(54,34,6,'#ffd27a',1);
  for(let y=12;y<40;y+=4)r(46,y,24,1,n?'#20264a':'#c8d8e8');r(57,10,2,30,'#e8e8f0');
  r(22,18,14,11,'#c8a060');r(23,19,12,9,'#5a8aa8');r(24,24,10,4,'#6aa86a');
- r(1,26,13,64,'#6a4a3a');r(2,27,11,62,lv.mor==3||lv.mor==4?'#8a5a40':'#3a2418');if(lv.door){r(2,27,11,62,'#140c08');r(2,27,11,1,'#2a1a14');r(10,27,4,62,'#4a2e20');r(11,28,2,60,'#5a3a28')}if(lv.mor==4)r(10,58,2,2,'#e0b84a');if(lv.mor==3){r(3,40,9,7,'#fff');txt('NO',4,41,'#d8352f',1);r(10,58,2,2,'#e0b84a')}
+ r(1,26,13,64,'#6a4a3a');r(2,27,11,62,lv.mor==3||lv.mor==4?'#8a5a40':'#3a2418');if(lv.door){r(2,27,11,62,'#140c08');r(2,27,11,1,'#2a1a14');r(10,27,4,62,'#4a2e20');r(11,28,2,60,'#5a3a28')}if(lv.mor==4&&!lv.door)r(10,58,2,2,'#e0b84a');if(lv.mor==3&&!lv.door){r(3,40,9,7,'#fff');txt('NO',4,41,'#d8352f',1);r(10,58,2,2,'#e0b84a')}
  r(74,40,5,2,'#e8d8a8');r(75,42,3,4,'#f8f0d0');r(76,46,1,44,'#5a4a3a');if(n)disc(76,46,10,'#ffd88a',.18);
  r(0,92,80,52,'#a0784e');for(let y=92;y<144;y+=6)r(0,y,80,1,'#8a6440');r(10,96,62,40,'#7a5a8a');r(12,98,58,36,'#8a6a9a');
  r(14,50,60,24,'#5a7a6a');r(14,50,60,2,'#7a9a8a');for(let x=33;x<74;x+=20)r(x,53,1,19,'#4a6a5a');
@@ -1385,7 +1385,7 @@ function vLiving(t){
  
  if(lv.mor==2||lv.mor==4){lvBean(t);
   if(lv.mor==2&&lv.mw){morgan.x=lv.mw.x;morgan.y=lv.mw.y;morgan.dir=lv.mw.dir||'u';morgan.moving=true;morgan.hold='phone';morgan.sit=0;person(morgan,t);morgan.moving=false}}else morgan.hold=null;
- if(lv.mor==5&&lv.mw2){const M=lv.mw2;morgan.x=M.x;morgan.y=M.y-(M.hop&&T-M.hop<.35?Math.round(Math.sin((T-M.hop)/.35*Math.PI)*3):0);morgan.dir=M.dir||'l';morgan.moving=M.tx!=null;morgan.hold=null;morgan.sit=0;if(M.fade)cx.globalAlpha=Math.max(0,1-(T-M.fade)/.6);person(morgan,t);cx.globalAlpha=1;morgan.moving=false}
+ if(lv.mw2){const M=lv.mw2;morgan.x=M.x;morgan.y=M.y-(M.hop&&T-M.hop<.35?Math.round(Math.sin((T-M.hop)/.35*Math.PI)*3):0);morgan.dir=M.dir||'l';morgan.moving=M.tx!=null;morgan.hold=M.hold||null;morgan.sit=0;if(M.fade)cx.globalAlpha=Math.max(0,1-(T-M.fade)/.6);else if(M.fin)cx.globalAlpha=Math.min(1,(T-M.fin)/.45);person(morgan,t);cx.globalAlpha=1;morgan.moving=false}
  if(lv.pace){if(!qprops.remote&&qprops.lap!=='remote'){r(58,111,7,3,'#1a1a22');r(59,111,1,1,'#e0463c')}person(abi,t)}
  drawQx(t);
  if(n){cx.globalAlpha=.42;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1;cx.globalCompositeOperation='lighter';const fl=.02+.012*Math.sin(t*7)+.008*Math.sin(t*13);for(let i=0;i<6;i++){cx.globalAlpha=fl;r(8+i*4,52+i*3,64-i*8,92-i*3,'#6ab0ff')}cx.globalAlpha=1;disc(76,46,6,'#ffd88a',.1);cx.globalCompositeOperation='source-over'}
@@ -1699,6 +1699,12 @@ function qxAbi(t){if(qx.tap){const k=qx.tap.t,q=1+k*8;cx.globalAlpha=1-k*2.5;[[q
  let sat=0;if(qx.phase==='sit'){if(qx.sx==null){qx.sx=abi.x;qx.sy=abi.y}const k=Math.min(1,qx.st/.38),e=k*k*(3-2*k);abi.x=Math.round(qx.sx+(AX[lv.q]-qx.sx)*e);abi.y=Math.round(qx.sy+(78-qx.sy)*e);abi.dir='d';sat=qx.st>.4?1:0}
  abi.sit=sat;abi.sitF=sat;if(abi.hold!=='carry')abi.hold=null;person(abi,t);if(qx.room==='living')lvFront(t,abi);if(mode==='qx'&&!dlg&&!qx.phase){const g=qxGoalItem();if(g)qxArrow(t,g)}}
 /* Morgan's living room props, split out so Abigail can step behind them: whatever stands in front of her feet is drawn again over her */
+/* Day 9: Morgan opens her door, steps in on the phone and shuts it softly behind her */
+function lvMorIn(){const W=lv.mw,M=lv.mw2={x:W.x,y:W.y,dir:'u',hold:'phone'};lv.mw=null;
+ after(.2,()=>{lv.door=1;sfx('creak');after(.45,()=>{go(M,[[8,90]],18);M.fade=T;after(.65,()=>{lv.mw2=null;lv.mgone=1;after(.15,()=>{lv.door=0;sfx('latch')})})})})}
+/* Day 14: out of her room, across the living room and out the front door (bottom left, past the hall) */
+function lvMorOut(done){lv.door=1;sfx('creak');const M=lv.mw2={x:8,y:90,dir:'d',fin:T};
+ after(.5,()=>{go(M,[[10,97],[17,102],[17,127],[6,136],[-12,139]],52);waitTill(()=>M.tx==null,()=>{lv.mw2=null;after(.25,done)})})}
 function lvTable(){r(22,100,40,3,'#c08a58');r(22,100,40,1,'#d8a878');r(22,103,40,6,'#8a5a3a');r(24,109,2,6,'#6a4a2a');r(58,109,2,6,'#6a4a2a');
  for(let i=0;i<Math.min(tissues,12);i++)disc(26+(i*5)%14,98-(i/3|0)*2,2,'#f8f8ff',1);
  r(57,96,4,4,'#fff');r(61,97,1,2,'#fff');r(58,95,2,1,'#c8a080');
@@ -1706,7 +1712,7 @@ function lvTable(){r(22,100,40,3,'#c08a58');r(22,100,40,1,'#d8a878');r(22,103,40
 function lvTabItems(){const ex=lv.ex&&qx,carryR=(ex&&qx.got==='remote'&&qx.goal==='remote')||qprops.lap==='remote';if(!carryR){if(qprops.remote){r(51,98,5,2,'#1a1a22');r(52,98,1,1,'#e0463c')}else if(!lv.pace){r(58,111,7,3,'#1a1a22');r(59,111,1,1,'#e0463c')}}
  if(qprops.sw||lv.sw||(ex&&qx.goal==='sw')){r(40,96,10,4,'#3a3a46');r(42,97,6,2,'#6ab0e0');if(ex&&qx.goal==='sw'&&qx.got!=='sw'){r(40,96,2,4,'#e0463c');r(48,96,2,4,'#3a8ae0')}}}
 function lvBasket(){const ex=lv.ex&&qx;r(1,102,12,10,'#c89a5a');for(let x=2;x<13;x+=2)r(x,103,1,9,'#a87a3a');if(lv.q<3&&!(ex&&qx.got==='blanket')){r(0,98,14,5,'#e89ab8');r(2,97,8,2,'#f8c0d8')}}
-function lvBean(t){disc(16,130,9,'#8a5aa8',1);disc(14,126,5,'#a87ac8',1);if(lv.mor==2&&!lv.mw){morgan.x=16;morgan.y=134;morgan.dir='r';morgan.hold='phone';morgan.sit=1;person(morgan,t);morgan.sit=0}ell(16,135,8,3,'#7a4a98')}
+function lvBean(t){disc(16,130,9,'#8a5aa8',1);disc(14,126,5,'#a87ac8',1);if(lv.mor==2&&!lv.mw&&!lv.mw2&&!lv.mgone){morgan.x=16;morgan.y=134;morgan.dir='r';morgan.hold='phone';morgan.sit=1;person(morgan,t);morgan.sit=0}ell(16,135,8,3,'#7a4a98')}
 /* [left, right, top, base]: if Abigail's feet are above the base and her sprite overlaps, the prop goes back over her */
 function lvFront(t,p){if(p.sit)return;const O=[[21,63,94,116,()=>{lvTable();lvTabItems()}],[0,14,96,113,lvBasket]];if(lv.mor==2||lv.mor==4)O.push([6,26,118,139,()=>lvBean(t)]);
  O.forEach(([a,b,top,base,f])=>{if(p.y<base&&p.y>top&&p.x+5>a&&p.x-5<b)f()})}
@@ -1956,10 +1962,10 @@ function _qDay14(){sick=0;qScene({eve:1,mor:3,q:4},[{n:'',t:'March 30, 2020. Day
 function official(){say([{n:'Abigail',t:'Maybe we should... make it official?'},{n:'Hunter',t:'(grinning) Abigail. Are you asking me to be your boyfriend?'},{n:'Abigail',t:'...Maybe I am.'},{n:'Hunter',t:'Then yes. Obviously, completely, YES.'}],()=>{hm=10;burst(46,66,'#ff5f9e');burst(50,62,'#ffd86b');
  fadeTo(()=>card('<span style="color:#ff9ccb">March 30, 2020</span><br><br>Officially official. \u2665'),2.6);after(3.8,()=>{
   say([{n:'',t:'You sit there for a long while. Completely, totally content.'},{n:'Abigail',t:'Hunter?'},{n:'Hunter',t:'Mm?'},{n:'Abigail',t:'I love you.'},{n:'Hunter',t:'I love you too, Abigail.'}],()=>{lv.kiss=1;sfx('kiss');for(let i=0;i<4;i++)after(i*.4,()=>burst(49,58,'#ff5f9e'));
-   after(3.6,()=>phSay('official',[{n:'Morgan',t:'(from her room) IS IT OVER YET?!'},{n:'Hunter',t:"It's over, Morgan!"},{n:'Morgan',t:"FINALLY! I'm going to see my boyfriend! BYE!"},{n:'',t:'*the front door slams*'},
+   after(3.6,()=>phSay('official',[{n:'Morgan',t:'(from her room) IS IT OVER YET?!'},{n:'Hunter',t:"It's over, Morgan!"},{n:'Morgan',t:"FINALLY! I'm going to see my boyfriend! BYE!"}],()=>lvMorOut(()=>{shakeT=.45;sfx('slam');sfx('hit');say([{n:'',t:'*the front door slams*'},
     {n:'Abigail',t:'So... the uni closed the dorms. Classes are going online for the rest of the semester.'},{n:'Abigail',t:"I don't really have anywhere to go."},
     {n:'Hunter',t:'Well... I still live with my mom. Come stay with us.'},{n:'Abigail',t:'With you AND your mom?'},{n:'Hunter',t:"She'll love you. I promise."}],
-    chEnd2))})})})}
+    chEnd2)})))})})})}
 function chEnd2(){fadeTo(()=>{setLoc('newsbg');showHM=0;card('...and so began<br><br><span style="color:#ffd86b">life at Mom\'s house.</span>')},3.4);
  after(4.4,()=>{$('card').style.opacity=0;save.set(2);showEnd('CHAPTER 2<br>FOURTEEN DAYS','\u2665 Complete \u2665<br><br><small>Progress saved \u2713</small>','<button onclick="startCh3()">Chapter 3 \u25b6</button>')})}
 
@@ -3572,6 +3578,7 @@ const SFX={
  step:()=>nz(.05,.08,400,'lowpass'),
  creak:()=>tone(180,.35,'sawtooth',.06,120),
  slam:()=>{nz(.3,.4,400);tone(70,.3,'triangle',.3,40)},
+ latch:()=>{nz(.06,.14,450,'lowpass');tone(1100,.025,'square',.035,800,.05)},
  ring:()=>{for(let i=0;i<6;i++)tone(i%2?1320:1100,.06,'square',.04,0,i*.07)},
  dial:()=>{tone(440,.4,'sine',.05);tone(480,.4,'sine',.05)},
  coin:()=>{tone(988,.07,'square',.05);tone(1318,.16,'square',.05,0,.07)},
@@ -8863,7 +8870,7 @@ function update(dt){
  timers.forEach(q=>q.s-=dt);const due=timers.filter(q=>q.s<=0);timers=timers.filter(q=>q.s>0);due.forEach(q=>q.f());
  if(flash>0)flash=Math.max(0,flash-dt*1.2);if(kt>0)kt-=dt;
  if(mode==='mont'){mt+=dt;if(mt>5)nextMont()}else if(mode==='fish')fishUpdate(dt);else if(mode==='drive'||mode==='phone')driveUpdate(dt);
- c3Update(dt);c5Update(dt);c6Update(dt);c7Update(dt);c8Update(dt);epUpdate(dt);if((loc==='c3class'||loc==='c3grad')&&mom.tx!=null)mv(mom,dt);qxUpdate(dt);hxUpdate(dt);c4Update(dt);if(typeof hr!=='undefined'&&hr&&hr.wake){hr.wake.t+=dt;if(hr.wake.t>=1.45){const f=hr.wake.cb;hr.wake=null;f()}}if(lv&&lv.mw2&&lv.mw2.tx!=null)mv(lv.mw2,dt);if(lv&&lv.mw){mv(lv.mw,dt);if(lv.mw.tx==null){lv.mw=null;lv.mor=4;sfx('creak')}}tvUpdate(dt);musUpdate();if(loc==='kart')kartUpdate(dt);if(loc==='skee')skeeUpdate(dt);if(loc==='arcClaw')clawUpdate(dt);if(loc==='arcQuiz')quizUpdate(dt);if(loc==='arcFight')fightUpdate(dt);if(loc==='arcShoot')spUpdate(dt);if(loc==='arcRace')raceUpdate(dt);if(loc==='arcDance')danceUpdate(dt);if(loc==='kcdt'&&c6.gw)c6Girls(dt);if(loc==='steak'){if(c6.waiter)mv(waiter,dt);if(jay.tx!=null)mv(jay,dt)}if(nose&&mode==='nose')nose.m=Math.max(0,nose.m-dt*.32);if(nose)nose.pop=Math.max(0,nose.pop-dt*(nose.lv>=3?.6:1.1));noseFx(dt);if(shakeT>0)shakeT-=dt;
+ c3Update(dt);c5Update(dt);c6Update(dt);c7Update(dt);c8Update(dt);epUpdate(dt);if((loc==='c3class'||loc==='c3grad')&&mom.tx!=null)mv(mom,dt);qxUpdate(dt);hxUpdate(dt);c4Update(dt);if(typeof hr!=='undefined'&&hr&&hr.wake){hr.wake.t+=dt;if(hr.wake.t>=1.45){const f=hr.wake.cb;hr.wake=null;f()}}if(lv&&lv.mw2&&lv.mw2.tx!=null)mv(lv.mw2,dt);if(lv&&lv.mw){mv(lv.mw,dt);if(lv.mw.tx==null)lvMorIn()}tvUpdate(dt);musUpdate();if(loc==='kart')kartUpdate(dt);if(loc==='skee')skeeUpdate(dt);if(loc==='arcClaw')clawUpdate(dt);if(loc==='arcQuiz')quizUpdate(dt);if(loc==='arcFight')fightUpdate(dt);if(loc==='arcShoot')spUpdate(dt);if(loc==='arcRace')raceUpdate(dt);if(loc==='arcDance')danceUpdate(dt);if(loc==='kcdt'&&c6.gw)c6Girls(dt);if(loc==='steak'){if(c6.waiter)mv(waiter,dt);if(jay.tx!=null)mv(jay,dt)}if(nose&&mode==='nose')nose.m=Math.max(0,nose.m-dt*.32);if(nose)nose.pop=Math.max(0,nose.pop-dt*(nose.lv>=3?.6:1.1));noseFx(dt);if(shakeT>0)shakeT-=dt;
  if(loc!=='roof')wobT=sick&&(loc==='living'||loc==='entry')?.45:(loc==='trucks'&&tw&&tw.bleh)?.7:(loc==='church8'&&mode==='stand'&&c8.st)?c8.st.fa*1.3+(c8.st.ft>0?1.6:0):0;
  if(ndl&&mode==='needle'&&!ndl.done){ndl.t+=dt;const p=(ndl.t*165)%344;ndl.pos=p<172?p:344-p}
  if(swab){swab.t+=dt;if(swab.t>2.6&&!swab.d){swab.d=1;swabDone()}}
