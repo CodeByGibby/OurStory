@@ -195,7 +195,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.49</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.50</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -2924,11 +2924,24 @@ function vTrucks(t){const W2=tw||{};
  if(W2.bleh){const b=Math.floor(t*3)%2;bubble(Math.round(b?abi.x-8:hunter.x-8),Math.round(Math.min(abi.y,hunter.y)-36),'BLEGH','#3a9a2a')}}
 
 /* ---- peacocks ---- */
-function peacock(P,t){const x=Math.round(P.x),y=Math.round(P.y),d=P.dir;
- if(P.fan>0){for(let a=0;a<15;a++){const ang=Math.PI+a/14*Math.PI,len=14;for(let l=3;l<len;l++)r(x+Math.cos(ang)*l,y-6+Math.sin(ang)*l,1,1,l%3?'#2a9a5a':'#3aba6a');const ex=x+Math.cos(ang)*len,ey=y-6+Math.sin(ang)*len;r(ex-1,ey-1,3,3,'#d8b040');r(ex,ey,1,1,'#2a4ad8')}}
- else for(let i=0;i<11;i++){r(x-d*(3+i),y-3+Math.round(i*.15),1,2,'#2a8a4a');if(i%3==2){r(x-d*(3+i),y-3,1,1,'#2a4ad8')}}
- r(x-1,y-1,1,3,'#8a7a5a');r(x+1,y-1,1,3,'#8a7a5a');ell(x,y-4,3,3,'#2a5ad8');r(x-2,y-6,4,1,'#4a7af0');
- const hx=x+d*2;r(hx,y-11,2,6,'#2a5ad8');r(hx,y-12,2,2,'#2a5ad8');r(hx+d*2,y-11,1,1,'#e8c060');r(hx+(d>0?1:0),y-11,1,1,'#fff');r(hx,y-15,1,2,'#3a7af0');r(hx+1,y-15,1,1,'#3a7af0')}
+/* a peacock: iridescent blue body, bronze-barred wing, crest of tufts, white face stripe; a long eyed train that sways,
+   or, when he displays, a fan that unfolds into rings of eye-spots and shivers */
+function pkEye(x,y,big){x=Math.round(x);y=Math.round(y);if(big){r(x-1,y-1,3,3,'#c8a040');r(x,y-1,1,3,'#2ab0a0');r(x-1,y,3,1,'#2ab0a0');r(x,y,1,1,'#14206a')}else{r(x,y,2,2,'#c8a040');r(x,y,1,1,'#1a3a9a')}}
+function peacock(P,t){const x=Math.round(P.x),y=Math.round(P.y),d=P.dir||1,mv=P.tx!=null&&Math.hypot((P.tx||0)-P.x,(P.ty||0)-P.y)>.6,bob=mv?Math.floor(t*8+x)%2:0;
+ const F=P.fan||0;if(F>0&&(P.f0==null||F>P.f0+.05))P.f0=F;if(F<=0)P.f0=null;const o=F>0?Math.min(1,(P.f0-F)/.35,F/.35):0;
+ if(o>0){// the display: semicircle of quills, two rings of eyes, a fringe, shimmering
+  const cy=y-7,R=Math.round(10+7*o),sp=Math.PI*o,a0=-Math.PI/2-sp/2*1.05,sh=Math.sin(t*28)*.03*o;
+  for(let a=0;a<=44;a++){const ang=a0+a/44*sp*1.05+sh,fe=Math.floor(a/4)%2,qu=a%4===0;for(let l=3;l<=R;l++){const px=x+Math.cos(ang)*l,py=cy+Math.sin(ang)*l,q=l/R;let c=q<.35?'#6a7a3a':q<.7?(fe?'#2a9a5a':'#24905a'):(fe?'#3aaa6a':'#34a266');if(qu&&l<R-1)c='#1a6a40';if(l>=R-1)c=fe?'#a8dc84':'#94d074';r(Math.round(px),Math.round(py),1,1,c)}}
+  for(let a=0;a<=10;a++){const ang=a0+a/10*sp*1.05+sh;pkEye(x+Math.cos(ang)*(R-2),cy+Math.sin(ang)*(R-2),1)}
+  for(let a=0;a<=7;a++){const ang=a0+(a+.5)/8*sp*1.05+sh;pkEye(x+Math.cos(ang)*(R*.62),cy+Math.sin(ang)*(R*.62),0)}
+  if(o>=1&&Math.floor(t*6)%3===0){const ang=a0+((t*3)%1)*sp,l=R*.8;r(Math.round(x+Math.cos(ang)*l),Math.round(cy+Math.sin(ang)*l),1,1,'#ffffff')}}
+ else{// train trailing behind, gently swaying, with eye-spots
+  for(let i=0;i<17;i++){const tx2=x-d*(3+i),ty=y-3+Math.round(i*.18)+Math.round(Math.sin(t*2+i*.4)*.4*(i/16)),th=i<6?3:i<12?2:1;r(tx2,ty,1,th,i>12?'#8a7a2a':i%2?'#1f7a4a':'#2a8a4a');if(i%4===3)pkEye(tx2-(d>0?1:0),ty,0)}}
+ r(x-1,y-1+bob,1,3-bob,'#8a7a5a');r(x+1,y-1+(1-bob),1,2+bob,'#8a7a5a');
+ ell(x,y-4,3,3,'#1e4fc8');r(x-2,y-6,4,1,'#4a8af0');r(x-d*2,y-5,3,3,'#b8a06a');r(x-d*2,y-4,3,1,'#8a6a3a');
+ const hx=x+d*2;r(hx,y-11,2,6,'#1e4fc8');r(hx+(d>0?1:0),y-11,1,5,'#3a78f0');r(hx,y-13,2,2,'#2a5ad8');
+ r(hx+(d>0?1:0),y-12,1,1,'#ffffff');r(hx+(d>0?2:-1),y-12,1,1,'#d8c8a0');r(hx+(d>0?1:0),y-12,1,1,'#ffffff');r(hx+(d>0?0:1),y-12,1,1,'#14206a');
+ [[-1,-17],[0,-18],[1,-17]].forEach(([cx2,cy2],i)=>{r(hx+cx2+(d>0?1:0),y+cy2+2,1,2,'#3a6ac0');r(hx+cx2+(d>0?1:0),y+cy2+1,1,1,'#2ab0e0')})}
 function peaUpdate(dt){if(!pea)return;pea.b.forEach((p,i)=>{if(p.fan>0){p.fan-=dt;return}if(pea.ch&&pea.ch.i===i)return;p.w-=dt;if(p.w<=0){p.w=1.5+Math.random()*2;p.tx=Math.max(10,Math.min(70,p.x+(Math.random()-.5)*30));p.ty=Math.max(92,Math.min(126,p.y+(Math.random()-.5)*16))}
  const dx=p.tx-p.x,dy=p.ty-p.y,d=Math.hypot(dx,dy);if(d>.5){p.x+=dx/d*8*dt;p.y+=dy/d*8*dt;p.dir=dx<0?-1:1}})}
 /* ---- the hill up Mount Bonnell (side-scroller) ---- */
@@ -3683,13 +3696,52 @@ function peaItems(){const I=[];I.push(...c4CamItem('pea',24,108));
  I.push({id:'abi',x:abi.x-6,y:abi.y-22,w:12,h:24,spot:[abi.x+(abi.x<hunter.x?10:-10),abi.y],face:abi.x<hunter.x?'l':'r',lines:[[{n:'Abigail',t:'I think the peacocks like you.'},{n:'Hunter',t:'One of them DEFINITELY does not.'}],[{n:'Abigail',t:'Best. Detour. EVER.'}]]});
  I.push({id:'flowers',x:30,y:80,w:14,h:10,spot:[38,92],face:'u',lines:[{n:'Hunter',t:'(Wildflowers everywhere. Abigail stopped to smell every single one.)'}]});return I}
 function vPea(t){
- for(let y=0;y<60;y+=3){const k=y/60;r(0,y,80,3,`rgb(${150+k*60|0},${200+k*20|0},${240-k*30|0})`)}
- for(let x=-4;x<84;x+=12)disc(x,62,12,'#3a7a3a',1);for(let x=2;x<84;x+=12)disc(x,56,8,'#4a8a44',1);
- r(0,70,80,8,'#b8a888');for(let x=0;x<80;x+=8)for(let y=70;y<78;y+=4)r(x+((y/4)%2)*4,y,1,4,'#9a8a6a');r(0,70,80,1,'#d8c8a8');
- r(0,78,80,66,'#6aa84a');for(let i=0;i<80;i++)r(stars[i].x%80,80+(stars[i].y%62),2,1,i%2?'#5a9a3a':'#7ab85a');
- [[8,86],[70,90],[38,84]].forEach(([x,y])=>{disc(x,y,3,'#ff7eb6',1);disc(x+3,y+1,2,'#ffd86b',1);disc(x-3,y+1,2,'#b78cff',1)});
- r(60,40,4,40,'#6a4a2a');disc(62,34,12,'#3a7a3a',1);disc(56,38,7,'#4a8a44',1);
+ // warm afternoon sky, sun glow, wisps of cloud
+ for(let y=0;y<60;y+=2){const k=y/60;r(0,y,80,2,`rgb(${Math.round(132+k*120)},${Math.round(196+k*30)},${Math.round(236-k*60)})`)}
+ chGlow(68,8,40,'#fff0c0',.35);chGlow(68,8,14,'#fffbe8',.5);
+ [[0,10,8],[40,18,6]].forEach(([o,y,w])=>{const x=((t*1.2+o)%110)-15;ell(x,y,w,1,'#fff',.6);ell(x+4,y+1,w-2,1,'#fff',.45)});
+ // hazy Hill Country beyond
+ for(let x=0;x<80;x++){const h=Math.round(50+Math.sin(x*.07+1)*3+Math.sin(x*.19)*1.5);r(x,h,1,62-h,'#9cbcae')}for(let x=0;x<80;x++){const h=Math.round(55+Math.sin(x*.05+4)*2);r(x,h,1,62-h,'#86aa98')}
+ // the pavilion: turquoise dome, white columns, lanterns glowing in the arches
+ r(24,58,32,8,'#e8dcc4');r(24,58,32,1,'#fff6e4');r(24,65,32,1,'#c8b898');
+ r(26,44,28,14,'#2e4a4a');for(let i=0;i<4;i++){const cx2=27+i*8;r(cx2,44,2,14,'#f4ecdc');r(cx2+1,44,1,14,'#d8ccb4')}
+ [[29,6],[37,6],[45,6]].forEach(([ax,w])=>{for(let i=0;i<3;i++)r(ax+i,44+2-i,w-i*2,1,'#f4ecdc')});
+ [[32,49],[40,49],[48,49]].forEach(([lx,ly],i)=>{const fl=.8+.2*Math.sin(t*6+i*2);r(lx,45,1,ly-45,'#8a7a5a');r(lx-1,ly,3,3,'#e8a030');r(lx,ly+1,1,1,'#fff0b0');chGlow(lx,ly+1,6,'#ffc060',.35*fl)});
+ r(24,41,32,3,'#f4ecdc');r(24,41,32,1,'#ffffff');r(24,43,32,1,'#c8b898');for(let x=25;x<56;x+=3)r(x,42,1,1,'#2aa8a0');
+ r(26,39,28,2,'#e8dcc4');r(26,39,28,1,'#fff6e4');// drum under the dome
+ for(let y=0;y<15;y++){const q=y/14,w=Math.round(y<11?12*Math.sqrt(Math.max(0,1-Math.pow((11-y)/11,2)))*(.55+.45*Math.min(1,y/4)):12-(y-10)*.8);if(w>0){r(40-w,24+y,w*2,1,'#2aa8a0');r(40-w,24+y,Math.max(1,Math.round(w*.3)),1,'#5ad0c0');r(40+w-Math.max(1,Math.round(w*.25)),24+y,Math.max(1,Math.round(w*.25)),1,'#1e8a84');if(y%4===2)r(40-w+1,24+y,w*2-2,1,'#26a098')}}
+ r(40,18,1,6,'#d8b040');disc(40,19,1,'#ffd860',1);r(39,23,3,1,'#d8b040');
+ // live oaks framing the garden, Spanish moss stirring
+ [[6,62,-1],[74,62,1]].forEach(([tx,ty,s2])=>{r(tx-1,30,3,ty-30,'#5a4430');r(tx+s2*2,36,2,10,'#5a4430');r(tx-s2*3,40,2,8,'#5a4430');
+  [[0,22,14],[s2*-10,28,10],[s2*8,30,9],[s2*-4,16,10]].forEach(([dx,dy,rr])=>{disc(tx+dx,dy,rr,'#2e6a3a',1)});[[0,19,8],[s2*-9,25,6],[s2*7,27,5]].forEach(([dx,dy,rr])=>disc(tx+dx,dy,rr,'#3e823e',1));
+  for(let i=0;i<6;i++){const mx=tx+s2*(-12+i*4),my=30+(i%3)*3,len=5+(i*7)%6,sw=Math.round(Math.sin(t*1.3+i)*1);for(let q=0;q<len;q++)r(mx+(q>len/2?sw:0),my+q,1,1,q%2?'#9aa88a':'#b8c4a4')}});
+ // soft light shafts through the trees
+ cx.globalCompositeOperation='lighter';for(let i=0;i<4;i++){const x0=58-i*14+Math.sin(t*.3+i)*2;for(let y=0;y<144;y+=2){cx.globalAlpha=.03*(1-y/160);r(Math.round(x0-y*.45),y,5,2,'#fff4c8')}}cx.globalAlpha=1;cx.globalCompositeOperation='source-over';
+ // the garden wall: cream stone, a mosaic band of teal and gold, cap stones
+ r(0,64,80,14,'#e6d8bc');for(let x=0;x<80;x+=8)r(x,64,1,14,'#cfc0a0');r(0,64,80,2,'#f6ead2');r(0,63,80,1,'#c8b898');
+ for(let x=0;x<80;x+=4){const c=(x/4)%2?'#2aa8a0':'#d8b040';r(x+1,69,2,1,c);r(x,70,4,1,c);r(x+1,71,2,1,c)}r(0,68,80,1,'#b8a884');r(0,72,80,1,'#b8a884');r(0,77,80,1,'#b8a884');
+ // a peacock perched on the wall, his train spilling down over the stone
+ {const px=63,py=63;// train cascades down the wall face from his rump, curving out a little and swaying
+  for(let i=0;i<18;i++){const sw=Math.round(Math.sin(t*1.4+i*.3)*(i/17)*1.5),cxp=px-4-Math.round(i*.35)+sw,w=i<4?4:i<10?3:i<15?2:1;r(cxp-(w>>1),py-1+i,w,1,i>14?'#8a7a2a':i%2?'#1f7a4a':'#2a8a4a');if(i%4===3)pkEye(cxp-1,py-1+i,0)}
+  r(px-1,py-1,1,2,'#8a7a5a');r(px+1,py-1,1,2,'#8a7a5a');ell(px,py-3,4,2,'#1e4fc8');r(px-3,py-5,6,1,'#4a8af0');r(px-3,py-3,3,2,'#b8a06a');
+  r(px+3,py-9,2,5,'#1e4fc8');r(px+4,py-9,1,4,'#3a78f0');r(px+3,py-11,2,2,'#2a5ad8');r(px+4,py-11,1,1,'#fff');r(px+5,py-10,1,1,'#d8c8a0');r(px+4,py-10,1,1,'#14206a');[[0,-15],[1,-16],[2,-15]].forEach(([a,b])=>{r(px+a+3,py+b+2,1,2,'#3a6ac0');r(px+a+3,py+b+1,1,1,'#2ab0e0')})}
+ // the lawn: mowing stripes, dappled light drifting, a flagstone path to the pavilion
+ r(0,78,80,66,'#5ea444');for(let i=0;i<8;i++){for(let y=78;y<144;y++){const x=Math.round(i*12-(y-78)*.35);r(x,y,6,1,'#66ae4a')}}
+ for(let i=0;i<60;i++){const x=(i*37+5)%80,y=80+(i*23)%62;r(x,y,1,2,i%2?'#4e9238':'#78c05a')}
+ [[18,100,7],[56,92,6],[44,124,8],[10,130,5],[66,116,6]].forEach(([x,y,rr],i)=>{const dx=Math.sin(t*.4+i)*2;ell(x+dx,y,rr,rr*.45,'#8ad06a',.35)});
+ [[40,80,6],[39,86,7],[41,93,7],[40,101,8],[38,110,8],[40,120,9]].forEach(([x,y,w])=>{ell(x,y,w,1.6,'#d8ccb0',1);ell(x,y-.5,w-1,1,'#ece2cc',1)});
+ // flower beds along the wall: bluebonnets, Indian paintbrush and pink primrose
+ for(let i=0;i<30;i++){const x=(i*11+3)%80,y=79+(i*5)%6;if(x>33&&x<47)continue;const k=i%3;r(x,y,1,3,'#3a7a3a');if(k===0){r(x-1,y-2,2,2,'#2a40c0');r(x,y-3,1,1,'#fff')}else if(k===1){r(x,y-2,1,2,'#e8582a');r(x-1,y-1,1,1,'#ff7a3a')}else{r(x-1,y-1,3,1,'#ff9ccb');r(x,y-2,1,1,'#ffe0ec')}}
+ // a fallen feather on the grass
+ {const fx=58,fy=134;for(let i=0;i<10;i++)r(fx+i,fy-Math.round(i*.3),1,1,'#c8b890');for(let i=2;i<9;i++){r(fx+i,fy-Math.round(i*.3)-1,1,1,'#2a8a4a');r(fx+i,fy-Math.round(i*.3)+1,1,1,'#2a8a4a')}pkEye(fx+9,fy-3,1)}
+ // butterflies and drifting seeds in the light
+ for(let j=0;j<2;j++){const bx=20+j*36+Math.sin(t*.7+j*2)*10,by=88+j*20+Math.sin(t*1.9+j)*5,f=Math.floor(t*10+j)%2;r(bx-1-(f?0:1),by,f?1:2,2,j?'#ff9ccb':'#ffb030');r(bx+1,by,f?1:2,2,j?'#ff9ccb':'#ffb030');r(bx,by,1,2,'#2a1a10')}
+ for(let i=0;i<6;i++){const k=((t*.05+i/6)%1),x=(i*29+k*40)%80,y=140-k*110+Math.sin(t+i)*3;cx.globalAlpha=Math.sin(k*Math.PI)*.8;r(Math.round(x),Math.round(y),1,1,'#fffbe8');cx.globalAlpha=1}
  const D=[];if(pea)pea.b.forEach(p=>D.push({y:p.y,f:()=>peacock(p,t)}));[abi,hunter].forEach(p=>D.push({y:p.y,f:()=>person(p,t)}));D.sort((a,b)=>a.y-b.y).forEach(d=>d.f());
+ // displays throw off a few iridescent sparkles
+ if(pea)pea.b.forEach((p,i)=>{if(p.fan>0){for(let q=0;q<3;q++){const k=((t*1.2+q/3+i*.3)%1),a=-Math.PI/2+(q-1)*.8+Math.sin(t+q)*.3,l=12+k*10;cx.globalAlpha=1-k;r(Math.round(p.x+Math.cos(a)*l),Math.round(p.y-7+Math.sin(a)*l),1,1,q%2?'#7ee8fa':'#ffe680');cx.globalAlpha=1}}});
+ // leaves overhanging the top corners frame the view
+ [[0,0,1],[80,0,-1]].forEach(([x,y,s2])=>{for(let i=0;i<7;i++){const lx=x+s2*(i*3),ly=y+((i*5)%9)+Math.round(Math.sin(t*1.1+i)*.6);ell(lx,ly,4,2,i%2?'#24582e':'#2e6a3a',1)}});
  if(pea&&pea.ch&&Math.floor(t*6)%2){const p=pea.b[pea.ch.i];bubble(Math.round(p.x)-3,Math.round(p.y)-27,'!','#e0463c')}
  hxDraw(t)}
 
