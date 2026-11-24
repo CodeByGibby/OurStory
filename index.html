@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.63</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.64</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1476,7 +1476,7 @@ function kartUse(){const k=kart,me=k.me;if(!k.item||k.roll>0||me.done)return;con
  else if(it=='oil'){k.oil.push({s:me.s-14,x:me.x,by:me});kMsg('Oil slick dropped!')}
  else{me.boost=1.6;kMsg('BOOST!')}}
 function kartInput(x,y,down){const k=kart;if(!k||mode!=='kart')return;
- if(down&&x>=62&&x<=98&&y>=244&&y<=280){kartUse();return}
+ if(down&&x>=62&&x<=98&&y>=246&&y<=286){kartUse();return}
  kHeld=down;k.steer=down?(x<80?-1:1):0}
 let kRaced=0;
 function kartFinish(){sfx(kart.place==1?'win':'lose');const k=kart,place=k.place,beatH=k.R[1].s<k.me.s||!k.R[1].done;k.fin=1;k.final=place;setHud('');if(!kRaced){kRaced=1;addH(1)}
@@ -1491,31 +1491,74 @@ function kartSpr(x,y,col,hair,spin){x=Math.round(x);y=Math.round(y);
  r(x-8,y-6,3,5,'#222');r(x+5,y-6,3,5,'#222');r(x-8,y+2,3,5,'#222');r(x+5,y+2,3,5,'#222');
  disc(x,y,3,hair,1);r(x-2,y-6,4,2,'#cfe8ff')}
 function itemIcon(it,x,y){if(it=='balloon'){disc(x,y,5,'#3a9af0',1);r(x-2,y-3,2,2,'#bfe6ff');r(x,y+5,1,3,'#fff')}else if(it=='oil'){ell(x,y+2,7,3,'#111');ell(x-1,y+1,3,1,'#6a4ae0')}else{r(x-1,y-6,4,5,'#ffd86b');r(x-4,y-2,7,2,'#ffd86b');r(x-2,y,4,6,'#ffd86b')}}
-const KSM=KL+600;let KT=null;
-function buildKT(){KT=document.createElement('canvas');KT.width=W;KT.height=KSM+121;const m=cx;cx=KT.getContext('2d');
- for(let row=0;row<KT.height;row++){const s=KSM-row,c=kc(s),h=KW/2,band=Math.floor(s/16)&1,y=row;
-  r(0,y,W,1,band?'#4a9a44':'#43903e');r(c-h-4,y,4,1,band?'#d8352f':'#f4f4f8');r(c+h,y,4,1,band?'#d8352f':'#f4f4f8');r(c-h,y,KW,1,band?'#5c5c68':'#585862');
-  if((Math.floor(s/22)&1)&&s>0&&s<KL)r(c-1,y,2,1,'#e8e8f0');
-  if((s>-4&&s<4)||(s>KL-6&&s<KL+6))for(let i=0;i<KW;i+=4)r(c-h+i,y,4,1,((i/4)+Math.floor(s/2))&1?'#fff':'#111')}
- for(let s0=-90;s0<KSM;s0+=45){const y=KSM-s0,side=(Math.abs(s0/45)&1)?-1:1,x=kc(s0)+side*(KW/2+16+(Math.abs(s0*7)%16));
-  if(Math.abs(s0/45)%3==0){r(x-1,y,3,6,'#6a4a2a');disc(x,y-2,7,'#2f7a3a',1);disc(x-2,y-4,4,'#3f9a4a',1)}else{disc(x,y,4,'#3a8a3a',1);r(x-1,y-2,2,2,['#ff7eb6','#ffd86b','#fff'][Math.abs(s0)%3])}}
- cx=m}
-function vKart(t){const k=kart;if(!k){r(0,0,W,H,'#000');return}const me=k.me;
- if(!KT)buildKT();cx.drawImage(KT,0,Math.max(0,Math.min(KT.height-H,KSM-me.s-KPY))|0,W,H,0,0,W,H);
- k.boxes.forEach(b=>{if(b.taken)return;const y=KPY-(b.s-me.s);if(y<-10||y>H+10)return;const x=kc(b.s)+b.o,bb=Math.round(Math.sin(t*5+b.o)*1.5);
-  r(x-5,y-5+bb,10,10,'#111');r(x-4,y-4+bb,8,8,'#ffd86b');r(x-1,y-4+bb,2,8,'#ff5f9e');r(x-4,y-1+bb,8,2,'#ff5f9e');r(x-4,y-4+bb,8,1,'#fff6c0')});
- k.oil.forEach(o=>{const y=KPY-(o.s-me.s);ell(o.x,y,8,3,'#111');ell(o.x-2,y-1,3,1,'#6a4ae0')});
- [...k.R].sort((a,b)=>b.s-a.s).forEach(r2=>{const y=KPY-(r2.s-me.s);if(y<-20||y>H+20)return;kartSpr(r2.x,y,r2.col,r2.p.hair,r2.spin);
-  if(r2.boost>0){cx.globalAlpha=.7;r(r2.x-3,y+9,2,4+((t*30)|0)%4,'#ffb040');r(r2.x+1,y+9,2,4+((t*30+2)|0)%4,'#ffd86b');cx.globalAlpha=1}
-  if(r2.n==='Hunter')txt('HUNTER',r2.x-11,y-17,'#fff',1);else if(r2.n==='Morgan')txt('MORGAN',r2.x-11,y-17,'#e8c8ff',1);else if(r2.me){r(r2.x-1,y-14,3,3,'#ffd86b');r(r2.x,y-11,1,1,'#ffd86b')}});
- k.proj.forEach(p=>{const y=KPY-(p.s-me.s);disc(p.x,y,3,'#3a9af0',1);r(p.x-1,y-2,1,1,'#fff')});
+/* ---- the race, seen from just behind your kart (Mode-7 style, like the SNES/Switch Mario Karts): the ground is
+   drawn pixel by pixel in perspective, everything standing on it is a scaled pixel sprite. The race itself (positions,
+   items, AI) is unchanged; only how it is drawn. ---- */
+const KF=160,KHZ=100,KCH=40,KCD=64,KC0=-400,KCN=KL+1400;let KCT=null,KGC=null,KGI=null,KGU=null,KSP={},KCAM=null;
+function kcT(s){if(!KCT){KCT=new Float32Array(KCN-KC0+2);for(let i=0;i<KCT.length;i++)KCT[i]=kc(i+KC0)}const i=s-KC0;if(i<=0)return KCT[0];if(i>=KCT.length-1)return KCT[KCT.length-1];const f=i|0,q=i-f;return KCT[f]+(KCT[f+1]-KCT[f])*q}
+const kSlope=s=>(kcT(s+6)-kcT(s-6))/12;
+function kCol(h){const n=parseInt(h.slice(1),16);return (255<<24)|((n&255)<<16)|(((n>>8)&255)<<8)|(n>>16)}
+const KGP={g1:kCol('#4a9a44'),g2:kCol('#43903e'),a1:kCol('#5c5c68'),a2:kCol('#56565f'),cr:kCol('#d8352f'),cw:kCol('#f4f4f8'),ln:kCol('#e8e8f0'),bk:kCol('#16161c'),wh:kCol('#fbfbff'),hz:kCol('#a8d8a0'),sh:kCol('#3e8a3a'),dt:kCol('#6a9a4a')};
+function kSpr(key,w,h,fn){if(KSP[key])return KSP[key];const c=document.createElement('canvas');c.width=w;c.height=h;const m=cx;cx=c.getContext('2d');cx.imageSmoothingEnabled=false;try{fn()}finally{cx=m}return KSP[key]=c}
+/* a kart from behind: big rear tyres, the back panel in the racer's colour, the driver's hair and shoulders */
+function kartBack(col,hair,top,fr){return kSpr('k'+col+hair+fr,24,18,()=>{const d=sh(col,.62),l=sh(col,1.35);
+ if(fr==='s'){r(1,8,22,6,'#111');r(2,9,20,4,col);r(2,9,20,1,l);r(3,13,5,5,'#1a1a20');r(16,13,5,5,'#1a1a20');r(4,14,3,3,'#555');r(17,14,3,3,'#555');disc(12,6,3,hair,1);r(9,8,6,2,top);return}
+ const o=fr==='l'?-1:fr==='r'?1:0;
+ if(o){r(o<0?1:20,6,3,4,'#1a1a20')}// front wheel peeking out on the turn
+ r(0,9,6,9,'#111');r(18,9,6,9,'#111');r(1,10,4,7,'#2a2a30');r(19,10,4,7,'#2a2a30');for(let y=11;y<17;y+=2){r(1,y,4,1,'#3e3e46');r(19,y,4,1,'#3e3e46')}
+ r(5,8,14,8,'#111');r(6,9,12,6,col);r(6,9,12,1,l);r(6,14,12,1,d);r(8,15,2,2,'#8a8a96');r(14,15,2,2,'#8a8a96');r(8,16,2,1,'#2a2a30');r(14,16,2,1,'#2a2a30');
+ r(3,7,18,2,'#111');r(4,7,16,1,d);
+ r(8+o,3,8,5,'#111');r(9+o,4,6,4,top);disc(12+o,3,3,'#111',1);disc(12+o,3,2,hair,1);r(10+o,1,4,2,hair)})}
+function kTree(){return kSpr('tree',16,22,()=>{r(7,14,3,8,'#6a4a2a');r(7,14,1,8,'#7a5a3a');disc(8,8,7,'#2f7a3a',1);disc(6,6,4,'#3f9a4a',1);disc(10,9,3,'#2a6a32',1);r(5,4,1,1,'#5ab85a')})}
+function kBush(c){return kSpr('bush'+c,10,7,()=>{disc(5,4,4,'#3a8a3a',1);disc(3,3,2,'#4aa04a',1);r(4,2,2,2,c);r(7,4,1,1,c)})}
+function kBoxSpr(f){return kSpr('box'+f,12,12,()=>{r(0,0,12,12,'#111');r(1,1,10,10,f?'#ffe58a':'#ffd86b');r(1,1,10,1,'#fff6c0');r(5,1,2,10,'#ff5f9e');r(1,5,10,2,'#ff5f9e');if(f)r(2,2,2,2,'#fff')})}
+/* project a spot on the track (lateral x, distance s, height h) to the screen */
+function kProj(x,s,h){const C=KCAM,dx=x-C.x,dz=s-C.z,rx=dx*C.c-dz*C.s,rz=dx*C.s+dz*C.c;if(rz<6)return null;const k=KF/rz;return {x:80+rx*k,y:KHZ+(KCH-(h||0))*k,k,rz}}
+function kGround(t){const n=H-KHZ;if(!KGC||KGC.height!==n){KGC=document.createElement('canvas');KGC.width=W;KGC.height=n;KGI=KGC.getContext('2d').createImageData(W,n);KGU=new Uint32Array(KGI.data.buffer)}
+ const C=KCAM,P=KGP,hw=KW/2;for(let j=0;j<n;j++){const rz=KCH*KF/(j+.5),fog=rz>520?Math.min(1,(rz-520)/600):0,step=rz/KF;
+  const bx=C.x+rz*C.s,bz=C.z+rz*C.c,ux=C.c*step,uz=-C.s*step;let wx=bx+(-80+.5)*ux,ws=bz+(-80+.5)*uz,o=j*W;
+  for(let i=0;i<W;i++,wx+=ux,ws+=uz){let col;const d=wx-kcT(ws),ad=d<0?-d:d,band=(Math.floor(ws/16)&1);
+   if(ad<hw){if((ws>-4&&ws<4)||(ws>KL-6&&ws<KL+6))col=((Math.floor((d+hw)/4)+Math.floor(ws/3))&1)?P.wh:P.bk;
+    else if(ad<1.2&&(Math.floor(ws/22)&1)&&ws>0&&ws<KL)col=P.ln;else col=band?P.a1:P.a2}
+   else if(ad<hw+4)col=band?P.cr:P.cw;else col=ad<hw+7?P.sh:(Math.floor(ws/24+wx/40)&1)?P.g1:P.g2;
+   if(fog>0&&((i+j)&3)<fog*4)col=P.hz;KGU[o+i]=col}}
+ KGC.getContext('2d').putImageData(KGI,0,0);cx.drawImage(KGC,0,KHZ)}
+function kSky(t,th){const g=cx.createLinearGradient(0,0,0,KHZ);g.addColorStop(0,'#6ab8f0');g.addColorStop(1,'#cfeefe');cx.fillStyle=g;cx.fillRect(0,0,W,KHZ);
+ const off=th*172;// the scenery slides as the road bends
+ for(let i=0;i<5;i++){const x=Math.round(((i*61-off*.3+t*2)%260+260)%260-50),y=18+(i*23)%40;disc(x,y,6,'#fff',1);disc(x+7,y+1,5,'#fff',1);disc(x-6,y+2,4,'#f4fbff',1);r(x-9,y+3,22,3,'#fff')}
+ for(let x=-2;x<W+2;x++){const q=x+off*.6,hh=Math.round(18+10*Math.sin(q*.045)+6*Math.sin(q*.11+1));r(x,KHZ-hh,1,hh,'#8aa8d8');r(x,KHZ-hh,1,1,'#b8cce8')}
+ for(let x=-2;x<W+2;x++){const q=x+off,hh=Math.round(8+5*Math.sin(q*.07+2)+3*Math.sin(q*.19));r(x,KHZ-hh,1,hh,'#4a9a5a');r(x,KHZ-hh,1,1,'#6ab86a')}}
+const KDEC=(()=>{const L=[];for(let s0=-90;s0<KL+600;s0+=45){const side=(Math.abs(s0/45)&1)?-1:1,x=kc(s0)+side*(KW/2+16+(Math.abs(s0*7)%16));L.push({s:s0,x,t:Math.abs(s0/45)%3==0?'tree':'bush',c:['#ff7eb6','#ffd86b','#fff'][Math.abs(s0)%3]})}
+ for(let s0=20;s0<KL+600;s0+=70){[-1,1].forEach(sd=>L.push({s:s0+sd*17,x:kc(s0+sd*17)+sd*(KW/2+34+(s0*3%20)),t:'tree'}))}return L})();
+function kDraw(img,p,w,h){const W2=Math.max(1,Math.round(w*p.k)),H2=Math.max(1,Math.round(h*p.k));cx.drawImage(img,Math.round(p.x-W2/2),Math.round(p.y-H2),W2,H2)}
+function vKart(t){const k=kart;if(!k){r(0,0,W,H,'#000');return}const me=k.me;cx.imageSmoothingEnabled=false;
+ // camera: a little way behind the kart, turned to follow the road
+ const th0=Math.atan(kSlope(me.s+30));if(!KCAM||KCAM.k!==k)KCAM={k,th:th0,x:me.x,z:me.s};const C=KCAM;C.th+=(th0-C.th)*.12;C.s=Math.sin(C.th);C.c=Math.cos(C.th);
+ C.x+=((me.x-KCD*C.s)-C.x)*.35;C.z=me.s-KCD*C.c;
+ kSky(t,C.th);kGround(t);
+ const D=[];
+ KDEC.forEach(d=>{const p=kProj(d.x,d.s,0);if(!p||p.rz>900||p.x<-60||p.x>W+60)return;const fa=Math.max(0,Math.min(1,(p.rz-14)/(KCD-14)));if(fa<=0)return;// scenery passing the camera fades out instead of blocking your kart
+  D.push({z:p.rz,f:()=>{cx.globalAlpha=fa;d.t==='tree'?kDraw(kTree(),p,16,22):kDraw(kBush(d.c),p,10,7);cx.globalAlpha=1}})});
+ k.boxes.forEach(b=>{if(b.taken)return;const bb=Math.sin(t*5+b.o)*1.5,p=kProj(kc(b.s)+b.o,b.s,4+bb);if(!p||p.rz>700)return;D.push({z:p.rz,f:()=>{const q=kProj(kc(b.s)+b.o,b.s,0);if(q){cx.globalAlpha=.3;r(Math.round(q.x-4*q.k),Math.round(q.y-1),Math.max(1,Math.round(8*q.k)),Math.max(1,Math.round(2*q.k)),'#000');cx.globalAlpha=1}kDraw(kBoxSpr(Math.floor(t*4+b.o)&1),p,9,9)}})});
+ k.oil.forEach(o=>{const p=kProj(o.x,o.s,0);if(!p)return;D.push({z:p.rz+1,f:()=>{const w=Math.max(2,Math.round(16*p.k)),h=Math.max(1,Math.round(5*p.k));ell(Math.round(p.x),Math.round(p.y-h/2),w/2,h/2,'#111',1);ell(Math.round(p.x-w/6),Math.round(p.y-h/2-1),Math.max(1,w/6),1,'#6a4ae0',1)}})});
+ {const f=[kProj(kc(KL)-KW/2-5,KL,0),kProj(kc(KL)+KW/2+5,KL,0),kProj(kc(KL)-KW/2-5,KL,30),kProj(kc(KL)+KW/2+5,KL,30)];if(f.every(Boolean)&&f[0].rz<900)D.push({z:f[0].rz,f:()=>{const pw=Math.max(1,Math.round(2*f[0].k));r(Math.round(f[0].x)-pw,Math.round(f[2].y),pw*2,Math.round(f[0].y-f[2].y),'#e8e8f0');r(Math.round(f[1].x)-pw,Math.round(f[3].y),pw*2,Math.round(f[1].y-f[3].y),'#e8e8f0');
+  const bh=Math.max(2,Math.round(7*f[0].k)),x0=Math.round(f[2].x),x1=Math.round(f[3].x),y0=Math.round(f[2].y);for(let x=x0;x<x1;x+=Math.max(1,Math.round(3*f[0].k)))r(x,y0,Math.max(1,Math.round(3*f[0].k)),bh,((x-x0)/Math.max(1,Math.round(3*f[0].k))|0)&1?'#111':'#fff');if(f[0].k>.25)txt('FINISH',Math.round((x0+x1)/2)-11,y0+bh+2,'#ffd86b',1)}})}
+ k.R.forEach(r2=>{const p=kProj(r2.x,r2.s,0);if(!p||p.rz>1000)return;const vx=r2.x-(r2.px!=null?r2.px:r2.x);r2.px=r2.x;const fr=r2.spin>0?(Math.floor(r2.spin*14)%2?'s':'c'):(r2.me?(k.steer<-.25?'l':k.steer>.25?'r':'c'):(vx<-.25?'l':vx>.25?'r':'c'));
+  D.push({z:p.rz,f:()=>{const bob=r2.v>20&&Math.floor(t*12+r2.s)%2?1:0;ell(Math.round(p.x),Math.round(p.y-1),Math.max(2,Math.round(9*p.k)),Math.max(1,Math.round(1.6*p.k)),'#000',.22);
+   kDraw(kartBack(r2.col,r2.p.hair||'#3a2a20',r2.p.top||sh(r2.col,1.2),fr),{x:p.x,y:p.y-bob,k:p.k},12,9);
+   if(r2.boost>0){cx.globalAlpha=.8;const fl=1+((t*30)|0)%3;r(Math.round(p.x-3*p.k),Math.round(p.y-2*p.k),Math.max(1,Math.round(2*p.k)),Math.max(1,Math.round(fl*p.k)),'#ffb040');r(Math.round(p.x+1*p.k),Math.round(p.y-2*p.k),Math.max(1,Math.round(2*p.k)),Math.max(1,Math.round(fl*p.k)),'#ffd86b');cx.globalAlpha=1}
+   if(!r2.me&&p.k>.35&&(r2.n==='Hunter'||r2.n==='Morgan'))txt(r2.n.toUpperCase(),Math.round(p.x)-11,Math.round(p.y-11*p.k)-7,r2.n==='Hunter'?'#fff':'#e8c8ff',1)}})});
+ k.proj.forEach(q=>{const p=kProj(q.x,q.s,5);if(!p)return;D.push({z:p.rz-.5,f:()=>{const rr=Math.max(1,Math.round(2.6*p.k));disc(Math.round(p.x),Math.round(p.y),rr,'#3a9af0',1);r(Math.round(p.x-rr/2),Math.round(p.y-rr/2),Math.max(1,rr/2|0),1,'#fff')}})});
+ D.sort((a,b)=>b.z-a.z).forEach(d=>d.f());
+ // speed lines when boosting
+ if(me.boost>0){cx.globalAlpha=.5;for(let i=0;i<8;i++){const a=i*.785+t*.5,y=KHZ+40+((i*37+t*400)%140);r(i%2?6+(i*13)%30:W-36+(i*7)%30,Math.round(y),1,8,'#fff')}cx.globalAlpha=1}
  r(0,0,W,24,'rgba(10,6,30,.65)');const pl=['1ST','2ND','3RD','4TH','5TH'][(k.fin?k.final:k.place)-1];txt(pl,6,5,k.place==1?'#ffd86b':'#fff',3);
  txt('KART RACE',78,9,'#ff9ccb',1);
- r(150,32,4,200,'#1a1428');k.R.forEach(r2=>{const yy=232-200*Math.min(1,r2.s/KL);r(r2.me?147:149,yy,r2.me?10:6,r2.me?3:2,r2.col)});
- r(62,244,36,36,'#111');r(64,246,32,32,'#2a2050');r(64,246,32,1,'#5a4a90');
- if(k.item){if(k.roll>0)itemIcon(['balloon','oil','boost'][Math.floor(t*12)%3],80,262);else{itemIcon(k.item,80,262);cx.globalAlpha=.5+.5*Math.sin(t*8);r(62,244,36,2,'#ffd86b');r(62,278,36,2,'#ffd86b');cx.globalAlpha=1}}
- else txt('ITEM',72,259,'#5a4a90',1);
- if(kHeld&&k.steer){cx.globalAlpha=.25;r(k.steer<0?0:120,120,40,60,'#fff');cx.globalAlpha=1}
+ r(151,30,3,62,'rgba(26,20,40,.55)');k.R.forEach(r2=>{const yy=92-62*Math.min(1,r2.s/KL);r(r2.me?147:149,yy,r2.me?10:6,r2.me?3:2,r2.col)});
+ r(62,248,36,36,'#111');r(64,250,32,32,'#2a2050');r(64,250,32,1,'#5a4a90');
+ if(k.item){if(k.roll>0)itemIcon(['balloon','oil','boost'][Math.floor(t*12)%3],80,266);else{itemIcon(k.item,80,266);cx.globalAlpha=.5+.5*Math.sin(t*8);r(62,248,36,2,'#ffd86b');r(62,282,36,2,'#ffd86b');cx.globalAlpha=1}}
+ else txt('ITEM',72,263,'#5a4a90',1);
+ if(kHeld&&k.steer){cx.globalAlpha=.2;r(k.steer<0?0:120,KHZ+20,40,120,'#fff');cx.globalAlpha=1}
  if(k.msg){const s=k.msg[0];r(0,40,W,14,'rgba(0,0,0,.55)');txtFit(s,47)}
  if(k.cd>0){const c=Math.ceil(k.cd-.6);const s=c>0?String(c):'GO!';txt(s,80-s.length*12+2,110,'#ffd86b',6)}
  if(k.fin){r(16,108,128,46,'rgba(0,0,0,.65)');txt('FINISH!',52,116,'#ffd86b',2);txt(pl+' PLACE',pl.length>2?50:56,136,'#fff',2)}}
