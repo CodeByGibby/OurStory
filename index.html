@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.66</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.67</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1437,7 +1437,7 @@ function vCal(t){
 /* the course: straights and bends (degrees, radius; + is a right turn) laid end to end in the world. A racer's position is
    (s = distance along the course, x = 80 + sideways offset from the centre line), so the race logic never changes;
    only the drawing turns it back into a winding road. */
-const KSEG=[['S',200],['S',300],['C',70,170],['S',160],['C',-110,140],['S',200],['C',-60,160],['S',120],['C',150,110],['S',180],['C',-40,200],['S',100],['C',-100,130],['S',160],['C',80,150],['S',200],['C',-75,170],['S',520]];
+const KSEG=[['S',200],['S',240],['C',90,230],['S',100],['C',-140,190],['S',140],['C',-60,240],['S',60],['C',165,150],['S',120],['C',-55,260],['S',40],['C',-110,200],['S',100],['C',90,220],['S',120],['C',-80,230],['S',380]];
 const KS0=200,KTR=(()=>{const X=[],Y=[],Hh=[],K=[];let x=0,y=0,h=0;KSEG.forEach(([t,a,b])=>{if(t==='S'){for(let i=0;i<a;i++){X.push(x);Y.push(y);Hh.push(h);K.push(0);x+=Math.sin(h);y+=Math.cos(h)}}
   else{const an=a*Math.PI/180,n=Math.round(Math.abs(an)*b),dh=an/n;for(let i=0;i<n;i++){X.push(x);Y.push(y);Hh.push(h);K.push(dh);h+=dh;x+=Math.sin(h);y+=Math.cos(h)}}});
  X.push(x);Y.push(y);Hh.push(h);K.push(0);return {X:Float32Array.from(X),Y:Float32Array.from(Y),H:Float32Array.from(Hh),K:Float32Array.from(K),L:X.length}})();
@@ -1449,7 +1449,7 @@ let kHeld=0;
 function newKart(){
  const R=[{n:'You',p:abi,col:'#ff7eb6',s:0,o:-14,me:1},{n:'Hunter',p:hunter,col:'#d8352f',s:40,o:12,base:104},{n:'Morgan',p:morgan,col:'#8a5aa8',s:26,o:-12,base:101},{n:'Zippy',p:{hair:'#e8c840'},col:'#3a7ae8',s:54,o:-4,base:98},{n:'Rex',p:{hair:'#8a3a2a'},col:'#e8803a',s:12,o:14,base:96}];
  R.forEach(r=>{r.x=kc(r.s)+r.o;r.v=0;r.spin=0;r.boost=0;r.done=0});R[0].h=kTP(0).h;R[0].dr=0;R[0].dc=0;R[0].dh=0;
- const boxes=[];[450,1150,1850,2550].forEach(s=>[-20,0,20].forEach(o=>boxes.push({s,o,taken:0,rt:0})));
+ const boxes=[];[450,1250,2050,2850].forEach(s=>[-20,0,20].forEach(o=>boxes.push({s,o,taken:0,rt:0})));
  return {R,me:R[0],cd:3.6,fin:0,steer:0,item:null,roll:0,boxes,proj:[],oil:[],t:0,place:5,msg:null,hThrow:0}}
 function kartUpdate(dt){const k=kart;if(!k||TC.on)return;k.t+=dt;if(mode==='kart'&&!kHeld){const a=tiltAxis(18);if(a!=null)k.steer=a}
  if(k.cd>0){const c0=Math.ceil(k.cd-.6);k.cd-=dt;const c1=Math.ceil(k.cd-.6);if(c1!==c0)sfx(c1>0?'beep':'go');if(k.cd<=0){mode='kart';setHud('Hold LEFT or RIGHT side to steer. Tap the item box to use items!')}return}
@@ -1490,12 +1490,12 @@ function kMsg(s){kart.msg=[s,1.8]}
 /* drifting: steer hard into a bend (at speed, on the road) to start sliding; hold it and the sparks go blue, then orange;
    straighten out (or let go) to cash it in for a boost */
 function kDrift(k,r,dt,off){const st=k.steer;
- if(r.dr){r.dc+=dt;const lvl=r.dc>=2?2:r.dc>=1?1:0;if(lvl!==r.dl){r.dl=lvl;if(lvl)sfx('tick')}
+ if(r.dr){r.dc+=dt;const lvl=r.dc>=1.3?2:r.dc>=.6?1:0;if(lvl!==r.dl){r.dl=lvl;if(lvl)sfx('tick')}
   if(off||r.spin>0){r.dr=0;r.dc=0;r.dl=0;return}
   if(st*r.dr<.25){const L=r.dl;r.dr=0;r.dc=0;r.dl=0;if(L){r.boost=Math.max(r.boost,L>1?1.3:.75);sfx('boost');kMsg(L>1?'SUPER TURBO!':'MINI TURBO!')}}
   return}
- if(r.v>80&&!off&&Math.abs(st)>.7)r.dh=(r.dh||0)+dt;else r.dh=0;
- if(r.dh>.22){r.dr=st>0?1:-1;r.dc=0;r.dl=0;r.dh=0;r.hop=T;sfx('brake')}}
+ if(r.v>80&&!off&&Math.abs(st)>.55)r.dh=(r.dh||0)+dt;else r.dh=0;
+ if(r.dh>.08){r.dr=st>0?1:-1;r.dc=0;r.dl=0;r.dh=0;r.hop=T;sfx('brake')}}
 function kartUse(){const k=kart,me=k.me;if(!k.item||k.roll>0||me.done)return;const it=k.item;k.item=null;sfx(it=='boost'?'boost':'throw');
  if(it=='balloon'){let tg=null,bd=520;k.R.forEach(r=>{if(r!==me&&!r.done&&r.s>me.s&&r.s-me.s<bd){bd=r.s-me.s;tg=r}});k.proj.push({s:me.s+8,x:me.x,tg,t:0,by:me});if(!tg)kMsg('Nobody ahead to hit!')}
  else if(it=='oil'){k.oil.push({s:me.s-14,x:me.x,by:me});kMsg('Oil slick dropped!')}
@@ -1596,7 +1596,7 @@ function vKart(t){const k=kart;if(!k){r(0,0,W,H,'#000');return}const me=k.me;cx.
  r(0,0,W,24,'rgba(10,6,30,.65)');const pl=['1ST','2ND','3RD','4TH','5TH'][(k.fin?k.final:k.place)-1];txt(pl,6,5,k.place==1?'#ffd86b':'#fff',3);
  txt('KART RACE',78,9,'#ff9ccb',1);
  r(151,30,3,62,'rgba(26,20,40,.55)');k.R.forEach(r2=>{const yy=92-62*Math.min(1,r2.s/KL);r(r2.me?147:149,yy,r2.me?10:6,r2.me?3:2,r2.col)});
- if(me.dr){const L=me.dl||0,w=Math.round(Math.min(1,me.dc/2)*40);r(60,232,42,5,'rgba(20,10,30,.6)');r(61,233,w,3,L>1?'#ff8a20':L?'#3a9aff':'#c8c8d0');r(81,232,1,5,'rgba(255,255,255,.6)')}
+ if(me.dr){const L=me.dl||0,w=Math.round(Math.min(1,me.dc/1.3)*40);r(60,232,42,5,'rgba(20,10,30,.6)');r(61,233,w,3,L>1?'#ff8a20':L?'#3a9aff':'#c8c8d0');r(79,232,1,5,'rgba(255,255,255,.6)')}
  r(62,248,36,36,'#111');r(64,250,32,32,'#2a2050');r(64,250,32,1,'#5a4a90');
  if(k.item){if(k.roll>0)itemIcon(['balloon','oil','boost'][Math.floor(t*12)%3],80,266);else{itemIcon(k.item,80,266);cx.globalAlpha=.5+.5*Math.sin(t*8);r(62,248,36,2,'#ffd86b');r(62,282,36,2,'#ffd86b');cx.globalAlpha=1}}
  else txt('ITEM',72,263,'#5a4a90',1);
