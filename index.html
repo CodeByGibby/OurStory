@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.57</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.58</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1799,11 +1799,11 @@ function qxL2(id){const d=qx.d,n=lv.night;const L={
  coats:[{n:'Abigail',t:'(Our coats, hanging by the kitchen. They haven’t been outside in '+(d<14?d:14)+' days either.)'}]};return L[id]}
 /* ---- the handwashing song: scrub while singing Happy Birthday twice (the official 20 seconds) ---- */
 const QLY=['Happy birthday to you','Happy birthday to you','Happy birthday dear Abigail','Happy birthday to youuu'];
-function qWashStart(){mode='wash';qx.wash={t:0,taps:0,bub:[],ln:-1};abi.dir='u';setHud('Tap to scrub! Sing it twice.');sfx('splash')}
+function qWashStart(){mode='wash';qx.wash={t:-.32,taps:0,bub:[],ln:-1};abi.dir='u';setHud('Tap to scrub! Sing it twice.');sfx('splash')}
 function qWashTap(){const W=qx&&qx.wash;if(!W)return;W.taps++;sfx('pop');for(let i=0;i<2;i++)W.bub.push({x:36+Math.random()*8,y:70+Math.random()*4,vy:-6-Math.random()*8,vx:(Math.random()-.5)*6,l:1+Math.random(),r:1+Math.random()*1.5})}
 function qWashUpd(dt){const W=qx.wash;if(!W)return;W.t+=dt;W.bub.forEach(b=>{b.x+=b.vx*dt;b.y+=b.vy*dt;b.l-=dt});W.bub=W.bub.filter(b=>b.l>0);
- const ln=Math.floor(W.t/1.4);if(ln!==W.ln&&ln<8){W.ln=ln;cap('♪ '+QLY[ln%4]+' ♪')}
- if(W.t>=11.2){qx.wash=null;cap('');setHud(qx.hud);mode='qx';const ok=W.taps>=26;say([{n:'Abigail',t:ok?'(Squeaky clean. Twenty seconds and two whole birthday songs.)':'(...Good enough. Germs, beware.)'}]);qbMark('wash')}}
+ const ln=Math.floor(W.t/2.25);if(ln>=0&&ln!==W.ln&&ln<8){W.ln=ln;cap('♪ '+QLY[ln%4]+' ♪')}
+ if(W.t>=18){qx.wash=null;cap('');setHud(qx.hud);mode='qx';const ok=W.taps>=40;say([{n:'Abigail',t:ok?'(Squeaky clean. Twenty seconds and two whole birthday songs.)':'(...Good enough. Germs, beware.)'}]);qbMark('wash')}}
 /* ---- living room extras ---- */
 function lvCart(){// the bar cart, against the front-door wall, left of the door
  cx.save();cx.translate(-23,10);r(1,111,10,1,'rgba(0,0,0,.18)');
@@ -1916,7 +1916,7 @@ function vMBath(t){const n=lv.night,W=qx&&qx.wash;
  r(53,46,14,1,'#b8b8c0');r(54,47,12,10,'#ff9ccb');r(54,47,12,1,'#ffc0dc');
  [[4,0],[3,4],[2,8],[1,12]].forEach(([c,o],j)=>{for(let i=0;i<c;i++){const x=67+i*4+j*2,y=94-j*4-4;r(x,y,4,4,'#fbfbff');r(x+1,y+1,2,2,'#c8c8d0');r(x,y,4,1,'#ffffff')}});
  r(0,96,80,48,'#e8e8f0');for(let y=96;y<144;y+=6)for(let x=((y/6)%2)*6;x<80;x+=12)r(x,y,6,6,'#d8dce6');r(26,138,28,6,'#a8c8d8');
- if(W){const k=Math.min(1,W.taps/26);r(10,20,60,5,'#2a1a3a');r(11,21,Math.round(58*k),3,'#7ec8f0');txt('SCRUB',30,27,'#2a1a3a',1);W.bub.forEach(b=>{cx.globalAlpha=Math.min(1,b.l);disc(Math.round(b.x),Math.round(b.y),Math.round(b.r),'#ffffff',.9);cx.globalAlpha=1})}
+ if(W){const k=Math.min(1,W.taps/40);r(10,20,60,5,'#2a1a3a');r(11,21,Math.round(58*k),3,'#7ec8f0');txt('SCRUB',30,27,'#2a1a3a',1);W.bub.forEach(b=>{cx.globalAlpha=Math.min(1,b.l);disc(Math.round(b.x),Math.round(b.y),Math.round(b.r),'#ffffff',.9);cx.globalAlpha=1})}
  if(qx&&qx.room==='bath'){txt('HALLWAY',26,139,'#5a6a7a',1);qxAbi(t)}
  if(W&&Math.floor(T*8)%2)disc(40,abi.y-12,2,'#ffffff',.9);
  if(n){cx.globalAlpha=.22;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1}qxOverlay(t)}
@@ -4385,7 +4385,7 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
 const MUSMAP={roof:'roof',street:'night',hall:'sneak',door:'sunset',dinner:'waltz',bench:'lofi',bars:'bars',dorm:'sunset',news:'news',lake:'lofi',drive:'drive',clinic:'tense',apt:'news',entry:'sick',cal:null,kart:'kart',
  kitchen:'cozy',hroom:'lofi',dt:'lofi',pack:'cozy',road:'drive',txhouse:'texas',troom:'texas',river:'waltz',church:'stars',scoot:'drive',pump:'tense',store:'kart',bath:'stars',austin:'news',trucks:'texas',pea:'cozy',hill:'drive',bonnell:'sunset',plaza:'waltz',bstore:'kart',
  plane:'stars',hdrive:'jazz',bunk:'sneak',bath2:'sneak',split:'sad',office:'office',home:'lofi',hunt:'tense'};
-function musPick(){if(c8&&c8.bridal)return 'bridal';if(loc==='home6'&&c6.day)return 'cozy';if(loc==='steak'&&c6.pr)return 'sunset';if(loc==='steak'&&mode==='nerves')return 'tense';if(loc==='hotel'&&c6.panic&&hunter.tag)return 'tense';if(mode==='title')return 'stars';if(mode==='end')return 'sunset';if(mode==='news')return 'news';
+function musPick(){if(mode==='wash')return 'bday';if(c8&&c8.bridal)return 'bridal';if(loc==='home6'&&c6.day)return 'cozy';if(loc==='steak'&&c6.pr)return 'sunset';if(loc==='steak'&&mode==='nerves')return 'tense';if(loc==='hotel'&&c6.panic&&hunter.tag)return 'tense';if(mode==='title')return 'stars';if(mode==='end')return 'sunset';if(mode==='news')return 'news';
  if(loc==='court')return c5.ct&&c5.ct.style?'tennis':'jazz';if(loc==='hroom'&&hr.solo)return 'sad';if(loc==='troom'&&upk&&upk.solo)return 'sad';if(loc==='kitchen'&&kit.angry)return 'news';if(loc==='home'&&c5.hm&&c5.hm.hearts)return 'sunset';
  if(loc==='living')return lv&&lv.kiss?'sunset':sick?'sick':lv&&lv.sw?'kart':'cozy';if(QXQ[loc])return sick?'sick':'cozy';if(loc==='newsbg'||loc==='cal')return AU.want;return MUSMAP[loc]!==undefined?MUSMAP[loc]:AU.want}
 function musUpdate(){if(!AU.ctx)return;let w=musPick();if(AU.songOn)w=null;AU.want=w}
@@ -6406,6 +6406,11 @@ Object.assign(AMI,{vln:{w:'sawtooth',a:.05,d:.2,s:.8,r:.16,v:.42,det:6,vib:[6,.0
   bass:{i:'tumb',v:.13,o:2,p:['R...........','5...........']},
   stab:{i:'vih',v:0.07,o:4,p:['....x...x...']},
   drums:[]}})();
+/* hand-washing: Happy Birthday, twice through (twenty seconds, near enough), on a chirpy little lead with a music-box sparkle */
+(()=>{const M=['G4 G4 A4 - G4 -','C5 - B4 - - -','G4 G4 A4 - G4 -','D5 - C5 - - -','G4 G4 G5 - E5 -','C5 - B4 - A4 -','F5 F5 E5 - C5 -','D5 - C5 - - -'];
+ AMS.bday={bpm:160,bar:12,vol:0.6,dly:.25,chords:['C','G7','G7','C','C7','F','C','G7 C'],
+  lines:[{i:'cute',v:0.2,n:M},{i:'bell',v:0.07,n:amUp(M,1)}],
+  bass:{i:'tumb',v:.12,o:2,p:['R...5...5...']},drums:[]}})();
 /* sunset: golden-hour romance */
 AMS.sunset={bpm:76,vol:0.379,dly:.4,chords:['F','Am','Bb','C','F','Am','Bb','C','Dm','Am','Bb','F','Gm','C','F','F'],
  lines:[{i:'flute',v:0.111,n:['C5 - - - F5 - A5 -','G5 - - - E5 - - -','D5 - F5 - Bb5 - A5 -','G5 - - - - - . .','A5 - - - C6 - - -','E5 - - - A5 - G5 -','F5 - D5 - Bb4 - D5 -','E5 - - - - - . .',
