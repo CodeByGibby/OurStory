@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.55</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.56</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1791,7 +1791,7 @@ function qxL2(id){const d=qx.d,n=lv.night;const L={
  tub:[{n:'Abigail',t:'(The shower curtain has little rubber ducks on it. Morgan says it was a gift. Morgan bought it.)'}],
  toilet:[{n:'Abigail',t:'(Nothing to see here.)'}],
  tp:[{n:'Abigail',t:'(The toilet paper stockpile. Morgan bought forty-eight rolls in March. We are set until 2030.)'}],
- win:[{n:'Abigail',t:n?'(Snowflakes in the street light. In MARCH. Missouri, what are you doing?)':'(Frost on the window. Missouri cannot decide if it is winter or spring.)'}],
+ win:[{n:'Abigail',t:n?'(The street light outside our window. Somebody’s dog is on its sixth walk of the day.)':'(Grey and chilly out there. Missouri cannot decide if it is winter or spring.)'}],
  stand:[{n:'Abigail',t:'(The humidifier is working overtime. So is my nose.)'}],
  case:[{n:'Abigail',t:'(My suitcase. I packed for a weekend. It has been a week and a half.)'}],
  notes:[{n:'Abigail',t:'(Hunter’s notebooks. Every page is lyrics. Some of them are even finished.)'},{n:'Abigail',t:'(A crumpled page: "Quarantine, you’re my favourite routine"... crossed out. Twice. Hard.)'},{n:'Abigail',t:'(Another one, smoothed flat: "Stuck inside with you is the best kind of stuck." That one isn’t crossed out.)'}],
@@ -1835,16 +1835,16 @@ function lvSlider(t){const n=lv.night,e=lv.eve,X=90,Y=12,Wd=22,H=77;
  const bc=n?'#0c1028':e?'#a8606a':'#7a8aa8';[[90,50,4],[94,46,4],[98,52,4],[102,49,3],[108,45,4]].forEach(([x,y,w])=>{r(x,y,w,62-y,bc);if(n)for(let j=y+2;j<60;j+=3)for(let i=x+1;i<x+w-1;i+=2)if((i*7+j*3)%5===0)r(i,j,1,1,'#ffd88a')});
  // the Golden Arches, far past the parking lot
  {const g=.75+.25*Math.sin(t*2),ac=n?'#ffc838':'#f0b828';if(n)disc(105,41,4,'#ffc040',.25*g);r(105,44,1,16,n?'#2a2030':'#8a8a96');r(103,41,1,3,ac);r(104,40,1,1,ac);r(105,41,1,1,ac);r(106,40,1,1,ac);r(107,41,1,3,ac);r(102,44,7,1,n?'#3a2a20':'#c8382a')}
- r(X,60,Wd,6,n?'#2a3048':'#dfe8ee');for(let i=0;i<8;i++)r(X+(i*5)%Wd,61+(i%3),2,1,n?'#3a4058':'#ffffff');
- // the balcony itself: railing, a snowed-on chair, a little table with a very dead plant
+ r(X,60,Wd,6,n?'#1a2420':'#8a9a6a');for(let i=0;i<8;i++)r(X+(i*5)%Wd,61+(i%3),2,1,n?'#222c26':'#7a8a5a');
+ // the balcony itself: railing, a lonely folding chair, a little table with a very dead plant
  r(X,78,Wd,11,n?'#3a3a48':'#a8a8b4');r(X,78,Wd,1,n?'#4a4a58':'#c0c0ca');
- r(92,76,6,1,'#6a5a4a');r(92,69,1,8,'#6a5a4a');r(93,70,4,1,'#6a5a4a');r(93,73,4,1,'#6a5a4a');r(92,77,1,6,'#5a4a3a');r(97,77,1,6,'#5a4a3a');r(92,75,6,1,'#f4f8ff');r(92,68,1,1,'#f4f8ff');
- r(103,76,7,1,'#6a5a4a');r(106,77,1,6,'#5a4a3a');r(104,83,5,1,'#5a4a3a');r(105,72,3,4,'#c8603a');r(105,72,3,1,'#f4f8ff');r(106,69,1,3,'#6a4a2a');r(107,70,1,1,'#6a4a2a');r(103,75,7,1,'#f4f8ff');
- r(X,66,Wd,1,'#2a2a34');for(let x=X;x<X+Wd;x+=3)r(x,67,1,11,'#3a3a46');r(X,77,Wd,1,'#2a2a34');r(X,65,Wd,1,'#f4f8ff');
- r(X,86,6,3,'#f4f8ff');r(X,85,3,1,'#f4f8ff');r(X+15,85,7,4,'#f4f8ff');r(X+18,84,4,1,'#f4f8ff');
- for(let i=0;i<10;i++){const k=((t*.07+i/10)%1),x=X+((i*7+Math.round(Math.sin(t*.8+i)*2))%Wd+Wd)%Wd,y=Y+Math.round(k*H);r(x,y,1,1,'#ffffff')}
+ r(92,76,6,1,'#6a5a4a');r(92,69,1,8,'#6a5a4a');r(93,70,4,1,'#6a5a4a');r(93,73,4,1,'#6a5a4a');r(92,77,1,6,'#5a4a3a');r(97,77,1,6,'#5a4a3a');
+ r(103,76,7,1,'#6a5a4a');r(106,77,1,6,'#5a4a3a');r(104,83,5,1,'#5a4a3a');r(105,72,3,4,'#c8603a');r(105,72,3,1,'#a84a2a');r(106,69,1,3,'#6a4a2a');r(107,70,1,1,'#6a4a2a');
+ r(X,66,Wd,1,'#2a2a34');for(let x=X;x<X+Wd;x+=3)r(x,67,1,11,'#3a3a46');r(X,77,Wd,1,'#2a2a34');
+ r(X+16,86,3,2,'#8a5a3a');r(X+17,85,1,1,'#a87040');r(X+3,87,2,1,'#9a6a3a');
+ for(let i=0;i<2;i++){const k=((t*.05+i*.5)%1),x=X+Math.round(k*Wd*1.2-2),y=Y+58+Math.round(Math.sin(t*2+i*3)*3+k*14);if(x<X+Wd)r(x,y,1,1,i?'#b8783a':'#9a6a3a')}
  cx.globalAlpha=.1;r(X,Y,Wd,H,'#ffffff');cx.globalAlpha=.22;for(let k=0;k<26;k++)r(X+2+Math.round(k*.35),Y+40-k,2,1,'#ffffff');for(let k=0;k<14;k++)r(X+13+Math.round(k*.35),Y+30-k,1,1,'#ffffff');
- cx.globalAlpha=.6;[[0,76],[1,75],[0,74],[2,76],[20,76],[21,75],[19,76],[21,73]].forEach(([a,b])=>r(X+a,Y+b,1,1,'#ffffff'));cx.globalAlpha=1;cx.restore();
+ cx.globalAlpha=1;cx.restore();
  // frame: the left panel slides, so it sits a touch proud with the handle on it
  r(88,10,26,2,'#e8e8f0');r(88,10,2,80,'#e8e8f0');r(112,10,2,80,'#d8d8e2');r(99,12,3,77,'#f4f4f8');r(102,12,1,77,'#c8c8d0');r(97,45,1,8,'#9a9aa6');r(97,45,1,1,'#c8c8d0');r(87,89,28,3,'#c8c8d0');r(87,89,28,1,'#e0e0e8');
  r(86,6,34,2,'#6a5a4a');disc(86,7,1,'#8a7a5a',1);r(114,8,5,82,'#b8a888');r(115,8,1,82,'#a89878');r(117,8,1,82,'#c8b898');r(113,88,7,2,'#a89878')}
@@ -1924,7 +1924,6 @@ function qdItems(){return [{id:'bed',x:4,y:60,w:40,h:70,spot:[49,116],face:'l'},
 function vMBed(t){const n=lv.night,made=qx&&qx.bedMade;
  r(0,0,80,92,'#d8c8b8');for(let y=4;y<90;y+=8)for(let x=((y/8)%2)*5;x<80;x+=10)r(x,y,1,1,'#c8b8a8');r(0,88,80,4,'#f0e6d8');
  r(50,14,24,32,'#f4f0e8');r(52,16,20,28,n?'#1a2448':'#c8d4e0');r(61,16,2,28,'#f4f0e8');r(52,29,20,2,'#f4f0e8');
- for(let i=0;i<12;i++){const k=((t*.08+i/12)%1),x=52+((i*7+Math.round(k*6))%20),y=16+Math.round(k*28);r(x,y,1,1,n?'#ffffff':'#f4f8ff')}
  cx.globalAlpha=.35;r(52,40,20,4,'#ffffff');r(52,16,3,28,'#ffffff');cx.globalAlpha=1;r(48,12,4,38,'#c86a6a');r(72,12,4,38,'#c86a6a');r(47,11,30,2,'#8a5a3a');
  r(0,92,80,52,'#b8a088');for(let i=0;i<50;i++)r((i*37)%80,94+(i*13)%48,2,1,'#a89078');r(4,116,38,18,'#c8a0a8');r(6,118,34,14,'#d8b0b8');for(let x=6;x<40;x+=3)r(x,134,1,2,'#c8a0a8');
  // the bed: headboard against the wall, legs on the floor (floor first, so nothing paints over it)
