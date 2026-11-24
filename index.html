@@ -205,10 +205,10 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.62</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.63</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
-<div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
+<div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
 <div id="hud"></div>
 <div id="chat"></div>
 <div id="dlg"><div id="nm"></div><div id="tx"></div><div id="ch"></div><i id="nx">&#9660;</i></div>
@@ -1442,7 +1442,7 @@ function newKart(){
  R.forEach(r=>{r.x=kc(r.s)+r.o;r.v=0;r.spin=0;r.boost=0;r.done=0});
  const boxes=[];[450,1150,1850,2550].forEach(s=>[-20,0,20].forEach(o=>boxes.push({s,o,taken:0,rt:0})));
  return {R,me:R[0],cd:3.6,fin:0,steer:0,item:null,roll:0,boxes,proj:[],oil:[],t:0,place:5,msg:null,hThrow:0}}
-function kartUpdate(dt){const k=kart;if(!k)return;k.t+=dt;
+function kartUpdate(dt){const k=kart;if(!k||TC.on)return;k.t+=dt;if(mode==='kart'&&!kHeld){const a=tiltAxis(18);if(a!=null)k.steer=a}
  if(k.cd>0){const c0=Math.ceil(k.cd-.6);k.cd-=dt;const c1=Math.ceil(k.cd-.6);if(c1!==c0)sfx(c1>0?'beep':'go');if(k.cd<=0){mode='kart';setHud('Hold LEFT or RIGHT side to steer. Tap the item box to use items!')}return}
  const me=k.me;
  k.R.forEach(r=>{
@@ -1483,7 +1483,7 @@ function kartFinish(){sfx(kart.place==1?'win':'lose');const k=kart,place=k.place
  after(2.6,()=>fadeTo(()=>{const L=place==1?[{n:'Abigail',t:'FIRST PLACE! Sick AND undefeated!'},{n:'Hunter',t:'I let you win.'},{n:'Abigail',t:'You threw a water balloon at me, Hunter.'},{n:'Hunter',t:'...Enjoy the goulash I am now reheating.'}]
   :beatH?[{n:'Abigail',t:'Okay, the bots were robbed, but I beat YOU. That is what matters.'},{n:'Hunter',t:'The bots cheated. I demand a rematch.'},{n:'Abigail',t:'Go reheat your mom\'s goulash. Now.'}]
   :[{n:'Hunter',t:'And THAT is how it is done.'},{n:'Abigail',t:"I have a fever. It doesn't count."},{n:'Hunter',t:'...Fine. I\'ll still reheat Mom\'s goulash for you.'}];
-  kart=null;L.splice(1,0,{n:'Morgan',t:k.R[2].done&&k.R[2].ft<(k.me.ft||1e9)?'Beat you BOTH. While sick. Write that down.':'I was robbed. That Rex guy rammed me on purpose.'});L.push({n:'Hunter',t:'Rematch?',c:[{l:'Rematch!',f:()=>fadeTo(()=>{setLoc('kart');mode='kartGo';kart=newKart();kHeld=0;setHud('Get ready...')})},{l:'Nah. Goulash time.',f:()=>fadeTo(qNight6)}]});qScene({mor:1,q:1,sw:1},L,null)}))}
+  kart=null;L.splice(1,0,{n:'Morgan',t:k.R[2].done&&k.R[2].ft<(k.me.ft||1e9)?'Beat you BOTH. While sick. Write that down.':'I was robbed. That Rex guy rammed me on purpose.'});L.push({n:'Hunter',t:'Rematch?',c:[{l:'Rematch!',f:()=>fadeTo(()=>{setLoc('kart');mode='kartGo';kart=newKart();kHeld=0;setHud('Get ready...');tiltGame('Tilt your phone to steer! Holding the sides still works too.',['kartGo','kart'])})},{l:'Nah. Goulash time.',f:()=>fadeTo(qNight6)}]});qScene({mor:1,q:1,sw:1},L,null)}))}
 function kartSpr(x,y,col,hair,spin){x=Math.round(x);y=Math.round(y);
  r(x-6,y+6,12,3,'rgba(0,0,0,.3)');
  if(spin>0&&Math.floor(spin*14)%2){r(x-8,y-5,16,11,'#111');r(x-7,y-4,14,9,col);r(x-7,y-4,14,1,sh(col,1.4));disc(x,y,3,hair,1);return}
@@ -2202,7 +2202,31 @@ const TILT={on:0,ev:0,v:0},TPT={};
    the same whether the phone is held upright like a tray or lying flat (raw gamma goes haywire when the phone is upright) */
 function tiltEv(e){if(e.gamma==null||e.beta==null)return;const D=Math.PI/180,b=e.beta*D,g=e.gamma*D,ux=-Math.sin(g)*Math.cos(b),uy=Math.sin(b),
  an=(screen.orientation&&screen.orientation.angle)||window.orientation||0,sx=an==90?-uy:(an==-90||an==270)?uy:ux,v=-Math.asin(Math.max(-1,Math.min(1,sx)))/D;
- TILT.raw=v;TILT.v=TILT.ev?TILT.v+(v-TILT.v)*.3:v;TILT.ev=1}
+ TILT.raw=v;TILT.v=TILT.ev?TILT.v+(v-TILT.v)*.3:v;TILT.p=e.beta;TILT.pv=TILT.ev&&TILT.pv!=null?TILT.pv+(e.beta-TILT.pv)*.3:e.beta;TILT.ev=1}
+/* ===== tilt controls for minigames (snowstorm, kart, altar, claw): an option on top of touch, never instead of it.
+   Pause-menu toggle; on iPhone, motion permission is asked on the first tap. Each game starts with a short
+   "hold your phone upright + still" check that sets level, then tiltAxis() gives -1..1 from about ±25 degrees. ===== */
+const TILTOK=('ontouchstart' in window||navigator.maxTouchPoints>0)&&'DeviceOrientationEvent' in window;
+const tiltPref=()=>{if(!TILTOK)return false;try{return localStorage.getItem('ourstory_tilt')!=='0'}catch(e){return true}};
+function tiltPerm(){if(TILT.asked||!tiltPref())return;TILT.asked=1;const D=window.DeviceOrientationEvent;if(D&&typeof D.requestPermission==='function'){D.requestPermission().then(r=>{TILT.perm=r==='granted'}).catch(()=>{TILT.asked=0})}else TILT.perm=true}
+addEventListener('touchend',tiltPerm,{passive:true});addEventListener('click',tiltPerm);
+const TC={on:0,act:0,t:0,cw:[],pw:[],ct:0,g0:0,p0:0,modes:[],msg:''};
+function tiltGame(msg,modes){TC.act=0;TC.on=0;if(!tiltPref())return;tiltOn();Object.assign(TC,{on:1,t:0,cw:[],pw:[],ct:0,modes:modes||[mode],msg:msg||''})}
+function tiltDone(){TC.on=0;TC.act=0;if(!(bags&&bags.tr&&!bags.tr.done))tiltOff()}
+function tiltSkip(){if(!TC.on)return 0;TC.on=0;TC.act=0;sfx('select');return 1}
+function tcUpd(dt){if((TC.on||TC.act)&&!dlg&&!TC.modes.includes(mode)){tiltDone();return}if(!TC.on)return;TC.t+=dt;
+ if(!TILT.ev){if(TC.t>1.6){TC.on=0;bark([{n:'',t:'(No tilt sensor here, so it’s touch controls this time. Tilt can be turned on in the pause menu.)'}])}return}
+ TC.cw.push(TILT.raw);TC.pw.push(TILT.p);if(TC.cw.length>30){TC.cw.shift();TC.pw.shift()}
+ const mn=Math.min(...TC.cw),mx=Math.max(...TC.cw);if(TC.cw.length>=8&&mx-mn<4)TC.ct+=dt;else TC.ct=Math.max(0,TC.ct-dt*2);
+ if(TC.ct>=1.1||TC.t>6){const av=a=>a.reduce((x,y)=>x+y,0)/a.length;TC.g0=av(TC.cw);TC.p0=av(TC.pw);TILT.v=TILT.raw;TILT.pv=TILT.p;TC.on=0;TC.act=1;sfx('ding');if(TC.msg)bark([{n:'',t:TC.msg}])}}
+const tdz=(d,full)=>Math.max(-1,Math.min(1,Math.sign(d)*Math.max(0,Math.abs(d)-1.5)/full));
+function tiltAxis(full){return TC.act&&TILT.ev?tdz(TILT.v-TC.g0,full||20):null}
+function tiltPitch(full){return TC.act&&TILT.ev&&TILT.pv!=null?tdz(TILT.pv-TC.p0,full||20):null}
+function tcDraw(){if(!TC.on)return;const c=W/2,y=H/2-30,k=Math.min(1,TC.ct/1.1);
+ r(c-36,y,72,48,'rgba(20,10,30,.82)');r(c-36,y,72,1,'#ffd86b');txt('HOLD YOUR PHONE',c-29,y+5,'#ffffff',1);txt('UPRIGHT + STILL',c-29,y+12,'#ffd86b',1);
+ const d=TILT.ev&&TC.cw.length?Math.max(-1,Math.min(1,(TILT.raw-TC.cw.reduce((a,b)=>a+b,0)/TC.cw.length)/12)):0,px=c-3,py=y+20;
+ for(let i=0;i<12;i++){const o=Math.round(d*(i-6)/6);r(px+o,py+i,7,1,i===0||i===11?'#c8c8d8':'#3a3a4a')}r(px+1,py+1,5,9,'#7ac8f0');r(px+2,py+10,3,1,'#c8c8d8');
+ r(c-24,y+36,48,3,'#3a2a4a');r(c-24,y+36,Math.round(48*k),3,k>=1?'#5ad06a':'#ffd86b');txt('TAP TO SKIP',c-21,y+41,'#8a7a9a',1)}
 function tiltOn(){if(!TILT.on){TILT.on=1;TILT.ev=0;window.addEventListener('deviceorientation',tiltEv)}}
 function tiltOff(){if(TILT.on){TILT.on=0;window.removeEventListener('deviceorientation',tiltEv)}}
 window.addEventListener('pointerdown',e=>{if(mode==='tray')TPT[e.pointerId]=e.clientX<innerWidth/2?-1:1});
@@ -2210,7 +2234,7 @@ window.addEventListener('pointerdown',e=>{if(mode==='tray')TPT[e.pointerId]=e.cl
 window.addEventListener('keydown',e=>{if(mode==='tray'&&(e.key==='ArrowLeft'||e.key==='ArrowRight'))TPT.k=e.key==='ArrowLeft'?-1:1});
 window.addEventListener('keyup',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight')delete TPT.k});
 function trayAsk(){const touch=('ontouchstart' in window)||navigator.maxTouchPoints>0;
- if(!touch){trayBegin(0);return}
+ if(!touch||!tiltPref()){trayBegin(0);return}
  say([{n:'Abigail',t:'(Five things, one tray, and a long way to the kitchen. Do NOT drop the goulash.)',c:[{l:'📱 Tilt my phone to balance',f:()=>{const D=window.DeviceOrientationEvent;if(D&&typeof D.requestPermission==='function'){D.requestPermission().then(r=>trayBegin(r==='granted'?1:0)).catch(()=>trayBegin(0))}else trayBegin(1)}},{l:'👆 Hold the screen sides instead',f:()=>trayBegin(0)}]}])}
 const TRI=[{bx:-7,w:7,h:3,on:-1,d:(x,y)=>{r(x,y,7,3,'#b8b8c8');r(x,y,7,1,'#e8e8f0');r(x+2,y-1,3,1,'#9a9aaa');r(x+1,y+1,5,1,'#c8503a')}},
  {bx:0,w:3,h:6,on:-1,d:(x,y)=>{r(x,y,3,6,'#f0a030');r(x,y,3,1,'#fff');r(x+1,y-1,1,1,'#fff');r(x,y+2,3,1,'#fff6c8')}},
@@ -2275,7 +2299,7 @@ function trayDraw(t){const R=bags&&bags.tr;if(!R)return;if(R.leg>=1&&!R.has[2]&&
 function _qNight3(){qScene({night:1,mor:0,q:1},[{n:'',t:'Another night, another episode.'},{n:'',t:'Somehow you end up sitting a little closer than last night...'},{n:'Hunter',t:'(*fake yaaawn*... stretches... and his arm just happens to land behind you)',anim:()=>{lv.st=T}},{n:'Abigail',t:'(Smooth, Hunter. Very smooth.)'}],()=>{addH(1);fadeTo(()=>calShow(6,qDay6))})}
 function _qDay6(){qScene({mor:1,q:1,sw:1},[{n:'Hunter',t:'Okay. Mario Kart on the Switch. Loser reheats my mom\'s goulash tonight.'},{n:'Abigail',t:"You're on. Sick or not, I will DESTROY you."},
  {n:'Morgan',t:'Ugh. Fine. Hand me the third controller. I can be miserable AND win.'},
- {n:'',t:'HOW TO RACE: your kart drives itself. Hold the LEFT or RIGHT side of the screen to steer. Driving on the grass slows you down!'},{n:'',t:'Drive through the gift boxes to grab an item, then tap the ITEM box at the bottom to use it.'},{n:'',t:'Water balloon: hits the racer ahead of you. Oil slick: drops behind you. Bolt: a speed boost!'},{n:'',t:'Beat Hunter, Morgan and the bots to the finish line!',c:[{l:'Start race',f:()=>fadeTo(()=>{setLoc('kart');mode='kartGo';kart=newKart();kHeld=0;setHud('Get ready...')})}]}])}
+ {n:'',t:'HOW TO RACE: your kart drives itself. Hold the LEFT or RIGHT side of the screen to steer. Driving on the grass slows you down!'},{n:'',t:'Drive through the gift boxes to grab an item, then tap the ITEM box at the bottom to use it.'},{n:'',t:'Water balloon: hits the racer ahead of you. Oil slick: drops behind you. Bolt: a speed boost!'},{n:'',t:'Beat Hunter, Morgan and the bots to the finish line!',c:[{l:'Start race',f:()=>fadeTo(()=>{setLoc('kart');mode='kartGo';kart=newKart();kHeld=0;setHud('Get ready...');tiltGame('Tilt your phone to steer! Holding the sides still works too.',['kartGo','kart'])})}]}])}
 function _qNight6(){qScene({night:1,mor:1,q:2,pop:1},[{n:'',t:"Movie night. Your head is pounding, but Hunter's shoulder looks very comfy..."},{n:'',t:'Try to stay awake for the movie!',c:[{l:'Watch',f:()=>startTV(16,r=>{addH(r?2:1);say(r?[{n:'Abigail',t:'I saw the ending! I am a champion.'}]:[{n:'',t:'You fall asleep before the ending, your head on Hunter’s shoulder.'},{n:'',t:'He waits until the credits finish. He does not move an inch.'},{n:'',t:'Then he carries you to bed and tucks you in.'}],()=>fadeTo(()=>calShow(9,qDay9)))})}]}])}
 function _qDay9(){qScene({mor:2,q:2},[{n:'Morgan',t:"(on the phone) No, I KNOW, babe. Five more days... I miss you too."},{n:'Morgan',t:"They're SO cuddly. It's disgusting. I'm trapped inside a rom-com."},{n:'Morgan',t:'Hold on, I am going to my room. I can still hear them breathing.',anim:()=>{lv.mw={x:16,y:134};go(lv.mw,[[30,137],[62,138],[94,140]],26)}},
  {n:'Abigail',t:'(whispering) I think Morgan is losing it.'},{n:'Hunter',t:'(whispering) She misses her boyfriend. Day nine is rough.'}],()=>{addH(1);fadeTo(qNight9)})}
@@ -5917,7 +5941,7 @@ function arcCenter(s,y,c,z){z=z||1;txt(s,Math.round(80-s.length*2*z),y,c,z)}
 /* ---- 1. THE CORGI: claw machine. Stop the claw left/right, then front/back. ---- */
 let CL=null;
 function clawStart(cb){setLoc('arcClaw');mode='claw';fade=1;fd=-1;setHud('');
- CL={cb,tr:1,n:3,ph:'aim',cx:118,cz:.25,vx:0,vz:0,cy:58,t:0,tl:20,sw:0,sv:0,pvx:0,cg:{x:98,z:.6},hold:0,res:null,msg:null,won:0,in:{dx:0,dy:0,drop:0}}}
+ CL={cb,tr:1,n:3,ph:'aim',cx:118,cz:.25,vx:0,vz:0,cy:58,t:0,tl:20,sw:0,sv:0,pvx:0,cg:{x:98,z:.6},hold:0,res:null,msg:null,won:0,in:{dx:0,dy:0,drop:0}};tiltGame('Tilt to slide the claw: left/right, and tip the top away or toward you. Tap DROP to grab!',['claw'])}
 const clY=z=>160+z*66;
 function clawTap(){}
 /* hold the arrows to steer the claw, press DROP to send it down */
@@ -5925,7 +5949,7 @@ const CLB={l:[88,252],r:[114,252],u:[101,242],d:[101,262],drop:[136,256]};
 function clawTouches(list){const I={dx:0,dy:0,drop:0};list.forEach(([x,y])=>{if(y<236)return;if(Math.hypot(x-CLB.drop[0],y-CLB.drop[1])<16){I.drop=1;return}
   const dx=x-101,dy=y-252;if(Math.abs(dx)<26&&Math.abs(dy)<20){if(Math.abs(dx)>Math.abs(dy))I.dx=dx<0?-1:1;else I.dy=dy<0?-1:1}});
  if(CL){if(I.drop&&!CL.in.drop&&CL.ph==='aim'){CL.ph='drop';CL.t=0;sfx('select')}CL.in=I}}
-function clawUpdate(dt){const C=CL;if(!C||mode!=='claw')return;C.t+=dt;if(C.msg)C.msg[1]-=dt;const I=C.in;
+function clawUpdate(dt){const C=CL;if(!C||mode!=='claw'||TC.on)return;C.t+=dt;if(C.msg)C.msg[1]-=dt;let I=C.in;{const ax=tiltAxis(16),ay=tiltPitch(16);if(ax!=null&&!I.dx&&!I.dy)I={dx:ax,dy:ay,drop:I.drop}}
  /* claw dangles on its cable: it swings when the carriage speeds up or stops */
  const acc=(C.vx-C.pvx)/Math.max(dt,.001);C.pvx=C.vx;C.sv+=(-60*C.sw-2.6*C.sv-acc*.012)*dt;C.sw+=C.sv*dt;C.sw=Math.max(-.6,Math.min(.6,C.sw));
  const clX=()=>C.cx+Math.sin(C.sw)*(C.cy-50)*.9;
@@ -7396,9 +7420,9 @@ function c7Car(){setLoc('car7');mode='c7';c7.snow=.15;c7.off=0;abi.hold=null;
   {n:'',t:'HOW TO PLAY: Hold the LEFT or RIGHT side of the screen to steer and stay on the road. Brake lights ahead? TAP the BRAKE button over and over to pump the brakes. Don’t hold it down or you’ll slide!',c:[{l:'Get Donut home',f:()=>fadeTo(snStart)}]}]))}
 /* ---- snowstorm minigame ---- */
 const SNE=[[7,'car'],[16,'deer'],[26,'car'],[37,'plow']];
-function snStart(){setLoc('snow');c7.sn={t:0,dur:48,v:.55,X:0,steer:0,wheel:0,curve:0,ctg:0,ct:2,dist:0,gust:0,gd:0,gt:5,bh:0,bt:0,skid:0,ev:[],en:0,near:0,bank:0,ga:0,wp:0,fl:[],pump:0};mode='snow';setHud('')}
+function snStart(){setLoc('snow');c7.sn={t:0,dur:48,v:.55,X:0,steer:0,wheel:0,curve:0,ctg:0,ct:2,dist:0,gust:0,gd:0,gt:5,bh:0,bt:0,skid:0,ev:[],en:0,near:0,bank:0,ga:0,wp:0,fl:[],pump:0};mode='snow';setHud('');tiltGame('Tilt your phone to steer! Holding the sides still works too.',['snow'])}
 function c7Msg(s,d){c7.msg=[s,d||1.4]}
-function snUpdate(dt){const S=c7.sn;if(!S||mode!=='snow'||dlg)return;S.t+=dt;
+function snUpdate(dt){const S=c7.sn;if(!S||mode!=='snow'||dlg||TC.on)return;S.t+=dt;{const a=tiltAxis(20);if(a!=null&&!S.tst)S.steer=a}
  if(!S.bh)S.v=Math.min(.72,S.v+dt*.1);else{S.bt+=dt;if(S.bt>.4&&S.skid<=0){S.skid=1.3;sfx('brake');c7Msg('DON’T SLAM IT! PUMP!');bark([{n:'Abigail',t:'We’re SLIDING! Pump it, pump it!'}])}}
  if(S.skid>0){S.skid-=dt;S.X+=Math.sin(S.t*8)*dt*1.4;S.v=Math.max(.2,S.v-dt*.05)}
  S.wheel+=(S.steer-S.wheel)*Math.min(1,dt*8);S.ct-=dt;if(S.ct<=0){S.ct=2.2+Math.random()*2.6;S.ctg=(Math.random()*2-1)*.95}S.curve+=(S.ctg-S.curve)*Math.min(1,dt*.7);
@@ -7411,8 +7435,8 @@ function snUpdate(dt){const S=c7.sn;if(!S||mode!=='snow'||dlg)return;S.t+=dt;
  S.ga=Math.min(1,S.ga+dt*.6);const wp0=S.wp;S.wp=(S.wp+dt/1.3)%1;if(wp0<.5&&S.wp>=.5)S.ga=0;
  if(S.fl.length<70)S.fl.push({a:Math.random()*6.28,d:Math.random()*8,s:.6+Math.random()*.8});S.fl.forEach(f=>{f.d+=dt*(30+S.v*150)*f.s*(.3+f.d/60);if(f.d>130){f.d=Math.random()*6;f.a=Math.random()*6.28}});
  if(S.t>=S.dur){mode='c7';S.steer=0;setHud('');after(.5,snEnd)}}
-function snInput(sx,sy,down){const S=c7.sn;if(!S)return;if(down){if(sx>104&&sy>216){S.bh=1;S.bt=0;S.v=Math.max(.08,S.v-.14);S.pump++;sfx('tick')}else S.steer=sx<80?-1:1}}
-function snTouches(list){const S=c7.sn;if(!S||mode!=='snow')return;const b=CR||(CR=dv.getBoundingClientRect());let st=0,bh=0;for(const q of list){const sx=(q.clientX-b.left)/sc,sy=(q.clientY-b.top)/sc;if(sx>104&&sy>216)bh=1;else st=sx<80?-1:1}S.steer=st;if(!bh)S.bh=0}
+function snInput(sx,sy,down){const S=c7.sn;if(!S)return;if(down){if(sx>104&&sy>216){S.bh=1;S.bt=0;S.v=Math.max(.08,S.v-.14);S.pump++;sfx('tick')}else{S.steer=sx<80?-1:1;S.tst=1}}}
+function snTouches(list){const S=c7.sn;if(!S||mode!=='snow')return;const b=CR||(CR=dv.getBoundingClientRect());let st=0,bh=0;for(const q of list){const sx=(q.clientX-b.left)/sc,sy=(q.clientY-b.top)/sc;if(sx>104&&sy>216)bh=1;else st=sx<80?-1:1}S.steer=st;S.tst=st!==0;if(!bh)S.bh=0}
 addEventListener('touchend',e=>snTouches(e.touches),{passive:true});addEventListener('touchcancel',e=>snTouches(e.touches),{passive:true});
 addEventListener('pointerup',e=>{if(e.pointerType!=='touch'&&c7.sn){c7.sn.steer=0;c7.sn.bh=0}});
 function snEnd(){const S=c7.sn;say([{n:'',t:'Forty white-knuckle minutes later...'},{n:'',t:'Close calls: '+S.near+'. Snowbanks: '+S.bank+'. Brake pumps: '+S.pump+'.'}],()=>fadeTo(c7Lot))}
@@ -8405,8 +8429,9 @@ function c8Church(){setLoc('church8');mode='c8';c8.cam=0;c8.camT=0;c8.solo=0;c8.
  after(1,()=>say([{n:'',t:'The family waits in the pews. It’s a small group. Covid rules. And Abigail’s family can’t be here.'},{n:'',t:'But the love fills the room anyway. Today is about Hunter and Abigail.'},
   {n:'',t:'Hunter is the first one up front. Waiting.'},{n:'Hunter',t:'(Don’t lock your knees. Everybody says don’t lock your knees.)'},
   {n:'',t:'HOW TO PLAY: HOLD the right side to breathe IN while the circle grows. LET GO while it shrinks. TAP the left side to bend your knees before they lock. Keep Hunter standing!',c:[{l:'Deep breaths',f:stStart}]}]))}
-function stStart(){c8.st={t:0,dur:40,fa:.15,k:0,hold:0,bend:0,pi:0,sp:2,faint:0,good:0,ok:1,pOk:0,pTot:0,streak:0,wt:.3,kf:0,kfx:[],gp:0,ft:0,kl:0,gasp:0,ph:0};mode='stand';setHud('')}
+function stStart(){c8.st={t:0,dur:40,fa:.15,k:0,hold:0,bend:0,pi:0,sp:2,faint:0,good:0,ok:1,pOk:0,pTot:0,streak:0,wt:.3,kf:0,kfx:[],gp:0,ft:0,kl:0,gasp:0,ph:0,ld:0,lw:0,lwv:0,lT:0,lTm:2.5,ta:0,lgr:0};mode='stand';setHud('');tiltGame('Tilt your phone to keep Hunter steady on his feet!',['stand'])}
 function stDeco(t,hx0){const S=c8.st;if(!S||mode!=='stand')return;const hy=hunter.y;
+ if(TC.act&&S.ft<=0){const a=Math.max(-1.1,Math.min(1.1,S.ta||0)),cx0=Math.round(hx0)-10;r(cx0-1,hy+3,22,5,'rgba(20,10,30,.6)');r(cx0,hy+4,20,3,'#c8503a');r(cx0+3,hy+4,14,3,'#e0b840');r(cx0+6,hy+4,8,3,'#5ab45a');const mx=cx0+10+Math.round(a*9);r(mx,hy+2,1,7,Math.abs(a)>.6&&Math.floor(t*8)%2?'#ff6a6a':'#ffffff')}
  /* dizzy stars circle his head when it gets bad */
  const dz=Math.max(S.ft>0?1:0,(S.fa-.55)/.45);if(dz>0){const n=S.ft>0?5:3;for(let i=0;i<n;i++){const a=t*4+i*6.28/n;r(Math.round(hx0+Math.cos(a)*7),Math.round(hy-27+Math.sin(a)*2),i%2?1:2,i%2?1:2,i%2?'#ffffff':'#ffd86b')}}
  /* breathing puffs when he is in rhythm */
@@ -8414,7 +8439,12 @@ function stDeco(t,hx0){const S=c8.st;if(!S||mode!=='stand')return;const hy=hunte
   else{cx.globalAlpha=.7*(1-k);disc(Math.round(hx0+3+k*6),Math.round(hy-18-k*5),1+Math.round(k*2),'#ffffff',1);cx.globalAlpha=1}}
  else if(!S.ok&&Math.floor(t*3)%2){r(hx0+5,hy-24,1,2,'#8ad0f0');r(hx0-6,hy-22,1,2,'#8ad0f0')}
  if(S.gp>0){cx.globalAlpha=S.gp/.7;for(let i=0;i<6;i++){const a=i*1.05+t;r(Math.round(hx0+Math.cos(a)*(10+(.7-S.gp)*14)),Math.round(hy-12+Math.sin(a)*(10+(.7-S.gp)*10)),1,1,'#8ae06a')}cx.globalAlpha=1}}
-function stUpdate(dt){const S=c8.st;if(!S||mode!=='stand'||dlg)return;S.t+=dt;hunter.kneel=S.ft>.7?1:0;const inh=(S.t%7)<3.5;S.inh=inh;const ok=!!S.hold===inh;S.ok=ok;
+function stUpdate(dt){const S=c8.st;if(!S||mode!=='stand'||dlg||TC.on)return;S.t+=dt;
+ {const u=tiltAxis(25);if(u!=null&&S.ft<=0){// with tilt on, nerves make him sway: lean against it to keep him upright
+   S.lTm-=dt;if(S.lTm<=0){S.lTm=1.8+Math.random()*1.6;S.lT=(Math.random()*2-1)*(.45+S.fa*.35)}if(Math.random()<dt*.28)S.lwv+=(Math.random()<.5?-1:1)*2.6;
+   let a=S.ld+S.lw+u;S.ld+=(S.lT-S.ld)*.5*dt+a*.8*dt;S.lwv+=(-30*S.lw-4*S.lwv)*dt;S.lw+=S.lwv*dt;a=S.ld+S.lw+u;S.ta=a;S.lgr=Math.max(0,S.lgr-dt);
+   if(Math.abs(a)>.6)S.fa=Math.min(1,S.fa+dt*.07);
+   if(Math.abs(a)>1&&S.lgr<=0){S.ld=0;S.lw=0;S.lwv=0;S.lgr=.9;S.fa=Math.min(1,S.fa+.2);shakeT=.35;S.streak=0;sfx('bump');c8Msg('WHOA! STEADY!',1.1)}}else S.ta=0}hunter.kneel=S.ft>.7?1:0;const inh=(S.t%7)<3.5;S.inh=inh;const ok=!!S.hold===inh;S.ok=ok;
  S.kf=Math.max(0,S.kf-dt);S.gp=Math.max(0,S.gp-dt);S.ft=Math.max(0,S.ft-dt);S.kl=Math.max(0,S.kl-dt);S.gasp=Math.max(0,S.gasp-dt);S.ph+=dt;S.kfx.forEach(f=>f.t+=dt);S.kfx=S.kfx.filter(f=>f.t<.8);
  S.pTot+=dt;if(ok)S.pOk+=dt;
  if(S.lastInh!==undefined&&inh!==S.lastInh){const q=S.pOk/Math.max(.01,S.pTot);if(q>.8){S.streak++;S.fa=Math.max(0,S.fa-.06);S.gp=.7;sfx('chime');c8Msg(S.streak>=3?'PERFECT RHYTHM X'+S.streak:'NICE BREATH!',.9)}else{S.streak=0;c8Msg(inh?'BREATHE IN  HOLD RIGHT':'BREATHE OUT  LET GO',1.1)}S.pOk=S.pTot=0;S.ph=0}S.lastInh=inh;
@@ -8474,7 +8504,7 @@ function vChurch8(t){const cam=Math.round(c8.cam||0),so=c8.solo||0;cx.save();con
  const items=[],fa=1-so;
  for(let y=120;y<392;y+=16){items.push({y:y+1,f:()=>{r(6,y-4,62,4,'#7a5a3a');r(6,y-4,62,1,'#9a7a5a');r(92,y-4,62,4,'#7a5a3a');r(92,y-4,62,1,'#9a7a5a');pinkFl(68,y-5);pinkFl(92,y-5)}})}
  items.push({y:110,f:()=>{r(30,100,1,10,'#3a3a3a');r(27,110,7,1,'#3a3a3a');r(28,96,5,4,'#1a1a22');r(29,97,3,2,'#3a6ab0');if(Math.floor(t*2)%2)r(32,96,1,1,'#ff3a3a')}});
- const S=c8.st,bend=S&&S.bend>0?1:0,sway=S&&mode==='stand'?Math.round(Math.sin(t*2.2)*S.fa*2):0;
+ const S=c8.st,bend=S&&S.bend>0?1:0,sway=S&&mode==='stand'?Math.round(Math.sin(t*2.2)*S.fa*2+(S.ta||0)*3):0;
  const ppl=[offic,...guests.map(g=>g[0]),...(c8.walkers||[])];if(c8.bride&&loc==='church8')ppl.push(morgan);
  ppl.filter((p,i,a)=>a.indexOf(p)===i).forEach(p=>items.push({y:p.y,f:()=>{if(fa<1){if(fa<.03)return;personA(p,t,fa);return}const cat=S&&mode==='stand'&&S.ft>0&&p===groomsmen[0]&&p.tx==null;const px=p.x;if(cat){const k=Math.min(1,(2-S.ft)*5)*Math.min(1,S.ft*2.5);p.x=Math.round(px+(hunter.x+8-px)*k)}person(p,t);if(cat){r(p.x-7,p.y-12,4,2,p.top||'#1e1e28');p.x=px}cx.globalAlpha=1;if(S&&mode==='stand'&&S.gasp>0&&p!==offic&&!groomsmen.includes(p)&&!bridesmaids.includes(p)&&Math.floor(t*5+p.x)%2==0)txt('!',p.x-1,p.y-25,'#e0302a',1);if(c8.laugh&&p!==offic&&Math.floor(t*6+p.x)%3==0)txt('HA',p.x-3,p.y-25,'#a83a6a',1);if(c8.cheer>0&&p!==offic&&Math.floor(t*5+p.x)%3==0)txt('WOO',p.x-5,p.y-25,'#c83a6a',1)}}));
  items.push({y:hunter.y,f:()=>{const ox=hunter.x,stg=S&&mode==='stand'?Math.round(Math.sin(t*9)*3*Math.min(1,S.ft)+(S.kl>0?(Math.random()-.5)*2:0)):0;hunter.x+=sway+stg;stDeco(t,ox+sway+stg);const jj=c8.jy||0;hunter.y+=bend-jj;person(hunter,t);hunter.y-=bend-jj;hunter.x=ox}});
@@ -9254,6 +9284,7 @@ $('btns').addEventListener('animationend',e=>{if(e.target===$('btns'))$('btns').
 $('bPlay').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('confirm');const ck=CK.get();if(ck>=0&&SCENES[ck])dbgStart(ck,1);else if(hasData())confirmNew();else newGame()};
 $('bNew').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');confirmNew()};
 $('pHap').textContent='Vibration: '+(HAP.on?'ON':'OFF');if(!navigator.vibrate)$('pHap').style.display='none';$('pHap').onclick=()=>{sfx('select');hapSet(!HAP.on)};
+{const b=$('pTilt'),u=()=>b.textContent='Tilt controls: '+(tiltPref()?'ON':'OFF');if(!TILTOK)b.style.display='none';u();b.onclick=()=>{sfx('select');try{localStorage.setItem('ourstory_tilt',tiltPref()?'0':'1')}catch(e){}if(!tiltPref()){TC.act=0;TC.on=0}else{TILT.asked=0;tiltPerm()}u()}}
 $('pDev').onclick=()=>{sfx('select');DEV.set(!DEV.on());updTitle()};
 $('bAl').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');openAlbum()};
 $('bCh').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');openChap()};
@@ -9390,7 +9421,7 @@ const MGLATER={'Dippin Donuts drive-thru':()=>typeof c3Day!=='undefined'&&c3Day<
 function mgLater(){const w=SGM&&MGAMES[SGM.i]&&MGLATER[MGAMES[SGM.i][1]];return !!(w&&w())}
 /* in the story a minigame's score is saved quietly and the story carries on; the stars are shown on the chapter card */
 function mgStoryResult(cont){const G=SGM;{const w=MGLATER[MGAMES[G.i][1]];if(w&&w()){cont();return}}G.shown=1;MGBEST.put(MGAMES[G.i][1],G.res||{s:3,l:'COMPLETE!',h:''});cont()}
-function mgReset(){hunter.kneel=0;chatClear();try{c8Extra.forEach(p=>{const i=all.indexOf(p);if(i>=0)all.splice(i,1);p.dance=0});c8Extra=[]}catch(e){}dlg=null;$('dlg').style.display='none';timers=[];['end','chap','phone','news','lap'].forEach(id=>{const e=$(id);if(e)e.style.display='none'});$('card').style.opacity=0;$('title').classList.add('out');cap('');
+function mgReset(){hunter.kneel=0;try{tiltDone()}catch(e){}chatClear();try{c8Extra.forEach(p=>{const i=all.indexOf(p);if(i>=0)all.splice(i,1);p.dance=0});c8Extra=[]}catch(e){}dlg=null;$('dlg').style.display='none';timers=[];['end','chap','phone','news','lap'].forEach(id=>{const e=$(id);if(e)e.style.display='none'});$('card').style.opacity=0;$('title').classList.add('out');cap('');
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;rd=null;pk=null;dtS=null;hill=null;clb=null;sc3=null;tv=null;nose=null;noseOn=0;ndl=null;swab=null;fs=null;shakeT=0;
  c5={};c6={day:1};c7={};c8={};c6Dress();c4={ph:[],pol:null,flash:0,album:null,capReq:null};hx=null;hunter.cap=0;hunter.capDot=0;abi.chat=0;[abi,hunter,morgan,jay].forEach(p=>{p.dance=0;p.zz=0;p.bleed=0;p.green=0;p.tears=0;p.gown=0;p.veil=0;p.kneel=0;p.sit=0;p.sitF=0;p.mortar=0;p.badge=0;p.hold=null;p.tx=null;p.moving=false});ep={};
  try{songStop()}catch(e){}fade=1;fd=-1;fcb=null;setHud('');hold=0}
@@ -9509,6 +9540,7 @@ function press2(CX,CY){
  const b=(CR=dv.getBoundingClientRect()),sx=(CX-b.left)/sc,sy=(CY-b.top)/sc,x=(sx-W/2)/vz+vcx,y=(sy-H/2)/vz+vcy;
  if(mode==='title'){const ti=$('title');if(ti&&!ti.classList.contains('wait')&&!$('btns').classList.contains('ready')&&GIFT.done){ti.classList.add('ff');setTimeout(()=>$('btns').classList.add('ready'),120)}return}
  if(dlg){adv();return}
+ if(tiltSkip())return;
  if(arcTap2(x,y))return;
  if(mode==='paint'){if(ep.pt)ep.pt.down=1;epPaintAt(sx,sy,true);return}
  if(epTap())return;
@@ -9566,7 +9598,7 @@ dv.addEventListener('touchmove',e=>{if(mode==='skee'&&SK&&SK.hold){const q=e.tou
 dv.addEventListener('pointermove',e=>{if(mode!=='kart'||!kHeld)return;const b=CR||(CR=dv.getBoundingClientRect());kart.steer=(e.clientX-b.left)/sc<80?-1:1});
 $('news').addEventListener('click',()=>{if(mode==='news')nextNews()});
 /* ---------- loop ---------- */
-function update(dt){
+function update(dt){try{tcUpd(dt)}catch(e){}
  if(loc==='hall'&&sn)snGlide(dt);
  if(MGM&&!MGM.done&&MGM.modes.includes(mode))MGM.played=1;try{if(!MGM||!MGM.done)mgTrack()}catch(e){}
  if(fd==1){fade=Math.min(1,fade+dt*2);if(fade>=1&&fcb){const f=fcb;fcb=null;fd=fhold>0?2:-1;f()}}
@@ -9631,7 +9663,7 @@ function render(){
   loc==='street'?street(T):loc==='hall'?hall(T):doorS(T);
  }
  parts.forEach(p=>{cx.globalAlpha=Math.min(1,p.l);if(p.h)heart(p.x,p.y,p.c,p.z||1);else r(p.x,p.y,2,2,p.c)});cx.globalAlpha=1;
- cx.restore();c4Cap();logoTick();giftDraw();
+ cx.restore();c4Cap();logoTick();giftDraw();try{tcDraw()}catch(e){}
  if(wob>.05){wv.clearRect(0,0,W,H);wv.drawImage(cv,0,0);for(let y=0;y<H;y+=4)cx.drawImage(wc,0,y,W,4,Math.round(Math.sin(y/16+T*2.4)*wob),y,W,4);cx.globalAlpha=Math.min(.12,.05*wob);r(0,0,W,H,'#ff7eb6');cx.globalAlpha=1}
  ux.setTransform(1,0,0,1,0,0);ux.clearRect(0,0,W,H);ux._c=null;cx=ux;
  try{drawDanceUI();drawCh2UI();drawCh3UI();drawCh5UI();drawCh6UI();drawCh7UI();drawCh8UI();drawCh4UI();drawEpAlbumUI();drawEpBdayUI();balcUI();drawPhoneUI();
