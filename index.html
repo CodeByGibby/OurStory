@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.67</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.68</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1452,7 +1452,7 @@ function newKart(){
  const boxes=[];[450,1250,2050,2850].forEach(s=>[-20,0,20].forEach(o=>boxes.push({s,o,taken:0,rt:0})));
  return {R,me:R[0],cd:3.6,fin:0,steer:0,item:null,roll:0,boxes,proj:[],oil:[],t:0,place:5,msg:null,hThrow:0}}
 function kartUpdate(dt){const k=kart;if(!k||TC.on)return;k.t+=dt;if(mode==='kart'&&!kHeld){const a=tiltAxis(18);if(a!=null)k.steer=a}
- if(k.cd>0){const c0=Math.ceil(k.cd-.6);k.cd-=dt;const c1=Math.ceil(k.cd-.6);if(c1!==c0)sfx(c1>0?'beep':'go');if(k.cd<=0){mode='kart';setHud('Hold LEFT or RIGHT side to steer. Tap the item box to use items!')}return}
+ if(k.cd>0){const c0=Math.ceil(k.cd-.6);k.cd-=dt;const c1=Math.ceil(k.cd-.6);if(c1!==c0)sfx(c1>0?'beep':'go');if(k.cd<=0){mode='kart';setHud('Hold further out to turn harder. Tap the item box for items!')}return}
  const me=k.me;
  k.R.forEach(r=>{
   if(r.spin>0){r.spin-=dt;r.v*=Math.pow(.05,dt)}
@@ -1502,7 +1502,9 @@ function kartUse(){const k=kart,me=k.me;if(!k.item||k.roll>0||me.done)return;con
  else{me.boost=1.6;kMsg('BOOST!')}}
 function kartInput(x,y,down){const k=kart;if(!k||mode!=='kart')return;
  if(down&&x>=62&&x<=98&&y>=246&&y<=286){kartUse();return}
- kHeld=down;k.steer=down?(x<80?-1:1):0}
+ kHeld=down;if(down)kSteerAt(x);else{k.steer=0;k.tx=null}}
+/* touch steering is proportional: the further from the middle you hold, the harder you turn (hard enough at the edges to drift) */
+function kSteerAt(x){const k=kart;if(!k)return;const d=x-80,a=Math.abs(d);k.tx=x;k.steer=a<5?0:Math.sign(d)*Math.min(1,(a-5)/58)}
 let kRaced=0;
 function kartFinish(){sfx(kart.place==1?'win':'lose');const k=kart,place=k.place,beatH=k.R[1].s<k.me.s||!k.R[1].done;k.fin=1;k.final=place;setHud('');if(!kRaced){kRaced=1;addH(1)}
  after(2.6,()=>fadeTo(()=>{const L=place==1?[{n:'Abigail',t:'FIRST PLACE! Sick AND undefeated!'},{n:'Hunter',t:'I let you win.'},{n:'Abigail',t:'You threw a water balloon at me, Hunter.'},{n:'Hunter',t:'...Enjoy the goulash I am now reheating.'}]
@@ -1600,7 +1602,8 @@ function vKart(t){const k=kart;if(!k){r(0,0,W,H,'#000');return}const me=k.me;cx.
  r(62,248,36,36,'#111');r(64,250,32,32,'#2a2050');r(64,250,32,1,'#5a4a90');
  if(k.item){if(k.roll>0)itemIcon(['balloon','oil','boost'][Math.floor(t*12)%3],80,266);else{itemIcon(k.item,80,266);cx.globalAlpha=.5+.5*Math.sin(t*8);r(62,248,36,2,'#ffd86b');r(62,282,36,2,'#ffd86b');cx.globalAlpha=1}}
  else txt('ITEM',72,263,'#5a4a90',1);
- if(kHeld&&k.steer){cx.globalAlpha=.2;r(k.steer<0?0:120,KHZ+20,40,120,'#fff');cx.globalAlpha=1}
+ if(kHeld&&k.tx!=null){// where you're holding, and how hard that turns
+  const a=Math.abs(k.steer),x=Math.round(k.tx),c=a>.55?'#ffd86b':'#ffffff';cx.globalAlpha=.12+.2*a;r(Math.min(x,80),KHZ+16,Math.abs(x-80),4,c);cx.globalAlpha=.35;r(x-1,KHZ+10,3,16,c);cx.globalAlpha=1}
  if(k.msg){const s=k.msg[0];r(0,40,W,14,'rgba(0,0,0,.55)');txtFit(s,47)}
  if(k.cd>0){const c=Math.ceil(k.cd-.6);const s=c>0?String(c):'GO!';txt(s,80-s.length*12+2,110,'#ffd86b',6)}
  if(k.fin){r(16,108,128,46,'rgba(0,0,0,.65)');txt('FINISH!',52,116,'#ffd86b',2);txt(pl+' PLACE',pl.length>2?50:56,136,'#fff',2)}}
@@ -2384,7 +2387,7 @@ function trayDraw(t){const R=bags&&bags.tr;if(!R)return;if(R.leg>=1&&!R.has[2]&&
 function _qNight3(){qScene({night:1,mor:0,q:1},[{n:'',t:'Another night, another episode.'},{n:'',t:'Somehow you end up sitting a little closer than last night...'},{n:'Hunter',t:'(*fake yaaawn*... stretches... and his arm just happens to land behind you)',anim:()=>{lv.st=T}},{n:'Abigail',t:'(Smooth, Hunter. Very smooth.)'}],()=>{addH(1);fadeTo(()=>calShow(6,qDay6))})}
 function _qDay6(){qScene({mor:1,q:1,sw:1},[{n:'Hunter',t:'Okay. Starrio Cart on the Switch. Loser reheats my mom\'s goulash tonight.'},{n:'Abigail',t:"You're on. Sick or not, I will DESTROY you."},
  {n:'Morgan',t:'Ugh. Fine. Hand me the third controller. I can be miserable AND win.'},
- {n:'',t:'HOW TO RACE: your kart drives itself. Hold the LEFT or RIGHT side of the screen to steer. Driving on the grass slows you down!'},{n:'',t:'DRIFT: turn HARD into a bend and Abigail starts to drift. Hold it until the sparks go blue (or orange!), then straighten out for a turbo boost.'},{n:'',t:'Drive through the gift boxes to grab an item, then tap the ITEM box at the bottom to use it.'},{n:'',t:'Water balloon: hits the racer ahead of you. Oil slick: drops behind you. Bolt: a speed boost!'},{n:'',t:'Beat Hunter, Morgan and the bots to the finish line!',c:[{l:'Start race',f:()=>fadeTo(()=>{setLoc('kart');mode='kartGo';kart=newKart();kHeld=0;setHud('Get ready...');tiltGame('Tilt your phone to steer! Holding the sides still works too.',['kartGo','kart'])})}]}])}
+ {n:'',t:'HOW TO RACE: your kart drives itself. Hold the screen to steer: the further left or right you hold, the harder you turn. Driving on the grass slows you down!'},{n:'',t:'DRIFT: turn HARD into a bend and Abigail starts to drift. Hold it until the sparks go blue (or orange!), then straighten out for a turbo boost.'},{n:'',t:'Drive through the gift boxes to grab an item, then tap the ITEM box at the bottom to use it.'},{n:'',t:'Water balloon: hits the racer ahead of you. Oil slick: drops behind you. Bolt: a speed boost!'},{n:'',t:'Beat Hunter, Morgan and the bots to the finish line!',c:[{l:'Start race',f:()=>fadeTo(()=>{setLoc('kart');mode='kartGo';kart=newKart();kHeld=0;setHud('Get ready...');tiltGame('Tilt your phone to steer! Holding the sides still works too.',['kartGo','kart'])})}]}])}
 function _qNight6(){qScene({night:1,mor:1,q:2,pop:1},[{n:'',t:"Movie night. Your head is pounding, but Hunter's shoulder looks very comfy..."},{n:'',t:'Try to stay awake for the movie!',c:[{l:'Watch',f:()=>startTV(16,r=>{addH(r?2:1);say(r?[{n:'Abigail',t:'I saw the ending! I am a champion.'}]:[{n:'',t:'You fall asleep before the ending, your head on Hunter’s shoulder.'},{n:'',t:'He waits until the credits finish. He does not move an inch.'},{n:'',t:'Then he carries you to bed and tucks you in.'}],()=>fadeTo(()=>calShow(9,qDay9)))})}]}])}
 function _qDay9(){qScene({mor:2,q:2},[{n:'Morgan',t:"(on the phone) No, I KNOW, babe. Five more days... I miss you too."},{n:'Morgan',t:"They're SO cuddly. It's disgusting. I'm trapped inside a rom-com."},{n:'Morgan',t:'Hold on, I am going to my room. I can still hear them breathing.',anim:()=>{lv.mw={x:16,y:134};go(lv.mw,[[30,137],[62,138],[94,140]],26)}},
  {n:'Abigail',t:'(whispering) I think Morgan is losing it.'},{n:'Hunter',t:'(whispering) She misses her boyfriend. Day nine is rough.'}],()=>{addH(1);fadeTo(qNight9)})}
@@ -9681,7 +9684,7 @@ dv.addEventListener('touchmove',e=>{if(mode==='paint'){e.preventDefault();const 
 addEventListener('pointerup',epPaintUp);addEventListener('touchend',e=>{if(!e.touches.length)epPaintUp()},{passive:true});
 dv.addEventListener('pointermove',e=>{if(mode==='skee'&&SK&&SK.hold){const b=CR||(CR=dv.getBoundingClientRect());skeeMove((e.clientX-b.left)/sc)}});
 dv.addEventListener('touchmove',e=>{if(mode==='skee'&&SK&&SK.hold){const q=e.touches[0];if(q){e.preventDefault();const b=CR||(CR=dv.getBoundingClientRect());skeeMove((q.clientX-b.left)/sc)}}},{passive:false});
-dv.addEventListener('pointermove',e=>{if(mode!=='kart'||!kHeld)return;const b=CR||(CR=dv.getBoundingClientRect());kart.steer=(e.clientX-b.left)/sc<80?-1:1});
+dv.addEventListener('pointermove',e=>{if(mode!=='kart'||!kHeld)return;const b=CR||(CR=dv.getBoundingClientRect());kSteerAt((e.clientX-b.left)/sc)});
 $('news').addEventListener('click',()=>{if(mode==='news')nextNews()});
 /* ---------- loop ---------- */
 function update(dt){try{tcUpd(dt)}catch(e){}
