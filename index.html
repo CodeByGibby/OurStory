@@ -161,6 +161,16 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 #lap .tap{font-size:calc(var(--u)*2.4);text-align:center;margin-top:calc(var(--u)*3);opacity:.6;animation:bl 1.6s infinite}
 
 #chat{position:absolute;left:4%;right:4%;top:12%;display:none;pointer-events:none;background:rgba(255,255,255,.96);border:calc(var(--u)*0.7) solid #2b1830;border-radius:calc(var(--u)*4);box-shadow:calc(var(--u)*0.8) calc(var(--u)*1.2) 0 rgba(10,4,30,.4);padding:calc(var(--u)*2.2) calc(var(--u)*3.4);font-size:calc(var(--u)*3.2);line-height:1.6;color:#2b1830}
+#qbBtn{position:absolute;right:calc(var(--u)*1.5);top:calc(var(--u)*13);z-index:5;display:none;font:inherit;font-size:calc(var(--u)*2.2);color:#2b1830;background:#ffd86b;border:calc(var(--u)*.6) solid #2b1830;border-radius:calc(var(--u)*2);padding:calc(var(--u)*1.2) calc(var(--u)*1.4);box-shadow:0 calc(var(--u)*.6) 0 #2b1830}
+#qbBtn.fl{animation:qbf .9s ease 2}@keyframes qbf{0%,100%{transform:scale(1)}40%{transform:scale(1.25);background:#fff6c0}}
+#qbCard{position:absolute;inset:0;z-index:12;display:flex;align-items:center;justify-content:center;background:rgba(14,8,40,.72)}
+#qbCard .qbp{width:calc(var(--u)*94);background:#fff8ec;border:calc(var(--u)*.8) solid #2b1830;border-radius:calc(var(--u)*3);padding:calc(var(--u)*4);text-align:center;color:#2b1830}
+#qbCard h3{margin:0 0 calc(var(--u)*3);font-size:calc(var(--u)*3.6);color:#c2417a;font-weight:400}
+#qbCard .qbg{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*1.4)}
+#qbCard .qbc{position:relative;min-height:calc(var(--u)*19);background:#fff;border:calc(var(--u)*.5) solid #d8c8b0;border-radius:calc(var(--u)*1.5);display:flex;align-items:center;justify-content:center;padding:calc(var(--u)*1);font-size:calc(var(--u)*1.9);line-height:1.45}
+#qbCard .qbc.on{background:#fff0c8;border-color:#e8a820}#qbCard .qbc i{position:absolute;right:calc(var(--u)*.6);top:calc(var(--u)*.6)}#qbCard .qbc .mstar{width:calc(var(--u)*4);height:calc(var(--u)*4)}
+#qbCard p{font-size:calc(var(--u)*2.4);margin:calc(var(--u)*2.4) 0 0}#qbCard .qbh{color:#8a6a8a;font-size:calc(var(--u)*2)}
+#qbCard button{margin-top:calc(var(--u)*3);font:inherit;font-size:calc(var(--u)*2.8);background:#ffd86b;border:calc(var(--u)*.6) solid #2b1830;border-radius:calc(var(--u)*2);padding:calc(var(--u)*1.6) calc(var(--u)*5);color:#2b1830}
 #snd{position:absolute;right:calc(var(--u)*1.5);top:calc(var(--u)*1.5);z-index:5;width:calc(var(--u)*10);height:calc(var(--u)*10);font:inherit;font-size:calc(var(--u)*4);color:#fff6e0;background:rgba(20,10,40,.55);border:2px solid rgba(255,216,107,.6);border-radius:50%;padding:0;opacity:.75}
 #pause{position:absolute;inset:0;z-index:9;display:none;flex-direction:column;align-items:stretch;justify-content:center;gap:calc(var(--u)*4.5);padding:calc(var(--u)*12);background:rgba(14,8,40,.94);color:#fff6e0;text-align:center}
 #pause h2{font-size:calc(var(--u)*8);font-weight:400;color:#ffd86b;margin-bottom:calc(var(--u)*2)}
@@ -195,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.53</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.54</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1364,10 +1374,11 @@ function seat(p,x,dir){p.x=x;p.y=78;p.dir=dir||'d';p.moving=false;p.sit=1;p.sitF
 function vLiving(t){
  const n=lv.night;
  r(0,0,80,92,'#8a9ab8');for(let x=0;x<80;x+=6)r(x,0,3,92,'#8292b0');r(0,88,80,4,'#d8d8e4');
- r(44,8,28,34,'#e8e8f0');r(46,10,24,30,n?'#141a40':lv.eve?'#f2a868':'#9ad0f0');if(n){disc(64,16,3,'#fff3c4',1);r(50,14,1,1,'#fff');r(56,22,1,1,'#fff')}else if(lv.eve)disc(54,34,6,'#ffd27a',1);
+ r(44,8,28,34,'#e8e8f0');r(46,10,24,30,n?'#141a40':lv.eve?'#f2a868':'#9ad0f0');if(n){disc(64,16,3,'#fff3c4',1);r(50,14,1,1,'#fff');r(56,22,1,1,'#fff');{const g=.7+.3*Math.sin(t*2);disc(51,35,4,'#ffc040',.18*g);r(49,34,1,3,'#ffc838');r(50,33,1,1,'#ffc838');r(51,34,1,3,'#ffc838');r(52,33,1,1,'#ffc838');r(53,34,1,3,'#ffc838');r(48,37,7,1,'#3a2a20')}}else if(lv.eve)disc(54,34,6,'#ffd27a',1);
  for(let y=12;y<40;y+=4)r(46,y,24,1,n?'#20264a':'#c8d8e8');r(57,10,2,30,'#e8e8f0');
  r(22,18,14,11,'#c8a060');r(23,19,12,9,'#5a8aa8');r(24,24,10,4,'#6aa86a');
- r(1,26,13,64,'#6a4a3a');r(2,27,11,62,lv.mor==3||lv.mor==4?'#8a5a40':'#3a2418');if(lv.door){r(2,27,11,62,'#140c08');r(2,27,11,1,'#2a1a14');r(10,27,4,62,'#4a2e20');r(11,28,2,60,'#5a3a28')}if(lv.mor==4&&!lv.door)r(10,58,2,2,'#e0b84a');if(lv.mor==3&&!lv.door){r(3,40,9,7,'#fff');txt('NO',4,41,'#d8352f',1);r(10,58,2,2,'#e0b84a')}
+ r(1,26,13,64,'#6a4a3a');r(2,27,11,62,'#7a5038');r(3,29,9,26,'#845a40');r(3,58,9,29,'#845a40');r(3,29,9,1,'#94684a');r(3,58,9,1,'#94684a');r(7,36,1,1,'#c8c0b0');r(10,54,2,1,'#c8c0b0');r(10,58,2,2,'#e0b84a');r(10,57,1,1,'#fff0b0');
+ if(lv.door){r(2,27,11,62,'#140c08');r(2,27,11,1,'#2a1a14');r(10,27,4,62,'#4a2e20');r(11,28,2,60,'#5a3a28')}
  r(74,40,5,2,'#e8d8a8');r(75,42,3,4,'#f8f0d0');r(76,46,1,44,'#5a4a3a');if(n)disc(76,46,10,'#ffd88a',.18);
  r(0,92,80,52,'#a0784e');for(let y=92;y<144;y+=6)r(0,y,80,1,'#8a6440');r(10,96,62,40,'#7a5a8a');r(12,98,58,36,'#8a6a9a');
  r(14,50,60,24,'#5a7a6a');r(14,50,60,2,'#7a9a8a');for(let x=33;x<74;x+=20)r(x,53,1,19,'#4a6a5a');
@@ -1641,7 +1652,7 @@ function _qDay1(){qScene({mor:0,q:0,mb:1},[{n:'',t:'Everything feels heavy. Fogg
 let qx=null,qprops={remote:0,sw:0};
 const QXD={qDay1:1,qNight1:1,qDay3:3,qNight3:3,qDay6:6,qNight6:6,qDay9:9,qNight9:9,qDay12:12,qNight12:12,qDay14:14};
 function qEx(cfg,cont){setLoc('living');lv={night:0,mor:0,q:0,...cfg.lv,ex:1};showHM=1;mode='qx';qx={room:'living',hud:cfg.hud,goal:cfg.goal,cont,pend:null,d:cfg.d,cnt:{},gl:cfg.gl||null};
- [abi,hunter,morgan].forEach(p=>{p.hold=null;p.zz=0;p.lid=0;p.tx=null;p.moving=false});at(abi,92,112,'l');go(abi,[[70,114]],38);qx.phase='walkIn';qx.afterIn=cfg.intro?()=>bark([{n:'',t:cfg.intro}]):null;setHud(cfg.hud)}
+ [abi,hunter,morgan].forEach(p=>{p.hold=null;p.zz=0;p.lid=0;p.tx=null;p.moving=false});at(abi,92,112,'l');go(abi,[[70,114]],38);qx.phase='walkIn';qx.afterIn=cfg.intro?()=>{bark([{n:'',t:cfg.intro}]);if(cfg.d===1)after(4,()=>bark([{n:'',t:'Psst: tap BINGO (top right) for Quarantine Bingo. Fill it in over the 14 days!'}]))}:null;setHud(cfg.hud)}
 const qxL=(id,d)=>{const n=lv.night,e=lv.eve;const L={
  cal:[{n:'',t:'Day '+qx.d+' of 14.'+(qx.d<14?' '+(14-qx.d)+' more to go.':' The LAST day!')},{n:'Abigail',t:['(Is it Tuesday? Every day is Tuesday now.)','(Morgan drew a little skull on today’s date.)','(Someone has been crossing off the days REALLY hard.)'][qx.d%3]}],
  morgan:lv.mor==4?[{n:'Morgan',t:'(through the door, still on the phone) No, YOU hang up first.'}]:lv.mor==3?[{n:'Morgan',t:qx.d>=14?'(through the door) Are you two official yet? FINALLY.':'(through the door) GO AWAY. ...Thank you for the cookie.'}]:
@@ -1657,65 +1668,242 @@ const qxL=(id,d)=>{const n=lv.night,e=lv.eve;const L={
  blanket:[{n:'Abigail',t:'(The big fluffy blanket. Saving it for a special occasion.)'}],
  sw:[{n:'Abigail',t:'(The Switch. Hunter has been "practicing.")'},{n:'Abigail',t:'(Rematch later. Definitely rematch later.)'}],
  hall:[{n:'Abigail',t:qx.d<14?'(The front door. Freedom is just past it. In '+(14-qx.d)+' days.)':'(The front door. Tomorrow, we can finally go outside.)'}]};return L[id]};
-function qxItems(){if(qx.room==='kitchen')return [{id:'pantry',x:4,y:10,w:32,h:22,spot:[20,104]},{id:'fridge',x:56,y:44,w:18,h:52,spot:[64,104]},{id:'stove',x:38,y:66,w:16,h:30,spot:[46,104]},{id:'sink',x:6,y:66,w:30,h:30,spot:[20,104]},{id:'back',x:0,y:128,w:26,h:16,spot:[8,136],face:'l'}];
+function qxItems(){if(qx.room==='kitchen')return [{id:'pantry',x:4,y:10,w:32,h:22,spot:[20,104]},{id:'fridge',x:56,y:44,w:18,h:52,spot:[64,104]},{id:'stove',x:38,y:66,w:16,h:30,spot:[46,104]},{id:'sink',x:6,y:66,w:30,h:30,spot:[20,104]},{id:'back',x:54,y:128,w:26,h:16,spot:[72,136],face:'r'}];
+ if(qx.room==='hall')return qhItems();if(qx.room==='bath')return qbItems();if(qx.room==='bed')return qdItems();
  const I=[{id:'cal',x:24,y:32,w:9,h:12,spot:[28,93]},{id:'phone',x:60,y:28,w:12,h:24,spot:[66,93]},{id:'window',x:44,y:8,w:28,h:34,spot:[58,93]},
  {id:'tissues',x:22,y:91,w:16,h:10,spot:[30,120]},(qprops.remote?{id:'remote',x:50,y:93,w:8,h:8,spot:[54,120]}:{id:'remote',x:56,y:108,w:10,h:8,spot:[60,122]}),
- {id:'blanket',x:0,y:98,w:14,h:16,spot:[14,120],face:'l'},{id:'hall',x:0,y:130,w:22,h:14,spot:[8,136],face:'l'},{id:'kit',x:52,y:130,w:28,h:14,spot:[72,136],face:'r'},{id:'hunter',x:HX[lv.q]-6,y:50,w:12,h:30,spot:[HX[lv.q]+(HX[lv.q]>AX[lv.q]?-6:6),93]}];
+ {id:'blanket',x:63,y:96,w:16,h:16,spot:[60,118],face:'r'},{id:'door',x:1,y:26,w:13,h:64,spot:[12,95]},{id:'kit',x:0,y:130,w:24,h:14,spot:[8,136],face:'l'},{id:'hallx',x:56,y:130,w:24,h:14,spot:[72,136],face:'r'},
+ {id:'cart',x:0,y:88,w:11,h:24,spot:[16,110],face:'l'},{id:'puzzle',x:28,y:119,w:26,h:11,spot:[41,134],face:'u'},{id:'plant',x:66,y:104,w:12,h:22,spot:[62,126],face:'r'},{id:'hunter',x:HX[lv.q]-6,y:50,w:12,h:30,spot:[HX[lv.q]+(HX[lv.q]>AX[lv.q]?-6:6),93]}];
  if(lv.sw||qx.goal==='sw'||qprops.sw)I.push({id:'sw',x:38,y:92,w:13,h:9,spot:[44,120]});
- if(lv.mor<2)I.push({id:'morgan',x:14,y:50,w:14,h:30,spot:[28,93]});else if(lv.mor==2)I.push({id:'morgan',x:8,y:116,w:16,h:22,spot:[28,130],face:'l'});else I.push({id:'morgan',x:1,y:26,w:13,h:64,spot:[12,95]});
+ if(lv.mor<2)I.push({id:'morgan',x:14,y:50,w:14,h:30,spot:[28,93]});else if(lv.mor==2&&!lv.mgone)I.push({id:'morgan',x:8,y:116,w:16,h:22,spot:[28,130],face:'l'});
  return I}
 /* living room: real path finding around the coffee table (and Morgan's beanbag) */
-const lvWalk=m=>(x,y)=>{if(x<4||x>76||y<90||y>140)return false;if(x>21-m&&x<63+m&&y>108-m&&y<116+m)return false;if(x<14+m&&y>106-m&&y<113+m)return false;if((lv.mor==2||lv.mor==4)&&((x-16)/(10+m))**2+((y-134)/(5+m))**2<1)return false;return true};
+const lvWalk=m=>(x,y)=>{if(x<4||x>76||y<90||y>140)return false;if(x>21-m&&x<63+m&&y>108-m&&y<116+m)return false;if(x>64-m&&y>106-m&&y<113+m)return false;if(x<11+m&&y>105-m&&y<113+m)return false;if(x>67-m&&x<77+m&&y>121-m&&y<127+m)return false;if(x>28-m&&x<54+m&&y>121-m&&y<130+m)return false;if((lv.mor==2||lv.mor==4)&&((x-16)/(10+m))**2+((y-134)/(5+m))**2<1)return false;return true};
 function lvNear(x,y){const w=lvWalk(1);if(w(x,y))return [x,y];for(let d=1;d<30;d++)for(const [a,b] of [[0,-d],[0,d],[-d,0],[d,0],[-d,-d],[d,-d],[-d,d],[d,d]])if(w(x+a,y+b))return [x+a,y+b];return [x,y]}
-function qxRoute(tx,ty){if(qx.room!=='kitchen'){try{const P=planPath(abi.x,abi.y,tx,ty,lvWalk,4,90,76,140);if(P&&P.length){const l=P[P.length-1];if(Math.hypot(l[0]-tx,l[1]-ty)>.5)P.push([tx,ty]);P._r=1;return P}}catch(e){}}return qxRouteOld(tx,ty)}
+function qxRoute(tx,ty){if(qx.room!=='kitchen'){try{const B=QXB[qx.room]||QXB.living,P=planPath(abi.x,abi.y,tx,ty,qx.room==='living'?lvWalk:qxRW(qx.room),B[0],B[1],B[2],B[3]);if(P&&P.length){const l=P[P.length-1];if(Math.hypot(l[0]-tx,l[1]-ty)>.5)P.push([tx,ty]);P._r=1;return P}}catch(e){}}return qxRouteOld(tx,ty)}
 function qxRouteOld(tx,ty){const fx=abi.x,fy=abi.y,inT=x=>x>17&&x<67;if(qx.room!=='kitchen'&&((fy<97)!==(ty<97))&&(inT(fx)||inT(tx))){const side=(fx+tx)/2<42?14:70;return [[side,fy],[side,ty],[tx,ty]]}return [[tx,ty]]}
 function qxTap(x,y){if(qx.phase)return;const it=qxItems().find(i=>x>=i.x&&x<=i.x+i.w&&y>=i.y&&y<=i.y+i.h);let tx,ty;if(it)seenMark('q_'+qx.room+':'+it.id);
- if(it){qx.pend=it;[tx,ty]=it.spot}else{qx.pend=null;tx=Math.max(6,Math.min(74,x));if(qx.room==='kitchen')ty=Math.max(102,Math.min(140,y));else if(y<97)ty=93;else{ty=Math.max(97,Math.min(140,y));[tx,ty]=lvNear(tx,ty)}qx.tap={x:tx,y:ty,t:0}}
+ if(it){qx.pend=it;[tx,ty]=it.spot}else{qx.pend=null;tx=Math.max(6,Math.min(74,x));if(qx.room==='kitchen')ty=Math.max(102,Math.min(140,y));else if(qx.room!=='living'){const B=QXB[qx.room];ty=Math.max(B[1]+1,Math.min(140,y));[tx,ty]=qxNear(tx,ty)}else if(y<97)ty=93;else{ty=Math.max(97,Math.min(140,y));[tx,ty]=lvNear(tx,ty)}qx.tap={x:tx,y:ty,t:0}}
  go(abi,qxRoute(tx,ty),44)}
-function qxToKitchen(after){qx.phase='walkOut';go(abi,qxRoute(72,138).concat([[92,140]]),40);qx.out=()=>fadeTo(()=>{setLoc('mkit');qx.room='kitchen';at(abi,-6,138,'r');go(abi,[[16,124]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(qx.hud)})}
-function qxToLiving(after){qx.phase='walkOut';go(abi,[[8,138],[-10,140]],40);qx.out=()=>fadeTo(()=>{setLoc('living');qx.room='living';at(abi,90,138,'l');go(abi,[[66,126]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(mode==='qx'?qx.hud:'')})}
-function qxUpdate(dt){if(!qx||(loc!=='living'&&loc!=='mkit'))return;if(qx.tap){qx.tap.t+=dt;if(qx.tap.t>.4)qx.tap=null}
+function qxToKitchenOld(after){qx.phase='walkOut';go(abi,qxRoute(72,138).concat([[92,140]]),40);qx.out=()=>fadeTo(()=>{setLoc('mkit');qx.room='kitchen';at(abi,-6,138,'r');go(abi,[[16,124]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(qx.hud)})}
+function qxToLivingOld(after){qx.phase='walkOut';go(abi,[[8,138],[-10,140]],40);qx.out=()=>fadeTo(()=>{setLoc('living');qx.room='living';at(abi,90,138,'l');go(abi,[[66,126]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(mode==='qx'?qx.hud:'')})}
+function qxUpdate(dt){qxBingoBtn();if(!qx||!QXL[loc])return;if(mode==='wash'){qWashUpd(dt);return}if(qx.tap){qx.tap.t+=dt;if(qx.tap.t>.4)qx.tap=null}
  if(qx.phase){if(dlg)return;if(qx.phase==='sit'){qx.st+=dt;if(qx.st>=.75){QSAT=T;qx.sx=qx.sy=null;QPN=qx.room==='living'&&!qx.cnt.phone&&!(qprops.ph&&qprops.ph[qx.d])?qx.d:null;qx.phase=null;lv.ex=0;abi.hold=null;abi.carry=null;sfx('step');qx.cont()}return}
   if(qx.phase==='wait')return;mv(abi,dt);if(abi.tx==null){const P=qx.phase;abi.moving=false;
-   if(P==='toSeat'){qx.phase='sit';qx.st=0;abi.dir='d'}else if(P==='exit'){qx.phase=null;qx.cont()}
+   if(P==='toSeat'){qx.phase='sit';qx.st=0;abi.dir='d'}else if(P==='exit'){qx.phase=null;if(qx.goal==='door'){lv.door=1;sfx('creak')}qx.cont()}
    else if(P==='walkOut'){qx.phase='wait';const f=qx.out;qx.out=null;f()}else if(P==='walkIn'){qx.phase=null;const f=qx.afterIn;qx.afterIn=null;if(f)f()}}return}
  if(mode!=='qx'||dlg){if(dlg&&mode==='qx')abi.moving=false;return}mv(abi,dt);
  if(abi.tx==null&&qx.pend){const it=qx.pend;qx.pend=null;abi.dir=it.face||'u';
   if(it.id===qx.goal){mode='q';setHud('');chatClear();qxGoal()}
-  else if(it.id==='kit')qxToKitchen();else if(it.id==='back')qxToLiving();
-  else{const L=qxL(it.id);const k=qx.cnt[it.id]||0;qx.cnt[it.id]=k+1;if(it.id==='phone'){qprops.ph=qprops.ph||{};qprops.ph[qx.d]=1}sfx('select');say(L.length>2&&it.id!=='phone'?[L[k%L.length]]:it.id==='fridge'||it.id==='cal'?[L[k%2]]:L)}}}
+  else if(QXX[qx.room]&&QXX[qx.room][it.id])qxMove(QXX[qx.room][it.id]);
+  else if(qxAct(it.id)){}
+  else{const L=qxL(it.id)||qxL2(it.id)||[{n:'Abigail',t:'(Hm.)'}];const k=qx.cnt[it.id]||0;qx.cnt[it.id]=k+1;if(it.id==='phone'){qprops.ph=qprops.ph||{};qprops.ph[qx.d]=1;qbMark('mum')}sfx('select');say(L.length>2&&it.id!=='phone'?[L[k%L.length]]:it.id==='fridge'||it.id==='cal'?[L[k%2]]:L)}}}
 function qxGoal(){const G=qx.goal,sx=AX[lv.q];const toSeat=()=>{qx.phase='toSeat';go(abi,qxRoute(sx,93),40)};const afterGl=f=>qx.gl?say(qx.gl,f):f();
  const pick=c=>{abi.hold='carry';abi.carry=c;qx.got=G;if(G in qprops)qprops[G]=1;if(G==='remote')qprops.lap='remote';sfx('item')};
- if(G==='hall'){qx.phase='exit';go(abi,qxRoute(8,138).concat([[-10,140]]),40);return}
+ if(G==='door'){qx.phase='exit';go(abi,qxRoute(12,95).concat([[9,90]]),40);return}
  if(G==='pantry'){qx.popen=1;sfx('creak');after(.7,()=>{pick('#e8c050');qx.kc=1;after(.5,()=>{qx.popen=0;sfx('creak');say([{n:'Abigail',t:'(Kettle corn. The good stuff. Now something to drink.)'}],()=>{qx.goal='fridge';qx.hud='Grab a soda from the fridge';setHud(qx.hud);mode='qx'})})});return}
- if(G==='fridge'){qx.fopen=1;sfx('creak');after(.7,()=>{pick(qx.kc?'#e8c051':'#f8e0a0');after(.4,()=>{qx.fopen=0;afterGl(()=>qxToLiving(toSeat))})});return}
+ if(G==='fridge'){qx.fopen=1;sfx('creak');after(.7,()=>{pick(qx.kc?'#e8c051':'#f8e0a0');after(.4,()=>{qx.fopen=0;afterGl(()=>qxMove('living',toSeat))})});return}
  if(G==='tissues')pick('#f8f8ff');else if(G==='remote')pick('#1a1a22');else if(G==='sw')pick('#e0463c');else if(G==='blanket')pick('#e89ab8');
  if(G==='hunter'){toSeat();return}after(.35,()=>afterGl(toSeat))}
 function qxArrow(t,g){const b=Math.round(Math.sin(t*6)*1.5),x=Math.round(g.x+g.w/2);
  if(g.y-6<22){// too close to the top of the screen (hidden under the hearts/HUD): point up at it from underneath
   const y=g.y+g.h+3-b;r(x-1,y-1,3,7,'rgba(0,0,0,.25)');r(x,y,1,1,'#ffe066');r(x-1,y+1,3,1,'#ffe066');r(x-2,y+2,5,1,'#ffe066');r(x,y+3,1,3,'#ffe066');return}
  const y=g.y-6+b;r(x-2,y,5,1,'#ffe066');r(x-1,y+1,3,1,'#ffe066');r(x,y+2,1,1,'#ffe066')}
-function qxGoalItem(){const I=qxItems();let g=I.find(i=>i.id===qx.goal);if((qx.goal==='fridge'||qx.goal==='pantry')&&qx.room!=='kitchen')g=I.find(i=>i.id==='kit');return g}
+function qxGoalItem(){const I=qxItems(),gr=qx.goal==='fridge'||qx.goal==='pantry'?'kitchen':'living';if(qx.room===gr)return I.find(i=>i.id===qx.goal);
+ const way=qx.room==='bath'||qx.room==='bed'?'out':qx.room==='hall'?'liv':qx.room==='kitchen'?'back':'kit';return I.find(i=>i.id===way)}
 function qxAbi(t){if(qx.tap){const k=qx.tap.t,q=1+k*8;cx.globalAlpha=1-k*2.5;[[q,0],[-q,0],[0,q],[0,-q]].forEach(o=>r(qx.tap.x+o[0],qx.tap.y+o[1],1,1,'#fff'));cx.globalAlpha=1}
  let sat=0;if(qx.phase==='sit'){if(qx.sx==null){qx.sx=abi.x;qx.sy=abi.y}const k=Math.min(1,qx.st/.38),e=k*k*(3-2*k);abi.x=Math.round(qx.sx+(AX[lv.q]-qx.sx)*e);abi.y=Math.round(qx.sy+(78-qx.sy)*e);abi.dir='d';sat=qx.st>.4?1:0}
  abi.sit=sat;abi.sitF=sat;if(abi.hold!=='carry')abi.hold=null;person(abi,t);if(qx.room==='living')lvFront(t,abi);if(mode==='qx'&&!dlg&&!qx.phase){const g=qxGoalItem();if(g)qxArrow(t,g)}}
 /* Morgan's living room props, split out so Abigail can step behind them: whatever stands in front of her feet is drawn again over her */
 /* Day 9: Morgan opens her door, steps in on the phone and shuts it softly behind her */
-function lvMorIn(){const W=lv.mw,M=lv.mw2={x:W.x,y:W.y,dir:'u',hold:'phone'};lv.mw=null;
- after(.2,()=>{lv.door=1;sfx('creak');after(.45,()=>{go(M,[[8,90]],18);M.fade=T;after(.65,()=>{lv.mw2=null;lv.mgone=1;after(.15,()=>{lv.door=0;sfx('latch')})})})})}
-/* Day 14: out of her room, across the living room and out the front door (bottom left, past the hall) */
-function lvMorOut(done){lv.door=1;sfx('creak');const M=lv.mw2={x:8,y:90,dir:'d',fin:T};
- after(.5,()=>{go(M,[[10,97],[17,102],[17,127],[6,136],[-12,139]],52);waitTill(()=>M.tx==null,()=>{lv.mw2=null;after(.25,done)})})}
+/* ===== Morgan's apartment, laid out like the real one: living room (front door + bar cart on the far wall, balcony glass),
+   kitchen to the left, a hallway to the right with the bathroom, your room and Morgan's door. Plus quarantine bingo and
+   little daily things to do. ===== */
+const QXL={living:1,mkit:1,mhall:1,mbath:1,mbed:1},QXQ={mhall:1,mbath:1,mbed:1};
+const QXR={living:'living',kitchen:'mkit',hall:'mhall',bath:'mbath',bed:'mbed'};
+const QXB={living:[4,90,76,140],hall:[4,96,76,140],bath:[4,100,76,140],bed:[4,96,76,140]};
+const QXX={living:{kit:'kitchen',hallx:'hall'},kitchen:{back:'living'},hall:{liv:'living',bathd:'bath',bedd:'bed'},bath:{out:'hall'},bed:{out:'hall'}};
+const QXE={'living>kitchen':{out:[8,138],off:[[-10,140]],sp:[90,138,'l'],in:[64,126]},'kitchen>living':{out:[72,138],off:[[92,140]],sp:[-10,138,'r'],in:[14,126]},
+ 'living>hall':{out:[72,138],off:[[92,140]],sp:[-10,138,'r'],in:[14,126]},'hall>living':{out:[8,138],off:[[-10,140]],sp:[90,138,'l'],in:[64,126]},
+ 'hall>bath':{out:[13,97],off:[[13,91]],door:'bathd',sp:[40,152,'u'],in:[40,128]},'bath>hall':{out:[40,138],off:[[40,152]],sp:[13,93,'d'],in:[14,106],back:'bathd'},
+ 'hall>bed':{out:[35,97],off:[[35,91]],door:'bedd',sp:[40,152,'u'],in:[40,128]},'bed>hall':{out:[40,138],off:[[40,152]],sp:[35,93,'d'],in:[35,106],back:'bedd'}};
+function qxRW(room){return m=>(x,y)=>{const B=QXB[room];if(x<B[0]||x>B[2]||y<B[1]||y>B[3])return false;
+ if(room==='bath'){if(x<27+m&&y<109+m)return false}
+ if(room==='bed'){if(x<45+m&&y<115+m)return false;if(x>58-m&&x<76+m&&y>116-m&&y<123+m)return false}
+ return true}}
+function qxNear(x,y){const w=qxRW(qx.room)(1);if(w(x,y))return [x,y];for(let d=1;d<40;d++)for(const [a,b] of [[0,-d],[0,d],[-d,0],[d,0],[-d,-d],[d,-d],[-d,d],[d,d]])if(w(x+a,y+b))return [x+a,y+b];return [x,y]}
+function qxMove(to,after){const from=qx.room,E=QXE[from+'>'+to];if(!E)return;qx.phase='walkOut';if(E.door){qx.hd=E.door;sfx('creak')}
+ go(abi,qxRoute(E.out[0],E.out[1]).concat(E.off),40);
+ qx.out=()=>fadeTo(()=>{setLoc(QXR[to]);qx.room=to;qx.hd=E.back||null;at(abi,E.sp[0],E.sp[1],E.sp[2]);go(abi,[E.in],40);qx.phase='walkIn';if(E.back)after2(.5,()=>{if(qx){qx.hd=null;sfx('latch')}});qx.afterIn=after||null;setHud(mode==='qx'?qx.hud:'')})}
+const after2=(d,f)=>after(d,f);
+/* ---- saved progress for the apartment's extras (bingo, puzzle, plant, banana bread) ---- */
+const QSV={get(){try{return Object.assign({b:{},pz:[],pl:[],bread:null},JSON.parse(LS('ourstory_qb')||'{}'))}catch(e){return {b:{},pz:[],pl:[],bread:null}}},put(o){try{LS('ourstory_qb',JSON.stringify(o))}catch(e){}}};
+const qSid=()=>qx?qx.d+(lv.night?'n':'d'):'0';
+const QBK=[['bread','Bake banana bread'],['puzzle','Work on the puzzle'],['plant','Water Kevin the plant'],['wash','Wash hands for 20 seconds'],['temp','Take your temperature'],['bed','Make the bed'],['knock','Knock on Morgan’s door'],['arches','Spot the Golden Arches'],['mum','Read Mum’s texts']];
+const QBL=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+function qbLines(b){return QBL.filter(L=>L.every(i=>b[QBK[i][0]])).length}
+function qbMark(k){const S=QSV.get();if(S.b[k])return;const l0=qbLines(S.b);S.b[k]=1;QSV.put(S);const l1=qbLines(S.b),all=QBK.every(([q])=>S.b[q]);
+ after(.4,()=>{sfx('ding');const nm=QBK.find(q=>q[0]===k)[1];bark([{n:'',t:'Quarantine Bingo: '+nm+'!'}]);qbFlash();
+  if(all)after(1.4,()=>{bark([{n:'',t:'BLACKOUT! Every square. Quarantine champion.'}]);sfx('fanfare');try{GFX.wf=0;winFx()}catch(e){}});
+  else if(l1>l0)after(1.4,()=>{bark([{n:'',t:'BINGO!'}]);sfx('chime');try{GFX.wf=0;winFx()}catch(e){}})})}
+function qbFlash(){const b=document.getElementById('qbBtn');if(!b)return;b.classList.remove('fl');void b.offsetWidth;b.classList.add('fl')}
+function qxBingoBtn(){let b=document.getElementById('qbBtn');if(!b){b=document.createElement('button');b.id='qbBtn';b.textContent='BINGO';$('g').appendChild(b);
+  b.addEventListener('pointerdown',e=>{e.stopPropagation()});b.onclick=e=>{e.stopPropagation();sfx('select');qbOpen()}}
+ const on=(mode==='qx'||mode==='wash')&&QXL[loc]&&!document.getElementById('qbCard');b.style.display=on&&mode==='qx'?'block':'none'}
+function qbOpen(){const S=QSV.get(),c=document.createElement('div');c.id='qbCard';
+ c.innerHTML='<div class="qbp"><h3>QUARANTINE BINGO</h3><div class="qbg">'+QBK.map(([k,l])=>'<div class="qbc'+(S.b[k]?' on':'')+'"><span>'+l+'</span>'+(S.b[k]?'<i>'+miniStar(1)+'</i>':'')+'</div>').join('')+'</div><p>'+QBK.filter(([k])=>S.b[k]).length+' / 9 &middot; '+qbLines(S.b)+' bingo'+(qbLines(S.b)===1?'':'s')+'</p><p class="qbh">Explore the apartment. Tap things!</p><button>Close</button></div>';
+ $('g').appendChild(c);c.addEventListener('pointerdown',e=>e.stopPropagation());c.onclick=e=>{e.stopPropagation();sfx('select');c.remove()}}
+/* ---- things to do ---- */
+const QTEMP={1:'101.4',3:'100.6',6:'99.9',9:'99.2',12:'98.8',14:'98.6'};
+function qxAct(id){const d=qx.d,n=lv.night,S=QSV.get(),sid=qSid();
+ if(id==='puzzle'){sfx('select');qx.pcard=T;const k=S.pz.length;
+  if(k>=8){say([{n:'Abigail',t:'(The corgi puzzle. Finished. I am framing it.)'}]);return true}
+  if(S.pz.includes(sid)){say([{n:'Abigail',t:'(That is enough puzzle for today. My eyes are going crossed.)'}]);return true}
+  S.pz.push(sid);QSV.put(S);qx.pnew=T;const L=['(Morgan’s 500-piece puzzle. Edges first. ALWAYS edges first.)','(A few more pieces. Is that... an ear?)','(Definitely ears. Big ones.)','(A pink tongue! It is some kind of dog.)','(A very round dog. With very short legs.)','(Almost done. Just the sky left. Why is it ALWAYS the sky?)','(Last few pieces...)','(DONE! A corgi, sitting in a field of flowers.)'];
+  say([{n:'Abigail',t:L[k]},...(k===7?[{n:'Abigail',t:'(Someday. Someday I am getting a corgi.)'}]:[])],()=>{qx.pcard=null});qbMark('puzzle');return true}
+ if(id==='plant'){const g=S.pl.length;if(S.pl.includes(sid)){say([{n:'Abigail',t:'(Kevin has had enough water today. Do not drown Kevin.)'}]);return true}
+  S.pl.push(sid);QSV.put(S);qx.water=T;sfx('blip');const L=['(A sad little plant. Morgan named it Kevin. Hello, Kevin.)','(Kevin has a new leaf!)','(Kevin is thriving. One of us should be.)','(Kevin is getting HUGE.)','(Kevin has a flower! Best quarantine news yet.)','(Kevin is living his best life.)'];
+  say([{n:'',t:'*splish splash*'},{n:'Abigail',t:L[Math.min(L.length-1,g)]}]);qbMark('plant');return true}
+ if(id==='window'){say([{n:'Abigail',t:lv.eve?'(A pink sunset. The first one I’ve actually noticed in two weeks.)':'(The balcony. It is absolutely FREEZING out there. Not today.)'},
+  {n:'Abigail',t:'(Far past the parking lot, the Golden Arches glow faintly in the distance.)'},{n:'Abigail',t:'(The one remaining sign of hope that society has not yet totally collapsed.)'}]);qbMark('arches');return true}
+ if(id==='stove'){if(d<3){say([{n:'Abigail',t:'(I would bake something. But there is nothing to bake WITH. Half an onion does not count.)'}]);return true}
+  if(S.bread!=null){say([{n:'Abigail',t:S.bread===d?'(Fresh banana bread. Hunter has "tested" four slices.)':'(The banana bread is going fast. Somebody keeps cutting tiny slices so no one notices.)'}]);return true}
+  say([{n:'Abigail',t:'(Hunter’s mom brought SO many bananas. Brown ones, too. You know what that means.)',c:[{l:'Bake banana bread!',f:()=>say([{n:'',t:'*mash mash mash*',anim:()=>sfx('blegh')},{n:'',t:'(Into the oven it goes.)',anim:()=>{qx.oven=T;sfx('creak')}},
+   {n:'',t:'*ding!*',anim:()=>{sfx('ding');qx.oven=null;const S2=QSV.get();S2.bread=d;QSV.put(S2)}},{n:'Abigail',t:'(The whole apartment smells amazing. Morgan opened her door just to sniff the air.)'}],()=>qbMark('bread'))},{l:'Maybe later',f:()=>{}}]}]);return true}
+ if(id==='mdoor'){sfx('knock');const k=qx.cnt.knock=(qx.cnt.knock||0)+1,inRoom=lv.mor>=3;
+  const A=inRoom?({9:['(through the door) Babe, hold on, someone is knocking. ...It’s just Abigail. She’s being cute AT me.','(through the door) Still on the phone. Still in love. Go away.'],12:['(through the door) If this is about the cookie, it was delicious. Now leave.','(through the door) *silence*'],14:['(through the door) Is it over yet? ...It is not over yet. I can tell by your knock.','(through the door) Knock one more time. I dare you.']}[d]||['(through the door) WHAT.','(through the door) *aggressive silence*'])
+   :['(from the couch) I can HEAR you knocking on my door. I am RIGHT HERE.','(from the couch) Nobody is home. Leave a message.'];
+  say([{n:'',t:'*knock knock*'},{n:'Morgan',t:A[(k-1)%A.length]}]);qbMark('knock');return true}
+ if(id==='sink'){qWashStart();return true}
+ if(id==='mirror'){sfx('blip');const tp=QTEMP[d]||'99.0';say([{n:'',t:'(The thermometer from the medicine cabinet.)'},{n:'',t:'*beep* '+tp+' F'},{n:'Abigail',t:{1:'(Ugh. Back to the couch forever.)',3:'(Going down. Slowly.)',6:'(Almost normal. Almost.)',9:'(I feel like a person again. A tired person.)',12:'(Normal-ish! Two more days.)',14:'(98.6. Normal. NORMAL!)'}[d]||'(Hm.)'}]);qbMark('temp');return true}
+ if(id==='bed'){if(qx.bedMade){say([{n:'Abigail',t:'(Made. Hospital corners and everything.)'}]);return true}qx.bedMade=1;qx.bedA=T;sfx('whoosh');say([{n:'Abigail',t:['(Fluff the pillows. Smooth the blanket. Feel like an adult.)','(Making the bed while sick. Look at me go.)','(Hunter sleeps like a starfish. Every morning, the bed looks like a crime scene.)'][(d+(n?1:0))%3]}]);qbMark('bed');return true}
+ return false}
+function qxL2(id){const d=qx.d,n=lv.night;const L={
+ door:[{n:'Abigail',t:d<14?'(The front door. Freedom is just past it. In '+(14-d)+' days.)':'(The front door. Tomorrow, we can finally go outside.)'}],
+ cart:[{n:'Abigail',t:'(Morgan’s bar cart. Fully stocked. Off-limits until my nose works again.)'},{n:'Abigail',t:'(Someone has hidden a bottle of hand sanitiser between the gin and the tequila.)'}],
+ photos:[{n:'Abigail',t:'(Morgan’s photo wall. Morgan at the beach. Morgan at a concert. Morgan with a stranger’s dog.)'}],
+ thermo:[{n:'Abigail',t:'(The thermostat. Morgan keeps it at 66. I am wearing two hoodies.)'}],
+ tub:[{n:'Abigail',t:'(The shower curtain has little rubber ducks on it. Morgan says it was a gift. Morgan bought it.)'}],
+ toilet:[{n:'Abigail',t:'(Nothing to see here.)'}],
+ tp:[{n:'Abigail',t:'(The toilet paper stockpile. Morgan bought forty-eight rolls in March. We are set until 2030.)'}],
+ win:[{n:'Abigail',t:n?'(Snowflakes in the street light. In MARCH. Missouri, what are you doing?)':'(Frost on the window. Missouri cannot decide if it is winter or spring.)'}],
+ stand:[{n:'Abigail',t:'(The humidifier is working overtime. So is my nose.)'}],
+ case:[{n:'Abigail',t:'(My suitcase. I packed for a weekend. It has been a week and a half.)'}],
+ guitar:[{n:'Abigail',t:'(Hunter’s guitar. He keeps writing songs about being stuck inside. They are getting dramatic.)'}]};return L[id]}
+/* ---- the handwashing song: scrub while singing Happy Birthday twice (the official 20 seconds) ---- */
+const QLY=['Happy birthday to you','Happy birthday to you','Happy birthday dear Abigail','Happy birthday to youuu'];
+function qWashStart(){mode='wash';qx.wash={t:0,taps:0,bub:[],ln:-1};abi.dir='u';setHud('Tap to scrub! Sing it twice.');sfx('splash')}
+function qWashTap(){const W=qx&&qx.wash;if(!W)return;W.taps++;sfx('pop');for(let i=0;i<2;i++)W.bub.push({x:36+Math.random()*8,y:70+Math.random()*4,vy:-6-Math.random()*8,vx:(Math.random()-.5)*6,l:1+Math.random(),r:1+Math.random()*1.5})}
+function qWashUpd(dt){const W=qx.wash;if(!W)return;W.t+=dt;W.bub.forEach(b=>{b.x+=b.vx*dt;b.y+=b.vy*dt;b.l-=dt});W.bub=W.bub.filter(b=>b.l>0);
+ const ln=Math.floor(W.t/1.4);if(ln!==W.ln&&ln<8){W.ln=ln;cap('♪ '+QLY[ln%4]+' ♪')}
+ if(W.t>=11.2){qx.wash=null;cap('');setHud(qx.hud);mode='qx';const ok=W.taps>=26;say([{n:'Abigail',t:ok?'(Squeaky clean. Twenty seconds and two whole birthday songs.)':'(...Good enough. Germs, beware.)'}]);qbMark('wash')}}
+/* ---- living room extras ---- */
+function lvCart(){// the bar cart, against the front-door wall
+ r(1,90,1,21,'#c8a040');r(9,90,1,21,'#c8a040');r(0,90,11,1,'#e0c060');r(0,99,11,1,'#e0c060');r(0,108,11,1,'#e0c060');
+ [[1,85,'#3a7a4a',5],[3,84,'#e8e0c0',6],[5,86,'#7a2a3a',4],[7,85,'#c8a060',5]].forEach(([x,y,c,h])=>{r(x,y+(6-h),2,h,c);r(x,y+(6-h)-1,1,1,'#2a2a2a');r(x,y+(6-h)+1,1,1,'rgba(255,255,255,.5)')});
+ [[1,95],[4,95],[7,95]].forEach(([x,y])=>{r(x,y,2,3,'rgba(200,230,240,.8)');r(x,y,2,1,'#fff')});r(2,102,6,5,'#4a7ac8');r(2,102,6,1,'#6a9ae8');disc(2,112,1,'#3a3a46',1);disc(9,112,1,'#3a3a46',1)}
+function lvPlant(t){const S=QSV.get(),g=Math.min(5,S.pl.length),x=71,y=126,sw=Math.sin(t*1.2)*.6;
+ r(x-4,y-6,9,6,'#c8603a');r(x-4,y-6,9,1,'#e0804a');r(x-3,y-1,7,1,'#a84a2a');r(x-3,y-6,7,1,'#4a2a1a');
+ const L=[[0,-8,0],[-3,-10,-1],[3,-11,1],[-2,-14,-1],[2,-15,1],[0,-18,0]].slice(0,2+g);L.forEach(([dx,dy,s2],i)=>{const lx=Math.round(x+dx+sw*(i/4)),ly=y+dy;r(x,ly+2,1,y-6-ly-2>0?y-6-ly-2:1,'#3a7a3a');ell(lx,ly,2,1,i%2?'#4a9a4a':'#5aaa5a',1)});
+ if(g>=4){const fx=Math.round(x+sw),fy=y-20;r(fx-1,fy,3,1,'#ff9ccb');r(fx,fy-1,1,3,'#ff9ccb');r(fx,fy,1,1,'#ffd86b')}
+ if(qx&&qx.water&&T-qx.water<1.4){const k=T-qx.water;for(let i=0;i<5;i++){const yy=y-24+((k*40+i*6)%20);r(x-3+i*2,Math.round(yy),1,2,'#7ec8f0')}}}
+function lvPuzzleMat(t){const S=QSV.get(),k=Math.min(8,S.pz.length),N=Math.round(48*k/8);r(29,121,24,8,'#c8b8a0');r(29,121,24,1,'#d8ccb8');r(29,128,24,1,'#a89878');
+ for(let i=0;i<N;i++){const c=QPO[i],cx2=c%12,cy2=(c/12)|0;r(29+cx2*2,121+cy2*2,2,2,qPuzCol(cx2,cy2))}if(k>=8)r(28,120,26,10,'rgba(255,255,255,.08)')}
+const QPO=(()=>{const E=[],I=[];for(let i=0;i<48;i++){const x=i%12,y=(i/12)|0;(x===0||y===0||x===11||y===3?E:I).push(i)}let s=7;const R=()=>(s=(s*9301+49297)%233280)/233280;I.sort(()=>R()-.5);return E.concat(I)})();
+function qPuzCol(x,y){if(y===3)return x%3?'#5aaa5a':'#ff9ccb';if(x>=4&&x<=8&&y>=1){return y===1&&(x===4||x===8)?'#c8843a':x===6&&y===2?'#f4ecd8':'#d89a4a'}return y===0?'#9ad0f0':'#bfe6ff'}
+/* ---- close-ups drawn over the room (the jigsaw) ---- */
+function qxOverlay(t){if(!qx)return;if(qx.pcard&&!dlg)qx.pcard=null;if(!qx.pcard)return;const S=QSV.get(),k=Math.min(8,S.pz.length),a=Math.min(1,(T-qx.pcard)/.25);
+ cx.globalAlpha=.55*a;r(0,0,80,144,'#1a1028');cx.globalAlpha=a;const X=10,Y=26,Wd=60,Hd=40;r(X-2,Y-2,Wd+4,Hd+4,'#8a6a4a');r(X,Y,Wd,Hd,'#c8b8a0');
+ cx.save();cx.beginPath();cx.rect(X,Y,Wd,Hd);cx.clip();for(let y=0;y<Hd;y+=2){const q=y/Hd;r(X,Y+y,Wd,2,`rgb(${Math.round(150+q*60)},${Math.round(206+q*30)},${Math.round(240-q*20)})`)}
+ r(X,Y+30,Wd,10,'#5aaa5a');for(let i=0;i<14;i++){const fx=X+(i*9)%Wd,fy=Y+31+(i*5)%8;r(fx,fy,1,1,['#ff9ccb','#ffd86b','#fff'][i%3])}
+ ell(X+12,Y+10,6,2,'#fff',.9);ell(X+46,Y+7,5,2,'#fff',.9);
+ cx.translate(X+30,Y+34);cx.scale(2.4,2.4);cx.translate(-(X+30),-(Y+34));try{corgi(X+30,Y+34,'r',1,T,0,0)}catch(e){}cx.restore();
+ const N=Math.round(48*k/8),cw=Wd/12,ch=Hd/4,sh2=new Set(QPO.slice(0,N));for(let i=0;i<48;i++){if(sh2.has(i))continue;const cx2=i%12,cy2=(i/12)|0;r(X+Math.round(cx2*cw),Y+Math.round(cy2*ch),Math.ceil(cw),Math.ceil(ch),'#c8b8a0');r(X+Math.round(cx2*cw),Y+Math.round(cy2*ch),Math.ceil(cw),1,'#d8ccb8');r(X+Math.round(cx2*cw)+2,Y+Math.round(cy2*ch)+3,2,2,'#b8a890')}
+ for(let i=0;i<=12;i++)r(X+Math.round(i*cw),Y,1,Hd,'rgba(0,0,0,.12)');for(let i=0;i<=4;i++)r(X,Y+Math.round(i*ch),Wd,1,'rgba(0,0,0,.12)');
+ if(qx.pnew&&T-qx.pnew<.8){const g=1-(T-qx.pnew)/.8;QPO.slice(Math.round(48*(k-1)/8),N).forEach(i=>{cx.globalAlpha=g*.7*a;r(X+Math.round((i%12)*cw),Y+Math.round(((i/12)|0)*ch),Math.ceil(cw),Math.ceil(ch),'#fff')})}
+ cx.globalAlpha=a;txt(k>=8?'DONE!':k+'/8',X+Wd/2-(k>=8?9:6),Y+Hd+6,'#ffd86b',1);cx.globalAlpha=1}
+/* ---- the kitchen: banana bread on the counter once it is baked; the oven glows while it bakes ---- */
+function qkBread(t){if(!qx)return;const S=QSV.get();if(qx.oven){const g=.6+.4*Math.sin(t*6);r(39,74,14,14,'#2a2a34');cx.globalAlpha=g;r(40,75,12,12,'#ff8a3a');cx.globalAlpha=1;disc(46,81,9,'#ffa050',.15*g)}
+ if(S.bread!=null){const left=Math.max(2,8-Math.max(0,qx.d-S.bread)),x=20;r(x,61,left+1,4,'#a8683a');r(x,61,left+1,1,'#c8884a');r(x+left+1,62,1,3,'#f0d8a0');r(x-1,65,12,1,'#f4f4f8')}}
+/* ---- the hallway ---- */
+function qhItems(){return [{id:'bathd',x:5,y:36,w:16,h:56,spot:[13,97]},{id:'bedd',x:27,y:36,w:16,h:56,spot:[35,97]},{id:'mdoor',x:57,y:36,w:16,h:56,spot:[65,97]},
+ {id:'photos',x:44,y:40,w:12,h:18,spot:[50,98]},{id:'thermo',x:44,y:60,w:8,h:8,spot:[48,98]},{id:'liv',x:0,y:130,w:26,h:14,spot:[8,136],face:'l'}]}
+function qhDoor(x,open,c,c2){r(x-1,35,16,57,'#e8e8f0');if(open){r(x,36,14,56,'#1a1a28');r(x,36,3,56,c2)}else{r(x,36,14,56,c);r(x+2,39,10,20,c2);r(x+2,63,10,25,c2);r(x+11,64,2,2,'#c8b060')}}
+function vMHall(t){const n=lv.night,d=qx?qx.d:1;
+ r(0,0,80,92,'#8a9ab8');for(let x=0;x<80;x+=6)r(x,0,3,92,'#8292b0');r(0,0,80,2,'#d8d8e4');r(0,88,80,4,'#d8d8e4');
+ r(36,2,8,2,'#e8e8f0');disc(40,5,12,'#fff6d0',n?.18:.08);
+ qhDoor(6,qx&&qx.hd==='bathd','#f0f0f4','#e2e2ea');if(!(qx&&qx.hd==='bathd')){r(9,46,8,3,'#7ab0d8');r(9,45,8,1,'#5a90b8');r(10,49,1,2,'#7ab0d8');r(15,49,1,2,'#7ab0d8')}
+ qhDoor(28,qx&&qx.hd==='bedd','#f0f0f4','#e2e2ea');if(!(qx&&qx.hd==='bedd')){r(29,45,13,9,'#fff');r(29,45,13,1,'#f0d0d8');txt('A+H',30,47,'#d8352f',1)}
+ // Morgan's door: her sign changes as the fortnight goes on
+ r(57,35,16,57,'#e8e8f0');r(58,36,14,56,'#7a5038');r(60,39,10,20,'#845a40');r(60,63,10,25,'#845a40');r(69,64,2,2,'#e0b84a');
+ if(d<9){r(60,42,10,11,'#fff6c0');r(62,44,6,1,'#d8352f');r(61,46,8,1,'#8a6aa8');r(62,48,6,1,'#5a9ad0');r(63,50,4,1,'#5aaa5a');[[61,43],[68,51]].forEach(([a,b])=>r(a,b,1,1,'#ffd86b'))}
+ else if(d<12&&lv.mor===4){r(60,42,10,11,'#fff');r(63,44,4,6,'#2a2a34');r(64,45,2,3,'#7ac8f0');txt('Z',61,51,'#8a8a96',1)}
+ else{r(60,42,10,9,'#fff');txt('NO',61,44,'#d8352f',1)}
+ const lit=lv.mor>=3;if(lit||n)r(58,91,14,1,lit?'#ffe8a0':'#fff6c0');if(n)r(6,91,14,1,'#c8e0f0');
+ // photo wall and the thermostat
+ [[44,40,'#ffd86b'],[51,42,'#7ec8f0'],[45,49,'#ff9ccb'],[52,51,'#8be28b']].forEach(([x,y,c])=>{r(x,y,6,6,'#3a3a46');r(x+1,y+1,4,4,c)});
+ r(45,61,6,5,'#f4f4f8');r(46,62,4,2,'#2a3a2a');r(46,62,1,1,'#5ad06a');
+ r(0,92,80,52,'#a0784e');for(let y=92;y<144;y+=6)r(0,y,80,1,'#8a6440');r(10,100,60,34,'#6a4a7a');r(12,102,56,30,'#7a5a8a');for(let x=12;x<68;x+=4)r(x,101,1,1,'#e8d8c0');
+ r(62,96,4,2,'#3a3a46');r(67,96,4,2,'#e0463c');r(0,138,26,6,'#7a6a5a');
+ const D=[{y:abi.y,f:()=>{if(qx&&qx.room==='hall')qxAbi(t)}}];D.forEach(x=>x.f());
+ if(qx&&qx.room==='hall')txt('LIVING',2,139,'#ffd86b',1);
+ if(n){cx.globalAlpha=.38;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1;cx.globalCompositeOperation='lighter';disc(40,5,16,'#ffd8a0',.08);cx.globalCompositeOperation='source-over'}qxOverlay(t)}
+/* ---- the bathroom ---- */
+function qbItems(){return [{id:'sink',x:29,y:64,w:22,h:34,spot:[40,104]},{id:'mirror',x:31,y:28,w:18,h:32,spot:[40,104]},{id:'tub',x:0,y:18,w:27,h:80,spot:[30,112],face:'l'},
+ {id:'toilet',x:53,y:58,w:12,h:40,spot:[59,106]},{id:'tp',x:66,y:76,w:14,h:24,spot:[64,108],face:'r'},{id:'out',x:26,y:132,w:28,h:12,spot:[40,138],face:'d'}]}
+function vMBath(t){const n=lv.night,W=qx&&qx.wash;
+ r(0,0,80,40,'#e8eef0');r(0,40,80,56,'#cfe4e4');for(let y=40;y<96;y+=6)r(0,y,80,1,'#b8d0d0');for(let y=40;y<96;y+=6)for(let x=((y/6)%2)*3;x<80;x+=6)r(x,y,1,6,'#b8d0d0');r(0,39,80,2,'#a8c8c8');
+ r(0,18,30,1,'#b8b8c0');r(0,74,27,24,'#f4f4f8');r(0,72,27,3,'#ffffff');r(0,97,27,1,'#c8c8d0');
+ for(let x=1;x<25;x++){const f=Math.round(Math.sin(x*.9+t*.4)*.6);r(x,19,1,56+f,(x%4)<2?'#7ab0d8':'#6aa0c8')}[[4,30],[12,44],[19,32],[7,58],[16,62]].forEach(([x,y])=>{r(x,y,2,2,'#ffd86b');r(x+2,y,1,1,'#ff9a3a')});
+ r(4,108,18,6,'#ff9ccb');r(4,108,18,1,'#ffc0dc');
+ r(31,28,18,32,'#c8c8d0');r(32,29,16,30,'#bfe6ff');r(33,30,2,10,'#eaf6ff');r(40,29,1,30,'#a8c0d0');
+ r(30,74,20,24,'#e8e0d0');r(31,78,8,18,'#f0e8d8');r(41,78,8,18,'#f0e8d8');r(38,86,1,2,'#c8b060');r(42,86,1,2,'#c8b060');r(29,72,22,3,'#ffffff');ell(40,73,6,1,'#c8d8e0',1);r(39,66,2,6,'#b8b8c0');r(39,66,4,1,'#b8b8c0');
+ r(43,68,4,4,'#ff9ccb');r(44,67,2,1,'#fff');
+ r(55,62,10,12,'#f4f4f8');r(55,62,10,1,'#ffffff');ell(60,84,5,4,'#f4f4f8',1);ell(60,82,4,2,'#e0e8ec',1);r(58,86,5,12,'#eceef0');
+ r(53,46,14,1,'#b8b8c0');r(54,47,12,10,'#ff9ccb');r(54,47,12,1,'#ffc0dc');
+ [[4,0],[3,4],[2,8],[1,12]].forEach(([c,o],j)=>{for(let i=0;i<c;i++){const x=67+i*4+j*2,y=94-j*4-4;r(x,y,4,4,'#fbfbff');r(x+1,y+1,2,2,'#c8c8d0');r(x,y,4,1,'#ffffff')}});
+ r(0,96,80,48,'#e8e8f0');for(let y=96;y<144;y+=6)for(let x=((y/6)%2)*6;x<80;x+=12)r(x,y,6,6,'#d8dce6');r(26,138,28,6,'#a8c8d8');
+ if(W){const k=Math.min(1,W.taps/26);r(10,20,60,5,'#2a1a3a');r(11,21,Math.round(58*k),3,'#7ec8f0');txt('SCRUB',30,27,'#2a1a3a',1);W.bub.forEach(b=>{cx.globalAlpha=Math.min(1,b.l);disc(Math.round(b.x),Math.round(b.y),Math.round(b.r),'#ffffff',.9);cx.globalAlpha=1})}
+ if(qx&&qx.room==='bath'){txt('HALLWAY',26,139,'#5a6a7a',1);qxAbi(t)}
+ if(W&&Math.floor(T*8)%2)disc(40,abi.y-12,2,'#ffffff',.9);
+ if(n){cx.globalAlpha=.22;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1}qxOverlay(t)}
+/* ---- your room (yours and Hunter's) ---- */
+function qdItems(){return [{id:'bed',x:4,y:56,w:40,h:58,spot:[48,110],face:'l'},{id:'win',x:50,y:14,w:24,h:32,spot:[62,100]},{id:'stand',x:44,y:78,w:12,h:20,spot:[50,100]},
+ {id:'case',x:58,y:106,w:18,h:18,spot:[56,128],face:'r'},{id:'guitar',x:73,y:62,w:7,h:36,spot:[70,100]},{id:'out',x:26,y:132,w:28,h:12,spot:[40,138],face:'d'}]}
+function vMBed(t){const n=lv.night,made=qx&&qx.bedMade;
+ r(0,0,80,92,'#d8c8b8');for(let y=4;y<90;y+=8)for(let x=((y/8)%2)*5;x<80;x+=10)r(x,y,1,1,'#c8b8a8');r(0,88,80,4,'#f0e6d8');
+ r(50,14,24,32,'#f4f0e8');r(52,16,20,28,n?'#1a2448':'#c8d4e0');r(61,16,2,28,'#f4f0e8');r(52,29,20,2,'#f4f0e8');
+ for(let i=0;i<12;i++){const k=((t*.08+i/12)%1),x=52+((i*7+Math.round(k*6))%20),y=16+Math.round(k*28);r(x,y,1,1,n?'#ffffff':'#f4f8ff')}
+ cx.globalAlpha=.35;r(52,40,20,4,'#ffffff');r(52,16,3,28,'#ffffff');cx.globalAlpha=1;r(48,12,4,38,'#c86a6a');r(72,12,4,38,'#c86a6a');r(47,11,30,2,'#8a5a3a');
+ r(4,52,38,22,'#6a4a3a');r(4,52,38,2,'#8a6a4a');r(6,56,34,16,'#7a5a46');
+ r(4,74,38,40,'#f4f4f8');r(5,74,16,7,'#ffffff');r(23,74,16,7,'#ffffff');r(5,80,16,1,'#e0e0e8');r(23,80,16,1,'#e0e0e8');
+ if(made){r(4,82,38,32,'#7ab0d8');r(4,82,38,2,'#9ac8e8');r(4,90,38,1,'#6aa0c8');for(let y=94;y<114;y+=5)r(4,y,38,1,'#6aa0c8')}
+ else{r(4,86,38,28,'#7ab0d8');ell(14,88,9,4,'#7ab0d8',1);ell(30,92,8,5,'#6aa0c8',1);ell(22,100,10,4,'#8ac0e0',1);r(26,77,10,5,'#ffffff');r(4,113,38,1,'#5a90b8')}
+ if(qx&&qx.bedA&&T-qx.bedA<.8){const k=(T-qx.bedA)/.8;for(let i=0;i<6;i++){cx.globalAlpha=1-k;r(6+i*6,82-Math.round(k*10)-(i%2)*2,2,2,'#ffffff')}cx.globalAlpha=1}
+ r(4,114,38,4,'#6a4a3a');r(5,118,2,3,'#4a3020');r(39,118,2,3,'#4a3020');
+ r(44,82,12,16,'#8a6a4a');r(44,82,12,2,'#a8845a');r(45,90,10,1,'#6a4a2a');r(49,93,2,1,'#e0c060');r(46,76,3,6,'#f0e0b0');r(45,75,5,2,'#e8d090');if(n)disc(47,77,6,'#ffe0a0',.25);
+ r(51,78,4,4,'#e8e8f0');for(let i=0;i<3;i++){const k=((t*.6+i/3)%1);cx.globalAlpha=.5*(1-k);disc(53,77-Math.round(k*12),1+Math.round(k*2),'#ffffff',1);cx.globalAlpha=1}
+ r(74,64,3,30,'#a8683a');ell(75,92,4,5,'#a8683a',1);ell(75,92,2,2,'#3a2418',1);r(75,64,1,22,'#e8e0c0');r(73,62,5,3,'#5a3a24');
+ r(0,92,80,52,'#b8a088');for(let i=0;i<50;i++)r((i*37)%80,94+(i*13)%48,2,1,'#a89078');r(8,120,30,14,'#c8a0a8');r(10,122,26,10,'#d8b0b8');
+ r(60,110,16,12,'#3a5a8a');r(60,110,16,2,'#5a7aaa');r(61,107,14,4,'#ff9ccb');r(63,106,6,2,'#f4f4f8');r(66,112,4,1,'#c8c8d0');r(26,138,28,6,'#8a7a6a');
+ if(qx&&qx.room==='bed'){txt('HALLWAY',26,139,'#5a4a3a',1);qxAbi(t)}
+ if(n){cx.globalAlpha=.4;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1;cx.globalCompositeOperation='lighter';disc(47,77,14,'#ffd8a0',.12);cx.globalCompositeOperation='source-over'}qxOverlay(t)}
+Object.assign(VS,{mhall:[2,vMHall],mbath:[2,vMBath],mbed:[2,vMBed]});
+
+function lvMorIn(){lv.mw=null;lv.mgone=1;after(.9,()=>sfx('creak'));after(1.7,()=>sfx('latch'))}
+/* Day 14: in from the hallway (bottom right), across the room and out of the front door (left), which slams behind her */
+function lvMorOut(done){sfx('creak');const M=lv.mw2={x:94,y:138,dir:'l'};
+ go(M,[[66,131],[22,124],[16,104],[11,95]],58);waitTill(()=>M.tx==null,()=>{M.dir='u';lv.door=1;sfx('creak');after(.3,()=>{go(M,[[8,89]],26);M.fade=T;after(.5,()=>{lv.mw2=null;lv.door=0;done()})})})}
 function lvTable(){r(22,100,40,3,'#c08a58');r(22,100,40,1,'#d8a878');r(22,103,40,6,'#8a5a3a');r(24,109,2,6,'#6a4a2a');r(58,109,2,6,'#6a4a2a');
  for(let i=0;i<Math.min(tissues,12);i++)disc(26+(i*5)%14,98-(i/3|0)*2,2,'#f8f8ff',1);
  r(57,96,4,4,'#fff');r(61,97,1,2,'#fff');r(58,95,2,1,'#c8a080');
  if(lv.pop){r(53,95,2,4,'#3a6ac8');r(53,95,2,1,'#d8d8e0')}}
 function lvTabItems(){const ex=lv.ex&&qx,carryR=(ex&&qx.got==='remote'&&qx.goal==='remote')||qprops.lap==='remote';if(!carryR){if(qprops.remote){r(51,98,5,2,'#1a1a22');r(52,98,1,1,'#e0463c')}else if(!lv.pace){r(58,111,7,3,'#1a1a22');r(59,111,1,1,'#e0463c')}}
  if(qprops.sw||lv.sw||(ex&&qx.goal==='sw')){r(40,96,10,4,'#3a3a46');r(42,97,6,2,'#6ab0e0');if(ex&&qx.goal==='sw'&&qx.got!=='sw'){r(40,96,2,4,'#e0463c');r(48,96,2,4,'#3a8ae0')}}}
-function lvBasket(){const ex=lv.ex&&qx;r(1,102,12,10,'#c89a5a');for(let x=2;x<13;x+=2)r(x,103,1,9,'#a87a3a');if(lv.q<3&&!(ex&&qx.got==='blanket')){r(0,98,14,5,'#e89ab8');r(2,97,8,2,'#f8c0d8')}}
+function lvBasket(){const ex=lv.ex&&qx;r(65,102,12,10,'#c89a5a');for(let x=66;x<77;x+=2)r(x,103,1,9,'#a87a3a');if(lv.q<3&&!(ex&&qx.got==='blanket')){r(64,98,14,5,'#e89ab8');r(66,97,8,2,'#f8c0d8')}}
 function lvBean(t){disc(16,130,9,'#8a5aa8',1);disc(14,126,5,'#a87ac8',1);if(lv.mor==2&&!lv.mw&&!lv.mw2&&!lv.mgone){morgan.x=16;morgan.y=134;morgan.dir='r';morgan.hold='phone';morgan.sit=1;person(morgan,t);morgan.sit=0}ell(16,135,8,3,'#7a4a98')}
 /* [left, right, top, base]: if Abigail's feet are above the base and her sprite overlaps, the prop goes back over her */
-function lvFront(t,p){if(p.sit)return;const O=[[21,63,94,116,()=>{lvTable();lvTabItems()}],[0,14,96,113,lvBasket]];if(lv.mor==2||lv.mor==4)O.push([6,26,118,139,()=>lvBean(t)]);
+function lvFront(t,p){if(p.sit)return;const O=[[21,63,94,116,()=>{lvTable();lvTabItems()}],[62,80,96,113,lvBasket],[0,12,88,113,lvCart],[64,80,104,127,()=>lvPlant(T)]];if(lv.mor==2||lv.mor==4)O.push([6,26,118,139,()=>lvBean(t)]);
  O.forEach(([a,b,top,base,f])=>{if(p.y<base&&p.y>top&&p.x+5>a&&p.x-5<b)f()})}
 function drawQx(t){const ex=lv.ex&&qx;
  r(24,32,9,12,'#f4f4f8');r(24,32,9,3,'#d8352f');r(24,44,9,1,'rgba(0,0,0,.18)');const dd=qx?qx.d:1;for(let i=0;i<6;i++)r(25+(i%3)*3,37+((i/3)|0)*3,2,2,i<Math.min(6,dd/2.4|0)?'#d8352f':'#c8c8d0');
@@ -1725,9 +1913,9 @@ function drawQx(t){const ex=lv.ex&&qx;
   if(nw){r(px+1,43,4,2,'#5ad06a');r(px+1,46,3,1,'#c8d8e8');r(px+1,48,2,1,'#c8d8e8');
    if(bz){r(px-2,43,1,3,'#ffffff');r(px+7,43,1,3,'#ffffff')}
    if(!keep){const by=Math.round(29+Math.sin(t*5)*1.5);r(63,by-1,6,11,'#3a2a1a');r(64,by,4,4,'#ffd86b');r(65,by+4,2,2,'#ffd86b');r(65,by+7,2,2,'#ffd86b');r(64,by,1,1,'#fff4b0')}}}
- if(qprops.lap==='remote'&&!lv.ex){r(AX[lv.q]-3,73,4,2,'#1a1a22');r(AX[lv.q]-3,73,1,1,'#e0463c')}lvTabItems();lvBasket();
+ if(qprops.lap==='remote'&&!lv.ex){r(AX[lv.q]-3,73,4,2,'#1a1a22');r(AX[lv.q]-3,73,1,1,'#e0463c')}lvTabItems();lvBasket();lvCart();lvPuzzleMat(t);lvPlant(t);
  r(0,138,22,6,'#7a6a5a');for(let x=54;x<80;x+=4)r(x,138,4,6,(x/4)%2?'#e8e0d0':'#c8c0b0');
- if(!ex)return;txt('HALL',2,139,'#ffd86b',1);txt('KITCHEN',53,139,'#ffd86b',1);qxAbi(t)}
+ if(!ex)return;txt('KITCHEN',2,139,'#ffd86b',1);txt('HALLWAY',51,139,'#ffd86b',1);qxAbi(t);qxOverlay(t)}
 function vMKit(t){const n=lv.night;r(0,0,80,96,'#f0e6c8');for(let y=60;y<96;y+=6)for(let x=((y/6)%2)*4;x<80;x+=8)r(x,y,7,5,'#e8dcc0');r(0,94,80,2,'#c8b898');
  r(4,10,32,22,'#a8784a');for(let i=0;i<4;i++){r(5+i*8,11,7,20,'#b8885a');r(10+i*8,20,1,3,'#e0c060')}if(typeof qx!=='undefined'&&qx&&qx.popen){r(5,11,15,20,'#4a3020');r(5,20,15,1,'#8a5a3a');r(5,30,15,1,'#8a5a3a');if(!qx.kc){r(7,13,5,7,'#e8c050');r(7,15,5,1,'#c83a3a');r(8,12,3,1,'#f0d880')}r(13,14,5,6,'#c8503a');r(13,15,5,1,'#f4f4f8');r(7,24,4,6,'#4a7ac8');r(12,25,6,5,'#e0a040');r(12,26,6,1,'#fff')}r(42,14,12,14,'#e8e8f0');r(43,15,10,12,n?'#141a40':'#9ad0f0');r(47,15,1,12,'#e8e8f0');
  r(4,66,34,30,'#a8784a');r(4,66,34,3,'#e8e0d0');r(10,67,16,3,'#9ab0c0');r(17,62,2,5,'#b0b0b8');r(16,62,4,1,'#b0b0b8');for(let i=0;i<4;i++){r(6+i*8,72,7,22,'#b8885a');r(11+i*8,80,1,3,'#e0c060')}
@@ -1736,12 +1924,12 @@ function vMKit(t){const n=lv.night;r(0,0,80,96,'#f0e6c8');for(let y=60;y<96;y+=6
  r(40,58,10,8,'#8a3a2a');r(40,58,10,1,'#a84a3a');r(39,60,1,2,'#5a2a1a');r(50,60,1,2,'#5a2a1a');for(let i=0;i<3;i++){const y=54-((t*8+i*4)%10|0);r(42+i*3,y,1,2,'#e8e8f0')}
  const fo=qx&&qx.fopen;r(56,44,18,52,'#e8e8f0');r(56,44,18,1,'#fff');r(56,62,18,1,'#b8b8c8');r(71,48,1,10,'#9a9aaa');r(71,66,1,18,'#9a9aaa');r(62,50,4,3,'#ffd86b');r(68,52,3,4,'#ff9ccb');r(63,70,6,5,'#f4f4f8');r(64,71,4,3,'#7ab0d8');
  if(fo){r(40,62,16,34,'#dcdce6');r(40,62,1,34,'#b8b8c8');r(57,63,16,32,'#fff8d8');r(58,72,14,1,'#e0d8c0');r(58,82,14,1,'#e0d8c0');r(60,66,5,5,'#f8e0a0');r(66,67,3,4,'#c83a3a');r(60,75,10,6,'#8a3a2a');r(62,85,4,8,'#f4f4f8');disc(64,78,10,'#fff8d0',.15)}
- r(0,96,80,48,'#e8e4dc');for(let y=96;y<144;y+=8)for(let x=((y/8)%2)*8;x<80;x+=16)r(x,y,8,8,'#d4ccc0');r(0,138,26,6,'#a0784e');
- if(qx&&qx.room==='kitchen'){txt('LIVING',2,139,'#7a5a3a',1);qxAbi(t)}
+ r(0,96,80,48,'#e8e4dc');for(let y=96;y<144;y+=8)for(let x=((y/8)%2)*8;x<80;x+=16)r(x,y,8,8,'#d4ccc0');r(54,138,26,6,'#a0784e');
+ qkBread(t);if(qx&&qx.room==='kitchen'){txt('LIVING',55,139,'#7a5a3a',1);qxAbi(t);qxOverlay(t)}
  if(n){cx.globalAlpha=.4;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1}}
 function qDay1(){qEx({d:1,lv:{mor:0,q:0,mb:1},goal:'tissues',hud:'Day 1: Grab a tissue (or ten)',intro:'Tap to walk around. Tap things to look at them.'},_qDay1)}
 function qNight1(){qEx({d:1,lv:{night:1,mor:0,q:0,mb:1},goal:'remote',hud:'Find the TV remote'},_qNight1)}
-function qDay3(){qEx({d:3,lv:{mor:0,q:0},goal:'hall',hud:'Day 3: Someone knocked! Go to the door'},()=>fadeTo(_qDay3))}
+function qDay3(){qEx({d:3,lv:{mor:0,q:0},goal:'door',hud:'Day 3: Someone knocked! Go to the door'},()=>fadeTo(_qDay3))}
 function qNight3(){qEx({d:3,lv:{night:1,mor:0,q:1},goal:'hunter',hud:'Go sit with Hunter'},_qNight3)}
 function qDay6(){qEx({d:6,lv:{mor:1,q:1},goal:'sw',hud:'Day 6: Find the Switch'},_qDay6)}
 function qNight6(){qEx({d:6,lv:{night:1,mor:1,q:2},goal:'pantry',hud:'Get kettle corn from the pantry',gl:[{n:'Abigail',t:'(Kettle corn and a soda: acquired. Movie night: ready.)'}]},_qNight6)}
@@ -1952,11 +2140,11 @@ function _qDay6(){qScene({mor:1,q:1,sw:1},[{n:'Hunter',t:'Okay. Mario Kart on th
  {n:'Morgan',t:'Ugh. Fine. Hand me the third controller. I can be miserable AND win.'},
  {n:'',t:'HOW TO RACE: your kart drives itself. Hold the LEFT or RIGHT side of the screen to steer. Driving on the grass slows you down!'},{n:'',t:'Drive through the gift boxes to grab an item, then tap the ITEM box at the bottom to use it.'},{n:'',t:'Water balloon: hits the racer ahead of you. Oil slick: drops behind you. Bolt: a speed boost!'},{n:'',t:'Beat Hunter, Morgan and the bots to the finish line!',c:[{l:'Start race',f:()=>fadeTo(()=>{setLoc('kart');mode='kartGo';kart=newKart();kHeld=0;setHud('Get ready...')})}]}])}
 function _qNight6(){qScene({night:1,mor:1,q:2,pop:1},[{n:'',t:"Movie night. Your head is pounding, but Hunter's shoulder looks very comfy..."},{n:'',t:'Try to stay awake for the movie!',c:[{l:'Watch',f:()=>startTV(16,r=>{addH(r?2:1);say(r?[{n:'Abigail',t:'I saw the ending! I am a champion.'}]:[{n:'',t:'You fall asleep before the ending, your head on Hunter’s shoulder.'},{n:'',t:'He waits until the credits finish. He does not move an inch.'},{n:'',t:'Then he carries you to bed and tucks you in.'}],()=>fadeTo(()=>calShow(9,qDay9)))})}]}])}
-function _qDay9(){qScene({mor:2,q:2},[{n:'Morgan',t:"(on the phone) No, I KNOW, babe. Five more days... I miss you too."},{n:'Morgan',t:"They're SO cuddly. It's disgusting. I'm trapped inside a rom-com."},{n:'Morgan',t:'Hold on, I am going to my room. I can still hear them breathing.',anim:()=>{lv.mw={x:16,y:134};go(lv.mw,[[20,121],[17,96],[8,92]],26)}},
+function _qDay9(){qScene({mor:2,q:2},[{n:'Morgan',t:"(on the phone) No, I KNOW, babe. Five more days... I miss you too."},{n:'Morgan',t:"They're SO cuddly. It's disgusting. I'm trapped inside a rom-com."},{n:'Morgan',t:'Hold on, I am going to my room. I can still hear them breathing.',anim:()=>{lv.mw={x:16,y:134};go(lv.mw,[[30,137],[62,138],[94,140]],26)}},
  {n:'Abigail',t:'(whispering) I think Morgan is losing it.'},{n:'Hunter',t:'(whispering) She misses her boyfriend. Day nine is rough.'}],()=>{addH(1);fadeTo(qNight9)})}
 function _qNight9(){qScene({night:1,mor:4,q:3,bk:T},[{n:'',t:'That night, Abigail brings over the big fluffy blanket...'},{n:'Hunter',t:'Ooh. Is there room under there for one more?'},{n:'',t:'You scoot in. Your feet are freezing. He does not complain once.'}],()=>{addH(1);fadeTo(()=>calShow(12,qDay12))})}
 function _qDay12(){qScene({mor:1,q:3},[{n:'Morgan',t:'Okay. That is IT.',anim:()=>{lv.mor=5;lv.mw2={x:22,y:92,dir:'d',hop:T};sfx('jump')}},{n:'Morgan',t:"I'm going to my room. Don't talk to me. Don't text me. Don't even LOOK at me."}],()=>{
-  const M=lv.mw2;go(M,[[22,96],[9,96]],34);waitTill(()=>M.tx==null,()=>{M.dir='u';lv.door=1;sfx('creak');after(.45,()=>{go(M,[[8,90]],18);M.fade=T;after(.6,()=>{lv.mw2=null;lv.door=0;lv.mor=3;shakeT=.5;sfx('slam');sfx('hit');after(.5,()=>say([{n:'',t:'*SLAM*'},{n:'Hunter',t:'...Two more days.'},{n:'Abigail',t:"We'll leave a cookie outside her door."}],()=>fadeTo(qNight12)))})})})})}
+  const M=lv.mw2;go(M,[[18,98],[17,120],[40,130],[70,137],[96,140]],46);waitTill(()=>M.tx==null,()=>{lv.mw2=null;lv.mor=3;after(.6,()=>{shakeT=.5;sfx('slam');sfx('hit');after(.5,()=>say([{n:'',t:'*SLAM*'},{n:'Hunter',t:'...Two more days.'},{n:'Abigail',t:"We'll leave a cookie outside her door."}],()=>fadeTo(qNight12)))})})})}
 function _qNight12(){qScene({night:1,mor:3,q:4},[{n:'',t:"You're SO tired. Hunter's shoulder is right there..."},{n:'',t:'Try to stay awake, one more time!',c:[{l:'Watch',f:()=>startTV(18,r=>{hm=Math.max(hm,9);say(r?[{n:'',t:'You make it to the very end... then fall asleep on his shoulder.'},{n:'',t:'He stays perfectly still for the rest of the night.'}]:[{n:'',t:'You fall asleep on his shoulder.'},{n:'',t:'He stays perfectly still for a long, long time.'},{n:'',t:'Then, very gently, Hunter carries you to bed.'}],()=>fadeTo(()=>calShow(14,qDay14)))})}]}])}
 function _qDay14(){sick=0;qScene({eve:1,mor:3,q:4},[{n:'',t:'March 30, 2020. Day 14.'},{n:'',t:'For the first time in two weeks... the fog is finally lifting.'},{n:'Abigail',t:'Hey... Hunter?'},{n:'Hunter',t:'Yeah?'},
  {n:'Abigail',t:'So... we survived two whole weeks of quarantine together.',c:[{l:'Maybe we should make it official?',f:official}]}])}
@@ -1972,7 +2160,7 @@ function chEnd2(){fadeTo(()=>{setLoc('newsbg');showHM=0;card('...and so began<br
 
 function drawCh2UI(){
  drawNeedle();
- if(sick&&(loc==='living'||loc==='entry')){cx.globalAlpha=.1+.04*Math.sin(T*.8);r(0,0,W,H,'#b8c8a0');for(let i=0;i<8;i++){cx.globalAlpha=.06;r(0,0,W,6+i*4,'#2a2a3a');r(0,H-6-i*4,W,6+i*4,'#2a2a3a');r(0,0,4+i*3,H,'#2a2a3a');r(W-4-i*3,0,4+i*3,H,'#2a2a3a')}cx.globalAlpha=1}
+ if(sick&&(loc==='living'||loc==='entry'||QXQ[loc])){cx.globalAlpha=.1+.04*Math.sin(T*.8);r(0,0,W,H,'#b8c8a0');for(let i=0;i<8;i++){cx.globalAlpha=.06;r(0,0,W,6+i*4,'#2a2a3a');r(0,H-6-i*4,W,6+i*4,'#2a2a3a');r(0,0,4+i*3,H,'#2a2a3a');r(W-4-i*3,0,4+i*3,H,'#2a2a3a')}cx.globalAlpha=1}
  if(nose&&mode==='nose'){const bx=138+(nose.m>.7?Math.round((Math.random()-.5)*3):0)+(nose.jig>0?1:0),by=70;r(bx-2,by-2,14,124,'#3a2418');r(bx,by,10,120,'#1c2a3a');const h=120*nose.m;r(bx,by+120-h,10,h,nose.m>.7?'#ffd86b':'#7ec8f0');r(bx,by+120-h,10,1,'#fff');txt('NOSE',bx-6,by+126,'#fff',1)}
  if(nose){const n=nose;
   (n.ts||[]).forEach(q=>{cx.save();cx.translate(Math.round(q.x),Math.round(q.y));cx.rotate(q.r);cx.globalAlpha=Math.min(1,q.l);r(-3,-3,7,6,'#ffffff');r(-3,-3,7,1,'#e8e8f0');cx.restore();cx.globalAlpha=1});
@@ -1986,7 +2174,7 @@ function drawCh2UI(){
   if(n.flash>0){cx.globalAlpha=n.flash*1.6;r(0,0,W,H,'#f4ffe0');cx.globalAlpha=1}}
  if(tv&&tv.slept)r(0,0,W,H,'#0a0610');else if(tv&&tv.lid>0){const h=tv.lid*H/2|0;r(0,0,W,h,'#0a0610');r(0,h,W,2,'#3a2a2a');r(0,H-h,W,h,'#0a0610');r(0,H-h-2,W,2,'#3a2a2a')}
  if(tv&&mode==='tv'){r(30,262,100,8,'#1a1428');r(31,263,98*Math.min(1,tv.ep),6,'#7ec8f0');txt('EPISODE',58,252,'#cfe8ff',1)}
- if(showHM&&(loc==='living'||loc==='entry')){const hy=hudTxt&&['nose','tv','bags'].includes(mode)?30:4;r(30,hy,100,12,'rgba(20,10,40,.7)');for(let i=0;i<10;i++)heart(36+i*9,hy+4,i<hm?'#ff5f9e':'#5a3a6a')}
+ if(showHM&&(loc==='living'||loc==='entry'||QXQ[loc])){const hy=hudTxt&&['nose','tv','bags'].includes(mode)?30:4;r(30,hy,100,12,'rgba(20,10,40,.7)');for(let i=0;i<10;i++)heart(36+i*9,hy+4,i<hm?'#ff5f9e':'#5a3a6a')}
  if(fs&&fs.ph=='reel'){const f=fs,bx=124,by=52;r(bx-3,by-3,32,170,'#3a2418');r(bx-2,by-2,30,168,'#c08a58');r(bx,by,18,164,'#1c3a5a');
   r(bx,by+f.zy,18,40,'#5ad06a');r(bx,by+f.zy,18,1,'#9af0a0');r(bx,by+f.zy+39,18,1,'#3a9a4a');
   const fy=Math.round(by+f.fy+4),wg=Math.floor(T*6)%2;r(bx,fy+1,13,9,'#1a2a3a');r(bx+1,fy+2,11,7,'#7aa0b0');r(bx+1,fy+2,11,2,'#b8d8e0');r(bx+2,fy+7,8,1,'#5a8090');r(bx+4,fy,5,2,'#1a2a3a');r(bx+5,fy+1,3,1,'#5a8090');
@@ -4139,7 +4327,7 @@ const MUSMAP={roof:'roof',street:'night',hall:'sneak',door:'sunset',dinner:'walt
  plane:'stars',hdrive:'jazz',bunk:'sneak',bath2:'sneak',split:'sad',office:'office',home:'lofi',hunt:'tense'};
 function musPick(){if(c8&&c8.bridal)return 'bridal';if(loc==='home6'&&c6.day)return 'cozy';if(loc==='steak'&&c6.pr)return 'sunset';if(loc==='steak'&&mode==='nerves')return 'tense';if(loc==='hotel'&&c6.panic&&hunter.tag)return 'tense';if(mode==='title')return 'stars';if(mode==='end')return 'sunset';if(mode==='news')return 'news';
  if(loc==='court')return c5.ct&&c5.ct.style?'tennis':'jazz';if(loc==='hroom'&&hr.solo)return 'sad';if(loc==='troom'&&upk&&upk.solo)return 'sad';if(loc==='kitchen'&&kit.angry)return 'news';if(loc==='home'&&c5.hm&&c5.hm.hearts)return 'sunset';
- if(loc==='living')return lv&&lv.kiss?'sunset':sick?'sick':lv&&lv.sw?'kart':'cozy';if(loc==='newsbg'||loc==='cal')return AU.want;return MUSMAP[loc]!==undefined?MUSMAP[loc]:AU.want}
+ if(loc==='living')return lv&&lv.kiss?'sunset':sick?'sick':lv&&lv.sw?'kart':'cozy';if(QXQ[loc])return sick?'sick':'cozy';if(loc==='newsbg'||loc==='cal')return AU.want;return MUSMAP[loc]!==undefined?MUSMAP[loc]:AU.want}
 function musUpdate(){if(!AU.ctx)return;let w=musPick();if(AU.songOn)w=null;AU.want=w}
 function songPlay(off,vol,dur){if(!AU.ctx)return;songBus();const c=AU.ctx,sp=60/SONG.bpm/4;AU.sst=Math.floor((off||0)/sp/16)*16;AU.snt=c.currentTime+.08;AU.sa0=AU.snt-AU.sst*sp;AU.songOn=1;AU.songId=(AU.songId||0)+1;const id=AU.songId;
  AU.sng.gain.cancelScheduledValues(c.currentTime);AU.sng.gain.setValueAtTime(0,c.currentTime);AU.sng.gain.linearRampToValueAtTime(vol||.8,c.currentTime+.4);
@@ -5288,7 +5476,7 @@ function homeItems(){if(c5.hm.move)return mvItems();const H=c5.hm;return [
  {id:'photo',x:64,y:78,w:14,h:16,spot:[70,114],face:'u',lines:[{n:'Hunter',t:'(Our photo. It finally has a home.)'}]},
  {id:'mattress',x:2,y:90,w:36,h:18,spot:[10,114],face:'u',lines:[{n:'Hunter',t:'(Still no bed frame. Still a "minimalist lifestyle.")'}]},
  {id:'window',x:46,y:10,w:22,h:30,spot:[57,112],face:'u',lines:[{n:'Hunter',t:'(Night in the parking lot. That tree still looks great.)'}]}]}
-const AMBL={living:1,hroom:1,apt:1,kitchen:1,txhouse:1,troom:1,home:1,dorm2:1,hotel:1,brideroom:1,groom8:1,mkit:1,bakery:1,florist:1,bridal:1,dorm:1};
+const AMBL={living:1,mhall:1,mbath:1,mbed:1,hroom:1,apt:1,kitchen:1,txhouse:1,troom:1,home:1,dorm2:1,hotel:1,brideroom:1,groom8:1,mkit:1,bakery:1,florist:1,bridal:1,dorm:1};
 /* lighting and weather over the story scenes: a soft vignette everywhere, drifting cloud shadows, leaves and
    butterflies outdoors in the day, a golden-hour wash for the family photo, fireflies on the porch at night */
 const WX={};(()=>{const put=(k,l)=>l.split(' ').forEach(n=>WX[n]=k);put('day','eplondon epvillage field7 pooplot farm7');put('yard','ephouse epyard');put('gold','epfam');put('fire','epporch')})();
@@ -8925,7 +9113,7 @@ const hasData=()=>CK.get()>=0||Object.keys(ALB.get()).length>0;
 function updTitle(){const d=DEV.on(),ck=CK.get();$('bPlay').innerHTML=ck>=0?'&#9654;&nbsp;Continue':FIN.get()?'&#9654;&nbsp;Play again':'&#9654;&nbsp;Tap to start';
  $('bNew').style.display=ck>=0?'':'none';$('bAl').style.display=albList().length?'':'none';$('bCh').style.display=d?'':'none';$('bMg').style.display=d||FIN.get()||save.get()>=1?'':'none';$('bMg').innerHTML='Minigames'+(LS('ourstory_crzu')&&!LS('ourstory_crzo')?'<span class="nw">NEW!</span>':'');$('bDbg').style.display=d?'':'none';
  const row=$('bNew').parentNode;row.style.display=[...row.children].some(b=>b.style.display!=='none')?'':'none';$('pDev').textContent='Dev mode: '+(d?'ON':'OFF')}
-function newGame(){CK.clr();LS('ourstory_phh',null);LS('ourstory_hint',null);LS('ourstory_pk',null);LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';startPan()}
+function newGame(){CK.clr();LS('ourstory_qb',null);LS('ourstory_phh',null);LS('ourstory_hint',null);LS('ourstory_pk',null);LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';startPan()}
 /* ---- the photo album on the title screen: every photo she has taken, to look through and to keep ---- */
 function albList(){const o=ALB.get(),ks=Object.keys(o);if(!ks.length)return [];const ord=PHOTO_OPS.map(p=>p.st);return ks.sort((a,b)=>(ord.indexOf(a)<0?99:ord.indexOf(a))-(ord.indexOf(b)<0?99:ord.indexOf(b)))}
 function albSrc(st){try{const im=ALB.img(st);if(im&&im.toDataURL)return im.toDataURL('image/png');if(im&&im.src)return im.src}catch(e){}return ALB.get()[st]||''}
@@ -9176,6 +9364,7 @@ function press2(CX,CY){
  if(c8Tap(sx,sy,x,y))return;
  if(mode==='album'){albumTap();return}
  if(mode==='broom'){broomTap();return}
+ if(mode==='wash'){qWashTap();return}
  if(mode==='qx'){if(!dlg)qxTap(x,y);return}
  if(mode==='hx'){if(!dlg)hxTap(x,y);return}
  if(mode==='mont'){if(mt>1.2)nextMont();return}
@@ -9232,7 +9421,7 @@ function update(dt){
  if(flash>0)flash=Math.max(0,flash-dt*1.2);if(kt>0)kt-=dt;
  if(mode==='mont'){mt+=dt;if(mt>5)nextMont()}else if(mode==='fish')fishUpdate(dt);else if(mode==='drive'||mode==='phone')driveUpdate(dt);
  c3Update(dt);c5Update(dt);c6Update(dt);c7Update(dt);c8Update(dt);epUpdate(dt);if((loc==='c3class'||loc==='c3grad')&&mom.tx!=null)mv(mom,dt);qxUpdate(dt);hxUpdate(dt);c4Update(dt);if(typeof hr!=='undefined'&&hr&&hr.wake){hr.wake.t+=dt;if(hr.wake.t>=1.45){const f=hr.wake.cb;hr.wake=null;f()}}if(lv&&lv.mw2&&lv.mw2.tx!=null)mv(lv.mw2,dt);if(lv&&lv.mw){mv(lv.mw,dt);if(lv.mw.tx==null)lvMorIn()}tvUpdate(dt);musUpdate();if(loc==='kart')kartUpdate(dt);if(loc==='skee')skeeUpdate(dt);if(loc==='arcClaw')clawUpdate(dt);if(loc==='arcQuiz')quizUpdate(dt);if(loc==='arcFight')fightUpdate(dt);if(loc==='arcShoot')spUpdate(dt);if(loc==='arcRace')raceUpdate(dt);if(loc==='arcDance')danceUpdate(dt);if(loc==='kcdt'&&c6.gw)c6Girls(dt);if(loc==='steak'){if(c6.waiter)mv(waiter,dt);if(jay.tx!=null)mv(jay,dt)}if(nose&&mode==='nose')nose.m=Math.max(0,nose.m-dt*.32);if(nose)nose.pop=Math.max(0,nose.pop-dt*(nose.lv>=3?.6:1.1));noseFx(dt);if(shakeT>0)shakeT-=dt;
- if(loc!=='roof')wobT=sick&&(loc==='living'||loc==='entry')?.45:(loc==='trucks'&&tw&&tw.bleh)?.7:(loc==='church8'&&mode==='stand'&&c8.st)?c8.st.fa*1.3+(c8.st.ft>0?1.6:0):0;
+ if(loc!=='roof')wobT=sick&&(loc==='living'||loc==='entry'||QXQ[loc])?.45:(loc==='trucks'&&tw&&tw.bleh)?.7:(loc==='church8'&&mode==='stand'&&c8.st)?c8.st.fa*1.3+(c8.st.ft>0?1.6:0):0;
  if(ndl&&mode==='needle'&&!ndl.done){ndl.t+=dt;const p=(ndl.t*165)%344;ndl.pos=p<172?p:344-p}
  if(swab){swab.t+=dt;if(swab.t>2.6&&!swab.d){swab.d=1;swabDone()}}
  if(mode!=='pan'){zk+=(zkT-zk)*Math.min(1,dt*2.2);if(Math.abs(zkT-zk)<.004)zk=zkT}
