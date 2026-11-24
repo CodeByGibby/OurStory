@@ -205,10 +205,10 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.60</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.61</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
-<div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
+<div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
 <div id="hud"></div>
 <div id="chat"></div>
 <div id="dlg"><div id="nm"></div><div id="tx"></div><div id="ch"></div><i id="nx">&#9660;</i></div>
@@ -2238,6 +2238,7 @@ function trayUpd(dt){const R=bags&&bags.tr;if(!R||R.done)return;R.t+=dt;
  const walking=abi.tx!=null;if(walking){mv(abi,dt);R.stp+=dt;if(R.stp>.4){R.stp=0;R.sd*=-1;R.sv+=R.sd*.3}}
  if(R.bumps.length&&R.wt>=R.bumps[0]-.45&&walking&&R.bm==null){R.bm=T;R.bk=Math.random()<.5?-1:1}// a wobble you can see coming: the ! pops up first
  if(R.bm!=null&&T-R.bm>=.45&&R.bk){R.bumps.shift();R.sv+=R.bk*.6;R.bk=0;sfx('bump')}if(R.bm!=null&&T-R.bm>.9)R.bm=null;
+ if(Math.abs(R.a)>.72&&R.gr<=0){R.hw=(R.hw||0)-dt;if(R.hw<=0){R.hw=.22;hap('warn')}}
  R.a=R.s+R.u;R.sv+=R.a*(R.tilt?1.6:1.15)*dt;R.sv*=Math.exp(-.9*dt);R.s+=R.sv*dt;R.a=R.s+R.u;
  if(Math.abs(R.a)>1&&R.gr<=0){// something slides off the low side
   const sg=R.a>0?1:-1,c=TRI.map((it,i)=>({i,it})).filter(o=>R.has[o.i]&&!TRI.some((q,j)=>q.on===o.i&&R.has[j])).sort((p,q)=>sg*((q.it.bx+q.it.w/2)-(p.it.bx+p.it.w/2)));
@@ -4185,6 +4186,18 @@ function drawCh3UI(){
   if(upk.msg){r(0,40,W,14,'rgba(0,0,0,.6)');txtFit(upk.msg[0],45)}}}
 Object.assign(VS,{river:[2,vRiver],church:[2,vChurch],scoot:[2,vScoot],pump:[1,vPump],store:[2,vStore],bath:[2,vBath],austin:[2,vAustin],trucks:[2,vTrucks],pea:[2,vPea],hill:[2,vHill],bonnell:[2,vBonnell],plaza:[2,vPlaza],bstore:[2,vBStore],kitchen:[2,vKitchen],c3class:[2,vC3Class],c3grad:[2,vC3Grad],hroom:[2,vHroom],dt:[2,vDT],pack:[1,vPack],road:[1,vRoad],txhouse:[2,vTx],troom:[2,vTroom],dorm2:[2,vDorm2]});
 
+/* ================= HAPTICS =================
+   Android: the Vibration API. iPhone Safari has no vibrate(), but tapping a native switch control gives a system haptic
+   tick, so a hidden one is "tapped" instead (one tick per pulse). Toggle lives in the pause menu. */
+const HAP={on:(()=>{try{return localStorage.getItem('ourstory_hap')!=='0'}catch(e){return true}})(),last:0,el:null};
+const HAPP={tap:[8],light:[14],med:[28],heavy:[45],double:[22,60,22],win:[30,70,30,70,70],warn:[10]};
+const HAPMAP={hit:'heavy',slam:'heavy',boom:'heavy',bump:'med',buzz:'med',ouch:'med',brake:'med',miss:'light',lose:'double',alert:'double',knock:'light',honk:'light',
+ kiss:'light',heart:'light',item:'tap',coin:'tap',kaching:'tap',jump:'tap',throw:'tap',snap:'tap',bite:'tap',shutter:'light',fanfare:'win',win:'win',cheer:'light'};
+function hapIOS(){if(!HAP.el){const l=document.createElement('label'),i=document.createElement('input');i.type='checkbox';i.setAttribute('switch','');l.appendChild(i);l.setAttribute('aria-hidden','true');l.style.cssText='position:fixed;left:-200px;top:0;width:1px;height:1px;opacity:0;pointer-events:none';document.body.appendChild(l);HAP.el=l}HAP.el.click()}
+function hap(k){if(!HAP.on||document.hidden)return;const now=performance.now();if(now-HAP.last<70&&k!=='win')return;HAP.last=now;const P=HAPP[k]||HAPP.tap;
+ try{if(navigator.vibrate){navigator.vibrate(P);return}}catch(e){}
+ try{let t=0;P.forEach((d,i)=>{if(i%2===0){setTimeout(hapIOS,t)}t+=d+(i%2?0:20)})}catch(e){}}
+function hapSet(v){HAP.on=v;try{localStorage.setItem('ourstory_hap',v?'1':'0')}catch(e){}const b=$('pHap');if(b)b.textContent='Vibration: '+(v?'ON':'OFF');if(v)hap('med')}
 /* ================= AUDIO ================= */
 let PAUSED=0;const VOL={m:.75,s:1,a:1};try{const v=JSON.parse(localStorage.getItem('ourstory_vol2')||'null');if(v){VOL.m=+v.m;VOL.s=+v.s;if(v.a!=null)VOL.a=+v.a}}catch(e){}
 function applyVol(){try{localStorage.setItem('ourstory_vol2',JSON.stringify(VOL))}catch(e){}$('vm').value=Math.round(VOL.m*100);$('vs').value=Math.round(VOL.s*100);$('vmL').textContent=Math.round(VOL.m*100)+'%';$('vsL').textContent=Math.round(VOL.s*100)+'%';$('va').value=Math.round(VOL.a*100);$('vaL').textContent=Math.round(VOL.a*100)+'%';if(AU.ctx&&AU.ab)AU.ab.g.gain.setTargetAtTime(VOL.a,AU.ctx.currentTime,.03);
@@ -4269,7 +4282,7 @@ const SFX={
  cheer:()=>{nz(.9,.12,1800,'bandpass');[0,.12,.25].forEach(d=>tone(700+Math.random()*300,.25,'sawtooth',.02,900,d))},
  flap:()=>{[0,.07,.14,.21].forEach(d=>nz(.04,.1,1500,'bandpass',d))}};
 const SFXQ=[];function sfxFlush(){while(SFXQ.length){const [n,a]=SFXQ.shift();try{SFX[n]&&SFX[n](a)}catch(e){}}}
-function sfx(n,a){if(n==='kiss')CAMK=T;try{hitFx(n)}catch(e){}if(!AU.ctx||!AU.on)return;if(INPUT){const now=performance.now();if(AU.last[n]&&now-AU.last[n]<55)return;AU.last[n]=now;SFXQ.push([n,a]);return}const now=performance.now();if(AU.last[n]&&now-AU.last[n]<(n=='blip'?40:55))return;AU.last[n]=now;try{SFX[n]&&SFX[n](a)}catch(e){}}
+function sfx(n,a){if(n==='kiss')CAMK=T;try{hitFx(n)}catch(e){}try{const h=HAPMAP[n];if(h)hap(h)}catch(e){}if(!AU.ctx||!AU.on)return;if(INPUT){const now=performance.now();if(AU.last[n]&&now-AU.last[n]<55)return;AU.last[n]=now;SFXQ.push([n,a]);return}const now=performance.now();if(AU.last[n]&&now-AU.last[n]<(n=='blip'?40:55))return;AU.last[n]=now;try{SFX[n]&&SFX[n](a)}catch(e){}}
 const VOICE={Hunter:150,Abigail:300,Morgan:260,Dad:120,Mom:240,Bartender:180,DJ:200,Nurse:280,Boss:140,Worker:230,Manager:290,Speaker:170,Poet:210,'Poet 2':160,Dancer:270,Tourist:220,Cashier:250,Driver:170};
 Object.assign(VOICE,{Mum:285,J:132,Meggs:268,Pilot:145,Auntie:305,Vet:255,Baker:165,Florist:275,Tailor:155,Waiter:190,Director:160});
 // anyone without a set voice still gets their own steady pitch, worked out from their name
@@ -9238,6 +9251,7 @@ const BOK=()=>$('btns').classList.contains('ready');
 $('btns').addEventListener('animationend',e=>{if(e.target===$('btns'))$('btns').classList.add('ready')});
 $('bPlay').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('confirm');const ck=CK.get();if(ck>=0&&SCENES[ck])dbgStart(ck,1);else if(hasData())confirmNew();else newGame()};
 $('bNew').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');confirmNew()};
+$('pHap').textContent='Vibration: '+(HAP.on?'ON':'OFF');$('pHap').onclick=()=>{sfx('select');hapSet(!HAP.on)};
 $('pDev').onclick=()=>{sfx('select');DEV.set(!DEV.on());updTitle()};
 $('bAl').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');openAlbum()};
 $('bCh').onclick=()=>{if(mode!=='title'||!BOK())return;sfx('select');openChap()};
