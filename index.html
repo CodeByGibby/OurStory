@@ -18,6 +18,26 @@ html,body{height:100%;touch-action:manipulation;-webkit-touch-callout:none;backg
 body{display:flex;align-items:center;justify-content:center;position:fixed;inset:0;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
 #g{position:relative;overflow:hidden;touch-action:none;z-index:1}
 #amb{position:fixed;inset:0;width:100%;height:100%;image-rendering:auto;opacity:.82;z-index:0;pointer-events:none}
+body.land #amb{opacity:.55}
+body.land #g{box-shadow:0 0 0 1px rgba(255,216,107,.22),0 0 calc(var(--um)*14) rgba(0,0,0,.7)}
+body.land #dlg{position:fixed;left:auto;right:calc(env(safe-area-inset-right,0px) + 10px);bottom:calc(env(safe-area-inset-bottom,0px) + 10px);width:calc(var(--gr) - 20px - env(safe-area-inset-right,0px));--u:var(--ul);z-index:40}
+body.land #dlg::before,body.land #dlg::after{display:none!important}
+body.land #hud{position:fixed;left:calc(env(safe-area-inset-left,0px) + 10px);right:auto;top:calc(env(safe-area-inset-top,0px) + 10px);width:calc(var(--gl) - 20px - env(safe-area-inset-left,0px));--u:var(--ul);z-index:40}
+body.land #chat{position:fixed;left:calc(env(safe-area-inset-left,0px) + 10px);right:auto;top:34%;width:calc(var(--gl) - 20px - env(safe-area-inset-left,0px));--u:var(--ul);z-index:40}
+body.land #cap{position:fixed;left:calc(env(safe-area-inset-left,0px) + 10px);right:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);width:calc(var(--gl) - 20px - env(safe-area-inset-left,0px));--u:var(--ul);z-index:40}
+body.land #snd{position:fixed;right:calc(env(safe-area-inset-right,0px) + 10px);top:calc(env(safe-area-inset-top,0px) + 10px);--u:var(--ul);z-index:45}
+body.land #qbBtn{position:fixed;right:calc(env(safe-area-inset-right,0px) + 10px);top:calc(env(safe-area-inset-top,0px) + 10px + var(--ul)*13);--u:var(--ul);z-index:45}
+body.land #qbCard,body.land #pause,body.land #chap,body.land #end,body.land #crzu,body.land #card{position:fixed;inset:0;--u:var(--um);z-index:50}
+body.land #pause,body.land #chap,body.land #end,body.land #crzu{padding-left:max(18%,calc(var(--gl) - 10px));padding-right:max(18%,calc(var(--gr) - 10px))}
+body.land #pause{padding-top:calc(var(--u)*5);padding-bottom:calc(var(--u)*5);gap:calc(var(--u)*3.4)}
+body.land #pause[style*="flex"]{display:grid!important;grid-template-columns:1fr 1fr;grid-auto-flow:row dense;align-content:center;column-gap:calc(var(--u)*10);padding-left:14%;padding-right:14%}
+body.land #pause h2{grid-column:1/3}body.land #pause label{grid-column:1}body.land #pause button{grid-column:2}
+body.land #chap{overflow-y:auto}
+body.land #news{position:fixed;left:26%;right:26%;top:5%;--u:var(--um);z-index:50}
+body.land #phone{position:fixed;top:3%;bottom:3%;left:50%;right:auto;width:calc(var(--um)*96);transform:translateX(-50%);--u:var(--um);z-index:50}
+body.land #lap{position:fixed;left:22%;right:22%;top:10%;--u:var(--um);z-index:50}
+body.land #gift,body.land #title{position:fixed;inset:0;--u:var(--um)}
+body.land #title{--u:calc(var(--um)*.72);padding-top:calc(var(--u)*12)}
 #a2hs{position:absolute;left:calc(var(--u)*16);right:calc(var(--u)*16);top:calc(var(--u)*5);margin:0!important;font-size:calc(var(--u)*2.5);line-height:1.9;color:#cdb8e8;opacity:.85;display:none}
 canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pixelated}
 #title{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding-top:calc(var(--u)*40);text-align:center;color:#fff6e0;pointer-events:none;transition:opacity 1.4s}
@@ -205,7 +225,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.68</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.14.0</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -226,10 +246,15 @@ const dv=$('c'),G=$('g'),dx=dv.getContext('2d'),cv=document.createElement('canva
 /* UI layer + post-zoom: scenes render at true pixel size, zoom happens when blitting to the hi-res display with nearest-neighbour, so pixels stay crisp */
 const uc=document.createElement('canvas');uc.width=W;uc.height=H;const ux=uc.getContext('2d');ux.imageSmoothingEnabled=false;let PZ=null,DS=4;
 let sc=2;
-let CR=null;function fit(){CR=null;
+let CR=null,LAND=false;function fit(){CR=null;
 /* measure the real space the body has (the full screen in a home-screen app, minus the notch and home bar) */
  let aw=innerWidth,ah=innerHeight;try{const b=document.body,cs=getComputedStyle(b),R=b.getBoundingClientRect();if(R.width>0&&R.height>0){aw=R.width-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);ah=R.height-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom)}}catch(e){}
- sc=Math.min(aw/W,ah/H);DS=Math.max(2,Math.min(8,Math.ceil(sc*(window.devicePixelRatio||1))));if(dv.width!==W*DS){dv.width=W*DS;dv.height=H*DS}dx.imageSmoothingEnabled=false;G.style.width=W*sc+'px';G.style.height=H*sc+'px';document.documentElement.style.setProperty('--u',sc+'px')}
+ sc=Math.min(aw/W,ah/H);DS=Math.max(2,Math.min(8,Math.ceil(sc*(window.devicePixelRatio||1))));if(dv.width!==W*DS){dv.width=W*DS;dv.height=H*DS}dx.imageSmoothingEnabled=false;G.style.width=W*sc+'px';G.style.height=H*sc+'px';document.documentElement.style.setProperty('--u',sc+'px');
+ /* landscape: the game stays a portrait "stage" in the middle (filling the height), and the space either side takes the
+    text: dialogue on the right, the goal/HUD and chatter on the left, menus full screen, all at a readable size */
+ const side=(aw-W*sc)/2,land=aw>ah*1.25&&side>=130;LAND=land;document.body.classList.toggle('land',land);
+ if(land){const R=G.getBoundingClientRect(),st=document.documentElement.style,ul=Math.max(1.5,Math.min(3.2,Math.min(side/112,ah/140))),um=Math.max(1.5,Math.min(3,ah/158));
+  st.setProperty('--gl',R.left+'px');st.setProperty('--gr',(innerWidth-R.right)+'px');st.setProperty('--ul',ul+'px');st.setProperty('--um',um+'px')}}
 try{const sa=navigator.standalone||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches,ios=/iphone|ipad|ipod/i.test(navigator.userAgent),h=$('a2hs');if(!sa&&ios){h.innerHTML='For full screen: tap Share,<br>then &ldquo;Add to Home Screen&rdquo;';h.style.display='block'}else if(!sa&&/android/i.test(navigator.userAgent)){h.innerHTML='For full screen: open the browser menu,<br>then &ldquo;Add to Home screen&rdquo;';h.style.display='block'}}catch(e){}
 addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,200));addEventListener('pageshow',()=>setTimeout(fit,50));setTimeout(fit,300);try{visualViewport&&visualViewport.addEventListener('resize',fit)}catch(e){}fit();
 let MONO=null;const r=(x,y,w,h,c)=>{const k=MONO||c;if(cx._c!==k){cx.fillStyle=k;cx._c=k}cx.fillRect(x|0,y|0,(w+.5)|0,(h+.5)|0)};
@@ -9669,6 +9694,9 @@ function press2(CX,CY){
  }
 }
 dv.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch')press(e.clientX,e.clientY)});
+{const side=t=>LAND&&(t===document.body||t===document.documentElement||(t&&t.id==='amb'));
+ document.addEventListener('touchstart',e=>{for(const q of e.changedTouches)if(side(q.target))press(q.clientX,q.clientY)},{passive:true});
+ document.addEventListener('pointerdown',e=>{if(e.pointerType!=='touch'&&side(e.target))press(e.clientX,e.clientY)})}
 dv.addEventListener('touchstart',e=>{e.preventDefault();for(const q of e.changedTouches)press(q.clientX,q.clientY)},{passive:false});
 ['touchstart','touchmove','touchend','touchcancel'].forEach(ev=>dv.addEventListener(ev,e=>{if(mode==='shoot'||mode==='race'){e.preventDefault();arcTouches([...e.touches].map(q=>vfXY(q.clientX,q.clientY)))}},{passive:false}));
 let arcMouse=0;dv.addEventListener('pointerdown',e=>{if((mode==='shoot'||mode==='race')&&e.pointerType!=='touch'){arcMouse=1;arcTouches([vfXY(e.clientX,e.clientY)])}});dv.addEventListener('pointermove',e=>{if((mode==='shoot'||mode==='race')&&arcMouse&&e.pointerType!=='touch')arcTouches([vfXY(e.clientX,e.clientY)])});addEventListener('pointerup',e=>{if(arcMouse&&e.pointerType!=='touch'){arcMouse=0;arcTouches([])}});
@@ -9684,7 +9712,7 @@ dv.addEventListener('touchmove',e=>{if(mode==='paint'){e.preventDefault();const 
 addEventListener('pointerup',epPaintUp);addEventListener('touchend',e=>{if(!e.touches.length)epPaintUp()},{passive:true});
 dv.addEventListener('pointermove',e=>{if(mode==='skee'&&SK&&SK.hold){const b=CR||(CR=dv.getBoundingClientRect());skeeMove((e.clientX-b.left)/sc)}});
 dv.addEventListener('touchmove',e=>{if(mode==='skee'&&SK&&SK.hold){const q=e.touches[0];if(q){e.preventDefault();const b=CR||(CR=dv.getBoundingClientRect());skeeMove((q.clientX-b.left)/sc)}}},{passive:false});
-dv.addEventListener('pointermove',e=>{if(mode!=='kart'||!kHeld)return;const b=CR||(CR=dv.getBoundingClientRect());kSteerAt((e.clientX-b.left)/sc)});
+addEventListener('pointermove',e=>{if(mode!=='kart'||!kHeld)return;const b=CR||(CR=dv.getBoundingClientRect());kSteerAt((e.clientX-b.left)/sc)});
 $('news').addEventListener('click',()=>{if(mode==='news')nextNews()});
 /* ---------- loop ---------- */
 function update(dt){try{tcUpd(dt)}catch(e){}
@@ -9772,7 +9800,7 @@ function camAuto(dt){let z=1,x=AZ.x,y=AZ.y,duck=1;
  if(duck!==AZ.d&&AU.ctx&&AU.mvol){AZ.d=duck;try{AU.mvol.gain.setTargetAtTime(VOL.m*.15*duck,AU.ctx.currentTime,duck<1?.25:.5)}catch(e){}}}
 let DLGX=null;function dlgTail(){const e=$('dlg');if(!dlg||!DLGX||DLGX.d!==dlg||DLGX.i!==dlg.i||T-DLGX.t>.25||!(DLGX.f>-.1&&DLGX.f<1.1)){if(e._t){e._t=0;e.classList.remove('tail')}return}const v=Math.max(8,Math.min(138,(AZ.c?(DLGX.f*W-AZ.c[0])/AZ.c[2]:DLGX.f)*160-6.8));if(!e._t||Math.abs(v-e._v)>.4){e._t=1;e._v=v;e.style.setProperty('--tx',v.toFixed(1));e.classList.add('tail')}}
 /* the space above and below the game on tall phones glows with the colours of the scene's top and bottom edges */
-let ambN=0,ambG=null;function ambBars(){if(ambN++%3)return;try{if(!ambG){ambG=$('amb').getContext('2d');ambG.imageSmoothingEnabled=true}const b=Math.max(1,dv.height*.04|0);ambG.globalAlpha=ambN<4?1:.22;ambG.drawImage(dv,0,0,dv.width,b,0,0,16,4);ambG.drawImage(dv,0,dv.height-b,dv.width,b,0,4,16,4)}catch(e){}}
+let ambN=0,ambG=null;function ambBars(){if(ambN++%3)return;try{if(!ambG){ambG=$('amb').getContext('2d');ambG.imageSmoothingEnabled=true}ambG.globalAlpha=ambN<4?1:.22;if(LAND){const b=Math.max(1,dv.width*.06|0);ambG.drawImage(dv,0,0,b,dv.height,0,0,8,8);ambG.drawImage(dv,dv.width-b,0,b,dv.height,8,0,8,8);return}const b=Math.max(1,dv.height*.04|0);ambG.drawImage(dv,0,0,dv.width,b,0,0,16,4);ambG.drawImage(dv,0,dv.height-b,dv.width,b,0,4,16,4)}catch(e){}}
 buildBG();buildStreet();buildIcons();c3Icons();c5Icons();
 let last=0;
 let avgDt=1/60,dtDebt=0;function loop(ts){if(window.CRZ&&CRZ.on){last=ts;requestAnimationFrame(loop);return}let raw=(ts-last)/1000||0;last=ts;if(raw>.25){raw=avgDt;dtDebt=0}if(raw>0&&raw<.1)avgDt+=(raw-avgDt)*.05;let dt=Math.min(raw,avgDt*1.2);dtDebt=Math.min(.1,dtDebt+raw-dt);const pay=Math.min(dtDebt,avgDt*.25);dt+=pay;dtDebt-=pay;dt=Math.min(dt,.05);sfxFlush();if(!PAUSED){if(HSTOP>0)HSTOP-=Math.max(raw,.001);else{T+=dt;update(dt)}}render();requestAnimationFrame(loop)}
