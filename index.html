@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.58</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.59</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1383,12 +1383,12 @@ function vLiving(t){
  r(74,40,5,2,'#e8d8a8');r(75,42,3,4,'#f8f0d0');r(76,46,1,44,'#5a4a3a');if(n)disc(76,46,10,'#ffd88a',.18);
  r(-40,92,160,52,'#a0784e');for(let y=92;y<144;y+=6)r(-40,y,160,1,'#8a6440');lvSideFloor(t);r(10,96,62,40,'#7a5a8a');r(12,98,58,36,'#8a6a9a');
  r(14,50,60,24,'#5a7a6a');r(14,50,60,2,'#7a9a8a');for(let x=33;x<74;x+=20)r(x,53,1,19,'#4a6a5a');
- abi.lid=(tv&&loc==='living')?tv.lid:0;hunter.lid=0;const ppl=[];if(!lv.pace&&!lv.ex){abi.hold=noseOn?'tissue':lv.sw?'ctrl':lv.pop?'carry':null;if(lv.pop&&!noseOn&&!lv.sw)abi.carry='#e8c051';hunter.hold=lv.sw?'ctrl':null;if(lv.sw&&lv.mor<2)morgan.hold='ctrl';else if(morgan.hold==='ctrl')morgan.hold=null;if(lv.st!=null&&T-lv.st<1.4)hunter.hold='stretch'}
+ abi.lid=(tv&&loc==='living')?tv.lid:0;hunter.lid=0;const ppl=[];if(!lv.pace&&!lv.ex&&!lv.tray){abi.hold=noseOn?'tissue':lv.sw?'ctrl':lv.pop?'carry':null;if(lv.pop&&!noseOn&&!lv.sw)abi.carry='#e8c051';hunter.hold=lv.sw?'ctrl':null;if(lv.sw&&lv.mor<2)morgan.hold='ctrl';else if(morgan.hold==='ctrl')morgan.hold=null;if(lv.st!=null&&T-lv.st<1.4)hunter.hold='stretch'}
  const armOn=!lv.ex&&!lv.pace&&!lv.kiss&&!lv.sw&&lv.mor!==2&&(lv.st!=null?T-lv.st>=1.4:lv.q>=2);if(armOn&&!hunter.hold)hunter.hold='armAround';
  if(!lv.pace&&abi.face==='worry')abi.face=null;if(lv.pace){abi.zz=0;abi.face=mode==='abiPace'||mode==='dial'||mode==='dialing'?'worry':null;abi.hold=mode==='dialing'?'phone':'phoneLow';const k=Math.sin(t*1.4);abi.x=44+k*16;abi.y=124;abi.dir=Math.cos(t*1.4)>0?'r':'l';abi.moving=true}
  if(lv.mor<2)ppl.push(()=>seat(morgan,lv.mor&&!lv.sw?20:22,lv.mor&&!lv.sw?'l':'d'));
  const drawArm=()=>{const hx=HX[lv.q]-4,a0=AX[lv.q]-6,y=67,k=lv.st!=null?Math.min(1,(T-lv.st-1.4)/.55):1,e=k*k*(3-2*k),ax=Math.round(hx-(hx-a0)*e),ly=y-Math.round(Math.sin(e*Math.PI)*3);for(let x=ax;x<=hx;x++)r(x,x<ax+3?ly:y,1,2,hunter.top);r(ax-2,ly,2,2,hunter.skin);r(ax-2,ly-1,1,1,'#2b1830');r(ax-3,ly,1,2,'#2b1830')};
- if(!lv.pace&&!lv.solo){if(lv.kiss){ppl.push(()=>seat(abi,46,lv.selfie?'d':'r'));ppl.push(()=>{if(lv.selfie)hunter.hold='phone';seat(hunter,54,lv.selfie?'d':'l')})}else{if(armOn)ppl.push(drawArm);if(!lv.ex)ppl.push(()=>seat(abi,AX[lv.q],lv.q>=4?'r':'d'));ppl.push(()=>seat(hunter,HX[lv.q],lv.q>=2?'l':'d'))}}
+ if(!lv.pace&&!lv.solo){if(lv.kiss){ppl.push(()=>seat(abi,46,lv.selfie?'d':'r'));ppl.push(()=>{if(lv.selfie)hunter.hold='phone';seat(hunter,54,lv.selfie?'d':'l')})}else{if(armOn)ppl.push(drawArm);if(!lv.ex&&!lv.tray)ppl.push(()=>seat(abi,AX[lv.q],lv.q>=4?'r':'d'));ppl.push(()=>seat(hunter,HX[lv.q],lv.q>=2?'l':'d'))}}
  r(14,74,60,6,'#6a8a7a');r(14,74,60,1,'#8aaa9a');r(14,80,60,10,'#4a6a5a');r(14,80,60,1,'#3a5a4a');r(10,58,6,32,'#4a6a5a');r(10,58,6,1,'#6a8a7a');r(72,58,6,32,'#4a6a5a');r(72,58,6,1,'#6a8a7a');
  ppl.forEach(f=>f());
  if(lv.mb&&lv.mor<2){r(14,68,17,10,'#c8a0d8');r(14,68,17,1,'#e0c0ec')}
@@ -1400,7 +1400,7 @@ function vLiving(t){
   if(lv.mor==2&&lv.mw){morgan.x=lv.mw.x;morgan.y=lv.mw.y;morgan.dir=lv.mw.dir||'u';morgan.moving=true;morgan.hold='phone';morgan.sit=0;person(morgan,t);morgan.moving=false}}else morgan.hold=null;
  if(lv.mw2){const M=lv.mw2;morgan.x=M.x;morgan.y=M.y-(M.hop&&T-M.hop<.35?Math.round(Math.sin((T-M.hop)/.35*Math.PI)*3):0);morgan.dir=M.dir||'l';morgan.moving=M.tx!=null;morgan.hold=M.hold||null;morgan.sit=0;if(M.fade)cx.globalAlpha=Math.max(0,1-(T-M.fade)/.6);else if(M.fin)cx.globalAlpha=Math.min(1,(T-M.fin)/.45);person(morgan,t);cx.globalAlpha=1;morgan.moving=false}
  if(lv.pace){if(!qprops.remote&&qprops.lap!=='remote'){r(58,111,7,3,'#1a1a22');r(59,111,1,1,'#e0463c')}person(abi,t)}
- drawQx(t);
+ drawQx(t);if(lv.tray||(bags&&bags.tr&&!bags.tr.done&&mode==='tray'))trayDraw(t);
  if(n){cx.globalAlpha=.42;r(-40,0,160,144,'#0a0a30');cx.globalAlpha=1;cx.globalCompositeOperation='lighter';{const g=.75+.25*Math.sin(t*2);disc(105,41,6,'#ffb030',.13*g);disc(105,41,2,'#ffd060',.25*g)}const fl=.02+.012*Math.sin(t*7)+.008*Math.sin(t*13);for(let i=0;i<6;i++){cx.globalAlpha=fl;r(8+i*4,52+i*3,64-i*8,92-i*3,'#6ab0ff')}cx.globalAlpha=1;disc(76,46,6,'#ffd88a',.1);cx.globalCompositeOperation='source-over'}
  if(lv.eve){// golden hour: a warm wash over the room, low sun pouring in from the window across the floor
   cx.globalAlpha=.14;r(-40,0,160,144,'#3a1a10');cx.globalAlpha=.16;r(-40,0,160,144,'#ff9a4a');cx.globalAlpha=1;
@@ -1690,7 +1690,7 @@ function qxTap(x,y){if(qx.phase)return;const it=qxItems().find(i=>x>=i.x&&x<=i.x
 function qxToKitchenOld(after){qx.phase='walkOut';go(abi,qxRoute(72,138).concat([[92,140]]),40);qx.out=()=>fadeTo(()=>{setLoc('mkit');qx.room='kitchen';at(abi,-6,138,'r');go(abi,[[16,124]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(qx.hud)})}
 function qxToLivingOld(after){qx.phase='walkOut';go(abi,[[8,138],[-10,140]],40);qx.out=()=>fadeTo(()=>{setLoc('living');qx.room='living';at(abi,90,138,'l');go(abi,[[66,126]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(mode==='qx'?qx.hud:'')})}
 const lvCamT=x=>Math.max(-40,Math.min(40,Math.round(x)-40));
-function qxUpdate(dt){qxBingoBtn();if(loc==='living'){const tg=qx&&qx.room==='living'&&lv.ex?lvCamT(abi.x):0;CAMX+=(tg-CAMX)*Math.min(1,dt*3.5);if(Math.abs(tg-CAMX)<.15)CAMX=tg}if(!qx||!QXL[loc])return;if(mode==='wash'){qWashUpd(dt);return}if(qx.tap){qx.tap.t+=dt;if(qx.tap.t>.4)qx.tap=null}
+function qxUpdate(dt){qxBingoBtn();if(mode==='tray')trayUpd(dt);if(loc==='living'){const tg=lv.tray||(qx&&qx.room==='living'&&lv.ex)?lvCamT(abi.x):0;CAMX+=(tg-CAMX)*Math.min(1,dt*3.5);if(Math.abs(tg-CAMX)<.15)CAMX=tg}if(!qx||!QXL[loc])return;if(mode==='wash'){qWashUpd(dt);return}if(qx.tap){qx.tap.t+=dt;if(qx.tap.t>.4)qx.tap=null}
  if(qx.phase){if(dlg)return;if(qx.phase==='sit'){qx.st+=dt;if(qx.st>=.75){QSAT=T;qx.sx=qx.sy=null;QPN=qx.room==='living'&&!qx.cnt.phone&&!(qprops.ph&&qprops.ph[qx.d])?qx.d:null;qx.phase=null;lv.ex=0;abi.hold=null;abi.carry=null;sfx('step');qx.cont()}return}
   if(qx.phase==='wait')return;mv(abi,dt);if(abi.tx==null){const P=qx.phase;abi.moving=false;
    if(P==='toSeat'){qx.phase='sit';qx.st=0;abi.dir='d'}else if(P==='exit'){qx.phase=null;if(qx.goal==='door'){lv.door=1;sfx('creak')}qx.cont()}
@@ -2194,7 +2194,65 @@ function _qDay3(){entD=0;entT=null;qScene({loc:'entry'},[{n:'',t:'*knock knock*'
 const BAGP=[[37,95],[42,93],[48,96],[52,93],[56,97]];
 function bagTap(x,y){sfx('tick');let best=-1,bd=14;BAGP.forEach(([bx,by],i)=>{if(bags.got[i])return;const d=Math.hypot(x-bx,y-by+2);if(d<bd){bd=d;best=i}});
  if(best<0)return;bags.got[best]=1;bags.n++;burst(BAGP[best][0],BAGP[best][1]-4,'#ffd86b');setHud('Bring the groceries in! '+bags.n+'/5');
- if(bags.n>=5){mode='q';setHud('');addH(1);after(.6,()=>say([{n:'Abigail',t:'She even put a get-well card in here!'},{n:'Morgan',t:'(from the couch) Your mom is a SAINT, Hunter.'}],()=>fadeTo(qNight3)))}}
+ if(bags.n>=5){setHud('');after(.5,trayAsk)}}
+/* ===== balance the tray: everything goes on one tray and Abigail carries it through the living room to the kitchen.
+   Tilt the phone to keep it level (touch-and-hold left/right works too, and is the fallback with no tilt sensor) ===== */
+const TILT={on:0,ev:0,v:0},TPT={};
+function tiltEv(e){if(e.gamma==null)return;const an=(screen.orientation&&screen.orientation.angle)||window.orientation||0;TILT.v=an==90?e.beta:(an==-90||an==270)?-e.beta:e.gamma;TILT.ev=1}
+function tiltOn(){if(!TILT.on){TILT.on=1;TILT.ev=0;window.addEventListener('deviceorientation',tiltEv)}}
+function tiltOff(){if(TILT.on){TILT.on=0;window.removeEventListener('deviceorientation',tiltEv)}}
+window.addEventListener('pointerdown',e=>{if(mode==='tray')TPT[e.pointerId]=e.clientX<innerWidth/2?-1:1});
+['pointerup','pointercancel'].forEach(k=>window.addEventListener(k,e=>{delete TPT[e.pointerId]}));
+window.addEventListener('keydown',e=>{if(mode==='tray'&&(e.key==='ArrowLeft'||e.key==='ArrowRight'))TPT.k=e.key==='ArrowLeft'?-1:1});
+window.addEventListener('keyup',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight')delete TPT.k});
+function trayAsk(){const touch=('ontouchstart' in window)||navigator.maxTouchPoints>0;
+ if(!touch){trayBegin(0);return}
+ say([{n:'Abigail',t:'(Five things, one tray, and a long way to the kitchen. Do NOT drop the goulash.)',c:[{l:'📱 Tilt my phone to balance',f:()=>{const D=window.DeviceOrientationEvent;if(D&&typeof D.requestPermission==='function'){D.requestPermission().then(r=>trayBegin(r==='granted'?1:0)).catch(()=>trayBegin(0))}else trayBegin(1)}},{l:'👆 Hold the screen sides instead',f:()=>trayBegin(0)}]}])}
+const TRI=[{bx:-7,w:7,h:3,on:-1,d:(x,y)=>{r(x,y,7,3,'#b8b8c8');r(x,y,7,1,'#e8e8f0');r(x+2,y-1,3,1,'#9a9aaa');r(x+1,y+1,5,1,'#c8503a')}},
+ {bx:0,w:3,h:6,on:-1,d:(x,y)=>{r(x,y,3,6,'#f0a030');r(x,y,3,1,'#fff');r(x+1,y-1,1,1,'#fff');r(x,y+2,3,1,'#fff6c8')}},
+ {bx:4,w:4,h:3,on:-1,d:(x,y)=>{r(x,y,4,3,'#5a8ae0');r(x+1,y-1,2,1,'#fff');r(x,y,4,1,'#7aa8f0')}},
+ {bx:-6,w:4,h:4,on:0,d:(x,y)=>{r(x,y,4,4,'#e8c840');r(x+1,y+2,2,1,'#d8352f');r(x,y,4,1,'#f8e080')}},
+ {bx:4,w:4,h:3,on:2,d:(x,y)=>{r(x,y,4,3,'#fff');r(x,y+2,4,1,'#e0d8e0');r(x+1,y+1,1,1,'#ff5f9e');r(x+2,y+1,1,1,'#ff5f9e')}}];
+function trayBegin(useTilt){if(useTilt)tiltOn();fadeTo(()=>{setLoc('living');lv={...lv,door:1,tray:1,ex:0};
+ [abi,hunter,morgan].forEach(p=>{p.tx=null;p.path=null;p.moving=false;p.zz=0});at(abi,8,92,'d');abi.sit=0;abi.sitF=0;abi.hold='carry';abi.carry='#b8865a';CAMX=lvCamT(8);
+ bags.tr={s:0,sv:0,u:0,tu:0,a:0,drops:0,t:0,tilt:useTilt?1:0,g0:null,has:[1,1,1,1,1],fall:null,leg:0,stop:0,done:0,bumps:[2.6,6.2,8.8],bm:null,stp:0,sd:1};
+ mode='tray';setHud(useTilt?'Tilt your phone to keep the tray level!':'Hold left or right to keep the tray level!');
+ after(.9,()=>{lv.door=0;sfx('latch')});go(abi,[[12,104],[18,120],[31,123]],13)})}
+function trayUpd(dt){const R=bags&&bags.tr;if(!R||R.done)return;R.t+=dt;
+ if(R.tilt&&!TILT.ev&&R.t>1.2){R.tilt=0;tiltOff();setHud('Hold left or right to keep the tray level!');bark([{n:'',t:'(No tilt sensor here: hold the left or right side of the screen.)'}])}
+ let td=0;for(const k in TPT)td+=TPT[k];td=Math.max(-1,Math.min(1,td));R.tu=Math.max(-1.5,Math.min(1.5,R.tu+td*1.8*dt));
+ let tu=0;if(R.tilt&&TILT.ev){if(R.g0==null)R.g0=TILT.v;tu=Math.max(-1.5,Math.min(1.5,(TILT.v-R.g0)/20))}R.u=tu+R.tu;
+ if(R.fall){const F=R.fall;F.t+=dt;if(!F.down){F.vy+=150*dt;F.x+=F.vx*dt;F.y+=F.vy*dt;if(F.y>=F.gy){F.y=F.gy;if(Math.abs(F.vy)>25){F.vy*=-.35;F.vx*=.5;sfx('tick')}else F.down=1}}
+  if(F.t>.75&&!abi.kneel){abi.kneel=1;abi.dir=F.vx>0?'r':'l'}
+  if(F.t>1.25){abi.kneel=0;R.has[F.i]=1;R.fall=null;R.s=0;R.sv=0;R.tu=0;R.g0=R.tilt&&TILT.ev?TILT.v:null;R.u=0;sfx('item');abi.dir=R.dir0||'d';if(R.path0){go(abi,R.path0,13);R.path0=null}}
+  R.a=R.s+R.u;return}
+ const walking=abi.tx!=null;if(walking){mv(abi,dt);R.stp+=dt;if(R.stp>.4){R.stp=0;R.sd*=-1;R.sv+=R.sd*.3}}
+ if(R.bumps.length&&R.t>=R.bumps[0]-.45&&walking&&R.bm==null){R.bm=T;R.bk=Math.random()<.5?-1:1}// a wobble you can see coming: the ! pops up first
+ if(R.bm!=null&&T-R.bm>=.45&&R.bk){R.bumps.shift();R.sv+=R.bk*.6;R.bk=0;sfx('bump')}if(R.bm!=null&&T-R.bm>.9)R.bm=null;
+ R.a=R.s+R.u;R.sv+=R.a*(R.tilt?1.6:1.15)*dt;R.sv*=Math.exp(-.9*dt);R.s+=R.sv*dt;R.a=R.s+R.u;
+ if(Math.abs(R.a)>1){// something slides off the low side
+  const sg=R.a>0?1:-1,c=TRI.map((it,i)=>({i,it})).filter(o=>R.has[o.i]&&!TRI.some((q,j)=>q.on===o.i&&R.has[j])).sort((p,q)=>sg*((q.it.bx+q.it.w/2)-(p.it.bx+p.it.w/2)));
+  const o=c[0];if(o){R.has[o.i]=0;R.drops++;const P=trayPos(o.i);R.fall={i:o.i,x:P[0],y:P[1]+o.it.h,vx:sg*16,vy:-14,gy:abi.y-2,t:0};R.path0=abi.tx!=null?[[abi.tx,abi.ty]].concat(abi.path||[]):null;R.dir0=abi.dir;abi.tx=null;abi.path=null;abi.moving=false;sfx('hit');
+   bark([{n:'Abigail',t:['(Oops! Not the goulash!)','(Five-second rule. It applies to groceries.)','(Nobody saw that. Nobody.)','(Okay. Steady. Steady...)'][(R.drops-1)%4]}])}
+  R.s=0;R.sv=0;R.tu=0;R.u=0;R.a=0;if(R.tilt&&TILT.ev)R.g0=TILT.v;return}
+ if(!walking&&!R.fall){abi.moving=false;
+  if(R.leg===0){R.leg=1;R.stop=T;abi.dir='u';after(.35,()=>{if(!bags||!bags.tr)return;bags.tr.has[2]=0;sfx('item');bark([{n:'Abigail',t:'(Tissues: delivered. Our MVP.)'}])});
+   after(1.1,()=>{if(bags&&bags.tr&&!bags.tr.done)go(abi,[[10,131],[-8,135],[-30,137],[-48,139]],13)})}
+  else if(R.leg===1&&abi.x<-40){R.done=1;tiltOff();abi.hold=null;mode='q';setHud('');addH(1);
+   after(.6,()=>say([{n:'Abigail',t:'She even put a get-well card in here!'},{n:'Morgan',t:'(from the couch) Your mom is a SAINT, Hunter.'}],()=>fadeTo(qNight3)))}}}
+function trayGeo(){const R=bags.tr,x0=Math.round(abi.x)+(abi.dir==='l'?-1:abi.dir==='r'?1:0),y0=Math.round(abi.y)-6+(abi.kneel?2:0),m=Math.max(-1.15,Math.min(1.15,R.a))*.3,sl=Math.round(R.a*2.2);return {x0,y0,m,sl}}
+function trayPos(i){const R=bags.tr,G=trayGeo(),it=TRI[i],top=j=>{const q=TRI[j];if(q.on>=0&&R.has[q.on])return top(q.on)-q.h;return G.y0+Math.round((q.bx+q.w/2)*G.m)-q.h};
+ return [G.x0+it.bx+G.sl,top(i)]}
+function trayDraw(t){const R=bags&&bags.tr;if(!R)return;if(R.leg>=1&&!R.has[2]&&R.stop&&T-R.stop>.35){r(31,96,6,4,'#5a8ae0');r(31,96,6,1,'#7aa8f0');r(33,95,2,1,'#fff')}person(abi,t);
+ if(!R.done){const G=trayGeo();for(let i=-8;i<=8;i++){const y=G.y0+Math.round(i*G.m);r(G.x0+i,y,1,2,'#8a5a3a');r(G.x0+i,y,1,1,'#c8986a')}
+  [-8,8].forEach(i=>r(G.x0+i,G.y0+Math.round(i*G.m)-1,1,1,'#8a5a3a'));
+  const wob=Math.abs(R.a)>.6;TRI.forEach((it,i)=>{if(!R.has[i])return;const P=trayPos(i);it.d(P[0],P[1]-(wob&&Math.floor(t*14+i)%2?1:0))})}
+ lvFront(t,abi);
+ if(R.fall){const F=R.fall;TRI[F.i].d(Math.round(F.x),Math.round(F.y)-TRI[F.i].h)}
+ if(R.bm!=null&&T-R.bm<.9){const x=Math.round(abi.x),y=Math.round(abi.y)-30-Math.round((T-R.bm)*4);r(x,y,1,4,'#ffe066');r(x,y+5,1,1,'#ffe066')}
+ if(!R.done&&mode==='tray'){const cm=Math.round(CAMX),cx0=cm+40,a=Math.max(-1.1,Math.min(1.1,R.a));
+  const Y=34;r(cx0-19,Y,38,7,'rgba(20,10,30,.6)');r(cx0-17,Y+2,34,3,'#c8503a');r(cx0-12,Y+2,24,3,'#e0b840');r(cx0-6,Y+2,12,3,'#5ab45a');r(cx0,Y+1,1,5,'rgba(255,255,255,.5)');
+  const mx=cx0+Math.round(a*16);r(mx-1,Y-1,3,9,'#2a1a3a');r(mx,Y,1,7,Math.abs(R.a)>.6&&Math.floor(t*8)%2?'#ff6a6a':'#ffffff')}}
 function _qNight3(){qScene({night:1,mor:0,q:1},[{n:'',t:'Another night, another episode.'},{n:'',t:'Somehow you end up sitting a little closer than last night...'},{n:'Hunter',t:'(*fake yaaawn*... stretches... and his arm just happens to land behind you)',anim:()=>{lv.st=T}},{n:'Abigail',t:'(Smooth, Hunter. Very smooth.)'}],()=>{addH(1);fadeTo(()=>calShow(6,qDay6))})}
 function _qDay6(){qScene({mor:1,q:1,sw:1},[{n:'Hunter',t:'Okay. Mario Kart on the Switch. Loser reheats my mom\'s goulash tonight.'},{n:'Abigail',t:"You're on. Sick or not, I will DESTROY you."},
  {n:'Morgan',t:'Ugh. Fine. Hand me the third controller. I can be miserable AND win.'},
@@ -9211,7 +9269,7 @@ const MGAMES=[
  [2,'Covid swab test',()=>startClinic(),['needle']],
  [2,'Blow your nose',()=>{hm=0;sick=1;tissues=4;_qDay1()},['nose']],
  [2,'Stay awake for TV',()=>{hm=0;sick=1;tissues=4;_qNight1()},['tv']],
- [2,'Bring in the groceries',()=>{hm=0;sick=1;tissues=4;_qDay3()},['bags']],
+ [2,'Bring in the groceries',()=>{hm=0;sick=1;tissues=4;_qDay3()},['bags','tray']],
  [2,'Mario Kart race',()=>{hm=0;sick=1;tissues=4;_qDay6()},['kartGo','kart']],
  [3,'Dippin Donuts drive-thru',()=>{MGM.dt=1;dtDay(0)},['dtMemo','dtOrder','dtPull','dtTalk']],
  [3,'Pack the SUV',()=>c3Pack(),['pack']],
@@ -9248,6 +9306,7 @@ let MGM=null;
 const lowGood=(n,a,b)=>n<=a?3:n<=b?2:1,hiGood=(n,a,b)=>n>=a?3:n>=b?2:1,pl=(n,w)=>n+' '+w+(n===1?'':'S');
 const MGR={
  'Dance with Hunter':()=>dance&&{s:hiGood(dance.sc,15,10),l:dance.sc+' / 15 HEARTS',h:dance.sc<15?(dance.sc<10?(10-dance.sc)+' more hearts for two stars':(15-dance.sc)+' more hearts for three stars'):''},
+ 'Bring in the groceries':()=>bags&&bags.tr&&{s:lowGood(bags.tr.drops,0,1),l:bags.tr.drops?pl(bags.tr.drops,'SPILL'):'NOT ONE WOBBLE',h:bags.tr.drops?'Keep the tray level for three stars':''},
  'Covid swab test':()=>ndl&&ndl.done&&{s:ndl.ok?3:1,l:ndl.ok?'PAINLESS SWAB':'OUCH',h:ndl.ok?'':'Tap inside the green zone for three stars'},
  'Dippin Donuts drive-thru':()=>dtS&&{s:lowGood(dtS.wrong,0,1),l:dtS.wrong?pl(dtS.wrong,'MIX-UP'):'PERFECT ORDER',h:dtS.wrong?'Get every order right for three stars':''},
  'Bird scooters':()=>sc3&&{s:lowGood(sc3.hits,0,2),l:'TACOS '+sc3.tacos+' · TRICKS '+sc3.tricks,h:sc3.hits?pl(sc3.hits,'wipeout')+'. Ride clean for three stars':''},
@@ -9443,7 +9502,7 @@ function press2(CX,CY){
  if(mode==='tv'){sfx('blink');tv.lid=Math.max(0,tv.lid-.2);return}
  if(mode==='kart'){kartInput(x,y,1);return}
  if(mode==='skee'){skeeDown(x,y);return}  if(mode==='claw'){clawTap();return}  if(mode==='quiz'){quizTap(x,y);return}  if(mode==='fight'){fightTap(x,y);return}
- if(mode==='bags'){bagTap(x,y);return}
+ if(mode==='bags'){bagTap(x,y);return}if(mode==='tray')return;
  if(mode==='dance'){danceTap(x,y);return}
  if(mode==='sneak'){sneakTap();return}
  if(mode!=='play'||dlg)return;
