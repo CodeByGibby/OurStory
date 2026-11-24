@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.59</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.60</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -2198,7 +2198,11 @@ function bagTap(x,y){sfx('tick');let best=-1,bd=14;BAGP.forEach(([bx,by],i)=>{if
 /* ===== balance the tray: everything goes on one tray and Abigail carries it through the living room to the kitchen.
    Tilt the phone to keep it level (touch-and-hold left/right works too, and is the fallback with no tilt sensor) ===== */
 const TILT={on:0,ev:0,v:0},TPT={};
-function tiltEv(e){if(e.gamma==null)return;const an=(screen.orientation&&screen.orientation.angle)||window.orientation||0;TILT.v=an==90?e.beta:(an==-90||an==270)?-e.beta:e.gamma;TILT.ev=1}
+/* how far the phone's left-right edge is tipped from level, worked out from which way is "up" for the phone, so it reads
+   the same whether the phone is held upright like a tray or lying flat (raw gamma goes haywire when the phone is upright) */
+function tiltEv(e){if(e.gamma==null||e.beta==null)return;const D=Math.PI/180,b=e.beta*D,g=e.gamma*D,ux=-Math.sin(g)*Math.cos(b),uy=Math.sin(b),
+ an=(screen.orientation&&screen.orientation.angle)||window.orientation||0,sx=an==90?-uy:(an==-90||an==270)?uy:ux,v=-Math.asin(Math.max(-1,Math.min(1,sx)))/D;
+ TILT.raw=v;TILT.v=TILT.ev?TILT.v+(v-TILT.v)*.3:v;TILT.ev=1}
 function tiltOn(){if(!TILT.on){TILT.on=1;TILT.ev=0;window.addEventListener('deviceorientation',tiltEv)}}
 function tiltOff(){if(TILT.on){TILT.on=0;window.removeEventListener('deviceorientation',tiltEv)}}
 window.addEventListener('pointerdown',e=>{if(mode==='tray')TPT[e.pointerId]=e.clientX<innerWidth/2?-1:1});
@@ -2215,26 +2219,31 @@ const TRI=[{bx:-7,w:7,h:3,on:-1,d:(x,y)=>{r(x,y,7,3,'#b8b8c8');r(x,y,7,1,'#e8e8f
  {bx:4,w:4,h:3,on:2,d:(x,y)=>{r(x,y,4,3,'#fff');r(x,y+2,4,1,'#e0d8e0');r(x+1,y+1,1,1,'#ff5f9e');r(x+2,y+1,1,1,'#ff5f9e')}}];
 function trayBegin(useTilt){if(useTilt)tiltOn();fadeTo(()=>{setLoc('living');lv={...lv,door:1,tray:1,ex:0};
  [abi,hunter,morgan].forEach(p=>{p.tx=null;p.path=null;p.moving=false;p.zz=0});at(abi,8,92,'d');abi.sit=0;abi.sitF=0;abi.hold='carry';abi.carry='#b8865a';CAMX=lvCamT(8);
- bags.tr={s:0,sv:0,u:0,tu:0,a:0,drops:0,t:0,tilt:useTilt?1:0,g0:null,has:[1,1,1,1,1],fall:null,leg:0,stop:0,done:0,bumps:[2.6,6.2,8.8],bm:null,stp:0,sd:1};
- mode='tray';setHud(useTilt?'Tilt your phone to keep the tray level!':'Hold left or right to keep the tray level!');
- after(.9,()=>{lv.door=0;sfx('latch')});go(abi,[[12,104],[18,120],[31,123]],13)})}
+ bags.tr={s:0,sv:0,u:0,tu:0,a:0,drops:0,t:0,wt:0,tilt:useTilt?1:0,g0:null,cal:useTilt?1:0,cw:[],ct:0,gr:0,has:[1,1,1,1,1],fall:null,leg:0,stop:0,done:0,bumps:[2.6,6.2,8.8],bm:null,stp:0,sd:1};
+ mode='tray';if(useTilt)setHud('Hold your phone upright and still...');else trayGo()})}
+function trayGo(){const R=bags.tr;R.cal=0;setHud(R.tilt?'Tilt your phone to keep the tray level!':'Hold left or right to keep the tray level!');after(.5,()=>{lv.door=0;sfx('latch')});go(abi,[[12,104],[18,120],[31,123]],13)}
+/* calibration: find "level" from how she's actually holding the phone, once it has been steady for a moment */
+function trayCal(dt){const R=bags.tr;if(!TILT.ev)return;R.cw.push(TILT.raw);if(R.cw.length>30)R.cw.shift();
+ const mn=Math.min(...R.cw),mx=Math.max(...R.cw);if(R.cw.length>=8&&mx-mn<4)R.ct+=dt;else R.ct=Math.max(0,R.ct-dt*2);
+ if(R.ct>=1.1||R.t>6){R.g0=R.cw.reduce((a,b)=>a+b,0)/R.cw.length;TILT.v=TILT.raw;sfx('ding');trayGo()}}
 function trayUpd(dt){const R=bags&&bags.tr;if(!R||R.done)return;R.t+=dt;
- if(R.tilt&&!TILT.ev&&R.t>1.2){R.tilt=0;tiltOff();setHud('Hold left or right to keep the tray level!');bark([{n:'',t:'(No tilt sensor here: hold the left or right side of the screen.)'}])}
+ if(R.tilt&&!TILT.ev&&R.t>1.2){R.tilt=0;tiltOff();bark([{n:'',t:'(No tilt sensor here: hold the left or right side of the screen.)'}]);if(R.cal)trayGo();else setHud('Hold left or right to keep the tray level!')}
+ if(R.cal){trayCal(dt);R.a=0;return}R.wt+=dt;if(R.gr>0)R.gr-=dt;
  let td=0;for(const k in TPT)td+=TPT[k];td=Math.max(-1,Math.min(1,td));R.tu=Math.max(-1.5,Math.min(1.5,R.tu+td*1.8*dt));
- let tu=0;if(R.tilt&&TILT.ev){if(R.g0==null)R.g0=TILT.v;tu=Math.max(-1.5,Math.min(1.5,(TILT.v-R.g0)/20))}R.u=tu+R.tu;
+ let tu=0;if(R.tilt&&TILT.ev){if(R.g0==null)R.g0=TILT.v;let d=TILT.v-R.g0;d=Math.sign(d)*Math.max(0,Math.abs(d)-1.5);tu=Math.max(-1.5,Math.min(1.5,d/30))}R.u=tu+R.tu;
  if(R.fall){const F=R.fall;F.t+=dt;if(!F.down){F.vy+=150*dt;F.x+=F.vx*dt;F.y+=F.vy*dt;if(F.y>=F.gy){F.y=F.gy;if(Math.abs(F.vy)>25){F.vy*=-.35;F.vx*=.5;sfx('tick')}else F.down=1}}
   if(F.t>.75&&!abi.kneel){abi.kneel=1;abi.dir=F.vx>0?'r':'l'}
-  if(F.t>1.25){abi.kneel=0;R.has[F.i]=1;R.fall=null;R.s=0;R.sv=0;R.tu=0;R.g0=R.tilt&&TILT.ev?TILT.v:null;R.u=0;sfx('item');abi.dir=R.dir0||'d';if(R.path0){go(abi,R.path0,13);R.path0=null}}
+  if(F.t>1.25){abi.kneel=0;R.has[F.i]=1;R.fall=null;R.s=0;R.sv=0;R.tu=0;R.gr=.9;sfx('item');abi.dir=R.dir0||'d';if(R.path0){go(abi,R.path0,13);R.path0=null}}
   R.a=R.s+R.u;return}
  const walking=abi.tx!=null;if(walking){mv(abi,dt);R.stp+=dt;if(R.stp>.4){R.stp=0;R.sd*=-1;R.sv+=R.sd*.3}}
- if(R.bumps.length&&R.t>=R.bumps[0]-.45&&walking&&R.bm==null){R.bm=T;R.bk=Math.random()<.5?-1:1}// a wobble you can see coming: the ! pops up first
+ if(R.bumps.length&&R.wt>=R.bumps[0]-.45&&walking&&R.bm==null){R.bm=T;R.bk=Math.random()<.5?-1:1}// a wobble you can see coming: the ! pops up first
  if(R.bm!=null&&T-R.bm>=.45&&R.bk){R.bumps.shift();R.sv+=R.bk*.6;R.bk=0;sfx('bump')}if(R.bm!=null&&T-R.bm>.9)R.bm=null;
  R.a=R.s+R.u;R.sv+=R.a*(R.tilt?1.6:1.15)*dt;R.sv*=Math.exp(-.9*dt);R.s+=R.sv*dt;R.a=R.s+R.u;
- if(Math.abs(R.a)>1){// something slides off the low side
+ if(Math.abs(R.a)>1&&R.gr<=0){// something slides off the low side
   const sg=R.a>0?1:-1,c=TRI.map((it,i)=>({i,it})).filter(o=>R.has[o.i]&&!TRI.some((q,j)=>q.on===o.i&&R.has[j])).sort((p,q)=>sg*((q.it.bx+q.it.w/2)-(p.it.bx+p.it.w/2)));
   const o=c[0];if(o){R.has[o.i]=0;R.drops++;const P=trayPos(o.i);R.fall={i:o.i,x:P[0],y:P[1]+o.it.h,vx:sg*16,vy:-14,gy:abi.y-2,t:0};R.path0=abi.tx!=null?[[abi.tx,abi.ty]].concat(abi.path||[]):null;R.dir0=abi.dir;abi.tx=null;abi.path=null;abi.moving=false;sfx('hit');
    bark([{n:'Abigail',t:['(Oops! Not the goulash!)','(Five-second rule. It applies to groceries.)','(Nobody saw that. Nobody.)','(Okay. Steady. Steady...)'][(R.drops-1)%4]}])}
-  R.s=0;R.sv=0;R.tu=0;R.u=0;R.a=0;if(R.tilt&&TILT.ev)R.g0=TILT.v;return}
+  R.s=0;R.sv=0;R.tu=0;R.u=0;R.a=0;return}
  if(!walking&&!R.fall){abi.moving=false;
   if(R.leg===0){R.leg=1;R.stop=T;abi.dir='u';after(.35,()=>{if(!bags||!bags.tr)return;bags.tr.has[2]=0;sfx('item');bark([{n:'Abigail',t:'(Tissues: delivered. Our MVP.)'}])});
    after(1.1,()=>{if(bags&&bags.tr&&!bags.tr.done)go(abi,[[10,131],[-8,135],[-30,137],[-48,139]],13)})}
@@ -2243,6 +2252,11 @@ function trayUpd(dt){const R=bags&&bags.tr;if(!R||R.done)return;R.t+=dt;
 function trayGeo(){const R=bags.tr,x0=Math.round(abi.x)+(abi.dir==='l'?-1:abi.dir==='r'?1:0),y0=Math.round(abi.y)-6+(abi.kneel?2:0),m=Math.max(-1.15,Math.min(1.15,R.a))*.3,sl=Math.round(R.a*2.2);return {x0,y0,m,sl}}
 function trayPos(i){const R=bags.tr,G=trayGeo(),it=TRI[i],top=j=>{const q=TRI[j];if(q.on>=0&&R.has[q.on])return top(q.on)-q.h;return G.y0+Math.round((q.bx+q.w/2)*G.m)-q.h};
  return [G.x0+it.bx+G.sl,top(i)]}
+function trayCalDraw(t){const R=bags.tr,cm=Math.round(CAMX),c=cm+40,k=Math.min(1,R.ct/1.1);
+ r(c-33,28,66,40,'rgba(20,10,30,.78)');r(c-33,28,66,1,'#ffd86b');txt('HOLD YOUR PHONE',c-29,32,'#ffffff',1);txt('UPRIGHT + STILL',c-29,39,'#ffd86b',1);
+ const d=TILT.ev?Math.max(-1,Math.min(1,((TILT.raw||0)-(R.cw.length?R.cw.reduce((a,b)=>a+b,0)/R.cw.length:0))/12)):0,px=c-3,py=47;
+ for(let i=0;i<12;i++){const o=Math.round(d*(i-6)/6);r(px+o,py+i,7,1,i===0||i===11?'#c8c8d8':'#3a3a4a')}r(px+1,py+1,5,9,'#7ac8f0');r(px+2,py+10,3,1,'#c8c8d8');
+ r(c-22,62,44,3,'#3a2a4a');r(c-22,62,Math.round(44*k),3,k>=1?'#5ad06a':'#ffd86b')}
 function trayDraw(t){const R=bags&&bags.tr;if(!R)return;if(R.leg>=1&&!R.has[2]&&R.stop&&T-R.stop>.35){r(31,96,6,4,'#5a8ae0');r(31,96,6,1,'#7aa8f0');r(33,95,2,1,'#fff')}person(abi,t);
  if(!R.done){const G=trayGeo();for(let i=-8;i<=8;i++){const y=G.y0+Math.round(i*G.m);r(G.x0+i,y,1,2,'#8a5a3a');r(G.x0+i,y,1,1,'#c8986a')}
   [-8,8].forEach(i=>r(G.x0+i,G.y0+Math.round(i*G.m)-1,1,1,'#8a5a3a'));
@@ -2250,6 +2264,7 @@ function trayDraw(t){const R=bags&&bags.tr;if(!R)return;if(R.leg>=1&&!R.has[2]&&
  lvFront(t,abi);
  if(R.fall){const F=R.fall;TRI[F.i].d(Math.round(F.x),Math.round(F.y)-TRI[F.i].h)}
  if(R.bm!=null&&T-R.bm<.9){const x=Math.round(abi.x),y=Math.round(abi.y)-30-Math.round((T-R.bm)*4);r(x,y,1,4,'#ffe066');r(x,y+5,1,1,'#ffe066')}
+ if(R.cal&&mode==='tray'){trayCalDraw(t);return}
  if(!R.done&&mode==='tray'){const cm=Math.round(CAMX),cx0=cm+40,a=Math.max(-1.1,Math.min(1.1,R.a));
   const Y=34;r(cx0-19,Y,38,7,'rgba(20,10,30,.6)');r(cx0-17,Y+2,34,3,'#c8503a');r(cx0-12,Y+2,24,3,'#e0b840');r(cx0-6,Y+2,12,3,'#5ab45a');r(cx0,Y+1,1,5,'rgba(255,255,255,.5)');
   const mx=cx0+Math.round(a*16);r(mx-1,Y-1,3,9,'#2a1a3a');r(mx,Y,1,7,Math.abs(R.a)>.6&&Math.floor(t*8)%2?'#ff6a6a':'#ffffff')}}
