@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.56</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.13.57</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1673,14 +1673,14 @@ function qxItems(){if(qx.room==='kitchen')return [{id:'pantry',x:4,y:10,w:32,h:2
  if(qx.room==='hall')return qhItems();if(qx.room==='bath')return qbItems();if(qx.room==='bed')return qdItems();
  const I=[{id:'cal',x:24,y:32,w:9,h:12,spot:[28,93]},{id:'phone',x:60,y:28,w:12,h:24,spot:[66,93]},{id:'window',x:44,y:8,w:28,h:34,spot:[58,93]},
  {id:'tissues',x:22,y:91,w:16,h:10,spot:[30,120]},(qprops.remote?{id:'remote',x:50,y:93,w:8,h:8,spot:[54,120]}:{id:'remote',x:56,y:108,w:10,h:8,spot:[60,122]}),
- {id:'blanket',x:63,y:96,w:16,h:16,spot:[60,118],face:'r'},{id:'door',x:1,y:26,w:13,h:64,spot:[12,95]},{id:'kit',x:-40,y:128,w:28,h:16,spot:[-30,136],face:'l'},{id:'hallx',x:92,y:130,w:28,h:14,spot:[108,136],face:'r'},
- {id:'cart',x:-24,y:82,w:13,h:31,spot:[-17,118]},{id:'barmir',x:-25,y:56,w:15,h:24,spot:[-17,118]},{id:'coats',x:-39,y:44,w:13,h:34,spot:[-32,96]},{id:'balcony',x:86,y:8,w:28,h:82,spot:[101,95]},
+ {id:'blanket',x:63,y:96,w:16,h:16,spot:[60,118],face:'r'},{id:'door',x:1,y:26,w:13,h:64,spot:[12,95]},{id:'kit',x:-40,y:130,w:24,h:14,spot:[-30,136],face:'l'},{id:'hallx',x:92,y:130,w:28,h:14,spot:[108,136],face:'r'},
+ {id:'cart',x:-24,y:93,w:13,h:30,spot:[-17,128]},{id:'barmir',x:-25,y:56,w:15,h:24,spot:[-17,98],face:'u'},{id:'coats',x:-39,y:44,w:13,h:34,spot:[-32,96]},{id:'balcony',x:86,y:8,w:28,h:82,spot:[101,95]},
  {id:'puzzle',x:86,y:119,w:26,h:11,spot:[99,134],face:'u'},{id:'plant',x:79,y:79,w:11,h:23,spot:[84,108]},{id:'hunter',x:HX[lv.q]-6,y:50,w:12,h:30,spot:[HX[lv.q]+(HX[lv.q]>AX[lv.q]?-6:6),93]}];
  if(lv.sw||qx.goal==='sw'||qprops.sw)I.push({id:'sw',x:38,y:92,w:13,h:9,spot:[44,120]});
  if(lv.mor<2)I.push({id:'morgan',x:14,y:50,w:14,h:30,spot:[28,93]});else if(lv.mor==2&&!lv.mgone)I.push({id:'morgan',x:8,y:116,w:16,h:22,spot:[28,130],face:'l'});
  return I}
 /* living room: real path finding around the coffee table (and Morgan's beanbag) */
-const lvWalk=m=>(x,y)=>{if(x<-36||x>116||y<90||y>140)return false;if(x>21-m&&x<63+m&&y>108-m&&y<116+m)return false;if(x>64-m&&x<78+m&&y>106-m&&y<113+m)return false;if(x>-25-m&&x<-11+m&&y<114+m)return false;if(x>79-m&&x<89+m&&y<102+m)return false;if(x>86-m&&x<112+m&&y>121-m&&y<130+m)return false;if((lv.mor==2||lv.mor==4)&&((x-16)/(10+m))**2+((y-134)/(5+m))**2<1)return false;return true};
+const lvWalk=m=>(x,y)=>{if(x<-36||x>116||y<90||y>140)return false;if(x>21-m&&x<63+m&&y>108-m&&y<116+m)return false;if(x>64-m&&x<78+m&&y>106-m&&y<113+m)return false;if(x>-25-m&&x<-11+m&&y>112-m&&y<124+m)return false;if(x>79-m&&x<89+m&&y<102+m)return false;if(x>86-m&&x<112+m&&y>121-m&&y<130+m)return false;if((lv.mor==2||lv.mor==4)&&((x-16)/(10+m))**2+((y-134)/(5+m))**2<1)return false;return true};
 function lvNear(x,y){const w=lvWalk(1);if(w(x,y))return [x,y];for(let d=1;d<30;d++)for(const [a,b] of [[0,-d],[0,d],[-d,0],[d,0],[-d,-d],[d,-d],[-d,d],[d,d]])if(w(x+a,y+b))return [x+a,y+b];return [x,y]}
 function qxRoute(tx,ty){if(qx.room!=='kitchen'){try{const B=QXB[qx.room]||QXB.living,P=planPath(abi.x,abi.y,tx,ty,qx.room==='living'?lvWalk:qxRW(qx.room),B[0],B[1],B[2],B[3]);if(P&&P.length){const l=P[P.length-1];if(Math.hypot(l[0]-tx,l[1]-ty)>.5)P.push([tx,ty]);P._r=1;return P}}catch(e){}}return qxRouteOld(tx,ty)}
 function qxRouteOld(tx,ty){const fx=abi.x,fy=abi.y,inT=x=>x>17&&x<67;if(qx.room!=='kitchen'&&((fy<97)!==(ty<97))&&(inT(fx)||inT(tx))){const side=(fx+tx)/2<42?14:70;return [[side,fy],[side,ty],[tx,ty]]}return [[tx,ty]]}
@@ -1806,7 +1806,7 @@ function qWashUpd(dt){const W=qx.wash;if(!W)return;W.t+=dt;W.bub.forEach(b=>{b.x
  if(W.t>=11.2){qx.wash=null;cap('');setHud(qx.hud);mode='qx';const ok=W.taps>=26;say([{n:'Abigail',t:ok?'(Squeaky clean. Twenty seconds and two whole birthday songs.)':'(...Good enough. Germs, beware.)'}]);qbMark('wash')}}
 /* ---- living room extras ---- */
 function lvCart(){// the bar cart, against the front-door wall, left of the door
- cx.save();cx.translate(-23,0);r(1,111,10,1,'rgba(0,0,0,.18)');
+ cx.save();cx.translate(-23,10);r(1,111,10,1,'rgba(0,0,0,.18)');
  r(1,90,1,21,'#c8a040');r(9,90,1,21,'#c8a040');r(0,90,11,1,'#e0c060');r(0,99,11,1,'#e0c060');r(0,108,11,1,'#e0c060');
  [[1,85,'#3a7a4a',5],[3,84,'#e8e0c0',6],[5,86,'#7a2a3a',4],[7,85,'#c8a060',5]].forEach(([x,y,c,h])=>{r(x,y+(6-h),2,h,c);r(x,y+(6-h)-1,1,1,'#2a2a2a');r(x,y+(6-h)+1,1,1,'rgba(255,255,255,.5)')});
  [[1,95],[4,95],[7,95]].forEach(([x,y])=>{r(x,y,2,3,'rgba(200,230,240,.8)');r(x,y,2,1,'#fff')});r(2,102,6,5,'#4a7ac8');r(2,102,6,1,'#6a9ae8');disc(2,112,1,'#3a3a46',1);disc(9,112,1,'#3a3a46',1);cx.restore()}
@@ -1837,10 +1837,12 @@ function lvSlider(t){const n=lv.night,e=lv.eve,X=90,Y=12,Wd=22,H=77;
  {const g=.75+.25*Math.sin(t*2),ac=n?'#ffc838':'#f0b828';if(n)disc(105,41,4,'#ffc040',.25*g);r(105,44,1,16,n?'#2a2030':'#8a8a96');r(103,41,1,3,ac);r(104,40,1,1,ac);r(105,41,1,1,ac);r(106,40,1,1,ac);r(107,41,1,3,ac);r(102,44,7,1,n?'#3a2a20':'#c8382a')}
  r(X,60,Wd,6,n?'#1a2420':'#8a9a6a');for(let i=0;i<8;i++)r(X+(i*5)%Wd,61+(i%3),2,1,n?'#222c26':'#7a8a5a');
  // the balcony itself: railing, a lonely folding chair, a little table with a very dead plant
- r(X,78,Wd,11,n?'#3a3a48':'#a8a8b4');r(X,78,Wd,1,n?'#4a4a58':'#c0c0ca');
- r(92,76,6,1,'#6a5a4a');r(92,69,1,8,'#6a5a4a');r(93,70,4,1,'#6a5a4a');r(93,73,4,1,'#6a5a4a');r(92,77,1,6,'#5a4a3a');r(97,77,1,6,'#5a4a3a');
- r(103,76,7,1,'#6a5a4a');r(106,77,1,6,'#5a4a3a');r(104,83,5,1,'#5a4a3a');r(105,72,3,4,'#c8603a');r(105,72,3,1,'#a84a2a');r(106,69,1,3,'#6a4a2a');r(107,70,1,1,'#6a4a2a');
+ // back to front: the railing at the far edge, the balcony floor, then the furniture standing on it
  r(X,66,Wd,1,'#2a2a34');for(let x=X;x<X+Wd;x+=3)r(x,67,1,11,'#3a3a46');r(X,77,Wd,1,'#2a2a34');
+ r(X,78,Wd,11,n?'#3a3a48':'#a8a8b4');r(X,78,Wd,1,n?'#4a4a58':'#c0c0ca');
+ cx.globalAlpha=.22;r(92,87,7,1,'#000');r(103,87,7,1,'#000');cx.globalAlpha=1;
+ r(92,74,1,14,'#6a5a4a');r(93,75,4,1,'#6a5a4a');r(93,78,4,1,'#6a5a4a');r(92,82,7,1,'#7a6a5a');r(92,83,7,1,'#5a4a3a');r(98,83,1,5,'#5a4a3a');r(95,84,1,3,'#4a3a2a');
+ r(103,81,7,1,'#7a6a5a');r(103,82,7,1,'#5a4a3a');r(106,83,1,4,'#5a4a3a');r(104,87,5,1,'#5a4a3a');r(105,77,3,4,'#c8603a');r(105,77,3,1,'#a84a2a');r(106,74,1,3,'#6a4a2a');r(107,75,1,1,'#6a4a2a');
  r(X+16,86,3,2,'#8a5a3a');r(X+17,85,1,1,'#a87040');r(X+3,87,2,1,'#9a6a3a');
  for(let i=0;i<2;i++){const k=((t*.05+i*.5)%1),x=X+Math.round(k*Wd*1.2-2),y=Y+58+Math.round(Math.sin(t*2+i*3)*3+k*14);if(x<X+Wd)r(x,y,1,1,i?'#b8783a':'#9a6a3a')}
  cx.globalAlpha=.1;r(X,Y,Wd,H,'#ffffff');cx.globalAlpha=.22;for(let k=0;k<26;k++)r(X+2+Math.round(k*.35),Y+40-k,2,1,'#ffffff');for(let k=0;k<14;k++)r(X+13+Math.round(k*.35),Y+30-k,1,1,'#ffffff');
@@ -1850,8 +1852,8 @@ function lvSlider(t){const n=lv.night,e=lv.eve,X=90,Y=12,Wd=22,H=77;
  r(86,6,34,2,'#6a5a4a');disc(86,7,1,'#8a7a5a',1);r(114,8,5,82,'#b8a888');r(115,8,1,82,'#a89878');r(117,8,1,82,'#c8b898');r(113,88,7,2,'#a89878')}
 /* a mirror that works: anyone standing in front of it shows up in the glass, facing back out at them */
 function mirRefl(t,X,Y,w,h,base,ps,full){cx.save();cx.beginPath();cx.rect(X,Y,w,h);cx.clip();
- ps.filter(p=>p&&p.x!=null).sort((a,b)=>b.y-a.y).forEach(p=>{const d=Math.max(0,p.y-base),R=Object.assign({},p,{dir:p.dir==='u'?'d':p.dir==='d'?'u':p.dir});
-  R.y=Math.round(full?Y+h-3+d*.15:Y+Math.min(h+1,31)+d*.3);try{person(R,t)}catch(e){}});
+ ps.filter(p=>p&&p.x!=null).sort((a,b)=>b.y-a.y).forEach(p=>{const d=Math.max(0,p.y-base),R=Object.assign({},p,{dir:p.dir==='u'?'d':p.dir==='d'?'u':p.dir,_fT:T,_tT:null,_zT:null});
+  R.y=Math.round(full?Y+h-3+d*.15:Y+Math.min(h+1,31)+d*.15);try{person(R,t)}catch(e){}});
  cx.globalAlpha=.16;r(X,Y,w,h,'#e8f6ff');cx.globalAlpha=1;cx.restore()}
 function lvPlant(t){const S=QSV.get(),g=Math.min(5,S.pl.length),x=84,y=101,sw=Math.sin(t*1.2)*.6;
  r(x-4,y-6,9,6,'#c8603a');r(x-4,y-6,9,1,'#e0804a');r(x-3,y-1,7,1,'#a84a2a');r(x-3,y-6,7,1,'#4a2a1a');
@@ -1961,7 +1963,7 @@ function lvTabItems(){const ex=lv.ex&&qx,carryR=(ex&&qx.got==='remote'&&qx.goal=
 function lvBasket(){const ex=lv.ex&&qx;r(65,102,12,10,'#c89a5a');for(let x=66;x<77;x+=2)r(x,103,1,9,'#a87a3a');if(lv.q<3&&!(ex&&qx.got==='blanket')){r(64,98,14,5,'#e89ab8');r(66,97,8,2,'#f8c0d8')}}
 function lvBean(t){disc(16,130,9,'#8a5aa8',1);disc(14,126,5,'#a87ac8',1);if(lv.mor==2&&!lv.mw&&!lv.mw2&&!lv.mgone){morgan.x=16;morgan.y=134;morgan.dir='r';morgan.hold='phone';morgan.sit=1;person(morgan,t);morgan.sit=0}ell(16,135,8,3,'#7a4a98')}
 /* [left, right, top, base]: if Abigail's feet are above the base and her sprite overlaps, the prop goes back over her */
-function lvFront(t,p){if(p.sit)return;const O=[[21,63,94,116,()=>{lvTable();lvTabItems()}],[62,80,96,113,lvBasket],[-24,-11,88,113,lvCart],[79,89,80,102,()=>lvPlant(T)]];if(lv.mor==2||lv.mor==4)O.push([6,26,118,139,()=>lvBean(t)]);
+function lvFront(t,p){if(p.sit)return;const O=[[21,63,94,116,()=>{lvTable();lvTabItems()}],[62,80,96,113,lvBasket],[-24,-11,88,124,lvCart],[79,89,80,102,()=>lvPlant(T)]];if(lv.mor==2||lv.mor==4)O.push([6,26,118,139,()=>lvBean(t)]);
  O.forEach(([a,b,top,base,f])=>{if(p.y<base&&p.y>top&&p.x+5>a&&p.x-5<b)f()})}
 function drawQx(t){const ex=lv.ex&&qx;
  r(24,32,9,12,'#f4f4f8');r(24,32,9,3,'#d8352f');r(24,44,9,1,'rgba(0,0,0,.18)');const dd=qx?qx.d:1;for(let i=0;i<6;i++)r(25+(i%3)*3,37+((i/3)|0)*3,2,2,i<Math.min(6,dd/2.4|0)?'#d8352f':'#c8c8d0');
