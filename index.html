@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.0</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.1</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1123,54 +1123,57 @@ function beginIntro(){mode='intro';st=0;hunter.x=176;hunter.y=550;say(INTRO,()=>
 let BOOK=null;const BKC=['#c2417a','#3a6ab0','#d8783a','#c8603a','#5a4a9a','#b8843a','#2a7a6a','#e07aa0','#8a3a5a'];
 function chBook(num,title,sub,next){const pl=loc;$('title').classList.add('out');try{$('card').style.opacity=0}catch(e){}setLoc('book');fade=1;fd=-1;
  BOOK={t0:T,num,title,sub,next,pl,col:BKC[(num==='E'?8:(+num-1))%BKC.length],done:0};sfx('whoosh')}
-function bookTap(){if(!BOOK||BOOK.done)return false;const k=T-BOOK.t0;if(k<3.1)BOOK.t0=T-3.1;return true}
-const BKT={rise:.5,hold:1.0,open:1.7,read:3.1,turn:3.6,zoom:4.15};
-function bookUpd(){const B=BOOK;if(!B||B.done)return;const k=T-B.t0;
+function bookTap(){if(!BOOK||BOOK.done)return false;BOOK.fast=1;return true}// a tap plays the rest at triple speed (no jumps)
+const BKT={rise:.6,hold:1.15,open:2.0,read:3.35,turn:4.0,zoom:4.65};
+let BKF=-9;// when the book handed over to the scene (a cream veil lifts off it)
+function bookUpd(){const B=BOOK;if(!B||B.done)return;if(B.lt!=null&&B.fast)B.t0-=Math.min(.1,T-B.lt)*2;B.lt=T;const k=T-B.t0;
  if(!B.s1&&k>=BKT.hold){B.s1=1;sfx('paper',196)}if(!B.s2&&k>=BKT.read){B.s2=1;sfx('paper',262)}
- if(k>=BKT.zoom){B.done=1;BOOK=null;CHPOP=T+8;const f0=fd;if(B.pl&&B.num==='1')setLoc(B.pl);B.next();if(fd===-1){fade=Math.min(fade,.15)}}}
+ if(k>=BKT.zoom){B.done=1;BOOK=null;CHPOP=T+8;BKF=T;if(B.pl&&B.num==='1')setLoc(B.pl);B.next();if(fd===-1)fade=0}}
 function bkWrap(s,n){const w=s.split(' '),L=[];let c='';w.forEach(x=>{if((c+' '+x).trim().length>n){L.push(c.trim());c=x}else c+=' '+x});if(c.trim())L.push(c.trim());return L}
-function bkCenter(s,y,col,z){z=z||1;txt(s,80-Math.round(s.length*4*z/2)+1,y,col,z)}
-function vBook(t){const B=BOOK;r(0,0,W,H,'#0c0816');if(!B)return;const k=T-B.t0;
- // a warm pool of lamplight on a dark table, a few motes drifting through it
+/* draw something designed for a full-width page squeezed toward a hinge: x0 = where the page is anchored, w = its
+   current width, dir = +1 (opens to the right of the hinge) or -1 (to the left) */
+function bkSqueeze(hx,top,PW,PH,w,dir,fn){if(w<1)return;const x0=dir>0?hx:hx-w;cx.save();cx.beginPath();cx.rect(x0,top,w,PH);cx.clip();cx.translate(x0,0);cx.scale(w/PW,1);cx.translate(-x0,0);fn(x0);cx.restore();cx._c=null}
+function vBook(t){const B=BOOK;r(0,0,W,H,'#0c0816');if(!B){bookUpd();return}const k=T-B.t0;
+ // lamplight on a dark table, motes drifting through it
  cx.globalCompositeOperation='lighter';const g=cx.createRadialGradient(80,150,10,80,150,150);g.addColorStop(0,'rgba(120,70,40,.35)');g.addColorStop(1,'rgba(0,0,0,0)');cx.fillStyle=g;cx.fillRect(0,0,W,H);
- for(let i=0;i<14;i++){const q=(t*.04+i/14)%1,x=Math.round(20+((i*53)%120)+Math.sin(t*.5+i)*6),y=Math.round(250-q*220);cx.globalAlpha=.35*Math.sin(q*Math.PI);r(x,y,1,1,'#ffe8b0')}cx.globalAlpha=1;cx.globalCompositeOperation='source-over';
- const ez=u=>u<=0?0:u>=1?1:u*u*(3-2*u),PW=72,PH=100,rise=ez(k/BKT.rise),op=ez((k-BKT.hold)/(BKT.open-BKT.hold)),tn=ez((k-BKT.read)/(BKT.turn-BKT.read)),zm=ez((k-BKT.turn)/(BKT.zoom-BKT.turn));
- const sp=Math.round(44+36*op),top=Math.round(98+(1-rise)*10),bx=sp,ex=sp+PW;
- // zooming into the right-hand page: everything scales up around it until the page fills the screen
- cx.save();if(zm>0){const s=1+zm*(Math.max(W/PW,H/PH)*1.12-1),cxp=sp+PW/2,cyp=top+PH/2;cx.translate(80,144);cx.scale(s,s);cx.translate(-(cxp+(80-cxp)*0),-cyp)}
- cx.globalAlpha=Math.min(1,k/.35);
- // shadow, page block thickness
- ell(sp+(op>0?0:PW/2),top+PH+6,op>0?PW+8:PW/2+6,4,'#000',.35);
- r(sp,top+2,PW+2,PH,'#d8ccb0');for(let y=top+4;y<top+PH;y+=3)r(sp+PW,y,2,1,'#c0b090');r(sp,top+PH,PW+2,3,'#b8a888');
- if(op>0){r(sp-PW-2,top+2,PW+2,PH,'#d8ccb0');r(sp-PW-2,top+PH,PW+2,3,'#b8a888')}
- {const rx=sp+PW-14,ry=top+PH+2,sw=Math.round(Math.sin(t*1.6)*1);r(rx+sw,ry,4,12,sh(B.col,.8));r(rx+sw,ry+12,1,2,sh(B.col,.8));r(rx+3+sw,ry+12,1,2,sh(B.col,.8));r(rx+sw,ry,1,12,sh(B.col,1.15))}
- // right-hand page: the chapter title page (under the cover, then turned to reveal the blank page the scene rises from)
- const page=(x,content)=>{r(x,top,PW,PH,'#f6eedb');r(x,top,PW,1,'#fffaf0');const gr=cx.createLinearGradient(x,0,x+10,0);gr.addColorStop(0,'rgba(120,90,50,.25)');gr.addColorStop(1,'rgba(120,90,50,0)');cx.fillStyle=gr;cx.fillRect(x,top,10,PH);cx._c=null;if(content)content(x)};
- const titleP=x=>{const cxp=x+PW/2;r(cxp-14,top+12,28,1,'#c2a060');heart(cxp-3,top+15,'#d8607a',1);r(cxp-14,top+21,28,1,'#c2a060');
-  const ch=B.num==='E'?'EPILOGUE':'CHAPTER';txt(ch,cxp-Math.round(ch.length*2)+1,top+28,'#8a6a4a',1);if(B.num!=='E'){const n=String(B.num);txt(n,cxp-Math.round(n.length*6)+1,top+37,B.col,3)}
-  bkWrap(B.title,15).forEach((l,i)=>txt(l.toUpperCase(),cxp-Math.round(l.length*2)+1,top+(B.num==='E'?44:58)+i*8,'#3a2a3a',1));
-  if(B.sub)bkWrap(B.sub,17).forEach((l,i)=>txt(l.toUpperCase(),cxp-Math.round(l.length*2)+1,top+80+i*7,'#9a7a8a',1));
-  r(cxp-8,top+PH-10,16,1,'#c2a060')};
- page(bx,tn<.5?titleP:null);
- // the turning page (title page lifting and flipping over to the left)
- if(tn>0&&tn<1){const w=Math.round(PW*Math.abs(Math.cos(tn*Math.PI)));if(tn<.5){page(bx,null);r(bx,top,w,PH,'#f6eedb');cx.save();cx.beginPath();cx.rect(bx,top,w,PH);cx.clip();cx.translate(bx,0);cx.scale(w/PW,1);cx.translate(-bx,0);titleP(bx);cx.restore();cx.globalAlpha=.25*tn*2;r(bx,top,w,PH,'#6a5a3a');cx.globalAlpha=1}
-  else{r(bx-w,top,w,PH,'#efe4cc');cx.globalAlpha=.2*(1-tn);r(bx-w,top,w,PH,'#6a5a3a');cx.globalAlpha=1}}
- // left-hand page once the cover is open: the inside cover with a little dedication
- if(op>=.5){const lx=bx-PW;r(lx,top,PW,PH,sh(B.col,.55));r(lx+4,top+4,PW-8,PH-8,'#f0e4cc');for(let y=top+8;y<top+PH-8;y+=6)for(let x=lx+8+((y/6)%2)*3;x<lx+PW-8;x+=6)r(x,y,1,1,'#e0d0b0');
-  txt('FOR ABIGAIL',lx+PW/2-21,top+PH/2-6,'#8a5a6a',1);heart(lx+PW/2-3,top+PH/2+4,'#d8607a',1);if(tn>=.5){r(lx+4,top+4,PW-8,PH-8,'#efe4cc');page(lx+4,null)}}
- // the cover: closed on top, then swinging open around the spine
- if(op<1){const a=op*Math.PI,cw=Math.round(PW*Math.abs(Math.cos(a)));
-  if(op<.5){const x0=bx;r(x0-2,top-2,cw+4,PH+4,sh(B.col,.7));r(x0,top,cw,PH,B.col);cx.save();cx.beginPath();cx.rect(x0,top,cw,PH);cx.clip();cx.translate(x0,0);cx.scale(Math.max(.01,cw/PW),1);cx.translate(-x0,0);
-    const cxp=x0+PW/2;r(x0+5,top+5,PW-10,PH-10,sh(B.col,.85));r(x0+6,top+6,PW-12,PH-12,B.col);[[x0+5,top+5],[x0+PW-8,top+5],[x0+5,top+PH-8],[x0+PW-8,top+PH-8]].forEach(([a2,b2])=>r(a2,b2,3,3,'#e8c060'));
-    txt('OUR',cxp-5,top+16,'#f8e0a0',1);txt('STORY',cxp-9,top+24,'#f8e0a0',1);heart(cxp-3,top+38,'#f8e0a0',1);
-    const ch=B.num==='E'?'EPILOGUE':'CHAPTER '+B.num;txt(ch,cxp-Math.round(ch.length*2)+1,top+56,'#fff4dc',1);bkWrap(B.title,14).forEach((l,i)=>txt(l.toUpperCase(),cxp-Math.round(l.length*2)+1,top+68+i*8,'#f8e0a0',1));
-    cx.restore();cx.globalAlpha=Math.min(1,op*1.6);r(x0,top,cw,PH,'#000');cx.globalAlpha=1;cx.globalAlpha=Math.min(1,k/.35);
-    r(x0-3,top-2,3,PH+4,sh(B.col,.5))}// the spine
-  else{const x0=bx-cw;r(x0,top,cw,PH,sh(B.col,.55));r(x0+3,top+3,Math.max(0,cw-6),PH-6,'#f0e4cc');cx.globalAlpha=(1-op)*.6;r(x0,top,cw,PH,'#000');cx.globalAlpha=1}}
+ for(let i=0;i<14;i++){const q=(t*.04+i/14)%1,x=Math.round(20+((i*53)%120)+Math.sin(t*.5+i)*6),y=Math.round(250-q*220);cx.globalAlpha=.35*Math.sin(q*Math.PI);r(x,y,1,1,'#ffe8b0')}cx.globalAlpha=1;cx.globalCompositeOperation='source-over';cx._c=null;
+ const cl=u=>Math.max(0,Math.min(1,u)),io=u=>{u=cl(u);return u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2},out=u=>{u=cl(u);return 1-Math.pow(1-u,3)};
+ const PW=72,PH=100,rise=out(k/BKT.rise),op=io((k-BKT.hold)/(BKT.open-BKT.hold)),tn=io((k-BKT.read)/(BKT.turn-BKT.read)),zm=io((k-BKT.turn)/(BKT.zoom-BKT.turn));
+ const bx=Math.round(44+36*io((k-BKT.hold)/(BKT.open-BKT.hold))),top=Math.round(98+(1-rise)*14),PAPER='#f6eedb',BACK='#efe4cc',COL=B.col,DK=sh(COL,.6);
+ cx.save();if(zm>0){const s=1+zm*(Math.max(W/PW,H/PH)*1.12-1),px=bx+PW/2,py=top+PH/2,cxp=80+(px-80)*(1-zm*.0),fx=px;cx.translate(80,144);cx.scale(s,s);cx.translate(-fx,-py)}
+ // soft shadow under the book: grows from under the closed book to under the open spread
+ {const c=bx+PW/2*(1-op),hw=PW/2+6+PW/2*op;ell(Math.round(c),top+PH+5,Math.round(hw),4,'#000',.38*rise)}
+ // the page block on the right (it's always there), its thickness and the ribbon
+ r(bx,top+1,PW+2,PH+1,'#d8ccb0');for(let y=top+3;y<top+PH;y+=3)r(bx+PW,y,2,1,'#c0b090');r(bx+1,top+PH,PW+1,3,'#b8a888');
+ {const rx=bx+PW-14,ry=top+PH+2,sw=Math.round(Math.sin(t*1.6));r(rx+sw,ry,4,12,sh(COL,.8));r(rx+sw,ry+12,1,2,sh(COL,.8));r(rx+3+sw,ry+12,1,2,sh(COL,.8));r(rx+sw,ry,1,12,sh(COL,1.15))}
+ const page=(x,c)=>{r(x,top,PW,PH,PAPER);r(x,top,PW,1,'#fffaf0');if(c)c(x)};
+ const gutterR=x=>{const gr=cx.createLinearGradient(x,0,x+10,0);gr.addColorStop(0,'rgba(120,90,50,.28)');gr.addColorStop(1,'rgba(120,90,50,0)');cx.fillStyle=gr;cx.fillRect(x,top,10,PH);cx._c=null};
+ const gutterL=x=>{const gr=cx.createLinearGradient(x-10,0,x,0);gr.addColorStop(0,'rgba(120,90,50,0)');gr.addColorStop(1,'rgba(120,90,50,.28)');cx.fillStyle=gr;cx.fillRect(x-10,top,10,PH);cx._c=null};
+ const titleP=x=>{const m=x+PW/2;r(m-14,top+12,28,1,'#c2a060');heart(m-3,top+15,'#d8607a',1);r(m-14,top+21,28,1,'#c2a060');
+  const ch=B.num==='E'?'EPILOGUE':'CHAPTER';txt(ch,m-Math.round(ch.length*2)+1,top+28,'#8a6a4a',1);if(B.num!=='E'){const n=String(B.num);txt(n,m-Math.round(n.length*6)+1,top+37,COL,3)}
+  bkWrap(B.title,15).forEach((l,i)=>txt(l.toUpperCase(),m-Math.round(l.length*2)+1,top+(B.num==='E'?44:58)+i*8,'#3a2a3a',1));
+  if(B.sub)bkWrap(B.sub,17).forEach((l,i)=>txt(l.toUpperCase(),m-Math.round(l.length*2)+1,top+80+i*7,'#9a7a8a',1));r(m-8,top+PH-10,16,1,'#c2a060')};
+ const insideC=x=>{r(x,top,PW,PH,DK);r(x+4,top+4,PW-8,PH-8,BACK);for(let y=top+8;y<top+PH-8;y+=6)for(let xx=x+8+((y/6)%2)*3;xx<x+PW-8;xx+=6)r(xx,y,1,1,'#e0d0b0');txt('FOR ABIGAIL',x+PW/2-21,top+PH/2-6,'#8a5a6a',1);heart(x+PW/2-3,top+PH/2+4,'#d8607a',1)};
+ const front=x=>{const m=x+PW/2;r(x,top,PW,PH,COL);r(x+5,top+5,PW-10,PH-10,sh(COL,.85));r(x+6,top+6,PW-12,PH-12,COL);[[x+5,top+5],[x+PW-8,top+5],[x+5,top+PH-8],[x+PW-8,top+PH-8]].forEach(([a,b])=>r(a,b,3,3,'#e8c060'));
+  txt('OUR',m-5,top+16,'#f8e0a0',1);txt('STORY',m-9,top+24,'#f8e0a0',1);heart(m-3,top+38,'#f8e0a0',1);const ch=B.num==='E'?'EPILOGUE':'CHAPTER '+B.num;txt(ch,m-Math.round(ch.length*2)+1,top+56,'#fff4dc',1);
+  bkWrap(B.title,14).forEach((l,i)=>txt(l.toUpperCase(),m-Math.round(l.length*2)+1,top+68+i*8,'#f8e0a0',1))};
+ // right-hand page: the title page until it turns, then the blank page the scene will rise out of
+ page(bx,tn<=0?titleP:null);gutterR(bx);
+ // left-hand side: the inside of the cover (and, once turned, the back of the title page lying on it)
+ if(op>=1){insideC(bx-PW);if(tn>=1){page(bx-PW,null)}gutterL(bx)}
+ // the title page turning over to the left
+ if(tn>0&&tn<1){const w=Math.round(PW*Math.abs(Math.cos(tn*Math.PI))),lift=Math.round(Math.sin(tn*Math.PI)*3);
+  if(tn<.5){bkSqueeze(bx,top-lift,PW,PH,w,1,x=>{page(x,titleP)});cx.globalAlpha=tn*.5;r(bx,top-lift,w,PH,'#8a7a5a');cx.globalAlpha=1}
+  else{bkSqueeze(bx,top-lift,PW,PH,w,-1,x=>{r(x,top-lift,PW,PH,PAPER);r(x,top-lift,PW,1,'#fffaf0')});cx.globalAlpha=(1-tn)*.45;r(bx-w,top-lift,w,PH,'#8a7a5a');cx.globalAlpha=1}}
+ // the cover: closed on top, then swinging open over the spine
+ if(op<1){const a=op*Math.PI,w=Math.round(PW*Math.abs(Math.cos(a))),lift=Math.round(Math.sin(a)*4);
+  if(op<.5){r(bx-2,top-1,w+3,PH+2,DK);bkSqueeze(bx,top-lift,PW,PH,w,1,front);cx.globalAlpha=op*1.1;r(bx,top-lift,w,PH,'#000');cx.globalAlpha=1}
+  else{bkSqueeze(bx,top-lift,PW,PH,w,-1,insideC);cx.globalAlpha=(1-op)*1.1;r(bx-w,top-lift,w,PH,'#000');cx.globalAlpha=1}}
+ r(bx-1,top-1,2,PH+2,DK);// the spine
  cx.restore();
- // fall into the page: it fades to the paper the scene will unfold from
- if(zm>.55){cx.globalAlpha=Math.min(1,(zm-.55)/.4);r(0,0,W,H,'#f6eedb');cx.globalAlpha=1}
- cx.globalAlpha=1;bookUpd()}
+ // falling into the page: it brightens to the paper the scene will unfold from
+ if(zm>.5){cx.globalAlpha=cl((zm-.5)/.45);r(0,0,W,H,PAPER);cx.globalAlpha=1}
+ bookUpd()}
 function startPan(){mode='pan';tp=0;hunter.x=176;hunter.y=550;FX=30;FY=532;ZM=2;$('title').classList.add('out')}
 
 /* ================= CHAPTER 2 ================= */
@@ -9894,7 +9897,7 @@ function render(){
   loc==='street'?street(T):loc==='hall'?hall(T):doorS(T);
  }
  parts.forEach(p=>{cx.globalAlpha=Math.min(1,p.l);if(p.h)heart(p.x,p.y,p.c,p.z||1);else r(p.x,p.y,2,2,p.c)});cx.globalAlpha=1;
- cx.restore();try{popDraw()}catch(e){}c4Cap();logoTick();giftDraw();try{tcDraw()}catch(e){}
+ cx.restore();try{popDraw()}catch(e){}if(T-BKF<.45){cx.globalAlpha=Math.max(0,1-(T-BKF)/.45);cx.fillStyle='#f6eedb';cx.fillRect(0,0,W,H);cx.globalAlpha=1;cx._c=null}c4Cap();logoTick();giftDraw();try{tcDraw()}catch(e){}
  if(wob>.05){wv.clearRect(0,0,W,H);wv.drawImage(cv,0,0);for(let y=0;y<H;y+=4)cx.drawImage(wc,0,y,W,4,Math.round(Math.sin(y/16+T*2.4)*wob),y,W,4);cx.globalAlpha=Math.min(.12,.05*wob);r(0,0,W,H,'#ff7eb6');cx.globalAlpha=1}
  ux.setTransform(1,0,0,1,0,0);ux.clearRect(0,0,W,H);ux._c=null;cx=ux;
  try{drawDanceUI();drawCh2UI();drawCh3UI();drawCh5UI();drawCh6UI();drawCh7UI();drawCh8UI();drawCh4UI();drawEpAlbumUI();drawEpBdayUI();balcUI();drawPhoneUI();
