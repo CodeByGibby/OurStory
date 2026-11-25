@@ -206,7 +206,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.3</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.4</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1142,7 +1142,8 @@ const BKSK=document.createElement('canvas');let SKI=null;
 /* the page's picture: the chapter's first frame in full colour, turning into a loose pencil sketch toward the edges
    and scribbled off into the paper, with a ragged hand-drawn border. sh = how far the colour has spread past the
    edges (0 on the page; it grows after the zoom until the whole scene is in colour) */
-function bkSketch(sh){if(BKSK.width!==W||BKSK.height!==H){BKSK.width=W;BKSK.height=H}const g=BKSK.getContext('2d');let D;try{D=cv.getContext('2d').getImageData(0,0,W,H)}catch(e){return}
+const BKS0=document.createElement('canvas');
+function bkSketch(sh,src){if(BKSK.width!==W||BKSK.height!==H){BKSK.width=W;BKSK.height=H}const g=BKSK.getContext('2d');let D;try{D=(src||cv).getContext('2d').getImageData(0,0,W,H)}catch(e){return}
  const d=D.data,n=W*H,L=new Float32Array(n);for(let i=0;i<n;i++){const o=i*4;L[i]=d[o]*.3+d[o+1]*.59+d[o+2]*.11}
  const E1=10-(sh||0),E2=34-(sh||0),PR=246,PG=238,PB=219;
  for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=y*W+x,o=i*4;
@@ -1161,7 +1162,8 @@ function bkSketch(sh){if(BKSK.width!==W||BKSK.height!==H){BKSK.width=W;BKSK.heig
   d[o]=r2;d[o+1]=g2;d[o+2]=b2;d[o+3]=255}
  g.putImageData(D,0,0)}
 function bookOverlay(){const B=BOOK;if(!B||!B.live)return;const k=T-B.t0,u=Math.max(0,Math.min(1,(k-BKT.zoom)/(BKT.bloom-BKT.zoom))),e=u*u*(3-2*u);
- bkSketch(e*60);// after the zoom, the colour spreads out over the scribbled edges until the scene is whole
+ if(!B.snap){B.snap=1;BKS0.width=W;BKS0.height=H;BKS0.getContext('2d').drawImage(cv,0,0);B.sk=0}
+ if(k<BKT.zoom){if(!B.sk){B.sk=1;bkSketch(0,BKS0)}}else bkSketch(e*60);// a still until we're in; then the live scene, its scribbled edges receding
  cx.save();cx.setTransform(1,0,0,1,0,0);cx.imageSmoothingEnabled=false;
  if(k<BKT.zoom)vBook(T,1);else cx.drawImage(BKSK,0,0);
  cx.restore();cx._c=null}
@@ -9806,7 +9808,7 @@ dv.addEventListener('touchmove',e=>{if(mode==='skee'&&SK&&SK.hold){const q=e.tou
 dv.addEventListener('pointermove',e=>{if(mode!=='kart'||!kHeld)return;const b=CR||(CR=dv.getBoundingClientRect());kSteerAt((e.clientX-b.left)/sc)});
 $('news').addEventListener('click',()=>{if(mode==='news')nextNews()});
 /* ---------- loop ---------- */
-function update(dt){try{tcUpd(dt)}catch(e){}try{bookUpd()}catch(e){}
+function update(dt){try{tcUpd(dt)}catch(e){}try{bookUpd()}catch(e){}if(BOOK&&BOOK.live&&T-BOOK.t0<BKT.zoom)return;// the chapter waits, frozen on its first frame, until we've fallen into the page
  if(loc==='hall'&&sn)snGlide(dt);
  if(MGM&&!MGM.done&&MGM.modes.includes(mode))MGM.played=1;try{if(!MGM||!MGM.done)mgTrack()}catch(e){}
  if(fd==1){fade=Math.min(1,fade+dt*2);if(fade>=1&&fcb){const f=fcb;fcb=null;fd=fhold>0?2:-1;f()}}
