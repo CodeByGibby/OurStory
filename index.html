@@ -206,7 +206,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.2</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.3</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1139,23 +1139,31 @@ function bookUpd(){const B=BOOK;if(!B)return;if(B.lt!=null&&B.fast)B.t0-=Math.mi
 function bkWrap(s,n){const w=s.split(' '),L=[];let c='';w.forEach(x=>{if((c+' '+x).trim().length>n){L.push(c.trim());c=x}else c+=' '+x});if(c.trim())L.push(c.trim());return L}
 function bkSqueeze(hx,top,PW,PH,w,dir,fn){if(w<1)return;const x0=dir>0?hx:hx-w;cx.save();cx.beginPath();cx.rect(x0,top,w,PH);cx.clip();cx.translate(x0,0);cx.scale(w/PW,1);cx.translate(-x0,0);fn(x0);cx.restore();cx._c=null}
 const BKSK=document.createElement('canvas');let SKI=null;
-function bkSketch(){if(BKSK.width!==W||BKSK.height!==H){BKSK.width=W;BKSK.height=H;SKI=null}const g=BKSK.getContext('2d');let D;try{D=cv.getContext('2d').getImageData(0,0,W,H)}catch(e){return}
- const d=D.data,n=W*H,L=new Float32Array(n);let sum=0;for(let i=0;i<n;i++){const o=i*4;L[i]=d[o]*.3+d[o+1]*.59+d[o+2]*.11;sum+=L[i]}
- // night scenes are brightened first (like a sketch artist would), so they don't turn into a wall of hatching
- const gain=Math.max(1,Math.min(3,130/Math.max(1,sum/n)));if(gain>1)for(let i=0;i<n;i++)L[i]=Math.min(255,L[i]*gain);
- for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=y*W+x,o=i*4,l=L[i],e=(x<W-1?Math.abs(l-L[i+1]):0)+(y<H-1?Math.abs(l-L[i+W]):0),tn=l/255;
-  let s=Math.min(1,Math.max(0,(e-12)/40));if(tn<.42&&((x+y)&3)===0)s+=.28;if(tn<.22&&((x-y)&3)===0)s+=.28;s=Math.min(.88,s);
-  const gr=((x*73856093^y*19349663)>>>0)%9-4,pr=(246+gr)*(.8+.2*tn),pg=(238+gr)*(.8+.2*tn),pb=(219+gr)*(.8+.2*tn);
-  d[o]=pr+(66-pr)*s;d[o+1]=pg+(58-pg)*s;d[o+2]=pb+(54-pb)*s;d[o+3]=255}
+/* the page's picture: the chapter's first frame in full colour, turning into a loose pencil sketch toward the edges
+   and scribbled off into the paper, with a ragged hand-drawn border. sh = how far the colour has spread past the
+   edges (0 on the page; it grows after the zoom until the whole scene is in colour) */
+function bkSketch(sh){if(BKSK.width!==W||BKSK.height!==H){BKSK.width=W;BKSK.height=H}const g=BKSK.getContext('2d');let D;try{D=cv.getContext('2d').getImageData(0,0,W,H)}catch(e){return}
+ const d=D.data,n=W*H,L=new Float32Array(n);for(let i=0;i<n;i++){const o=i*4;L[i]=d[o]*.3+d[o+1]*.59+d[o+2]*.11}
+ const E1=10-(sh||0),E2=34-(sh||0),PR=246,PG=238,PB=219;
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=y*W+x,o=i*4;
+  // distance in from the nearest edge, roughened so the border wobbles like a hand-drawn line
+  const rough=4*Math.sin(x*.37+y*.11)+3*Math.sin(y*.53-x*.21)+2*Math.sin((x+y)*.9)+1.5*Math.sin(x*1.7-y*1.3),de=Math.min(x,W-1-x,y,H-1-y)+rough;
+  if(de>=E2){continue}// full colour
+  const l=L[i],e=(x<W-1?Math.abs(l-L[i+1]):0)+(y<H-1?Math.abs(l-L[i+W]):0),tn=l/255;
+  let ln=Math.min(1,Math.max(0,(e-12)/40));if(tn<.35&&((x+y)&3)===0)ln+=.22;ln=Math.min(.8,ln);
+  // the sketch: pencil lines over a pale wash of the scene's own colours
+  const wr=PR+(d[o]-PR)*.38,wg=PG+(d[o+1]-PG)*.38,wb=PB+(d[o+2]-PB)*.38,sr=wr+(70-wr)*ln,sg=wg+(62-wg)*ln,sb=wb+(58-wb)*ln;
+  let r2,g2,b2;
+  if(de>=E1){const t=(de-E1)/(E2-E1),q=t*t*(3-2*t);r2=sr+(d[o]-sr)*q;g2=sg+(d[o+1]-sg)*q;b2=sb+(d[o+2]-sb)*q}
+  else{const t=Math.max(0,Math.min(1,(de-(E1-16))/16));r2=PR+(sr-PR)*t;g2=PG+(sg-PG)*t;b2=PB+(sb-PB)*t}
+  // loose scribbled strokes running round the border
+  if(de<E2&&de>E1-20){const sv=((x*.62+y*1.15+Math.sin(y*.21)*3)%6+6)%6,band=1-Math.abs((de-(E1+4))/24);if(sv<1.1&&band>0){const a=.5*band*(.6+.4*Math.sin(x*.9+y*.4));r2+=(80-r2)*a;g2+=(70-g2)*a;b2+=(64-b2)*a}}
+  d[o]=r2;d[o+1]=g2;d[o+2]=b2;d[o+3]=255}
  g.putImageData(D,0,0)}
-function bookOverlay(){const B=BOOK;if(!B||!B.live)return;const k=T-B.t0;bkSketch();
+function bookOverlay(){const B=BOOK;if(!B||!B.live)return;const k=T-B.t0,u=Math.max(0,Math.min(1,(k-BKT.zoom)/(BKT.bloom-BKT.zoom))),e=u*u*(3-2*u);
+ bkSketch(e*60);// after the zoom, the colour spreads out over the scribbled edges until the scene is whole
  cx.save();cx.setTransform(1,0,0,1,0,0);cx.imageSmoothingEnabled=false;
- if(k<BKT.zoom)vBook(T,1);
- else{// the colour blooms in from the middle of the page
-  const u=Math.min(1,(k-BKT.zoom)/(BKT.bloom-BKT.zoom)),e=u*u*(3-2*u),O=PTC||(PTC=document.createElement('canvas'));if(O.width!==W||O.height!==H){O.width=W;O.height=H}
-  const g=O.getContext('2d');g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);g.drawImage(BKSK,0,0);g.globalCompositeOperation='destination-out';
-  const R=e*360,gr=g.createRadialGradient(80,150,Math.max(0,R-90),80,150,R+1);gr.addColorStop(0,'rgba(0,0,0,1)');gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(0,0,W,H);g.globalCompositeOperation='source-over';
-  cx.drawImage(O,0,0)}
+ if(k<BKT.zoom)vBook(T,1);else cx.drawImage(BKSK,0,0);
  cx.restore();cx._c=null}
 function vBook(t,ov){const B=BOOK;r(0,0,W,H,'#0c0816');if(!B)return;if(!ov&&B.live)return;const k=T-B.t0;
  // lamplight on a dark table, motes drifting through it
