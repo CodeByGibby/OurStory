@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.14.5</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.14.6</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -235,7 +235,7 @@ addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeo
 let MONO=null,AOY=null;const r=(x,y,w,h,c)=>{const k=MONO||c;if(cx._c!==k){cx.fillStyle=k;cx._c=k}cx.fillRect(x|0,y|0,(w+.5)|0,(h+.5)|0);if(AOY!==null&&y===AOY&&x<=0&&w>=80&&y+h>=140){AOY=null;aoBand(y,x,w)}};
 /* the floor line of each indoor room: right after its floor is painted, a soft shadow is laid where wall meets floor
    (so it sits under the furniture and people drawn afterwards) */
-const AOF={dinner:92,bars:96,apt:104,entry:104,living:92,mhall:92,mbed:92,mkit:96,store:96,bath:96,kitchen:96,hroom:92,troom:92,dorm2:90,bunk:90,bath2:90,home:90,home6:90,jewel:90,hotel:90,lobby:92,steak:90,mex:90,bakery:92,florist:92,bridal:92,tux:90,groom8:92,brideroom:92,hotel8:96,epncl:96,epstudio:112,epnurse:100,gate5:70};
+const AOF={dinner:92,bars:96,apt:104,entry:104,living:92,mhall:92,mbed:92,mkit:96,store:96,bath:96,kitchen:96,hroom:92,troom:92,dorm2:90,bunk:90,bath2:90,home:90,home6:90,jewel:90,hotel:90,lobby:92,steak:90,mex:90,bakery:92,florist:92,bridal:92,tux:90,groom8:92,brideroom:92,hotel8:96,epncl:96,epstudio:112,epnurse:100,gate5:70,office:48,barcade:92,clinic:48,sec5:58,c3class:70,epcyber:96,call8:70,dorm:92};
 function aoBand(y,x,w){const c='#140a20',a0=cx.globalAlpha;[[-6,.04],[-5,.07],[-4,.1],[-3,.14],[-2,.19],[-1,.25],[0,.3],[1,.24],[2,.18],[3,.12],[4,.08],[5,.05],[6,.025]].forEach(([d,a])=>{cx.globalAlpha=a*a0;cx.fillStyle=c;cx.fillRect(x,y+d,w,1)});cx.globalAlpha=a0;cx._c=null}
 /* a soft contact shadow under a piece of furniture: darkest right under it, fading out */
 function aoUnder(x,y,w,a){const c='#140a20',a0=cx.globalAlpha;a=a||1;for(let i=0;i<4;i++){cx.globalAlpha=a0*a*[.34,.22,.12,.06][i];cx.fillStyle=c;cx.fillRect(Math.round(x-i),Math.round(y+i-1),Math.round(w+i*2),1)}cx.globalAlpha=a0;cx._c=null}
@@ -263,6 +263,13 @@ function pShadow(x,y,p){const lx=lightX(),dx=lx==null||p.sit?0:Math.max(-2.5,Mat
    outline, and when it turns left<->right it flips over like a cardboard standee */
 const PCV=[],PEDGE='#fff4dc',PFLIP=.16;let PDEP=0;
 function pcvGet(i){if(!PCV[i]){const a=document.createElement('canvas'),b=document.createElement('canvas');a.width=b.width=72;a.height=b.height=80;const ga=a.getContext('2d'),gb=b.getContext('2d');ga.imageSmoothingEnabled=gb.imageSmoothingEnabled=false;PCV[i]={a,b,ga,gb}}return PCV[i]}
+const PST={};let PNOSH=false,PMAIN=false;
+function paperDraw(x,y,key,dir,fn){const S=PST[key]||(PST[key]={});if(!photo&&S.ld&&S.ld!==dir&&(dir==='l'||dir==='r')&&(S.ld==='l'||S.ld==='r')&&(S.fl==null||T-S.fl>PFLIP)){S.fl=T;S.fo=S.ld}if(dir==='l'||dir==='r')S.ld=dir;
+ const fk=S.fl!=null&&!photo&&T-S.fl<PFLIP?(T-S.fl)/PFLIP:-1,sx=fk<0?1:Math.max(.12,Math.abs(Math.cos(fk*Math.PI)));
+ if(PDEP>3){fn(dir);return}PMAIN=cx===CX0;PNOSH=true;const C=pcvGet(PDEP++),m=cx,g=C.ga;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,72,80);g._c=null;g.globalAlpha=1;cx=g;cx.translate(36-x,64-y);
+ try{fn(fk>=0&&fk<.5?S.fo:dir)}finally{cx=m;PDEP--;PNOSH=false;PMAIN=false}
+ const e=C.gb;e.globalCompositeOperation='source-over';e.clearRect(0,0,72,80);e.drawImage(C.a,0,0);e.globalCompositeOperation='source-in';e.fillStyle=PEDGE;e.fillRect(0,0,72,80);e.globalCompositeOperation='source-over';
+ const w=Math.max(2,Math.round(72*sx)),ox=x-Math.round(36*sx);for(const [dx,dy] of OUTD)cx.drawImage(C.b,ox+dx,y-64+dy,w,80);cx.drawImage(C.a,ox,y-64,w,80)}
 function person(p,t){const x=Math.round(p.x),y=Math.round(p.y);
  // a left<->right turn starts a flip; the first half still shows the old way round
  const d=p.dir;if(!photo&&p._ld&&p._ld!==d&&((p._ld==='l'&&d==='r')||(p._ld==='r'&&d==='l'))&&(p._fl==null||T-p._fl>PFLIP)){p._fl=T;p._fo=p._ld}p._ld=d;
@@ -7489,10 +7496,11 @@ const seller=mk('morgan',62,118,{n:'Seller',skin:'#e8c0a0',hair:'#8a6a4a',hl:1,e
 Object.assign(NC,{Seller:'#5a7a4a',Donut:'#e0903a'});Object.assign(VOICE,{Seller:200,Donut:520});
 let c7={};
 const CO='#e0903a',CW='#fbf6ec';
-const DGS={};function corgi(x,y,dir,sz,t,run,jy){if(!photo){DOGT=T;if(run)DOGR=T}x=Math.round(x);const g4=run?Math.floor(t*14)%4:-1,air=g4===1?1:0;let hop=0,skid=0;
- if(!photo&&cx===CX0){const S=DGS[loc+sz]||(DGS[loc+sz]={});if(S.T!=null&&T-S.T<.3){if(S.run&&run&&S.dir!==dir)S.hT=T;if(S.run&&!run)S.sT=T}S.run=run;S.dir=dir;S.T=T;if(S.hT!=null&&T-S.hT<.14)hop=Math.round(Math.sin((T-S.hT)/.14*Math.PI)*2);if(S.sT!=null&&T-S.sT<.3)skid=(T-S.sT)/.3}
+const DGS={};function corgi(x,y,dir,sz,t,run,jy){if(!jy)ell(Math.round(x),Math.round(y),[8,11,14][sz]/2+1,1,'#000',.18);paperDraw(Math.round(x),Math.round(y),'dog'+sz,dir,d=>corgi0(x,y,d,sz,t,run,jy))}
+function corgi0(x,y,dir,sz,t,run,jy){if(!photo){DOGT=T;if(run)DOGR=T}x=Math.round(x);const g4=run?Math.floor(t*14)%4:-1,air=g4===1?1:0;let hop=0,skid=0;
+ if(!photo&&(cx===CX0||PMAIN)){const S=DGS[loc+sz]||(DGS[loc+sz]={});if(S.T!=null&&T-S.T<.3){if(S.run&&run&&S.dir!==dir)S.hT=T;if(S.run&&!run)S.sT=T}S.run=run;S.dir=dir;S.T=T;if(S.hT!=null&&T-S.hT<.14)hop=Math.round(Math.sin((T-S.hT)/.14*Math.PI)*2);if(S.sT!=null&&T-S.sT<.3)skid=(T-S.sT)/.3}
  y=Math.round(y)-(jy|0)-air-hop;const L=[8,11,14][sz],h=[3,4,5][sz],lg=[2,2,3][sz],by=y-lg;
- if(!jy)ell(x,Math.round(y+(jy|0))+air+hop,L/2+1,1,'#000',.18);cx.save();if(dir==='l'){cx.translate(2*x,0);cx.scale(-1,1)}
+ if(!jy&&!PNOSH)ell(x,Math.round(y+(jy|0))+air+hop,L/2+1,1,'#000',.18);cx.save();if(dir==='l'){cx.translate(2*x,0);cx.scale(-1,1)}
  if(skid){cx.globalAlpha=(1-skid)*.5;const q=Math.round(skid*4);r(x+L/2+1+q,y-1-Math.round(skid*2),1,1,'#efe6d6');r(x+L/2+3+q,y-1,1,1,'#efe6d6');cx.globalAlpha=1}
  // gallop: stretched out, all four off the ground, gathered under her, landing
  [[x-L/2+1,0,-1],[x-L/2+3,1,-1],[x+L/2-4,1,1],[x+L/2-2,0,1]].forEach(([lx,k,e])=>{const ox=g4===0?e:g4===2?-e:0;r(Math.round(lx)+ox,by,2,lg,k?CW:'#ece4d6')});
@@ -9016,10 +9024,11 @@ function epCrumpet(){setLoc('epcrump');mode='ep';epDress();at(abi,30,126,'r');at
    {n:'Hunter',t:'She is... very round.'},{n:'Abigail',t:'She is PERFECT. Don’t listen to him, Crumpet.'},{n:'',t:'Crumpet turns and stares directly at Hunter. Unblinking.',anim:()=>{ep.cr.eye=1}},
    {n:'Hunter',t:'Did she just... side-eye me?'},{n:'Abigail',t:'She’s sassy. I love her.'},{n:'',t:'Crumpet flops onto her side. Conversation over.',anim:()=>{ep.cr.pose=2;sfx('bump')}},
    {n:'',t:'Sweet, sassy, and proudly chunky. Donut runs laps. Crumpet supervises.'}],()=>fadeTo(epHouse))})))}
-const CRS={};function crumpet(x,y,dir,t,pose,eye){x=Math.round(x);y=Math.round(y);let thump=0,puff=0;
- if(!photo&&cx===CX0){const S=CRS[loc]||(CRS[loc]={p:pose,T:-9});if(S.p!==pose){S.o=S.p;S.p=pose;S.T=T}const k=T-S.T;
+const CRS={};function crumpet(x,y,dir,t,pose,eye){ell(Math.round(x),Math.round(y),8,1,'#000',.18);paperDraw(Math.round(x),Math.round(y),'cat',dir,d=>crumpet0(x,y,d,t,pose,eye))}
+function crumpet0(x,y,dir,t,pose,eye){x=Math.round(x);y=Math.round(y);let thump=0,puff=0;
+ if(!photo&&(cx===CX0||PMAIN)){const S=CRS[loc]||(CRS[loc]={p:pose,T:-9});if(S.p!==pose){S.o=S.p;S.p=pose;S.T=T}const k=T-S.T;
   if(k<.12&&(pose===2||pose===1)&&S.o!=null&&S.o!==3){pose=S.o;y+=pose===1?2:1}else if(k<.26&&S.p===2){y-=k<.19?1:0;puff=(k-.12)/.14}
-  if(pose===1&&(t%3.4)<.36&&Math.floor(t*11)%2)thump=1}ell(x,y,8,1,'#000',.18);cx.save();if(dir==='l'){cx.translate(2*x,0);cx.scale(-1,1)}
+  if(pose===1&&(t%3.4)<.36&&Math.floor(t*11)%2)thump=1}if(!PNOSH)ell(x,y,8,1,'#000',.18);cx.save();if(dir==='l'){cx.translate(2*x,0);cx.scale(-1,1)}
  const N='#2a1a1a',BW='#ff7eb6';if(puff>0&&puff<1){cx.globalAlpha=(1-puff)*.55;const q=Math.round(puff*4);r(x-10-q,y-1-Math.round(puff*2),2,1,'#efe6d6');r(x+8+q,y-1-Math.round(puff*2),2,1,'#efe6d6');cx.globalAlpha=1}
  if(pose===2||pose===3){r(x-8,y-6,15,6,CO);r(x-7,y-7,13,1,CO);r(x-7,y-7,13,1,'#eaa456');r(x-6,y-3,11,3,CW);r(x-5,y-1,2,1,CW);r(x+1,y-1,2,1,CW);r(x-9,y-5,1,3,CW);
   r(x+6,y-8,6,6,CO);r(x+8,y-7,1,3,CW);r(x+9,y-4,4,2,CW);r(x+12,y-4,1,1,N);r(x+9,y-6,2,1,N);r(x+7,y-10,2,2,CO);r(x+10,y-10,2,2,CO);r(x+6,y-10,2,1,BW);r(x+5,y-11,1,1,BW);r(x+8,y-11,1,1,BW);
@@ -9758,7 +9767,7 @@ function update(dt){try{tcUpd(dt)}catch(e){}
  if(tapfx){tapfx.t+=dt;if(tapfx.t>.4)tapfx=null}
  tickDlg(dt);
 }
-const POPF=Object.assign({},AOF,{church:124,bonnell:108,plaza:62,txhouse:80,field7:62,eplondon:128}),POPSEEN={},POPD=.62;let POP=null,PTC=null;
+const POPF=Object.assign({},AOF,{church:124,bonnell:108,plaza:62,txhouse:80,field7:62,eplondon:128,bench:78,lake:64,clinic:48,river:64,austin:104,trucks:90,pea:60,sec5:58,term5:90,office:48,barcade:92,call8:70,balc8:96,uk8:58,epvillage:64,ephouse:60,epyard:60,drive:124,kcdrive:90,drive7:90,farm7:90,lot7:64,sleep8:73,night8:73,split:73,epgrad:68,epcyber:96,plane:112,c3class:70,c3grad:70,car7:70,dorm:92}),POPSEEN={},POPD=.62;let POP=null,PTC=null;
 function popDraw(){if(!POP||POP.l!==loc||photo||!VS[loc]||VS[loc][0]!==2)return;const k=(T-POP.t0)/POPD;if(k>=1){POP=null;return}
  const fy=POPF[loc]*2;if(!fy)return;const q=Math.max(0,k),f=q<=0?0:1+2.2*Math.pow(q-1,3)+1.2*Math.pow(q-1,2);// eases out with a little overshoot
  if(!PTC){PTC=document.createElement('canvas');PTC.getContext('2d').imageSmoothingEnabled=false}if(PTC.width!==W||PTC.height!==fy){PTC.width=W;PTC.height=fy;PTC.getContext('2d').imageSmoothingEnabled=false}
