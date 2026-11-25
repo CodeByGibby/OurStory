@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.14.4</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.14.5</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -259,7 +259,22 @@ function pShadow(x,y,p){const lx=lightX(),dx=lx==null||p.sit?0:Math.max(-2.5,Mat
  cx.globalAlpha=a0*.12;cx.fillRect(Math.round(sx-7-Math.abs(dx)*.8),y-1,Math.round(14+Math.abs(dx)*1.6),2);
  cx.globalAlpha=a0*.2;cx.fillRect(sx-6,y-2,12,1);cx.fillRect(sx-6,y,12,1);
  cx.globalAlpha=a0*.3;cx.fillRect(sx-4,y-1,8,1);cx.fillRect(sx-3,y-2,6,1);cx.globalAlpha=a0}
-function person(p,t){const x=Math.round(p.x),y=Math.round(p.y);pShadow(x,y,p);MONO='#2b1830';for(const [dx,dy] of OUTD){cx.translate(dx,dy);body(p,t);cx.translate(-dx,-dy)}MONO=null;body(p,t)}
+/* paper-cutout people: each figure is drawn on its own little card, given a thin cream paper edge outside its dark
+   outline, and when it turns left<->right it flips over like a cardboard standee */
+const PCV=[],PEDGE='#fff4dc',PFLIP=.16;let PDEP=0;
+function pcvGet(i){if(!PCV[i]){const a=document.createElement('canvas'),b=document.createElement('canvas');a.width=b.width=72;a.height=b.height=80;const ga=a.getContext('2d'),gb=b.getContext('2d');ga.imageSmoothingEnabled=gb.imageSmoothingEnabled=false;PCV[i]={a,b,ga,gb}}return PCV[i]}
+function person(p,t){const x=Math.round(p.x),y=Math.round(p.y);
+ // a left<->right turn starts a flip; the first half still shows the old way round
+ const d=p.dir;if(!photo&&p._ld&&p._ld!==d&&((p._ld==='l'&&d==='r')||(p._ld==='r'&&d==='l'))&&(p._fl==null||T-p._fl>PFLIP)){p._fl=T;p._fo=p._ld}p._ld=d;
+ const fk=p._fl!=null&&!photo&&T-p._fl<PFLIP?(T-p._fl)/PFLIP:-1,sx=fk<0?1:Math.max(.12,Math.abs(Math.cos(fk*Math.PI)));
+ pShadow(x,y,p);
+ if(PDEP>3){MONO='#2b1830';for(const [dx,dy] of OUTD){cx.translate(dx,dy);body(p,t);cx.translate(-dx,-dy)}MONO=null;body(p,t);return}
+ const C=pcvGet(PDEP++),m=cx,g=C.ga;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,72,80);g._c=null;g.globalAlpha=1;cx=g;cx.translate(36-x,64-y);
+ const d0=p.dir;if(fk>=0&&fk<.5)p.dir=p._fo;
+ try{MONO='#2b1830';for(const [dx,dy] of OUTD){cx.translate(dx,dy);body(p,t);cx.translate(-dx,-dy)}MONO=null;body(p,t)}finally{MONO=null;p.dir=d0;cx=m;PDEP--}
+ const e=C.gb;e.globalCompositeOperation='source-over';e.clearRect(0,0,72,80);e.drawImage(C.a,0,0);e.globalCompositeOperation='source-in';e.fillStyle=PEDGE;e.fillRect(0,0,72,80);e.globalCompositeOperation='source-over';
+ const w=Math.max(2,Math.round(72*sx)),ox=x-Math.round(36*sx);
+ for(const [dx,dy] of OUTD)cx.drawImage(C.b,ox+dx,y-64+dy,w,80);cx.drawImage(C.a,ox,y-64,w,80)}
 const ell=(x,y,a,b,c,al=1)=>{cx.globalAlpha=al;for(let d=-b;d<=b;d++){const w=a*Math.sqrt(1-d*d/(b*b))|0;r(x-w,y+d,w*2+1,1,c)}cx.globalAlpha=1};
 const tri=(px,py,by,k,c)=>{for(let y=py;y<=by;y++){const w=Math.round((y-py)*k);r(px-w,y,w*2+1,1,c)}};
 const wc=document.createElement('canvas');wc.width=W;wc.height=H;const wv=wc.getContext('2d');
@@ -1146,7 +1161,7 @@ function chRecap(n,HN){const BS=MGBEST.get(),G=MGAMES.map((g,i)=>[g,i]).filter((
  let h='<div class="chr">';if(G.length){h+='<p class="chl">MINIGAMES &middot; tap one to replay</p>';G.forEach(([g,i])=>{const v=(BS[g[1]]&&BS[g[1]].s)||0;h+='<button class="mgr" data-m="'+i+'"><span>'+g[1]+'</span><span class="mst">'+[0,1,2].map(k=>miniStar(k<v)).join('')+'</span></button>'})}
  if(PO.length)h+='<p class="chl chp2">PHOTOS &middot; '+got+' / '+PO.length+(got>=PO.length?' &#9829;':'')+'</p>';
  h+=(HN||chHints(n)).map(t=>'<p class="chh">'+t+'</p>').join('')+'</div>';return h}
-function setLoc(l){if(l!==loc)try{[abi,hunter,morgan,jay].forEach(p=>{if(p){p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null}})}catch(e){}loc=l;parts=[];setHud('');CAMX=0}
+function setLoc(l){if(l!==loc&&typeof POPF!=='undefined'&&POPF[l]!=null&&!POPSEEN[l]){POPSEEN[l]=1;POP={l,t0:T+.18}}if(l!==loc)try{[abi,hunter,morgan,jay].forEach(p=>{if(p){p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null}})}catch(e){}loc=l;parts=[];setHud('');CAMX=0}
 
 /* ---- montage scenes ---- */
 function stars2(w,h,n){for(let i=0;i<n;i++){const s=stars[i];cx.globalAlpha=.4+.6*Math.sin(T*2+s.p);r(s.x%w,s.y%h,1,1,'#fff')}cx.globalAlpha=1}
@@ -9743,6 +9758,14 @@ function update(dt){try{tcUpd(dt)}catch(e){}
  if(tapfx){tapfx.t+=dt;if(tapfx.t>.4)tapfx=null}
  tickDlg(dt);
 }
+const POPF=Object.assign({},AOF,{church:124,bonnell:108,plaza:62,txhouse:80,field7:62,eplondon:128}),POPSEEN={},POPD=.62;let POP=null,PTC=null;
+function popDraw(){if(!POP||POP.l!==loc||photo||!VS[loc]||VS[loc][0]!==2)return;const k=(T-POP.t0)/POPD;if(k>=1){POP=null;return}
+ const fy=POPF[loc]*2;if(!fy)return;const q=Math.max(0,k),f=q<=0?0:1+2.2*Math.pow(q-1,3)+1.2*Math.pow(q-1,2);// eases out with a little overshoot
+ if(!PTC){PTC=document.createElement('canvas');PTC.getContext('2d').imageSmoothingEnabled=false}if(PTC.width!==W||PTC.height!==fy){PTC.width=W;PTC.height=fy;PTC.getContext('2d').imageSmoothingEnabled=false}
+ const g=PTC.getContext('2d');g.clearRect(0,0,W,fy);g.drawImage(cv,0,0,W,fy,0,0,W,fy);
+ cx.save();cx.setTransform(1,0,0,1,0,0);cx.fillStyle='#1a1030';cx.fillRect(0,0,W,fy);const h=Math.max(0,Math.round(fy*f));if(h>0){cx.drawImage(PTC,0,0,W,fy,0,fy-h,W,h);cx.globalAlpha=Math.max(0,1-f)*.5;cx.fillStyle='#000';cx.fillRect(0,fy-h,W,h)}
+ // the crease along the floor line
+ cx.globalAlpha=.35*(1-q);cx.fillStyle='#000';cx.fillRect(0,fy-1,W,2);cx.restore();cx._c=null}
 function render(){
  cx=CX0;PZ=null;cx.save();
  if(loc==='roof'){
@@ -9766,7 +9789,7 @@ function render(){
   loc==='street'?street(T):loc==='hall'?hall(T):doorS(T);
  }
  parts.forEach(p=>{cx.globalAlpha=Math.min(1,p.l);if(p.h)heart(p.x,p.y,p.c,p.z||1);else r(p.x,p.y,2,2,p.c)});cx.globalAlpha=1;
- cx.restore();c4Cap();logoTick();giftDraw();try{tcDraw()}catch(e){}
+ cx.restore();try{popDraw()}catch(e){}c4Cap();logoTick();giftDraw();try{tcDraw()}catch(e){}
  if(wob>.05){wv.clearRect(0,0,W,H);wv.drawImage(cv,0,0);for(let y=0;y<H;y+=4)cx.drawImage(wc,0,y,W,4,Math.round(Math.sin(y/16+T*2.4)*wob),y,W,4);cx.globalAlpha=Math.min(.12,.05*wob);r(0,0,W,H,'#ff7eb6');cx.globalAlpha=1}
  ux.setTransform(1,0,0,1,0,0);ux.clearRect(0,0,W,H);ux._c=null;cx=ux;
  try{drawDanceUI();drawCh2UI();drawCh3UI();drawCh5UI();drawCh6UI();drawCh7UI();drawCh8UI();drawCh4UI();drawEpAlbumUI();drawEpBdayUI();balcUI();drawPhoneUI();
