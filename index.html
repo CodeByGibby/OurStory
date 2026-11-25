@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.14.8</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.0</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -268,8 +268,7 @@ function paperDraw(x,y,key,dir,fn){const S=PST[key]||(PST[key]={});if(!photo&&S.
  const fk=S.fl!=null&&!photo&&T-S.fl<PFLIP?(T-S.fl)/PFLIP:-1,sx=fk<0?1:Math.max(.12,Math.abs(Math.cos(fk*Math.PI)));
  if(PDEP>3){fn(dir);return}PMAIN=cx===CX0;PNOSH=true;const C=pcvGet(PDEP++),m=cx,g=C.ga;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,72,80);g._c=null;g.globalAlpha=1;cx=g;cx.translate(36-x,64-y);
  try{fn(fk>=0&&fk<.5?S.fo:dir)}finally{cx=m;PDEP--;PNOSH=false;PMAIN=false}
- const e=C.gb;e.globalCompositeOperation='source-over';e.clearRect(0,0,72,80);e.drawImage(C.a,0,0);e.globalCompositeOperation='source-in';e.fillStyle=PEDGE;e.fillRect(0,0,72,80);e.globalCompositeOperation='source-over';
- S.x=x;S.y=y;const w=Math.max(2,Math.round(72*sx)),ox=x-Math.round(36*sx),pk=popActive()?popK(S):1;if(pk<=0)return;const ph=Math.max(1,Math.round(80*pk)),py=y+16-ph;for(const [dx,dy] of OUTD)cx.drawImage(C.b,ox+dx,py+dy,w,ph);cx.drawImage(C.a,ox,py,w,ph)}
+ S.x=x;S.y=y;const w=Math.max(2,Math.round(72*sx)),ox=x-Math.round(36*sx),pk=popActive()?popK(S):1;if(pk<=0)return;const ph=Math.max(1,Math.round(80*pk)),py=y+16-ph;cx.drawImage(C.a,ox,py,w,ph)}
 function person(p,t){const x=Math.round(p.x),y=Math.round(p.y);if(popActive()&&popK(p)<=0)return;
  // a left<->right turn starts a flip; the first half still shows the old way round
  const d=p.dir;if(!photo&&p._ld&&p._ld!==d&&((p._ld==='l'&&d==='r')||(p._ld==='r'&&d==='l'))&&(p._fl==null||T-p._fl>PFLIP)){p._fl=T;p._fo=p._ld}p._ld=d;
@@ -279,9 +278,8 @@ function person(p,t){const x=Math.round(p.x),y=Math.round(p.y);if(popActive()&&p
  const C=pcvGet(PDEP++),m=cx,g=C.ga;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,72,80);g._c=null;g.globalAlpha=1;cx=g;cx.translate(36-x,64-y);
  const d0=p.dir;if(fk>=0&&fk<.5)p.dir=p._fo;
  try{MONO='#2b1830';for(const [dx,dy] of OUTD){cx.translate(dx,dy);body(p,t);cx.translate(-dx,-dy)}MONO=null;body(p,t)}finally{MONO=null;p.dir=d0;cx=m;PDEP--}
- const e=C.gb;e.globalCompositeOperation='source-over';e.clearRect(0,0,72,80);e.drawImage(C.a,0,0);e.globalCompositeOperation='source-in';e.fillStyle=PEDGE;e.fillRect(0,0,72,80);e.globalCompositeOperation='source-over';
  const w=Math.max(2,Math.round(72*sx)),ox=x-Math.round(36*sx),pk=popActive()?popK(p):1;if(pk<=0)return;const ph=Math.max(1,Math.round(80*pk)),py=y+16-ph;
- for(const [dx,dy] of OUTD)cx.drawImage(C.b,ox+dx,py+dy,w,ph);cx.drawImage(C.a,ox,py,w,ph)}
+ cx.drawImage(C.a,ox,py,w,ph)}
 const ell=(x,y,a,b,c,al=1)=>{cx.globalAlpha=al;for(let d=-b;d<=b;d++){const w=a*Math.sqrt(1-d*d/(b*b))|0;r(x-w,y+d,w*2+1,1,c)}cx.globalAlpha=1};
 const tri=(px,py,by,k,c)=>{for(let y=py;y<=by;y++){const w=Math.round((y-py)*k);r(px-w,y,w*2+1,1,c)}};
 const wc=document.createElement('canvas');wc.width=W;wc.height=H;const wv=wc.getContext('2d');
@@ -1119,6 +1117,60 @@ function snGlide(dt){const q=sn;if(!q||loc!=='hall')return;const sp=(q.s===1&&q.
 
 function startDoor(){loc='door';mode='door';parts=[];cs={t:0};setHud('')}
 function beginIntro(){mode='intro';st=0;hunter.x=176;hunter.y=550;say(INTRO,()=>{mode='zoomout';zkT=0})}
+/* ===== each chapter opens like a storybook: the closed book rises out of the dark, its cover swings open to the
+   chapter's title page, the page turns, and we fall into the next page, where the first scene unfolds up out of it.
+   Tap to hurry it along. ===== */
+let BOOK=null;const BKC=['#c2417a','#3a6ab0','#d8783a','#c8603a','#5a4a9a','#b8843a','#2a7a6a','#e07aa0','#8a3a5a'];
+function chBook(num,title,sub,next){const pl=loc;$('title').classList.add('out');try{$('card').style.opacity=0}catch(e){}setLoc('book');fade=1;fd=-1;
+ BOOK={t0:T,num,title,sub,next,pl,col:BKC[(num==='E'?8:(+num-1))%BKC.length],done:0};sfx('whoosh')}
+function bookTap(){if(!BOOK||BOOK.done)return false;const k=T-BOOK.t0;if(k<3.1)BOOK.t0=T-3.1;return true}
+const BKT={rise:.5,hold:1.0,open:1.7,read:3.1,turn:3.6,zoom:4.15};
+function bookUpd(){const B=BOOK;if(!B||B.done)return;const k=T-B.t0;
+ if(!B.s1&&k>=BKT.hold){B.s1=1;sfx('paper',196)}if(!B.s2&&k>=BKT.read){B.s2=1;sfx('paper',262)}
+ if(k>=BKT.zoom){B.done=1;BOOK=null;CHPOP=T+8;const f0=fd;if(B.pl&&B.num==='1')setLoc(B.pl);B.next();if(fd===-1){fade=Math.min(fade,.15)}}}
+function bkWrap(s,n){const w=s.split(' '),L=[];let c='';w.forEach(x=>{if((c+' '+x).trim().length>n){L.push(c.trim());c=x}else c+=' '+x});if(c.trim())L.push(c.trim());return L}
+function bkCenter(s,y,col,z){z=z||1;txt(s,80-Math.round(s.length*4*z/2)+1,y,col,z)}
+function vBook(t){const B=BOOK;r(0,0,W,H,'#0c0816');if(!B)return;const k=T-B.t0;
+ // a warm pool of lamplight on a dark table, a few motes drifting through it
+ cx.globalCompositeOperation='lighter';const g=cx.createRadialGradient(80,150,10,80,150,150);g.addColorStop(0,'rgba(120,70,40,.35)');g.addColorStop(1,'rgba(0,0,0,0)');cx.fillStyle=g;cx.fillRect(0,0,W,H);
+ for(let i=0;i<14;i++){const q=(t*.04+i/14)%1,x=Math.round(20+((i*53)%120)+Math.sin(t*.5+i)*6),y=Math.round(250-q*220);cx.globalAlpha=.35*Math.sin(q*Math.PI);r(x,y,1,1,'#ffe8b0')}cx.globalAlpha=1;cx.globalCompositeOperation='source-over';
+ const ez=u=>u<=0?0:u>=1?1:u*u*(3-2*u),PW=72,PH=100,rise=ez(k/BKT.rise),op=ez((k-BKT.hold)/(BKT.open-BKT.hold)),tn=ez((k-BKT.read)/(BKT.turn-BKT.read)),zm=ez((k-BKT.turn)/(BKT.zoom-BKT.turn));
+ const sp=Math.round(44+36*op),top=Math.round(98+(1-rise)*10),bx=sp,ex=sp+PW;
+ // zooming into the right-hand page: everything scales up around it until the page fills the screen
+ cx.save();if(zm>0){const s=1+zm*(Math.max(W/PW,H/PH)*1.12-1),cxp=sp+PW/2,cyp=top+PH/2;cx.translate(80,144);cx.scale(s,s);cx.translate(-(cxp+(80-cxp)*0),-cyp)}
+ cx.globalAlpha=Math.min(1,k/.35);
+ // shadow, page block thickness
+ ell(sp+(op>0?0:PW/2),top+PH+6,op>0?PW+8:PW/2+6,4,'#000',.35);
+ r(sp,top+2,PW+2,PH,'#d8ccb0');for(let y=top+4;y<top+PH;y+=3)r(sp+PW,y,2,1,'#c0b090');r(sp,top+PH,PW+2,3,'#b8a888');
+ if(op>0){r(sp-PW-2,top+2,PW+2,PH,'#d8ccb0');r(sp-PW-2,top+PH,PW+2,3,'#b8a888')}
+ {const rx=sp+PW-14,ry=top+PH+2,sw=Math.round(Math.sin(t*1.6)*1);r(rx+sw,ry,4,12,sh(B.col,.8));r(rx+sw,ry+12,1,2,sh(B.col,.8));r(rx+3+sw,ry+12,1,2,sh(B.col,.8));r(rx+sw,ry,1,12,sh(B.col,1.15))}
+ // right-hand page: the chapter title page (under the cover, then turned to reveal the blank page the scene rises from)
+ const page=(x,content)=>{r(x,top,PW,PH,'#f6eedb');r(x,top,PW,1,'#fffaf0');const gr=cx.createLinearGradient(x,0,x+10,0);gr.addColorStop(0,'rgba(120,90,50,.25)');gr.addColorStop(1,'rgba(120,90,50,0)');cx.fillStyle=gr;cx.fillRect(x,top,10,PH);cx._c=null;if(content)content(x)};
+ const titleP=x=>{const cxp=x+PW/2;r(cxp-14,top+12,28,1,'#c2a060');heart(cxp-3,top+15,'#d8607a',1);r(cxp-14,top+21,28,1,'#c2a060');
+  const ch=B.num==='E'?'EPILOGUE':'CHAPTER';txt(ch,cxp-Math.round(ch.length*2)+1,top+28,'#8a6a4a',1);if(B.num!=='E'){const n=String(B.num);txt(n,cxp-Math.round(n.length*6)+1,top+37,B.col,3)}
+  bkWrap(B.title,15).forEach((l,i)=>txt(l.toUpperCase(),cxp-Math.round(l.length*2)+1,top+(B.num==='E'?44:58)+i*8,'#3a2a3a',1));
+  if(B.sub)bkWrap(B.sub,17).forEach((l,i)=>txt(l.toUpperCase(),cxp-Math.round(l.length*2)+1,top+80+i*7,'#9a7a8a',1));
+  r(cxp-8,top+PH-10,16,1,'#c2a060')};
+ page(bx,tn<.5?titleP:null);
+ // the turning page (title page lifting and flipping over to the left)
+ if(tn>0&&tn<1){const w=Math.round(PW*Math.abs(Math.cos(tn*Math.PI)));if(tn<.5){page(bx,null);r(bx,top,w,PH,'#f6eedb');cx.save();cx.beginPath();cx.rect(bx,top,w,PH);cx.clip();cx.translate(bx,0);cx.scale(w/PW,1);cx.translate(-bx,0);titleP(bx);cx.restore();cx.globalAlpha=.25*tn*2;r(bx,top,w,PH,'#6a5a3a');cx.globalAlpha=1}
+  else{r(bx-w,top,w,PH,'#efe4cc');cx.globalAlpha=.2*(1-tn);r(bx-w,top,w,PH,'#6a5a3a');cx.globalAlpha=1}}
+ // left-hand page once the cover is open: the inside cover with a little dedication
+ if(op>=.5){const lx=bx-PW;r(lx,top,PW,PH,sh(B.col,.55));r(lx+4,top+4,PW-8,PH-8,'#f0e4cc');for(let y=top+8;y<top+PH-8;y+=6)for(let x=lx+8+((y/6)%2)*3;x<lx+PW-8;x+=6)r(x,y,1,1,'#e0d0b0');
+  txt('FOR ABIGAIL',lx+PW/2-21,top+PH/2-6,'#8a5a6a',1);heart(lx+PW/2-3,top+PH/2+4,'#d8607a',1);if(tn>=.5){r(lx+4,top+4,PW-8,PH-8,'#efe4cc');page(lx+4,null)}}
+ // the cover: closed on top, then swinging open around the spine
+ if(op<1){const a=op*Math.PI,cw=Math.round(PW*Math.abs(Math.cos(a)));
+  if(op<.5){const x0=bx;r(x0-2,top-2,cw+4,PH+4,sh(B.col,.7));r(x0,top,cw,PH,B.col);cx.save();cx.beginPath();cx.rect(x0,top,cw,PH);cx.clip();cx.translate(x0,0);cx.scale(Math.max(.01,cw/PW),1);cx.translate(-x0,0);
+    const cxp=x0+PW/2;r(x0+5,top+5,PW-10,PH-10,sh(B.col,.85));r(x0+6,top+6,PW-12,PH-12,B.col);[[x0+5,top+5],[x0+PW-8,top+5],[x0+5,top+PH-8],[x0+PW-8,top+PH-8]].forEach(([a2,b2])=>r(a2,b2,3,3,'#e8c060'));
+    txt('OUR',cxp-5,top+16,'#f8e0a0',1);txt('STORY',cxp-9,top+24,'#f8e0a0',1);heart(cxp-3,top+38,'#f8e0a0',1);
+    const ch=B.num==='E'?'EPILOGUE':'CHAPTER '+B.num;txt(ch,cxp-Math.round(ch.length*2)+1,top+56,'#fff4dc',1);bkWrap(B.title,14).forEach((l,i)=>txt(l.toUpperCase(),cxp-Math.round(l.length*2)+1,top+68+i*8,'#f8e0a0',1));
+    cx.restore();cx.globalAlpha=Math.min(1,op*1.6);r(x0,top,cw,PH,'#000');cx.globalAlpha=1;cx.globalAlpha=Math.min(1,k/.35);
+    r(x0-3,top-2,3,PH+4,sh(B.col,.5))}// the spine
+  else{const x0=bx-cw;r(x0,top,cw,PH,sh(B.col,.55));r(x0+3,top+3,Math.max(0,cw-6),PH-6,'#f0e4cc');cx.globalAlpha=(1-op)*.6;r(x0,top,cw,PH,'#000');cx.globalAlpha=1}}
+ cx.restore();
+ // fall into the page: it fades to the paper the scene will unfold from
+ if(zm>.55){cx.globalAlpha=Math.min(1,(zm-.55)/.4);r(0,0,W,H,'#f6eedb');cx.globalAlpha=1}
+ cx.globalAlpha=1;bookUpd()}
 function startPan(){mode='pan';tp=0;hunter.x=176;hunter.y=550;FX=30;FY=532;ZM=2;$('title').classList.add('out')}
 
 /* ================= CHAPTER 2 ================= */
@@ -1168,7 +1220,7 @@ function chRecap(n,HN){const BS=MGBEST.get(),G=MGAMES.map((g,i)=>[g,i]).filter((
  let h='<div class="chr">';if(G.length){h+='<p class="chl">MINIGAMES &middot; tap one to replay</p>';G.forEach(([g,i])=>{const v=(BS[g[1]]&&BS[g[1]].s)||0;h+='<button class="mgr" data-m="'+i+'"><span>'+g[1]+'</span><span class="mst">'+[0,1,2].map(k=>miniStar(k<v)).join('')+'</span></button>'})}
  if(PO.length)h+='<p class="chl chp2">PHOTOS &middot; '+got+' / '+PO.length+(got>=PO.length?' &#9829;':'')+'</p>';
  h+=(HN||chHints(n)).map(t=>'<p class="chh">'+t+'</p>').join('')+'</div>';return h}
-function setLoc(l){if(l!==loc&&typeof POPF!=='undefined'&&POPF[l]!=null&&!POPSEEN[l]){POPSEEN[l]=1;POP={l,t0:T+.18}}if(l!==loc)try{[abi,hunter,morgan,jay].forEach(p=>{if(p){p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null}})}catch(e){}loc=l;parts=[];setHud('');CAMX=0}
+function setLoc(l){if(l!==loc&&typeof POPF!=='undefined'&&POPF[l]!=null&&CHPOP&&T<CHPOP){CHPOP=0;POP={l,t0:T+.06,cream:1}}if(l!==loc)try{[abi,hunter,morgan,jay].forEach(p=>{if(p){p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null}})}catch(e){}loc=l;parts=[];setHud('');CAMX=0}
 
 /* ---- montage scenes ---- */
 function stars2(w,h,n){for(let i=0;i<n;i++){const s=stars[i];cx.globalAlpha=.4+.6*Math.sin(T*2+s.p);r(s.x%w,s.y%h,1,1,'#fff')}cx.globalAlpha=1}
@@ -1646,6 +1698,7 @@ function vKart(t){const k=kart;if(!k){r(0,0,W,H,'#000');return}const me=k.me;cx.
 function txtFit(s,y){s=s.toUpperCase().replace(/[^A-Z0-9 !]/g,'');const w=s.length*4;txt(s,Math.max(2,80-w/2|0),y,'#fff',1)}
 
 const VS={dinner:[2,vDinner],bench:[2,vBench],bars:[2,vBars],dorm:[2,vDorm],newsbg:[1,vNews],lake:[2,vLake],drive:[2,vDrive],clinic:[2,vClinic],apt:[2,vApt],living:[2,vLiving],entry:[2,vEntry],cal:[1,vCal],kart:[1,vKart]};
+VS.book=[1,vBook];
 
 /* ---- chapter 2 story ---- */
 let calD=1,calT0=0,hm=0,showHM=0,sick=0,nose=null,tv=null,kart=null,bags=null,AV={},NI=[];
@@ -1658,8 +1711,7 @@ function buildIcons(){
   icon(20,20,()=>{r(0,0,20,20,'#9ad0f0');r(0,15,20,5,'#6aa84a');tri(10,2,9,1,'#d8352f');r(4,9,12,7,'#fff6e8');r(8,11,4,5,'#8a5a3a');heart(8,4,'#ff5f9e')})]}
 const MONT=[['dinner','Dinner dates...'],['bench','...hours of chatting and giggling...'],['bars','...nights out at the bars...'],['dorm','...and squeezing into a dorm bed built for ONE.']];
 function startCh2(){$('end').style.display='none';$('chap').style.display='none';$('title').classList.add('out');wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;sick=0;showHM=0;
- abi.dance=hunter.dance=0;fade=1;fd=0;mode='ch2';setLoc('newsbg');card('<span style="color:#ffd86b;font-size:1.5em">CHAPTER 2</span><br><br>Fourteen Days');
- after(3.4,()=>{$('card').style.opacity=0;goMont(0)})}
+ abi.dance=hunter.dance=0;fade=1;fd=0;mode='ch2';chBook('2','Fourteen Days','',()=>{goMont(0)})}
 function goMont(i){[abi,hunter].forEach(p=>{p.hold=null;p.sit=0});mi=i;mt=0;mode='mont';setLoc(MONT[i][0]);fd=-1;after(.6,()=>cap(MONT[i][1]))}
 function nextMont(){[abi,hunter].forEach(p=>{p.sit=0});if(mode!=='mont')return;mode='montx';cap('');fadeTo(()=>{abi.zz=hunter.zz=0;hunter.moving=false;if(mi<MONT.length-1)goMont(mi+1);else{setLoc('newsbg');card('Months passed...');fd=2;fhold=2.8;after(3.6,startNews)}})}
 const NEWS=[['MISSOURI CONFIRMS FIRST CASE OF COVID-19','State health officials urge residents to wash their hands and stay home if they feel sick.'],
@@ -2798,8 +2850,7 @@ function c3Unpack(){setLoc('troom');mode='c3';upk={i:0,f:{},msg:null};
 function startCh3(){$('end').style.display='none';$('chap').style.display='none';$('title').classList.add('out');
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;lv={night:0,mor:0,q:0};
  [abi,hunter].forEach(p=>{p.hold=null;p.zz=0;p.dance=0;p.bleed=0;p.moving=false});
- fade=1;fd=0;mode='ch3';setLoc('newsbg');card('<span style="color:#ffd86b;font-size:1.5em">CHAPTER 3</span><br><br>The Good Life<br><br><span style="color:#7ec8f0;font-size:.8em">Playing as Hunter</span>');
- after(3.6,()=>{$('card').style.opacity=0;c3Home()})}
+ fade=1;fd=0;mode='ch3';chBook('3','The Good Life','Playing as Hunter',()=>{c3Home()})}
 function c3Kitchen(){setLoc('kitchen');fd=-1;mode='c3';kit={peek:1,door:0,ppl:[mom,hunter]};mom.x=30;mom.y=118;mom.dir='r';hunter.x=54;hunter.y=118;hunter.dir='l';
  after(1.2,()=>say([{n:'',t:"April 2020. Back at Mom's house."},{n:'Mom',t:'My baby is out of quarantine! Come here, let me look at you.'},{n:'Mom',t:'...From six feet away. Just in case.'},{n:'',t:'(Hunter takes a few big steps back.)',anim:()=>stepBack(hunter,mom,11)},
   {n:'Hunter',t:'Hey, Mom. So... I have a favor to ask.'},{n:'Mom',t:"Uh oh. That's your favor voice."},
@@ -2904,8 +2955,7 @@ function startCh4(){$('end').style.display='none';$('chap').style.display='none'
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;rd=null;pk=null;dtS=null;chatClear();
  [abi,hunter].forEach(p=>{p.hold=null;p.zz=0;p.dance=0;p.bleed=0;p.green=0;p.moving=false});
  c4={ph:[],pol:null,flash:0,album:null,capReq:null};hunter.cap=0;hunter.capDot=0;abi.chat=0;hx=null;if(hunter.beav)beavShirt(0);
- fade=1;fd=0;mode='ch4';setLoc('newsbg');card('<span style="color:#ffd86b;font-size:1.5em">CHAPTER 4</span><br><br>Everything\u2019s Bigger<br><br><span style="color:#7ec8f0;font-size:.8em">Playing as Hunter</span>');
- after(3.6,()=>{card('With a little extra unemployment money in their pockets...<br><br><span style="color:#ffd86b">...they turned the trip into a Texas vacation!</span>');after(3.6,()=>{$('card').style.opacity=0;saStart()})})}
+ fade=1;fd=0;mode='ch4';chBook('4','Everything\u2019s Bigger','Playing as Hunter',()=>{setLoc('newsbg');fade=0;fd=0;card('With a little extra unemployment money in their pockets...<br><br><span style="color:#ffd86b">...they turned the trip into a Texas vacation!</span>');after(3.6,()=>{$('card').style.opacity=0;saStart()})})}
 /* ---- light show on the cathedral ---- */
 const SHOWC=['Sunrise over the Texas plains...','Fields of bluebonnets...','Longhorns on the range...','The stars at night, big and bright...','Fireworks over the city!','...and one last scene, just for them.'];
 function facade(fill){r(12,30,56,94,fill);r(16,14,14,16,fill);r(50,14,14,16,fill);tri(23,4,14,.7,fill);tri(57,4,14,.7,fill);for(let y=24;y<30;y++){const w=(y-24)*3;r(40-w,y,w*2+1,1,fill)}}
@@ -4938,8 +4988,7 @@ function deskEnd(){mode='c5';const s=c5.dk.score;c5.of.boss=1;c5.of.bw={x0:94,x1
 function startCh5(){$('end').style.display='none';$('chap').style.display='none';$('title').classList.add('out');
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;rd=null;pk=null;dtS=null;hill=null;clb=null;sc3=null;chatClear();[abi,hunter,morgan,jay].forEach(p=>{p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null});
  [abi,hunter].forEach(p=>{p.hold=null;p.zz=0;p.dance=0;p.bleed=0;p.green=0;p.moving=false});c5={};
- fade=1;fd=0;mode='ch5';setLoc('newsbg');card('<span style="color:#ffd86b;font-size:1.5em">CHAPTER 5</span><br><br>The Distance<br><br><span style="color:#ff9ccb;font-size:.8em">Playing as Abigail</span>');
- after(3.6,()=>{$('card').style.opacity=0;c4DriveHome()})}
+ fade=1;fd=0;mode='ch5';chBook('5','The Distance','Playing as Abigail',()=>{c4DriveHome()})}
 function c5Call(){setLoc('troom');fd=-1;mode='c5';upk={i:UPO.length,f:Object.fromEntries(UPO.map(k=>[k,1])),msg:null,solo:1};abi.hold=null;
  after(1.6,()=>{mode='phone';phoneCall('Club','incoming call...','Answer',()=>{$('phone').style.display='none';mode='c5';abi.hold='phone';say([
   {n:'Club',t:'Hi Abigail! Great news. We’re moving you to our club in the Hamptons. In New York.'},{n:'Abigail',t:'...New York? But I JUST got here. Like, a week ago.'},
@@ -5865,8 +5914,7 @@ const at=(p,x,y,dir)=>{p.x=x;p.y=y;if(dir)p.dir=dir;p.tx=null;p.moving=false};
 /* ---- story ---- */
 function startCh6(){$('end').style.display='none';$('chap').style.display='none';$('title').classList.add('out');
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;rd=null;pk=null;dtS=null;hill=null;clb=null;sc3=null;chatClear();[abi,hunter,morgan,jay].forEach(p=>{p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null});c5={};c6={};c6Dress();
- fade=1;fd=0;mode='ch6';setLoc('newsbg');card('<span style="color:#ffd86b;font-size:1.5em">CHAPTER 6</span><br><br>The Question<br><br><span style="color:#ff9ccb;font-size:.8em">Playing as Hunter &amp; Abigail</span>');
- after(3.6,()=>{$('card').style.opacity=0;c6Card('Months went by in their little apartment.<br><br>Mac n cheese and chicken nugget dinners. Long days at the club. Late nights studying.<br><br><span style="color:#ffd86b">And a lot of late night talks.</span>',3.6,c6Talk)})}
+ fade=1;fd=0;mode='ch6';chBook('6','The Question','Playing as Hunter & Abigail',()=>{c6Card('Months went by in their little apartment.<br><br>Mac n cheese and chicken nugget dinners. Long days at the club. Late nights studying.<br><br><span style="color:#ffd86b">And a lot of late night talks.</span>',3.6,c6Talk)})}
 /* the living-room couch (same one at home), usable in other scenes */
 function couchBack(){r(2,66,32,18,'#6a3a22');r(2,66,32,1,'#9a5a36');for(let x=6;x<34;x+=6)r(x,67,1,17,'#4e2a18');for(let y=70;y<84;y+=5)r(2,y,32,1,'#4e2a18');for(let x=6;x<34;x+=6)for(let y=70;y<84;y+=5)r(x,y,1,1,'#2e1a10');r(3,67,4,3,'#8a5232'); r(0,72,4,24,'#5a2e1a');r(32,72,4,24,'#5a2e1a');r(0,72,4,1,'#9a5a36');r(32,72,4,1,'#9a5a36');r(1,73,1,10,'#7a4428');r(33,73,1,10,'#7a4428'); r(5,78,7,6,'#e07a9a');r(6,79,5,1,'#f8b0c8');r(5,83,7,1,'#c05a7a');r(24,78,7,6,'#f0f0f0');for(let y=79;y<84;y+=2)r(24,y,7,1,'#3a7ab0');r(24,83,7,1,'#c8c8d0'); r(4,84,28,4,'#7a4428');r(4,84,28,1,'#9a5a36');}
 function couchFront(){r(2,92,32,4,'#5a2e1a');r(2,92,32,1,'#8a5232');r(2,96,2,3,'#5a3a1a');r(30,96,2,3,'#5a3a1a');r(3,85,4,8,'#c86a3a');for(let y=86;y<93;y+=2)r(3,y,4,1,'#e8a060');}
@@ -7526,8 +7574,7 @@ function corgiTop(x,y,t){x=Math.round(x);y=Math.round(y);const w=Math.floor(t*10
 /* ---- story ---- */
 function startCh7(){$('end').style.display='none';$('chap').style.display='none';$('title').classList.add('out');
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;rd=null;pk=null;dtS=null;hill=null;clb=null;sc3=null;chatClear();[abi,hunter,morgan,jay].forEach(p=>{p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null});c5={};c6={day:1};c7={};c6Dress();
- fade=1;fd=0;mode='ch7';setLoc('newsbg');card('<span style="color:#ffd86b;font-size:1.5em">CHAPTER 7</span><br><br>Donut<br><br><span style="color:#ff9ccb;font-size:.8em">Playing as Hunter &amp; Abigail</span>');
- after(3.6,()=>{$('card').style.opacity=0;c7Plan()})}
+ fade=1;fd=0;mode='ch7';chBook('7','Donut','Playing as Hunter & Abigail',()=>{c7Plan()})}
 function c7Drive(){setLoc('drive7');mode='c7';c7.off=0;c7.flur=.2;c7.pup=0;
  after(1,()=>say([{n:'',t:'Three hours to Joplin. Grey skies. A few flurries.'},{n:'Abigail',t:'Does your car even have heat?'},{n:'Hunter',t:'It has... some heat.'},
   {n:'Hunter',t:'She is going to be SO tiny.'}],()=>fadeTo(c7Farm)))}
@@ -7965,8 +8012,7 @@ let c8={};
 function c8Msg(s,d){c8.msg=[s,d||1.3]}
 function startCh8(){$('end').style.display='none';$('chap').style.display='none';$('title').classList.add('out');
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;rd=null;pk=null;dtS=null;hill=null;clb=null;sc3=null;chatClear();[abi,hunter,morgan,jay].forEach(p=>{p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null});entD=1;entT=null;c5={};c6={day:1};c7={};c8={};c6Dress();
- fade=1;fd=0;mode='ch8';setLoc('newsbg');card('<span style="color:#ffd86b;font-size:1.5em">CHAPTER 8</span><br><br>The Wedding<br><br><span style="color:#ff9ccb;font-size:.8em">Playing as Hunter &amp; Abigail</span>');
- after(3.6,()=>{$('card').style.opacity=0;c8Call()})}
+ fade=1;fd=0;mode='ch8';chBook('8','The Wedding','Playing as Hunter & Abigail',()=>{c8Call()})}
 function c8Call(){setLoc('call8');fade=1;fd=-1;mode='c8';
  after(1,()=>say([{n:'',t:'Wedding planning is in full swing. There is just one problem.'},{n:'Mum',t:'Oh, love. They won’t let us fly over. Not with the travel restrictions.'},
   {n:'Abigail',t:'So you can’t come? To the wedding?'},{n:'Dad',t:'(in the background) We tried everything, sweetheart. Every airline. Every form.'},
@@ -8713,8 +8759,7 @@ function epDress(){c6Dress();[abi,hunter,morgan].forEach(p=>{p.cap=0;p.hp=0;p.go
 function startEp(){{const C=$('card');C.style.alignItems='';C.style.paddingBottom='';C.style.textShadow=''}$('end').style.display='none';$('chap').style.display='none';$('title').classList.add('out');
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;rd=null;pk=null;dtS=null;hill=null;clb=null;sc3=null;chatClear();[abi,hunter,morgan,jay].forEach(p=>{p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null});c5={};c6={day:1};c7={};c8={};epDress();
  c4={ph:[],pol:null,flash:0,album:null,capReq:null};hx=null;ep={on:1};
- fade=1;fd=0;mode='ep';setLoc('epcard');card('<span style="color:#ffd86b;font-size:1.5em">EPILOGUE</span><br><br><span style="color:#ff9ccb;font-size:.8em">♥</span>');
- after(3.6,()=>{$('card').style.opacity=0;after(1,epAlbumStart)})}
+ fade=1;fd=0;mode='ep';chBook('E','Happily Ever After','',()=>{after(1,epAlbumStart)})}
 
 /* ---- the album ---- */
 function epAlbumList(){const S=ALB.get(),L=[];PHOTO_OPS.forEach(o=>{const has=!!(PHC[o.st]||S[o.st]);if(o.m&&!has)return;L.push({o,has})});return L}
@@ -9399,7 +9444,7 @@ Object.assign(MUSMAP,{epalbum:'stars',epcard:'stars',epmap:'cozy',epstudio:'lofi
 
 /* ---------- save + chapter select ---------- */
 const save={get(){try{return +localStorage.getItem('ourstory_done')||0}catch(e){return 0}},set(n){try{if(n>save.get())localStorage.setItem('ourstory_done',String(n))}catch(e){}}};
-const CHAPS=[['1','The Coop',()=>startPan()],['2','Fourteen Days',()=>startCh2()],['3','The Good Life',()=>startCh3()],['4','Everything\u2019s Bigger',()=>startCh4()],['5','The Distance',()=>startCh5()],['6','The Question',()=>startCh6()],['7','Donut',()=>startCh7()],['8','The Wedding',()=>startCh8()],['E','Epilogue',()=>startEp()]];
+const CHAPS=[['1','The Coop',()=>chBook('1','The Coop','',startPan)],['2','Fourteen Days',()=>startCh2()],['3','The Good Life',()=>startCh3()],['4','Everything\u2019s Bigger',()=>startCh4()],['5','The Distance',()=>startCh5()],['6','The Question',()=>startCh6()],['7','Donut',()=>startCh7()],['8','The Wedding',()=>startCh8()],['E','Epilogue',()=>startEp()]];
 $('snd').onclick=e=>{e.stopPropagation();openPause()};$('snd').onpointerdown=e=>e.stopPropagation();
 ['pause','pRes','pDev','pMenu','vm','vs'].forEach(id=>{$(id).onpointerdown=e=>e.stopPropagation();$(id).addEventListener('touchstart',e=>e.stopPropagation(),{passive:true})});
 $('pRes').onclick=()=>{sfx('select');closePause()};$('pMenu').onclick=()=>{sfx('select');const l=$('ld');l.classList.remove('off');requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>location.reload(),60)))};
@@ -9425,7 +9470,7 @@ const hasData=()=>CK.get()>=0||Object.keys(ALB.get()).length>0;
 function updTitle(){const d=DEV.on(),ck=CK.get();$('bPlay').innerHTML=ck>=0?'&#9654;&nbsp;Continue':FIN.get()?'&#9654;&nbsp;Play again':'&#9654;&nbsp;Tap to start';
  $('bNew').style.display=ck>=0?'':'none';$('bAl').style.display=albList().length?'':'none';$('bCh').style.display=d?'':'none';$('bMg').style.display=d||FIN.get()||save.get()>=1?'':'none';$('bMg').innerHTML='Minigames'+(LS('ourstory_crzu')&&!LS('ourstory_crzo')?'<span class="nw">NEW!</span>':'');$('bDbg').style.display=d?'':'none';
  const row=$('bNew').parentNode;row.style.display=[...row.children].some(b=>b.style.display!=='none')?'':'none';$('pDev').textContent='Dev mode: '+(d?'ON':'OFF')}
-function newGame(){CK.clr();LS('ourstory_qb',null);LS('ourstory_phh',null);LS('ourstory_hint',null);LS('ourstory_pk',null);LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';startPan()}
+function newGame(){CK.clr();LS('ourstory_qb',null);LS('ourstory_phh',null);LS('ourstory_hint',null);LS('ourstory_pk',null);LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';chBook('1','The Coop','',startPan)}
 /* ---- the photo album on the title screen: every photo she has taken, to look through and to keep ---- */
 function albList(){const o=ALB.get(),ks=Object.keys(o);if(!ks.length)return [];const ord=PHOTO_OPS.map(p=>p.st);return ks.sort((a,b)=>(ord.indexOf(a)<0?99:ord.indexOf(a))-(ord.indexOf(b)<0?99:ord.indexOf(b)))}
 function albSrc(st){try{const im=ALB.img(st);if(im&&im.toDataURL)return im.toDataURL('image/png');if(im&&im.src)return im.src}catch(e){}return ALB.get()[st]||''}
@@ -9668,6 +9713,7 @@ function press2(CX,CY){
  const b=(CR=dv.getBoundingClientRect()),sx=(CX-b.left)/sc,sy=(CY-b.top)/sc,x=(sx-W/2)/vz+vcx,y=(sy-H/2)/vz+vcy;
  if(mode==='title'){const ti=$('title');if(ti&&!ti.classList.contains('wait')&&!$('btns').classList.contains('ready')&&GIFT.done){ti.classList.add('ff');setTimeout(()=>$('btns').classList.add('ready'),120)}return}
  if(dlg){adv();return}
+ if(BOOK&&bookTap())return;
  if(tiltSkip())return;
  if(arcTap2(x,y))return;
  if(mode==='paint'){if(ep.pt)ep.pt.down=1;epPaintAt(sx,sy,true);return}
@@ -9768,7 +9814,7 @@ function update(dt){try{tcUpd(dt)}catch(e){}
  if(tapfx){tapfx.t+=dt;if(tapfx.t>.4)tapfx=null}
  tickDlg(dt);
 }
-const POPF=Object.assign({},AOF,{church:124,bonnell:108,plaza:62,txhouse:80,field7:62,eplondon:128,bench:78,lake:64,clinic:48,river:64,austin:104,trucks:90,pea:60,sec5:58,term5:90,office:48,barcade:92,call8:70,balc8:96,uk8:58,epvillage:64,ephouse:60,epyard:60,drive:124,kcdrive:90,drive7:90,farm7:90,lot7:64,sleep8:73,night8:73,split:73,epgrad:68,epcyber:96,plane:112,c3class:70,c3grad:70,car7:70,dorm:92}),POPSEEN={},POPD=.62;let POP=null,PTC=null;
+let CHPOP=0;const POPF=Object.assign({},AOF,{church:124,bonnell:108,plaza:62,txhouse:80,field7:62,eplondon:128,bench:78,lake:64,clinic:48,river:64,austin:104,trucks:90,pea:60,sec5:58,term5:90,office:48,barcade:92,call8:70,balc8:96,uk8:58,epvillage:64,ephouse:60,epyard:60,drive:124,kcdrive:90,drive7:90,farm7:90,lot7:64,sleep8:73,night8:73,split:73,epgrad:68,epcyber:96,plane:112,c3class:70,c3grad:70,car7:70,dorm:92}),POPSEEN={},POPD=.62;let POP=null,PTC=null;
 /* pop-up book entrance: first the page (everything above the floor line) folds open, then the things in the room pop
    up off the page one at a time, in a random order, over a second or so: the furniture and fixtures you can tap, and
    every person and pet */
@@ -9816,9 +9862,10 @@ function popDraw(){if(!POP||POP.l!==loc||photo||!VS[loc]||VS[loc][0]!==2)return;
   if(a>=Math.PI/2*.97)popLand(o.key,X/2+cm,B/2,Wd/2,o.big)});
  // the page swinging up from the floor line
  if(kf<1){const q=Math.max(0,kf),u=Math.min(1,q/.8),f=q<=0?0:u*u*(3-2*u)+.05*Math.sin(Math.PI*Math.max(0,(q-.6)/.4)),a=Math.min(Math.PI/2*1.04,f*Math.PI/2);g.clearRect(0,0,W,fy);g.drawImage(cv,0,0,W,fy,0,0,W,fy);
-  const bg=cx.createLinearGradient(0,0,0,fy);bg.addColorStop(0,'#120a20');bg.addColorStop(1,'#2a1a3c');cx.fillStyle=bg;cx.fillRect(0,0,W,fy);
+  const bg=cx.createLinearGradient(0,0,0,fy);if(POP.cream){bg.addColorStop(0,'#f6eedb');bg.addColorStop(1,'#e8dcc0')}else{bg.addColorStop(0,'#120a20');bg.addColorStop(1,'#2a1a3c')}cx.fillStyle=bg;cx.fillRect(0,0,W,fy);
   const h=Math.max(0,Math.round(fy*Math.sin(Math.min(a,Math.PI/2))));
-  if(h>0){cx.drawImage(PTC,0,0,W,fy,0,fy-h,W,h);const sh=Math.cos(Math.min(a,Math.PI/2));cx.globalAlpha=sh*.6;cx.fillStyle='#120a20';cx.fillRect(0,fy-h,W,h);cx.globalAlpha=Math.min(1,.35+sh*.6);cx.fillStyle='#fff4dc';cx.fillRect(0,fy-h,W,1);cx.globalAlpha=1}
+  if(POP.cream){cx.globalAlpha=.5;cx.fillStyle='#c8b898';for(let y=10;y<fy-6;y+=8)cx.fillRect(16,y,W-32,1);cx.globalAlpha=1}
+  if(h>0){cx.drawImage(PTC,0,0,W,fy,0,fy-h,W,h);const sh=Math.cos(Math.min(a,Math.PI/2));cx.globalAlpha=sh*.6;cx.fillStyle=POP.cream?'#8a7a5a':'#120a20';cx.fillRect(0,fy-h,W,h);cx.globalAlpha=Math.min(1,.35+sh*.6);cx.fillStyle='#fff4dc';cx.fillRect(0,fy-h,W,1);cx.globalAlpha=1}
   const cg=cx.createLinearGradient(0,fy,0,fy+14);cg.addColorStop(0,'rgba(20,10,32,'+(.4*(1-q))+')');cg.addColorStop(1,'rgba(20,10,32,0)');cx.fillStyle=cg;cx.fillRect(0,fy,W,14)}
  if(kf>=.62&&!POP.pl){POP.pl=1;POP.fx=POP.fx||[];for(let i=0;i<16;i++)POP.fx.push({x:(i+.5)*W/32+Math.random()*3,y:fy/2,vx:(Math.random()-.5)*10,vy:-(3+Math.random()*7),t:T,l:.4+Math.random()*.2});try{SFX.paper&&AU.ctx&&AU.on&&SFX.paper(392,1.3)}catch(e){}}
  // paper dust
