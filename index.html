@@ -18,6 +18,7 @@ html,body{height:100%;touch-action:manipulation;-webkit-touch-callout:none;backg
 body{display:flex;align-items:center;justify-content:center;position:fixed;inset:0;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
 #g{position:relative;overflow:hidden;touch-action:none;z-index:1}
 #amb{position:fixed;inset:0;width:100%;height:100%;image-rendering:auto;opacity:.82;z-index:0;pointer-events:none}
+body.booking #dlg,body.booking #hud,body.booking #chat,body.booking #cap,body.booking #qbBtn{visibility:hidden}
 #a2hs{position:absolute;left:calc(var(--u)*16);right:calc(var(--u)*16);top:calc(var(--u)*5);margin:0!important;font-size:calc(var(--u)*2.5);line-height:1.9;color:#cdb8e8;opacity:.85;display:none}
 canvas{touch-action:none;display:block;width:100%;height:100%;image-rendering:pixelated}
 #title{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;padding-top:calc(var(--u)*40);text-align:center;color:#fff6e0;pointer-events:none;transition:opacity 1.4s}
@@ -205,7 +206,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.1</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.2</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1124,23 +1125,47 @@ let BOOK=null;const BKC=['#c2417a','#3a6ab0','#d8783a','#c8603a','#5a4a9a','#b88
 function chBook(num,title,sub,next){const pl=loc;$('title').classList.add('out');try{$('card').style.opacity=0}catch(e){}setLoc('book');fade=1;fd=-1;
  BOOK={t0:T,num,title,sub,next,pl,col:BKC[(num==='E'?8:(+num-1))%BKC.length],done:0};sfx('whoosh')}
 function bookTap(){if(!BOOK||BOOK.done)return false;BOOK.fast=1;return true}// a tap plays the rest at triple speed (no jumps)
-const BKT={rise:.6,hold:1.15,open:2.0,read:3.35,turn:4.0,zoom:4.65};
-let BKF=-9;// when the book handed over to the scene (a cream veil lifts off it)
-function bookUpd(){const B=BOOK;if(!B||B.done)return;if(B.lt!=null&&B.fast)B.t0-=Math.min(.1,T-B.lt)*2;B.lt=T;const k=T-B.t0;
+/* rise, rest on the cover, open, read the title page, turn it (the chapter starts underneath, drawn as a pencil sketch
+   on the next page), look at the sketch, fall into it, and the colour blooms in from the middle */
+const BKT={rise:.6,hold:1.1,open:1.9,read:3.1,turn:3.75,look:4.25,zoom:5.05,bloom:5.95};
+let BKF=-9;
+function bookUpd(){const B=BOOK;if(!B)return;if(B.lt!=null&&B.fast)B.t0-=Math.min(.1,T-B.lt)*2;B.lt=T;const k=T-B.t0;
  if(!B.s1&&k>=BKT.hold){B.s1=1;sfx('paper',196)}if(!B.s2&&k>=BKT.read){B.s2=1;sfx('paper',262)}
- if(k>=BKT.zoom){B.done=1;BOOK=null;CHPOP=T+8;BKF=T;if(B.pl&&B.num==='1')setLoc(B.pl);B.next();if(fd===-1)fade=0}}
+ if(!B.live&&k>=BKT.read){B.live=1;document.body.classList.add('booking');if(B.pl&&B.num==='1')setLoc(B.pl);B.next();fade=0;fd=0}
+ if(!B.s3&&k>=BKT.zoom){B.s3=1;sfx('chime')}
+ if(k>=BKT.bloom){BOOK=null;document.body.classList.remove('booking')}}
+/* a pencil drawing of whatever is on screen: soft graphite shading on cream paper, outlines where colours change,
+   cross-hatching in the shadows */
 function bkWrap(s,n){const w=s.split(' '),L=[];let c='';w.forEach(x=>{if((c+' '+x).trim().length>n){L.push(c.trim());c=x}else c+=' '+x});if(c.trim())L.push(c.trim());return L}
-/* draw something designed for a full-width page squeezed toward a hinge: x0 = where the page is anchored, w = its
-   current width, dir = +1 (opens to the right of the hinge) or -1 (to the left) */
 function bkSqueeze(hx,top,PW,PH,w,dir,fn){if(w<1)return;const x0=dir>0?hx:hx-w;cx.save();cx.beginPath();cx.rect(x0,top,w,PH);cx.clip();cx.translate(x0,0);cx.scale(w/PW,1);cx.translate(-x0,0);fn(x0);cx.restore();cx._c=null}
-function vBook(t){const B=BOOK;r(0,0,W,H,'#0c0816');if(!B){bookUpd();return}const k=T-B.t0;
+const BKSK=document.createElement('canvas');let SKI=null;
+function bkSketch(){if(BKSK.width!==W||BKSK.height!==H){BKSK.width=W;BKSK.height=H;SKI=null}const g=BKSK.getContext('2d');let D;try{D=cv.getContext('2d').getImageData(0,0,W,H)}catch(e){return}
+ const d=D.data,n=W*H,L=new Float32Array(n);let sum=0;for(let i=0;i<n;i++){const o=i*4;L[i]=d[o]*.3+d[o+1]*.59+d[o+2]*.11;sum+=L[i]}
+ // night scenes are brightened first (like a sketch artist would), so they don't turn into a wall of hatching
+ const gain=Math.max(1,Math.min(3,130/Math.max(1,sum/n)));if(gain>1)for(let i=0;i<n;i++)L[i]=Math.min(255,L[i]*gain);
+ for(let y=0;y<H;y++)for(let x=0;x<W;x++){const i=y*W+x,o=i*4,l=L[i],e=(x<W-1?Math.abs(l-L[i+1]):0)+(y<H-1?Math.abs(l-L[i+W]):0),tn=l/255;
+  let s=Math.min(1,Math.max(0,(e-12)/40));if(tn<.42&&((x+y)&3)===0)s+=.28;if(tn<.22&&((x-y)&3)===0)s+=.28;s=Math.min(.88,s);
+  const gr=((x*73856093^y*19349663)>>>0)%9-4,pr=(246+gr)*(.8+.2*tn),pg=(238+gr)*(.8+.2*tn),pb=(219+gr)*(.8+.2*tn);
+  d[o]=pr+(66-pr)*s;d[o+1]=pg+(58-pg)*s;d[o+2]=pb+(54-pb)*s;d[o+3]=255}
+ g.putImageData(D,0,0)}
+function bookOverlay(){const B=BOOK;if(!B||!B.live)return;const k=T-B.t0;bkSketch();
+ cx.save();cx.setTransform(1,0,0,1,0,0);cx.imageSmoothingEnabled=false;
+ if(k<BKT.zoom)vBook(T,1);
+ else{// the colour blooms in from the middle of the page
+  const u=Math.min(1,(k-BKT.zoom)/(BKT.bloom-BKT.zoom)),e=u*u*(3-2*u),O=PTC||(PTC=document.createElement('canvas'));if(O.width!==W||O.height!==H){O.width=W;O.height=H}
+  const g=O.getContext('2d');g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);g.drawImage(BKSK,0,0);g.globalCompositeOperation='destination-out';
+  const R=e*360,gr=g.createRadialGradient(80,150,Math.max(0,R-90),80,150,R+1);gr.addColorStop(0,'rgba(0,0,0,1)');gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(0,0,W,H);g.globalCompositeOperation='source-over';
+  cx.drawImage(O,0,0)}
+ cx.restore();cx._c=null}
+function vBook(t,ov){const B=BOOK;r(0,0,W,H,'#0c0816');if(!B)return;if(!ov&&B.live)return;const k=T-B.t0;
  // lamplight on a dark table, motes drifting through it
  cx.globalCompositeOperation='lighter';const g=cx.createRadialGradient(80,150,10,80,150,150);g.addColorStop(0,'rgba(120,70,40,.35)');g.addColorStop(1,'rgba(0,0,0,0)');cx.fillStyle=g;cx.fillRect(0,0,W,H);
  for(let i=0;i<14;i++){const q=(t*.04+i/14)%1,x=Math.round(20+((i*53)%120)+Math.sin(t*.5+i)*6),y=Math.round(250-q*220);cx.globalAlpha=.35*Math.sin(q*Math.PI);r(x,y,1,1,'#ffe8b0')}cx.globalAlpha=1;cx.globalCompositeOperation='source-over';cx._c=null;
  const cl=u=>Math.max(0,Math.min(1,u)),io=u=>{u=cl(u);return u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2},out=u=>{u=cl(u);return 1-Math.pow(1-u,3)};
- const PW=72,PH=100,rise=out(k/BKT.rise),op=io((k-BKT.hold)/(BKT.open-BKT.hold)),tn=io((k-BKT.read)/(BKT.turn-BKT.read)),zm=io((k-BKT.turn)/(BKT.zoom-BKT.turn));
+ const PW=72,PH=100,rise=out(k/BKT.rise),op=io((k-BKT.hold)/(BKT.open-BKT.hold)),tn=io((k-BKT.read)/(BKT.turn-BKT.read)),zm=io((k-BKT.look)/(BKT.zoom-BKT.look));
  const bx=Math.round(44+36*io((k-BKT.hold)/(BKT.open-BKT.hold))),top=Math.round(98+(1-rise)*14),PAPER='#f6eedb',BACK='#efe4cc',COL=B.col,DK=sh(COL,.6);
- cx.save();if(zm>0){const s=1+zm*(Math.max(W/PW,H/PH)*1.12-1),px=bx+PW/2,py=top+PH/2,cxp=80+(px-80)*(1-zm*.0),fx=px;cx.translate(80,144);cx.scale(s,s);cx.translate(-fx,-py)}
+ const IX=bx+11,IY=top+5,IW=50,IH=90;// the sketch sits on the page with the screen's own proportions
+ cx.save();if(zm>0){const s=1+zm*(W/IW-1),px=80+(IX+IW/2-80)*zm,py=144+(IY+IH/2-144)*zm;cx.translate(80,144);cx.scale(s,s);cx.translate(-px,-py)}
  // soft shadow under the book: grows from under the closed book to under the open spread
  {const c=bx+PW/2*(1-op),hw=PW/2+6+PW/2*op;ell(Math.round(c),top+PH+5,Math.round(hw),4,'#000',.38*rise)}
  // the page block on the right (it's always there), its thickness and the ribbon
@@ -1158,7 +1183,7 @@ function vBook(t){const B=BOOK;r(0,0,W,H,'#0c0816');if(!B){bookUpd();return}cons
   txt('OUR',m-5,top+16,'#f8e0a0',1);txt('STORY',m-9,top+24,'#f8e0a0',1);heart(m-3,top+38,'#f8e0a0',1);const ch=B.num==='E'?'EPILOGUE':'CHAPTER '+B.num;txt(ch,m-Math.round(ch.length*2)+1,top+56,'#fff4dc',1);
   bkWrap(B.title,14).forEach((l,i)=>txt(l.toUpperCase(),m-Math.round(l.length*2)+1,top+68+i*8,'#f8e0a0',1))};
  // right-hand page: the title page until it turns, then the blank page the scene will rise out of
- page(bx,tn<=0?titleP:null);gutterR(bx);
+ page(bx,tn<=0?titleP:null);if(B.live&&tn>0){r(IX-1,IY-1,IW+2,IH+2,'#b8a890');cx.imageSmoothingEnabled=zm<.98;cx.drawImage(BKSK,IX,IY,IW,IH);cx.imageSmoothingEnabled=false;cx.globalAlpha=.5;r(IX-2,IY-2,4,1,'#8a7a6a');r(IX+IW-2,IY+IH+1,4,1,'#8a7a6a');cx.globalAlpha=1}gutterR(bx);
  // left-hand side: the inside of the cover (and, once turned, the back of the title page lying on it)
  if(op>=1){insideC(bx-PW);if(tn>=1){page(bx-PW,null)}gutterL(bx)}
  // the title page turning over to the left
@@ -1171,9 +1196,7 @@ function vBook(t){const B=BOOK;r(0,0,W,H,'#0c0816');if(!B){bookUpd();return}cons
   else{bkSqueeze(bx,top-lift,PW,PH,w,-1,insideC);cx.globalAlpha=(1-op)*1.1;r(bx-w,top-lift,w,PH,'#000');cx.globalAlpha=1}}
  r(bx-1,top-1,2,PH+2,DK);// the spine
  cx.restore();
- // falling into the page: it brightens to the paper the scene will unfold from
- if(zm>.5){cx.globalAlpha=cl((zm-.5)/.45);r(0,0,W,H,PAPER);cx.globalAlpha=1}
- bookUpd()}
+}
 function startPan(){mode='pan';tp=0;hunter.x=176;hunter.y=550;FX=30;FY=532;ZM=2;$('title').classList.add('out')}
 
 /* ================= CHAPTER 2 ================= */
@@ -1223,7 +1246,7 @@ function chRecap(n,HN){const BS=MGBEST.get(),G=MGAMES.map((g,i)=>[g,i]).filter((
  let h='<div class="chr">';if(G.length){h+='<p class="chl">MINIGAMES &middot; tap one to replay</p>';G.forEach(([g,i])=>{const v=(BS[g[1]]&&BS[g[1]].s)||0;h+='<button class="mgr" data-m="'+i+'"><span>'+g[1]+'</span><span class="mst">'+[0,1,2].map(k=>miniStar(k<v)).join('')+'</span></button>'})}
  if(PO.length)h+='<p class="chl chp2">PHOTOS &middot; '+got+' / '+PO.length+(got>=PO.length?' &#9829;':'')+'</p>';
  h+=(HN||chHints(n)).map(t=>'<p class="chh">'+t+'</p>').join('')+'</div>';return h}
-function setLoc(l){if(l!==loc&&typeof POPF!=='undefined'&&POPF[l]!=null&&CHPOP&&T<CHPOP){CHPOP=0;POP={l,t0:T+.06,cream:1}}if(l!==loc)try{[abi,hunter,morgan,jay].forEach(p=>{if(p){p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null}})}catch(e){}loc=l;parts=[];setHud('');CAMX=0}
+function setLoc(l){if(false&&l!==loc&&typeof POPF!=='undefined'&&POPF[l]!=null&&CHPOP&&T<CHPOP){CHPOP=0;POP={l,t0:T+.06,cream:1}}if(l!==loc)try{[abi,hunter,morgan,jay].forEach(p=>{if(p){p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null}})}catch(e){}loc=l;parts=[];setHud('');CAMX=0}
 
 /* ---- montage scenes ---- */
 function stars2(w,h,n){for(let i=0;i<n;i++){const s=stars[i];cx.globalAlpha=.4+.6*Math.sin(T*2+s.p);r(s.x%w,s.y%h,1,1,'#fff')}cx.globalAlpha=1}
@@ -2958,7 +2981,7 @@ function startCh4(){$('end').style.display='none';$('chap').style.display='none'
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;rd=null;pk=null;dtS=null;chatClear();
  [abi,hunter].forEach(p=>{p.hold=null;p.zz=0;p.dance=0;p.bleed=0;p.green=0;p.moving=false});
  c4={ph:[],pol:null,flash:0,album:null,capReq:null};hunter.cap=0;hunter.capDot=0;abi.chat=0;hx=null;if(hunter.beav)beavShirt(0);
- fade=1;fd=0;mode='ch4';chBook('4','Everything\u2019s Bigger','Playing as Hunter',()=>{setLoc('newsbg');fade=0;fd=0;card('With a little extra unemployment money in their pockets...<br><br><span style="color:#ffd86b">...they turned the trip into a Texas vacation!</span>');after(3.6,()=>{$('card').style.opacity=0;saStart()})})}
+ fade=1;fd=0;mode='ch4';setLoc('newsbg');card('With a little extra unemployment money in their pockets...<br><br><span style="color:#ffd86b">...they turned the trip into a Texas vacation!</span>');after(3.6,()=>{$('card').style.opacity=0;after(.8,()=>chBook('4','Everything\u2019s Bigger','Playing as Hunter',()=>saStart()))})}
 /* ---- light show on the cathedral ---- */
 const SHOWC=['Sunrise over the Texas plains...','Fields of bluebonnets...','Longhorns on the range...','The stars at night, big and bright...','Fireworks over the city!','...and one last scene, just for them.'];
 function facade(fill){r(12,30,56,94,fill);r(16,14,14,16,fill);r(50,14,14,16,fill);tri(23,4,14,.7,fill);tri(57,4,14,.7,fill);for(let y=24;y<30;y++){const w=(y-24)*3;r(40-w,y,w*2+1,1,fill)}}
@@ -5917,7 +5940,7 @@ const at=(p,x,y,dir)=>{p.x=x;p.y=y;if(dir)p.dir=dir;p.tx=null;p.moving=false};
 /* ---- story ---- */
 function startCh6(){$('end').style.display='none';$('chap').style.display='none';$('title').classList.add('out');
  wob=wobT=0;zk=zkT=0;sn=null;cs=null;dance=null;kart=null;sick=0;showHM=0;photo=0;showRes=0;rd=null;pk=null;dtS=null;hill=null;clb=null;sc3=null;chatClear();[abi,hunter,morgan,jay].forEach(p=>{p.sit=0;p.sitF=0;p.kneel=0;p.shin=0;p.reach=null});c5={};c6={};c6Dress();
- fade=1;fd=0;mode='ch6';chBook('6','The Question','Playing as Hunter & Abigail',()=>{c6Card('Months went by in their little apartment.<br><br>Mac n cheese and chicken nugget dinners. Long days at the club. Late nights studying.<br><br><span style="color:#ffd86b">And a lot of late night talks.</span>',3.6,c6Talk)})}
+ fade=1;fd=0;mode='ch6';c6Card('Months went by in their little apartment.<br><br>Mac n cheese and chicken nugget dinners. Long days at the club. Late nights studying.<br><br><span style="color:#ffd86b">And a lot of late night talks.</span>',3.6,()=>chBook('6','The Question','Playing as Hunter & Abigail',c6Talk))}
 /* the living-room couch (same one at home), usable in other scenes */
 function couchBack(){r(2,66,32,18,'#6a3a22');r(2,66,32,1,'#9a5a36');for(let x=6;x<34;x+=6)r(x,67,1,17,'#4e2a18');for(let y=70;y<84;y+=5)r(2,y,32,1,'#4e2a18');for(let x=6;x<34;x+=6)for(let y=70;y<84;y+=5)r(x,y,1,1,'#2e1a10');r(3,67,4,3,'#8a5232'); r(0,72,4,24,'#5a2e1a');r(32,72,4,24,'#5a2e1a');r(0,72,4,1,'#9a5a36');r(32,72,4,1,'#9a5a36');r(1,73,1,10,'#7a4428');r(33,73,1,10,'#7a4428'); r(5,78,7,6,'#e07a9a');r(6,79,5,1,'#f8b0c8');r(5,83,7,1,'#c05a7a');r(24,78,7,6,'#f0f0f0');for(let y=79;y<84;y+=2)r(24,y,7,1,'#3a7ab0');r(24,83,7,1,'#c8c8d0'); r(4,84,28,4,'#7a4428');r(4,84,28,1,'#9a5a36');}
 function couchFront(){r(2,92,32,4,'#5a2e1a');r(2,92,32,1,'#8a5232');r(2,96,2,3,'#5a3a1a');r(30,96,2,3,'#5a3a1a');r(3,85,4,8,'#c86a3a');for(let y=86;y<93;y+=2)r(3,y,4,1,'#e8a060');}
@@ -9715,8 +9738,8 @@ let INPUT=0;function press(CX,CY){INPUT=1;try{press2(CX,CY)}finally{INPUT=0}}
 function press2(CX,CY){
  const b=(CR=dv.getBoundingClientRect()),sx=(CX-b.left)/sc,sy=(CY-b.top)/sc,x=(sx-W/2)/vz+vcx,y=(sy-H/2)/vz+vcy;
  if(mode==='title'){const ti=$('title');if(ti&&!ti.classList.contains('wait')&&!$('btns').classList.contains('ready')&&GIFT.done){ti.classList.add('ff');setTimeout(()=>$('btns').classList.add('ready'),120)}return}
- if(dlg){adv();return}
  if(BOOK&&bookTap())return;
+ if(dlg){adv();return}
  if(tiltSkip())return;
  if(arcTap2(x,y))return;
  if(mode==='paint'){if(ep.pt)ep.pt.down=1;epPaintAt(sx,sy,true);return}
@@ -9775,7 +9798,7 @@ dv.addEventListener('touchmove',e=>{if(mode==='skee'&&SK&&SK.hold){const q=e.tou
 dv.addEventListener('pointermove',e=>{if(mode!=='kart'||!kHeld)return;const b=CR||(CR=dv.getBoundingClientRect());kSteerAt((e.clientX-b.left)/sc)});
 $('news').addEventListener('click',()=>{if(mode==='news')nextNews()});
 /* ---------- loop ---------- */
-function update(dt){try{tcUpd(dt)}catch(e){}
+function update(dt){try{tcUpd(dt)}catch(e){}try{bookUpd()}catch(e){}
  if(loc==='hall'&&sn)snGlide(dt);
  if(MGM&&!MGM.done&&MGM.modes.includes(mode))MGM.played=1;try{if(!MGM||!MGM.done)mgTrack()}catch(e){}
  if(fd==1){fade=Math.min(1,fade+dt*2);if(fade>=1&&fcb){const f=fcb;fcb=null;fd=fhold>0?2:-1;f()}}
@@ -9897,7 +9920,7 @@ function render(){
   loc==='street'?street(T):loc==='hall'?hall(T):doorS(T);
  }
  parts.forEach(p=>{cx.globalAlpha=Math.min(1,p.l);if(p.h)heart(p.x,p.y,p.c,p.z||1);else r(p.x,p.y,2,2,p.c)});cx.globalAlpha=1;
- cx.restore();try{popDraw()}catch(e){}if(T-BKF<.45){cx.globalAlpha=Math.max(0,1-(T-BKF)/.45);cx.fillStyle='#f6eedb';cx.fillRect(0,0,W,H);cx.globalAlpha=1;cx._c=null}c4Cap();logoTick();giftDraw();try{tcDraw()}catch(e){}
+ cx.restore();try{popDraw()}catch(e){}try{bookOverlay()}catch(e){}c4Cap();logoTick();giftDraw();try{tcDraw()}catch(e){}
  if(wob>.05){wv.clearRect(0,0,W,H);wv.drawImage(cv,0,0);for(let y=0;y<H;y+=4)cx.drawImage(wc,0,y,W,4,Math.round(Math.sin(y/16+T*2.4)*wob),y,W,4);cx.globalAlpha=Math.min(.12,.05*wob);r(0,0,W,H,'#ff7eb6');cx.globalAlpha=1}
  ux.setTransform(1,0,0,1,0,0);ux.clearRect(0,0,W,H);ux._c=null;cx=ux;
  try{drawDanceUI();drawCh2UI();drawCh3UI();drawCh5UI();drawCh6UI();drawCh7UI();drawCh8UI();drawCh4UI();drawEpAlbumUI();drawEpBdayUI();balcUI();drawPhoneUI();
