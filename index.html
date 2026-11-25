@@ -206,7 +206,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.8</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.9</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1017,6 +1017,9 @@ const LTP={
  // outdoors: sun and street lamps
  austin:{mul:'#fff3e4',sa:.08,sh:'#2a1a20',k:1.55,L:[[150,-6,95,'#fff0c0',.26],[20,-6,60,'#fff0c0',.12]]},
  bonnell:{mul:'#ffe6d6',sh:'#3a1a10',k:1.55,L:[[62,40,80,'#ffb070',.32],[62,40,26,'#ffe0a0',.3]]},
+ lake:{mul:'#ffe8d8',sh:'#2a1a30',sa:.12,k:1.4,L:[[62,56,78,'#ffa868',.24],[62,56,22,'#ffe0a0',.22]]},
+ court:{mul:'#fff8ee',sa:.05,L:[[8,-8,100,'#fff2c8',.16]]},epcoach:{mul:'#fff8ee',sa:.05,L:[[76,-8,100,'#fff2c8',.16]]},
+ pooplot:{mul:'#fff4e8',sa:.06,L:[[78,-6,80,'#fff2c8',.14]]},kcdrive:{mul:'#fff8ee',sa:.04,L:[[70,-8,70,'#fff2c8',.12]]},
  pea:{mul:'#fffaf0',sa:.07,L:[[72,-4,80,'#fff2c8',.2]]},
  river:{mul:'#fff4e6',sa:.07,L:[[150,-6,80,'#fff0c0',.2]],G:[[8,112],[22,116],[36,110],[50,118],[64,113],[78,117],[92,111],[106,116],[120,112],[134,118],[148,113]]},
  txhouse:{mul:'#fff7ea',sa:.06,k:1,L:[[68,22,44,'#fff4c0',.2],[68,22,14,'#fffbe0',.16]]},
@@ -1468,14 +1471,14 @@ function vLake(t){
   // water: the sky reflected near the shore, deeper blue toward us
   vgGrad(0,64,80,80,['#d8b090','#b0aca8','#8aa6c0','#6a92b4','#4a7ea8','#3a6c98','#2e5e88','#284f7c']);
   for(let x=0;x<80;x++){const h=3+Math.round(Math.abs(Math.sin(x*.7))*2+Math.sin(x*.13)*1.5);for(let y=0;y<h;y++)if(y<2||(h-y)/h>vgB(x,64+y))r(x,64+y,1,1,y<1?'#1e3e30':'#3a5a50')}
-  for(let y=66;y<110;y++)for(let x=48;x<77;x++){const k=1-Math.abs(x-62)/(14-(y-66)*.1);if(k>0&&k*k*.75>vgB(x,y*2))r(x,y,1,1,'#f0c890')}
+  for(let y=66;y<96;y++)for(let x=52;x<73;x++){const k=1-Math.abs(x-62)/(10-(y-66)*.12);if(k>0&&k*k*.45*(1-(y-66)/30)>vgB(x,y*2))r(x,y,1,1,'#e8c4a0')}
   // cattails and reeds close to us, framing the bottom corners
   [[2,118,0],[6,122,1],[9,116,0],[71,124,1],[75,119,0],[78,126,1]].forEach(([a,b,v])=>{r(a,b,1,144-b,'#3a5a2a');r(a+1,b+4,1,144-b-4,'#4a6a30');if(!v){r(a-1,b-6,2,6,'#6a3a1e');r(a-1,b-6,1,6,'#8a5028');r(a,b-8,1,2,'#3a5a2a')}});
   for(let x=0;x<14;x++)r(x,132+Math.round(Math.sin(x)*2),1,12,'#2e4a26');for(let x=66;x<80;x++)r(x,134+Math.round(Math.sin(x*1.3)*2),1,10,'#2e4a26');
   ell(20,128,4,1,'#3a6a3a',1);ell(20,128,3,1,'#4a7a44',1);r(20,128,1,1,'#2a5a3a');ell(58,136,5,1,'#3a6a3a',1);ell(58,136,4,1,'#4a7a44',1);r(60,135,1,1,'#ffb0c8');r(59,135,1,1,'#fff');
  }),0,0);
  // the sun's path on the water, and lines of light drifting toward us
- for(let i=0;i<14;i++){const y=66+i*3+(i%2),w=Math.max(2,9-i*.4+Math.sin(t*2+i)*2);cx.globalAlpha=.55+.4*Math.sin(t*3+i*1.7);r(Math.round(62-w/2+Math.sin(t*1.3+i)*1.5),y,Math.round(w),1,i<4?'#fff8d8':'#ffe0a0')}cx.globalAlpha=1;
+ for(let i=0;i<9;i++){const y=66+i*3+(i%2),w=Math.max(1,6-i*.5+Math.sin(t*2+i)*1.5);cx.globalAlpha=Math.max(0,(.32+.2*Math.sin(t*3+i*1.7))*(1-i/10));r(Math.round(62-w/2+Math.sin(t*1.3+i)*1.5),y,Math.round(w),1,'#fff0c8')}cx.globalAlpha=1;
  for(let i=0;i<16;i++){const s=stars[i],y=72+(s.y%62),x=(s.x+t*2*(i%3+1))%96-8;cx.globalAlpha=.35+.25*(y-72)/62;r(Math.round(x),y,3+(i%3),1,'#cfe6f8');cx.globalAlpha=1}
  for(let i=0;i<2;i++){const bx=Math.round(((t*3+i*40)%110)-15),by=26+i*6+Math.round(Math.sin(t+i)*2),f=Math.floor(t*4+i)%2;r(bx,by+f,1,1,'#4a4a5a');r(bx+1,by+1-f,1,1,'#4a4a5a');r(bx+2,by,1,1,'#4a4a5a');r(bx+3,by+1-f,1,1,'#4a4a5a');r(bx+4,by+f,1,1,'#4a4a5a')}
  dad.y=101;hunter.y=101;dad.hold=photo&&!camAway?'camera':null;hunter.hold=photo?'fishUp':'rod';hunter.reel=fs&&fs.ph=='reel'&&hold;person(dad,t);person(hunter,t);
@@ -1491,7 +1494,7 @@ function vLake(t){
    if(fs.bob){const b=fs.bob,dip=fs.ph=='bite'?2:Math.round(Math.sin(t*3));
     for(let i=0;i<=20;i++){const k=i/20;r(tx+(b.x-tx)*k,ty+(b.y-ty)*k+Math.sin(k*Math.PI)*(fs.ph=='fly'?-6:4),1,1,'#ddd')}
     r(b.x-1,b.y-2+dip,3,2,'#e0463c');r(b.x-1,b.y+dip,3,1,'#fff');if(fs.ph!='fly')ell(b.x,b.y+2,3,0.5,'#cfe8ff',.6);
-    if(fs.ph=='bite'){r(b.x,b.y-10,1,4,'#ffe066');r(b.x,b.y-5,1,1,'#ffe066')}}}
+    if(fs.ph=='bite'){r(b.x-1,b.y-11,3,6,'#3a2010');r(b.x-1,b.y-6,3,3,'#3a2010');r(b.x,b.y-10,1,4,'#ffe066');r(b.x,b.y-5,1,1,'#ffe066')}}}
  }}
 
 /* ---- drive ---- */
@@ -3533,7 +3536,6 @@ function vPump(t){const P=pmp;if(!P)return;
  /* pump rows, far to near */
  P.rows.slice().sort((a,b)=>b.z-a.z).forEach(w=>pmpRowDraw(w,t));
  cx.restore();
- grainPass(160,288);sunPass(80,0,80,288,'0,0,0',0,.25,160,288);
  r(46,0,1,24,'#8a8a96');r(113,0,1,24,'#8a8a96');r(40,24,80,18,'#1a4a2a');r(41,25,78,16,'#2a7a4a');txt('BEAVERS',53,28,'#ffe6a0',1);txt('PUMPS 1-120',59,35,'#bfe6c0',1);
  if(P.boost>0){cx.globalAlpha=P.boost*1.4;for(let i=0;i<10;i++){const a=i*.63+t*3,rr=40+((t*200+i*37)%60);r(Math.round(80+Math.cos(a)*rr),Math.round(150+Math.sin(a)*rr*.6),2,2,'#ffffff')}cx.globalAlpha=1}
  /* our dashboard and wheel */
@@ -5052,7 +5054,7 @@ function vCourt(t){const C=c5.ct||{style:0};const cc=C.style===1;
   r(1,94,7,5,'#f4f4f8');r(2,92,2,2,'#f0c8d0');r(5,92,2,2,'#c8e8f8');r(1,99,1,3,'#c8c8d0');r(7,99,1,3,'#c8c8d0')}
  const L='#f4f0e8';r(10,14,60,1,L);r(10,129,60,1,L);r(10,14,1,116,L);r(69,14,1,116,L);r(16,14,1,116,L);r(63,14,1,116,L);
  r(16,44,48,1,L);r(16,100,48,1,L);r(40,44,1,56,L);r(39,14,2,2,L);r(39,127,2,2,L);
- grainPass(80,144);cx.globalAlpha=.16;r(9,15,62,6,'#0a2010');r(9,21,62,3,'#0a2010');cx.globalAlpha=1;sunPass(0,0,60,110,'255,232,170',.26,.26);
+ cx.globalAlpha=.16;r(9,15,62,6,'#0a2010');r(9,21,62,3,'#0a2010');cx.globalAlpha=1;
  /* net */cx.globalAlpha=.25;r(6,73,68,3,'#000');cx.globalAlpha=1;r(6,68,68,5,'#1e1e24');for(let x=6;x<74;x+=2)for(let y=69;y<73;y+=2)r(x,y,1,1,'#3a3a46');r(6,67,68,2,'#f4f4f8');r(39,67,2,6,'#f4f4f8');
  r(4,64,3,10,cc?'#2a5a3a':'#888');r(73,64,3,10,cc?'#2a5a3a':'#888');r(4,64,3,1,cc?'#d8b860':'#aaa');r(73,64,3,1,cc?'#d8b860':'#aaa');
  if(cc){/* umpire chair, bench, cooler, ball hopper */
@@ -7676,10 +7678,6 @@ function hwy(o,K,t,sign){const P=HWP[K];
  r(0,99,80,1,'#e8e8e8');r(0,130,80,1,'#e8e8e8');for(let x=-(Math.round(o*2)%16);x<80;x+=16){r(x,114,8,1,'#f0d060');r(x,115,8,1,'#c8a840')}
  if(P.snow){for(let x=0;x<80;x++)if(rH(x,0,34)<.3)r(x,100,1,1,'#d8dce2')}
  r(0,131,80,13,P.vg);for(let x=-(Math.round(o*2)%6);x<80;x+=6){r(x,134,1,3,P.vt);r(x+2,136,1,2,P.vt);r(x+4,133,1,2,sh(P.vg,1.15))}if(P.snow)for(let x=-(Math.round(o*2)%7);x<80;x+=7)r(x,132,3,1,'#e8ecf0')}
-/* finishing passes for flat scenes: fine grain so big fills read as a surface, a wash of sunlight, a soft vignette */
-function grainPass(w,h,a){cx.drawImage(bgC('grain'+w+'x'+h,w,h,()=>{for(let y=0;y<h;y++)for(let x=0;x<w;x++){const n=rH(x,y,41);if(n<.1){cx.fillStyle='rgba(255,255,255,.09)';cx.fillRect(x,y,1,1)}else if(n>.9){cx.fillStyle='rgba(0,0,0,.09)';cx.fillRect(x,y,1,1)}}cx._c=null}),0,0)}
-function sunPass(x0,y0,x1,y1,c,a,vig,w,h){w=w||80;h=h||144;const g=cx.createLinearGradient(x0,y0,x1,y1);g.addColorStop(0,'rgba('+c+','+a+')');g.addColorStop(1,'rgba('+c+',0)');cx.fillStyle=g;cx.fillRect(0,0,w,h);
- if(vig){const v=cx.createRadialGradient(w/2,h/2,h*.28,w/2,h/2,h*.66);v.addColorStop(0,'rgba(10,10,30,0)');v.addColorStop(1,'rgba(10,10,30,'+vig+')');cx.fillStyle=v;cx.fillRect(0,0,w,h)}cx._c=null}
 function vKcDrive(t){const o=c6.off||0;
  hwy(o,'kc',t,()=>{const sx=Math.round(((150-o*.9)%240+240)%240-60);if(sx>-40&&sx<84){r(sx+5,62,2,34,'#7a7a82');r(sx+28,62,2,34,'#7a7a82');r(sx+5,62,1,34,'#9a9aa2');r(sx,44,35,19,'#f4f4f8');r(sx+1,45,33,17,'#1e7a44');r(sx+1,45,33,1,'#2a9a58');txt('KANSAS',sx+6,47,'#fff',1);txt('CITY 12',sx+4,55,'#fff',1)}});
  suv(9,126,t)}
@@ -8207,7 +8205,6 @@ function vPoop(t){const P=c7.pp||{scroll:0,ob:[],x:40,dx:40,t:0,dur:30},o=P.scro
  (P.gp||[]).forEach(g=>{const y=Math.round(g.y);r(0,y-1,80,1,'#b8b8b0');r(0,y,80,g.h,'#5a9a44');for(let k=0;k<26;k++)r((k*29+(g.s||0))%80,y+(k*11)%g.h,1,2,k%2?'#4a8a3a':'#6aaa4a');r(0,y+g.h,80,1,'#b8b8b0');r(30,y+3,3,2,'#7a9a3a');r(52,y+g.h-6,4,2,'#7a9a3a')});
  if(P.t>P.dur-4){const k=(P.t-(P.dur-4))/4,h=Math.round(k*60);r(0,0,80,h,'#5aa04a');for(let x=0;x<80;x+=3)r(x,h-1,1,2,'#4a8a3a')}
  P.ob.forEach(q=>{const x=LN7[q.ln],y=Math.round(q.y);if(q.h){ell(x,y,4,1,'#6a3a1a');return}r(x-2,y,5,2,'#6a3a1a');r(x-1,y-1,3,1,'#7a4a2a');r(x,y-2,1,1,'#8a5a3a');if(Math.floor(t*6+q.ln)%2){r(x-3,y-4,1,1,'#222');r(x+3,y-5,1,1,'#222')}});
- sunPass(80,0,20,120,'255,226,170',.2,.2);
  abi.x=Math.round(P.x);abi.y=120;abi.dir='u';abi.moving=1;abi.hold=null;corgiTop(P.dx,104,t);for(let i=0;i<=8;i++){const k=i/8;r(Math.round(abi.x+3+(P.dx-abi.x-3)*k),Math.round(111+(104-111)*k+Math.sin(k*Math.PI)*2),1,1,'#c83a3a')}person(abi,t);abi.moving=0}
 const FBC=document.createElement('canvas');FBC.width=48;FBC.height=40;
 function vField7(t){const F=c7.fb||{dx:22,tx:50,st:'idle',jy:0};for(let y=0;y<56;y+=2){const k=y/56;r(0,y,80,2,`rgb(${Math.round(196+k*34)},${Math.round(200+k*32)},${Math.round(210+k*28)})`)}
@@ -9305,7 +9302,7 @@ function vEpCoach(t){
  r(0,32,80,112,OWD);for(let y=32;y<144;y+=6)r(0,y,80,1,'#12532c');
  r(8,36,64,106,OWG);r(8,36,64,106,OWG);for(let y=38;y<142;y+=4)r(8,y,64,1,'#1d7440');
  const WL='#f8f8f4';r(8,36,64,1,WL);r(8,141,64,1,WL);r(8,36,1,106,WL);r(71,36,1,106,WL);r(15,36,1,106,WL);r(64,36,1,106,WL);r(15,60,50,1,WL);r(15,117,50,1,WL);r(39,60,1,58,WL);r(39,36,1,2,WL);r(39,139,1,2,WL);
- cx.globalAlpha=.35;owlLogo(40,128,OWD,OWG,2);cx.globalAlpha=1;grainPass(80,144);cx.globalAlpha=.2;r(0,32,80,5,'#04140a');r(0,37,80,3,'#04140a');cx.globalAlpha=1;sunPass(80,0,20,120,'255,236,180',.24,.24);
+ cx.globalAlpha=.35;owlLogo(40,128,OWD,OWG,2);cx.globalAlpha=1;cx.globalAlpha=.2;r(0,32,80,5,'#04140a');r(0,37,80,3,'#04140a');cx.globalAlpha=1;
  // net
  r(4,86,72,4,'rgba(16,16,20,.65)');for(let x=4;x<76;x+=2)r(x,86,1,4,'#2a2a30');r(4,85,72,1,WL);r(4,86,72,1,'#e8e8e4');r(39,85,1,5,WL);r(3,82,2,9,'#c8c8d0');r(75,82,2,9,'#c8c8d0');
  // sideline: ball basket, bench, cooler
