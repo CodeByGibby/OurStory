@@ -205,7 +205,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.14.6</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.14.7</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -269,8 +269,8 @@ function paperDraw(x,y,key,dir,fn){const S=PST[key]||(PST[key]={});if(!photo&&S.
  if(PDEP>3){fn(dir);return}PMAIN=cx===CX0;PNOSH=true;const C=pcvGet(PDEP++),m=cx,g=C.ga;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,72,80);g._c=null;g.globalAlpha=1;cx=g;cx.translate(36-x,64-y);
  try{fn(fk>=0&&fk<.5?S.fo:dir)}finally{cx=m;PDEP--;PNOSH=false;PMAIN=false}
  const e=C.gb;e.globalCompositeOperation='source-over';e.clearRect(0,0,72,80);e.drawImage(C.a,0,0);e.globalCompositeOperation='source-in';e.fillStyle=PEDGE;e.fillRect(0,0,72,80);e.globalCompositeOperation='source-over';
- const w=Math.max(2,Math.round(72*sx)),ox=x-Math.round(36*sx);for(const [dx,dy] of OUTD)cx.drawImage(C.b,ox+dx,y-64+dy,w,80);cx.drawImage(C.a,ox,y-64,w,80)}
-function person(p,t){const x=Math.round(p.x),y=Math.round(p.y);
+ const w=Math.max(2,Math.round(72*sx)),ox=x-Math.round(36*sx),pk=popActive()?popK(S):1;if(pk<=0)return;const ph=Math.max(1,Math.round(80*pk)),py=y+16-ph;for(const [dx,dy] of OUTD)cx.drawImage(C.b,ox+dx,py+dy,w,ph);cx.drawImage(C.a,ox,py,w,ph)}
+function person(p,t){const x=Math.round(p.x),y=Math.round(p.y);if(popActive()&&popK(p)<=0)return;
  // a left<->right turn starts a flip; the first half still shows the old way round
  const d=p.dir;if(!photo&&p._ld&&p._ld!==d&&((p._ld==='l'&&d==='r')||(p._ld==='r'&&d==='l'))&&(p._fl==null||T-p._fl>PFLIP)){p._fl=T;p._fo=p._ld}p._ld=d;
  const fk=p._fl!=null&&!photo&&T-p._fl<PFLIP?(T-p._fl)/PFLIP:-1,sx=fk<0?1:Math.max(.12,Math.abs(Math.cos(fk*Math.PI)));
@@ -280,8 +280,8 @@ function person(p,t){const x=Math.round(p.x),y=Math.round(p.y);
  const d0=p.dir;if(fk>=0&&fk<.5)p.dir=p._fo;
  try{MONO='#2b1830';for(const [dx,dy] of OUTD){cx.translate(dx,dy);body(p,t);cx.translate(-dx,-dy)}MONO=null;body(p,t)}finally{MONO=null;p.dir=d0;cx=m;PDEP--}
  const e=C.gb;e.globalCompositeOperation='source-over';e.clearRect(0,0,72,80);e.drawImage(C.a,0,0);e.globalCompositeOperation='source-in';e.fillStyle=PEDGE;e.fillRect(0,0,72,80);e.globalCompositeOperation='source-over';
- const w=Math.max(2,Math.round(72*sx)),ox=x-Math.round(36*sx);
- for(const [dx,dy] of OUTD)cx.drawImage(C.b,ox+dx,y-64+dy,w,80);cx.drawImage(C.a,ox,y-64,w,80)}
+ const w=Math.max(2,Math.round(72*sx)),ox=x-Math.round(36*sx),pk=popActive()?popK(p):1;if(pk<=0)return;const ph=Math.max(1,Math.round(80*pk)),py=y+16-ph;
+ for(const [dx,dy] of OUTD)cx.drawImage(C.b,ox+dx,py+dy,w,ph);cx.drawImage(C.a,ox,py,w,ph)}
 const ell=(x,y,a,b,c,al=1)=>{cx.globalAlpha=al;for(let d=-b;d<=b;d++){const w=a*Math.sqrt(1-d*d/(b*b))|0;r(x-w,y+d,w*2+1,1,c)}cx.globalAlpha=1};
 const tri=(px,py,by,k,c)=>{for(let y=py;y<=by;y++){const w=Math.round((y-py)*k);r(px-w,y,w*2+1,1,c)}};
 const wc=document.createElement('canvas');wc.width=W;wc.height=H;const wv=wc.getContext('2d');
@@ -9768,13 +9768,33 @@ function update(dt){try{tcUpd(dt)}catch(e){}
  tickDlg(dt);
 }
 const POPF=Object.assign({},AOF,{church:124,bonnell:108,plaza:62,txhouse:80,field7:62,eplondon:128,bench:78,lake:64,clinic:48,river:64,austin:104,trucks:90,pea:60,sec5:58,term5:90,office:48,barcade:92,call8:70,balc8:96,uk8:58,epvillage:64,ephouse:60,epyard:60,drive:124,kcdrive:90,drive7:90,farm7:90,lot7:64,sleep8:73,night8:73,split:73,epgrad:68,epcyber:96,plane:112,c3class:70,c3grad:70,car7:70,dorm:92}),POPSEEN={},POPD=.62;let POP=null,PTC=null;
-function popDraw(){if(!POP||POP.l!==loc||photo||!VS[loc]||VS[loc][0]!==2)return;const k=(T-POP.t0)/POPD;if(k>=1){POP=null;return}
- const fy=POPF[loc]*2;if(!fy)return;const q=Math.max(0,k),f=q<=0?0:1+2.2*Math.pow(q-1,3)+1.2*Math.pow(q-1,2);// eases out with a little overshoot
- if(!PTC){PTC=document.createElement('canvas');PTC.getContext('2d').imageSmoothingEnabled=false}if(PTC.width!==W||PTC.height!==fy){PTC.width=W;PTC.height=fy;PTC.getContext('2d').imageSmoothingEnabled=false}
- const g=PTC.getContext('2d');g.clearRect(0,0,W,fy);g.drawImage(cv,0,0,W,fy,0,0,W,fy);
- cx.save();cx.setTransform(1,0,0,1,0,0);cx.fillStyle='#1a1030';cx.fillRect(0,0,W,fy);const h=Math.max(0,Math.round(fy*f));if(h>0){cx.drawImage(PTC,0,0,W,fy,0,fy-h,W,h);cx.globalAlpha=Math.max(0,1-f)*.5;cx.fillStyle='#000';cx.fillRect(0,fy-h,W,h)}
- // the crease along the floor line
- cx.globalAlpha=.35*(1-q);cx.fillStyle='#000';cx.fillRect(0,fy-1,W,2);cx.restore();cx._c=null}
+/* pop-up book entrance: first the page (everything above the floor line) folds open, then the things in the room pop
+   up off the page one at a time, in a random order, over a second or so: the furniture and fixtures you can tap, and
+   every person and pet */
+const POPFOLD=.5,POPEND=2.1,POPUP=.3;
+const popF=k=>k<=0?0:k>=1?1:1+2.7*Math.pow(k-1,3)+1.7*Math.pow(k-1,2);
+function popActive(){return POP&&POP.l===loc&&!photo&&T<POP.t0+POPEND}
+function popDelay(key){if(!POP.dl)POP.dl=new Map();let d=POP.dl.get(key);if(d==null){d=POPFOLD-.05+Math.random()*1.15;POP.dl.set(key,d)}return d}
+function popK(key){if(!popActive())return 1;return popF((T-POP.t0-popDelay(key))/POPUP)}
+function popItems(){let I=[];try{if(typeof qx!=='undefined'&&qx&&QXL[loc])I=qxItems();else if(typeof hx!=='undefined'&&hx&&HXLOC[hx.room]===loc)I=hxItems()||[]}catch(e){I=[]}
+ const fy=POPF[loc],EX={kit:1,hallx:1,liv:1,out:1,back:1,exit:1,leave:1};
+ return I.filter(o=>o&&o.w>3&&o.h>3&&!EX[o.id]&&!(o.w===12&&o.h===24)&&!/^[A-Z]/.test(o.id||'')&&!['hunter','morgan','abi','mom','dad','jay'].includes(o.id)&&o.y<fy-2)}
+function popDraw(){if(!POP||POP.l!==loc||photo||!VS[loc]||VS[loc][0]!==2)return;const k=(T-POP.t0)/POPFOLD;if(T>POP.t0+POPEND){POP=null;return}
+ const fy=POPF[loc]*2;if(!fy)return;const cm=Math.round(CAMX);
+ if(!PTC){PTC=document.createElement('canvas')}if(PTC.width!==W||PTC.height!==H){PTC.width=W;PTC.height=H}const g=PTC.getContext('2d');g.imageSmoothingEnabled=false;g.clearRect(0,0,W,H);g.drawImage(cv,0,0);
+ cx.save();cx.setTransform(1,0,0,1,0,0);cx.imageSmoothingEnabled=false;
+ // each object still waiting is flattened: the wall/floor behind it is patched in, and the object rises from its base
+ if(!POP.objs)POP.objs=popItems().map(o=>({x:o.x,y:o.y,w:o.w,h:o.h,key:'o'+o.id}));
+ POP.objs.forEach(o=>{const s=popK(o.key);if(s>=1)return;const X=Math.round((o.x-cm)*2)-2,Y=Math.max(0,Math.round(o.y*2)-2),Wd=Math.round(o.w*2)+4,B=Math.min(H,Math.round((o.y+o.h)*2)),Ht=B-Y;if(Ht<=0||X+Wd<=0||X>=W)return;
+  // wall above the skirting: continue the wall downwards; skirting and floor: borrow the strip right next to it
+  const wb=Math.min(B,fy-8),sy=Math.max(0,Y-3);if(wb>Y&&Y>3)cx.drawImage(PTC,X,sy,Wd,1,X,Y,Wd,wb-Y);
+  const lo=Math.max(Y,Math.min(B,fy-8));if(B>lo){const nx=X-Wd>=0?X-Wd:Math.min(W-Wd,X+Wd);cx.drawImage(PTC,nx,lo,Wd,B-lo,X,lo,Wd,B-lo)}
+  const h=Math.round(Ht*s);if(h>0){cx.drawImage(PTC,X,Y,Wd,Ht,X,B-h,Wd,h);if(s<1){cx.globalAlpha=(1-Math.min(1,s))*.35;cx.fillStyle='#000';cx.fillRect(X,B-h,Wd,h);cx.globalAlpha=1}}});
+ // then the page itself folds open from the floor line
+ if(k<1){const q=Math.max(0,k),f=popF(q);g.clearRect(0,0,W,fy);g.drawImage(cv,0,0,W,fy,0,0,W,fy);cx.fillStyle='#1a1030';cx.fillRect(0,0,W,fy);const h=Math.max(0,Math.round(fy*f));
+  if(h>0){cx.drawImage(PTC,0,0,W,fy,0,fy-h,W,h);cx.globalAlpha=Math.max(0,1-f)*.5;cx.fillStyle='#000';cx.fillRect(0,fy-h,W,h);cx.globalAlpha=1}
+  cx.globalAlpha=.35*(1-q);cx.fillStyle='#000';cx.fillRect(0,fy-1,W,2)}
+ cx.restore();cx._c=null}
 function render(){
  cx=CX0;PZ=null;cx.save();
  if(loc==='roof'){
