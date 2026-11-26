@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.18</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.19</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1035,6 +1035,7 @@ try{emFix(G);new MutationObserver(L=>{for(const m of L){if(m.type==='characterDa
 const LTP={
  // outdoors: sun and street lamps
  austin:{mul:'#fff3e4',sa:.08,sh:'#2a1a20',k:1.55,L:[[150,-6,95,'#fff0c0',.26],[20,-6,60,'#fff0c0',.12]]},
+ bwlobby:{mul:'#fff0dc',sa:.1,L:[[14,66,22,'#ffd890',.2,.03],[62,60,20,'#ffe0a0',.1]]},bwlift:{mul:'#fff0dc',sa:.08,L:[[40,6,44,'#fff0c8',.18]]},bwdoor:{mul:'#e8dcf0',sa:.18,sh:'#0a0620',k:1.5,L:[[40,27,30,'#ff5f9e',.28,.06],[40,93,18,'#7ee8fa',.16,.1]]},
  bonnell:{mul:'#ffe6d6',sh:'#3a1a10',k:1.55,L:[[62,40,80,'#ffb070',.32],[62,40,26,'#ffe0a0',.3]]},
  lake:{mul:'#ffe8d8',sh:'#2a1a30',sa:.12,k:1.4,L:[[62,56,78,'#ffa868',.24],[62,56,22,'#ffe0a0',.22]]},
  court:{mul:'#fff8ee',sa:.05,L:[[8,-8,100,'#fff2c8',.16]]},epcoach:{mul:'#fff8ee',sa:.05,L:[[76,-8,100,'#fff2c8',.16]]},
@@ -1127,13 +1128,131 @@ const INTRO=[
  {n:'Morgan',t:'Yay! I’ll text him. Can you grab us some drinks?'},
  {n:'',t:'Tap anywhere to walk. Tap people to talk.'}];
 const C1TX=[[1,'hey!! me and my friend Abigail are at The Coop. come out!'],[0,'right now?'],[1,'yes right now'],[0,'ok. be there in 15']];
+/* ===== Chapter 1: Hunter's way in. The Birdway lobby, the elevator up, and the cover charge at the door ===== */
+let C1H=null;const C1P={};
+function c1hPeople(){if(!C1P.clerk){C1P.clerk=mk('bart',22,86,{n:'Clerk',top:'#2a3a5a',hair:'#3a2a1a',hl:1,apron:0,dir:'d'});C1P.bouncer=mk('bart',64,118,{n:'Bouncer',top:'#16161c',hair:'#1a1210',skin:'#a8724a',apron:0,dir:'l'})}}
+function c1hLobby(){c1hPeople();setLoc('bwlobby');mode='c1h';C1H={ph:'wait',t:0,dop:0,dT:null,btn:0,floor:1,bank:null};hunter.hold=null;hunter.sit=0;at(hunter,-8,126,'r')}
+function c1hLobbyGo(){go(hunter,[[22,124]],32);waitTill(()=>hunter.tx==null,()=>{hunter.dir='r';bark([{n:'Hunter',t:'(The Birdway. Fancy. Okay. Be cool.)'}]);C1H.ph='tapLift';setHud('Tap the elevator to call it')})}
+function c1hTap(){if(!C1H||!(mode==='c1h'||mode==='cool'))return 0;
+ if(mode==='cool'){coolTap();return 1}
+ if(C1H.ph==='tapLift'){C1H.ph='toLift';setHud('');go(hunter,[[56,110],[62,106]],34);waitTill(()=>hunter.tx==null,()=>{hunter.dir='u';C1H.btn=1;sfx('blip');
+  after(.7,()=>{sfx('ding');C1H.dT=T});after(1.6,()=>{go(hunter,[[62,97]],22)});after(2.4,()=>fadeTo(c1hLift))})}
+ return 1}
+function c1hLift(){setLoc('bwlift');C1H.ph='lift';C1H.t=0;C1H.floor=1;C1H.dT=null;at(hunter,40,124,'d');hunter.hold=null}
+function c1hDoor(){setLoc('bwdoor');C1H.ph='door';C1H.bank=null;hunter.hold=null;at(hunter,-6,124,'r');go(hunter,[[34,122]],30);C1P.bouncer.dir='l';
+ waitTill(()=>hunter.tx==null,()=>{hunter.dir='r';say([{n:'Bouncer',t:'Evening. ID?'},{n:'Hunter',t:'Yep. Here you go.'},{n:'Bouncer',t:'You’re good. Cover’s twenty.'},{n:'Hunter',t:'(Twenty. Dollars. That is half of everything I own.)'},{n:'Hunter',t:'Twenty? Yeah. No problem. Totally.'},
+  {n:'',t:'KEEP YOUR COOL: while the card goes through, tap the screen every time a bead of sweat appears. Don’t let him see you sweat!',c:[{l:'Play it cool 😎',f:coolStart}]}])})}
+function coolStart(){mode='cool';C1H.cool={t:0,sch:[.5,1.3,2.0,2.6,3.3,3.9,4.5],i:0,dr:[],wiped:0,missed:0,fx:[]};setHud('Tap the sweat away!')}
+function coolTap(){const K=C1H.cool;if(!K)return;const d=K.dr.find(q=>!q.w&&q.t<1.05);if(!d){return}d.w=1;K.wiped++;sfx('select');K.fx.push({x:d.x,y:d.y+d.t*8,t:0})}
+function coolUpd(dt){const K=C1H.cool;if(!K)return;K.t+=dt;while(K.i<K.sch.length&&K.t>=K.sch[K.i]){K.dr.push({x:Math.round(hunter.x)+(K.i%2?3:-3),y:Math.round(hunter.y)-24,t:0});K.i++;sfx('tick')}
+ K.dr.forEach(q=>{q.t+=dt;if(!q.w&&!q.m&&q.t>=1.05){q.m=1;K.missed++;sfx('blip')}});K.dr=K.dr.filter(q=>q.t<1.4);K.fx.forEach(f=>f.t+=dt);K.fx=K.fx.filter(f=>f.t<.5);
+ if(K.t>5.6&&!K.done){K.done=1;C1H.cool=null;mode='c1h';setHud('');sfx('ding');C1H.bank={from:41.12,to:21.12,t:T};const m=K.missed;
+  say((m===0?[{n:'',t:'*beep* APPROVED'},{n:'Hunter',t:'Cool. Thanks, man.'},{n:'Bouncer',t:'Smooth. Enjoy The Coop.'}]:m<3?[{n:'',t:'*beep* APPROVED'},{n:'Bouncer',t:'...You good, man?'},{n:'Hunter',t:'Totally. It’s just warm in here.'}]:[{n:'',t:'*beep* APPROVED'},{n:'Bouncer',t:'Dude. Are you okay? You’re, like, glistening.'},{n:'Hunter',t:'Never better! Love a cover charge! Great value!'}]).concat([{n:'Hunter',t:'(Twenty-one dollars and twelve cents left. Worth it. Probably. Let’s go find Morgan.)'}]),()=>{C1H.bank=null;fadeTo(()=>{C1H=null;c1HunterRoof()})})}}
+function c1hUpdate(dt){if(SPKC)SPKC.d+=(SPKC.v-SPKC.d)*Math.min(1,dt*4);if(BAR)barUpd(dt);if(!C1H)return;C1H.t+=dt;if(mode==='cool')coolUpd(dt);if(loc==='bwlobby'||loc==='bwlift'||loc==='bwdoor')mv(hunter,dt);
+ if(C1H.ph==='lift'){const t=C1H.t;C1H.floor=t<5.2?1+Math.floor(t/.65):'R';
+  if(t>.9&&!C1H.ph1){C1H.ph1=1;hunter.hold='phone';C1H.bank={from:41.12,to:41.12,t:T};bark([{n:'Hunter',t:'(Checking account: forty-one dollars and twelve cents.)'},{n:'Hunter',t:'(Payday is... not soon. It’s fine. Everything is fine.)'}])}
+  if(t>4.4&&!C1H.ph2){C1H.ph2=1;C1H.bank=null;hunter.hold=null}
+  if(t>5.3&&!C1H.ph3){C1H.ph3=1;sfx('ding');C1H.dT=T;after(.8,()=>fadeTo(c1hDoor))}}}
+function vBwLobby(t){const C=C1H||{};cx.drawImage(bgC('bwlobby',80,144,()=>{
+  for(let y=0;y<64;y++)for(let x=0;x<80;x++){const u=x%8,v=y%8,d=Math.abs(u-4)+Math.abs(v-4);r(x,y,1,1,d===3?'#2e5648':(u===0?'#1e3c32':'#24463c'))}
+  r(0,6,80,2,'#c8a050');r(0,6,80,1,'#f0d080');r(0,8,80,1,'#7a5a2a');
+  for(let y=64;y<92;y++)for(let x=0;x<80;x++){const px=x%16;r(x,y,1,1,y===64?'#c8a050':y===65?'#6a4026':(px===1||px===14)&&y>68&&y<88?'#5a361f':(y===68||y===88)&&px>0&&px<15?'#5a361f':'#4a2e1c')}
+  r(0,90,80,2,'#2a1a10');tlFloor(0,92,80,52,'#ece6dc','#26262c','#b8b0a4',10,8,161);for(let y=92;y<98;y++){cx.globalAlpha=.3*(1-(y-92)/6);r(0,y,80,1,'#000');cx.globalAlpha=1}
+  r(0,36,10,56,'#c8a050');r(1,38,8,52,'#16203a');r(1,38,8,52,'#1a2644');for(let k=0;k<5;k++)r(2+k,40+k*2,1,6,'#3a4a6a');r(5,38,1,52,'#c8a050');
+  txt('THE BIRDWAY',18,14,'#5a3a1a',1);txt('THE BIRDWAY',18,13,'#f0d080',1);r(12,15,3,2,'#f0d080');r(11,14,2,1,'#f0d080');r(64,15,3,2,'#f0d080');r(66,14,2,1,'#f0d080');
+  [[42,96]].forEach(([px,py])=>{r(px-3,py-6,7,6,'#c8a050');r(px-3,py-6,7,1,'#f0d080');for(let k=0;k<6;k++){const a=-2.6+k*.45;for(let q=0;q<10;q++)r(Math.round(px+Math.cos(a)*q),Math.round(py-8+Math.sin(a)*q*.9),1,1,k%2?'#2e6a3a':'#3a8a46')}});
+  r(49,40,26,54,'#a8803a');r(50,41,24,52,'#c8a050');r(50,41,24,1,'#f0d080');ell(62,36,7,4,'#c8a050',1);ell(62,36,5,3,'#1a1a22',1);
+  r(75,66,4,8,'#a8803a');r(75,66,4,1,'#f0d080');}),0,0);
+ // the clerk behind the front desk, then the desk in front of them
+ const k0=C1P.clerk;if(k0){k0.x=24;k0.y=80;k0.dir='d';person(k0,t)}
+ r(10,76,28,20,'#6a4028');r(10,74,28,3,'#e8e0d8');r(10,74,28,1,'#ffffff');for(let x=12;x<36;x+=6)r(x,80,4,14,'#5a361f');r(10,95,28,1,'#2a1a10');r(31,71,2,3,'#c8a050');ell(32,70,2,1,'#e0c070',1);r(14,66,1,8,'#c8a050');ell(14,65,3,2,'#fff0c0',1);
+ // the elevator: dial, doors that slide open onto a warm little box, the call button
+ {const a=(C.floor||1)/9;r(62,36,1,1,'#ffd86b');r(Math.round(62-Math.cos(a*3.14)*4),Math.round(36-Math.sin(a*3.14)*3),1,1,'#ffd86b')}
+ const op=C.dT?Math.min(1,(T-C.dT)/.7):0,e=op*op*(3-2*op),ow=Math.round(e*11);
+ r(52,44,20,50,'#e8c890');r(52,44,20,50,'#d8b070');r(54,46,16,46,'#b08a5a');r(54,80,16,1,'#c8a050');
+ r(52,44,10-ow,50,'#b8bcc8');r(62+ow,44,10-ow,50,'#b8bcc8');for(let x=53;x<72;x+=3){if(x<62-ow||x>=62+ow)r(x,45,1,48,'#a8acb8')}r(52,44,10-ow,1,'#e0e4ec');r(62+ow,44,10-ow,1,'#e0e4ec');if(!ow)r(61,44,2,50,'#8a8e98');
+ r(76,68,2,2,C.btn?'#ffd86b':'#6a5a3a');if(C.btn){cx.globalCompositeOperation='lighter';disc(77,69,4,'#ffd86b',.25);cx.globalCompositeOperation='source-over'}
+ person(hunter,t)}
+function vBwLift(t){const C=C1H||{};cx.drawImage(bgC('bwlift',80,144,()=>{
+  r(0,0,80,144,'#3a2418');for(let y=12;y<104;y++)for(let x=14;x<66;x++){const px=(x-14)%13;r(x,y,1,1,px===0?'#4a2c1a':px===1?'#8a5a38':rH(x,y,162)<.06?'#6a4228':'#74482c')}
+  for(let y=0;y<144;y++){const w=Math.max(0,14-Math.round(Math.max(0,y-104)*.35));r(0,y,w,1,'#2a1a10');r(80-w,y,w,1,'#2a1a10')}
+  r(18,28,44,46,'#c8a050');r(19,29,42,44,'#9ab4c4');vgGrad(19,29,42,44,['#a8c0d0','#8aa4b4','#7a94a4']);for(let k=0;k<6;k++)r(24+k*2,31+k*3,1,6,'#d8e8f0');
+  r(14,96,52,2,'#e0c070');r(14,98,52,1,'#8a6a2a');r(0,0,80,12,'#1a1410');r(20,3,40,5,'#fff6d8');r(20,8,40,1,'#c8b890');
+  for(let y=104;y<144;y++)for(let x=0;x<80;x++){const u=(x+(y>>2))%8,v=y%6;r(x,y,1,1,(u===0||v===0)?'#4a1a26':'#5a2030')}
+  r(30,14,20,8,'#14100c');r(30,14,20,1,'#3a2a20');}),0,0);
+ const f=String(C.floor||1);txt(f,44-f.length*2,16,'#ff4a3a',1);r(33,16,1,1,'#ff4a3a');r(32,17,3,1,'#ff4a3a');r(33,18,1,3,'#ff4a3a');
+ if(C.dT){const k=Math.min(1,(T-C.dT)/.6);cx.globalAlpha=k*.5;r(0,0,80,144,'#fff8e0');cx.globalAlpha=1}
+ person(hunter,t)}
+function vBwDoor(t){cx.drawImage(bgC('bwdoor',80,144,()=>{
+  for(let y=0;y<94;y++)for(let x=0;x<80;x++){const row=y>>2,bx=(x+(row%2)*4)%8,n=rH(x,y,163);r(x,y,1,1,y%4===3||bx===7?'#22161e':n<.1?'#3e2c36':'#34242c')}
+  r(26,36,28,58,'#1a1014');r(28,38,24,56,'#5a2e1e');r(28,38,24,1,'#7a4a2e');r(39,38,2,56,'#3a1a10');ell(33,52,3,3,'#1a1014',1);ell(46,52,3,3,'#1a1014',1);r(36,70,2,4,'#c8a050');r(42,70,2,4,'#c8a050');
+  pkFloor(0,94,80,50,'#4a3428',164,5);r(0,94,80,1,'#1a1014');
+  for(let x=0;x<80;x++){const y=Math.round(5+3*Math.sin(x/80*3.14));r(x,y,1,1,'#14100c')}}),0,0);
+ // the party leaking through the portholes and under the door, the neon sign over it
+ const c=['#ff5f9e','#7ee8fa','#ffd86b','#b78cff'][Math.floor(t*2)%4];ell(33,52,2,2,c,1);ell(46,52,2,2,['#7ee8fa','#ff5f9e','#b78cff','#ffd86b'][Math.floor(t*2)%4],1);r(28,93,24,1,c);
+ for(let i=0;i<10;i++){const x=4+i*8,y=Math.round(5+3*Math.sin(x/80*3.14))+1;r(x,y,1,2,['#ffd27a','#ff7eb0','#7ad0ff'][i%3])}
+ const fl=Math.sin(t*13)>.92?.4:1;cx.globalAlpha=fl;txt('THE COOP',25,24,'#ff5f9e',1);cx.globalCompositeOperation='lighter';cx.globalAlpha=.18*fl;r(22,21,38,11,'#ff5f9e');cx.globalAlpha=1;cx.globalCompositeOperation='source-over';
+ // velvet rope, the bouncer and his podium
+ [[12],[24]].forEach(([x])=>{r(x,104,2,12,'#c8a050');ell(x+1,103,2,1,'#f0d080',1);r(x-1,116,4,1,'#8a6a2a')});for(let x=13;x<25;x++)r(x,106+Math.round(Math.sin((x-13)/11*3.14)*2),1,1,'#c8283a');
+ r(50,110,12,12,'#2a2226');r(50,110,12,2,'#5a4e54');r(50,110,1,12,'#3e3238');r(53,106,6,4,'#1a1a1e');r(54,107,4,2,(C1H&&C1H.bank&&C1H.bank.to<C1H.bank.from)?'#5ae07a':'#3a8ae0');
+ const B=C1P.bouncer;if(B){B.x=70;B.y=122;person(B,t);r(66,108,8,1,'#5a5a66')}
+ person(hunter,t);
+ const K=C1H&&C1H.cool;if(K){K.dr.forEach(q=>{if(q.w)return;const y=Math.round(q.y+q.t*8);r(q.x,y,1,2,'#9ad8ff');r(q.x,y+2,1,1,'#ffffff')});K.fx.forEach(f=>{cx.globalAlpha=1-f.t*2;r(Math.round(f.x)-2,Math.round(f.y),1,1,'#fff');r(Math.round(f.x)+2,Math.round(f.y)-1,1,1,'#fff');r(Math.round(f.x),Math.round(f.y)-3,1,1,'#fff');cx.globalAlpha=1})}}
+/* the money, on Hunter's phone: drawn over everything in screen space */
+function drawC1UI(){
+ if(C1H&&C1H.bank){const B=C1H.bank,k=Math.min(1,(T-B.t)/.25),y=Math.round(196+(1-k)*30),drop=B.to<B.from?Math.min(1,Math.max(0,(T-B.t-.5)/1.2)):0,v=(B.from+(B.to-B.from)*drop).toFixed(2);
+  cx.globalAlpha=k;r(46,y,68,44,'#14141c');r(48,y+2,64,40,'#f4f6fa');r(48,y+2,64,8,'#2a6a5a');txt('MY BANK',52,y+4,'#ffffff',1);txt('CHECKING',52,y+14,'#6a6a7a',1);const s2='$'+v;txt(s2,52,y+23,drop>0?'#d8352f':'#1a2a2a',2);
+  if(drop>0)txt('-$20 COVER',52,y+35,'#d8352f',1);cx.globalAlpha=1}
+ if(mode==='cool'&&C1H&&C1H.cool){const K=C1H.cool,p=Math.min(1,K.t/5.4);r(30,30,100,24,'rgba(20,10,30,.82)');txt('PROCESSING'+'...'.slice(0,1+Math.floor(T*3)%3),40,34,'#ffd86b',1);r(36,44,88,5,'#1a1028');r(36,44,Math.round(88*p),5,'#5a9ae8');
+  const cool=Math.max(0,3-K.missed);txt('COOL',36,52,'#ffffff',1);for(let i=0;i<3;i++)r(56+i*8,52,6,4,i<cool?'#7ee8fa':'#3a2a4e')}
+ if(BAR)barDraw(T);
+ if(SPKC&&loc==='roof'&&!skipDone){const k=Math.min(1,(T-SPKC.t0)/.4),y=Math.round(28-(1-k)*20),pk=SPKC.pop?Math.max(0,1-(T-SPKC.pop)/.6):0;cx.globalAlpha=k;
+  r(22,y,116,17,'rgba(20,10,30,.82)');heart(27,y+5,'#ff5f9e',1);txt('SPARK',35,y+6,'#ffd0e4',1);r(58,y+5,74,7,'#3a1a30');const w=Math.round(72*SPKC.d/100);r(59,y+6,w,5,'#ff5f9e');r(59,y+6,w,1,'#ffb0d0');
+  for(let i=0;i<w;i+=9){if(Math.floor(T*6+i)%5===0)r(59+i,y+7,1,1,'#ffffff')}if(pk>0){txt('+'+SPKC.add,Math.min(124,59+w)-4,y-Math.round((1-pk)*8),'#ffd0e4',1);for(let i=0;i<3;i++){cx.globalAlpha=pk*k;heart(59+w-6+i*5,y-4-Math.round((1-pk)*10)-i*2,'#ff9ccb',1)}}cx.globalAlpha=1}}
+
+/* ===== Chapter 1: "Say when!" at the bar. The bartender pours, you stop each pour at the line ===== */
+let BAR=null;const BARI=[{n:'VODKA',l:'DOUBLE',c:'#e8f2ff',tg:[.2,.27],sp:.16},{n:'CRANBERRY',l:'',c:'#c41e3a',tg:[.72,.8],sp:.3},{n:'SPRITE',l:'SPLASH',c:'#e8fff0',tg:[.87,.94],sp:.2}];
+function barStart(){mode='bar';setHud('');BAR={t0:T,i:0,lv:0,pour:0,wait:1.1,res:[],msg:null,ice:0,out:0,end:0,bub:[]};sfx('pop')}
+function barTap(){const B=BAR;if(!B||!B.pour||B.end)return;barStop(0)}
+function barStop(spill){const B=BAR,I=BARI[B.i],tg=I.tg,v=B.lv;let q=spill?'SPILL!':v<tg[0]?'A LITTLE LIGHT':v>tg[1]?'HEAVY POUR!':'PERFECT!';B.res.push(q==='PERFECT!'?0:v<tg[0]?-1:1);B.pour=0;B.msg={t:T,s:q,c:q==='PERFECT!'?'#5ae07a':q==='A LITTLE LIGHT'?'#7ec8f0':'#ff9a5a'};sfx(q==='PERFECT!'?'ding':'blip');
+ B.i++;B.wait=1;if(B.i>=BARI.length){B.end=T;after(1.6,()=>{B.out=T;after(.5,barDone)})}}
+function barUpd(dt){const B=BAR;if(!B||B.end)return;if(B.wait>0){B.wait-=dt;if(B.wait<=0){B.pour=1;sfx('splash')}return}
+ if(B.pour){const I=BARI[B.i];B.lv+=I.sp*dt;if(Math.random()<dt*20)B.bub.push({x:62+Math.random()*36,y:216,t:0});if(B.lv>=1){B.lv=1;barStop(1)}}B.bub.forEach(b=>b.t+=dt);B.bub=B.bub.filter(b=>b.t<1.2)}
+function barDone(){const B=BAR,R=B.res;BAR=null;mode='play';pink=1;abi.hold='pink';const heavy=R[0]>0,light=R[0]<0,perfect=R.every(x=>x===0);wobT=heavy?3:light?1.4:2.2;wobHold=4;
+ drink(perfect?'Two double vodka cranberries with a splash of Sprite. Perfect pours, both of them! ✨':heavy?'Two VERY double vodka cranberries. Don’t tell my manager. ✨':'Two vodka cranberries with a splash of Sprite, coming right up! ✨',
+  heavy?'Whoa... that one is STRONG. Everything is a little wavy now. 🫨':'Cold, sweet, and very much a double. Everything is a little wavy now. 🫨')}
+function barDraw(t){const B=BAR,k0=Math.min(1,(T-B.t0)/.35),ko=B.out?1-Math.min(1,(T-B.out)/.45):1,a=k0*ko;cx.globalAlpha=a;
+ cx.drawImage(bgC('barcu',160,288,()=>{vgGrad(0,0,160,220,['#1a1024','#2a1830','#3a2236']);
+  for(let s2=0;s2<3;s2++){const y=40+s2*52;r(0,y+30,160,3,'#5a3a26');r(0,y+30,160,1,'#8a5a3a');const rn=vgRnd(70+s2);for(let x=4;x<156;x+=9+Math.floor(rn()*4)){const h=16+Math.floor(rn()*10),c=['#3a6a4a','#6a3a2a','#c8a060','#4a5a8a','#8a2a3a','#d8d0c0'][Math.floor(rn()*6)];r(x,y+30-h,6,h,c);r(x+2,y+30-h-5,2,5,c);r(x,y+30-h,1,h,'rgba(255,255,255,.25)');r(x+1,y+30-h+5,4,5,'#f0e8d8')}}
+  [[20,30],[130,60],[70,150],[150,170],[10,190]].forEach(([x,y])=>{for(let q=9;q>2;q-=3)disc(x,y,q,'#ffcf80',.08)});
+  for(let y=216;y<288;y++)for(let x=0;x<160;x++){const n=rH(x,y,71);r(x,y,1,1,y===216?'#a87a4a':y<219?'#8a5a32':n<.07?'#5a361e':((x+Math.floor(Math.sin(y*.3)*3))%23===0?'#4a2e1a':'#6a4226'))}}),0,0);
+ // the highball: ice, the drink rising, the pour from above
+ const gx=60,gw=40,gb=214,gh=110,top=gb-gh,lv=Math.round(B.lv*gh),cr=B.i>1||(B.i===1&&B.lv>.3),col=B.i===0?'#d8e8f4':cr?(B.i>=2?'#d84a62':'#c41e3a'):'#d8e8f4';
+ r(gx-2,top-2,gw+4,gh+4,'rgba(220,240,255,.18)');r(gx,top,gw,gh,'rgba(20,20,40,.35)');
+ if(lv>0){r(gx,gb-lv,gw,lv,col);r(gx,gb-lv,gw,1,'#ffffff');if(B.i>=2||(B.i===2&&B.pour))for(let i=0;i<14;i++){const yy=gb-((T*30+i*13)%Math.max(1,lv));r(gx+3+(i*7)%34,Math.round(yy),1,1,'#ffd0dc')}}
+ [[gx+6,gb-30],[gx+20,gb-42],[gx+9,gb-58],[gx+24,gb-70]].forEach(([x,y],i)=>{const yy=Math.max(top+2,Math.min(y,gb-lv+2-(i%2)*4));r(x,yy,11,10,'rgba(230,248,255,.55)');r(x,yy,11,1,'#ffffff');r(x+1,yy+1,3,3,'rgba(255,255,255,.6)')});
+ r(gx-2,top-2,1,gh+4,'#f0f8ff');r(gx+gw+1,top-2,1,gh+4,'#a8c0d0');r(gx-2,gb+1,gw+4,2,'#c8dce8');r(gx+4,top+4,2,gh-10,'rgba(255,255,255,.35)');
+ if(B.i<BARI.length){const I=BARI[B.i],tg=I.tg;[tg[0],tg[1]].forEach(v=>{const y=Math.round(gb-v*gh);for(let x=gx-6;x<gx+gw+6;x+=3)r(x,y,2,1,'#ffd86b')});const yt=Math.round(gb-(tg[0]+tg[1])/2*gh);r(gx+gw+8,yt-4,30,9,'#ffd86b');txt(I.l||'LINE',gx+gw+10,yt-2,'#2a1830',1);
+  // bottle tilted over the glass, and the stream
+  const bx=gx+gw/2,by=top-34;if(I.n==='SPRITE'){r(bx-6,by-10,12,18,'#3aa85a');r(bx-6,by-10,12,2,'#c8d0d8');txt('S',bx-1,by-4,'#fff',1)}else{r(bx-5,by-14,10,20,I.n==='VODKA'?'#d8e8f4':'#8a1a2a');r(bx-2,by+6,4,6,I.n==='VODKA'?'#c8d8e8':'#6a1020');r(bx-4,by-6,8,7,'#f4f0e8');txt(I.n[0],bx-1,by-5,'#2a1830',1)}
+  if(B.pour){for(let y=by+12;y<gb-lv;y+=2)r(bx-1+((y>>1)%2),y,2,2,I.c);for(let i=0;i<4;i++)r(bx-3+i*2,gb-lv-1-(Math.floor(T*20+i)%3),1,1,'#ffffff')}
+  r(20,30,120,28,'rgba(20,10,30,.82)');txt('SAY WHEN!',62,34,'#ffd86b',1);txt(I.n+(I.l?' ('+I.l+')':''),80-(I.n.length+(I.l?I.l.length+3:0))*2,44,'#ffffff',1);
+  if(B.pour&&Math.floor(T*3)%2)txt('TAP TO SAY WHEN',50,246,'#ffffff',1)}
+ else{r(gx+28,top-20,2,40,'#ff5f9e');r(gx+28,top-20,2,1,'#ffb0d0');ell(gx+8,top+2,5,3,'#7ac84a',1);ell(gx+8,top+2,3,2,'#c8f0a0',1);r(gx+50,gb-80,34,80,'rgba(20,20,40,.35)');r(gx+50,gb-62,34,62,'#d84a62');r(gx+50,gb-62,34,1,'#ffffff');r(gx+48,gb-82,1,84,'#f0f8ff');r(gx+85,gb-82,1,84,'#a8c0d0');txt('ONE FOR MORGAN',36,246,'#ffd0e4',1)}
+ for(let i=0;i<BARI.length;i++){const q=B.res[i],c=q==null?'#5a4a70':q===0?'#5ae07a':'#ff9a5a';r(64+i*12,52,8,3,c)}
+ if(B.msg&&T-B.msg.t<1){const s2=B.msg.s,w=s2.length*8;txt(s2,80-w/2+1,82,'#1a0a10',2);txt(s2,80-w/2,81,B.msg.c,2)}
+ cx.globalAlpha=1}
+
+/* ===== Chapter 1: the first real conversation, with a SPARK meter that climbs as it goes well ===== */
+let SPKC=null;function sparkUp(n,L,next){SPKC.v=Math.min(100,SPKC.v+n);SPKC.pop=T;SPKC.add=n;sfx(n>=20?'chime':'blip');say(L,next)}
 function c1Arrive(){mode='c1walk';go(abi,[[40,540],[30,550]],60);abi.dir='l';waitTill(()=>abi.tx==null,()=>{face(abi,morgan);face(morgan,abi);
  say([{n:'Morgan',t:'Ooh, thank you! Okay, look, I texted him.'}],()=>{const e=$('phone');let j=1;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};e.className='px';e.innerHTML='';e.style.display='flex';mode='texts1';sfx('pop');
   e.onclick=()=>{if(j<C1TX.length){j++;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};sfx(C1TX[j-1][0]?'pop':'blip')}else{e.onclick=null;e.style.display='none';PHN=null;c1Hunter()}}})})}
-function c1Hunter(){mode='c1walk';say([{n:'',t:'Fifteen minutes later...'}],()=>{at(hunter,172,550,'l');go(hunter,[[120,552],[50,548]],46);sfx('creak');
+function c1Hunter(){mode='c1walk';fadeTo(()=>{c1hLobby();card('Fifteen minutes later...<br><br><span style="color:#ff9ccb">Playing as Hunter</span>')},2.6);after(3.9,c1hLobbyGo)}
+function c1HunterRoof(){setLoc('roof');mode='c1walk';hunter.hold=null;{at(hunter,172,550,'l');go(hunter,[[120,552],[50,548]],46);sfx('creak');
  waitTill(()=>hunter.tx==null,()=>{face(hunter,morgan);face(morgan,hunter);face(abi,hunter);zoomTo(36,532,1.4);
   say([{n:'Hunter',t:'Hey, Morgan!'},{n:'Morgan',t:'You came! Abigail, this is my brother, Hunter!',anim:()=>{face(hunter,abi)}},{n:'Hunter',t:"Hey! It's really nice to meet you."},{n:'Abigail',t:'Hi Hunter! Nice to meet you too.'},
-   {n:'Abigail',t:'(...Oh. He’s cute.)'},{n:'Morgan',t:'Okay! Let’s have FUN tonight.'}],()=>{zkT=0;st=1;mode='zoomout'})})})}
+   {n:'Abigail',t:'(...Oh. He’s cute.)'},{n:'Morgan',t:'Okay! Let’s have FUN tonight.'},{n:'Hunter',t:'Love it. Let me grab a Zapper first.',anim:()=>{hunter.hold='beer';sfx('pop')}},{n:'Hunter',t:'(Cheapest beer on the menu. My bank account thanks me.)'}],()=>{zkT=0;st=1;mode='zoomout'})})}}
 const QUIPS=['♪ This song is my JAM!','Woo! Nice moves!','The Coop has the best view in town.','Are you here with someone? Hehe.'];
 let FHEART=0;const HEARTLOC={door:1,kiss8:1,balc8:1,epnurse:1,epfam:1,couple8:1,night2:1};
 const fadeTo=(cb,hold=0)=>{FHEART=HEARTLOC[loc]||(loc==='steak'&&typeof c6!=='undefined'&&c6&&c6.pr)?1:0;if(MGM&&MGM.played&&!MGM.done&&!MGM.modes.includes(mode)){MGM.done=1;cb=mgFinish;hold=0}else if(!MGM&&SGM&&!SGM.shown&&mgIdx(mode)!==SGM.i&&mode!=='end'&&!mgLater()){const c0=cb,h0=hold;mgStoryResult(()=>fadeTo(c0,h0));return}fd=1;fcb=cb;fhold=hold};
@@ -1149,17 +1268,21 @@ function go(p,pts,sp){pts=goRoute(p,pts);p.path=pts.slice(1);p.tx=pts[0][0];p.ty
 function talk(n){
  face(abi,n);face(n,abi);
  if(n===morgan)say(st==1?[{n:'Morgan',t:'Having fun, Abigail?',c:[{l:'Can I dance with your brother?',f:askMorgan},{l:'Yep! Just saying hi.',f:()=>say([{n:'Morgan',t:'Good! Come find me if you need anything 💛'}])}]}]:[{n:'Morgan',t:st==0?'Drinks! I’ll text Hunter. 📱':st==2?'Now go ask the DJ for a song!':'Go talk to him already! 😄'}]);
- else if(n===bart)say(st==0?[{n:'Bartender',t:'Welcome to The Coop! What can I get you?',c:[{l:'Something sparkly and pink 🍹',f:()=>{pink=1;abi.hold='pink';wobT=2.2;wobHold=4;drink('Two Rooftop Sparklers, coming up! ✨','Whoa... that one is STRONG. Everything is a little wavy now. 🫨')}},{l:'Just waters, please',f:()=>{abi.hold='water';drink('Two waters. Hydration is cute 💧','You feel refreshed and ready.')}}]}]:[{n:'Bartender',t:"You're all set! Enjoy the night."}]);
+ else if(n===bart)say(st==0?[{n:'Bartender',t:'Welcome to The Coop! What can I get you?',c:[{l:'Two double vodka cranberries, splash of Sprite!',f:()=>say([{n:'Bartender',t:'Coming up. You tell me when to stop pouring. Deal?'},{n:'',t:'SAY WHEN: the bartender pours. Tap the screen when the drink reaches the gold line!',c:[{l:'Deal! 🍹',f:barStart}]}])},{l:'Just waters, please',f:()=>{abi.hold='water';drink('Two waters. Hydration is cute 💧','You feel refreshed and ready.')}}]}]:[{n:'Bartender',t:"You're all set! Enjoy the night."}]);
  else if(n===dj)say(st==2?[{n:'DJ',t:'Got a request?',c:[{l:'"Just My Type" by Sweetie Pie 🎶',f:()=>{st=3;say([{n:'DJ',t:"Ooh, great pick! I'll work it into the set."},{n:'',t:'(Little did you know... this would become YOUR song. 💕)'}])}},{l:'Not yet.',f:()=>{}}]}]:[{n:'DJ',t:st<2?'Spinning right now! Come back if you want to request something.':"Your song's in the queue!"}]);
  else if(n===hunter)st==3?chat():say([{n:'Hunter',t:st<=1?'Morgan said you’re from England? You’ll have to tell me everything. 😅':'I’ll be right here!'}]);
  else say([{n:'Dancer',t:QUIPS[Math.random()*QUIPS.length|0]}]);
 }
 function askMorgan(){st=2;say([{n:'Morgan',t:'Ha! My brother? Okay okay. You have my blessing. 💕'},{n:'Morgan',t:'Go ask the DJ for a good song first. Then go get him!'}])}
 function drink(m,f){say([{n:'Bartender',t:m},{n:'',t:f}],c1Arrive)}
-function chat(){st=4;mode='chat';pend=null;abi.tx=null;face(abi,hunter);face(hunter,abi);zoomTo((abi.x+hunter.x)/2,(abi.y+hunter.y)/2-10,1.4);
- say([{n:'Hunter',t:'So... that accent. Where are you from?',c:[{l:'Newcastle, England!',f:c2},{l:'Guess!',f:()=>say([{n:'Hunter',t:'Australia? ...Canada?'},{n:'Abigail',t:'Newcastle, England! Not even close, ha!'}],c2)}]}])}
-function c2(){say([{n:'Hunter',t:'England! So what brings you all the way to Missouri?',c:[{l:'A tennis scholarship at Owls University.',f:c3},{l:'Honestly? Adventure.',f:()=>say([{n:'Abigail',t:'...and a tennis scholarship at Owls University. Mostly the tennis.'}],c3)}]}])}
-function c3(){say([{n:'Hunter',t:"A tennis scholarship at Owls University? That's awesome. Do you like it out here?",c:[{l:'I love it. Especially tonight.',f:babble},{l:'I miss proper tea.',f:()=>say([{n:'Hunter',t:"I'll find you proper tea. Promise."}],babble)}]}])}
+function chat(){st=4;mode='chat';pend=null;abi.tx=null;setHud('');face(abi,hunter);face(hunter,abi);zoomTo((abi.x+hunter.x)/2,(abi.y+hunter.y)/2-10,1.4);SPKC={v:10,d:10,t0:T,pop:0,add:0};
+ say([{n:'Hunter',t:'So... that accent. Where are you from?',c:[{l:'Newcastle, England!',f:()=>sparkUp(20,[{n:'Hunter',t:'Newcastle! I have no idea where that is, but it sounds amazing.'}],cv2)},{l:'Guess!',f:()=>sparkUp(15,[{n:'Hunter',t:'Australia? ...Canada?'},{n:'Abigail',t:'Newcastle, England! Not even close, ha!'}],cv2)},{l:'Somewhere with better tea.',f:()=>sparkUp(20,[{n:'Hunter',t:'Ha! England, then. Morgan already told me. I just wanted to hear you say it.'}],cv2)}]}])}
+function cv2(){say([{n:'Hunter',t:'So what brings you all the way to Missouri?',c:[{l:'A tennis scholarship at Owls University.',f:()=>sparkUp(15,[{n:'Hunter',t:'Wait, so you’re, like, actually really good at tennis?'},{n:'Abigail',t:'I’m alright. (I’m very good.)'}],cv3)},{l:'Honestly? Adventure.',f:()=>sparkUp(15,[{n:'Abigail',t:'...and a tennis scholarship at Owls University. Mostly the tennis.'}],cv3)},{l:'I took a wrong turn at London.',f:()=>sparkUp(20,[{n:'Hunter',t:'(laughing) Best wrong turn ever, then.'},{n:'Abigail',t:'...It was a tennis scholarship. But I like your version.'}],cv3)}]}])}
+function cv3(){say([{n:'',t:'(Your turn. Ask him something!)',c:[{l:'So what do you do, Hunter?',f:()=>sparkUp(20,[{n:'Hunter',t:'I, uh... write songs. Well, lyrics. In notebooks nobody has ever read.'},{n:'Abigail',t:'I want to read them.'},{n:'Hunter',t:'(...She wants to read them.)'}],cv4)},{l:'Is Morgan always this bossy?',f:()=>sparkUp(15,[{n:'Hunter',t:'Since the day I was born. She’s the best, though. Don’t tell her I said that.'}],cv4)},{l:'You got here fast. Fifteen minutes?',f:()=>sparkUp(15,[{n:'Hunter',t:'Fourteen. Not that I was rushing.'},{n:'Hunter',t:'...I was rushing.'}],cv4)}]}])}
+function cv4(){say([{n:'Hunter',t:'So do you like it out here?',c:[{l:'I love it. Especially tonight.',f:()=>sparkUp(25,[{n:'Hunter',t:'(Especially tonight. She said especially tonight.)'}],cv5)},{l:'I miss proper tea.',f:()=>sparkUp(15,[{n:'Hunter',t:"I'll find you proper tea. Promise."}],cv5)}]}])}
+function cv5(){say([{n:'',t:'(Say something!)',c:[{l:'That cover charge is mental, isn’t it?',f:()=>sparkUp(15,[{n:'Hunter',t:'Pfft. Twenty bucks? Pocket change.'},{n:'Hunter',t:'(It was half my bank account. Worth every penny.)'}],cv6)},{l:'I’m really glad Morgan texted you.',f:()=>sparkUp(20,[{n:'Hunter',t:'Me too. Remind me to thank her.'}],cv6)}]}])}
+function cv6(){say([{n:'',t:'(The music is getting louder...)',c:[{l:'Do you dance, Hunter?',f:()=>sparkUp(20,[{n:'Hunter',t:'Badly. Very, very badly.'},{n:'Abigail',t:'Perfect.'}],cv7)},{l:'*finger guns*',f:()=>sparkUp(15,[{n:'Hunter',t:'...Did you just finger-gun me?'},{n:'Abigail',t:'I panicked.'},{n:'Hunter',t:'I loved it.'}],cv7)}]}])}
+function cv7(){SPKC.v=100;SPKC.pop=T;SPKC.add=0;sfx('fanfare');try{burst(abi.x+6,abi.y-30,'#ff5f9e')}catch(e){}after(1.4,()=>{SPKC=null;babble()})}
 function babble(){say([
  {n:'Abigail',t:'...and that is how I ended up on a rooftop in Missouri...',a:.92},
  {n:'Hunter',t:'...wait, wait, you HAVE to tell me about...',a:.78},
@@ -1196,7 +1319,7 @@ function dWorldPost(t){const d=dance;if(!d||d.shot==null)return;const A=abi,H=hu
 function drawDanceUI(){const d=dance;if(!d||d.shot==null||mode!=='dance')return;const S=d.fin!=null?{s:'PERFECT!',col:'#ffd86b'}:DSHOT[d.shot];const bn=d.fin!=null?Math.max(0,1.6-d.fin):d.ban;
  if(bn>0){const sl=Math.round((1-Math.min(1,(1.6-bn)*6))*-160),sz=2,w=S.s.length*4*sz;cx.globalAlpha=Math.min(1,bn*3);r(sl,50,W,22,'rgba(10,6,30,.7)');r(sl,50,W,1,S.col);r(sl,71,W,1,S.col);txt(S.s,sl+80-w/2,54,S.col,sz);cx.globalAlpha=1}}
 
-function startDance(){abi.hold=null;songPlay(0,.7);
+function startDance(){abi.hold=null;hunter.hold=null;songPlay(0,.7);
  mode='dance';abi.x=72;abi.y=476;hunter.x=88;hunter.y=476;abi.dir='r';hunter.dir='l';abi.tx=hunter.tx=null;
  abi.dance=hunter.dance=1;abi.ph=0;hunter.ph=1;dance={n:0,sc:0,h:null,gap:1,shot:null,t:0,st:0,ban:0,fin:null,bt:songBeat()||0,nt:null,end:null};wobT=Math.min(wobT,.4);setHud('Tap each heart when its ring turns gold!');
 }
@@ -1920,6 +2043,7 @@ function vKart(t){const k=kart;if(!k){r(0,0,W,H,'#000');return}const me=k.me;cx.
 function txtFit(s,y){s=s.toUpperCase().replace(/[^A-Z0-9 !]/g,'');const w=s.length*4;txt(s,Math.max(2,80-w/2|0),y,'#fff',1)}
 
 const VS={dinner:[2,vDinner],bench:[2,vBench],bars:[2,vBars],dorm:[2,vDorm],newsbg:[1,vNews],lake:[2,vLake],drive:[2,vDrive],clinic:[2,vClinic],apt:[2,vApt],living:[2,vLiving],entry:[2,vEntry],cal:[1,vCal],kart:[1,vKart]};
+Object.assign(VS,{bwlobby:[2,vBwLobby],bwlift:[2,vBwLift],bwdoor:[2,vBwDoor]});
 VS.book=[1,vBook];
 
 /* ---- chapter 2 story ---- */
@@ -5070,7 +5194,7 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
   A.bg.gain.setTargetAtTime(AMBP.crowd[2]*rnd(.6,1.25),now,.5);if(Math.random()<.3){const f=rnd(2400,3400);tone(f,.12,'sine',.008,null,0,A.g);tone(f*1.5,.09,'sine',.004,null,.01,A.g)}A.next=now+rnd(.8,2.4)}
  else if(k==='wind'){A.f.frequency.setTargetAtTime(rnd(260,720),now,.9);A.bg.gain.setTargetAtTime(AMBP.wind[2]*rnd(.5,1.3),now,.9);A.next=now+rnd(1.2,2.6)}
  else A.next=now+2}
-const MUSMAP={roof:'roof',street:'night',hall:'sneak',door:'sunset',dinner:'waltz',bench:'lofi',bars:'bars',dorm:'sunset',news:'news',lake:'lofi',drive:'drive',clinic:'tense',apt:'news',entry:'sick',cal:null,kart:'kart',
+const MUSMAP={bwlobby:'jazz',bwlift:'jazz',bwdoor:'night',roof:'roof',street:'night',hall:'sneak',door:'sunset',dinner:'waltz',bench:'lofi',bars:'bars',dorm:'sunset',news:'news',lake:'lofi',drive:'drive',clinic:'tense',apt:'news',entry:'sick',cal:null,kart:'kart',
  kitchen:'cozy',hroom:'lofi',dt:'lofi',pack:'cozy',road:'drive',txhouse:'texas',troom:'texas',river:'waltz',church:'stars',scoot:'drive',pump:'tense',store:'kart',bath:'stars',austin:'news',trucks:'texas',pea:'cozy',hill:'drive',bonnell:'sunset',plaza:'waltz',bstore:'kart',
  plane:'stars',hdrive:'jazz',bunk:'sneak',bath2:'sneak',split:'sad',office:'office',home:'lofi',hunt:'tense'};
 function musPick(){if(mode==='wash')return 'bday';if(c8&&c8.bridal)return 'bridal';if(loc==='home6'&&c6.day)return 'cozy';if(loc==='steak'&&c6.pr)return 'sunset';if(loc==='steak'&&mode==='nerves')return 'tense';if(loc==='hotel'&&c6.panic&&hunter.tag)return 'tense';if(mode==='title')return 'stars';if(mode==='end')return 'sunset';if(mode==='news')return 'news';
@@ -10185,6 +10309,8 @@ function press2(CX,CY){
  if(BOOK&&bookTap())return;
  if(dlg){adv();return}
  if(tiltSkip())return;
+ if(mode==='bar'){barTap();return}
+ if(c1hTap())return;
  if(arcTap2(x,y))return;
  if(mode==='paint'){if(ep.pt)ep.pt.down=1;epPaintAt(sx,sy,true);return}
  if(epTap())return;
@@ -10253,7 +10379,7 @@ function update(dt){try{tcUpd(dt)}catch(e){}try{bookUpd()}catch(e){}if(BOOK&&BOO
  timers.forEach(q=>q.s-=dt);const due=timers.filter(q=>q.s<=0);timers=timers.filter(q=>q.s>0);due.forEach(q=>q.f());
  if(flash>0)flash=Math.max(0,flash-dt*1.2);if(kt>0)kt-=dt;
  if(mode==='mont'){mt+=dt;if(mt>5)nextMont()}else if(mode==='fish')fishUpdate(dt);else if(mode==='drive'||mode==='phone')driveUpdate(dt);
- c3Update(dt);c5Update(dt);c6Update(dt);c7Update(dt);c8Update(dt);epUpdate(dt);if((loc==='c3class'||loc==='c3grad')&&mom.tx!=null)mv(mom,dt);qxUpdate(dt);hxUpdate(dt);c4Update(dt);if(typeof hr!=='undefined'&&hr&&hr.wake){hr.wake.t+=dt;if(hr.wake.t>=1.45){const f=hr.wake.cb;hr.wake=null;f()}}if(lv&&lv.mw2&&lv.mw2.tx!=null)mv(lv.mw2,dt);if(lv&&lv.mw){mv(lv.mw,dt);if(lv.mw.tx==null)lvMorIn()}tvUpdate(dt);musUpdate();if(loc==='kart')kartUpdate(dt);if(loc==='skee')skeeUpdate(dt);if(loc==='arcClaw')clawUpdate(dt);if(loc==='arcQuiz')quizUpdate(dt);if(loc==='arcFight')fightUpdate(dt);if(loc==='arcShoot')spUpdate(dt);if(loc==='arcRace')raceUpdate(dt);if(loc==='arcDance')danceUpdate(dt);if(loc==='kcdt'&&c6.gw)c6Girls(dt);if(loc==='steak'){if(c6.waiter)mv(waiter,dt);if(jay.tx!=null)mv(jay,dt)}if(nose&&mode==='nose')nose.m=Math.max(0,nose.m-dt*.32);if(nose)nose.pop=Math.max(0,nose.pop-dt*(nose.lv>=3?.6:1.1));noseFx(dt);if(shakeT>0)shakeT-=dt;
+ c1hUpdate(dt);c3Update(dt);c5Update(dt);c6Update(dt);c7Update(dt);c8Update(dt);epUpdate(dt);if((loc==='c3class'||loc==='c3grad')&&mom.tx!=null)mv(mom,dt);qxUpdate(dt);hxUpdate(dt);c4Update(dt);if(typeof hr!=='undefined'&&hr&&hr.wake){hr.wake.t+=dt;if(hr.wake.t>=1.45){const f=hr.wake.cb;hr.wake=null;f()}}if(lv&&lv.mw2&&lv.mw2.tx!=null)mv(lv.mw2,dt);if(lv&&lv.mw){mv(lv.mw,dt);if(lv.mw.tx==null)lvMorIn()}tvUpdate(dt);musUpdate();if(loc==='kart')kartUpdate(dt);if(loc==='skee')skeeUpdate(dt);if(loc==='arcClaw')clawUpdate(dt);if(loc==='arcQuiz')quizUpdate(dt);if(loc==='arcFight')fightUpdate(dt);if(loc==='arcShoot')spUpdate(dt);if(loc==='arcRace')raceUpdate(dt);if(loc==='arcDance')danceUpdate(dt);if(loc==='kcdt'&&c6.gw)c6Girls(dt);if(loc==='steak'){if(c6.waiter)mv(waiter,dt);if(jay.tx!=null)mv(jay,dt)}if(nose&&mode==='nose')nose.m=Math.max(0,nose.m-dt*.32);if(nose)nose.pop=Math.max(0,nose.pop-dt*(nose.lv>=3?.6:1.1));noseFx(dt);if(shakeT>0)shakeT-=dt;
  if(loc!=='roof')wobT=sick&&(loc==='living'||loc==='entry'||QXQ[loc])?.45:(loc==='trucks'&&tw&&tw.bleh)?.7:(loc==='church8'&&mode==='stand'&&c8.st)?c8.st.fa*1.3+(c8.st.ft>0?1.6:0):0;
  if(ndl&&mode==='needle'&&!ndl.done){ndl.t+=dt;const p=(ndl.t*165)%344;ndl.pos=p<172?p:344-p}
  if(swab){swab.t+=dt;if(swab.t>2.6&&!swab.d){swab.d=1;swabDone()}}
@@ -10369,7 +10495,7 @@ function render(){
  cx.restore();try{popDraw()}catch(e){}try{bookOverlay()}catch(e){}c4Cap();logoTick();giftDraw();try{tcDraw()}catch(e){}
  if(wob>.05){wv.clearRect(0,0,W,H);wv.drawImage(cv,0,0);for(let y=0;y<H;y+=4)cx.drawImage(wc,0,y,W,4,Math.round(Math.sin(y/16+T*2.4)*wob),y,W,4);cx.globalAlpha=Math.min(.12,.05*wob);r(0,0,W,H,'#ff7eb6');cx.globalAlpha=1}
  ux.setTransform(1,0,0,1,0,0);ux.clearRect(0,0,W,H);ux._c=null;cx=ux;
- try{drawDanceUI();drawCh2UI();drawCh3UI();drawCh5UI();drawCh6UI();drawCh7UI();drawCh8UI();drawCh4UI();drawEpAlbumUI();drawEpBdayUI();balcUI();drawPhoneUI();
+ try{drawC1UI();drawDanceUI();drawCh2UI();drawCh3UI();drawCh5UI();drawCh6UI();drawCh7UI();drawCh8UI();drawCh4UI();drawEpAlbumUI();drawEpBdayUI();balcUI();drawPhoneUI();
  if(fade>0){if(FHEART&&fade<1){// the scene closes in (and the next one opens out) through a heart
    const e=1-fade,q=e*e*(3-2*e)*13;cx.fillStyle='#000';cx.beginPath();cx.rect(0,0,W,H);if(q>.05){const X=80,Y=150;cx.moveTo(X,Y+9*q);cx.bezierCurveTo(X-22*q,Y-4*q,X-11*q,Y-17*q,X,Y-7*q);cx.bezierCurveTo(X+11*q,Y-17*q,X+22*q,Y-4*q,X,Y+9*q)}cx.fill('evenodd')}
   else{cx.globalAlpha=fade;r(0,0,W,H,'#000');cx.globalAlpha=1}}drawChapUI()}finally{cx=CX0}
