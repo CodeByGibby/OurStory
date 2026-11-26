@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.19</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.20</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1211,7 +1211,7 @@ function drawC1UI(){
   for(let i=0;i<w;i+=9){if(Math.floor(T*6+i)%5===0)r(59+i,y+7,1,1,'#ffffff')}if(pk>0){txt('+'+SPKC.add,Math.min(124,59+w)-4,y-Math.round((1-pk)*8),'#ffd0e4',1);for(let i=0;i<3;i++){cx.globalAlpha=pk*k;heart(59+w-6+i*5,y-4-Math.round((1-pk)*10)-i*2,'#ff9ccb',1)}}cx.globalAlpha=1}}
 
 /* ===== Chapter 1: "Say when!" at the bar. The bartender pours, you stop each pour at the line ===== */
-let BAR=null;const BARI=[{n:'VODKA',l:'DOUBLE',c:'#e8f2ff',tg:[.2,.27],sp:.16},{n:'CRANBERRY',l:'',c:'#c41e3a',tg:[.72,.8],sp:.3},{n:'SPRITE',l:'SPLASH',c:'#e8fff0',tg:[.87,.94],sp:.2}];
+let BAR=null;const BARI=[{n:'VODKA',l:'DOUBLE',c:'#e8f2ff',tg:[.2,.27],sp:.16},{n:'SPRITE',l:'',c:'#e8fff0',tg:[.74,.82],sp:.3},{n:'CRANBERRY',l:'SPLASH',c:'#c41e3a',tg:[.87,.94],sp:.2}];
 function barStart(){mode='bar';setHud('');BAR={t0:T,i:0,lv:0,pour:0,wait:1.1,res:[],msg:null,ice:0,out:0,end:0,bub:[]};sfx('pop')}
 function barTap(){const B=BAR;if(!B||!B.pour||B.end)return;barStop(0)}
 function barStop(spill){const B=BAR,I=BARI[B.i],tg=I.tg,v=B.lv;let q=spill?'SPILL!':v<tg[0]?'A LITTLE LIGHT':v>tg[1]?'HEAVY POUR!':'PERFECT!';B.res.push(q==='PERFECT!'?0:v<tg[0]?-1:1);B.pour=0;B.msg={t:T,s:q,c:q==='PERFECT!'?'#5ae07a':q==='A LITTLE LIGHT'?'#7ec8f0':'#ff9a5a'};sfx(q==='PERFECT!'?'ding':'blip');
@@ -1219,17 +1219,17 @@ function barStop(spill){const B=BAR,I=BARI[B.i],tg=I.tg,v=B.lv;let q=spill?'SPIL
 function barUpd(dt){const B=BAR;if(!B||B.end)return;if(B.wait>0){B.wait-=dt;if(B.wait<=0){B.pour=1;sfx('splash')}return}
  if(B.pour){const I=BARI[B.i];B.lv+=I.sp*dt;if(Math.random()<dt*20)B.bub.push({x:62+Math.random()*36,y:216,t:0});if(B.lv>=1){B.lv=1;barStop(1)}}B.bub.forEach(b=>b.t+=dt);B.bub=B.bub.filter(b=>b.t<1.2)}
 function barDone(){const B=BAR,R=B.res;BAR=null;mode='play';pink=1;abi.hold='pink';const heavy=R[0]>0,light=R[0]<0,perfect=R.every(x=>x===0);wobT=heavy?3:light?1.4:2.2;wobHold=4;
- drink(perfect?'Two double vodka cranberries with a splash of Sprite. Perfect pours, both of them! ✨':heavy?'Two VERY double vodka cranberries. Don’t tell my manager. ✨':'Two vodka cranberries with a splash of Sprite, coming right up! ✨',
-  heavy?'Whoa... that one is STRONG. Everything is a little wavy now. 🫨':'Cold, sweet, and very much a double. Everything is a little wavy now. 🫨')}
+ drink(perfect?'Two double vodka Sprites with a splash of cranberry. Perfect pours, both of them! ✨':heavy?'Two VERY double vodka Sprites. Don’t tell my manager. ✨':'Two vodka Sprites with a splash of cranberry, coming right up! ✨',
+  heavy?'Whoa... that one is STRONG. Everything is a little wavy now. 🫨':'Cold, fizzy, and very much a double. Everything is a little wavy now. 🫨')}
 function barDraw(t){const B=BAR,k0=Math.min(1,(T-B.t0)/.35),ko=B.out?1-Math.min(1,(T-B.out)/.45):1,a=k0*ko;cx.globalAlpha=a;
  cx.drawImage(bgC('barcu',160,288,()=>{vgGrad(0,0,160,220,['#1a1024','#2a1830','#3a2236']);
   for(let s2=0;s2<3;s2++){const y=40+s2*52;r(0,y+30,160,3,'#5a3a26');r(0,y+30,160,1,'#8a5a3a');const rn=vgRnd(70+s2);for(let x=4;x<156;x+=9+Math.floor(rn()*4)){const h=16+Math.floor(rn()*10),c=['#3a6a4a','#6a3a2a','#c8a060','#4a5a8a','#8a2a3a','#d8d0c0'][Math.floor(rn()*6)];r(x,y+30-h,6,h,c);r(x+2,y+30-h-5,2,5,c);r(x,y+30-h,1,h,'rgba(255,255,255,.25)');r(x+1,y+30-h+5,4,5,'#f0e8d8')}}
   [[20,30],[130,60],[70,150],[150,170],[10,190]].forEach(([x,y])=>{for(let q=9;q>2;q-=3)disc(x,y,q,'#ffcf80',.08)});
   for(let y=216;y<288;y++)for(let x=0;x<160;x++){const n=rH(x,y,71);r(x,y,1,1,y===216?'#a87a4a':y<219?'#8a5a32':n<.07?'#5a361e':((x+Math.floor(Math.sin(y*.3)*3))%23===0?'#4a2e1a':'#6a4226'))}}),0,0);
  // the highball: ice, the drink rising, the pour from above
- const gx=60,gw=40,gb=214,gh=110,top=gb-gh,lv=Math.round(B.lv*gh),cr=B.i>1||(B.i===1&&B.lv>.3),col=B.i===0?'#d8e8f4':cr?(B.i>=2?'#d84a62':'#c41e3a'):'#d8e8f4';
+ const gx=60,gw=40,gb=214,gh=110,top=gb-gh,lv=Math.round(B.lv*gh),ck=B.i>=3?1:B.i===2?Math.max(0,Math.min(1,(B.lv-.8)/.1)):0,col=ck>.5?'#f29ab0':ck>0?'#ecc4d0':'#dceaf2';
  r(gx-2,top-2,gw+4,gh+4,'rgba(220,240,255,.18)');r(gx,top,gw,gh,'rgba(20,20,40,.35)');
- if(lv>0){r(gx,gb-lv,gw,lv,col);r(gx,gb-lv,gw,1,'#ffffff');if(B.i>=2||(B.i===2&&B.pour))for(let i=0;i<14;i++){const yy=gb-((T*30+i*13)%Math.max(1,lv));r(gx+3+(i*7)%34,Math.round(yy),1,1,'#ffd0dc')}}
+ if(lv>0){r(gx,gb-lv,gw,lv,col);r(gx,gb-lv,gw,1,'#ffffff');if(B.i>=1)for(let i=0;i<14;i++){const yy=gb-((T*30+i*13)%Math.max(1,lv));r(gx+3+(i*7)%34,Math.round(yy),1,1,'#ffd0dc')}}
  [[gx+6,gb-30],[gx+20,gb-42],[gx+9,gb-58],[gx+24,gb-70]].forEach(([x,y],i)=>{const yy=Math.max(top+2,Math.min(y,gb-lv+2-(i%2)*4));r(x,yy,11,10,'rgba(230,248,255,.55)');r(x,yy,11,1,'#ffffff');r(x+1,yy+1,3,3,'rgba(255,255,255,.6)')});
  r(gx-2,top-2,1,gh+4,'#f0f8ff');r(gx+gw+1,top-2,1,gh+4,'#a8c0d0');r(gx-2,gb+1,gw+4,2,'#c8dce8');r(gx+4,top+4,2,gh-10,'rgba(255,255,255,.35)');
  if(B.i<BARI.length){const I=BARI[B.i],tg=I.tg;[tg[0],tg[1]].forEach(v=>{const y=Math.round(gb-v*gh);for(let x=gx-6;x<gx+gw+6;x+=3)r(x,y,2,1,'#ffd86b')});const yt=Math.round(gb-(tg[0]+tg[1])/2*gh);r(gx+gw+8,yt-4,30,9,'#ffd86b');txt(I.l||'LINE',gx+gw+10,yt-2,'#2a1830',1);
@@ -1238,13 +1238,28 @@ function barDraw(t){const B=BAR,k0=Math.min(1,(T-B.t0)/.35),ko=B.out?1-Math.min(
   if(B.pour){for(let y=by+12;y<gb-lv;y+=2)r(bx-1+((y>>1)%2),y,2,2,I.c);for(let i=0;i<4;i++)r(bx-3+i*2,gb-lv-1-(Math.floor(T*20+i)%3),1,1,'#ffffff')}
   r(20,30,120,28,'rgba(20,10,30,.82)');txt('SAY WHEN!',62,34,'#ffd86b',1);txt(I.n+(I.l?' ('+I.l+')':''),80-(I.n.length+(I.l?I.l.length+3:0))*2,44,'#ffffff',1);
   if(B.pour&&Math.floor(T*3)%2)txt('TAP TO SAY WHEN',50,246,'#ffffff',1)}
- else{r(gx+28,top-20,2,40,'#ff5f9e');r(gx+28,top-20,2,1,'#ffb0d0');ell(gx+8,top+2,5,3,'#7ac84a',1);ell(gx+8,top+2,3,2,'#c8f0a0',1);r(gx+50,gb-80,34,80,'rgba(20,20,40,.35)');r(gx+50,gb-62,34,62,'#d84a62');r(gx+50,gb-62,34,1,'#ffffff');r(gx+48,gb-82,1,84,'#f0f8ff');r(gx+85,gb-82,1,84,'#a8c0d0');txt('ONE FOR MORGAN',36,246,'#ffd0e4',1)}
+ else{r(gx+28,top-20,2,40,'#ff5f9e');r(gx+28,top-20,2,1,'#ffb0d0');ell(gx+8,top+2,5,3,'#7ac84a',1);ell(gx+8,top+2,3,2,'#c8f0a0',1);r(gx+50,gb-80,34,80,'rgba(20,20,40,.35)');r(gx+50,gb-62,34,62,'#f29ab0');r(gx+50,gb-62,34,1,'#ffffff');r(gx+48,gb-82,1,84,'#f0f8ff');r(gx+85,gb-82,1,84,'#a8c0d0');txt('ONE FOR MORGAN',36,246,'#ffd0e4',1)}
  for(let i=0;i<BARI.length;i++){const q=B.res[i],c=q==null?'#5a4a70':q===0?'#5ae07a':'#ff9a5a';r(64+i*12,52,8,3,c)}
  if(B.msg&&T-B.msg.t<1){const s2=B.msg.s,w=s2.length*8;txt(s2,80-w/2+1,82,'#1a0a10',2);txt(s2,80-w/2,81,B.msg.c,2)}
  cx.globalAlpha=1}
 
 /* ===== Chapter 1: the first real conversation, with a SPARK meter that climbs as it goes well ===== */
 let SPKC=null;function sparkUp(n,L,next){SPKC.v=Math.min(100,SPKC.v+n);SPKC.pop=T;SPKC.add=n;sfx(n>=20?'chime':'blip');say(L,next)}
+/* ---- little things to look at around The Coop (and a reward for finding them all) ---- */
+const ROOFP=[{id:'sign',x:33,y:313,w:94,h:34,spot:[87,421],face:'u'},{id:'view',x:0,y:567,w:160,h:30,spot:[40,560],face:'d'},{id:'bottles',x:98,y:360,w:60,h:26,spot:[118,421],face:'u'},
+ {id:'speakers',x:2,y:398,w:16,h:30,spot:[20,421],face:'u'},{id:'disco',x:72,y:444,w:16,h:14,spot:[80,472],face:'u'},{id:'tableL',x:6,y:450,w:30,h:18,spot:[20,471],face:'u'},
+ {id:'tableR',x:124,y:450,w:32,h:18,spot:[140,471],face:'u'},{id:'tableB',x:56,y:536,w:32,h:16,spot:[72,535],face:'d'},{id:'booth',x:4,y:510,w:58,h:18,spot:[46,532],face:'u'},
+ {id:'plant',x:86,y:548,w:20,h:20,spot:[96,546],face:'d'},{id:'plant2',x:142,y:548,w:18,h:20,spot:[140,551],face:'r'}].map(o=>({...o,prop:1}));
+const RPSEEN={};
+function roofProp(o){const L={sign:'(THE COOP, in big pink letters. Morgan said this place was a vibe. Morgan was right.)',
+  view:st<1?'(The whole town, all lit up below the railing. Okay. That is actually beautiful.)':'(Still beautiful. Although the view behind me is pretty good too.)',
+  bottles:'(A whole wall of glowing bottles. I recognise exactly four of them.)',speakers:'(The bass is so loud I can feel it in my teeth. I love it.)',
+  disco:'(A tiny disco ball, spinning its little heart out. Respect.)',tableL:'(Little candles on every table. Very romantic. Suspiciously romantic.)',
+  tableR:'(Someone abandoned half a basket of fries here. Tempting. Not THAT tempting.)',tableB:'(Someone is celebrating a birthday at this table. There is a tiny paper crown on the napkin.)',
+  booth:st<1?'(Our booth. Morgan has claimed it with her coat, her bag, and her entire personality.)':'(Our booth. Hunter’s Zapper is sweating on the table. So is Hunter, a little.)',
+  plant:'(A very well-dressed plant. It has better posture than me.)',plant2:'(Fairy lights wrapped around a plant. Even the plants are going out tonight.)'};
+ abi.dir=o.face||'u';sfx('select');const first=!RPSEEN[o.id];RPSEEN[o.id]=1;const n=Object.keys(RPSEEN).length,all=n===ROOFP.length;
+ say([{n:'Abigail',t:L[o.id]}],()=>{if(first&&all){sfx('chime');bark([{n:'',t:'You found every corner of The Coop! ✨'}]);try{burst(abi.x,abi.y-24,'#ffd86b')}catch(e){}}})}
 function c1Arrive(){mode='c1walk';go(abi,[[40,540],[30,550]],60);abi.dir='l';waitTill(()=>abi.tx==null,()=>{face(abi,morgan);face(morgan,abi);
  say([{n:'Morgan',t:'Ooh, thank you! Okay, look, I texted him.'}],()=>{const e=$('phone');let j=1;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};e.className='px';e.innerHTML='';e.style.display='flex';mode='texts1';sfx('pop');
   e.onclick=()=>{if(j<C1TX.length){j++;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};sfx(C1TX[j-1][0]?'pop':'blip')}else{e.onclick=null;e.style.display='none';PHN=null;c1Hunter()}}})})}
@@ -1268,7 +1283,7 @@ function go(p,pts,sp){pts=goRoute(p,pts);p.path=pts.slice(1);p.tx=pts[0][0];p.ty
 function talk(n){
  face(abi,n);face(n,abi);
  if(n===morgan)say(st==1?[{n:'Morgan',t:'Having fun, Abigail?',c:[{l:'Can I dance with your brother?',f:askMorgan},{l:'Yep! Just saying hi.',f:()=>say([{n:'Morgan',t:'Good! Come find me if you need anything 💛'}])}]}]:[{n:'Morgan',t:st==0?'Drinks! I’ll text Hunter. 📱':st==2?'Now go ask the DJ for a song!':'Go talk to him already! 😄'}]);
- else if(n===bart)say(st==0?[{n:'Bartender',t:'Welcome to The Coop! What can I get you?',c:[{l:'Two double vodka cranberries, splash of Sprite!',f:()=>say([{n:'Bartender',t:'Coming up. You tell me when to stop pouring. Deal?'},{n:'',t:'SAY WHEN: the bartender pours. Tap the screen when the drink reaches the gold line!',c:[{l:'Deal! 🍹',f:barStart}]}])},{l:'Just waters, please',f:()=>{abi.hold='water';drink('Two waters. Hydration is cute 💧','You feel refreshed and ready.')}}]}]:[{n:'Bartender',t:"You're all set! Enjoy the night."}]);
+ else if(n===bart)say(st==0?[{n:'Bartender',t:'Welcome to The Coop! What can I get you?',c:[{l:'Two double vodka Sprites, splash of cranberry!',f:()=>say([{n:'Bartender',t:'Coming up. You tell me when to stop pouring. Deal?'},{n:'',t:'SAY WHEN: the bartender pours. Tap the screen when the drink reaches the gold line!',c:[{l:'Deal! 🍹',f:barStart}]}])},{l:'Just waters, please',f:()=>{abi.hold='water';drink('Two waters. Hydration is cute 💧','You feel refreshed and ready.')}}]}]:[{n:'Bartender',t:"You're all set! Enjoy the night."}]);
  else if(n===dj)say(st==2?[{n:'DJ',t:'Got a request?',c:[{l:'"Just My Type" by Sweetie Pie 🎶',f:()=>{st=3;say([{n:'DJ',t:"Ooh, great pick! I'll work it into the set."},{n:'',t:'(Little did you know... this would become YOUR song. 💕)'}])}},{l:'Not yet.',f:()=>{}}]}]:[{n:'DJ',t:st<2?'Spinning right now! Come back if you want to request something.':"Your song's in the queue!"}]);
  else if(n===hunter)st==3?chat():say([{n:'Hunter',t:st<=1?'Morgan said you’re from England? You’ll have to tell me everything. 😅':'I’ll be right here!'}]);
  else say([{n:'Dancer',t:QUIPS[Math.random()*QUIPS.length|0]}]);
@@ -10342,6 +10357,8 @@ function press2(CX,CY){
  if(mode==='sneak'){sneakTap();return}
  if(mode!=='play'||dlg)return;
  const n=[morgan,hunter,bart,dj,...dancers].find(n=>Math.abs(x-n.x)<=10&&y>n.y-22&&y<n.y+6);
+ const rp=n?null:ROOFP.find(o=>x>=o.x&&x<=o.x+o.w&&y>=o.y&&y<=o.y+o.h);
+ if(rp){if(Math.hypot(abi.x-rp.spot[0],abi.y-rp.spot[1])<=4){abi.tx=null;pend=null;roofProp(rp)}else{pend=rp;const s=rp.spot;const P=roofPath(abi.x,abi.y,s[0],s[1]);if(P&&P.length){const l=P[P.length-1];if(Math.hypot(l[0]-s[0],l[1]-s[1])>.5)P.push([s[0],s[1]]);go(abi,P)}else{abi.tx=s[0];abi.ty=s[1]}}return}
  if(n){
   if(Math.hypot(abi.x-n.x,abi.y-n.y)<=32){abi.tx=null;pend=null;talk(n)}
   else{pend=n;const s=n.spot||[n.x,n.y+12];const P=roofPath(abi.x,abi.y,s[0],s[1]);if(P&&P.length){const l=P[P.length-1];if(!blk(s[0],s[1])&&Math.hypot(l[0]-s[0],l[1]-s[1])>.5)P.push([s[0],s[1]]);go(abi,P)}else{abi.tx=s[0];abi.ty=s[1]}}
@@ -10389,7 +10406,7 @@ function update(dt){try{tcUpd(dt)}catch(e){}try{bookUpd()}catch(e){}if(BOOK&&BOO
  if(mode==='pan'){tp+=dt;const k=Math.min(1,tp/4);cam=R*(k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2);const q=Math.max(0,(k-.45)/.55);zk=zkT=q*q*(3-2*q);if(k>=1)beginIntro()}
  else if(mode==='zoomout'){if(zk<=0)mode='play'}
  else if(mode==='c1walk'){mv(abi,dt);mv(hunter,dt);mv(morgan,dt)}
- else if(mode==='play'){mv(abi,dt,1);if(pend&&abi.tx==null){const n=pend;pend=null;if(Math.hypot(abi.x-n.x,abi.y-n.y)<=38)talk(n)}setHud(obj())}
+ else if(mode==='play'){mv(abi,dt,1);if(pend&&abi.tx==null){const n=pend;pend=null;if(n.prop)roofProp(n);else if(Math.hypot(abi.x-n.x,abi.y-n.y)<=38)talk(n)}setHud(obj())}
  else if(mode==='skip'){if(fd==0&&!djSaid){djSaid=1;djCall()}}
  else if(mode==='run'){mv(abi,dt);if(hunter.delay>0)hunter.delay-=dt;else mv(hunter,dt);if(abi.tx==null&&hunter.tx==null){mode='prep';abi.dir='r';hunter.dir='l';zoomTo(80,470,1)}}
  else if(mode==='prep'){if(zk>.97&&!prepSaid){prepSaid=1;say(HOWTO)}}
