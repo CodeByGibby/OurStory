@@ -206,7 +206,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.14</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.15</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -2124,7 +2124,7 @@ const QXE={'living>kitchen':{out:[-30,138],off:[[-50,140]],sp:[90,138,'l'],in:[6
  'hall>bed':{out:[35,97],off:[[35,91]],door:'bedd',sp:[48,152,'u'],in:[48,126]},'bed>hall':{out:[48,138],off:[[40,152]],sp:[35,93,'d'],in:[35,106],back:'bedd'}};
 function qxRW(room){return m=>(x,y)=>{const B=QXB[room];if(x<B[0]||x>B[2]||y<B[1]||y>B[3])return false;
  if(room==='bath'){if(x<27+m&&y<109+m)return false}
- if(room==='bed'){if(x<44+m&&y<130+m)return false;if(x>57-m&&y<106+m)return false;if(x>58-m&&x<76+m&&y>124-m&&y<131+m)return false}
+ if(room==='bed'){if(x<44+m&&y<130+m)return false;if(x>42-m&&x<58+m&&y<102+m)return false;if(x>57-m&&y<106+m)return false;if(x>58-m&&x<76+m&&y>124-m&&y<131+m)return false}
  return true}}
 function qxNear(x,y){const w=qxRW(qx.room)(1);if(w(x,y))return [x,y];for(let d=1;d<40;d++)for(const [a,b] of [[0,-d],[0,d],[-d,0],[d,0],[-d,-d],[d,-d],[-d,d],[d,d]])if(w(x+a,y+b))return [x+a,y+b];return [x,y]}
 function qxMove(to,after){const from=qx.room,E=QXE[from+'>'+to];if(!E)return;qx.phase='walkOut';if(E.door){qx.hd=E.door;sfx('creak')}
@@ -2302,7 +2302,7 @@ function vMBath(t){const n=lv.night,W=qx&&qx.wash;
  r(31,28,18,32,'#c8c8d0');r(32,29,16,30,'#bfe6ff');r(32,52,16,7,'#b4dcf4');mirRefl(t,32,29,16,30,96,[abi]);cx.globalAlpha=.6;r(33,30,2,10,'#eaf6ff');cx.globalAlpha=1;r(40,29,1,30,'#a8c0d0');
  r(30,74,20,24,'#e8e0d0');r(31,78,8,18,'#f0e8d8');r(41,78,8,18,'#f0e8d8');r(38,86,1,2,'#c8b060');r(42,86,1,2,'#c8b060');r(29,72,22,3,'#ffffff');ell(40,73,6,1,'#c8d8e0',1);r(39,66,2,6,'#b8b8c0');r(39,66,4,1,'#b8b8c0');
  r(43,68,4,4,'#ff9ccb');r(44,67,2,1,'#fff');
- r(55,62,10,12,'#f4f4f8');r(55,62,10,1,'#ffffff');ell(60,84,5,4,'#f4f4f8',1);ell(60,82,4,2,'#e0e8ec',1);r(58,86,5,12,'#eceef0');
+ r(54,61,12,2,'#ffffff');r(55,63,10,12,'#f4f4f8');r(64,63,1,12,'#d8dce4');r(56,65,2,1,'#b8b8c0');r(57,75,6,4,'#e6eaee');r(57,75,6,1,'#f8f8fc');r(62,75,1,4,'#cfd6de');ell(60,81,6,3,'#f8f8fc',1);ell(60,81,4,2,'#d4e0e8',1);ell(60,85,5,3,'#eceef2',1);r(58,86,5,10,'#eceef0');r(62,86,1,10,'#d4d8e0')
  r(53,46,14,1,'#b8b8c0');r(54,47,12,10,'#ff9ccb');r(54,47,12,1,'#ffc0dc');
  [[4,0],[3,4],[2,8],[1,12]].forEach(([c,o],j)=>{for(let i=0;i<c;i++){const x=67+i*4+j*2,y=94-j*4-4;r(x,y,4,4,'#fbfbff');r(x+1,y+1,2,2,'#c8c8d0');r(x,y,4,1,'#ffffff')}});
  r(0,96,80,48,'#e8e8f0');for(let y=96;y<144;y+=6)for(let x=((y/6)%2)*6;x<80;x+=12)r(x,y,6,6,'#d8dce6');aoBand(96,0,80);aoUnder(56,98,9,.7);r(26,138,28,6,'#a8c8d8');
@@ -2311,7 +2311,7 @@ function vMBath(t){const n=lv.night,W=qx&&qx.wash;
  if(W&&Math.floor(T*8)%2)disc(40,abi.y-12,2,'#ffffff',.9);
  if(n){cx.globalAlpha=.22;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1}qxOverlay(t)}
 /* ---- your room (yours and Hunter's) ---- */
-function qdItems(){return [{id:'bed',x:4,y:60,w:40,h:70,spot:[49,116],face:'l'},{id:'win',x:50,y:14,w:24,h:32,spot:[62,111]},{id:'stand',x:44,y:78,w:12,h:20,spot:[50,100]},
+function qdItems(){return [{id:'bed',x:4,y:60,w:40,h:70,spot:[49,116],face:'l'},{id:'win',x:50,y:14,w:24,h:32,spot:[62,111]},{id:'stand',x:44,y:78,w:12,h:20,spot:[50,104],face:'u'},
  {id:'case',x:58,y:114,w:18,h:18,spot:[54,134],face:'r'},{id:'notes',x:55,y:86,w:25,h:24,spot:[64,111]},{id:'out',x:26,y:132,w:28,h:12,spot:[40,138],face:'d'}]}
 function vMBed(t){const n=lv.night,made=qx&&qx.bedMade;
  r(0,0,80,92,'#d8c8b8');for(let y=4;y<90;y+=8)for(let x=((y/8)%2)*5;x<80;x+=10)r(x,y,1,1,'#c8b8a8');r(0,88,80,4,'#f0e6d8');
