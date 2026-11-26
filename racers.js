@@ -1,7 +1,7 @@
-/* Corgi Racers: unlocked by earning all 120 stars in Our Story */
+/* Corgi Racers: unlocked by earning 3 stars on every minigame in Our Story */
 window.CRZ=(()=>{
 /* ===================================================================
-   CORGI RACERS: the unlockable career mode (all 120 stars).
+   CORGI RACERS: the unlockable career mode (3 stars on every minigame).
    Runs in its own overlay with its own loop; borrows the pixel helpers,
    sounds and music engine from Our Story.
    =================================================================== */

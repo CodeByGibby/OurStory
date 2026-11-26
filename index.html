@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.20</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.21</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1218,7 +1218,7 @@ function barStop(spill){const B=BAR,I=BARI[B.i],tg=I.tg,v=B.lv;let q=spill?'SPIL
  B.i++;B.wait=1;if(B.i>=BARI.length){B.end=T;after(1.6,()=>{B.out=T;after(.5,barDone)})}}
 function barUpd(dt){const B=BAR;if(!B||B.end)return;if(B.wait>0){B.wait-=dt;if(B.wait<=0){B.pour=1;sfx('splash')}return}
  if(B.pour){const I=BARI[B.i];B.lv+=I.sp*dt;if(Math.random()<dt*20)B.bub.push({x:62+Math.random()*36,y:216,t:0});if(B.lv>=1){B.lv=1;barStop(1)}}B.bub.forEach(b=>b.t+=dt);B.bub=B.bub.filter(b=>b.t<1.2)}
-function barDone(){const B=BAR,R=B.res;BAR=null;mode='play';pink=1;abi.hold='pink';const heavy=R[0]>0,light=R[0]<0,perfect=R.every(x=>x===0);wobT=heavy?3:light?1.4:2.2;wobHold=4;
+function barDone(){const B=BAR,R=B.res;BAR=null;mode='play';if(MGM){fadeTo(()=>{});return}pink=1;abi.hold='pink';const heavy=R[0]>0,light=R[0]<0,perfect=R.every(x=>x===0);wobT=heavy?3:light?1.4:2.2;wobHold=4;
  drink(perfect?'Two double vodka Sprites with a splash of cranberry. Perfect pours, both of them! ✨':heavy?'Two VERY double vodka Sprites. Don’t tell my manager. ✨':'Two vodka Sprites with a splash of cranberry, coming right up! ✨',
   heavy?'Whoa... that one is STRONG. Everything is a little wavy now. 🫨':'Cold, fizzy, and very much a double. Everything is a little wavy now. 🫨')}
 function barDraw(t){const B=BAR,k0=Math.min(1,(T-B.t0)/.35),ko=B.out?1-Math.min(1,(T-B.out)/.45):1,a=k0*ko;cx.globalAlpha=a;
@@ -2396,7 +2396,7 @@ function stirUpd(dt){const S=qx.stir;if(!S)return;S.t+=dt;
  S.smoke.forEach(q=>{q.y-=dt*16;q.x+=q.vx*dt;q.l-=dt});S.smoke=S.smoke.filter(q=>q.l>0);
  S.drops.forEach(d=>{d.vy+=150*dt;d.x+=d.vx*dt;d.y+=d.vy*dt;d.l-=dt});S.drops=S.drops.filter(d=>d.l>0);
  if(as>1.5){S.wake.push({a:S.sa,t:0})}S.wake.forEach(w=>{w.t+=dt;w.a+=S.mv*dt*.8});S.wake=S.wake.filter(w=>w.t<.7);if(S.wake.length>40)S.wake.shift()}
-function stirFinish(){const S=qx.stir;qx.stir=null;mode='q';const good=S.burns===0&&S.spl<=1,ok=S.burns<=1;
+function stirFinish(){const S=qx.stir;qx.stir=null;mode='q';if(MGM){fadeTo(()=>{});return}const good=S.burns===0&&S.spl<=1,ok=S.burns<=1;
  say([{n:'Abigail',t:good?'(Piping hot. Not one burnt bit. Hunter’s mom would be proud.)':ok?'(Hot all the way through. A little crispy at the bottom. That’s the best part.)':'(Slightly scorched. We will call it "smoky".)'}],()=>{abi.hold='carry';abi.carry='#b8603a';qx.got='stove';sfx('item');addH(good?1:0);qxToLiving(()=>{qx.phase='toSeat';go(abi,qxRoute(AX[lv.q],93),40)})})}
 const SCOL=['#e8c060','#6a3a24','#d8402a','#efe2c0','#7a1e14'];
 function stirPot(){return bgC('stirpot',160,288,()=>{
@@ -2450,7 +2450,7 @@ function stirDraw(t){const S=qx.stir;if(!S)return;stirScene(t);
  cx.save();cx.setTransform(1,0,0,1,0,0);cx.globalAlpha=Math.min(1,e*1.6);cx.imageSmoothingEnabled=false;cx.drawImage(STC,Math.round(cxp-80*z),Math.round(cyp-144*z),Math.round(160*z),Math.round(288*z));cx.globalAlpha=1;cx.restore();cx._c=null}
 /* ---- Day 9: hold the thermometer under your tongue until it beeps ---- */
 function thStart(){mode='thermo';hold=0;qx.th={v:0,warn:0,done:0,bp:0};abi.dir='u';setHud('Hold the screen to keep it under your tongue!');sfx('select')}
-function thUpd(dt){const H=qx.th;if(!H||H.done)return;if(hold){H.v=Math.min(1,H.v+dt/3.4);H.bp+=dt;if(H.bp>.5){H.bp=0;sfx('tick')}}else if(H.v>0){H.v=Math.max(0,H.v-dt*.5);if(!H.warn&&H.v>.12){H.warn=1;bark([{n:'Abigail',t:'(Keep it in! It has to beep first.)'}])}}
+function thUpd(dt){const H=qx.th;if(!H||H.done)return;if(hold)H.wh=1;else if(H.wh&&H.v>.05){H.wh=0;H.rel=(H.rel||0)+1}if(hold){H.v=Math.min(1,H.v+dt/3.4);H.bp+=dt;if(H.bp>.5){H.bp=0;sfx('tick')}}else if(H.v>0){H.v=Math.max(0,H.v-dt*.5);if(!H.warn&&H.v>.12){H.warn=1;bark([{n:'Abigail',t:'(Keep it in! It has to beep first.)'}])}}
  if(H.v>=1){H.done=1;hold=0;sfx('ding');after(.7,()=>{qx.th=null;mode='q';setHud('');say([{n:'',t:'*beep beep* 99.2 F'},{n:'Abigail',t:'(99.2! It was over 101 last week.)'},{n:'Abigail',t:'(The fever is finally breaking. I feel like a person again. A tired person, but a person.)'}],()=>{qbMark('temp');qx.cont()})})}}
 function thDraw(t){const H=qx.th;if(!H)return;const v=H.done?1:H.v,rd=(97.0+v*2.2).toFixed(1);
  r(8,16,64,34,'#2a1a3a');r(9,17,62,32,'#3a2a4e');r(9,17,62,1,'#5a4a70');txt('THERMOMETER',18,20,'#ffd86b',1);
@@ -10106,6 +10106,8 @@ function openChap(){if(!DEV.on())return;const done=DEV_UNLOCK_ALL?99:save.get(),
 const MG_UNLOCK_ALL=true;
 const SUITGREY={top:'#7c828e',stripe:0,collar:0,suit:'#4a7ad8',pants:'#6c727e',shoe:'#3a2418'};
 const MGAMES=[
+ [1,'Say when at the bar',()=>{dbgRoof();at(abi,118,424,'u');at(hunter,-40,600,'l');mode='play';barStart()},['bar']],
+ [1,'Keep your cool',()=>{c1hPeople();C1H={ph:'door',t:0,bank:null};setLoc('bwdoor');hunter.hold=null;at(hunter,34,122,'r');coolStart()},['cool']],
  [1,'Dance with Hunter',()=>{setLoc('roof');cam=R;zk=zkT=1;FX=80;FY=470;ZM=1;skipDone=1;st=3;at(abi,72,476,'r');at(hunter,88,476,'l');mode='prep';prepSaid=0},['dance']],
  [1,'Sneak upstairs',()=>startHall(),['sneak']],
  [2,'Fishing with Dad',()=>{setLoc('lake');hunter.x=40;hunter.dir='r';dad.x=20;dad.dir='r';mode='fish';fs={ph:'cast',n:0};setHud('Tap to cast your line!')},['fish']],
@@ -10114,6 +10116,8 @@ const MGAMES=[
  [2,'Stay awake for TV',()=>{hm=0;sick=1;tissues=4;_qNight1()},['tv']],
  [2,'Bring in the groceries',()=>{hm=0;sick=1;tissues=4;_qDay3()},['bags','tray']],
  [2,'Starrio Cart race',()=>{hm=0;sick=1;tissues=4;_qDay6()},['kartGo','kart']],
+ [2,'Stir the goulash',()=>{hm=0;sick=1;qprops.hLost=0;qEx({d:6,lv:{night:1,mor:1,q:2},goal:'stove',hud:'',qx:{n6:1},room:'kitchen',sp:[46,104,'u'],in:[46,104]},()=>fadeTo(()=>{}));after(.5,()=>{if(qx){mode='q';stirStart()}})},['stir']],
+ [2,'Take your temperature',()=>{hm=0;sick=1;qEx({d:9,lv:{mor:4,q:2},goal:'mirror',hud:'',room:'bath',sp:[40,104,'u'],in:[40,104]},()=>fadeTo(()=>{}));after(.5,()=>{if(qx){mode='q';thStart()}})},['thermo']],
  [3,'Dippin Donuts drive-thru',()=>{MGM.dt=1;dtDay(0)},['dtMemo','dtOrder','dtPull','dtTalk']],
  [3,'Pack the SUV',()=>c3Pack(),['pack']],
  [3,'Road trip to Texas',()=>c3Road(),['road']],
@@ -10148,6 +10152,10 @@ let MGM=null;
    then shown on the results card. One star just for finishing, so nobody can fail the story. */
 const lowGood=(n,a,b)=>n<=a?3:n<=b?2:1,hiGood=(n,a,b)=>n>=a?3:n>=b?2:1,pl=(n,w)=>n+' '+w+(n===1?'':'S');
 const MGR={
+ 'Say when at the bar':()=>BAR&&BAR.res.length&&(()=>{const p=BAR.res.filter(x=>x===0).length;return {s:hiGood(p,3,2),l:p+' / 3 PERFECT POURS',h:p<3?'Stop every pour on the gold line for three stars':''}})(),
+ 'Keep your cool':()=>C1H&&C1H.cool&&{s:lowGood(C1H.cool.missed,0,2),l:C1H.cool.missed?pl(C1H.cool.missed,'BEAD')+' OF SWEAT SEEN':'NO SWEAT',h:C1H.cool.missed?'Wipe away every bead for three stars':''},
+ 'Stir the goulash':()=>qx&&qx.stir&&(()=>{const S=qx.stir,b=S.burns,p=S.spl;return {s:b===0&&p<=1?3:b<=1?2:1,l:b||p?[b?pl(b,'SCORCH'):'',p?p+(p===1?' SPLASH':' SPLASHES'):''].filter(Boolean).join(' · '):'PIPING HOT, NOT A DROP SPILLED',h:b||p>1?'Keep it moving, but gently, for three stars':''}})(),
+ 'Take your temperature':()=>qx&&qx.th&&{s:lowGood(qx.th.rel||0,0,1),l:qx.th.rel?pl(qx.th.rel,'EARLY PEEK'):'STEADY THE WHOLE TIME',h:qx.th.rel?'Hold until it beeps for three stars':''},
  'Dance with Hunter':()=>dance&&{s:hiGood(dance.sc,15,10),l:dance.sc+' / 15 HEARTS',h:dance.sc<15?(dance.sc<10?(10-dance.sc)+' more hearts for two stars':(15-dance.sc)+' more hearts for three stars'):''},
  'Bring in the groceries':()=>bags&&bags.tr&&{s:lowGood(bags.tr.drops,0,1),l:bags.tr.drops?pl(bags.tr.drops,'SPILL'):'NOT ONE WOBBLE',h:bags.tr.drops?'Keep the tray level for three stars':''},
  'Covid swab test':()=>ndl&&ndl.done&&{s:ndl.ok?3:1,l:ndl.ok?'PAINLESS SWAB':'OUCH',h:ndl.ok?'':'Tap inside the green zone for three stars'},
@@ -10194,7 +10202,7 @@ function mgResults(i,res,btns){const n=MGAMES[i][1],r=res||{s:3,l:'COMPLETE!',h:
  const CU=crzJustUnlocked(),inSt=!!(MGM&&MGM.ret);
  setTimeout(()=>{if(e.style.display!=='none'){if(r.s>=3)try{GFX.wf=0;winFx()}catch(er){}sfx(r.s>=3?'fanfare':'chime')}},350+r.s*320);if(CU)setTimeout(()=>{if(e.style.display!=='none')crzCelebrate(inSt)},1600+r.s*320)}
 /* replaying a game in the middle of the story: everything the replay could disturb is set aside first and put back after */
-const MGSNAP='loc mode lv qprops qx hx c3s c4 c5 c6 c7 c8 ep pea pmp upk bags hm sick tissues showHM wob wobT zk zkT sn cs dance kart rd pk dtS hill clb sc3 tv nose noseOn ndl swab fs photo showRes cam CAMX FX FY ZM st skipDone prepSaid c3Day fade fd fcb fhold hold timers'.split(' ');
+const MGSNAP='BAR C1H SPKC pink wobHold loc mode lv qprops qx hx c3s c4 c5 c6 c7 c8 ep pea pmp upk bags hm sick tissues showHM wob wobT zk zkT sn cs dance kart rd pk dtS hill clb sc3 tv nose noseOn ndl swab fs photo showRes cam CAMX FX FY ZM st skipDone prepSaid c3Day fade fd fcb fhold hold timers'.split(' ');
 const MGPPL=()=>[abi,hunter,morgan,jay,typeof dad!=='undefined'?dad:null,typeof mom!=='undefined'?mom:null].filter(Boolean);
 function mgSnap(){const o={v:{},p:MGPPL().map(q=>[q,Object.assign({},q)])};for(const k of MGSNAP){try{o.v[k]=eval(k)}catch(e){}}return o}
 function mgRestore(o){for(const k in o.v){try{window.__mgv=o.v[k];eval(k+'=window.__mgv')}catch(e){}}window.__mgv=null;o.p.forEach(([q,c])=>{for(const k of Object.keys(q))if(!(k in c))delete q[k];Object.assign(q,c)})}
@@ -10229,7 +10237,7 @@ function crzCelebrate(inStory){const o=$('crzu');o.innerHTML='<div class="cu"><d
  o.style.display='flex';try{GFX.wf=0;winFx()}catch(er){}sfx('fanfare');
  const close=()=>{o.style.display='none';o.innerHTML=''};$('cuOk').onclick=()=>{sfx('select');close()};
  const go=$('cuGo');if(go)go.onclick=()=>{sfx('confirm');close();const en=$('end');en.style.display='none';en.classList.remove('res');openMini();LS('ourstory_crzo','1');crzLoad(()=>CRZ.open())}}
-/* ---------- Corgi Racers: the 120-star unlock, loaded on demand ---------- */
+/* ---------- Corgi Racers: unlocked by 3 stars on every minigame (the total grows with the game list), loaded on demand ---------- */
 function crzJustUnlocked(){const BS=MGBEST.get(),tot=MGAMES.reduce((a,g)=>a+((BS[g[1]]&&BS[g[1]].s)||0),0);if(tot<MGAMES.length*3||LS('ourstory_crzu'))return false;LS('ourstory_crzu','1');return true}
 function crzLoad(cb){if(window.CRZ){cb();return}const l=$('ld');if(l)l.classList.remove('off');const s=document.createElement('script');s.src='racers.js?v=1.13.22';s.onload=()=>{if(l)l.classList.add('off');cb()};s.onerror=()=>{if(l)l.classList.add('off');alert('Corgi Racers could not load. Check your connection and try again.')};document.head.appendChild(s)}
 /* ---------- debug: scene select ---------- */
