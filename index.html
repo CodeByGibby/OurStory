@@ -206,7 +206,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.16</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.17</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -2068,12 +2068,12 @@ function qxItems(){if(qx.room==='kitchen')return [{id:'pantry',x:4,y:10,w:32,h:2
  {id:'tpile',x:22,y:91,w:16,h:10,spot:[30,120]},(qprops.remote?{id:'remote',x:50,y:93,w:8,h:8,spot:[54,120]}:{id:'remote',x:56,y:108,w:10,h:8,spot:[60,122]}),
  {id:'basket',x:63,y:96,w:16,h:16,spot:[60,118],face:'r'},{id:'door',x:-6,y:26,w:13,h:64,spot:[5,95]},{id:'kit',x:-40,y:130,w:24,h:14,spot:[-30,136],face:'l'},{id:'hallx',x:92,y:130,w:28,h:14,spot:[108,136],face:'r'},
  {id:'cart',x:-24,y:93,w:13,h:30,spot:[-17,128]},{id:'barmir',x:-25,y:56,w:15,h:24,spot:[-17,98],face:'u'},{id:'coats',x:-39,y:44,w:13,h:34,spot:[-32,96]},{id:'balcony',x:86,y:8,w:28,h:82,spot:[101,95]},
- {id:'puzzle',x:86,y:119,w:26,h:11,spot:[99,134],face:'u'},{id:'plant',x:79,y:79,w:11,h:23,spot:[84,108]},{id:'hunter',x:HX[lv.q]-6,y:50,w:12,h:30,spot:[HX[lv.q]+(HX[lv.q]>AX[lv.q]?-6:6),93]}];
+ {id:'puzzle',x:86,y:119,w:26,h:11,spot:[99,134],face:'u'},{id:'plant',x:104,y:62,w:13,h:38,spot:[101,106],face:'r'},{id:'hunter',x:HX[lv.q]-6,y:50,w:12,h:30,spot:[HX[lv.q]+(HX[lv.q]>AX[lv.q]?-6:6),93]}];
  if(lv.sw||qprops.sw)I.push({id:'sw',x:38,y:92,w:13,h:9,spot:[44,120]});
  if(lv.mor<2)I.push({id:'morgan',x:14,y:50,w:14,h:30,spot:[28,93]});else if(lv.mor==2&&!lv.mgone)I.push({id:'morgan',x:8,y:116,w:16,h:22,spot:[28,130],face:'l'});
  return I}
 /* living room: real path finding around the coffee table (and Morgan's beanbag) */
-const lvWalk=m=>(x,y)=>{if(x<-36||x>116||y<90||y>140)return false;if(x>21-m&&x<63+m&&y>108-m&&y<116+m)return false;if(x>64-m&&x<78+m&&y>106-m&&y<113+m)return false;if(x>-25-m&&x<-11+m&&y>112-m&&y<124+m)return false;if(x>79-m&&x<89+m&&y<102+m)return false;if(x>86-m&&x<112+m&&y>121-m&&y<130+m)return false;if((lv.mor==2||lv.mor==4)&&((x-16)/(10+m))**2+((y-134)/(5+m))**2<1)return false;return true};
+const lvWalk=m=>(x,y)=>{if(x<-36||x>116||y<90||y>140)return false;if(x>21-m&&x<63+m&&y>108-m&&y<116+m)return false;if(x>64-m&&x<78+m&&y>106-m&&y<113+m)return false;if(x>-25-m&&x<-11+m&&y>112-m&&y<124+m)return false;if(x>104-m&&y<101+m)return false;if(x>86-m&&x<112+m&&y>121-m&&y<130+m)return false;if((lv.mor==2||lv.mor==4)&&((x-16)/(10+m))**2+((y-134)/(5+m))**2<1)return false;return true};
 function lvNear(x,y){const w=lvWalk(1);if(w(x,y))return [x,y];for(let d=1;d<30;d++)for(const [a,b] of [[0,-d],[0,d],[-d,0],[d,0],[-d,-d],[d,-d],[-d,d],[d,d]])if(w(x+a,y+b))return [x+a,y+b];return [x,y]}
 function qxRoute(tx,ty){if(qx.room!=='kitchen'){try{const B=QXB[qx.room]||QXB.living,P=planPath(abi.x,abi.y,tx,ty,qx.room==='living'?lvWalk:qxRW(qx.room),B[0],B[1],B[2],B[3]);if(P&&P.length){const l=P[P.length-1];if(Math.hypot(l[0]-tx,l[1]-ty)>.5)P.push([tx,ty]);P._r=1;return P}}catch(e){}}return qxRouteOld(tx,ty)}
 function qxRouteOld(tx,ty){const fx=abi.x,fy=abi.y,inT=x=>x>17&&x<67;if(qx.room!=='kitchen'&&((fy<97)!==(ty<97))&&(inT(fx)||inT(tx))){const side=(fx+tx)/2<42?14:70;return [[side,fy],[side,ty],[tx,ty]]}return [[tx,ty]]}
@@ -2086,7 +2086,7 @@ const lvCamT=x=>Math.max(-40,Math.min(40,Math.round(x)-40));
 function qxUpdate(dt){qxBingoBtn();if(mode==='tray')trayUpd(dt);if(loc==='living'){const tg=lv.tray||(qx&&qx.room==='living'&&lv.ex)?lvCamT(abi.x):0;CAMX+=(tg-CAMX)*Math.min(1,dt*3.5);if(Math.abs(tg-CAMX)<.15)CAMX=tg}if(!qx||!QXL[loc])return;if(mode==='wash'){qWashUpd(dt);return}if(mode==='stir'){stirUpd(dt);return}if(mode==='thermo'){thUpd(dt);return}if(qx.tap){qx.tap.t+=dt;if(qx.tap.t>.4)qx.tap=null}
  if(qx.phase){if(dlg)return;if(qx.phase==='sit'){qx.st+=dt;if(qx.st>=.75){QSAT=T;qx.sx=qx.sy=null;QPN=qx.room==='living'&&!qx.cnt.phone&&!(qprops.ph&&qprops.ph[qx.d])?qx.d:null;qx.phase=null;lv.ex=0;abi.hold=null;abi.carry=null;sfx('step');qx.cont()}return}
   if(qx.phase==='wait')return;mv(abi,dt);if(abi.tx==null){const P=qx.phase;abi.moving=false;
-   if(P==='toSeat'){qx.phase='sit';qx.st=0;abi.dir='d'}else if(P==='exit'){qx.phase=null;if(qx.goal==='door'){lv.door=1;sfx('creak')}qx.cont()}
+   if(P==='toSeat'){qx.phase='sit';qx.st=0;abi.dir='d'}else if(P==='exit'){qx.phase=null;qx.cont()}
    else if(P==='walkOut'){qx.phase='wait';const f=qx.out;qx.out=null;f()}else if(P==='walkIn'){qx.phase=null;const f=qx.afterIn;qx.afterIn=null;if(f)f()}}return}
  if(mode!=='qx'||dlg){if(dlg&&mode==='qx')abi.moving=false;return}mv(abi,dt);
  if(abi.tx==null&&qx.pend){const it=qx.pend;qx.pend=null;abi.dir=it.face||'u';
@@ -2213,21 +2213,94 @@ function qWashTap(){const W=qx&&qx.wash;if(!W)return;W.taps++;sfx('pop');for(let
 function qWashUpd(dt){const W=qx.wash;if(!W)return;W.t+=dt;W.bub.forEach(b=>{b.x+=b.vx*dt;b.y+=b.vy*dt;b.l-=dt});W.bub=W.bub.filter(b=>b.l>0);
  const ln=Math.floor(W.t/2.25);if(ln>=0&&ln!==W.ln&&ln<8){W.ln=ln;cap('♪ '+QLY[ln%4]+' ♪')}
  if(W.t>=18){qx.wash=null;cap('');setHud(qx.hud);mode='qx';const ok=W.taps>=40;say([{n:'Abigail',t:ok?'(Squeaky clean. Twenty seconds and two whole birthday songs.)':'(...Good enough. Germs, beware.)'}]);qbMark('wash')}}
-/* ---- Night 6: stir the goulash. Tap when the heat needle is in the green, three times ---- */
-const STZ=[[.40,.62],[.44,.60],[.46,.57]];
-function stirStart(){mode='stir';qx.stir={p:0,d:1,rd:0,wait:.4,res:[],msg:null};abi.dir='u';setHud('Tap when the needle is in the green!');sfx('select')}
-function stirTap(){const S=qx&&qx.stir;if(!S||S.wait>0||S.rd>=3)return;const z=STZ[S.rd],ok=S.p>=z[0]&&S.p<=z[1];S.res.push(ok?1:0);
- S.msg={t:T,s:ok?'PERFECT!':S.p<z[0]?'STILL COLD':'SCORCHED!',c:ok?'#5ae07a':S.p<z[0]?'#7ec8f0':'#ff6a5a'};sfx(ok?'ding':'hit');S.rd++;S.wait=.8;
- if(S.rd>=3)after(1,()=>{const n=S.res.reduce((a,b)=>a+b,0);qx.stir=null;mode='q';setHud('');
-  say([{n:'Abigail',t:n===3?'(Piping hot. Not one burnt bit. Hunter’s mom would be proud.)':n>0?'(Hot in the middle, lukewarm at the edges. Classic.)':'(Slightly scorched. We will call it "smoky".)'}],()=>{abi.hold='carry';abi.carry='#b8603a';qx.got='stove';sfx('item');addH(n?1:0);qxToLiving(()=>{qx.phase='toSeat';go(abi,qxRoute(AX[lv.q],93),40)})})})}
-function stirUpd(dt){const S=qx.stir;if(!S)return;if(S.wait>0){S.wait-=dt;return}if(S.rd>=3)return;S.p+=S.d*dt*(.75+S.rd*.28);if(S.p>1){S.p=1;S.d=-1}if(S.p<0){S.p=0;S.d=1}}
-function stirDraw(t){const S=qx.stir;if(!S)return;
- for(let i=0;i<4;i++){const k=((t*.7+i/4)%1);cx.globalAlpha=.5*(1-k);r(42+i*2+Math.round(Math.sin(t*3+i)),50-Math.round(k*14),2,2,'#ffffff');cx.globalAlpha=1}
- r(6,18,68,30,'#2a1a3a');r(7,19,66,28,'#3a2a4e');r(7,19,66,1,'#5a4a70');txt('STIR THE GOULASH',10,22,'#ffd86b',1);
- const x0=10,w=60,y=31,z=STZ[Math.min(2,S.rd)];r(x0-1,y-1,w+2,8,'#1a1028');for(let i=0;i<w;i++){const u=i/w;r(x0+i,y,1,6,u<z[0]?'#4a8ad0':u<=z[1]?'#5ac85a':'#e0463c')}r(x0+Math.round(z[0]*w),y,1,6,'#e8ffe8');r(x0+Math.round(z[1]*w),y,1,6,'#e8ffe8');
- const nx=x0+Math.round(S.p*w);r(nx-1,y-3,3,2,'#ffffff');r(nx,y-1,1,8,'#ffffff');
- for(let i=0;i<3;i++){const c=i<S.res.length?(S.res[i]?'#5ae07a':'#ff6a5a'):'#5a4a70';r(31+i*7,40,5,4,c)}
- if(S.msg&&T-S.msg.t<.9){const s=S.msg.s;txt(s,40-s.length*2,52,'#2a1a3a',1);txt(s,40-s.length*2,51,S.msg.c,1)}}
+/* ---- Night 6: stir the goulash. The camera dives into the pot; drag in circles to keep it moving while it heats.
+   Stop stirring and the bottom starts to catch; whip it round too fast and it slops over the side. ---- */
+const STC=document.createElement('canvas');STC.width=160;STC.height=288;const PX=80,PY=150,PRX=62,PRY=41;
+function stirStart(){mode='stir';hold=0;setHud('');const C=[];const rn=vgRnd(61);
+ for(let i=0;i<86;i++){const ty=i<34?0:i<54?1:i<70?2:i<80?3:4;C.push({r:Math.sqrt(rn())*.93,a:rn()*6.283,ty,f:rn()*6.283,s:rn()<.5})}
+ qx.stir={ph:'in',t:0,sa:-1.1,sv:0,acc:0,phi:0,mv:0,heat:0,sc:0,burns:0,spl:0,cd:0,dn:0,pa:null,stirred:0,C,bub:[],drops:[],wake:[],smoke:[],steam:[],msg:null,bt:0};sfx('whoosh')}
+function stirTap(){}
+function stirPtr2(CX,CY,dn){const b=(CR=dv.getBoundingClientRect());stirPtr((CX-b.left)/sc,(CY-b.top)/sc,dn)}
+dv.addEventListener('touchmove',e=>{if(mode==='stir'){e.preventDefault();const q=e.touches[0];if(q)stirPtr2(q.clientX,q.clientY,1)}},{passive:false});dv.addEventListener('touchend',e=>{if(mode==='stir'&&!e.touches.length)stirPtr2(0,0,0)});
+dv.addEventListener('pointermove',e=>{if(mode==='stir'&&e.pointerType!=='touch'&&e.buttons)stirPtr2(e.clientX,e.clientY,1)});addEventListener('pointerup',e=>{if(mode==='stir'&&e.pointerType!=='touch')stirPtr2(0,0,0)});
+function stirPtr(sx,sy,down){const S=qx&&qx.stir;if(!S||S.ph!=='play')return;if(!down){S.dn=0;S.pa=null;return}
+ const a=Math.atan2((sy-PY)/PRY,(sx-PX)/PRX);if(S.dn&&S.pa!=null){let d=a-S.pa;while(d>Math.PI)d-=6.283;while(d<-Math.PI)d+=6.283;S.acc+=d}S.pa=a;S.dn=1;S.ta=a}
+function stirUpd(dt){const S=qx.stir;if(!S)return;S.t+=dt;
+ if(S.ph==='in'){if(S.t>.8){S.ph='play';S.t=0}return}
+ if(S.ph==='done'){if(S.t>1.5){S.ph='out';S.t=0;sfx('whoosh')}}
+ if(S.ph==='out'){if(S.t>.75)stirFinish();return}
+ // spoon follows the finger, and its speed drives the whole pot
+ const sp=S.acc/Math.max(dt,.001);S.acc=0;S.sv+=(sp-S.sv)*Math.min(1,dt*8);if(!S.dn)S.sv*=Math.pow(.02,dt);
+ if(S.ta!=null&&S.dn){let d=S.ta-S.sa;while(d>Math.PI)d-=6.283;while(d<-Math.PI)d+=6.283;S.sa+=d*Math.min(1,dt*22)}else S.sa+=S.mv*dt*.6;
+ S.mv+=(S.sv*.75-S.mv)*Math.min(1,dt*(S.dn?2.2:.9));S.phi+=S.mv*dt;
+ const as=Math.abs(S.sv),mix=Math.min(1,Math.abs(S.mv)/4.2);if(as>2)S.stirred=1;
+ if(S.ph==='play'){S.heat=Math.min(1,S.heat+dt*(.028+.06*mix));
+  S.sc=Math.max(0,Math.min(1,S.sc+dt*(.3*(1-mix)*(.35+S.heat)-.45*mix)));
+  if(S.sc>=1){S.burns++;S.sc=.55;sfx('hit');S.msg={t:T,s:'IT’S CATCHING!',c:'#ff6a5a'};shakeT=.25;for(let i=0;i<8;i++)S.smoke.push({x:PX+(Math.random()-.5)*110,y:PY+20,l:1.6,vx:(Math.random()-.5)*6})}
+  S.cd-=dt;if(as>13&&S.cd<=0){S.spl++;S.cd=.8;sfx('splash');S.msg={t:T,s:'EASY!',c:'#ffd86b'};const hx=PX+Math.cos(S.sa)*PRX*.55,hy=PY+Math.sin(S.sa)*PRY*.55;for(let i=0;i<7;i++){const a=S.sa+(Math.random()-.5)*1.2;S.drops.push({x:hx,y:hy,vx:Math.cos(a)*(30+Math.random()*30),vy:-40-Math.random()*30,l:1})}}
+  S.bt+=dt;if(S.bt>.45&&S.stirred){S.bt=0;sfx('blip')}
+  if(S.heat>=1){S.ph='done';S.t=0;sfx('ding');S.msg={t:T,s:'PIPING HOT!',c:'#5ae07a'};S.dn=0}}
+ // bubbles (more when it's left alone), steam, smoke, splashes, the spoon's wake
+ if(Math.random()<dt*(.6+S.heat*5)*(1.25-mix*.7)){const rr=Math.sqrt(Math.random())*.85,a=Math.random()*6.283;S.bub.push({r:rr,a,t:0,d:.5+Math.random()*.6,z:1+Math.random()*2.2})}
+ S.bub.forEach(b=>{b.t+=dt;b.a+=S.mv*dt*(1.05-.4*b.r)});S.bub=S.bub.filter(b=>b.t<b.d+.25);
+ if(Math.random()<dt*(2+S.heat*14))S.steam.push({x:PX+(Math.random()-.5)*100,y:PY-10+(Math.random()-.5)*30,l:1.8+Math.random(),vx:(Math.random()-.5)*4,z:2+Math.random()*3});
+ S.steam.forEach(q=>{q.y-=dt*(14+S.heat*10);q.x+=q.vx*dt+Math.sin(T*2+q.y*.05)*dt*4;q.l-=dt});S.steam=S.steam.filter(q=>q.l>0);
+ if(S.sc>.6&&Math.random()<dt*8*(S.sc-.5))S.smoke.push({x:PX+(Math.random()-.5)*120,y:PY+14+Math.random()*10,l:1.6,vx:(Math.random()-.5)*6});
+ S.smoke.forEach(q=>{q.y-=dt*16;q.x+=q.vx*dt;q.l-=dt});S.smoke=S.smoke.filter(q=>q.l>0);
+ S.drops.forEach(d=>{d.vy+=150*dt;d.x+=d.vx*dt;d.y+=d.vy*dt;d.l-=dt});S.drops=S.drops.filter(d=>d.l>0);
+ if(as>1.5){S.wake.push({a:S.sa,t:0})}S.wake.forEach(w=>{w.t+=dt;w.a+=S.mv*dt*.8});S.wake=S.wake.filter(w=>w.t<.7);if(S.wake.length>40)S.wake.shift()}
+function stirFinish(){const S=qx.stir;qx.stir=null;mode='q';const good=S.burns===0&&S.spl<=1,ok=S.burns<=1;
+ say([{n:'Abigail',t:good?'(Piping hot. Not one burnt bit. Hunter’s mom would be proud.)':ok?'(Hot all the way through. A little crispy at the bottom. That’s the best part.)':'(Slightly scorched. We will call it "smoky".)'}],()=>{abi.hold='carry';abi.carry='#b8603a';qx.got='stove';sfx('item');addH(good?1:0);qxToLiving(()=>{qx.phase='toSeat';go(abi,qxRoute(AX[lv.q],93),40)})})}
+const SCOL=['#e8c060','#6a3a24','#d8402a','#efe2c0','#7a1e14'];
+function stirPot(){return bgC('stirpot',160,288,()=>{
+ // the pot: deep red enamel, a rolled rim, side handles, and the goulash surface inside (shaded darker toward the walls)
+ for(let x=PX-PRX-6;x<=PX+PRX+6;x++){const u=(x-PX)/(PRX+6);if(Math.abs(u)>1)continue;const top=PY+(PRY+4)*Math.sqrt(1-u*u),bot=PY+46+(PRY+4)*Math.sqrt(1-u*u),c=u<-.6?'#5a2018':u<-.2?'#7a2c20':u<.4?'#8a3a2a':u<.75?'#a24a34':'#7a2c20';r(x,Math.round(top)-2,1,Math.round(bot-top)+2,c)}
+ for(let x=PX-PRX-6;x<=PX+PRX+6;x++){const u=(x-PX)/(PRX+6);if(Math.abs(u)>1)continue;r(x,Math.round(PY+46+(PRY+4)*Math.sqrt(1-u*u))-1,1,1,'#3a140e');if(u>.15&&u<.6&&x%2==0)r(x,Math.round(PY+20+(PRY+4)*Math.sqrt(1-u*u)),1,8,'#b85a40')}
+ [[PX-PRX-14,1],[PX+PRX+6,-1]].forEach(([hx])=>{r(hx,PY+6,9,6,'#2a1410');r(hx,PY+6,9,1,'#5a3a30');r(hx+2,PY+8,5,2,'#140806')});
+ for(let y=-PRY-5;y<=PRY+5;y++)for(let x=-PRX-6;x<=PRX+6;x++){const d=(x/(PRX+5))**2+(y/(PRY+4))**2,d2=(x/(PRX+1))**2+(y/PRY)**2;if(d<=1&&d2>1)r(PX+x,PY+y,1,1,y<0?(d>.93?'#d8705a':'#b8503c'):(d>.93?'#6a2418':'#8a3a2a'))}
+ for(let y=-PRY;y<=PRY;y++)for(let x=-PRX;x<=PRX;x++){const d=(x/PRX)**2+(y/PRY)**2;if(d>1)continue;const e=Math.sqrt(d),n=rH(x+99,y+99,62);let c=e>.93?'#5a1a10':e>.82?'#8a2c1a':e>.55?'#a83a22':'#b8482a';if(y<-PRY*.5&&e>.82)c='#3a100a';if(n<.05)c='#c85a34';else if(n>.96)c='#922e1c';if(e<.82&&(.22*(1-e))>vgB(x,y)&&x<-10&&y<0)c='#c8583a';r(PX+x,PY+y,1,1,c)}})}
+function stirScene(t){const S=qx.stir,m=cx;cx=STC.getContext('2d');cx._c=null;
+ // stovetop and the burner glowing under the pot
+ r(0,0,160,288,'#202028');for(let y=0;y<288;y+=4)r(0,y,160,1,'#24242e');r(0,236,160,52,'#3a3a46');r(0,236,160,1,'#5a5a66');
+ {const g=cx.createRadialGradient(PX,PY+50,10,PX,PY+50,110),f=.55+.12*Math.sin(t*9)+.08*Math.sin(t*23);g.addColorStop(0,'rgba(255,140,60,'+(.35*f)+')');g.addColorStop(1,'rgba(255,90,30,0)');cx.fillStyle=g;cx.fillRect(0,40,160,240);cx._c=null}
+ for(let i=0;i<24;i++){const a=Math.PI*(.08+.84*i/23),x=Math.round(PX-Math.cos(a)*(PRX+2)),y=Math.round(PY+46+Math.sin(a)*(PRY+4)),h=3+Math.round(Math.abs(Math.sin(t*14+i*1.7))*4);r(x,y-h+3,1,h,'#5a8af0');r(x,y-Math.round(h/2)+3,1,Math.round(h/2),'#ffb060')}
+ cx.drawImage(stirPot(),0,0);
+ // swirl lines, then the chunks riding the current
+ cx.save();cx.beginPath();cx.ellipse(PX,PY,PRX-1,PRY-1,0,0,6.283);cx.clip();
+ for(let k=0;k<3;k++)for(let q=0;q<26;q++){const rr=.18+q*.028,a=S.phi*1.1+k*2.09+rr*3.2,x=PX+Math.cos(a)*rr*PRX,y=PY+Math.sin(a)*rr*PRY;cx.globalAlpha=.35*Math.min(1,Math.abs(S.mv)/2+.15);r(Math.round(x),Math.round(y),2,1,'#d86a40');cx.globalAlpha=1}
+ S.C.forEach(c=>{const a=c.a+S.phi*(1.05-.45*c.r),x=Math.round(PX+Math.cos(a)*c.r*PRX),y=Math.round(PY+Math.sin(a)*c.r*PRY+Math.sin(t*2+c.f)*.6),col=SCOL[c.ty];
+  if(c.ty===0){r(x,y,3,1,col);r(x+(c.s?2:0),y+1,1,1,col);r(x,y,1,1,'#f8d880');r(x+1,y+1,1,1,'#b8902a')}else if(c.ty===1){r(x,y,3,2,col);r(x,y,3,1,'#8a5236')}else if(c.ty===2){r(x,y,2,2,col);r(x,y,1,1,'#ff7a5a')}else if(c.ty===3){r(x,y,2,1,col)}else r(x,y,1,1,col)});
+ // bubbles swell and pop
+ S.bub.forEach(b=>{const x=Math.round(PX+Math.cos(b.a)*b.r*PRX),y=Math.round(PY+Math.sin(b.a)*b.r*PRY);if(b.t<b.d){const z=Math.max(1,Math.round(b.z*b.t/b.d));ell(x,y,z,Math.max(1,Math.round(z*.7)),'#c85a34',1);r(x-z+1,y-1,1,1,'#f0a080')}else{const k=(b.t-b.d)/.25;cx.globalAlpha=1-k;const z=Math.round(b.z+k*3);r(x-z,y,1,1,'#f0a080');r(x+z,y,1,1,'#f0a080');r(x,y-z,1,1,'#f0a080');cx.globalAlpha=1}});
+ // the spoon's wake
+ S.wake.forEach(w=>{const k=w.t/.7,rr=.55,x=PX+Math.cos(w.a)*rr*PRX,y=PY+Math.sin(w.a)*rr*PRY;ell(Math.round(x),Math.round(y),Math.round(3+k*5),Math.round(2+k*3),'#d0704a',(1-k)*.5)});
+ cx.restore();
+ // burnt bottom: dark creeping in from the edge
+ if(S.sc>.35){cx.globalAlpha=Math.min(.7,(S.sc-.35)*1.2);for(let i=0;i<40;i++){const a=i/40*6.283,x=PX+Math.cos(a)*PRX*.93,y=PY+Math.sin(a)*PRY*.93;r(Math.round(x)-1,Math.round(y),3,2,'#2a0a06')}cx.globalAlpha=1}
+ // the wooden spoon: head in the goulash, handle leaning out of the pot
+ {const hx=PX+Math.cos(S.sa)*PRX*.55,hy=PY+Math.sin(S.sa)*PRY*.55,ex=PX+Math.cos(S.sa)*PRX*1.25,ey=PY+Math.sin(S.sa)*PRY*1.25-62;
+  ell(Math.round(hx),Math.round(hy)+1,6,3,'#7a2a18',1);ell(Math.round(hx),Math.round(hy),5,2,'#c8925a',1);r(Math.round(hx)-3,Math.round(hy)-1,3,1,'#e8b880');
+  for(let q=0;q<=120;q++){const k=q/120,x=Math.round(hx+(ex-hx)*k),y=Math.round(hy+(ey-hy)*k),w=k<.08?2:3;r(x-1,y,w+1,1,'#b8824a');r(x-1,y,1,1,'#e0b07a');r(x+w-1,y,1,1,'#7a4a22')}
+  ell(Math.round(ex),Math.round(ey),2,2,'#8a5a2a',1);r(Math.round(ex)-1,Math.round(ey)-1,1,1,'#c8925a')}
+ // steam, smoke, splashes
+ S.steam.forEach(q=>{ell(Math.round(q.x),Math.round(q.y),Math.round(q.z),Math.round(q.z*.7),'#ffffff',Math.min(1,q.l)*.28)});
+ S.smoke.forEach(q=>{ell(Math.round(q.x),Math.round(q.y),4,3,'#4a4248',Math.min(1,q.l)*.45)});
+ S.drops.forEach(d=>{r(Math.round(d.x),Math.round(d.y),2,2,'#b8482a');r(Math.round(d.x),Math.round(d.y),1,1,'#e07a50')});
+ if(S.sc>.75){const a=(S.sc-.75)*4*(.6+.4*Math.sin(t*12));cx.globalAlpha=Math.min(.5,a*.5);for(let k=0;k<6;k++){r(0,k*2,160,2,'#ff2a1a');r(0,286-k*2,160,2,'#ff2a1a');r(k*2,0,2,288,'#ff2a1a');r(158-k*2,0,2,288,'#ff2a1a')}cx.globalAlpha=1}
+ // the read-outs: heat and the bottom of the pot
+ r(10,26,140,34,'rgba(20,10,30,.78)');txt('STIR THE GOULASH',48,30,'#ffd86b',1);
+ txt('HEAT',14,40,'#ffffff',1);r(34,39,110,7,'#1a1028');for(let x=0;x<108;x++){const u=x/108;if(u>S.heat)break;r(35+x,40,1,5,u<.4?'#5a9ae8':u<.75?'#f0a040':'#ff5a3a')}r(35,40,Math.round(108*S.heat),1,'rgba(255,255,255,.35)');
+ txt('BURN',14,50,'#ffffff',1);r(34,49,110,7,'#1a1028');r(35,50,Math.round(108*S.sc),5,S.sc>.75?(Math.floor(t*8)%2?'#ff3a2a':'#ff8a6a'):S.sc>.45?'#f0a040':'#8ad070');
+ if(S.ph==='play'&&!S.stirred&&Math.floor(t*2)%2)txt('DRAG IN CIRCLES TO STIR',18,250,'#ffffff',1);
+ else if(S.ph==='play'&&S.stirred&&Math.abs(S.mv)<1.2&&Math.floor(t*3)%2)txt('KEEP STIRRING!',36,250,'#ff9a7a',1);
+ if(S.msg&&T-S.msg.t<1.1){const s2=S.msg.s,k=Math.min(1,(T-S.msg.t)*6),z=S.msg.s==='PIPING HOT!'?2:1,w=s2.length*4*z;txt(s2,80-w/2+1,72+1,'#1a0a10',z);txt(s2,80-w/2,72-Math.round((1-k)*4),S.msg.c,z)}
+ if(S.ph==='done')for(let i=0;i<10;i++){const s2=stars[i],k=((t*.6+i/10)%1),x=PX-50+(s2.x%100),y=PY-10-k*60;cx.globalAlpha=1-k;r(Math.round(x),Math.round(y),1,3,'#fff6c8');r(Math.round(x)-1,Math.round(y)+1,3,1,'#fff6c8');cx.globalAlpha=1}
+ cx=m;cx._c=null}
+function stirDraw(t){const S=qx.stir;if(!S)return;stirScene(t);
+ // dive into the pot (and back out): grow the close-up from the pot on the stove
+ let k=1;if(S.ph==='in')k=Math.min(1,S.t/.8);else if(S.ph==='out')k=1-Math.min(1,S.t/.75);const e=k*k*(3-2*k);
+ const sx=90,sy=124,sc0=.13,z=sc0+(1-sc0)*e,cxp=sx+(80-sx)*e,cyp=sy+(144-sy)*e;
+ cx.save();cx.setTransform(1,0,0,1,0,0);cx.globalAlpha=Math.min(1,e*1.6);cx.imageSmoothingEnabled=false;cx.drawImage(STC,Math.round(cxp-80*z),Math.round(cyp-144*z),Math.round(160*z),Math.round(288*z));cx.globalAlpha=1;cx.restore();cx._c=null}
 /* ---- Day 9: hold the thermometer under your tongue until it beeps ---- */
 function thStart(){mode='thermo';hold=0;qx.th={v:0,warn:0,done:0,bp:0};abi.dir='u';setHud('Hold the screen to keep it under your tongue!');sfx('select')}
 function thUpd(dt){const H=qx.th;if(!H||H.done)return;if(hold){H.v=Math.min(1,H.v+dt/3.4);H.bp+=dt;if(H.bp>.5){H.bp=0;sfx('tick')}}else if(H.v>0){H.v=Math.max(0,H.v-dt*.5);if(!H.warn&&H.v>.12){H.warn=1;bark([{n:'Abigail',t:'(Keep it in! It has to beep first.)'}])}}
@@ -2288,7 +2361,9 @@ function mirRefl(t,X,Y,w,h,base,ps,full){cx.save();cx.beginPath();cx.rect(X,Y,w,
  ps.filter(p=>p&&p.x!=null).sort((a,b)=>b.y-a.y).forEach(p=>{const d=Math.max(0,p.y-base),R=Object.assign({},p,{dir:p.dir==='u'?'d':p.dir==='d'?'u':p.dir,_fT:T,_tT:null,_zT:null});
   R.y=Math.round(full?Y+h-3+d*.15:Y+Math.min(h+1,31)+d*.15);try{person(R,t)}catch(e){}});
  cx.globalAlpha=.16;r(X,Y,w,h,'#e8f6ff');cx.globalAlpha=1;cx.restore()}
-function lvPlant(t){const S=QSV.get(),g=Math.min(5,S.pl.length),x=84,y=101,sw=Math.sin(t*1.2)*.6;
+function lvPlant(t){const S=QSV.get(),g=Math.min(5,S.pl.length),x=110,y=86,sw=Math.sin(t*1.2)*.6;
+ // a little round side table in the corner by the balcony: Kevin's new home
+ r(104,100,13,1,'rgba(0,0,0,.2)');r(109,88,2,12,'#7a5236');r(109,88,1,12,'#9a6a46');r(106,98,8,2,'#6a4630');ell(110,87,6,2,'#9a6a46',1);ell(110,86,6,1,'#b8885a',1);r(105,88,11,1,'#6a4630');
  r(x-4,y-6,9,6,'#c8603a');r(x-4,y-6,9,1,'#e0804a');r(x-3,y-1,7,1,'#a84a2a');r(x-3,y-6,7,1,'#4a2a1a');
  const L=[[0,-8,0],[-3,-10,-1],[3,-11,1],[-2,-14,-1],[2,-15,1],[0,-18,0]].slice(0,2+g);L.forEach(([dx,dy,s2],i)=>{const lx=Math.round(x+dx+sw*(i/4)),ly=y+dy;r(x,ly+2,1,y-6-ly-2>0?y-6-ly-2:1,'#3a7a3a');ell(lx,ly,2,1,i%2?'#4a9a4a':'#5aaa5a',1)});
  if(g>=4){const fx=Math.round(x+sw),fy=y-20;r(fx-1,fy,3,1,'#ff9ccb');r(fx,fy-1,1,3,'#ff9ccb');r(fx,fy,1,1,'#ffd86b')}
@@ -2299,15 +2374,19 @@ const QPO=(()=>{const E=[],I=[];for(let i=0;i<48;i++){const x=i%12,y=(i/12)|0;(x
 function qPuzCol(x,y){if(y===3)return x%3?'#5aaa5a':'#ff9ccb';if(x>=4&&x<=8&&y>=1){return y===1&&(x===4||x===8)?'#c8843a':x===6&&y===2?'#f4ecd8':'#d89a4a'}return y===0?'#9ad0f0':'#bfe6ff'}
 /* ---- close-ups drawn over the room (the jigsaw) ---- */
 function qxOverlay(t){if(!qx)return;if(qx.stir)stirDraw(t);if(qx.th)thDraw(t);if(qx.pcard&&!dlg)qx.pcard=null;if(!qx.pcard)return;const S=QSV.get(),k=Math.min(8,S.pz.length),a=Math.min(1,(T-qx.pcard)/.25);
- cx.globalAlpha=.55*a;r(0,0,80,144,'#1a1028');cx.globalAlpha=a;const X=10,Y=26,Wd=60,Hd=40;r(X-2,Y-2,Wd+4,Hd+4,'#8a6a4a');r(X,Y,Wd,Hd,'#c8b8a0');
+ // the puzzle card: painted at full strength off-screen first (so the finished picture never shows through the missing pieces while it fades in),
+ // then laid over the middle of whatever part of the room the camera is looking at
+ const cm=loc==='living'?Math.round(CAMX):0;cx.save();cx.translate(cm,0);cx.globalAlpha=.55*a;r(0,0,80,144,'#1a1028');cx.globalAlpha=1;
+ const m0=cx;cx=PZCV.getContext('2d');cx.setTransform(1,0,0,1,0,0);cx.clearRect(0,0,80,144);cx._c=null;const X=10,Y=26,Wd=60,Hd=40;r(X-2,Y-2,Wd+4,Hd+4,'#8a6a4a');r(X,Y,Wd,Hd,'#c8b8a0');
  cx.save();cx.beginPath();cx.rect(X,Y,Wd,Hd);cx.clip();for(let y=0;y<Hd;y+=2){const q=y/Hd;r(X,Y+y,Wd,2,`rgb(${Math.round(150+q*60)},${Math.round(206+q*30)},${Math.round(240-q*20)})`)}
  r(X,Y+30,Wd,10,'#5aaa5a');for(let i=0;i<14;i++){const fx=X+(i*9)%Wd,fy=Y+31+(i*5)%8;r(fx,fy,1,1,['#ff9ccb','#ffd86b','#fff'][i%3])}
  ell(X+12,Y+10,6,2,'#fff',.9);ell(X+46,Y+7,5,2,'#fff',.9);
  cx.translate(X+30,Y+34);cx.scale(2.4,2.4);cx.translate(-(X+30),-(Y+34));try{corgi(X+30,Y+34,'r',1,T,0,0)}catch(e){}cx.restore();
  const N=Math.round(48*k/8),cw=Wd/12,ch=Hd/4,sh2=new Set(QPO.slice(0,N));for(let i=0;i<48;i++){if(sh2.has(i))continue;const cx2=i%12,cy2=(i/12)|0;r(X+Math.round(cx2*cw),Y+Math.round(cy2*ch),Math.ceil(cw),Math.ceil(ch),'#c8b8a0');r(X+Math.round(cx2*cw),Y+Math.round(cy2*ch),Math.ceil(cw),1,'#d8ccb8');r(X+Math.round(cx2*cw)+2,Y+Math.round(cy2*ch)+3,2,2,'#b8a890')}
  for(let i=0;i<=12;i++)r(X+Math.round(i*cw),Y,1,Hd,'rgba(0,0,0,.12)');for(let i=0;i<=4;i++)r(X,Y+Math.round(i*ch),Wd,1,'rgba(0,0,0,.12)');
- if(qx.pnew&&T-qx.pnew<.8){const g=1-(T-qx.pnew)/.8;QPO.slice(Math.round(48*(k-1)/8),N).forEach(i=>{cx.globalAlpha=g*.7*a;r(X+Math.round((i%12)*cw),Y+Math.round(((i/12)|0)*ch),Math.ceil(cw),Math.ceil(ch),'#fff')})}
- cx.globalAlpha=a;txt(k>=8?'DONE!':k+'/8',X+Wd/2-(k>=8?9:6),Y+Hd+6,'#ffd86b',1);cx.globalAlpha=1}
+ if(qx.pnew&&T-qx.pnew<.8){const g=1-(T-qx.pnew)/.8;QPO.slice(Math.round(48*(k-1)/8),N).forEach(i=>{cx.globalAlpha=g*.7;r(X+Math.round((i%12)*cw),Y+Math.round(((i/12)|0)*ch),Math.ceil(cw),Math.ceil(ch),'#fff')})}
+ txt(k>=8?'DONE!':k+'/8',X+Wd/2-(k>=8?9:6),Y+Hd+6,'#ffd86b',1);cx.globalAlpha=1;cx=m0;cx._c=null;cx.globalAlpha=a;cx.drawImage(PZCV,0,0);cx.globalAlpha=1;cx.restore()}
+const PZCV=document.createElement('canvas');PZCV.width=80;PZCV.height=144;
 /* ---- the kitchen: banana bread on the counter once it is baked; the oven glows while it bakes ---- */
 function qkBread(t){if(!qx)return;const S=QSV.get();if(qx.oven){const g=.6+.4*Math.sin(t*6);r(39,74,14,14,'#2a2a34');cx.globalAlpha=g;r(40,75,12,12,'#ff8a3a');cx.globalAlpha=1;disc(46,81,9,'#ffa050',.15*g)}
  if(S.bread!=null){const left=Math.max(2,8-Math.max(0,qx.d-S.bread)),x=20;r(x,61,left+1,4,'#a8683a');r(x,61,left+1,1,'#c8884a');r(x+left+1,62,1,3,'#f0d8a0');r(x-1,65,12,1,'#f4f4f8')}}
@@ -2404,7 +2483,7 @@ function lvTabItems(){const ex=lv.ex&&qx,carryR=(ex&&qx.got==='remote'&&qx.goal=
 function lvBasket(){const ex=lv.ex&&qx;r(65,102,12,10,'#c89a5a');for(let x=66;x<77;x+=2)r(x,103,1,9,'#a87a3a');if(lv.q<3&&!(ex&&qx.got==='blanket')){r(64,98,14,5,'#e89ab8');r(66,97,8,2,'#f8c0d8')}}
 function lvBean(t){disc(16,130,9,'#8a5aa8',1);disc(14,126,5,'#a87ac8',1);if(lv.mor==2&&!lv.mw&&!lv.mw2&&!lv.mgone){morgan.x=16;morgan.y=134;morgan.dir='r';morgan.hold='phone';morgan.sit=1;person(morgan,t);morgan.sit=0}ell(16,135,8,3,'#7a4a98')}
 /* [left, right, top, base]: if Abigail's feet are above the base and her sprite overlaps, the prop goes back over her */
-function lvFront(t,p){if(p.sit)return;const O=[[21,63,94,116,()=>{lvTable();lvTabItems()}],[62,80,96,113,lvBasket],[-24,-11,88,124,lvCart],[79,89,80,102,()=>lvPlant(T)]];if(lv.mor==2||lv.mor==4)O.push([6,26,118,139,()=>lvBean(t)]);
+function lvFront(t,p){if(p.sit)return;const O=[[21,63,94,116,()=>{lvTable();lvTabItems()}],[62,80,96,113,lvBasket],[-24,-11,88,124,lvCart],[104,117,62,101,()=>lvPlant(T)]];if(lv.mor==2||lv.mor==4)O.push([6,26,118,139,()=>lvBean(t)]);
  O.forEach(([a,b,top,base,f])=>{if(p.y<base&&p.y>top&&p.x+5>a&&p.x-5<b)f()})}
 function drawQx(t){const ex=lv.ex&&qx;
  r(24,32,9,12,'#f4f4f8');r(24,32,9,3,'#d8352f');r(24,44,9,1,'rgba(0,0,0,.18)');const dd=qx?qx.d:1;for(let i=0;i<6;i++)r(25+(i%3)*3,37+((i/3)|0)*3,2,2,i<Math.min(6,dd/2.4|0)?'#d8352f':'#c8c8d0');
@@ -10109,7 +10188,7 @@ function press2(CX,CY){
  if(mode==='album'){albumTap();return}
  if(mode==='broom'){broomTap();return}
  if(mode==='wash'){qWashTap();return}
- if(mode==='stir'){stirTap();return}
+ if(mode==='stir'){stirPtr2(CX,CY,1);return}
  if(mode==='thermo'){hold=1;return}
  if(mode==='qx'){if(!dlg)qxTap(x,y);return}
  if(mode==='hx'){if(!dlg)hxTap(x,y);return}
