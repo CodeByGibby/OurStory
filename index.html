@@ -206,7 +206,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.15</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.16</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause">II</button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -687,6 +687,7 @@ function fancyText(str,z){const key=str+z;if(FTC[key])return FTC[key];const w=st
 /* chapter vignettes: a little painted scene in a 64x52 frame. The still part is painted once (dithered light and shading) and cached; only the moving bits draw each frame */
 const VGC={},VBAY=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
 const vgB=(x,y)=>(VBAY[(y&3)*4+(x&3)]+.5)/16;
+function vgGradAt(x0,y0,w,h,st){vgGrad(x0,y0,w,h,st)}
 function vgGrad(x0,y0,w,h,st){for(let y=0;y<h;y++){const f=h>1?y/(h-1)*(st.length-1):0,i=Math.min(st.length-2,Math.floor(f)),k=Math.max(0,Math.min(1,(f-i-.5)*2.4+.5));
  for(let x=0;x<w;){const c=k>vgB(x0+x,y0+y)?st[i+1]:st[i];let n=1;while(x+n<w&&(k>vgB(x0+x+n,y0+y)?st[i+1]:st[i])===c)n++;r(x0+x,y0+y,n,1,c);x+=n}}}
 function vgGlow(gx,gy,rad,c,amt,sy){sy=sy||1;for(let y=Math.floor(gy-rad*sy);y<=gy+rad*sy;y++)for(let x=Math.floor(gx-rad);x<=gx+rad;x++){if(x<0||y<0||x>63||y>51)continue;const d=Math.hypot(x-gx,(y-gy)/sy)/rad;if(d<1&&Math.min(1,Math.max(0,((1-d)*(1-d)*amt-.3)*2.2+.3))>vgB(x,y))r(x,y,1,1,c)}}
@@ -1808,7 +1809,7 @@ function kartInput(x,y,down){const k=kart;if(!k||mode!=='kart')return;
 /* touch steering is proportional: the further from the middle you hold, the harder you turn (hard enough at the edges to drift) */
 function kSteerAt(x){const k=kart;if(!k)return;const d=x-80,a=Math.abs(d);k.tx=x;k.steer=a<5?0:Math.sign(d)*Math.min(1,(a-5)/58)}
 let kRaced=0;
-function kartFinish(){sfx(kart.place==1?'win':'lose');const k=kart,place=k.place,beatH=k.R[1].s<k.me.s||!k.R[1].done;k.fin=1;k.final=place;setHud('');if(!kRaced){kRaced=1;addH(1)}
+function kartFinish(){sfx(kart.place==1?'win':'lose');const k=kart,place=k.place,beatH=k.R[1].s<k.me.s||!k.R[1].done;k.fin=1;k.final=place;qprops.hLost=place==1||beatH?1:0;setHud('');if(!kRaced){kRaced=1;addH(1)}
  after(2.6,()=>fadeTo(()=>{const L=place==1?[{n:'Abigail',t:'FIRST PLACE! Sick AND undefeated!'},{n:'Hunter',t:'I let you win.'},{n:'Abigail',t:'You threw a water balloon at me, Hunter.'},{n:'Hunter',t:'...Enjoy the goulash I am now reheating.'}]
   :beatH?[{n:'Abigail',t:'Okay, the bots were robbed, but I beat YOU. That is what matters.'},{n:'Hunter',t:'The bots cheated. I demand a rematch.'},{n:'Abigail',t:'Go reheat your mom\'s goulash. Now.'}]
   :[{n:'Hunter',t:'And THAT is how it is done.'},{n:'Abigail',t:"I have a fever. It doesn't count."},{n:'Hunter',t:'...Fine. I\'ll still reheat Mom\'s goulash for you.'}];
@@ -2043,7 +2044,8 @@ function _qDay1(){qScene({mor:0,q:0,mb:1},[{n:'',t:'Everything feels heavy. Fogg
 let qx=null,qprops={remote:0,sw:0};
 const QXD={qDay1:1,qNight1:1,qDay3:3,qNight3:3,qDay6:6,qNight6:6,qDay9:9,qNight9:9,qDay12:12,qNight12:12,qDay14:14};
 function qEx(cfg,cont){setLoc('living');lv={night:0,mor:0,q:0,...cfg.lv,ex:1};showHM=1;mode='qx';qx={room:'living',hud:cfg.hud,goal:cfg.goal,cont,pend:null,d:cfg.d,cnt:{},gl:cfg.gl||null};
- [abi,hunter,morgan].forEach(p=>{p.hold=null;p.zz=0;p.lid=0;p.tx=null;p.moving=false});at(abi,130,136,'l');CAMX=lvCamT(130);go(abi,[[100,126]],38);qx.phase='walkIn';qx.afterIn=cfg.intro?()=>{bark([{n:'',t:cfg.intro}]);if(cfg.d===1)after(4,()=>bark([{n:'',t:'Psst: tap BINGO (top right) for Quarantine Bingo. Fill it in over the 14 days!'}]))}:null;setHud(cfg.hud)}
+ [abi,hunter,morgan].forEach(p=>{p.hold=null;p.zz=0;p.lid=0;p.tx=null;p.moving=false});at(abi,130,136,'l');CAMX=lvCamT(130);go(abi,[[100,126]],38);qx.phase='walkIn';qx.afterIn=cfg.intro?()=>{bark([{n:cfg.introN||'',t:cfg.intro}]);if(cfg.d===1)after(4,()=>bark([{n:'',t:'Psst: tap BINGO (top right) for Quarantine Bingo. Fill it in over the 14 days!'}]))}:null;
+ if(cfg.qx)Object.assign(qx,cfg.qx);if(cfg.room){setLoc(QXR[cfg.room]);qx.room=cfg.room;CAMX=0;at(abi,cfg.sp[0],cfg.sp[1],cfg.sp[2]);go(abi,[cfg.in],38)}if(cfg.carry){abi.hold='carry';abi.carry=cfg.carry}setHud(cfg.hud)}
 const qxL=(id,d)=>{const n=lv.night,e=lv.eve;const L={
  cal:[{n:'',t:'Day '+qx.d+' of 14.'+(qx.d<14?' '+(14-qx.d)+' more to go.':' The LAST day!')},{n:'Abigail',t:['(Is it Tuesday? Every day is Tuesday now.)','(Morgan drew a little skull on today’s date.)','(Someone has been crossing off the days REALLY hard.)'][qx.d%3]}],
  morgan:lv.mor==4?[{n:'Morgan',t:'(through the door, still on the phone) No, YOU hang up first.'}]:lv.mor==3?[{n:'Morgan',t:qx.d>=14?'(through the door) Are you two official yet? FINALLY.':'(through the door) GO AWAY. ...Thank you for the cookie.'}]:
@@ -2052,7 +2054,8 @@ const qxL=(id,d)=>{const n=lv.night,e=lv.eve;const L={
  window:[{n:'Abigail',t:e?'(A pink sunset. The first one I’ve actually noticed in two weeks.)':n?'(The street is so quiet. Just one window glowing across the way.)':'(The world outside looks so normal. The birds have no idea about Covid.)'}],
  fridge:[{n:'Abigail',t:qx.d<3?'(Half an onion and one sad pickle.)':'(Goulash. More goulash. So. Much. Goulash.)'},{n:'Abigail',t:'(Morgan labeled her yogurt "MINE". There are three of them.)'}],
  phone:[{n:'',t:'A text from Mum in England:'},{n:'Mum',t:{1:'Drink your tea, love. PROPER tea. Not that American nonsense.',3:'How is the boy? The Hunter boy?',6:'Your gran is knitting you a scarf. For the Covid.',9:'Your dad says to tell the boy hello. He says it every day now.',12:'Two more days! Then you can finally go outside. Wear a coat.',14:'Ring me later, love. I want to hear EVERYTHING.'}[qx.d]||'Love you lots. Get some rest.'}],
- tissues:[{n:'Abigail',t:'(The tissue mountain grows taller every day.)'}],
+ tissues:[{n:'Abigail',t:'(The tissue mountain grows taller every day.)'}],tpile:[{n:'Abigail',t:'(The tissue mountain grows taller every day.)'}],
+ basket:[{n:'Abigail',t:'(The big fluffy blanket lives in our room. Saving it for a special occasion.)'}],
  pantry:[{n:'Abigail',t:qx.d<3?'(The pantry. Crackers, and one lonely can of soup.)':'(The pantry. Hunter’s mom stocked it with enough snacks for a month.)'}],
  stove:[{n:'Abigail',t:'(Hunter’s mom’s goulash. It never ends. It will outlive us all.)'}],sink:[{n:'Abigail',t:'(Every single mug in this apartment is in the sink.)'}],
  remote:[{n:'Abigail',t:'(The TV remote. Morgan keeps hiding it.)'}],
@@ -2062,11 +2065,11 @@ const qxL=(id,d)=>{const n=lv.night,e=lv.eve;const L={
 function qxItems(){if(qx.room==='kitchen')return [{id:'pantry',x:4,y:10,w:32,h:22,spot:[20,104]},{id:'fridge',x:56,y:44,w:18,h:52,spot:[64,104]},{id:'stove',x:38,y:66,w:16,h:30,spot:[46,104]},{id:'sink',x:6,y:66,w:30,h:30,spot:[20,104]},{id:'back',x:54,y:128,w:26,h:16,spot:[72,136],face:'r'}];
  if(qx.room==='hall')return qhItems();if(qx.room==='bath')return qbItems();if(qx.room==='bed')return qdItems();
  const I=[{id:'cal',x:24,y:32,w:9,h:12,spot:[28,93]},{id:'phone',x:60,y:28,w:12,h:24,spot:[66,93]},{id:'window',x:44,y:8,w:28,h:34,spot:[58,93]},
- {id:'tissues',x:22,y:91,w:16,h:10,spot:[30,120]},(qprops.remote?{id:'remote',x:50,y:93,w:8,h:8,spot:[54,120]}:{id:'remote',x:56,y:108,w:10,h:8,spot:[60,122]}),
- {id:'blanket',x:63,y:96,w:16,h:16,spot:[60,118],face:'r'},{id:'door',x:-6,y:26,w:13,h:64,spot:[5,95]},{id:'kit',x:-40,y:130,w:24,h:14,spot:[-30,136],face:'l'},{id:'hallx',x:92,y:130,w:28,h:14,spot:[108,136],face:'r'},
+ {id:'tpile',x:22,y:91,w:16,h:10,spot:[30,120]},(qprops.remote?{id:'remote',x:50,y:93,w:8,h:8,spot:[54,120]}:{id:'remote',x:56,y:108,w:10,h:8,spot:[60,122]}),
+ {id:'basket',x:63,y:96,w:16,h:16,spot:[60,118],face:'r'},{id:'door',x:-6,y:26,w:13,h:64,spot:[5,95]},{id:'kit',x:-40,y:130,w:24,h:14,spot:[-30,136],face:'l'},{id:'hallx',x:92,y:130,w:28,h:14,spot:[108,136],face:'r'},
  {id:'cart',x:-24,y:93,w:13,h:30,spot:[-17,128]},{id:'barmir',x:-25,y:56,w:15,h:24,spot:[-17,98],face:'u'},{id:'coats',x:-39,y:44,w:13,h:34,spot:[-32,96]},{id:'balcony',x:86,y:8,w:28,h:82,spot:[101,95]},
  {id:'puzzle',x:86,y:119,w:26,h:11,spot:[99,134],face:'u'},{id:'plant',x:79,y:79,w:11,h:23,spot:[84,108]},{id:'hunter',x:HX[lv.q]-6,y:50,w:12,h:30,spot:[HX[lv.q]+(HX[lv.q]>AX[lv.q]?-6:6),93]}];
- if(lv.sw||qx.goal==='sw'||qprops.sw)I.push({id:'sw',x:38,y:92,w:13,h:9,spot:[44,120]});
+ if(lv.sw||qprops.sw)I.push({id:'sw',x:38,y:92,w:13,h:9,spot:[44,120]});
  if(lv.mor<2)I.push({id:'morgan',x:14,y:50,w:14,h:30,spot:[28,93]});else if(lv.mor==2&&!lv.mgone)I.push({id:'morgan',x:8,y:116,w:16,h:22,spot:[28,130],face:'l'});
  return I}
 /* living room: real path finding around the coffee table (and Morgan's beanbag) */
@@ -2080,7 +2083,7 @@ function qxTap(x,y){if(qx.phase)return;const it=qxItems().find(i=>x>=i.x&&x<=i.x
 function qxToKitchenOld(after){qx.phase='walkOut';go(abi,qxRoute(72,138).concat([[92,140]]),40);qx.out=()=>fadeTo(()=>{setLoc('mkit');qx.room='kitchen';at(abi,-6,138,'r');go(abi,[[16,124]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(qx.hud)})}
 function qxToLivingOld(after){qx.phase='walkOut';go(abi,[[8,138],[-10,140]],40);qx.out=()=>fadeTo(()=>{setLoc('living');qx.room='living';at(abi,90,138,'l');go(abi,[[66,126]],40);qx.phase='walkIn';qx.afterIn=after||null;setHud(mode==='qx'?qx.hud:'')})}
 const lvCamT=x=>Math.max(-40,Math.min(40,Math.round(x)-40));
-function qxUpdate(dt){qxBingoBtn();if(mode==='tray')trayUpd(dt);if(loc==='living'){const tg=lv.tray||(qx&&qx.room==='living'&&lv.ex)?lvCamT(abi.x):0;CAMX+=(tg-CAMX)*Math.min(1,dt*3.5);if(Math.abs(tg-CAMX)<.15)CAMX=tg}if(!qx||!QXL[loc])return;if(mode==='wash'){qWashUpd(dt);return}if(qx.tap){qx.tap.t+=dt;if(qx.tap.t>.4)qx.tap=null}
+function qxUpdate(dt){qxBingoBtn();if(mode==='tray')trayUpd(dt);if(loc==='living'){const tg=lv.tray||(qx&&qx.room==='living'&&lv.ex)?lvCamT(abi.x):0;CAMX+=(tg-CAMX)*Math.min(1,dt*3.5);if(Math.abs(tg-CAMX)<.15)CAMX=tg}if(!qx||!QXL[loc])return;if(mode==='wash'){qWashUpd(dt);return}if(mode==='stir'){stirUpd(dt);return}if(mode==='thermo'){thUpd(dt);return}if(qx.tap){qx.tap.t+=dt;if(qx.tap.t>.4)qx.tap=null}
  if(qx.phase){if(dlg)return;if(qx.phase==='sit'){qx.st+=dt;if(qx.st>=.75){QSAT=T;qx.sx=qx.sy=null;QPN=qx.room==='living'&&!qx.cnt.phone&&!(qprops.ph&&qprops.ph[qx.d])?qx.d:null;qx.phase=null;lv.ex=0;abi.hold=null;abi.carry=null;sfx('step');qx.cont()}return}
   if(qx.phase==='wait')return;mv(abi,dt);if(abi.tx==null){const P=qx.phase;abi.moving=false;
    if(P==='toSeat'){qx.phase='sit';qx.st=0;abi.dir='d'}else if(P==='exit'){qx.phase=null;if(qx.goal==='door'){lv.door=1;sfx('creak')}qx.cont()}
@@ -2091,21 +2094,37 @@ function qxUpdate(dt){qxBingoBtn();if(mode==='tray')trayUpd(dt);if(loc==='living
   else if(QXX[qx.room]&&QXX[qx.room][it.id])qxMove(QXX[qx.room][it.id]);
   else if(qxAct(it.id)){}
   else{const L=qxL(it.id)||qxL2(it.id)||[{n:'Abigail',t:'(Hm.)'}];const k=qx.cnt[it.id]||0;qx.cnt[it.id]=k+1;if(it.id==='phone'){qprops.ph=qprops.ph||{};qprops.ph[qx.d]=1;qbMark('mum')}sfx('select');say(L.length>2&&it.id!=='phone'?[L[k%L.length]]:it.id==='fridge'||it.id==='cal'?[L[k%2]]:L)}}}
-function qxGoal(){const G=qx.goal,sx=AX[lv.q];const toSeat=()=>{qx.phase='toSeat';go(abi,qxRoute(sx,93),40)};const afterGl=f=>qx.gl?say(qx.gl,f):f();
+function qxGoal(){const G=qx.goal,sx=AX[lv.q];const toSeat=()=>{qx.phase='toSeat';go(abi,qxRoute(sx,93),40)};const afterGl=f=>qx.gl?say(qx.gl,f):f();const home=()=>qxToLiving(toSeat);
  const pick=c=>{abi.hold='carry';abi.carry=c;qx.got=G;if(G in qprops)qprops[G]=1;if(G==='remote')qprops.lap='remote';sfx('item')};
+ const back=(h,g)=>{qx.goal=g;qx.hud=h;setHud(h);mode='qx'};
+ // Day 3: the goulash goes in the fridge
+ if(G==='fridge'&&qx.put){qx.fopen=1;sfx('creak');after(.6,()=>{abi.hold=null;abi.carry=null;sfx('item');after(.5,()=>{qx.fopen=0;sfx('creak');say([{n:'Abigail',t:'(Goulash: in. The fridge is now officially more goulash than fridge.)'},{n:'Abigail',t:'(There is enough here to last until 2030. Just like the toilet paper.)'}],()=>qx.cont())})});return}
+ // Night 6: reheat the goulash on the stove
+ if(G==='stove'&&qx.n6){stirStart();return}
+ // Day 12: a peace cookie for Morgan
+ if(G==='stove'&&qx.ck0){say([{n:'',t:'*mix mix mix*',anim:()=>sfx('pop')},{n:'',t:'(Into the oven it goes.)',anim:()=>{qx.oven=T;sfx('creak')}},{n:'',t:'*ding!*',anim:()=>{sfx('ding');qx.oven=null}},
+   {n:'Abigail',t:'(One giant peace cookie. The chocolate chips make a little heart. Mostly.)'}],()=>{abi.hold='carry';abi.carry='#c8843a';qx.got='stove';sfx('item');back('Leave the cookie at Morgan’s door','mdoor')});return}
+ if(G==='mdoor'){abi.hold=null;abi.carry=null;qx.ck=1;sfx('item');after(.5,()=>{sfx('knock');say([{n:'',t:'(You leave the cookie on a plate outside her door.) *knock knock*'},{n:'Morgan',t:'(through the door) ...Is that a COOKIE?'},{n:'Morgan',t:'(through the door) ...Fine. Thank you. I still hate you both. Lovingly.'}],()=>{qbMark('knock');qx.cont()})});return}
+ // Day 9: take your temperature
+ if(G==='mirror'){thStart();return}
+ // Day 14: open the curtains
+ if(G==='win'&&qx.cur0){qx.cur=T;sfx('whoosh');after(1,()=>say([{n:'Abigail',t:'(Golden light. The whole room is glowing.)'},{n:'Abigail',t:'(And I feel... good. Actually, genuinely good.)'}],()=>back('Day 14: Go talk to Hunter','hunter')));return}
  if(G==='door'){qx.phase='exit';go(abi,qxRoute(5,95).concat([[2,90]]),40);return}
  if(G==='pantry'){qx.popen=1;sfx('creak');after(.7,()=>{pick('#e8c050');qx.kc=1;after(.5,()=>{qx.popen=0;sfx('creak');say([{n:'Abigail',t:'(Kettle corn. The good stuff. Now something to drink.)'}],()=>{qx.goal='fridge';qx.hud='Grab a soda from the fridge';setHud(qx.hud);mode='qx'})})});return}
  if(G==='fridge'){qx.fopen=1;sfx('creak');after(.7,()=>{pick(qx.kc?'#e8c051':'#f8e0a0');after(.4,()=>{qx.fopen=0;afterGl(()=>qxMove('living',toSeat))})});return}
  if(G==='tissues')pick('#f8f8ff');else if(G==='remote')pick('#1a1a22');else if(G==='sw')pick('#e0463c');else if(G==='blanket')pick('#e89ab8');
- if(G==='hunter'){toSeat();return}after(.35,()=>afterGl(toSeat))}
+ if(G==='hunter'){toSeat();return}after(.35,()=>afterGl(home))}
 function qxArrow(t,g){const b=Math.round(Math.sin(t*6)*1.5),x=Math.round(g.x+g.w/2),cm=Math.round(CAMX);
  if(qx.room==='living'&&(x<cm+2||x>cm+78)){// off the edge of the screen: a little chevron at the edge, pointing the way
   const L=x<cm+2,ex=L?cm+2-b:cm+77+b,y=116;for(let i=0;i<4;i++)r(L?ex+i:ex-i,y-i,1,i*2+1,'#ffe066');r(L?ex+4:ex-4,y-4,1,9,'rgba(0,0,0,.25)');return}
  if(g.y-6<22){// too close to the top of the screen (hidden under the hearts/HUD): point up at it from underneath
   const y=g.y+g.h+3-b;r(x-1,y-1,3,7,'rgba(0,0,0,.25)');r(x,y,1,1,'#ffe066');r(x-1,y+1,3,1,'#ffe066');r(x-2,y+2,5,1,'#ffe066');r(x,y+3,1,3,'#ffe066');return}
  const y=g.y-6+b;r(x-2,y,5,1,'#ffe066');r(x-1,y+1,3,1,'#ffe066');r(x,y+2,1,1,'#ffe066')}
-function qxGoalItem(){const I=qxItems(),gr=qx.goal==='fridge'||qx.goal==='pantry'?'kitchen':'living';if(qx.room===gr)return I.find(i=>i.id===qx.goal);
- const way=qx.room==='bath'||qx.room==='bed'?'out':qx.room==='hall'?'liv':qx.room==='kitchen'?'back':'kit';return I.find(i=>i.id===way)}
+const QGR={fridge:'kitchen',pantry:'kitchen',stove:'kitchen',tissues:'bath',mirror:'bath',sw:'bed',blanket:'bed',win:'bed',mdoor:'hall'};
+function qxGoalItem(){const I=qxItems(),gr=QGR[qx.goal]||'living',R=qx.room;if(R===gr)return I.find(i=>i.id===qx.goal);
+ const way=R==='kitchen'?'back':R==='living'?(gr==='kitchen'?'kit':'hallx'):R==='hall'?(gr==='bath'?'bathd':gr==='bed'?'bedd':'liv'):'out';return I.find(i=>i.id===way)}
+/* walk back to the living room, room by room, then carry on */
+function qxToLiving(cb){if(qx.room==='living'){cb();return}qxMove({bath:'hall',bed:'hall',hall:'living',kitchen:'living'}[qx.room],()=>qxToLiving(cb))}
 function qxAbi(t){if(qx.tap){const k=qx.tap.t,q=1+k*8;cx.globalAlpha=1-k*2.5;[[q,0],[-q,0],[0,q],[0,-q]].forEach(o=>r(qx.tap.x+o[0],qx.tap.y+o[1],1,1,'#fff'));cx.globalAlpha=1}
  let sat=0;if(qx.phase==='sit'){if(qx.sx==null){qx.sx=abi.x;qx.sy=abi.y}const k=Math.min(1,qx.st/.38),e=k*k*(3-2*k);abi.x=Math.round(qx.sx+(AX[lv.q]-qx.sx)*e);abi.y=Math.round(qx.sy+(78-qx.sy)*e);abi.dir='d';sat=qx.st>.4?1:0}
  abi.sit=sat;abi.sitF=sat;if(abi.hold!=='carry')abi.hold=null;person(abi,t);if(qx.room==='living')lvFront(t,abi);if(mode==='qx'&&!dlg&&!qx.phase){const g=qxGoalItem();if(g)qxArrow(t,g)}}
@@ -2194,6 +2213,30 @@ function qWashTap(){const W=qx&&qx.wash;if(!W)return;W.taps++;sfx('pop');for(let
 function qWashUpd(dt){const W=qx.wash;if(!W)return;W.t+=dt;W.bub.forEach(b=>{b.x+=b.vx*dt;b.y+=b.vy*dt;b.l-=dt});W.bub=W.bub.filter(b=>b.l>0);
  const ln=Math.floor(W.t/2.25);if(ln>=0&&ln!==W.ln&&ln<8){W.ln=ln;cap('♪ '+QLY[ln%4]+' ♪')}
  if(W.t>=18){qx.wash=null;cap('');setHud(qx.hud);mode='qx';const ok=W.taps>=40;say([{n:'Abigail',t:ok?'(Squeaky clean. Twenty seconds and two whole birthday songs.)':'(...Good enough. Germs, beware.)'}]);qbMark('wash')}}
+/* ---- Night 6: stir the goulash. Tap when the heat needle is in the green, three times ---- */
+const STZ=[[.40,.62],[.44,.60],[.46,.57]];
+function stirStart(){mode='stir';qx.stir={p:0,d:1,rd:0,wait:.4,res:[],msg:null};abi.dir='u';setHud('Tap when the needle is in the green!');sfx('select')}
+function stirTap(){const S=qx&&qx.stir;if(!S||S.wait>0||S.rd>=3)return;const z=STZ[S.rd],ok=S.p>=z[0]&&S.p<=z[1];S.res.push(ok?1:0);
+ S.msg={t:T,s:ok?'PERFECT!':S.p<z[0]?'STILL COLD':'SCORCHED!',c:ok?'#5ae07a':S.p<z[0]?'#7ec8f0':'#ff6a5a'};sfx(ok?'ding':'hit');S.rd++;S.wait=.8;
+ if(S.rd>=3)after(1,()=>{const n=S.res.reduce((a,b)=>a+b,0);qx.stir=null;mode='q';setHud('');
+  say([{n:'Abigail',t:n===3?'(Piping hot. Not one burnt bit. Hunter’s mom would be proud.)':n>0?'(Hot in the middle, lukewarm at the edges. Classic.)':'(Slightly scorched. We will call it "smoky".)'}],()=>{abi.hold='carry';abi.carry='#b8603a';qx.got='stove';sfx('item');addH(n?1:0);qxToLiving(()=>{qx.phase='toSeat';go(abi,qxRoute(AX[lv.q],93),40)})})})}
+function stirUpd(dt){const S=qx.stir;if(!S)return;if(S.wait>0){S.wait-=dt;return}if(S.rd>=3)return;S.p+=S.d*dt*(.75+S.rd*.28);if(S.p>1){S.p=1;S.d=-1}if(S.p<0){S.p=0;S.d=1}}
+function stirDraw(t){const S=qx.stir;if(!S)return;
+ for(let i=0;i<4;i++){const k=((t*.7+i/4)%1);cx.globalAlpha=.5*(1-k);r(42+i*2+Math.round(Math.sin(t*3+i)),50-Math.round(k*14),2,2,'#ffffff');cx.globalAlpha=1}
+ r(6,18,68,30,'#2a1a3a');r(7,19,66,28,'#3a2a4e');r(7,19,66,1,'#5a4a70');txt('STIR THE GOULASH',10,22,'#ffd86b',1);
+ const x0=10,w=60,y=31,z=STZ[Math.min(2,S.rd)];r(x0-1,y-1,w+2,8,'#1a1028');for(let i=0;i<w;i++){const u=i/w;r(x0+i,y,1,6,u<z[0]?'#4a8ad0':u<=z[1]?'#5ac85a':'#e0463c')}r(x0+Math.round(z[0]*w),y,1,6,'#e8ffe8');r(x0+Math.round(z[1]*w),y,1,6,'#e8ffe8');
+ const nx=x0+Math.round(S.p*w);r(nx-1,y-3,3,2,'#ffffff');r(nx,y-1,1,8,'#ffffff');
+ for(let i=0;i<3;i++){const c=i<S.res.length?(S.res[i]?'#5ae07a':'#ff6a5a'):'#5a4a70';r(31+i*7,40,5,4,c)}
+ if(S.msg&&T-S.msg.t<.9){const s=S.msg.s;txt(s,40-s.length*2,52,'#2a1a3a',1);txt(s,40-s.length*2,51,S.msg.c,1)}}
+/* ---- Day 9: hold the thermometer under your tongue until it beeps ---- */
+function thStart(){mode='thermo';hold=0;qx.th={v:0,warn:0,done:0,bp:0};abi.dir='u';setHud('Hold the screen to keep it under your tongue!');sfx('select')}
+function thUpd(dt){const H=qx.th;if(!H||H.done)return;if(hold){H.v=Math.min(1,H.v+dt/3.4);H.bp+=dt;if(H.bp>.5){H.bp=0;sfx('tick')}}else if(H.v>0){H.v=Math.max(0,H.v-dt*.5);if(!H.warn&&H.v>.12){H.warn=1;bark([{n:'Abigail',t:'(Keep it in! It has to beep first.)'}])}}
+ if(H.v>=1){H.done=1;hold=0;sfx('ding');after(.7,()=>{qx.th=null;mode='q';setHud('');say([{n:'',t:'*beep beep* 99.2 F'},{n:'Abigail',t:'(99.2! It was over 101 last week.)'},{n:'Abigail',t:'(The fever is finally breaking. I feel like a person again. A tired person, but a person.)'}],()=>{qbMark('temp');qx.cont()})})}}
+function thDraw(t){const H=qx.th;if(!H)return;const v=H.done?1:H.v,rd=(97.0+v*2.2).toFixed(1);
+ r(8,16,64,34,'#2a1a3a');r(9,17,62,32,'#3a2a4e');r(9,17,62,1,'#5a4a70');txt('THERMOMETER',18,20,'#ffd86b',1);
+ r(13,28,46,12,'#f4f4f8');r(13,28,46,1,'#ffffff');r(13,39,46,1,'#c8ccd4');r(59,32,9,4,'#c8ccd4');r(66,33,3,2,'#9aa0aa');r(15,30,26,8,H.done?'#c8f0c0':'#b8d0b0');txt(rd,17,32,'#1a2a1a',1);
+ r(44,31,4,4,H.done&&Math.floor(t*6)%2?'#5ae07a':'#3a8ae0');r(50,31,6,6,'#e0e4ea');
+ r(13,43,46,3,'#1a1028');r(13,43,Math.round(46*v),3,H.done?'#5ae07a':'#ff9ccb');if(!H.done&&!hold&&Math.floor(t*2)%2)txt('HOLD',32,51,'#ffffff',1)}
 /* ---- living room extras ---- */
 function lvCart(){// the bar cart, against the front-door wall, left of the door
  cx.save();cx.translate(-23,10);r(1,111,10,1,'rgba(0,0,0,.18)');
@@ -2255,7 +2298,7 @@ function lvPuzzleMat(t){const S=QSV.get(),k=Math.min(8,S.pz.length),N=Math.round
 const QPO=(()=>{const E=[],I=[];for(let i=0;i<48;i++){const x=i%12,y=(i/12)|0;(x===0||y===0||x===11||y===3?E:I).push(i)}let s=7;const R=()=>(s=(s*9301+49297)%233280)/233280;I.sort(()=>R()-.5);return E.concat(I)})();
 function qPuzCol(x,y){if(y===3)return x%3?'#5aaa5a':'#ff9ccb';if(x>=4&&x<=8&&y>=1){return y===1&&(x===4||x===8)?'#c8843a':x===6&&y===2?'#f4ecd8':'#d89a4a'}return y===0?'#9ad0f0':'#bfe6ff'}
 /* ---- close-ups drawn over the room (the jigsaw) ---- */
-function qxOverlay(t){if(!qx)return;if(qx.pcard&&!dlg)qx.pcard=null;if(!qx.pcard)return;const S=QSV.get(),k=Math.min(8,S.pz.length),a=Math.min(1,(T-qx.pcard)/.25);
+function qxOverlay(t){if(!qx)return;if(qx.stir)stirDraw(t);if(qx.th)thDraw(t);if(qx.pcard&&!dlg)qx.pcard=null;if(!qx.pcard)return;const S=QSV.get(),k=Math.min(8,S.pz.length),a=Math.min(1,(T-qx.pcard)/.25);
  cx.globalAlpha=.55*a;r(0,0,80,144,'#1a1028');cx.globalAlpha=a;const X=10,Y=26,Wd=60,Hd=40;r(X-2,Y-2,Wd+4,Hd+4,'#8a6a4a');r(X,Y,Wd,Hd,'#c8b8a0');
  cx.save();cx.beginPath();cx.rect(X,Y,Wd,Hd);cx.clip();for(let y=0;y<Hd;y+=2){const q=y/Hd;r(X,Y+y,Wd,2,`rgb(${Math.round(150+q*60)},${Math.round(206+q*30)},${Math.round(240-q*20)})`)}
  r(X,Y+30,Wd,10,'#5aaa5a');for(let i=0;i<14;i++){const fx=X+(i*9)%Wd,fy=Y+31+(i*5)%8;r(fx,fy,1,1,['#ff9ccb','#ffd86b','#fff'][i%3])}
@@ -2288,20 +2331,23 @@ function vMHall(t){const n=lv.night,d=qx?qx.d:1;
  r(45,61,6,5,'#f4f4f8');r(46,62,4,2,'#2a3a2a');r(46,62,1,1,'#5ad06a');
  r(0,92,80,52,'#a0784e');for(let y=92;y<144;y+=6)r(0,y,80,1,'#8a6440');r(10,100,60,34,'#6a4a7a');r(12,102,56,30,'#7a5a8a');for(let x=12;x<68;x+=4)r(x,101,1,1,'#e8d8c0');
  r(66,96,4,2,'#3a3a46');r(71,96,4,2,'#e0463c');r(0,138,26,6,'#7a6a5a');
+ if(qx&&qx.ck){r(62,103,12,1,'rgba(0,0,0,.2)');ell(68,101,6,2,'#f4f4f8',1);ell(68,101,5,1,'#dcdce6',1);ell(68,99,4,2,'#c8843a',1);r(66,98,1,1,'#4a2a1a');r(69,98,1,1,'#4a2a1a');r(68,100,1,1,'#4a2a1a');r(70,100,1,1,'#ff6a9a');r(66,98,2,1,'#e0a060')}
  const D=[{y:abi.y,f:()=>{if(qx&&qx.room==='hall')qxAbi(t)}}];D.forEach(x=>x.f());
  if(qx&&qx.room==='hall')txt('LIVING',2,139,'#ffd86b',1);
  if(n){cx.globalAlpha=.38;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1;cx.globalCompositeOperation='lighter';disc(40,5,16,'#ffd8a0',.08);cx.globalCompositeOperation='source-over'}qxOverlay(t)}
 /* ---- the bathroom ---- */
-function qbItems(){return [{id:'sink',x:29,y:64,w:22,h:34,spot:[40,104]},{id:'mirror',x:31,y:28,w:18,h:32,spot:[40,104]},{id:'tub',x:0,y:18,w:27,h:80,spot:[30,112],face:'l'},
+function qbItems(){return [...(qx&&qx.goal==='tissues'&&qx.got!=='tissues'?[{id:'tissues',x:29,y:60,w:11,h:14,spot:[34,106],face:'u'}]:[]),{id:'sink',x:29,y:64,w:22,h:34,spot:[40,104]},{id:'mirror',x:31,y:28,w:18,h:32,spot:[40,104]},{id:'tub',x:0,y:18,w:27,h:80,spot:[30,112],face:'l'},
  {id:'toilet',x:53,y:58,w:12,h:40,spot:[59,106]},{id:'tp',x:66,y:76,w:14,h:24,spot:[64,108],face:'r'},{id:'out',x:26,y:132,w:28,h:12,spot:[40,138],face:'d'}]}
 function vMBath(t){const n=lv.night,W=qx&&qx.wash;
  r(0,0,80,40,'#e8eef0');r(0,40,80,56,'#cfe4e4');for(let y=40;y<96;y+=6)r(0,y,80,1,'#b8d0d0');for(let y=40;y<96;y+=6)for(let x=((y/6)%2)*3;x<80;x+=6)r(x,y,1,6,'#b8d0d0');r(0,39,80,2,'#a8c8c8');
  r(0,18,30,1,'#b8b8c0');r(0,74,27,24,'#f4f4f8');r(0,72,27,3,'#ffffff');r(0,97,27,1,'#c8c8d0');
  for(let x=1;x<25;x++){const f=Math.round(Math.sin(x*.9+t*.4)*.6);r(x,19,1,56+f,(x%4)<2?'#7ab0d8':'#6aa0c8')}[[4,30],[12,44],[19,32],[7,58],[16,62]].forEach(([x,y])=>{r(x,y,2,2,'#ffd86b');r(x+2,y,1,1,'#ff9a3a')});
  r(4,108,18,6,'#ff9ccb');r(4,108,18,1,'#ffc0dc');
+ 
  r(31,28,18,32,'#c8c8d0');r(32,29,16,30,'#bfe6ff');r(32,52,16,7,'#b4dcf4');mirRefl(t,32,29,16,30,96,[abi]);cx.globalAlpha=.6;r(33,30,2,10,'#eaf6ff');cx.globalAlpha=1;r(40,29,1,30,'#a8c0d0');
  r(30,74,20,24,'#e8e0d0');r(31,78,8,18,'#f0e8d8');r(41,78,8,18,'#f0e8d8');r(38,86,1,2,'#c8b060');r(42,86,1,2,'#c8b060');r(29,72,22,3,'#ffffff');ell(40,73,6,1,'#c8d8e0',1);r(39,66,2,6,'#b8b8c0');r(39,66,4,1,'#b8b8c0');
  r(43,68,4,4,'#ff9ccb');r(44,67,2,1,'#fff');
+ if(!(qx&&qx.got==='tissues')){r(31,72,9,1,'rgba(0,0,0,.15)');r(31,67,9,5,'#7ac8e8');r(31,67,9,1,'#a8e0f4');r(38,67,2,5,'#5aa8c8');r(33,69,4,1,'#ffffff');r(33,64,4,3,'#ffffff');r(34,63,2,1,'#ffffff');r(36,65,1,2,'#e8eef4')}
  r(54,61,12,2,'#ffffff');r(55,63,10,12,'#f4f4f8');r(64,63,1,12,'#d8dce4');r(56,65,2,1,'#b8b8c0');r(57,75,6,4,'#e6eaee');r(57,75,6,1,'#f8f8fc');r(62,75,1,4,'#cfd6de');ell(60,81,6,3,'#f8f8fc',1);ell(60,81,4,2,'#d4e0e8',1);ell(60,85,5,3,'#eceef2',1);r(58,86,5,10,'#eceef0');r(62,86,1,10,'#d4d8e0')
  r(53,46,14,1,'#b8b8c0');r(54,47,12,10,'#ff9ccb');r(54,47,12,1,'#ffc0dc');
  [[4,0],[3,4],[2,8],[1,12]].forEach(([c,o],j)=>{for(let i=0;i<c;i++){const x=67+i*4+j*2,y=94-j*4-4;r(x,y,4,4,'#fbfbff');r(x+1,y+1,2,2,'#c8c8d0');r(x,y,4,1,'#ffffff')}});
@@ -2311,12 +2357,15 @@ function vMBath(t){const n=lv.night,W=qx&&qx.wash;
  if(W&&Math.floor(T*8)%2)disc(40,abi.y-12,2,'#ffffff',.9);
  if(n){cx.globalAlpha=.22;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1}qxOverlay(t)}
 /* ---- your room (yours and Hunter's) ---- */
-function qdItems(){return [{id:'bed',x:4,y:60,w:40,h:70,spot:[49,116],face:'l'},{id:'win',x:50,y:14,w:24,h:32,spot:[62,111]},{id:'stand',x:44,y:78,w:12,h:20,spot:[50,104],face:'u'},
+function qdItems(){return [...(qx&&qx.goal==='sw'&&qx.got!=='sw'?[{id:'sw',x:20,y:102,w:20,h:12,spot:[49,118],face:'l'}]:[]),...(qx&&qx.goal==='blanket'&&qx.got!=='blanket'?[{id:'blanket',x:6,y:98,w:34,h:18,spot:[49,118],face:'l'}]:[]),...(qx&&qx.cur0&&!qx.cur?[{id:'win',x:46,y:10,w:32,h:42,spot:[62,108],face:'u'}]:[]),{id:'bed',x:4,y:60,w:40,h:70,spot:[49,116],face:'l'},{id:'win',x:50,y:14,w:24,h:32,spot:[62,111]},{id:'stand',x:44,y:78,w:12,h:20,spot:[50,104],face:'u'},
  {id:'case',x:58,y:114,w:18,h:18,spot:[54,134],face:'r'},{id:'notes',x:55,y:86,w:25,h:24,spot:[64,111]},{id:'out',x:26,y:132,w:28,h:12,spot:[40,138],face:'d'}]}
 function vMBed(t){const n=lv.night,made=qx&&qx.bedMade;
  r(0,0,80,92,'#d8c8b8');for(let y=4;y<90;y+=8)for(let x=((y/8)%2)*5;x<80;x+=10)r(x,y,1,1,'#c8b8a8');r(0,88,80,4,'#f0e6d8');
  r(50,14,24,32,'#f4f0e8');r(52,16,20,28,n?'#1a2448':'#c8d4e0');r(61,16,2,28,'#f4f0e8');r(52,29,20,2,'#f4f0e8');
- cx.globalAlpha=.35;r(52,40,20,4,'#ffffff');r(52,16,3,28,'#ffffff');cx.globalAlpha=1;r(48,12,4,38,'#c86a6a');r(72,12,4,38,'#c86a6a');r(47,11,30,2,'#8a5a3a');
+ cx.globalAlpha=.35;r(52,40,20,4,'#ffffff');r(52,16,3,28,'#ffffff');cx.globalAlpha=1;
+ const cu=qx&&qx.cur0?(qx.cur?Math.min(1,(T-qx.cur)/.9):0):1,ce=cu*cu*(3-2*cu),cw=4+Math.round((1-ce)*10);
+ if(lv.eve){vgGradAt(52,16,20,28,['#f8b070','#ffc88a','#ffe0a8']);r(61,16,2,28,'#f4f0e8');r(52,29,20,2,'#f4f0e8');if(ce>0){cx.save();cx.globalCompositeOperation='lighter';cx.globalAlpha=.16*ce;cx.fillStyle='#ffc070';cx.beginPath();cx.moveTo(52,44);cx.lineTo(72,44);cx.lineTo(78,128);cx.lineTo(40,128);cx.fill();cx.restore();cx._c=null}}
+ r(48,12,cw,38,'#c86a6a');r(76-cw,12,cw,38,'#c86a6a');for(let k=1;k<cw;k+=3){r(48+k,12,1,38,'#b45a5a');r(76-cw+k,12,1,38,'#b45a5a')}r(47,11,30,2,'#8a5a3a');
  r(0,92,80,52,'#b8a088');for(let i=0;i<50;i++)r((i*37)%80,94+(i*13)%48,2,1,'#a89078');r(4,116,38,18,'#c8a0a8');r(6,118,34,14,'#d8b0b8');for(let x=6;x<40;x+=3)r(x,134,1,2,'#c8a0a8');
  // the bed: headboard against the wall, legs on the floor (floor first, so nothing paints over it)
  cx.save();cx.translate(0,8);r(5,120,36,3,'rgba(0,0,0,.18)');
@@ -2326,6 +2375,8 @@ function vMBed(t){const n=lv.night,made=qx&&qx.bedMade;
  else{r(4,86,38,28,'#7ab0d8');ell(14,88,9,4,'#7ab0d8',1);ell(30,92,8,5,'#6aa0c8',1);ell(22,100,10,4,'#8ac0e0',1);r(26,77,10,5,'#ffffff');r(4,113,38,1,'#5a90b8')}
  if(qx&&qx.bedA&&T-qx.bedA<.8){const k=(T-qx.bedA)/.8;for(let i=0;i<6;i++){cx.globalAlpha=1-k;r(6+i*6,82-Math.round(k*10)-(i%2)*2,2,2,'#ffffff')}cx.globalAlpha=1}
  r(4,114,38,4,'#6a4a3a');r(4,114,38,1,'#8a6a4a');r(5,118,2,3,'#4a3020');r(39,118,2,3,'#4a3020');cx.restore();
+ if(qx&&qx.goal==='sw'&&qx.got!=='sw'){r(23,108,14,1,'rgba(0,0,0,.18)');r(23,103,14,5,'#2a2a34');r(25,104,10,3,'#4a7ac8');r(25,104,10,1,'#8ab8f0');r(23,103,2,5,'#e0463c');r(35,103,2,5,'#3a8ae0');r(23,103,14,1,'#4a4a56')}
+ if(qx&&qx.goal==='blanket'&&qx.got!=='blanket'){r(9,110,30,1,'rgba(0,0,0,.15)');r(9,101,30,9,'#e89ab8');r(9,101,30,2,'#f8c0d8');r(9,105,30,1,'#d888a8');r(9,108,30,2,'#d07898');for(let x=10;x<38;x+=3)r(x,100,2,1,'#f8d0e0');r(37,102,2,7,'#d888a8')}
  r(45,97,11,1,'rgba(0,0,0,.18)');r(44,82,12,16,'#8a6a4a');r(44,82,12,2,'#a8845a');r(45,90,10,1,'#6a4a2a');r(49,93,2,1,'#e0c060');r(46,76,3,6,'#f0e0b0');r(45,75,5,2,'#e8d090');if(n)disc(47,77,6,'#ffe0a0',.25);
  r(51,78,4,4,'#e8e8f0');for(let i=0;i<3;i++){const k=((t*.6+i/3)%1);cx.globalAlpha=.5*(1-k);disc(53,77-Math.round(k*12),1+Math.round(k*2),'#ffffff',1);cx.globalAlpha=1}
  // Hunter's corner: a stack of lyric notebooks, one open mid-song, and a wastebasket losing the battle with crumpled drafts
@@ -2349,7 +2400,7 @@ function lvTable(){r(22,100,40,3,'#c08a58');r(22,100,40,1,'#d8a878');r(22,103,40
  r(57,96,4,4,'#fff');r(61,97,1,2,'#fff');r(58,95,2,1,'#c8a080');
  if(lv.pop){r(53,95,2,4,'#3a6ac8');r(53,95,2,1,'#d8d8e0')}}
 function lvTabItems(){const ex=lv.ex&&qx,carryR=(ex&&qx.got==='remote'&&qx.goal==='remote')||qprops.lap==='remote';if(!carryR){if(qprops.remote){r(51,98,5,2,'#1a1a22');r(52,98,1,1,'#e0463c')}else if(!lv.pace){r(58,111,7,3,'#1a1a22');r(59,111,1,1,'#e0463c')}}
- if(qprops.sw||lv.sw||(ex&&qx.goal==='sw')){r(40,96,10,4,'#3a3a46');r(42,97,6,2,'#6ab0e0');if(ex&&qx.goal==='sw'&&qx.got!=='sw'){r(40,96,2,4,'#e0463c');r(48,96,2,4,'#3a8ae0')}}}
+ if((qprops.sw||lv.sw)&&!(ex&&qx.goal==='sw')){r(40,96,10,4,'#3a3a46');r(42,97,6,2,'#6ab0e0')}}
 function lvBasket(){const ex=lv.ex&&qx;r(65,102,12,10,'#c89a5a');for(let x=66;x<77;x+=2)r(x,103,1,9,'#a87a3a');if(lv.q<3&&!(ex&&qx.got==='blanket')){r(64,98,14,5,'#e89ab8');r(66,97,8,2,'#f8c0d8')}}
 function lvBean(t){disc(16,130,9,'#8a5aa8',1);disc(14,126,5,'#a87ac8',1);if(lv.mor==2&&!lv.mw&&!lv.mw2&&!lv.mgone){morgan.x=16;morgan.y=134;morgan.dir='r';morgan.hold='phone';morgan.sit=1;person(morgan,t);morgan.sit=0}ell(16,135,8,3,'#7a4a98')}
 /* [left, right, top, base]: if Abigail's feet are above the base and her sprite overlaps, the prop goes back over her */
@@ -2377,17 +2428,18 @@ function vMKit(t){const n=lv.night;r(0,0,80,96,'#f0e6c8');for(let y=60;y<96;y+=6
  r(0,96,80,48,'#e8e4dc');for(let y=96;y<144;y+=8)for(let x=((y/8)%2)*8;x<80;x+=16)r(x,y,8,8,'#d4ccc0');r(54,138,26,6,'#a0784e');
  qkBread(t);if(qx&&qx.room==='kitchen'){txt('LIVING',55,139,'#7a5a3a',1);qxAbi(t);qxOverlay(t)}
  if(n){cx.globalAlpha=.4;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1}}
-function qDay1(){qEx({d:1,lv:{mor:0,q:0,mb:1},goal:'tissues',hud:'Day 1: Grab a tissue (or ten)',intro:'Tap to walk around. Tap things to look at them.'},_qDay1)}
+function qDay1(){qEx({d:1,lv:{mor:0,q:0,mb:1},goal:'tissues',hud:'Day 1: Grab tissues from the bathroom',intro:'Tap to walk around. Tap things to look at them.'},_qDay1)}
 function qNight1(){qEx({d:1,lv:{night:1,mor:0,q:0,mb:1},goal:'remote',hud:'Find the TV remote'},_qNight1)}
 function qDay3(){qEx({d:3,lv:{mor:0,q:0},goal:'door',hud:'Day 3: Someone knocked! Go to the door'},()=>fadeTo(_qDay3))}
+function qDay3b(){qEx({d:3,lv:{mor:0,q:0},goal:'fridge',hud:'Put the goulash in the fridge',qx:{put:1},room:'kitchen',sp:[90,138,'l'],in:[60,124],carry:'#b8603a'},()=>fadeTo(qNight3))}
 function qNight3(){qEx({d:3,lv:{night:1,mor:0,q:1},goal:'hunter',hud:'Go sit with Hunter'},_qNight3)}
 function qDay6(){qEx({d:6,lv:{mor:1,q:1},goal:'sw',hud:'Day 6: Find the Switch'},_qDay6)}
-function qNight6(){qEx({d:6,lv:{night:1,mor:1,q:2},goal:'pantry',hud:'Get kettle corn from the pantry',gl:[{n:'Abigail',t:'(Kettle corn and a soda: acquired. Movie night: ready.)'}]},_qNight6)}
+function qNight6(){qEx({d:6,lv:{night:1,mor:1,q:2},goal:'stove',hud:'Reheat the goulash',qx:{n6:1},introN:'Abigail',intro:qprops.hLost?'(Hunter lost, so it is HIS job. He has asked me twice where the pots are. I will do it.)':'(I lost the race. A deal is a deal. Goulash duty.)'},_qNight6)}
 function qDay9(){_qDay9()}
 function qNight9(){qEx({d:9,lv:{night:1,mor:4,q:3},goal:'blanket',hud:'Grab the big fluffy blanket',gl:[{n:'Abigail',t:'(Tonight feels like a special occasion.)'}]},_qNight9)}
 function qDay12(){qEx({d:12,lv:{mor:1,q:3},goal:'hunter',hud:'Day 12: Go sit with Hunter'},_qDay12)}
 function qNight12(){qEx({d:12,lv:{night:1,mor:3,q:4},goal:'hunter',hud:'Go sit with Hunter'},_qNight12)}
-function qDay14(){qEx({d:14,lv:{eve:1,mor:3,q:4},goal:'hunter',hud:'Day 14: Go talk to Hunter'},_qDay14)}
+function qDay14(){qEx({d:14,lv:{eve:1,mor:3,q:4},goal:'win',hud:'Day 14: Open the curtains',qx:{cur0:1},room:'bed',sp:[49,128,'u'],in:[52,116],introN:'Abigail',intro:'(Mmm. I slept all afternoon. And for once, I woke up feeling... okay?)'},_qDay14)}
 
 /* ---- chapter 3: walking around as Hunter ---- */
 let hx=null;
@@ -2675,7 +2727,7 @@ function trayUpd(dt){const R=bags&&bags.tr;if(!R||R.done)return;R.t+=dt;
   if(R.leg===0){R.leg=1;R.stop=T;abi.dir='u';after(.35,()=>{if(!bags||!bags.tr)return;bags.tr.has[2]=0;sfx('item');bark([{n:'Abigail',t:'(Tissues: delivered. Our MVP.)'}])});
    after(1.1,()=>{if(bags&&bags.tr&&!bags.tr.done)go(abi,[[10,131],[-8,135],[-30,137],[-48,139]],13)})}
   else if(R.leg===1&&abi.x<-40){R.done=1;tiltOff();abi.hold=null;mode='q';setHud('');addH(1);
-   after(.6,()=>say([{n:'Abigail',t:'She even put a get-well card in here!'},{n:'Morgan',t:'(from the couch) Your mom is a SAINT, Hunter.'}],()=>fadeTo(qNight3)))}}}
+   after(.6,()=>say([{n:'Abigail',t:'She even put a get-well card in here!'},{n:'Morgan',t:'(from the couch) Your mom is a SAINT, Hunter.'}],()=>fadeTo(qDay3b)))}}}
 function trayGeo(){const R=bags.tr,x0=Math.round(abi.x)+(abi.dir==='l'?-1:abi.dir==='r'?1:0),y0=Math.round(abi.y)-6+(abi.kneel?2:0),m=Math.max(-1.15,Math.min(1.15,R.a))*.3,sl=Math.round(R.a*2.2);return {x0,y0,m,sl}}
 function trayPos(i){const R=bags.tr,G=trayGeo(),it=TRI[i],top=j=>{const q=TRI[j];if(q.on>=0&&R.has[q.on])return top(q.on)-q.h;return G.y0+Math.round((q.bx+q.w/2)*G.m)-q.h};
  return [G.x0+it.bx+G.sl,top(i)]}
@@ -2699,12 +2751,15 @@ function _qNight3(){qScene({night:1,mor:0,q:1},[{n:'',t:'Another night, another 
 function _qDay6(){qScene({mor:1,q:1,sw:1},[{n:'Hunter',t:'Okay. Starrio Cart on the Switch. Loser reheats my mom\'s goulash tonight.'},{n:'Abigail',t:"You're on. Sick or not, I will DESTROY you."},
  {n:'Morgan',t:'Ugh. Fine. Hand me the third controller. I can be miserable AND win.'},
  {n:'',t:'HOW TO RACE: your kart drives itself. Hold the screen to steer: the further left or right you hold, the harder you turn. Driving on the grass slows you down!'},{n:'',t:'DRIFT: turn HARD into a bend and Abigail starts to drift. Hold it until the sparks go blue (or orange!), then straighten out for a turbo boost.'},{n:'',t:'Drive through the gift boxes to grab an item, then tap the ITEM box at the bottom to use it.'},{n:'',t:'Water balloon: hits the racer ahead of you. Oil slick: drops behind you. Bolt: a speed boost!'},{n:'',t:'Beat Hunter, Morgan and the bots to the finish line!',c:[{l:'Start race',f:()=>fadeTo(()=>{setLoc('kart');mode='kartGo';kart=newKart();kHeld=0;setHud('Get ready...');tiltGame('Tilt your phone to steer! Holding the sides still works too.',['kartGo','kart'])})}]}])}
-function _qNight6(){qScene({night:1,mor:1,q:2,pop:1},[{n:'',t:"Movie night. Your head is pounding, but Hunter's shoulder looks very comfy..."},{n:'',t:'Try to stay awake for the movie!',c:[{l:'Watch',f:()=>startTV(16,r=>{addH(r?2:1);say(r?[{n:'Abigail',t:'I saw the ending! I am a champion.'}]:[{n:'',t:'You fall asleep before the ending, your head on Hunter’s shoulder.'},{n:'',t:'He waits until the credits finish. He does not move an inch.'},{n:'',t:'Then he carries you to bed and tucks you in.'}],()=>fadeTo(()=>calShow(9,qDay9)))})}]}])}
+function _qNight6(){qScene({night:1,mor:1,q:2},[{n:'',t:'Goulash on the couch and a movie on.'},{n:'Hunter',t:'(mouth full) Okay. My mom is a genius.'},{n:'',t:"Your head is still pounding, but Hunter's shoulder looks very comfy..."},
+ {n:'',t:'You fall asleep before the ending, your head on Hunter’s shoulder.'},{n:'',t:'He waits until the credits finish. He does not move an inch.'},{n:'',t:'Then he carries you to bed and tucks you in.'}],()=>{addH(2);fadeTo(()=>calShow(9,qDay9))})}
 function _qDay9(){qScene({mor:2,q:2},[{n:'Morgan',t:"(on the phone) No, I KNOW, babe. Five more days... I miss you too."},{n:'Morgan',t:"They're SO cuddly. It's disgusting. I'm trapped inside a rom-com."},{n:'Morgan',t:'Hold on, I am going to my room. I can still hear them breathing.',anim:()=>{lv.mw={x:16,y:134};go(lv.mw,[[30,137],[62,138],[94,140]],26)}},
- {n:'Abigail',t:'(whispering) I think Morgan is losing it.'},{n:'Hunter',t:'(whispering) She misses her boyfriend. Day nine is rough.'}],()=>{addH(1);fadeTo(qNight9)})}
+ {n:'Abigail',t:'(whispering) I think Morgan is losing it.'},{n:'Hunter',t:'(whispering) She misses her boyfriend. Day nine is rough.'}],()=>{addH(1);fadeTo(qDay9b)})}
+function qDay9b(){qEx({d:9,lv:{mor:4,q:2},goal:'mirror',hud:'Day 9: Take your temperature',introN:'Abigail',intro:'(Morgan is still on the phone. I can hear her through two walls.)'},()=>fadeTo(qNight9))}
 function _qNight9(){qScene({night:1,mor:4,q:3,bk:T},[{n:'',t:'That night, Abigail brings over the big fluffy blanket...'},{n:'Hunter',t:'Ooh. Is there room under there for one more?'},{n:'',t:'You scoot in. Your feet are freezing. He does not complain once.'}],()=>{addH(1);fadeTo(()=>calShow(12,qDay12))})}
 function _qDay12(){qScene({mor:1,q:3},[{n:'Morgan',t:'Okay. That is IT.',anim:()=>{lv.mor=5;lv.mw2={x:22,y:92,dir:'d',hop:T};sfx('jump')}},{n:'Morgan',t:"I'm going to my room. Don't talk to me. Don't text me. Don't even LOOK at me."}],()=>{
-  const M=lv.mw2;go(M,[[18,98],[17,120],[40,130],[70,137],[96,140]],46);waitTill(()=>M.tx==null,()=>{lv.mw2=null;lv.mor=3;after(.6,()=>{shakeT=.5;sfx('slam');sfx('hit');after(.5,()=>say([{n:'',t:'*SLAM*'},{n:'Hunter',t:'...Two more days.'},{n:'Abigail',t:"We'll leave a cookie outside her door."}],()=>fadeTo(qNight12)))})})})}
+  const M=lv.mw2;go(M,[[18,98],[17,120],[40,130],[70,137],[96,140]],46);waitTill(()=>M.tx==null,()=>{lv.mw2=null;lv.mor=3;after(.6,()=>{shakeT=.5;sfx('slam');sfx('hit');after(.5,()=>say([{n:'',t:'*SLAM*'},{n:'Hunter',t:'...Two more days.'},{n:'Abigail',t:"We'll leave a cookie outside her door."}],()=>fadeTo(qDay12b)))})})})}
+function qDay12b(){qEx({d:12,lv:{mor:3,q:3},goal:'stove',hud:'Bake Morgan a peace cookie',qx:{ck0:1}},()=>fadeTo(qNight12))}
 function _qNight12(){qScene({night:1,mor:3,q:4},[{n:'',t:"You're SO tired. Hunter's shoulder is right there..."},{n:'',t:'Try to stay awake, one more time!',c:[{l:'Watch',f:()=>startTV(18,r=>{hm=Math.max(hm,9);say(r?[{n:'',t:'You make it to the very end... then fall asleep on his shoulder.'},{n:'',t:'He stays perfectly still for the rest of the night.'}]:[{n:'',t:'You fall asleep on his shoulder.'},{n:'',t:'He stays perfectly still for a long, long time.'},{n:'',t:'Then, very gently, Hunter carries you to bed.'}],()=>fadeTo(()=>calShow(14,qDay14)))})}]}])}
 function _qDay14(){sick=0;qScene({eve:1,mor:3,q:4},[{n:'',t:'March 30, 2020. Day 14.'},{n:'',t:'For the first time in two weeks... the fog is finally lifting.'},{n:'Abigail',t:'Hey... Hunter?'},{n:'Hunter',t:'Yeah?'},
  {n:'Abigail',t:'So... we survived two whole weeks of quarantine together.',c:[{l:'Maybe we should make it official?',f:official}]}])}
@@ -10054,6 +10109,8 @@ function press2(CX,CY){
  if(mode==='album'){albumTap();return}
  if(mode==='broom'){broomTap();return}
  if(mode==='wash'){qWashTap();return}
+ if(mode==='stir'){stirTap();return}
+ if(mode==='thermo'){hold=1;return}
  if(mode==='qx'){if(!dlg)qxTap(x,y);return}
  if(mode==='hx'){if(!dlg)hxTap(x,y);return}
  if(mode==='mont'){if(mt>1.2)nextMont();return}
