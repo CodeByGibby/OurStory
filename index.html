@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.30</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.16.0</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -277,7 +277,7 @@ function paperDraw(x,y,key,dir,fn){const S=PST[key]||(PST[key]={});if(!photo&&S.
  if(PDEP>3){fn(dir);return}PMAIN=cx===CX0;PNOSH=true;const C=pcvGet(PDEP++),m=cx,g=C.ga;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,72,80);g._c=null;g.globalAlpha=1;cx=g;cx.translate(36-x,64-y);
  try{fn(fk>=0&&fk<.5?S.fo:dir)}finally{cx=m;PDEP--;PNOSH=false;PMAIN=false}
  S.x=x;S.y=y;const w=Math.max(2,Math.round(72*sx)),ox=x-Math.round(36*sx),pk=popActive()?popK(S):1;if(pk<=0)return;const ph=Math.max(1,Math.round(80*pk)),py=y+16-ph;cx.drawImage(C.a,ox,py,w,ph)}
-function person(p,t){const x=Math.round(p.x),y=Math.round(p.y);if(popActive()&&popK(p)<=0)return;
+function person(p,t){PMN=cx===CX0;const x=Math.round(p.x),y=Math.round(p.y);if(popActive()&&popK(p)<=0)return;
  // a left<->right turn starts a flip; the first half still shows the old way round
  const d=p.dir;if(!photo&&p._ld&&p._ld!==d&&((p._ld==='l'&&d==='r')||(p._ld==='r'&&d==='l'))&&(p._fl==null||T-p._fl>PFLIP)){p._fl=T;p._fo=p._ld}p._ld=d;
  const fk=p._fl!=null&&!photo&&T-p._fl<PFLIP?(T-p._fl)/PFLIP:-1,sx=fk<0?1:Math.max(.12,Math.abs(Math.cos(fk*Math.PI)));
@@ -337,7 +337,7 @@ function body0(p,t){
  if(dlg&&dlg._em&&dlg._ei===dlg.i&&!p.sit&&!p.kneel&&!p.dance&&!photo&&dlg.l[dlg.i]&&dlg.l[dlg.i].n===p.n){const k=T-dlg._et,m=dlg._em;
   if(m==='!'&&k<.34)y-=Math.round(Math.sin(k/.34*Math.PI)*3);else if(m==='l'&&k<.9)y-=Math.sin(k*26)>0?1:0;else if(m==='d'&&k<1.3)y+=1;else if(m==='h'&&k<.6)y-=Math.round(Math.sin(k/.6*Math.PI)*2);else if(m==='?'&&k<.6)x+=p.dir==='l'?-1:p.dir==='r'?1:0}
  if(!photo){// footsteps for the two of them, and a puff of dust when anyone stops after a real walk
-  if(p===hunter||p===abi){const st=p.moving?Math.floor(t*6+(p===abi?.5:0))%2:0;if(st&&!p._st&&AMBS[loc]!=='church')sfx('foot');p._st=st}
+  {let pan=0;if(PMN){try{const m=CX0.getTransform();pan=Math.max(-1,Math.min(1,((m.a*p.x+m.e)/CX0.canvas.width)*2-1))}catch(e){}p._pan=pan;p._pt=T}const st=p.moving&&!p.sit&&!p.dance?Math.floor(t*(p===abi?6.4:6)+(p===abi?.5:p===hunter?0:(p.x*.13)%1))%2:0;if(st&&!p._st&&AMBS[loc]!=='church'&&AMBS[loc]!=='car')footstep(p,pan);p._st=st}
   if(p.moving){if(!p._mv){p._mv=1;p._m0=T}}else if(p._mv){p._mv=0;if(T-p._m0>.4&&!p.sit&&DUSTY[AMBS[loc]])p._du={t:T,x,y}}
   if(p._du){const k=(T-p._du.t)/.32;if(k>=1)p._du=null;else{cx.globalAlpha=(1-k)*.35;const dx=Math.round(3+k*2),dy=Math.round(k*1.5);r(p._du.x-dx,p._du.y-1-dy,1,1,'#efe6d6');r(p._du.x+dx,p._du.y-1-dy,1,1,'#efe6d6');cx.globalAlpha=1}}}
  const wf=p.moving?Math.floor(t*10+(p.ph||0))%4:-1,s=wf>=0?wf>>1:0,up=p.dir==='u',hL=wf<0?4:[4,4,3,4][wf],hR=wf<0?3:[3,4,4,4][wf],aw=wf<0||p.dance?0:[-1,0,1,0][wf];
@@ -1094,7 +1094,7 @@ function ltRoof(t){const c=['#ff5f9e','#7ee8fa','#ffd86b','#b78cff'][Math.floor(
  cx.restore()}
 /* ---------- dialogue ---------- */
 function say(lines,done){dlg={l:lines,i:0,done};showLine()}
-function showLine(){const L=dlg.l[dlg.i];faceFor(L);if(L.anim)L.anim();dlg.k=0;dlg.ch=false;dlg.rk=-1;if(/\*(snap|bite|knock|SLAM)/i.test(L.t))sfx(/snap/i.test(L.t)?'snap':/bite/i.test(L.t)?'bite':/knock/i.test(L.t)?'knock':'slam');$('dlg').style.display='block';$('dlg').style.opacity=L.a||1;const nm=$('nm');nm.textContent=L.n||'';nm.style.display=L.n?'block':'none';nm.style.color=NC[L.n]||'#6b3f2a';$('ch').innerHTML='';$('nx').style.display='none';$('tx').textContent='';dlg.pz=0;dlg.cls=dlgCls(L);{const e=$('dlg');e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop')}}
+function showLine(){const L=dlg.l[dlg.i];faceFor(L);const n0=AU.n;if(L.anim)L.anim();dlg.k=0;dlg.ch=false;dlg.rk=-1;try{lineFoley(L,dlg.i===0,n0)}catch(e){}$('dlg').style.display='block';$('dlg').style.opacity=L.a||1;const nm=$('nm');nm.textContent=L.n||'';nm.style.display=L.n?'block':'none';nm.style.color=NC[L.n]||'#6b3f2a';$('ch').innerHTML='';$('nx').style.display='none';$('tx').textContent='';dlg.pz=0;dlg.cls=dlgCls(L);{const e=$('dlg');e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop')}}
 /* which letters act: SHOUTED words shake, sung lines sway, (asides in brackets) go small and quiet */
 function dlgCls(L){const t=L.t||'',c=new Array(t.length).fill('');if(/♪/.test(t)){for(let i=0;i<t.length;i++)if(t[i]!=='('&&t[i]!==')')c[i]='wv'}
  if(L.n)for(const m of t.matchAll(/[A-Z][A-Z’']{2,}(?:[!?]+)?/g)){if(/^(HOW|TO|PLAY|DJ|OK|TV)$/.test(m[0]))continue;for(let i=m.index;i<m.index+m[0].length;i++)c[i]='sh'}
@@ -1112,7 +1112,7 @@ function tickDlg(dt){camAuto(dt);
  const k0=dlg.k|0;if(dlg.pz>0)dlg.pz-=dt;else if(dlg.k<L.t.length)dlg.k+=dt*45;let k1=Math.min(L.t.length,dlg.k|0);
  // a beat at commas, a longer one at the end of a sentence, and each dot of an ellipsis lands on its own
  if(k1>k0&&k1<L.t.length){for(let q=k0;q<k1;q++){const ch=L.t[q],nx=L.t[q+1];let pz=0;if(ch===','||ch===';'||ch===':')pz=nx===' '?.13:0;else if(ch==='.'&&(nx==='.'||L.t[q-1]==='.'))pz=.15;else if(ch==='…')pz=.32;else if((ch==='.'||ch==='!'||ch==='?')&&nx===' ')pz=.27;if(pz){dlg.pz=pz;dlg.k=k1=q+1;break}}}
- if(k1!==dlg.rk){dlg.rk=k1;$('tx').innerHTML=dlgHTML(L.t,dlg.cls||[],k1);for(let q=k0;q<k1;q++){const ch=L.t[q];if(q%3==0&&/[A-Za-z0-9]/.test(ch)){voiceBlip(L.n);break}}}
+ if(k1!==dlg.rk){dlg.rk=k1;$('tx').innerHTML=dlgHTML(L.t,dlg.cls||[],k1);for(let q=k0;q<k1;q++){const ch=L.t[q];if(q%3==0&&/[A-Za-z0-9]/.test(ch)){voiceBlip(L.n,L.t,q);break}}}
  if(dlg.k>=L.t.length&&!dlg.ch){dlg.ch=true;
   if(L.c)L.c.forEach(c=>{const b=document.createElement('button');b.textContent=c.l;b.onpointerdown=e=>e.stopPropagation();b.onclick=()=>{sfx('select');dlg=null;$('dlg').style.display='none';c.f()};$('ch').appendChild(b)});
   else $('nx').style.display='block'}
@@ -1212,11 +1212,11 @@ function drawC1UI(){
 
 /* ===== Chapter 1: "Say when!" at the bar. The bartender pours, you stop each pour at the line ===== */
 let BAR=null;const BARI=[{n:'VODKA',l:'DOUBLE',c:'#e8f2ff',tg:[.2,.27],sp:.16},{n:'SPRITE',l:'',c:'#e8fff0',tg:[.74,.82],sp:.3},{n:'CRANBERRY',l:'SPLASH',c:'#c41e3a',tg:[.87,.94],sp:.2}];
-function barStart(){mode='bar';setHud('');BAR={t0:T,i:0,lv:0,pour:0,wait:1.1,res:[],msg:null,ice:0,out:0,end:0,bub:[]};sfx('pop')}
+function barStart(){mode='bar';setHud('');BAR={t0:T,i:0,lv:0,pour:0,wait:1.1,res:[],msg:null,ice:0,out:0,end:0,bub:[]};sfx('setdown')}
 function barTap(){const B=BAR;if(!B||!B.pour||B.end)return;barStop(0)}
 function barStop(spill){const B=BAR,I=BARI[B.i],tg=I.tg,v=B.lv;let q=spill?'SPILL!':v<tg[0]?'A LITTLE LIGHT':v>tg[1]?'HEAVY POUR!':'PERFECT!';B.res.push(q==='PERFECT!'?0:v<tg[0]?-1:1);B.pour=0;B.msg={t:T,s:q,c:q==='PERFECT!'?'#5ae07a':q==='A LITTLE LIGHT'?'#7ec8f0':'#ff9a5a'};sfx(q==='PERFECT!'?'ding':'blip');
  B.i++;B.wait=1;if(B.i>=BARI.length){B.end=T;after(1.6,()=>{B.out=T;after(.5,barDone)})}}
-function barUpd(dt){const B=BAR;if(!B||B.end)return;if(B.wait>0){B.wait-=dt;if(B.wait<=0){B.pour=1;sfx('splash')}return}
+function barUpd(dt){const B=BAR;if(!B||B.end)return;if(B.wait>0){B.wait-=dt;if(B.wait<=0){B.pour=1;sfx('pour')}return}
  if(B.pour){const I=BARI[B.i];B.lv+=I.sp*dt;if(Math.random()<dt*20)B.bub.push({x:62+Math.random()*36,y:216,t:0});if(B.lv>=1){B.lv=1;barStop(1)}}B.bub.forEach(b=>b.t+=dt);B.bub=B.bub.filter(b=>b.t<1.2)}
 function barDone(){const B=BAR,R=B.res;BAR=null;mode='play';if(MGM){fadeTo(()=>{});return}pink=1;abi.hold='pink';const heavy=R[0]>0,light=R[0]<0,perfect=R.every(x=>x===0);wobT=heavy?3:light?1.4:2.2;wobHold=4;
  drink(perfect?'One double vodka Sprite with a splash of cranberry, and one without the vodka for your driver. Perfect pours! ✨':heavy?'One VERY double vodka Sprite. Your driver gets the one without. ✨':'One vodka Sprite with a splash of cranberry, and one without the vodka for your driver! ✨',
@@ -1261,13 +1261,13 @@ function roofProp(o){const L={sign:'(THE COOP, in big pink letters. Morgan said 
  abi.dir=o.face||'u';sfx('select');const first=!RPSEEN[o.id];RPSEEN[o.id]=1;const n=Object.keys(RPSEEN).length,all=n===ROOFP.length;
  say([{n:'Abigail',t:L[o.id]}],()=>{if(first&&all){sfx('chime');bark([{n:'',t:'You found every corner of The Coop! ✨'}]);try{burst(abi.x,abi.y-24,'#ffd86b')}catch(e){}}})}
 function c1Arrive(){mode='c1walk';go(abi,[[40,540],[30,550]],60);abi.dir='l';waitTill(()=>abi.tx==null,()=>{face(abi,morgan);face(morgan,abi);
- say([{n:'Morgan',t:'Ooh, thank you! Okay, look, I texted him.'}],()=>{const e=$('phone');let j=1;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};e.className='px';e.innerHTML='';e.style.display='flex';mode='texts1';sfx('pop');
+ say([{n:'Morgan',t:'Ooh, thank you! Okay, look, I texted him.'}],()=>{const e=$('phone');let j=1;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};e.className='px';e.innerHTML='';e.style.display='flex';mode='texts1';sfx('notif');
   e.onclick=()=>{if(j<C1TX.length){j++;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};sfx(C1TX[j-1][0]?'pop':'blip')}else{e.onclick=null;e.style.display='none';PHN=null;c1Hunter()}}})})}
 function c1Hunter(){mode='c1walk';fadeTo(()=>{c1hLobby();card('Fifteen minutes later...<br><br><span style="color:#ff9ccb">Playing as Hunter</span>')},2.6);after(3.9,c1hLobbyGo)}
-function c1HunterRoof(){setLoc('roof');mode='c1walk';hunter.hold=null;{at(hunter,172,550,'l');go(hunter,[[120,552],[50,548]],46);sfx('creak');
+function c1HunterRoof(){setLoc('roof');mode='c1walk';hunter.hold=null;{at(hunter,172,550,'l');go(hunter,[[120,552],[50,548]],46);sfx('door');
  waitTill(()=>hunter.tx==null,()=>{face(hunter,morgan);face(morgan,hunter);face(abi,hunter);zoomTo(36,532,1.4);
   say([{n:'Hunter',t:'Hey, Morgan!'},{n:'Morgan',t:'You came! Abigail, this is my brother, Hunter!',anim:()=>{face(hunter,abi)}},{n:'Hunter',t:"Hey! It's really nice to meet you."},{n:'Abigail',t:'Hi Hunter! Lovely to meet you.'},
-   {n:'Abigail',t:'(...Oh. He’s cute.)'},{n:'Morgan',t:'Okay! Let’s have FUN tonight.'},{n:'Hunter',t:'Love it. Let me grab a Zapper first.',anim:()=>{hunter.hold='beer';sfx('pop')}},{n:'Hunter',t:'(Cheapest beer on the menu. My bank account thanks me.)'}],()=>{zkT=0;st=1;mode='zoomout'})})}}
+   {n:'Abigail',t:'(...Oh. He’s cute.)'},{n:'Morgan',t:'Okay! Let’s have FUN tonight.'},{n:'Hunter',t:'Love it. Let me grab a Zapper first.',anim:()=>{hunter.hold='beer';sfx('bottleOpen')}},{n:'Hunter',t:'(Cheapest beer on the menu. My bank account thanks me.)'}],()=>{zkT=0;st=1;mode='zoomout'})})}}
 const QUIPS=['♪ This song is my JAM!','Woo! Nice moves!','The Coop has the best view in town.','Are you here with someone? Hehe.'];
 let FHEART=0;const HEARTLOC={door:1,kiss8:1,balc8:1,epnurse:1,epfam:1,couple8:1,night2:1};
 const fadeTo=(cb,hold=0)=>{FHEART=HEARTLOC[loc]||(loc==='steak'&&typeof c6!=='undefined'&&c6&&c6.pr)?1:0;if(MGM&&MGM.played&&!MGM.done&&!MGM.modes.includes(mode)){MGM.done=1;cb=mgFinish;hold=0}else if(!MGM&&SGM&&!SGM.shown&&mgIdx(mode)!==SGM.i&&mode!=='end'&&!mgLater()){const c0=cb,h0=hold;mgStoryResult(()=>fadeTo(c0,h0));return}fd=1;fcb=cb;fhold=hold};
@@ -2241,23 +2241,23 @@ function qxUpdate(dt){qxBingoBtn();if(mode==='tray')trayUpd(dt);if(loc==='living
   else if(qxAct(it.id)){}
   else{const L=qxL(it.id)||qxL2(it.id)||[{n:'Abigail',t:'(Hm.)'}];const k=qx.cnt[it.id]||0;qx.cnt[it.id]=k+1;if(it.id==='phone'){qprops.ph=qprops.ph||{};qprops.ph[qx.d]=1;qbMark('mum')}sfx('select');say(L.length>2&&it.id!=='phone'?[L[k%L.length]]:it.id==='fridge'||it.id==='cal'?[L[k%2]]:L)}}}
 function qxGoal(){const G=qx.goal,sx=AX[lv.q];const toSeat=()=>{qx.phase='toSeat';go(abi,qxRoute(sx,93),40)};const afterGl=f=>qx.gl?say(qx.gl,f):f();const home=()=>qxToLiving(toSeat);
- const pick=c=>{abi.hold='carry';abi.carry=c;qx.got=G;if(G in qprops)qprops[G]=1;if(G==='remote')qprops.lap='remote';sfx('item')};
+ const pick=c=>{abi.hold='carry';abi.carry=c;qx.got=G;if(G in qprops)qprops[G]=1;if(G==='remote')qprops.lap='remote';sfx('grab')};
  const back=(h,g)=>{qx.goal=g;qx.hud=h;setHud(h);mode='qx'};
  // Day 3: the goulash goes in the fridge
- if(G==='fridge'&&qx.put){qx.fopen=1;sfx('creak');after(.6,()=>{abi.hold=null;abi.carry=null;sfx('item');after(.5,()=>{qx.fopen=0;sfx('creak');say([{n:'Abigail',t:'(Goulash: in. The fridge is now officially more goulash than fridge.)'},{n:'Abigail',t:'(There’s enough here to last until 2030. Just like the toilet paper.)'}],()=>qx.cont())})});return}
+ if(G==='fridge'&&qx.put){qx.fopen=1;sfx('fridge');after(.6,()=>{abi.hold=null;abi.carry=null;sfx('setdown');after(.5,()=>{qx.fopen=0;sfx('fridgeShut');say([{n:'Abigail',t:'(Goulash: in. The fridge is now officially more goulash than fridge.)'},{n:'Abigail',t:'(There’s enough here to last until 2030. Just like the toilet paper.)'}],()=>qx.cont())})});return}
  // Night 6: reheat the goulash on the stove
  if(G==='stove'&&qx.n6){stirStart();return}
  // Day 12: a peace cookie for Morgan
- if(G==='stove'&&qx.ck0){say([{n:'',t:'*mix mix mix*',anim:()=>sfx('pop')},{n:'',t:'(Into the oven it goes.)',anim:()=>{qx.oven=T;sfx('creak')}},{n:'',t:'*ding!*',anim:()=>{sfx('ding');qx.oven=null}},
-   {n:'Abigail',t:'(One giant peace cookie. The chocolate chips make a little heart. Mostly.)'}],()=>{abi.hold='carry';abi.carry='#c8843a';qx.got='stove';sfx('item');back('Leave the cookie at Morgan’s door','mdoor')});return}
- if(G==='mdoor'){abi.hold=null;abi.carry=null;qx.ck=1;sfx('item');after(.5,()=>{sfx('knock');say([{n:'',t:'(You leave the cookie on a plate outside her door.) *knock knock*'},{n:'Morgan',t:'(through the door) ...Is that a COOKIE?'},{n:'Morgan',t:'(through the door) ...Fine. Thank you. I still hate you both. Lovingly.'}],()=>{qbMark('knock');qx.cont()})});return}
+ if(G==='stove'&&qx.ck0){say([{n:'',t:'*mix mix mix*',anim:()=>sfx('stir')},{n:'',t:'(Into the oven it goes.)',anim:()=>{qx.oven=T;sfx('oven')}},{n:'',t:'*ding!*',anim:()=>{sfx('ding');qx.oven=null}},
+   {n:'Abigail',t:'(One giant peace cookie. The chocolate chips make a little heart. Mostly.)'}],()=>{abi.hold='carry';abi.carry='#c8843a';qx.got='stove';sfx('grab');back('Leave the cookie at Morgan’s door','mdoor')});return}
+ if(G==='mdoor'){abi.hold=null;abi.carry=null;qx.ck=1;sfx('setdown');after(.5,()=>{sfx('knock');say([{n:'',t:'(You leave the cookie on a plate outside her door.) *knock knock*'},{n:'Morgan',t:'(through the door) ...Is that a COOKIE?'},{n:'Morgan',t:'(through the door) ...Fine. Thank you. I still hate you both. Lovingly.'}],()=>{qbMark('knock');qx.cont()})});return}
  // Day 9: take your temperature
  if(G==='mirror'){thStart();return}
  // Day 14: open the curtains
- if(G==='win'&&qx.cur0){qx.cur=T;sfx('whoosh');after(1,()=>say([{n:'Abigail',t:'(Golden light. The whole room is glowing.)'},{n:'Abigail',t:'(And I feel... good. Like, actually good.)'}],()=>back('Day 14: Go talk to Hunter','hunter')));return}
+ if(G==='win'&&qx.cur0){qx.cur=T;sfx('curtain');after(1,()=>say([{n:'Abigail',t:'(Golden light. The whole room is glowing.)'},{n:'Abigail',t:'(And I feel... good. Like, actually good.)'}],()=>back('Day 14: Go talk to Hunter','hunter')));return}
  if(G==='door'){qx.phase='exit';go(abi,qxRoute(5,95).concat([[2,90]]),40);return}
- if(G==='pantry'){qx.popen=1;sfx('creak');after(.7,()=>{pick('#e8c050');qx.kc=1;after(.5,()=>{qx.popen=0;sfx('creak');say([{n:'Abigail',t:'(Kettle corn. The good stuff. Now something to drink.)'}],()=>{qx.goal='fridge';qx.hud='Grab a soda from the fridge';setHud(qx.hud);mode='qx'})})});return}
- if(G==='fridge'){qx.fopen=1;sfx('creak');after(.7,()=>{pick(qx.kc?'#e8c051':'#f8e0a0');after(.4,()=>{qx.fopen=0;afterGl(()=>qxMove('living',toSeat))})});return}
+ if(G==='pantry'){qx.popen=1;sfx('cabinet');after(.7,()=>{pick('#e8c050');qx.kc=1;after(.5,()=>{qx.popen=0;sfx('cabinetShut');say([{n:'Abigail',t:'(Kettle corn. The good stuff. Now something to drink.)'}],()=>{qx.goal='fridge';qx.hud='Grab a soda from the fridge';setHud(qx.hud);mode='qx'})})});return}
+ if(G==='fridge'){qx.fopen=1;sfx('fridge');after(.7,()=>{pick(qx.kc?'#e8c051':'#f8e0a0');after(.4,()=>{qx.fopen=0;afterGl(()=>qxMove('living',toSeat))})});return}
  if(G==='tissues')pick('#f8f8ff');else if(G==='remote')pick('#1a1a22');else if(G==='sw')pick('#e0463c');else if(G==='blanket')pick('#e89ab8');
  if(G==='hunter'){toSeat();return}after(.35,()=>afterGl(home))}
 function qxArrow(t,g){const b=Math.round(Math.sin(t*6)*1.5),x=Math.round(g.x+g.w/2),cm=Math.round(CAMX);
@@ -2292,7 +2292,7 @@ function qxRW(room){return m=>(x,y)=>{const B=QXB[room];if(x<B[0]||x>B[2]||y<B[1
  if(room==='bed'){if(x<44+m&&y<130+m)return false;if(x>42-m&&x<58+m&&y<102+m)return false;if(x>57-m&&y<106+m)return false;if(x>58-m&&x<76+m&&y>124-m&&y<131+m)return false}
  return true}}
 function qxNear(x,y){const w=qxRW(qx.room)(1);if(w(x,y))return [x,y];for(let d=1;d<40;d++)for(const [a,b] of [[0,-d],[0,d],[-d,0],[d,0],[-d,-d],[d,-d],[-d,d],[d,d]])if(w(x+a,y+b))return [x+a,y+b];return [x,y]}
-function qxMove(to,after){const from=qx.room,E=QXE[from+'>'+to];if(!E)return;qx.phase='walkOut';if(E.door){qx.hd=E.door;sfx('creak')}
+function qxMove(to,after){const from=qx.room,E=QXE[from+'>'+to];if(!E)return;qx.phase='walkOut';if(E.door){qx.hd=E.door;sfx('door')}
  go(abi,qxRoute(E.out[0],E.out[1]).concat(E.off),40);
  qx.out=()=>fadeTo(()=>{setLoc(QXR[to]);qx.room=to;qx.hd=E.back||null;at(abi,E.sp[0],E.sp[1],E.sp[2]);if(to==='living')CAMX=lvCamT(E.sp[0]);go(abi,[E.in],40);qx.phase='walkIn';if(E.back)after2(.5,()=>{if(qx){qx.hd=null;sfx('latch')}});qx.afterIn=after||null;setHud(mode==='qx'?qx.hud:'')})}
 const after2=(d,f)=>after(d,f);
@@ -2329,7 +2329,7 @@ function qxAct(id){const d=qx.d,n=lv.night,S=QSV.get(),sid=qSid();
   {n:'Abigail',t:'(Far past the parking lot, the Golden Arches glow faintly in the distance.)'},{n:'Abigail',t:'(The one remaining sign of hope that society hasn’t yet totally collapsed.)'}]);qbMark('arches');return true}
  if(id==='stove'){if(d<3){say([{n:'Abigail',t:'(I’d bake something. But there’s nothing to bake WITH. Half an onion doesn’t count.)'}]);return true}
   if(S.bread!=null){say([{n:'Abigail',t:S.bread===d?'(Fresh banana bread. Hunter has "tested" four slices.)':'(The banana bread is going fast. Somebody keeps cutting tiny slices so no one notices.)'}]);return true}
-  say([{n:'Abigail',t:'(Hunter’s mum brought SO many bananas. Brown ones, too. You know what that means.)',c:[{l:'Bake banana bread!',f:()=>say([{n:'',t:'*mash mash mash*',anim:()=>sfx('blegh')},{n:'',t:'(Into the oven it goes.)',anim:()=>{qx.oven=T;sfx('creak')}},
+  say([{n:'Abigail',t:'(Hunter’s mum brought SO many bananas. Brown ones, too. You know what that means.)',c:[{l:'Bake banana bread!',f:()=>say([{n:'',t:'*mash mash mash*',anim:()=>sfx('squish')},{n:'',t:'(Into the oven it goes.)',anim:()=>{qx.oven=T;sfx('oven')}},
    {n:'',t:'*ding!*',anim:()=>{sfx('ding');qx.oven=null;const S2=QSV.get();S2.bread=d;QSV.put(S2)}},{n:'Abigail',t:'(The whole apartment smells amazing. Morgan opened her door just to sniff the air.)'}],()=>qbMark('bread'))},{l:'Maybe later',f:()=>{}}]}]);return true}
  if(id==='mdoor'){sfx('knock');const k=qx.cnt.knock=(qx.cnt.knock||0)+1,inRoom=lv.mor>=3;
   const A=inRoom?({9:['(through the door) Babe, hold on, someone is knocking. ...It’s just Abigail. She’s being cute AT me.','(through the door) Still on the phone. Still in love. Go away.'],12:['(through the door) If this is about the cookie, it was delicious. Now leave.','(through the door) *silence*'],14:['(through the door) Is it over yet? ...It is not over yet. I can tell by your knock.','(through the door) Knock one more time. I dare you.']}[d]||['(through the door) WHAT.','(through the door) *aggressive silence*'])
@@ -2337,7 +2337,7 @@ function qxAct(id){const d=qx.d,n=lv.night,S=QSV.get(),sid=qSid();
   say([{n:'',t:'*knock knock*'},{n:'Morgan',t:A[(k-1)%A.length]}]);qbMark('knock');return true}
  if(id==='sink'){qWashStart();return true}
  if(id==='mirror'){sfx('blip');const tp=QTEMP[d]||'99.0';say([{n:'',t:'(The thermometer from the medicine cabinet.)'},{n:'',t:'*beep* '+tp+' F'},{n:'Abigail',t:{1:'(Ugh. Back to the couch forever.)',3:'(Going down. Slowly.)',6:'(Almost normal. Almost.)',9:'(I feel like a person again. A tired person.)',12:'(Normal-ish! Two more days.)',14:'(98.6. Normal. NORMAL!)'}[d]||'(Hm.)'}]);qbMark('temp');return true}
- if(id==='bed'){if(qx.bedMade){say([{n:'Abigail',t:'(Made. Hospital corners and everything.)'}]);return true}qx.bedMade=1;qx.bedA=T;sfx('whoosh');say([{n:'Abigail',t:['(Fluff the pillows. Smooth the blanket. Feel like an adult.)','(Making the bed while sick. Look at me go.)','(Hunter sleeps like a starfish. Every morning, the bed looks like a crime scene.)'][(d+(n?1:0))%3]}]);qbMark('bed');return true}
+ if(id==='bed'){if(qx.bedMade){say([{n:'Abigail',t:'(Made. Hospital corners and everything.)'}]);return true}qx.bedMade=1;qx.bedA=T;sfx('blanket');say([{n:'Abigail',t:['(Fluff the pillows. Smooth the blanket. Feel like an adult.)','(Making the bed while sick. Look at me go.)','(Hunter sleeps like a starfish. Every morning, the bed looks like a crime scene.)'][(d+(n?1:0))%3]}]);qbMark('bed');return true}
  return false}
 function qxL2(id){const d=qx.d,n=lv.night;const L={
  door:[{n:'Abigail',t:d<14?'(The front door. Freedom is just past it. In '+(14-d)+' days.)':'(The front door. Tomorrow, we can finally go outside.)'}],
@@ -2355,8 +2355,8 @@ function qxL2(id){const d=qx.d,n=lv.night;const L={
  coats:[{n:'Abigail',t:'(Our coats, hanging by the kitchen. They haven’t been outside in '+(d<14?d:14)+' days either.)'}]};return L[id]}
 /* ---- the handwashing song: scrub while singing Happy Birthday twice (the official 20 seconds) ---- */
 const QLY=['Happy birthday to you','Happy birthday to you','Happy birthday dear Abigail','Happy birthday to youuu'];
-function qWashStart(){mode='wash';qx.wash={t:-.32,taps:0,bub:[],ln:-1};abi.dir='u';setHud('Tap to scrub! Sing it twice.');sfx('splash')}
-function qWashTap(){const W=qx&&qx.wash;if(!W)return;W.taps++;sfx('pop');for(let i=0;i<2;i++)W.bub.push({x:36+Math.random()*8,y:70+Math.random()*4,vy:-6-Math.random()*8,vx:(Math.random()-.5)*6,l:1+Math.random(),r:1+Math.random()*1.5})}
+function qWashStart(){mode='wash';qx.wash={t:-.32,taps:0,bub:[],ln:-1};abi.dir='u';setHud('Tap to scrub! Sing it twice.');sfx('faucet')}
+function qWashTap(){const W=qx&&qx.wash;if(!W)return;W.taps++;sfx('scrub');for(let i=0;i<2;i++)W.bub.push({x:36+Math.random()*8,y:70+Math.random()*4,vy:-6-Math.random()*8,vx:(Math.random()-.5)*6,l:1+Math.random(),r:1+Math.random()*1.5})}
 function qWashUpd(dt){const W=qx.wash;if(!W)return;W.t+=dt;W.bub.forEach(b=>{b.x+=b.vx*dt;b.y+=b.vy*dt;b.l-=dt});W.bub=W.bub.filter(b=>b.l>0);
  const ln=Math.floor(W.t/2.25);if(ln>=0&&ln!==W.ln&&ln<8){W.ln=ln;cap('♪ '+QLY[ln%4]+' ♪')}
  if(W.t>=18){qx.wash=null;cap('');setHud(qx.hud);mode='qx';const ok=W.taps>=40;say([{n:'Abigail',t:ok?'(Squeaky clean. Twenty seconds and two whole birthday songs.)':'(...Good enough. Germs, beware.)'}]);qbMark('wash')}}
@@ -2397,7 +2397,7 @@ function stirUpd(dt){const S=qx.stir;if(!S)return;S.t+=dt;
  S.drops.forEach(d=>{d.vy+=150*dt;d.x+=d.vx*dt;d.y+=d.vy*dt;d.l-=dt});S.drops=S.drops.filter(d=>d.l>0);
  if(as>1.5){S.wake.push({a:S.sa,t:0})}S.wake.forEach(w=>{w.t+=dt;w.a+=S.mv*dt*.8});S.wake=S.wake.filter(w=>w.t<.7);if(S.wake.length>40)S.wake.shift()}
 function stirFinish(){const S=qx.stir;qx.stir=null;mode='q';if(MGM){fadeTo(()=>{});return}const good=S.burns===0&&S.spl<=1,ok=S.burns<=1;
- say([{n:'Abigail',t:good?'(Piping hot. Not one burnt bit. Hunter’s mom would be proud.)':ok?'(Hot all the way through. A little crispy at the bottom. That’s the best part.)':'(Slightly scorched. We’ll call it "smoky".)'}],()=>{abi.hold='carry';abi.carry='#b8603a';qx.got='stove';sfx('item');addH(good?1:0);qxToLiving(()=>{qx.phase='toSeat';go(abi,qxRoute(AX[lv.q],93),40)})})}
+ say([{n:'Abigail',t:good?'(Piping hot. Not one burnt bit. Hunter’s mom would be proud.)':ok?'(Hot all the way through. A little crispy at the bottom. That’s the best part.)':'(Slightly scorched. We’ll call it "smoky".)'}],()=>{abi.hold='carry';abi.carry='#b8603a';qx.got='stove';sfx('grab');addH(good?1:0);qxToLiving(()=>{qx.phase='toSeat';go(abi,qxRoute(AX[lv.q],93),40)})})}
 const SCOL=['#e8c060','#6a3a24','#d8402a','#efe2c0','#7a1e14'];
 function stirPot(){return bgC('stirpot',160,288,()=>{
  // the pot: deep red enamel, a rolled rim, side handles, and the goulash surface inside (shaded darker toward the walls)
@@ -2450,7 +2450,7 @@ function stirDraw(t){const S=qx.stir;if(!S)return;stirScene(t);
  cx.save();cx.setTransform(1,0,0,1,0,0);cx.globalAlpha=Math.min(1,e*1.6);cx.imageSmoothingEnabled=false;cx.drawImage(STC,Math.round(cxp-80*z),Math.round(cyp-144*z),Math.round(160*z),Math.round(288*z));cx.globalAlpha=1;cx.restore();cx._c=null}
 /* ---- Day 9: hold the thermometer under your tongue until it beeps ---- */
 function thStart(){mode='thermo';hold=0;qx.th={v:0,warn:0,done:0,bp:0};abi.dir='u';setHud('Hold the screen to keep it under your tongue!');sfx('select')}
-function thUpd(dt){const H=qx.th;if(!H||H.done)return;if(hold)H.wh=1;else if(H.wh&&H.v>.05){H.wh=0;H.rel=(H.rel||0)+1}if(hold){H.v=Math.min(1,H.v+dt/3.4);H.bp+=dt;if(H.bp>.5){H.bp=0;sfx('tick')}}else if(H.v>0){H.v=Math.max(0,H.v-dt*.5);if(!H.warn&&H.v>.12){H.warn=1;bark([{n:'Abigail',t:'(Keep it in! It has to beep first.)'}])}}
+function thUpd(dt){const H=qx.th;if(!H||H.done)return;if(hold)H.wh=1;else if(H.wh&&H.v>.05){H.wh=0;H.rel=(H.rel||0)+1}if(hold){H.v=Math.min(1,H.v+dt/3.4);H.bp+=dt;if(H.bp>.5){H.bp=0;sfx('thermo')}}else if(H.v>0){H.v=Math.max(0,H.v-dt*.5);if(!H.warn&&H.v>.12){H.warn=1;bark([{n:'Abigail',t:'(Keep it in! It has to beep first.)'}])}}
  if(H.v>=1){H.done=1;hold=0;sfx('ding');after(.7,()=>{qx.th=null;mode='q';setHud('');say([{n:'',t:'*beep beep* 99.2 F'},{n:'Abigail',t:'(99.2! It was over 101 last week.)'},{n:'Abigail',t:'(The fever is finally breaking. I feel like a person again. A tired person, but a person.)'}],()=>{qbMark('temp');qx.cont()})})}}
 function thDraw(t){const H=qx.th;if(!H)return;const v=H.done?1:H.v,rd=(97.0+v*2.2).toFixed(1);
  r(8,16,64,34,'#2a1a3a');r(9,17,62,32,'#3a2a4e');r(9,17,62,1,'#5a4a70');txt('THERMOMETER',18,20,'#ffd86b',1);
@@ -2617,10 +2617,10 @@ function vMBed(t){const n=lv.night,made=qx&&qx.bedMade;
  if(n){cx.globalAlpha=.4;r(0,0,80,144,'#0a0a30');cx.globalAlpha=1;cx.globalCompositeOperation='lighter';disc(47,77,14,'#ffd8a0',.12);cx.globalCompositeOperation='source-over'}qxOverlay(t)}
 Object.assign(VS,{mhall:[2,vMHall],mbath:[2,vMBath],mbed:[2,vMBed]});
 
-function lvMorIn(){lv.mw=null;lv.mgone=1;after(.9,()=>sfx('creak'));after(1.7,()=>sfx('latch'))}
+function lvMorIn(){lv.mw=null;lv.mgone=1;after(.9,()=>sfx('door'));after(1.7,()=>sfx('latch'))}
 /* Day 14: in from the hallway (bottom right), across the room and out of the front door (left), which slams behind her */
-function lvMorOut(done){sfx('creak');const M=lv.mw2={x:94,y:138,dir:'l'};
- go(M,[[66,131],[22,124],[12,104],[4,95]],58);waitTill(()=>M.tx==null,()=>{M.dir='u';lv.door=1;sfx('creak');after(.3,()=>{go(M,[[1,89]],26);M.fade=T;after(.5,()=>{lv.mw2=null;lv.door=0;done()})})})}
+function lvMorOut(done){sfx('door');const M=lv.mw2={x:94,y:138,dir:'l'};
+ go(M,[[66,131],[22,124],[12,104],[4,95]],58);waitTill(()=>M.tx==null,()=>{M.dir='u';lv.door=1;sfx('door');after(.3,()=>{go(M,[[1,89]],26);M.fade=T;after(.5,()=>{lv.mw2=null;lv.door=0;done()})})})}
 function lvTable(){r(22,100,40,3,'#c08a58');r(22,100,40,1,'#d8a878');r(22,103,40,6,'#8a5a3a');r(24,109,2,6,'#6a4a2a');r(58,109,2,6,'#6a4a2a');
  for(let i=0;i<Math.min(tissues,12);i++)disc(26+(i*5)%14,98-(i/3|0)*2,2,'#f8f8ff',1);
  r(57,96,4,4,'#fff');r(61,97,1,2,'#fff');r(58,95,2,1,'#c8a080');
@@ -2785,14 +2785,14 @@ function hxCloset(){const A=hx.f;
  if(!A){say([{n:'Hunter',t:'(The studio. Closed for the day. Artists need their rest.)'}]);return}
  if(hx.cnt.studio){hx.cnt.studio++;say([[{n:'Hunter',t:'The studio. Currently between albums.'}],[{n:'Abigail',t:'Is "Hanger Management" on streaming yet?'},{n:'Hunter',t:'It is a closet exclusive.'}]][hx.cnt.studio%2]);return}
  hx.cnt.studio=1;mode='c3';setHud('');hx.fstay=1;go(A,hxRoute(A,26,124),40);
- say([{n:'Hunter',t:'And THIS... is the studio.',anim:()=>{hr.closet=1;sfx('creak');A.dir='l'}},{n:'Abigail',t:'...That’s a closet.'},
+ say([{n:'Hunter',t:'And THIS... is the studio.',anim:()=>{hr.closet=1;sfx('closet');A.dir='l'}},{n:'Abigail',t:'...That’s a closet.'},
   {n:'Hunter',t:'It is a closet that HAPPENS to be a world-class recording studio.'},{n:'Abigail',t:'Why is it padded with... is that your mum’s good comforter?'},
   {n:'Hunter',t:'Acoustics, Abigail. She doesn’t know. ...She knows.'},{n:'Hunter',t:'I’ve recorded THREE full hip hop albums in here.'},{n:'Abigail',t:'Three?!'},
   {n:'Hunter',t:'The trilogy. "Closet Bars." "Closet Bars 2." And my masterpiece... "Hanger Management."'},{n:'Abigail',t:'(trying SO hard not to laugh) Okay. Play me something.'},
   {n:'Hunter',t:'...Fine. ONE verse.',anim:()=>{hr.rec=1;[0,.3,.6,.9,1.2,1.5,1.8,2.1].forEach((d,i)=>after(d,()=>sfx(i%2?'tick':'bump')))}},
   {n:'',t:'(Hunter spits sixteen of the most heartfelt bars ever recorded between a winter coat and a vacuum cleaner.)'},
   {n:'Abigail',t:'...Hunter.'},{n:'Hunter',t:'Too much?'},{n:'Abigail',t:'Okay, that was actually really good. I need the whole album.'},{n:'Hunter',t:'Signed copies are available. For you. Exclusively.',anim:()=>{hr.rec=0}}],
-  ()=>{hr.closet=0;sfx('creak');hx.fstay=0;mode='hx';hxHud()})}
+  ()=>{hr.closet=0;sfx('closet');hx.fstay=0;mode='hx';hxHud()})}
 /* ---- story hooks ---- */
 /* walk backwards a few steps while still facing someone */
 function stepBack(p,from,dist){const sgn=p.x>=from.x?1:-1,sx=p.x,tx=Math.max(6,Math.min(74,p.x+sgn*dist)),t0=T,dur=.75;p.dir=sgn>0?'l':'r';p.moving=true;sfx('step');
@@ -2808,7 +2808,7 @@ function c3Morning(n){c3Day=n;abi.sit=0;at(mom,30,118,'r');kit={peek:0,door:0,pp
   [{n:'Abigail',t:'Hunter. It’s after NOON.'},{n:'Hunter',t:'We’re on vacation. From... everything.'},{n:'Abigail',t:'...Dippin Donuts?'},{n:'Hunter',t:'Dippin Donuts.'}]][n];
  after(1.4,()=>say(L,()=>{hr.sleep=0;hr.wake={t:0,cb:()=>{hr.rumpled=1;at(hunter,66,124,'l');at(abi,10,114,'r');hr.ppl=[hunter,abi];}};sfx('step');after(1.9,()=>{
   const goals=[];if(n===2)goals.push({room:'kitchen',id:'letter',hud:'Something is on the kitchen counter...',fn:done=>c3Letter(done)});
-  goals.push({room:'kitchen',id:'door',hud:'Head out for Dippin Donuts',fn:()=>{kit.door=1;sfx('creak');const p=hunter;go(p,[[8,100]],40);go(abi,[[10,104]],40);hx.phase='out';hx.arrive=()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;(()=>dtDay(n))()})}}});
+  goals.push({room:'kitchen',id:'door',hud:'Head out for Dippin Donuts',fn:()=>{kit.door=1;sfx('door');const p=hunter;go(p,[[8,100]],40);go(abi,[[10,104]],40);hx.phase='out';hx.arrive=()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;(()=>dtDay(n))()})}}});
   hxStart({room:'hroom',p:hunter,follow:abi,stage:'morning',day:n,goals});if(n===2)hx.letter=1})}))}
 function c3Letter(done){const A=abi;hunter.dir='u';
  say([{n:'',t:'A welcome packet sits on the counter. "Welcome to the team, Abigail! Your start date: June 1."'},{n:'Abigail',t:'I signed up for this job in Texas before I ever met you. Back then, it felt like the biggest adventure.'},
@@ -2859,7 +2859,7 @@ function tvUpdate(dt){const v=tv;if(!v)return;if(v.done){if(v.slept){v.lid=1;ret
  v.lid+=(.1+v.ep*.24)*dt;v.ep+=dt/v.dur;
  if(v.lid>=1){v.lid=1;v.done=1;v.slept=1;mode='q';setHud('');after(1.4,()=>{v.done=2;v.cb(0)})}else if(v.ep>=1){v.done=2;mode='q';setHud('');v.cb(1)}}
 function _qDay3(){entD=0;entT=null;qScene({loc:'entry'},[{n:'',t:'*knock knock*',anim:()=>sfx('knock')},{n:"Hunter's Mom",t:'(through the door) Groceries are at your door! A pan of goulash, OJ, tissues and snacks. Love you all!'},{n:"Hunter's Mom",t:'Do NOT come out until I’m all the way downstairs!'},
- {n:'Hunter',t:"(from the couch) My mom's the best."},{n:'',t:'(Her footsteps fade down the stairs...)'}],()=>{sfx('creak');entT=T;after(1.1,()=>{entD=1;entT=null;say([{n:'',t:'Tap each item on the doormat to bring it inside!'}],()=>{mode='bags';bags={got:[0,0,0,0,0],n:0};setHud('Bring the groceries in! 0/5')})})})}
+ {n:'Hunter',t:"(from the couch) My mom's the best."},{n:'',t:'(Her footsteps fade down the stairs...)'}],()=>{sfx('door');entT=T;after(1.1,()=>{entD=1;entT=null;say([{n:'',t:'Tap each item on the doormat to bring it inside!'}],()=>{mode='bags';bags={got:[0,0,0,0,0],n:0};setHud('Bring the groceries in! 0/5')})})})}
 const BAGP=[[37,95],[42,93],[48,96],[52,93],[56,97]];
 function bagTap(x,y){sfx('tick');let best=-1,bd=14;BAGP.forEach(([bx,by],i)=>{if(bags.got[i])return;const d=Math.hypot(x-bx,y-by+2);if(d<bd){bd=d;best=i}});
  if(best<0)return;bags.got[best]=1;bags.n++;burst(BAGP[best][0],BAGP[best][1]-4,'#ffd86b');setHud('Bring the groceries in! '+bags.n+'/5');
@@ -3185,7 +3185,7 @@ function dtBrake(auto){if(mode!=='dtPull')return;sfx('brake');dtS.v=0;mode='dtTa
  const G={perfect:[{n:'',t:'PERFECT stop! Right at the window.'}],short:[{n:'',t:'A little short...'},{n:'Hunter',t:'(leaning WAY out the window) I can reach! I can reach!'}],far:[{n:'',t:'Way past the window...'},{n:'Abigail',t:'Reverse. REVERSE.'}]}[g];
  const WL=['Here you go! Have a great day, you two!','Back again? Love that for you.','You two again! I started your order when I saw your car.'];
  const CL=[[{n:'Abigail',t:'(sip) Mmm. This is the life.'}],[{n:'Hunter',t:'We could get used to this.'},{n:'Abigail',t:'We already have.'}],[{n:'Abigail',t:'Is it weird that the drive-thru knows our car now?'},{n:'Hunter',t:'Not weird. Loyal.'}]];
- say(G,()=>{dtS.fixcb=()=>{dtS.worker=1;dtS.wt=T;sfx('step');after(.85,()=>say([{n:'Worker',t:WL[c3Day]}],()=>{dtS.handing=1;after(1.4,()=>say(CL[c3Day],dtNext))}))};dtS.fix=1})}
+ say(G,()=>{dtS.fixcb=()=>{dtS.worker=1;dtS.wt=T;sfx('window');after(.85,()=>say([{n:'Worker',t:WL[c3Day]}],()=>{dtS.handing=1;after(1.4,()=>say(CL[c3Day],dtNext))}))};dtS.fix=1})}
 function dtNext(){const n=c3Day;if(MGM&&MGM.dt&&!MGM.done){if(n<2)fadeTo(()=>{dtS=null;setLoc('newsbg');card(n==0?'Day 2':'Day 3')},1.6),after(2.6,()=>{$('card').style.opacity=0;dtDay(n+1)});else{MGM.done=1;fadeTo(mgFinish)}return}if(n<2){fadeTo(()=>{dtS=null;setLoc('newsbg');card(n==0?'The next day...<br><br><span style="color:#ff4a3a">11:47 AM</span>':'A week later...<br><br><span style="color:#ff4a3a">12:03 PM</span>')},2.4);after(3.4,()=>{fade=1;fd=-1;c3Morning(n+1)})}
  else{fadeTo(()=>{dtS=null;setLoc('newsbg');card('A few weeks of the good life later...')},2.6);after(3.6,()=>{$('card').style.opacity=0;c3School()})}}
 /* ---- packing the SUV ---- */
@@ -3422,7 +3422,7 @@ function c3Grad(){setLoc('c3grad');fade=1;fd=-1;mode='c3';c3s={banner:1,pop:0,ca
   {n:'Livestream',t:'...and now conferring the degree of Master... Abigail!',anim:()=>{c3s.name=T}},
   {n:'Hunter',t:'WOOOOOO!',anim:()=>{c3s.pop=T;sfx('cheer');hunter.hold='stretch';for(let i=0;i<10;i++)after(i*.12,()=>burst(20+Math.random()*44,80,['#ffd86b','#ff5f9e','#7ee8fa','#8be28b'][i%4]))}},
   {n:'Hunter',t:'THAT’S MY GIRL!'},{n:'Abigail',t:'(laughing) It’s not exactly walking across a stage.'},
-  {n:'Hunter',t:'Hang on. I made you something.',anim:()=>{hunter.hold=null;c3s.capT=T;sfx('item')}},{n:'Abigail',t:'Did you make me a graduation cap out of cardboard?'},{n:'Hunter',t:'And a LOT of tape.'},{n:'Hunter',t:'Master Abigail. Has a nice ring to it.'},
+  {n:'Hunter',t:'Hang on. I made you something.',anim:()=>{hunter.hold=null;c3s.capT=T;sfx('grab')}},{n:'Abigail',t:'Did you make me a graduation cap out of cardboard?'},{n:'Hunter',t:'And a LOT of tape.'},{n:'Hunter',t:'Master Abigail. Has a nice ring to it.'},
   {n:'Abigail',t:'Okay... this is actually perfect.'}],()=>phAsk('masters',()=>{abi.mortar=0;abi.sit=0;abi.sitF=0;
    fadeTo(()=>{setLoc('newsbg');card('Master’s degree: complete.<br><br>And just in time, because...')},2.8);after(3.8,()=>{$('card').style.opacity=0;after(1.1,()=>card('...it was time for Texas.'));after(3.6,()=>{$('card').style.opacity=0;c3Dorm()})})})))}
 function vC3Class(t){cx.save();cx.scale(2,2);// close-up: 40x72 frame
@@ -3921,8 +3921,8 @@ function trOrder(done){const A=abi,H=hunter;A.dir=H.dir='u';
   {n:'Cook',t:'One mild. One EXTRA nasty. Hang on a second.',anim:()=>{tw.ph=1;after(.6,()=>{if(tw.ph!==1||tw.shut)return;tw.shut=1;tw.shT=T;sfx('slam');after(.35,()=>{if(tw.shut)tw.cook=0});after(.4,()=>{if(tw.ph===1){tw.wig=1;noises()}})})}},
   {n:'',t:'(The metal shutter slams down. The whole truck starts to shake.)',anim:()=>{if(tw.ph===1&&!tw.wig){if(!tw.shut){tw.shut=1;tw.shT=T;sfx('slam')}after(.35,()=>{if(tw.shut)tw.cook=0});tw.wig=1;noises()}}},
   {n:'Abigail',t:'What’s he DOING in there?'},{n:'Hunter',t:'I... genuinely don’t want to know.',anim:noises},
-  {n:'',t:'(The shaking stops. The shutter rolls up.)',anim:()=>{tw.ph=2;tw.wig=0;tw.shut=0;tw.shT=T;tw.cook=1;sfx('creak')}},
-  {n:'Cook',t:'Enjoy. Or don’t. Legally, I can’t make you.',anim:()=>{tw.toss=T;tw.tp=[A,H];nasty.hold='stretch';sfx('jump');after(.45,()=>{nasty.hold=null});after(.85,()=>{A.hold='burrito';sfx('item')});after(1.1,()=>{H.hold='burrito';sfx('item');tw.toss=0})}}],
+  {n:'',t:'(The shaking stops. The shutter rolls up.)',anim:()=>{tw.ph=2;tw.wig=0;tw.shut=0;tw.shT=T;tw.cook=1;sfx('shutterRoll')}},
+  {n:'Cook',t:'Enjoy. Or don’t. Legally, I can’t make you.',anim:()=>{tw.toss=T;tw.tp=[A,H];nasty.hold='stretch';sfx('jump');after(.45,()=>{nasty.hold=null});after(.85,()=>{A.hold='burrito';sfx('grab')});after(1.1,()=>{H.hold='burrito';sfx('grab');tw.toss=0})}}],
   ()=>{tw.cook=1;tw.ph=3;hx.phase='seq';hx.fstay=1;go(A,hxRoute(A,34,99),34);go(H,hxRoute(H,46,99),34);
    waitTill(()=>A.tx==null&&H.tx==null,()=>{[A,H].forEach(p=>{p.dir='d'});trSeat(1,()=>
     say([{n:'Abigail',t:'Okay. On three. One... two...'},{n:'',t:'*bite*',anim:()=>{tw.bleh=1;sfx('blegh');A.green=H.green=1;shakeT=.4;sfx('hit')}},
@@ -3930,18 +3930,18 @@ function trOrder(done){const A=abi,H=hunter;A.dir=H.dir='u';
      {n:'Hunter',t:'I asked for extra nasty. And I have RECEIVED extra nasty.'},{n:'Cook',t:'(from the truck) No refunds! It’s in the name!'},
      {n:'Abigail',t:'Is there a crunch in yours? Why is there a crunch?',c:[{l:'Take another bite',f:()=>say([{n:'',t:'*bite*'},{n:'Hunter',t:'For science.'},{n:'Hunter',t:'...Science says no.'}],fin)},{l:'Absolutely not',f:fin}]}]))})});
  function fin(){A.green=H.green=0;tw.bleh=0;tw.ordered=1;A.hold=H.hold=null;trSeat(-1,()=>say([{n:'Abigail',t:'I need something to get this taste out of my mouth. Immediately.'},{n:'Hunter',t:'There’s a sign over there that says "COFFE"...'},{n:'Abigail',t:'Is that a coffee shop? Or somebody’s apartment?'},{n:'Hunter',t:'Only one way to find out.'}],()=>{if(hx){hx.phase=null;hx.fstay=0}done()}))}}
-function trCoffee(done){const A=abi,H=hunter;hx.phase='seq';hx.fstay=1;A.dir=H.dir='u';sfx('knock');after(.4,()=>sfx('knock'));after(1,()=>{tw.door=1;sfx('creak');
+function trCoffee(done){const A=abi,H=hunter;hx.phase='seq';hx.fstay=1;A.dir=H.dir='u';sfx('knock');after(.4,()=>sfx('knock'));after(1,()=>{tw.door=1;sfx('door');
  say([{n:'Dude',t:'(opens the door, half asleep) ...Sup.'},{n:'Abigail',t:'Hi! Um. Is this a... coffee shop?'},{n:'Dude',t:'Yeah bro. Totally. Kinda. What do you guys want?'},
-  {n:'Hunter',t:'Two coffees?'},{n:'Dude',t:'Yeah bro, cool. I got you.',anim:()=>{tw.door=0;sfx('creak')}},
+  {n:'Hunter',t:'Two coffees?'},{n:'Dude',t:'Yeah bro, cool. I got you.',anim:()=>{tw.door=0;sfx('doorShut')}},
   {n:'',t:'*blender*  *microwave beeping*  *something hisses*  *a suspiciously long silence*'},
-  {n:'Dude',t:'(opens the door) Two coffees, bro.',anim:()=>{tw.door=1;sfx('creak');A.hold=H.hold='mug'}},
+  {n:'Dude',t:'(opens the door) Two coffees, bro.',anim:()=>{tw.door=1;sfx('door');A.hold=H.hold='mug'}},
   {n:'Abigail',t:'These are... your mugs. From your kitchen.'},{n:'Dude',t:'Yeah. Bring ’em back whenever. Or don’t. It’s chill.'},
   {n:'',t:'*sip*',anim:()=>{A.green=H.green=1;shakeT=.3;sfx('blegh');face(A,H);face(H,A)}},
   {n:'Abigail',t:'...Why is it CHUNKY?'},{n:'Dude',t:'That’s the good stuff, bro.'},{n:'Hunter',t:'Is it supposed to be... fizzy?'},{n:'Dude',t:'Whatever you want it to be, bro.'},
   {n:'Abigail',t:'What kind of milk is this?'},{n:'Dude',t:'Milk, bro.'},{n:'Hunter',t:'From... what?'},{n:'Dude',t:'(shrugs) ...The fridge.'},
   {n:'Abigail',t:'It CURDLED. It curdled IN the cup. While I was HOLDING it.'},{n:'Dude',t:'Yeah, it does that.'},
   {n:'Dude',t:'That’s five bucks. Each. Cash only. No receipts, bro.',anim:()=>{tw.cash=1}},
-  {n:'',t:'Hunter hands over ten dollars. Behind the dude, a money-counting machine goes BRRRRRRT.',anim:()=>{sfx('coin')}},
+  {n:'',t:'Hunter hands over ten dollars. Behind the dude, a money-counting machine goes BRRRRRRT.',anim:()=>{sfx('moneyCounter')}},
   {n:'Dude',t:'Sweet. Business is BOOMING. Later.',anim:()=>{tw.door=0;tw.cash=0;sfx('creak');A.hold=H.hold=null;A.green=H.green=0}},
   {n:'Abigail',t:'Hunter. Did you see the money counter behind him?'},{n:'Hunter',t:'There were like SIX of them.'},
   {n:'Abigail',t:'There’s no coffee shop. There’s no coffee. That’s a FRONT.'},{n:'Hunter',t:'We just paid ten dollars into a money laundering scheme.'},
@@ -4673,14 +4673,14 @@ function bsShirt(){if(bst.shirt){say([[{n:'Hunter',t:'(Eighteen dollars. Money w
   {l:'Buy it!',f:()=>{bst.view=null;bsBuy()}},{l:'Maybe not',f:()=>{bst.view=null;say([{n:'Hunter',t:'(...I’ll think about it. I’ll probably come back.)'}])}}]}])}
 function bsBuy(){const H=hunter;mode='c3';hx.phase='seq';hx.fstay=1;sfx('kaching');burst(H.x,H.y-20,'#ffd86b');
  bark([{n:'Hunter',t:'(Eighteen dollars. Worth every penny.)'}]);go(H,hxRoute(H,212,74),34);
- waitTill(()=>H.tx==null,()=>{H.dir='u';after(.15,()=>{go(H,[[212,64]],20);after(.35,()=>{bst.fit=1;bst.curC=1;bst.cur=T;sfx('whoosh');
-  [.5,.85,1.2,1.5].forEach(d=>after(d,()=>sfx('step')));after(1.8,()=>{beavShirt(1);bst.shirt=1;bst.curC=0;bst.cur=T;sfx('whoosh');at(H,212,64,'d');bst.fit=0;
+ waitTill(()=>H.tx==null,()=>{H.dir='u';after(.15,()=>{go(H,[[212,64]],20);after(.35,()=>{bst.fit=1;bst.curC=1;bst.cur=T;sfx('curtain');
+  [.5,.85,1.2,1.5].forEach(d=>after(d,()=>sfx('fabric')));after(1.8,()=>{beavShirt(1);bst.shirt=1;bst.curC=0;bst.cur=T;sfx('curtain');at(H,212,64,'d');bst.fit=0;
    go(H,[[212,78]],22);after(.5,()=>{burst(H.x,H.y-14,'#f0c030');sfx('cheer');const F=bst.found;
     say(F?[{n:'Hunter',t:'(stepping out) Ta-da.'},{n:'Abigail',t:'...Oh no.'},{n:'Hunter',t:'Everything’s beaver in Texas, babe.'},{n:'Abigail',t:'(trying very hard not to laugh) I love it. I hate that I love it.'}]
      :[{n:'Hunter',t:'(stepping out) Ta-da.'},{n:'Tourist',t:'Nice shirt!'},{n:'Hunter',t:'(Abigail is going to love this. ...Probably.)'}],()=>{hx.phase=null;hx.fstay=0;mode='hx';hxHud()})})})})})})}
 function bsJerky(){const k=hx.cnt.jerky||0;hx.cnt.jerky=k+1;if(k){say([{n:'Hunter',t:'(I can always come back for the other fifty-seven.)'}]);return}
  say([{n:'Hunter',t:'Whoa. There are like SIXTY kinds of jerky on this wall.'},{n:'Hunter',t:'Ghost pepper. Teriyaki. Cherry maple. Sweet and spicy. BACON jerky?!'},...(bst.found?[{n:'Abigail',t:'Pick ONE.'}]:[]),
-  {n:'',t:'(Hunter picks three.)',anim:()=>{sfx('item');hunter.hold='carry';hunter.carry='#c8282a'}}])}
+  {n:'',t:'(Hunter picks three.)',anim:()=>{sfx('paper2');hunter.hold='carry';hunter.carry='#c8282a'}}])}
 function bsBris(){const k=hx.cnt.bris||0;hx.cnt.bris=k+1;if(k){say([{n:'Worker',t:'Chopped or sliced, partner?'},{n:'Hunter',t:'(We just ate. ...We could eat again.)'}]);return}
  say([{n:'Worker',t:'FRESH BRISKET ON THE BOARD!',anim:()=>{bst.cheer=2.2;sfx('cheer')}},{n:'',t:'(The entire store cheers.)'},{n:'Hunter',t:'Why is everyone cheering for meat?'},{n:'Hunter',t:'...WOOOO!',anim:()=>{bst.cheer=2.2;sfx('cheer')}}])}
 function bsMerch(){const k=hx.cnt.merch||0;hx.cnt.merch=k+1;if(k){say([{n:'Hunter',t:'(Beaver pajamas. Beaver slippers. Beaver EVERYTHING.)'}]);return}
@@ -4941,7 +4941,7 @@ function hapSet(v){HAP.on=v;try{localStorage.setItem('ourstory_hap',v?'1':'0')}c
 /* ================= AUDIO ================= */
 let PAUSED=0;const VOL={m:.75,s:1,a:1};try{const v=JSON.parse(localStorage.getItem('ourstory_vol2')||'null');if(v){VOL.m=+v.m;VOL.s=+v.s;if(v.a!=null)VOL.a=+v.a}}catch(e){}
 function applyVol(){try{localStorage.setItem('ourstory_vol2',JSON.stringify(VOL))}catch(e){}$('vm').value=Math.round(VOL.m*100);$('vs').value=Math.round(VOL.s*100);$('vmL').textContent=Math.round(VOL.m*100)+'%';$('vsL').textContent=Math.round(VOL.s*100)+'%';$('va').value=Math.round(VOL.a*100);$('vaL').textContent=Math.round(VOL.a*100)+'%';if(AU.ctx&&AU.ab)AU.ab.g.gain.setTargetAtTime(VOL.a,AU.ctx.currentTime,.03);
- if(AU.ctx){AU.mvol.gain.setTargetAtTime(VOL.m*.15,AU.ctx.currentTime,.03);AU.fx.gain.setTargetAtTime(VOL.s*.9,AU.ctx.currentTime,.03)}}
+ if(AU.ctx){AU.mvol.gain.setTargetAtTime(VOL.m*.15,AU.ctx.currentTime,.03);AU.fx.gain.setTargetAtTime(VOL.s*.9,AU.ctx.currentTime,.03);if(AU.ui)AU.ui.gain.setTargetAtTime(VOL.s*.9,AU.ctx.currentTime,.03)}}
 function openPause(){auInit();PAUSED=1;applyVol();$('pause').style.display='flex';$('snd').style.display='none';sfx('select')}
 function closePause(){PAUSED=0;$('pause').style.display='none';$('snd').style.display=''}
 const AU={ctx:null,on:true,cur:null,want:null,step:0,nt:0,last:{},song:null,songSrc:null,songBuf:null,songWant:0};
@@ -4951,6 +4951,10 @@ function auInit(){if(AU.ctx){if(AU.ctx.state!=='running'&&!document.hidden){AU.c
  AU.master=c.createGain();AU.master.gain.value=AU.on?1:0;{const cp=c.createDynamicsCompressor();cp.threshold.value=-10;cp.ratio.value=6;AU.master.connect(cp);AU.wd=c.createGain();AU.wd.gain.value=0;cp.connect(AU.wd);AU.wd.connect(c.destination)}
  AU.mvol=c.createGain();AU.mvol.connect(AU.master);AU.mus=c.createGain();AU.mus.gain.value=0;AU.mus.connect(AU.mvol);
  AU.fx=c.createGain();AU.fx.connect(AU.master);
+ AU.ui=c.createGain();AU.ui.connect(AU.master);
+ AU.rvS=c.createGain();AU.rvS.gain.value=0;AU.fx.connect(AU.rvS);AU.rvO=c.createGain();AU.rvO.connect(AU.master);
+ AU.cvA=c.createConvolver();AU.cvB=c.createConvolver();AU.cvA.normalize=AU.cvB.normalize=false;AU.gA=c.createGain();AU.gB=c.createGain();AU.gA.gain.value=AU.gB.gain.value=0;
+ AU.rvS.connect(AU.cvA);AU.rvS.connect(AU.cvB);AU.cvA.connect(AU.gA);AU.cvB.connect(AU.gB);AU.gA.connect(AU.rvO);AU.gB.connect(AU.rvO);
  AU.sng=c.createGain();AU.sng.gain.value=0;AU.sng.connect(AU.mvol);applyVol();
  const len=c.sampleRate*.5|0,nb=c.createBuffer(1,len,c.sampleRate),d=nb.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;AU.noise=nb;
  AU.nt=c.currentTime+.1;setInterval(musTick,40);
@@ -4964,12 +4968,12 @@ function auHide(h){const c=AU.ctx;if(!c||!AU.master)return;const now=c.currentTi
  try{c.state!=='running'?c.resume().then(go,go):go()}catch(e){go()}}
 document.addEventListener('visibilitychange',()=>auHide(document.hidden));document.addEventListener('freeze',()=>auHide(1));document.addEventListener('resume',()=>{if(!document.hidden)auHide(0)});addEventListener('pagehide',()=>auHide(1));addEventListener('pageshow',()=>{if(!document.hidden)auHide(0)});const AUTOUCH=(()=>{try{return matchMedia('(pointer:coarse)').matches}catch(e){return false}})();addEventListener('blur',()=>{if(document.hidden||AUTOUCH)auHide(1)});addEventListener('focus',()=>{if(!document.hidden)auHide(0)});
 const mf=m=>440*Math.pow(2,(m-69)/12);
-function tone(f,dur,type,vol,f2,delay,dest){const c=AU.ctx;if(!c)return;const t=c.currentTime+(delay||0),o=c.createOscillator(),g=c.createGain();o.type=type||'square';o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+dur);
+function tone(f,dur,type,vol,f2,delay,dest){const c=AU.ctx;if(!c)return;if(!dest){f*=SVp;if(f2)f2*=SVp;vol*=SVg;dest=auPan(AUDB||AU.fx,SPAN)}const t=c.currentTime+(delay||0),o=c.createOscillator(),g=c.createGain();o.type=type||'square';o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+dur);
  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.005);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(dest||AU.fx);o.start(t);o.stop(t+dur+.02)}
-function nz(dur,vol,ff,type,delay,dest,ff2){const c=AU.ctx;if(!c)return;const t=c.currentTime+(delay||0),s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=AU.noise;f.type=type||'lowpass';f.frequency.setValueAtTime(ff||2000,t);if(ff2)f.frequency.exponentialRampToValueAtTime(ff2,t+dur);
+function nz(dur,vol,ff,type,delay,dest,ff2){const c=AU.ctx;if(!c)return;if(!dest){vol*=SVg;if(ff)ff*=SVp;if(ff2)ff2*=SVp;dest=auPan(AUDB||AU.fx,SPAN)}const t=c.currentTime+(delay||0),s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=AU.noise;f.type=type||'lowpass';f.frequency.setValueAtTime(ff||2000,t);if(ff2)f.frequency.exponentialRampToValueAtTime(ff2,t+dur);
  g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(f);f.connect(g);g.connect(dest||AU.fx);s.start(t);s.stop(t+dur+.02)}
 const SFX={
- blip:p=>tone(p,.045,p>=235?'triangle':'square',p>=235?.06:.035),
+ blip:p=>(p=p||520,tone(p,.045,p>=235?'triangle':'square',p>=235?.06:.035)),
  foot:()=>{const k=AMBS[loc];if(k==='birds'){nz(.06,.03,2400,'bandpass')}else if(k==='wind'){nz(.1,.05,1100,'lowpass',0,0,350)}else{nz(.03,.035,1500,'lowpass');tone(95+Math.random()*30,.03,'sine',.03)}},
  tick:()=>tone(1400,.02,'triangle',.03),
  adv:()=>tone(880,.03,'triangle',.04),
@@ -5022,12 +5026,319 @@ paper:(f,v)=>{v=v||1;try{const c=AU.ctx,t=c.currentTime,n=c.createBufferSource()
  boom:()=>{tone(80,.6,'sine',.22,38);nz(.5,.18,260,'lowpass');[.18,.26,.31,.4,.47,.55].forEach(d=>nz(.03,.05,5200,'highpass',d))},
  cheer:()=>{nz(.9,.12,1800,'bandpass');[0,.12,.25].forEach(d=>tone(700+Math.random()*300,.25,'sawtooth',.02,900,d))},
  flap:()=>{[0,.07,.14,.21].forEach(d=>nz(.04,.1,1500,'bandpass',d))}};
-const SFXQ=[];function sfxFlush(){while(SFXQ.length){const [n,a]=SFXQ.shift();try{SFX[n]&&SFX[n](a)}catch(e){}}}
-function sfx(n,a){if(n==='kiss')CAMK=T;try{hitFx(n)}catch(e){}try{const h=HAPMAP[n];if(h)hap(h)}catch(e){}if(!AU.ctx||!AU.on)return;if(INPUT){const now=performance.now();if(AU.last[n]&&now-AU.last[n]<55)return;AU.last[n]=now;SFXQ.push([n,a]);return}const now=performance.now();if(AU.last[n]&&now-AU.last[n]<(n=='blip'?40:55))return;AU.last[n]=now;try{SFX[n]&&SFX[n](a)}catch(e){}}
+const SFXQ=[];function sfxFlush(){while(SFXQ.length){const [n,a,pn]=SFXQ.shift();sfxRun(n,a,pn)}}
+function sfx(n,a){AU.n=(AU.n||0)+1;if(!/^(select|confirm|adv|tick|typeTick|blip|keytap)$/.test(n))AU.lt=performance.now();if(n==='kiss')CAMK=T;try{hitFx(n)}catch(e){}try{const h=HAPMAP[n];if(h)hap(h)}catch(e){}if(!AU.ctx||!AU.on)return;if(INPUT){const now=performance.now();if(AU.last[n]&&now-AU.last[n]<55)return;AU.last[n]=now;SFXQ.push([n,a,SPAN]);return}const now=performance.now();if(AU.last[n]&&now-AU.last[n]<(n=='blip'?40:55))return;AU.last[n]=now;sfxRun(n,a,SPAN)}
 const VOICE={Hunter:150,Abigail:300,Morgan:260,Dad:120,Mom:240,Bartender:180,DJ:200,Nurse:280,Boss:140,Worker:230,Manager:290,Speaker:170,Poet:210,'Poet 2':160,Dancer:270,Tourist:220,Cashier:250,Driver:170};
 Object.assign(VOICE,{Mum:285,J:132,Meggs:268,Pilot:145,Auntie:305,Vet:255,Baker:165,Florist:275,Tailor:155,Waiter:190,Director:160});
-// anyone without a set voice still gets their own steady pitch, worked out from their name
-function voiceBlip(n){if(!n){sfx('tick');return}let b=VOICE[n];if(!b){let h=0;for(const ch of n)h=(h*31+ch.charCodeAt(0))%997;b=VOICE[n]=130+h%190}sfx('blip',b*(1+Math.random()*.22))}
+/* ================= SOUND DESIGN =================
+   Every location has its own acoustic space (a generated impulse response), sounds sit somewhere left-to-right,
+   no two plays of a sound are quite identical, and a large foley library gives the objects and actions in the
+   story their own sounds instead of a handful of shared beeps. */
+let SPAN=0,SVp=1,SVg=1,AUDB=null,PMN=false;
+function auPan(dest,pan){const c=AU.ctx;if(!pan||Math.abs(pan)<.03||!c.createStereoPanner)return dest;const p=c.createStereoPanner();p.pan.value=Math.max(-1,Math.min(1,pan));p.connect(dest);return p}
+const SPACES={// [tail seconds, how fast it dies away, brightness, how much of the room you hear]
+ room:[.55,3.2,4200,.1],bed:[.45,3.4,3400,.07],kitch:[.65,3,5600,.13],bath:[1.05,2.1,6800,.26],hall:[1.1,2.6,4200,.15],stairs:[1.2,2.5,4000,.16],
+ lobby:[2.4,2.2,5200,.22],lift:[.3,3.5,3800,.12],church:[3.6,1.8,3800,.36],term:[2.6,2.1,5200,.24],rest:[.95,2.8,4400,.12],shop:[.85,2.8,5200,.12],
+ office:[.7,3,4200,.1],arc:[1.3,2.6,4800,.15],arena:[2.8,2.1,4200,.26],car:[.12,4,2600,.06],cabin:[.25,3.4,3000,.08],studio:[.16,4,2800,.05],
+ out:[.5,4,5200,.05],field:[.35,4.6,4800,.035],street:[1.2,3,4200,.09],roof:[1,3.3,4400,.07],plaza:[1.7,2.6,4600,.12]};
+const SPKD={home:'room',bath:'bath',church:'church',airport:'term',diner:'rest',arcade:'arc',shop:'shop',office:'office',rooftop:'roof',city:'street',birds:'out',farm:'field',garden:'out',hilltop:'field',water:'out',tennis:'out',night:'out',pump:'street',breeze:'out',car:'car',cabin:'cabin',crowd:'arena',nursery:'bed',idle:'street',wind:'field',lobby:'lobby',lift:'lift',party:'hall'};
+const SPL={bwdoor:'hall',hall:'stairs',kitchen:'kitch',mkit:'kitch',bath2:'bath',bunk:'bed',hroom:'bed',troom:'bed',dorm:'bed',dorm2:'bed',sleep8:'bed',night8:'bed',plaza:'plaza',kcdt:'plaza',church:'plaza',epstudio:'studio',steak:'rest',c3grad:'arena',epgrad:'arena',makeup:'room',fork:'room',clinic:'out',dt:'car',kart:'room',newsbg:null,cal:null,book:null,epalbum:null,epcard:null,epbday:null};
+function auIR(S){const c=AU.ctx,sr=c.sampleRate,n=Math.max(64,S[0]*sr|0),b=c.createBuffer(2,n,sr);
+ for(let ch=0;ch<2;ch++){const d=b.getChannelData(ch);let y=0,e=0;
+  // a tail that darkens as it dies, like a real room soaking up the highs
+  for(let i=0;i<n;i++){const k=i/n,a=1-Math.exp(-6.283*S[2]*(1-k*.75)/sr);y+=a*((Math.random()*2-1)-y);d[i]=y*Math.pow(1-k,S[1])}
+  const er=Math.min(.09,S[0]*.18)*sr;for(let j=0;j<6;j++){const p=(er*(.15+Math.random()*.85))|0;if(p<n)d[p]+=(Math.random()<.5?-1:1)*(.5-j*.06)*.2}// the nearest walls answer first
+  for(let i=0;i<n;i++)e+=d[i]*d[i];const s=1/Math.sqrt(e||1);for(let i=0;i<n;i++)d[i]*=s}
+ return b}
+function auSpaceName(){if(mode==='title'||mode==='end')return null;if(loc in SPL)return SPL[loc];const k=AMBS[loc];return k?SPKD[k]||'room':'room'}
+function auSpace(){const c=AU.ctx;if(!c||!AU.rvS)return;const nm=auSpaceName();if(nm===AU.spN)return;AU.spN=nm;const now=c.currentTime,S=nm&&SPACES[nm];
+ if(!S){AU.rvS.gain.setTargetAtTime(0,now,.15);return}
+ AU.irs=AU.irs||{};const ir=AU.irs[nm]||(AU.irs[nm]=auIR(S));AU.rvI=1-(AU.rvI||0);const cn=AU.rvI?AU.cvB:AU.cvA,gn=AU.rvI?AU.gB:AU.gA,go=AU.rvI?AU.gA:AU.gB;
+ try{cn.buffer=ir}catch(e){}gn.gain.cancelScheduledValues(now);gn.gain.setTargetAtTime(1,now+.02,.18);go.gain.cancelScheduledValues(now);go.gain.setTargetAtTime(0,now,.18);AU.rvS.gain.setTargetAtTime(S[3],now,.25)}
+// musical cues keep their pitch; everything else drifts a little each time so a repeated action never sounds copy-pasted
+const SFXMUS={win:1,lose:1,fanfare:1,chime:1,confirm:1,select:1,coin:1,item:1,ding:1,kaching:1,heart:1,kiss:1,mari:1,ring:1,dial:1,go:1,elevDing:1,bellShop:1,deskBell:1,bells:1,notif:1,sax:1,kettle:1,paChime:1,microwave:1,cardBeep:1,scaleBeep:1,beep:1,alert:1};
+const SFXUI={select:1,confirm:1,adv:1,win:1,lose:1,fanfare:1};
+// level trims so every designed sound sits at a natural loudness next to the others
+const SGAIN={stir:2.5,printer:2.5,wipers:2,liftDoor:2.5,frisbee:2.5,applause:3,crowdLaugh:3,aww:2.5,sigh:2,zipper:2.2,leather:1.8,thermo:2,gust:2,forkScrape:2.5,bristle:2,paintRoll:1.8,hairdryer:2,munch:2,phoneTap:1.6,remote:1.6,cups:1.8,spoon:1.8,cutlery:1.8,jewel:1.5,hangers:1.8,pour:2.5,moo:1.8,pant:2,whistleBird:1.5,blinker:2,suitcase:2,thunder:3,pen:1.6,window:2,shutterRoll:1.8,fridge:1.8,fridgeShut:1.8,grab:1.6,page:1.4,leaves:1.4,sniff:2,gasp:1.8,cough:1.5,throat:1.6,keys:1.6,sax:1.4,typeTick:1.8,pillow:1.5,microwave:1.6,scaleBeep:1.6,phoneBuzz:1.6,typing:1.5,receipt:1.6,moneyCounter:1.6,brushTeeth:1.4,sip:1.5,squeak:1.3,whine:1.2,coo:1.2,bark:1.3,flush:1.5,faucet:1.6,paper2:1.4,tape:1.3,curtain:1.4,blanket:1.6,engine:1.2,paChime:1.4,elevDing:1.2,crunch:1.5,sizzle:1.4,cardBeep:1.3};
+function sfxRun(n,a,p){const f=SFX[n];if(!f)return;const sp=SPAN;SVp=SFXMUS[n]?1:1+(Math.random()-.5)*.07;SVg=(1+(Math.random()-.5)*.24)*(SGAIN[n]||1);AUDB=SFXUI[n]?AU.ui:null;SPAN=SFXUI[n]?0:(p||0);try{f(a)}catch(e){}SVp=SVg=1;AUDB=null;SPAN=sp}
+function sfxAt(n,pan,a){const s=SPAN;SPAN=pan;sfx(n,a);SPAN=s}
+function panOf(p){if(p&&!p._pt&&p.n){try{p=FACEP()[p.n]}catch(e){p=null}}return p&&p._pt&&T-p._pt<1?p._pan:0}
+
+/* ---- foley building blocks ---- */
+const aD=()=>auPan(AUDB||AU.fx,SPAN);
+// filtered noise burst
+function fN(dl,dur,vol,type,f,q,f2,D){const c=AU.ctx,t=c.currentTime+(dl||0),s=c.createBufferSource(),fl=c.createBiquadFilter(),g=c.createGain();s.buffer=AU.noise;s.loop=true;fl.type=type;f*=SVp;fl.frequency.setValueAtTime(f,t);if(f2)fl.frequency.exponentialRampToValueAtTime(f2*SVp,t+dur);fl.Q.value=q||.7;vol*=SVg;
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+Math.min(.005,dur*.2));g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(fl);fl.connect(g);g.connect(D||aD());s.start(t,Math.random()*.4);s.stop(t+dur+.03)}
+// filtered noise that swells in (att = fraction of its length spent rising)
+function fS(dl,dur,vol,type,f,q,f2,att,D){const c=AU.ctx,t=c.currentTime+(dl||0),s=c.createBufferSource(),fl=c.createBiquadFilter(),g=c.createGain();s.buffer=AU.noise;s.loop=true;fl.type=type;f*=SVp;fl.frequency.setValueAtTime(f,t);if(f2)fl.frequency.exponentialRampToValueAtTime(f2*SVp,t+dur);fl.Q.value=q||.7;vol*=SVg;
+ g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+Math.max(.01,dur*(att||.3)));g.gain.exponentialRampToValueAtTime(.0001,t+dur);s.connect(fl);fl.connect(g);g.connect(D||aD());s.start(t,Math.random()*.4);s.stop(t+dur+.03)}
+// a struck object ringing: wood, ceramic, metal (p2 adds an inharmonic overtone)
+function fR(dl,f,dur,vol,p2,D){const c=AU.ctx,t=c.currentTime+(dl||0),o=c.createOscillator(),g=c.createGain(),d=D||aD();f*=SVp;vol*=SVg;o.frequency.value=f;g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(d);o.start(t);o.stop(t+dur+.02);
+ if(p2){const o2=c.createOscillator(),g2=c.createGain();o2.frequency.value=f*p2;g2.gain.setValueAtTime(vol*.45,t);g2.gain.exponentialRampToValueAtTime(.0001,t+dur*.45);o2.connect(g2);g2.connect(d);o2.start(t);o2.stop(t+dur)}}
+// FM bell: glass, bells, chimes, keys
+function fB(dl,f,dur,vol,ra,ix,D){const c=AU.ctx,t=c.currentTime+(dl||0),car=c.createOscillator(),mod=c.createOscillator(),mg=c.createGain(),g=c.createGain();f*=SVp;vol*=SVg;car.frequency.value=f;mod.frequency.value=f*(ra||1.4);mg.gain.setValueAtTime(f*(ix||2),t);mg.gain.exponentialRampToValueAtTime(f*.02+1,t+dur);mod.connect(mg);mg.connect(car.frequency);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+dur);car.connect(g);g.connect(D||aD());car.start(t);mod.start(t);car.stop(t+dur+.02);mod.stop(t+dur+.02)}
+// lots of tiny clicks: gravel, crunching, zips, sizzling
+function fC(dl,dur,n,vol,f,q,D){for(let i=0;i<n;i++)fN((dl||0)+Math.random()*dur,.004+Math.random()*.01,vol*(.35+Math.random()*.65),'bandpass',f*(.7+Math.random()*.6),q||1.2,null,D)}
+// noise with a fluttering amplitude: rustling, scribbling, tape, machines
+function fA(dl,dur,vol,type,f,q,rate,depth,D){const c=AU.ctx,t=c.currentTime+(dl||0),s=c.createBufferSource(),fl=c.createBiquadFilter(),g=c.createGain(),am=c.createGain(),lfo=c.createOscillator(),lg=c.createGain();depth=depth||.8;
+ s.buffer=AU.noise;s.loop=true;fl.type=type;fl.frequency.value=f*SVp;fl.Q.value=q||1;vol*=SVg;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+dur*.15);g.gain.setValueAtTime(vol,t+dur*.7);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+ am.gain.value=1-depth/2;lfo.frequency.value=rate*(.85+Math.random()*.3);lg.gain.value=depth/2;lfo.connect(lg);lg.connect(am.gain);s.connect(fl);fl.connect(am);am.connect(g);g.connect(D||aD());s.start(t,Math.random()*.3);lfo.start(t);s.stop(t+dur+.03);lfo.stop(t+dur+.03)}
+// a hinge, a spring or a floorboard: a rough tone that wobbles as it bends
+function fK(dl,dur,f,vol,D){const c=AU.ctx,t=c.currentTime+(dl||0),o=c.createOscillator(),fl=c.createBiquadFilter(),g=c.createGain(),lfo=c.createOscillator(),lg=c.createGain();o.type='sawtooth';f*=SVp;vol*=SVg;o.frequency.setValueAtTime(f,t);o.frequency.linearRampToValueAtTime(f*(.72+Math.random()*.2),t+dur);
+ lfo.frequency.value=15+Math.random()*12;lg.gain.value=f*.1;lfo.connect(lg);lg.connect(o.frequency);fl.type='bandpass';fl.frequency.value=f*5;fl.Q.value=3;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+dur*.25);g.gain.linearRampToValueAtTime(vol*.6,t+dur*.8);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+ o.connect(fl);fl.connect(g);g.connect(D||aD());o.start(t);lfo.start(t);o.stop(t+dur+.02);lfo.stop(t+dur+.02)}
+// a pitched tone with vibrato (whistles, kettles, whines, a sax)
+function fV(dl,dur,type,f,f2,vol,vr,vd,lp,D){const c=AU.ctx,t=c.currentTime+(dl||0),o=c.createOscillator(),g=c.createGain(),l=c.createOscillator(),lg=c.createGain();o.type=type;f*=SVp;vol*=SVg;o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2*SVp,t+dur);l.frequency.value=vr||5;lg.gain.value=f*(vd||.02);l.connect(lg);lg.connect(o.frequency);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+Math.min(.06,dur*.25));g.gain.setValueAtTime(vol,t+dur*.75);g.gain.exponentialRampToValueAtTime(.0001,t+dur);let n=o;if(lp){const fl=c.createBiquadFilter();fl.type='lowpass';fl.frequency.value=lp;o.connect(fl);n=fl}n.connect(g);g.connect(D||aD());o.start(t);l.start(t);o.stop(t+dur+.02);l.stop(t+dur+.02)}
+const rr=(a,b)=>a+Math.random()*(b-a);
+
+/* ---- the foley library ---- */
+Object.assign(SFX,{
+ // doors, fridges, cupboards
+ creak:()=>fK(0,rr(.3,.45),rr(120,160),.045),
+ door:()=>{fK(0,.42,rr(120,150),.045);fN(.36,.02,.09,'bandpass',2200,2);fN(.37,.08,.1,'lowpass',240)},
+ doorShut:()=>{fN(0,.1,.24,'lowpass',220);tone(78,.14,'sine',.14,48);fN(.01,.02,.08,'bandpass',2600,2);fN(.04,.02,.05,'bandpass',3400,3)},
+ knock:()=>{[0,.17].forEach(d=>{fN(d,.05,.26,'lowpass',650);fR(d,rr(165,185),.12,.12,2.4);fN(d,.012,.07,'bandpass',1800,2)})},
+ slam:()=>{fN(0,.25,.4,'lowpass',320);tone(66,.3,'sine',.28,38);fR(.01,240,.2,.05,2.1);fC(.04,.25,8,.04,3000,3)},
+ latch:()=>{fN(0,.02,.12,'bandpass',2400,2);fR(.01,1500,.04,.03,1.7);fN(.05,.06,.06,'lowpass',400)},
+ fridge:()=>{fN(0,.06,.12,'lowpass',650);fN(.01,.03,.04,'bandpass',1600,1.5);fB(.09,3150,.25,.012,2.1,1);fB(.14,3700,.2,.009,2.3,1);tone(118,.9,'triangle',.01)},
+ fridgeShut:()=>{fN(0,.07,.18,'lowpass',300);fN(.02,.05,.05,'bandpass',900,1);fB(.03,3300,.18,.008,2.1,1);fB(.06,2900,.16,.006,2.1,1)},
+ oven:()=>{fK(0,.24,420,.022);fR(.22,380,.35,.05,2.7);fN(.22,.03,.08,'bandpass',1500,1)},
+ cabinet:()=>{fN(0,.02,.08,'bandpass',2400,2);fK(.02,.2,210,.028);fR(.2,260,.12,.04)},
+ cabinetShut:()=>{fR(0,240,.1,.06,1.9);fN(0,.03,.12,'lowpass',500);fN(.02,.015,.05,'bandpass',3000,3)},
+ drawer:()=>{fS(0,.3,.05,'bandpass',420,1.2,650,.3);fR(.29,190,.1,.06);fC(.02,.25,5,.02,2600)},
+ closet:()=>{fS(0,.55,.05,'bandpass',480,1.2,820,.4);fR(.52,170,.15,.06,2)},
+ curtain:()=>{fC(0,.45,16,.05,4300,2.5);fS(0,.5,.035,'highpass',2600,.7,4200,.3)},
+ window:()=>{fS(0,.4,.05,'bandpass',350,1,550,.3);fN(.38,.05,.1,'lowpass',300);fS(.1,.6,.02,'bandpass',1600,.6,1200,.5)},
+ shutterRoll:()=>{fA(0,.8,.06,'bandpass',900,1.5,32,.9);fA(0,.8,.03,'bandpass',2400,2,32,.7);fN(.8,.06,.1,'lowpass',320)},
+ // hands and objects
+ grab:()=>{fS(0,.12,.04,'bandpass',2400,.8,1600,.3);fN(.07,.03,.05,'lowpass',900)},
+ setdown:()=>{fN(0,.05,.12,'lowpass',380);fR(.004,rr(650,1000),.06,.018)},
+ box:()=>{fN(0,.08,.12,'bandpass',600,1.5);fN(.06,.12,.06,'bandpass',900,1,500);tone(92,.08,'sine',.06,60)},
+ tape:()=>{fA(0,.55,.05,'bandpass',2400,1.2,60,.9);fC(0,.5,18,.03,3500)},
+ paper2:()=>fA(0,rr(.25,.4),.04,'bandpass',3200,.8,14,.85),
+ page:()=>fS(0,.16,.05,'bandpass',2800,.9,4200,.25),
+ pen:()=>fA(0,.45,.03,'bandpass',3800,2,19,.9),
+ zipper:()=>{fC(0,.4,30,.035,3200,3);fS(0,.4,.02,'bandpass',2600,2,4200,.6)},
+ keys:()=>{for(let i=0;i<7;i++)fB(Math.random()*.2,rr(3600,6000),.25,.011,1.7,3)},
+ jewel:()=>{fB(0,rr(3800,4600),.5,.016,2.76,1.2);fB(.07,rr(5000,6000),.4,.01,2.76,1)},
+ fabric:()=>fS(0,.35,.04,'highpass',3800,.7,5200,.35),
+ hangers:()=>{for(let i=0;i<5;i++)fB(i*.07+Math.random()*.02,rr(1700,2400),.12,.012,2.4,1);fS(0,.4,.02,'bandpass',2000,2,2600,.4)},
+ leaves:()=>{fA(0,.45,.035,'bandpass',4200,.7,11,.9);fC(0,.4,10,.015,3200)},
+ trash:()=>{fR(0,310,.3,.05,2.3);fC(.02,.3,10,.03,2200);fN(0,.08,.1,'lowpass',400)},
+ flop:()=>{fN(0,.12,.15,'lowpass',260);tone(70,.15,'sine',.1,45);fK(.05,.25,330,.012)},
+ leather:()=>{fK(0,.3,240,.028);fK(.12,.2,300,.018)},
+ pillow:()=>{fN(0,.1,.1,'lowpass',350);fS(0,.15,.03,'bandpass',1200,.7,700,.2)},
+ blanket:()=>{fS(0,.6,.05,'bandpass',1800,.6,900,.35);fN(.42,.1,.06,'lowpass',300)},
+ // phones, screens, machines
+ phoneBuzz:()=>{[0,.32].forEach(d=>{tone(168,.2,'square',.018,null,d);fN(d,.2,.05,'lowpass',260)})},
+ notif:()=>{fB(0,1318,.35,.035,2,1.2);fB(.11,1760,.45,.035,2,1.2)},
+ keytap:()=>{fN(0,.012,.05,'bandpass',rr(2800,3600),1.5);tone(rr(1700,2100),.012,'sine',.008)},
+ phoneTap:()=>{for(let i=0;i<3;i++){fN(i*.11,.01,.045,'bandpass',3000,1.5);tone(1900,.01,'sine',.006,null,i*.11)}},
+ click:()=>{fN(0,.008,.09,'highpass',3000);fN(.035,.006,.05,'highpass',3500)},
+ remote:()=>{fN(0,.012,.08,'bandpass',1800,2);fN(.05,.01,.05,'bandpass',2100,2)},
+ tvOn:()=>{fN(0,.01,.1,'highpass',2500);tone(60,.6,'sine',.02);fS(.02,.5,.008,'highpass',7000,.7,7500,.1)},
+ lightSwitch:()=>{fN(0,.01,.14,'bandpass',2600,2);fN(.012,.015,.06,'lowpass',800);tone(120,.5,'sine',.006,null,.02)},
+ typing:()=>{let d=0;for(let i=0;i<9;i++){d+=rr(.05,.12);fN(d,.012,.05,'bandpass',rr(2200,3200),1.5);tone(rr(900,1400),.01,'triangle',.008,null,d)}},
+ printer:()=>{fS(0,.9,.03,'bandpass',600,1.5,900,.15);fA(0,.9,.02,'bandpass',1800,2,30,.8);fN(.9,.05,.06,'lowpass',500)},
+ receipt:()=>{fA(0,.55,.035,'bandpass',2400,1.5,70,.9);fN(.58,.05,.06,'bandpass',3000,1.5)},
+ cardBeep:()=>{tone(1850,.11,'sine',.035);tone(1850,.11,'sine',.035,null,.15)},
+ moneyCounter:()=>{fA(0,1.3,.05,'bandpass',2200,1.2,48,.95);tone(180,1.3,'sawtooth',.004)},
+ microwave:()=>{[0,.25,.5].forEach(d=>tone(2000,.12,'square',.016,null,d))},
+ scaleBeep:()=>{tone(2400,.08,'square',.014);tone(2400,.08,'square',.014,null,.12)},
+ micTap:()=>{fN(0,.03,.14,'lowpass',500);tone(90,.08,'sine',.08,60);fN(.18,.03,.1,'lowpass',500);tone(90,.08,'sine',.06,60,.18)},
+ controller:()=>{for(let i=0;i<5;i++)fN(i*rr(.05,.09),.008,.06,'bandpass',2400,2)},
+ // kitchen and drinks
+ faucet:()=>{fS(0,1.1,.05,'bandpass',2600,1.5,2300,.08);fC(.05,1,20,.012,1800,4)},
+ drip:()=>tone(1400,.06,'sine',.03,700),
+ flush:()=>{fS(0,1.8,.08,'lowpass',1200,.7,250,.15);tone(120,.8,'sine',.015,70,.1);fS(1.6,1.5,.012,'bandpass',2600,2,2300,.3)},
+ shower:()=>fS(0,1.2,.05,'highpass',3500,.7,3000,.2),
+ brushTeeth:()=>fA(0,.9,.04,'bandpass',4200,1.5,7,.95),
+ hairdryer:()=>{fS(0,1,.03,'bandpass',1800,1,1700,.1);tone(220,1,'sawtooth',.005)},
+ spray:()=>fS(0,.35,.05,'highpass',5000,.7,6000,.05),
+ pour:()=>{fS(0,1,.05,'bandpass',500,4,1600,.1);for(let i=0;i<8;i++)tone(rr(400,1300),.03,'sine',.01,null,Math.random()*.9)},
+ sip:()=>{fS(0,.22,.04,'bandpass',900,3,1500,.3);tone(260,.08,'sine',.02,180,.18)},
+ gulp:()=>{tone(170,.12,'sine',.06,90);fN(0,.05,.03,'lowpass',400)},
+ clink:()=>fB(0,rr(2800,3300),.35,.03,2.76,1.4),
+ cheers:()=>{fB(0,rr(2800,3100),.4,.035,2.76,1.4);fB(.045,rr(3200,3500),.35,.03,2.76,1.4)},
+ mug:()=>{fR(0,rr(820,940),.12,.05,2.3);fN(0,.02,.06,'lowpass',600)},
+ cups:()=>{fN(0,.03,.06,'bandpass',900,2);fN(.07,.03,.05,'bandpass',1100,2)},
+ spoon:()=>{for(let i=0;i<4;i++)fB(i*.09,rr(3300,3700),.12,.014,3.1,1)},
+ ice:()=>{for(let i=0;i<6;i++)fB(Math.random()*.3,rr(2400,4000),.08,.012,1.8,2);fN(0,.3,.02,'highpass',3000)},
+ canOpen:()=>{fN(0,.015,.15,'bandpass',2500,2);fS(.01,.25,.08,'highpass',4000,.7,6000,.03)},
+ bottleOpen:()=>{fR(0,1900,.05,.04,1.6);fS(.01,.2,.07,'highpass',3500,.7,5500,.04)},
+ cork:()=>{tone(520,.06,'sine',.08,160);fN(0,.03,.08,'bandpass',1500,1)},
+ crunch:()=>{fC(0,.14,14,.07,2200,1);fN(0,.06,.05,'lowpass',700)},
+ munch:()=>{for(let i=0;i<3;i++){fC(i*.24,.09,8,.04,1800,1);fN(i*.24,.05,.03,'lowpass',500)}},
+ bite:()=>{fC(0,.08,9,.08,2000,1);fN(0,.05,.08,'lowpass',900)},
+ sizzle:()=>{fC(0,1.1,60,.02,5000,1.5);fS(0,1.1,.025,'highpass',5000,.7,4000,.15)},
+ stir:()=>{fA(0,.8,.04,'bandpass',700,2,3.2,.9);fA(0,.8,.02,'bandpass',1400,1,3.2,.7)},
+ squish:()=>{fS(0,.18,.07,'lowpass',500,2,250,.3);tone(140,.12,'sine',.04,90)},
+ pan:()=>{fR(0,rr(500,540),.45,.05,2.92);fR(.005,1310,.25,.03);fN(0,.02,.08,'bandpass',2000,1)},
+ plate:()=>{fN(0,.03,.08,'lowpass',600);fB(.005,2400,.25,.02,2.4,1)},
+ cutlery:()=>{fB(0,rr(3000,3600),.15,.015,3.1,1.2);fB(.08,rr(3400,4000),.12,.012,3.1,1.2)},
+ kettle:()=>{fV(0,1.4,'sine',1850,2250,.03,9,.012);fS(0,1.4,.012,'bandpass',2400,2,2600,.6)},
+ scrub:()=>{fA(0,.25,.04,'bandpass',rr(1800,2600),1.2,16,.9);for(let i=0;i<3;i++)tone(rr(500,1200),.03,'sine',.008,null,Math.random()*.2)},
+ // people
+ gasp:()=>fS(0,.35,.05,'bandpass',1400,1.2,2200,.25),
+ sigh:()=>fS(0,.7,.04,'bandpass',900,1,500,.25),
+ sniff:()=>{fS(0,.18,.04,'bandpass',3000,1.5,2200,.5);fS(.3,.15,.03,'bandpass',3000,1.5,2200,.5)},
+ achoo:()=>{fS(0,.3,.05,'bandpass',1500,1,2500,.8);fN(.32,.18,.12,'bandpass',2800,.8,1200)},
+ cough:()=>{fN(0,.07,.12,'bandpass',600,1);fN(.15,.06,.09,'bandpass',650,1)},
+ throat:()=>{fN(0,.1,.06,'bandpass',500,1.2);tone(130,.12,'sawtooth',.012,110);fN(.22,.12,.07,'bandpass',600,1.2);tone(150,.14,'sawtooth',.012,120,.22)},
+ heartbeat:()=>{[0,.85].forEach(d=>{tone(62,.12,'sine',.12,40,d);tone(56,.1,'sine',.08,40,d+.22)})},
+ applause:()=>{for(let i=0;i<70;i++){const k=Math.random(),e=Math.sin(Math.min(1,k*1.4)*Math.PI*.5)*(1-k*.6);fN(k*2.4,.02,.06*e,'bandpass',rr(900,2200),1.2)}fS(0,2.4,.02,'bandpass',1600,.7,1200,.2)},
+ crowdLaugh:()=>{for(let j=0;j<3;j++)for(let i=0;i<5;i++)fN(j*.07+i*rr(.13,.17),.08,.03*(1-i*.15),'bandpass',rr(700,1300),2)},
+ aww:()=>fS(0,1.2,.05,'bandpass',650,1.2,420,.3),
+ cheer:()=>{fS(0,1.5,.09,'bandpass',1400,.8,1800,.2);fS(0,1.3,.05,'bandpass',700,1,900,.3);fC(.1,1.3,40,.04,1500,1.2);fV(.2,.5,'sine',2200,2800,.01,8,.01)},
+ whistleRef:()=>{fV(0,.55,'sine',2700,2650,.035,28,.03);fS(0,.55,.012,'bandpass',2700,3,2600,.1)},
+ // animals
+ bark:()=>{[0,.2].forEach((d,i)=>{fV(d,.1,'sawtooth',540-i*40,360,.03,0,0,1400);fN(d,.05,.04,'bandpass',1200,1.5)})},
+ yip:()=>{fV(0,.07,'sawtooth',rr(880,980),700,.022,0,0,2400);fN(0,.03,.03,'bandpass',2000,1.5)},
+ whine:()=>fV(0,.6,'sine',900,1150,.02,7,.03),
+ pant:()=>{for(let i=0;i<6;i++)fN(i*.15,.08,.03,'bandpass',1800,1)},
+ squeaky:()=>{tone(1300,.08,'sine',.04,1800);tone(1800,.1,'sine',.04,1200,.1)},
+ quack:()=>{[0,.22].forEach(d=>fV(d,.14,'sawtooth',300,260,.025,0,0,1300))},
+ coo:()=>{fV(0,.3,'sine',430,400,.02,6,.03);fV(.4,.5,'sine',420,380,.018,6,.03)},
+ moo:()=>fV(0,1.1,'sawtooth',150,112,.012,4,.02,700),
+ // vehicles and travel
+ carDoor:()=>{fN(0,.1,.25,'lowpass',200);tone(70,.15,'sine',.15,45);fR(0,900,.08,.02);fN(.01,.02,.06,'bandpass',2500,2)},
+ trunk:()=>{fS(0,.4,.02,'highpass',3000,.7,2500,.5);fN(.42,.12,.3,'lowpass',180);tone(60,.2,'sine',.16,40,.42);fR(.43,700,.1,.02)},
+ engine:()=>{fA(0,.6,.04,'bandpass',600,2,14,.9);fV(.55,1.2,'sawtooth',46,58,.05,9,.03,320)},
+ seatbelt:()=>{fN(0,.008,.12,'highpass',2500);fR(0,2200,.05,.02)},
+ blinker:()=>{for(let i=0;i<4;i++){fN(i*.5,.01,.06,'bandpass',1500,2);fN(i*.5+.25,.01,.05,'bandpass',1100,2)}},
+ airBrakes:()=>fS(0,.7,.06,'highpass',2500,.7,1800,.03),
+ paChime:()=>{fB(0,659,.9,.03,2,.8);fB(.45,523,1.2,.03,2,.8)},
+ suitcase:()=>{fA(0,1,.03,'bandpass',600,1.2,12,.7);for(let i=0;i<10;i++)tone(115,.03,'sine',.016,70,i*.1)},
+ wipers:()=>{fS(0,.4,.03,'bandpass',1800,1.5,1200,.5);fN(.4,.04,.05,'lowpass',300)},
+ elevDing:()=>{fB(0,1319,.9,.04,2,1);fB(.35,1047,1.1,.04,2,1)},
+ liftDoor:()=>{fS(0,.9,.04,'bandpass',300,1,450,.3);fN(.85,.06,.06,'lowpass',300)},
+ // sport and play
+ bounce:()=>{tone(240,.05,'sine',.05,140);fN(0,.02,.05,'lowpass',900)},
+ squeak:()=>fV(0,.08,'sine',2400,3300,.02,40,.05),
+ frisbee:()=>fS(0,.6,.04,'bandpass',900,2,1800,.4),
+ catchIt:()=>{fN(0,.03,.12,'bandpass',1500,1);fN(.02,.05,.05,'lowpass',400)},
+ clawWhir:()=>{fS(0,.9,.03,'bandpass',800,4,700,.1);tone(140,.9,'square',.004);fR(.9,600,.15,.04)},
+ skeeRoll:()=>{fS(0,.6,.05,'lowpass',300,1,180,.2);fR(.62,220,.25,.08);fB(.7,1760,.3,.02)},
+ coinFountain:()=>{fB(0,3300,.25,.03,3.2,1);tone(900,.12,'sine',.04,260,.35);fN(.35,.12,.04,'highpass',2500)},
+ plop:()=>{tone(900,.1,'sine',.04,250);fN(.02,.08,.03,'highpass',2500)},
+ // music, bells, celebration
+ sax:()=>{let d=0;[[62,.16],[65,.16],[67,.12],[70,.32],[67,.18],[65,.42]].forEach(([m,l])=>{fV(d,l+.06,'sawtooth',mf(m),null,.022,5.5,.012,1700);d+=l})},
+ bells:()=>{for(let i=0;i<3;i++){fB(i*.85,392,2.6,.045,1.41,3);fB(i*.85,784,1.8,.018,2.76,2)}},
+ bellShop:()=>{for(let i=0;i<5;i++)fB(i*.06,2093*(i%2?1.06:1),.6-i*.05,.02,3.5,1.2)},
+ deskBell:()=>fB(0,2637,1.2,.05,2.76,1.5),
+ popper:()=>{fN(0,.04,.25,'bandpass',1200,1);tone(300,.05,'sine',.1,120);fC(.03,.6,22,.03,3500)},
+ broom:()=>{fS(0,.35,.05,'highpass',2500,.7,4500,.5);fN(.4,.06,.1,'lowpass',300)},
+ paintRoll:()=>{fA(0,.8,.05,'lowpass',700,1,9,.9);fC(0,.8,25,.012,2000)},
+ bristle:()=>fS(0,.3,.03,'bandpass',3200,1.2,2400,.4),
+ snip:()=>{fN(0,.012,.1,'highpass',3500);fN(.12,.012,.1,'highpass',3500)},
+ sticky:()=>fS(0,.15,.04,'bandpass',2000,1.5,4500,.8),
+ binder:()=>{fR(0,2600,.06,.04,1.5);fR(.03,2900,.05,.035,1.5)},
+ tagPop:()=>{fN(0,.02,.25,'bandpass',1800,1);fR(0,1200,.15,.04,2.3);fR(.3,1600,.1,.03);fR(.42,1400,.08,.02)},
+ forkScrape:()=>fA(0,.5,.03,'bandpass',3200,4,25,.7),
+ // weather
+ thunder:()=>{fC(0,.25,10,.1,1200);fS(0,2.8,.2,'lowpass',200,.7,80,.06);fS(.4,2.2,.08,'lowpass',400,.7,120,.3)},
+ gust:()=>fS(0,1.6,.06,'bandpass',500,.8,900,.4),
+ // a few old favourites, made less beepy
+ step:()=>{fN(0,.06,.06,'bandpass',900,1);fN(0,.04,.05,'lowpass',300)},
+ splash:()=>{fS(0,.5,.12,'highpass',1200,.7,600,.04);fC(0,.45,20,.04,2500)},
+ shutter:()=>{fN(0,.01,.2,'highpass',3500);fR(.005,1800,.03,.03);fN(.07,.015,.15,'highpass',3000);fR(.075,1400,.03,.02)},
+ typeTick:()=>{fN(0,.01,.022,'bandpass',rr(2400,3400),1.5);tone(rr(1300,1600),.01,'triangle',.008)},
+ thermo:()=>tone(3100,.03,'square',.008),
+ smooch:()=>{tone(1100,.07,'sine',.04,1900);fN(0,.03,.05,'bandpass',2500,2)},
+ ring:()=>{[0,.13,.26,.39,.62,.75].forEach((d,i)=>fB(d,[1319,1568,1976,1568,1319,1760][i],.3,.03,4,.6))},
+ select:()=>{fN(0,.008,.05,'highpass',3000);tone(880,.05,'triangle',.05,1320)},
+ thud:()=>{fN(0,.1,.2,'lowpass',240);tone(72,.14,'sine',.12,46)},
+ crash:()=>{fN(0,.4,.3,'lowpass',900);fC(0,.6,30,.06,3000,2);fR(.02,410,.4,.04,2.7)},
+ laugh:sp=>{const V=vxOf(sp||'Hunter');for(let i=0;i<4;i++)voxSyl(V,'a',V[0]*(1.18-i*.06),.09*V[3]*(V[2]==='triangle'?2.1:1),.09,i*.13,0,1,0,panOf({n:sp}))},
+ sing:sp=>{const V=vxOf(sp||'Hunter');let d=0;for(let i=0;i<7;i++){const l=rr(.14,.3);voxSyl(V,'aoeiu'[i%5],V[0]*Math.pow(2,(Math.random()*9-4)/12),.085*V[3]*(V[2]==='triangle'?2.1:1),l,d,0,0,0,panOf({n:sp}));d+=l}}
+});
+
+/* ---- voices: a syllable of gibberish shaped by the vowel being "said", in each person's own register ---- */
+const VOW={a:[760,1180],e:[480,1850],i:[320,2250],o:[520,880],u:[360,820],y:[340,2100]};
+const VX={Hunter:[116,.93,'sawtooth',1],Abigail:[212,1.1,'triangle',1.15],Morgan:[236,1.14,'triangle',1.05],J:[96,.86,'sawtooth',.95],Mom:[198,1.07,'triangle',1],Mum:[224,1.1,'triangle',1],Dad:[104,.9,'sawtooth',.95],Tanner:[110,.9,'sawtooth',.95],
+ Kid:[290,1.28,'triangle',1],Brittany:[248,1.18,'triangle',1],Kyle:[98,.86,'sawtooth',.9],Linda:[214,1.08,'triangle',1],Officiant:[108,.92,'sawtooth',.95],Auntie:[232,1.1,'triangle',1],Meggs:[220,1.1,'triangle',1],Nurse:[226,1.1,'triangle',1],Dude:[100,.86,'sawtooth',.9]};
+const VRADIO={Announcer:1,Speaker:1,Pilot:1,Livestream:1,Ticket:1};
+function vxOf(n){let v=VX[n];if(!v){let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))%997;const p=100+h%150;v=VX[n]=[p,.86+(p-100)/150*.32,p<160?'sawtooth':'triangle',.95]}return v}
+function voxSyl(V,v,p,vol,dur,dl,whisper,cons,mode2,pan){const c=AU.ctx,t=c.currentTime+(dl||0),g=c.createGain();let tail=auPan(AU.fx,pan||0);
+ if(mode2==='thought'){const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1500;lp.connect(tail);tail=lp}
+ if(mode2==='radio'){const hp=c.createBiquadFilter(),lp=c.createBiquadFilter();hp.type='highpass';hp.frequency.value=700;lp.type='lowpass';lp.frequency.value=2800;hp.connect(lp);lp.connect(tail);tail=hp}
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.012);g.gain.setValueAtTime(vol*.85,t+dur*.6);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+ let src;if(whisper){src=c.createBufferSource();src.buffer=AU.noise;src.loop=true;src.start(t,Math.random()*.3)}else{src=c.createOscillator();src.type=V[2];src.frequency.setValueAtTime(p*1.05,t);src.frequency.exponentialRampToValueAtTime(p*.95,t+dur);src.start(t)}src.stop(t+dur+.03);
+ const F=VOW[v]||VOW.a,f1=c.createBiquadFilter(),f2=c.createBiquadFilter(),b=c.createGain();f1.type=f2.type='bandpass';f1.frequency.value=F[0]*V[1];f1.Q.value=whisper?6:3.2;f2.frequency.value=F[1]*V[1];f2.Q.value=whisper?9:5;b.gain.value=.55;
+ src.connect(f1);src.connect(f2);f1.connect(g);f2.connect(b);b.connect(g);g.connect(tail);
+ if(cons)nz(.016,vol*.5,4500*V[1],'highpass',dl||0,tail)}
+let VXL=0;
+function voiceBlip(n,txt,q){if(!n){sfx('typeTick');return}if(!AU.ctx||!AU.on)return;txt=txt||'';q=q||0;
+ if(n==='Donut'||n==='Crumpet'){if(q<3)sfx('bark');return}
+ if(/^\(text/i.test(txt)){sfx('keytap');return}// texting: thumbs on a screen, not a voice
+ const c=AU.ctx;if(c.currentTime-VXL<.05)return;VXL=c.currentTime;
+ // a stage direction like "(whispering)" is not spoken; what follows it takes its manner
+ const sd=/^\(([^)]*)\)\s*\S/.exec(txt);if(sd&&q<=sd[1].length+1)return;
+ const whisper=sd&&/whisper|quietly|softly|under (?:his|her) breath/i.test(sd[1]);
+ const radio=VRADIO[n]||(sd&&/on video|through the phone|from the phone|on the phone|speakerphone/i.test(sd[1]));
+ const thought=!sd&&/^\(.*\)$/.test(txt.trim());
+ const V=vxOf(n);let v='a';for(let j=q;j<Math.min(txt.length,q+5);j++){const ch=txt[j].toLowerCase();if(VOW[ch]){v=ch;break}}
+ let a=q,b=q;while(a>0&&/[A-Za-z’']/.test(txt[a-1]))a--;while(b<txt.length&&/[A-Za-z’']/.test(txt[b]))b++;const w=txt.slice(a,b),shout=w.length>=2&&w===w.toUpperCase()&&/[A-Z]/.test(w);
+ const k=q/Math.max(1,txt.length),qn=/\?\W*$/.test(txt)&&k>.6;
+ const p=V[0]*(1+(Math.random()-.5)*.12)*(shout?1.2:1)*(qn?1+(k-.6)*.8:1)*(1-.06*k);
+ const vol=.09*V[3]*(V[2]==='triangle'?2.1:1)*(shout?1.35:1)*(thought?.42:1)*(whisper?1.5:1)*(radio?2.6:1);
+ voxSyl(V,v,p,vol,rr(.07,.105),0,whisper,/[stkpcfhzx]/i.test(txt[q]||''),radio?'radio':thought?'thought':0,panOf({n})*.6)}
+
+/* ---- footsteps: what you're walking on, and who is walking ---- */
+const SURK={home:'wood',bath:'tile',church:'carpet',airport:'tile',diner:'wood',arcade:'carpet',shop:'tile',office:'carpet',rooftop:'deck',city:'stone',birds:'grass',farm:'dirt',garden:'grass',hilltop:'gravel',water:'deck',tennis:'court',night:'stone',pump:'stone',breeze:'stone',cabin:'carpet',crowd:'stone',nursery:'carpet',idle:'stone',lobby:'marble',lift:'carpet',party:'carpet'};
+const SURL={hall:'carpet',hroom:'carpet',kitchen:'tile',mkit:'tile',bath2:'tile',court:'court',river:'stone',plaza:'stone',kcdt:'stone',pea:'grass',field7:'grass',epporch:'deck',epfam:'deck',epyard:'grass',bonnell:'stone',hill:'gravel',climb:'gravel',clinic:'stone',dt:'stone',pack:'stone',lot7:'stone',pooplot:'stone',bench:'grass',couple8:'grass',epvillage:'stone',ephouse:'stone',dorm:'carpet',dorm2:'carpet',bunk:'wood',brideroom:'carpet',groom8:'wood',hotel:'carpet',hotel8:'carpet',sleep8:'carpet',night8:'carpet',steak:'wood',mex:'tile',bars:'wood',tasting:'tile',lobby:'marble',bwlobby:'marble',bwlift:'carpet',bwdoor:'carpet',street:'stone',door:'stone',balc8:'stone',lake:'deck',church:'stone',eplondon:'stone',epncl:'tile',epcoach:'court',makeup:'carpet',fork:'carpet'};
+function surf(){if(loc==='lot7'&&typeof c7!=='undefined'&&c7&&c7.snow>.5)return 'snow';return SURL[loc]||SURK[AMBS[loc]]||'wood'}
+let FSN=0,FST=0;
+function footstep(p,pan){const c=AU.ctx;if(!c||!AU.on||mode==='title'||AU.hid)return;const now=c.currentTime;if(now-FST>.04)FSN=0;if(FSN>=3)return;FSN++;FST=now;
+ const s=surf(),who=p===hunter?1:p===abi?.72:.4,v=.06*who*rr(.8,1.2)*(mode==='sneak'?.35:1),D=auPan(AU.fx,(pan||0)*.8),hi=p===abi?1.2:1;
+ const N=(dl,du,vo,ty,f,q,f2)=>fN(dl,du,vo*v,ty,f*hi,q,f2,D),O=(f,du,ty,vo,f2,dl)=>tone(f*hi,du,ty,vo*v,f2&&f2*hi,dl,D);
+ if(s==='wood'){N(0,.05,1,'lowpass',700);O(rr(105,125),.045,'sine',.8,70);N(0,.012,.35,'bandpass',2500,2)}
+ else if(s==='carpet'){N(0,.06,.6,'lowpass',380);O(90,.04,'sine',.4,60)}
+ else if(s==='tile'||s==='marble'){N(0,.02,.7,'highpass',3500);O(rr(2000,2400),.03,'sine',.12);O(130,.03,'sine',.5,80)}
+ else if(s==='stone'){N(0,.045,1.2,'bandpass',1400,.8);N(.02,.06,.35,'highpass',2800)}
+ else if(s==='grass'){N(0,.09,.55,'bandpass',3800,.8);N(0,.05,.3,'lowpass',600)}
+ else if(s==='gravel'||s==='dirt'){for(let i=0;i<(s==='gravel'?6:3);i++)N(Math.random()*.06,.008,1.3,'bandpass',rr(1800,3800),1.5);N(0,.05,.6,'lowpass',500)}
+ else if(s==='deck'){O(rr(150,170),.06,'triangle',.5,110);N(0,.04,.7,'lowpass',900)}
+ else if(s==='court'){N(0,.03,1.3,'lowpass',900);if(Math.random()<.12)fV(.02,.07,'sine',2500*hi,3300*hi,.018*v/.06,40,.05,0,D)}
+ else if(s==='snow'){for(let i=0;i<8;i++)N(Math.random()*.09,.01,.5,'lowpass',1800);N(0,.08,.5,'lowpass',900)}}
+
+/* ---- text-driven foley: what a line describes, you hear ---- */
+const ONO=[[/hatch closes/i,'trunk'],[/snap|flash/i,'shutter'],[/knock/i,'knock'],[/slam/i,'slam'],[/crunch|munch|nom|chomp/i,'munch'],[/bite/i,'bite'],[/sip|slurp/i,'sip'],[/gulp|chug/i,'gulp'],[/ding/i,'ding'],[/beep/i,'beep'],[/bzz|buzz|vibrat/i,'phoneBuzz'],
+ [/ka-?ching/i,'kaching'],[/twee+t|whistle/i,'whistleRef'],[/\bpop/i,'cork'],[/whir+|print/i,'printer'],[/brr+t/i,'moneyCounter'],[/mix|stir/i,'stir'],[/mash|squish|splat/i,'squish'],[/splash/i,'splash'],[/honk/i,'honk'],[/sniff/i,'sniff'],[/achoo|sneez/i,'achoo'],
+ [/crash|clatter/i,'crash'],[/thud|thump|flop/i,'thud'],[/ring/i,'ring'],[/clap/i,'applause'],[/cheer/i,'cheer'],[/zip/i,'zipper'],[/\brip|tear/i,'tape'],[/rustle|crinkle/i,'paper2'],[/sizzl/i,'sizzle'],[/squeak/i,'squeaky'],[/creak/i,'creak'],[/scribble/i,'pen'],
+ [/whoosh|swoosh|zoom/i,'whoosh'],[/clink|cheers/i,'cheers'],[/kiss|mwah/i,'smooch'],[/boom/i,'boom'],[/\btap/i,'keytap']];
+const PARF=[[/^\((?:laughing|laughs|giggl)/i,'laugh'],[/^\((?:sobbing|crying|sniffl|tearing up|wiping (?:her|his) eyes)/i,'sniff'],[/^\(sniffs?\)/i,'sniff'],[/^\((?:gasping|gasps)/i,'gasp'],[/^\((?:sighs|sighing)/i,'sigh'],
+ [/^\(clearing (?:his|her) throat/i,'throat'],[/^\(choking/i,'cough'],[/^\(gulps/i,'gulp'],[/^\(crunching/i,'munch'],[/^\(singing/i,'sing'],[/^\(sips?\b/i,'sip'],[/^\(texting/i,'phoneTap'],[/^\(scrolling/i,'phoneTap'],[/^\(jingling the keys/i,'keys'],
+ [/^\((?:patting|checking) his (?:jacket )?pocket/i,'fabric'],[/^\(pulling the photo/i,'paper2'],[/^\((?:leaning into him|not letting go)/i,'fabric'],[/^\(takes a bite/i,'bite'],[/^\(holding up/i,'fabric'],[/^\(clutching a purse/i,'paper2'],[/^\(walking over/i,'step'],[/^\(on video\)/i,'notif'],[/^\(stepping up/i,'step'],[/^\(nudging him/i,'fabric']];
+// what an action line describes (narration, any time)
+const KWA=[[/storm hits|thunder/i,'thunder'],[/coin into the fountain|tosses a coin/i,'coinFountain'],[/bursts into applause|whole \w+ (?:cheers|bursts)|crowd cheers|garden cheers|roof cheers/i,'applause'],[/bursts out laughing/i,'crowdLaugh'],
+ [/doors? (?:swing |swings )?open|opens the door|door opens/i,'door'],[/lights flicker on|string lights flicker/i,'lightSwitch'],[/lights go down/i,'aww'],[/plugs his laptop/i,'click'],[/messages the seller/i,'typing'],[/drops a dollar/i,'paper2'],
+ [/plays jazz|saxophone|sax player/i,'sax'],[/caps into the air/i,'cheer'],[/tag splits/i,'tagPop'],[/frantically googles/i,'typing'],[/slides two forks/i,'cutlery'],[/slides the ring/i,'jewel'],[/places her hand/i,'fabric'],[/picks up the leash|hears the leash/i,'keys'],
+ [/broom tied/i,'broom'],[/jumps? the broom/i,'broom'],[/kitchen doors/i,'door'],[/sticky notes/i,'sticky'],[/drops the frisbee/i,'catchIt'],[/zooms three laps/i,'pant'],[/flops onto/i,'flop'],[/yawns/i,'sigh'],[/one coat of blush pink/i,'paintRoll'],[/timer’s set|timer's set/i,'scaleBeep'],
+ [/everyone stands/i,'fabric'],[/music changes/i,null],[/hands hunter the microphone/i,'micTap'],[/money-counting machine/i,'moneyCounter'],[/print out/i,'printer'],[/sneezes/i,'achoo'],[/sneeze/i,'achoo']];
+// what an object you just tapped sounds like (first line of an inspection: a thought or a narration)
+const KWO=[[/\bfridge\b/i,'fridge'],[/\boven\b/i,'oven'],[/microwave/i,'microwave'],[/\bkettle\b/i,'kettle'],[/pantry|cabinet|cupboard/i,'cabinet'],[/drawers?\b|dresser/i,'drawer'],[/toilet/i,'flush'],[/shower/i,'shower'],[/toothbrush/i,'brushTeeth'],[/\bsink\b|faucet/i,'faucet'],
+ [/water cooler/i,'gulp'],[/curtains?\b/i,'curtain'],[/balcony|freezing/i,'gust'],[/mattress|\bbed\b|bunk/i,'flop'],[/couch|sofa|recliner|leather/i,'leather'],[/pillow|blanket|sheets|duvet/i,'pillow'],
+ [/hangers?\b|clothing rack|\brack\b/i,'hangers'],[/laundry|clothes|jacket|shirt|hoodie|sweater|\bdress\b|\btux|\bsuit\b|swatch|fabric|veil/i,'fabric'],
+ [/goulash|\bpots?\b|pans?\b|skillet/i,'pan'],[/mac n cheese|bowl|plates?\b/i,'plate'],[/coffee|latte|\btea\b|\bmugs?\b/i,'mug'],[/cups?\b/i,'cups'],[/\bice\b/i,'ice'],[/beer|zapper|\bcans?\b|soda/i,'canOpen'],[/wine|champagne|glass(?:es)?\b|cocktail|\bdrinks?\b/i,'clink'],
+ [/forks?\b|spoons?\b|knives|cutlery/i,'cutlery'],[/sausage roll|donuts?|cupcakes?|cookies?|snacks?|chips|gummies|churros?|nuggets|brisket|jerky|burrito|tacos?/i,'paper2'],
+ [/printer/i,'printer'],[/laptop|computer|monitor|keyboard|screen went black/i,'typing'],[/\bmouse\b/i,'click'],[/phone|texts?\b|pokémon go|\bapp\b|instagram|screensaver/i,'phoneTap'],[/\bTV\b|television|remote/i,'remote'],[/string lights|\blamp\b|light switch/i,'lightSwitch'],
+ [/sticky notes?/i,'sticky'],[/binder/i,'binder'],[/highlight/i,'pen'],[/receipt/i,'receipt'],[/letter|cards?\b|\bmap\b|book|textbook|pages?\b|menu|schedule|poster|calendar|notebook|list\b|file|sign\b|programme|program/i,'page'],
+ [/boxes|\bbox\b|cardboard/i,'box'],[/tape\b/i,'tape'],[/suitcase|luggage|\bbags?\b|purse|backpack/i,'zipper'],[/\bkeys?\b/i,'keys'],[/money|cash|wallet|dollars|\$\d/i,'paper2'],
+ [/plants?\b|flowers?|peonies|roses|bouquet|leaves|\btree\b|petals/i,'leaves'],[/trophy|medal|\brings?\b|watch(?:es)?\b|jewel|diamond|necklace|earrings/i,'jewel'],[/trash|dumpster|garbage|bin\b/i,'trash'],
+ [/microphone|\bmic\b|studio/i,'micTap'],[/\bbell\b/i,'deskBell'],[/frisbee/i,'frisbee'],[/tennis ball|racket|racquet|ball machine/i,'bounce'],[/squeaky|chew toy|\btoy\b/i,'squeaky'],[/leash|collar/i,'keys'],
+ [/peacock/i,'squawk'],[/ducks?\b/i,'quack'],[/pigeons?/i,'coo'],[/cows?\b/i,'moo'],[/\bbirds?\b/i,'whistleBird'],[/fountain|river|\blake\b|\bpool\b|hose/i,'plop'],[/saxophone|\bsax\b|jazz/i,'sax'],[/church|steeple/i,'bells'],
+ [/paint|roller/i,'paintRoll'],[/brush/i,'bristle'],[/scale\b/i,'scaleBeep'],[/elevator/i,'elevDing'],[/\bdoor\b/i,'door'],[/window/i,'window'],[/mirror/i,null],[/candles?/i,null],[/car\b|coupe|\bSUV\b/i,'carDoor'],[/game|controller|xbox/i,'controller'],[/photo|picture|frame|polaroid/i,'page']];
+SFX.whistleBird=()=>{const f=rr(2800,4000);for(let i=0;i<3;i++)tone(f*rr(.9,1.15),.07,'sine',.014,f*rr(1.1,1.4),i*.11)};
+AU.n=0;AU.lt=0;
+function lineFoley(L,first,n0){if(!AU.ctx||!AU.on||!L||!L.t)return;const t=L.t,narr=!L.n,thought=/^\(/.test(t);
+ if(AU.n!==n0)return;// the scene already made its own sound for this line
+ const m=/\*([^*]+)\*/.exec(t);if(m){for(const [re,s] of ONO)if(re.test(m[1])){sfx(s);return}}
+ for(const [re,s] of PARF)if(re.test(t)){if(s)sfx(s,L.n);return}
+ if(narr)for(const [re,s] of KWA)if(re.test(t)){if(s)sfx(s);return}
+ if(first&&(narr||thought)&&performance.now()-(AU.tap||0)<700&&performance.now()-AU.lt>350)for(const [re,s] of KWO)if(re.test(t)){if(s)sfx(s);return}}
 
 /* ---- background music ---- */
 const CH={M:[0,4,7,11],m:[0,3,7,10],D:[0,4,7,10],S:[0,5,7,12],P:[0,4,7,12],M6:[0,4,7,9],m9:[0,3,7,14]};
@@ -5074,46 +5385,49 @@ function organ(f,dur,t0,vol){const c=AU.ctx,t=c.currentTime+t0,g=c.createGain(),
    If the phone freezes the page without warning (app switcher, home screen), nothing renews it and the audio closes
    itself within a third of a second, instead of droning on with whatever was playing. */
 function auKick(){const c=AU.ctx,w=AU.wd;if(!c||!w||AU.hid)return;try{const n=c.currentTime;w.gain.cancelScheduledValues(n);w.gain.setValueAtTime(1,n);w.gain.setValueAtTime(1,n+.3);w.gain.linearRampToValueAtTime(0,n+.42)}catch(e){}}
-function musTick(){const c=AU.ctx;if(!c)return;auKick();songTick();try{amUpdate()}catch(e){}try{ambTick()}catch(e){}}
+function musTick(){const c=AU.ctx;if(!c)return;auKick();songTick();try{amUpdate()}catch(e){}try{ambTick()}catch(e){}try{auSpace()}catch(e){}}
 /* quiet background ambience under the music: birdsong, crickets, room chatter, cabin hum, road noise, wind */
 let DOGT=-9,DOGR=-9;const DUSTY={birds:1,farm:1,hilltop:1,water:1,garden:1,pump:1,tennis:1,night:1,city:1};const AMBS={};(()=>{const put=(k,l)=>l.split(' ').forEach(n=>AMBS[n]=k);
- put('birds','ephouse eppaint epyard epfam field7 bench pooplot lot7 epvillage couple8 epcoach');put('water','lake river');put('farm','farm7');put('hilltop','hill bonnell climb pea');put('office','office epcyber c3class hunt');put('garden','uk8');put('church','church8 walk8 door8 pov8 kiss8');put('nursery','epnurse');
- put('home','living hroom apt kitchen txhouse troom home dorm2 hotel brideroom groom8 mkit dorm home6 hotel8 bunk epcrump epstudio sleep8 night8 call8');put('city','eplondon kcdt plaza');put('tennis','court');
+ put('birds','ephouse eppaint epyard epfam field7 bench pooplot lot7 epvillage couple8 epcoach pack');put('water','lake river');put('farm','farm7');put('hilltop','hill bonnell climb pea');put('office','office epcyber c3class hunt');put('garden','uk8');put('church','church8 walk8 door8 pov8 kiss8');put('nursery','epnurse');
+ put('home','living hroom apt kitchen txhouse troom home dorm2 hotel brideroom groom8 mkit dorm home6 hotel8 bunk epcrump epstudio sleep8 night8 call8 split makeup fork');put('city','eplondon kcdt plaza scoot');put('tennis','court');
  put('night','street door epporch balc8 night2');
- put('crowd','c3grad epgrad');put('airport','term5 gate5 sec5 arr5 weigh5 epncl dep4');put('diner','bars steak mex dinner tasting');put('arcade','barcade');put('rooftop','roof');put('shop','store bstore jewel bakery florist tux bridal lobby');put('pump','pump');
- put('cabin','plane epmap');put('car','drive road hwy4 hdrive kcdrive drive7 car7 snow');put('idle','trucks');put('bath','bath');put('breeze','austin')})();
-const AMBP={birds:[400,'lowpass',.008],night:[600,'lowpass',.006],crowd:[320,'lowpass',.03],cabin:[200,'lowpass',.12],car:[130,'lowpass',.1],city:[170,'lowpass',.09],idle:[90,'lowpass',.03],bath:[200,'lowpass',.012],breeze:[300,'lowpass',0],water:[380,'lowpass',.02],farm:[400,'lowpass',.008],hilltop:[360,'bandpass',.02],office:[140,'lowpass',.03],home:[100,'lowpass',.03],church:[220,'lowpass',.02],garden:[400,'lowpass',.008],nursery:[150,'lowpass',.01],rooftop:[240,'lowpass',.012],airport:[300,'lowpass',.028],diner:[320,'lowpass',.03],arcade:[320,'lowpass',.025],shop:[110,'lowpass',.035],pump:[400,'lowpass',.008],tennis:[400,'lowpass',.008],wind:[380,'bandpass',.05]};
+ put('crowd','c3grad epgrad church');put('airport','term5 gate5 sec5 arr5 weigh5 epncl dep4');put('diner','bars steak mex dinner tasting');put('arcade','barcade');put('rooftop','roof');put('shop','store bstore jewel bakery florist tux bridal');put('lobby','lobby bwlobby');put('lift','bwlift');put('party','bwdoor');put('arcade','barcade skee arcClaw arcDance arcFight arcQuiz arcRace arcShoot');put('pump','pump');
+ put('cabin','plane epmap');put('car','drive road hwy4 hdrive kcdrive drive7 car7 snow');put('idle','trucks clinic dt');put('bath','bath bath2');put('breeze','austin')})();
+const AMBP={lobby:[300,'lowpass',.018],lift:[160,'lowpass',.03],party:[180,'lowpass',.02],birds:[400,'lowpass',.008],night:[600,'lowpass',.006],crowd:[320,'lowpass',.03],cabin:[200,'lowpass',.12],car:[130,'lowpass',.1],city:[170,'lowpass',.09],idle:[90,'lowpass',.03],bath:[200,'lowpass',.012],breeze:[300,'lowpass',0],water:[380,'lowpass',.02],farm:[400,'lowpass',.008],hilltop:[360,'bandpass',.02],office:[140,'lowpass',.03],home:[100,'lowpass',.03],church:[220,'lowpass',.02],garden:[400,'lowpass',.008],nursery:[150,'lowpass',.01],rooftop:[240,'lowpass',.012],airport:[300,'lowpass',.028],diner:[320,'lowpass',.03],arcade:[320,'lowpass',.025],shop:[110,'lowpass',.035],pump:[400,'lowpass',.008],tennis:[400,'lowpass',.008],wind:[380,'bandpass',.05]};
 function ambCar(vol,dur,heavy){vol*=.25;const c=AU.ctx,A=AU.ab,t=c.currentTime,s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain(),f0=heavy?210:420;
  // tyre and wind noise that swells and fades as it passes, over an engine note that drops in pitch
+ const pn=c.createStereoPanner?c.createStereoPanner():null,O=pn||A.g;if(pn){const dir=Math.random()<.5?-1:1;pn.pan.setValueAtTime(-.9*dir,t);pn.pan.linearRampToValueAtTime(.9*dir,t+dur);pn.connect(A.g)}
  s.buffer=A.nb;s.loop=true;f.type='bandpass';f.Q.value=.7;f.frequency.setValueAtTime(f0,t);f.frequency.linearRampToValueAtTime(f0*2.1,t+dur*.5);f.frequency.linearRampToValueAtTime(f0*.8,t+dur);
- g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+dur*.5);g.gain.linearRampToValueAtTime(0,t+dur);s.connect(f);f.connect(g);g.connect(A.g);s.start(t,Math.random()*2);s.stop(t+dur+.05);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+dur*.5);g.gain.linearRampToValueAtTime(0,t+dur);s.connect(f);f.connect(g);g.connect(O);s.start(t,Math.random()*2);s.stop(t+dur+.05);
  const o=c.createOscillator(),og=c.createGain(),lf=c.createBiquadFilter(),p0=heavy?60:96;o.type='sawtooth';o.frequency.setValueAtTime(p0*1.12,t);o.frequency.linearRampToValueAtTime(p0*.88,t+dur);lf.type='lowpass';lf.frequency.value=heavy?260:380;
- og.gain.setValueAtTime(0,t);og.gain.linearRampToValueAtTime(vol*.55,t+dur*.5);og.gain.linearRampToValueAtTime(0,t+dur);o.connect(lf);lf.connect(og);og.connect(A.g);o.start(t);o.stop(t+dur+.05)}
+ og.gain.setValueAtTime(0,t);og.gain.linearRampToValueAtTime(vol*.55,t+dur*.5);og.gain.linearRampToValueAtTime(0,t+dur);o.connect(lf);lf.connect(og);og.connect(O);o.start(t);o.stop(t+dur+.05)}
 function ambSwell(f0,f1,type,vol,dur,dl){const c=AU.ctx,A=AU.ab,t=c.currentTime+(dl||0),s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=A.nb;s.loop=true;f.type=type;f.Q.value=.5;
  f.frequency.setValueAtTime(f0,t);f.frequency.linearRampToValueAtTime(f1,t+dur);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+dur*.35);g.gain.linearRampToValueAtTime(vol*.8,t+dur*.7);g.gain.linearRampToValueAtTime(0,t+dur);s.connect(f);f.connect(g);g.connect(A.g);s.start(t,Math.random()*2);s.stop(t+dur+.05)}
-function ambPock(vol,hi){const A=AU.ab;tone(hi?940:780,.05,'sine',vol,300,0,A.g);nz(.03,vol*.7,2400,'bandpass',0,A.g)}
+function ambPock(vol,hi){const A=AU.ab,D=A.cp||A.g;tone(hi?940:780,.05,'sine',vol,300,0,D);nz(.03,vol*.7,2400,'bandpass',0,D)}
 function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
- if(!A){const len=c.sampleRate*3|0,nb=c.createBuffer(1,len,c.sampleRate),d=nb.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
+ if(!A){const len=c.sampleRate*3|0,nb=c.createBuffer(2,len,c.sampleRate);for(let ch=0;ch<2;ch++){const d=nb.getChannelData(ch);for(let i=0;i<len;i++)d[i]=Math.random()*2-1}
   A=AU.ab={g:c.createGain(),bg:c.createGain(),f:c.createBiquadFilter(),s:c.createBufferSource(),k:null,next:0,nb};A.s.buffer=nb;A.s.loop=true;A.g.gain.value=VOL.a;
-  {const o=c.createOscillator(),lf=c.createBiquadFilter();A.eg=c.createGain();A.eo=o;o.type='sawtooth';o.frequency.value=56;lf.type='lowpass';lf.frequency.value=210;A.eg.gain.value=0;o.connect(lf);lf.connect(A.eg);A.eg.connect(A.g);o.start()}A.bg.gain.value=0;A.s.connect(A.f);A.f.connect(A.bg);A.bg.connect(A.g);A.g.connect(AU.master);A.s.start()}
+  {const o=c.createOscillator(),lf=c.createBiquadFilter();A.eg=c.createGain();A.eo=o;o.type='sawtooth';o.frequency.value=56;lf.type='lowpass';lf.frequency.value=210;A.eg.gain.value=0;o.connect(lf);lf.connect(A.eg);A.eg.connect(A.g);o.start()}A.bg.gain.value=0;A.s.connect(A.f);A.f.connect(A.bg);A.bg.connect(A.g);A.g.connect(AU.master);A.s.start();
+  A.pn=[-.85,-.45,0,.45,.85].map(v=>{const q=c.createStereoPanner?c.createStereoPanner():c.createGain();if(q.pan)q.pan.value=v;q.connect(A.g);return q});A.cp=A.pn[2];if(AU.rvS){A.rs=c.createGain();A.rs.gain.value=.6;A.g.connect(A.rs);A.rs.connect(AU.rvS)}}
+ const AP=()=>A.pn[Math.random()*A.pn.length|0];
  const k=mode==='title'||!AU.on?null:(AMBS[loc]||null);
- if(k!==A.k){A.k=k;const P=k&&AMBP[k];A.bg.gain.setTargetAtTime(0,now,.25);A.bus=0;A.eg.gain.setTargetAtTime(k==='car'?.05:k==='idle'?.03:0,now,.4);if(P){A.f.type=P[1];A.f.frequency.setTargetAtTime(P[0],now,.2);A.f.Q.value=P[1]==='bandpass'?.6:.4;A.bg.gain.setTargetAtTime(P[2],now+.5,.6)}A.next=now+1+Math.random()*2}
+ if(k!==A.k){A.k=k;const P=k&&AMBP[k];A.bg.gain.setTargetAtTime(0,now,.25);A.bus=0;A.eg.gain.setTargetAtTime(k==='car'?.05:k==='idle'?.03:k==='lift'?.03:0,now,.4);if(P){A.f.type=P[1];A.f.frequency.setTargetAtTime(P[0],now,.2);A.f.Q.value=P[1]==='bandpass'?.6:.4;A.bg.gain.setTargetAtTime(P[2],now+.5,.6)}A.next=now+1+Math.random()*2}
  // sounds tied to what is on screen: the rally at Owls practice, and the London bus pulling in
- if(k&&loc==='epcoach'){const n=Math.floor(T*.7),ph=(T*.7)%1;if(n!==A.rn){A.rn=n;ambPock(.09,n%2)}if(ph>.6&&A.bn!==n){A.bn=n;tone(230,.05,'sine',.05,120,0,A.g)}}
- if(k&&loc==='eplondon'&&typeof ep!=='undefined'&&ep&&ep.busGo&&!A.bus){A.bus=1;ambCar(.24,3.4,1);nz(.55,.05,5200,'highpass',3.1,A.g)}
+ if(k&&loc==='epcoach'){const n=Math.floor(T*.7),ph=(T*.7)%1;if(n!==A.rn){A.rn=n;ambPock(.09,n%2)}if(ph>.6&&A.bn!==n){A.bn=n;tone(230,.05,'sine',.05,120,0,A.cp)}}
+ if(k&&loc==='eplondon'&&typeof ep!=='undefined'&&ep&&ep.busGo&&!A.bus){A.bus=1;ambCar(.24,3.4,1);nz(.55,.05,5200,'highpass',3.1,A.cp)}
  // the dogs: paws pattering while one of them runs, a happy bark now and then, a collar jingle when they are just around
- if(k!==null||AMBS[loc]===undefined){const on=mode!=='title'&&AU.on;if(on&&T-DOGR<.15){if(now>(A.pw||0)){A.pw=now+.36;const g=AMBS[loc]==='birds';for(let i=0;i<4;i++)g?nz(.02,.006,2600,'bandpass',i*.09,A.g):tone(700+Math.random()*250,.012,'triangle',.006,null,i*.09,A.g)}
-   if(now>(A.bk||0)){A.bk=now+4+Math.random()*5;if(Math.random()<.7){const b=380+Math.random()*90;tone(b,.07,'sawtooth',.012,b*.6,0,A.g);tone(b*1.05,.08,'sawtooth',.012,b*.55,.16,A.g)}}}
-  else if(on&&T-DOGT<.15&&now>(A.jg||0)){A.jg=now+7+Math.random()*9;for(let i=0;i<3;i++)tone(3800+Math.random()*900,.04,'sine',.003,null,i*.07,A.g)}}
- if(!k||now<A.next)return;const rnd=(a,b)=>a+Math.random()*(b-a);
- if(k==='city'){ambCar(rnd(.05,.15),rnd(1.7,3.1),Math.random()<.2);if(Math.random()<.1){tone(392,.28,'square',.007,null,.4,A.g);tone(494,.28,'square',.006,null,.4,A.g)}A.next=now+rnd(2.2,6.5);return}
+ if(k!==null||AMBS[loc]===undefined){const on=mode!=='title'&&AU.on;if(on&&T-DOGR<.15){if(now>(A.pw||0)){A.pw=now+.36;const g=AMBS[loc]==='birds';for(let i=0;i<4;i++)g?nz(.02,.006,2600,'bandpass',i*.09,A.cp):tone(700+Math.random()*250,.012,'triangle',.006,null,i*.09,A.cp)}
+   if(now>(A.bk||0)){A.bk=now+4+Math.random()*5;if(Math.random()<.7){const b=380+Math.random()*90;tone(b,.07,'sawtooth',.012,b*.6,0,A.cp);tone(b*1.05,.08,'sawtooth',.012,b*.55,.16,A.cp)}}}
+  else if(on&&T-DOGT<.15&&now>(A.jg||0)){A.jg=now+7+Math.random()*9;for(let i=0;i<3;i++)tone(3800+Math.random()*900,.04,'sine',.003,null,i*.07,A.cp)}}
+ if(!k||now<A.next)return;const rnd=(a,b)=>a+Math.random()*(b-a);A.cp=AP();
+ if(k==='city'){ambCar(rnd(.05,.15),rnd(1.7,3.1),Math.random()<.2);if(Math.random()<.1){tone(392,.28,'square',.007,null,.4,A.cp);tone(494,.28,'square',.006,null,.4,A.cp)}A.next=now+rnd(2.2,6.5);return}
  if(k==='car'){ambCar(rnd(.07,.13),rnd(.5,.95),Math.random()<.15);A.eo.frequency.setTargetAtTime(rnd(52,62),now,.8);
-  if(loc==='snow'||(loc==='car7'&&typeof c7!=='undefined'&&c7.snow>.5)){for(let i=0;i<6;i++){tone(150,.07,'sine',.045,85,i*1.1,A.g);nz(.09,.03,650,'lowpass',i*1.1,A.g)}A.next=now+6.6}else A.next=now+rnd(3.5,9);return}
+  if(loc==='snow'||(loc==='car7'&&typeof c7!=='undefined'&&c7.snow>.5)){A.cp=A.pn[2];for(let i=0;i<6;i++){tone(150,.07,'sine',.045,85,i*1.1,A.cp);nz(.09,.03,650,'lowpass',i*1.1,A.cp)}ambSwell(500,900,'bandpass',.035,rnd(3,5));ambSwell(700,400,'bandpass',.025,rnd(3,5),2.4);A.next=now+6.6}else A.next=now+rnd(3.5,9);return}
 
- const T2=(f,d,v,dl,f2,w)=>tone(f,d,w||'sine',v,f2||null,dl||0,A.g);
+ const T2=(f,d,v,dl,f2,w)=>tone(f,d,w||'sine',v,f2||null,dl||0,A.cp);
  if(k==='airport'){const q=Math.random();A.bg.gain.setTargetAtTime(AMBP.airport[2]*rnd(.7,1.2),now,.6);
   if(q<.45){// a suitcase rolling past over the floor tiles
-   const n=9+(Math.random()*6|0);for(let i=0;i<n;i++){const e=Math.sin((i+.5)/n*Math.PI);T2(rnd(105,135),.035,.014*e,i*.085,70);if(i%2)nz(.03,.006*e,900,'lowpass',i*.085,A.g)}}
+   const n=9+(Math.random()*6|0);for(let i=0;i<n;i++){const e=Math.sin((i+.5)/n*Math.PI);T2(rnd(105,135),.035,.014*e,i*.085,70);if(i%2)nz(.03,.006*e,900,'lowpass',i*.085,A.cp)}}
   else if(q<.6&&now>(A.ch||0)){A.ch=now+22;T2(659,.7,.012);T2(523,.9,.012,.5)}// boarding chime
   else if(q<.8&&loc==='sec5'){T2(1250,.07,.008);if(Math.random()<.4)T2(1250,.07,.008,.16)}// scanner
   else if(q<.9){T2(rnd(180,240),.05,.012,0,90);T2(rnd(180,240),.05,.01,.22,90)}// a bag set down
@@ -5135,9 +5449,9 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
   A.next=now+1;return}
  if(k==='church'){const q=Math.random();
   if(q<.25){T2(rnd(150,210),.3,.007,0,rnd(110,150),'triangle')}// a pew creaking
-  else if(q<.45){nz(.07,.012,700,'lowpass',0,A.g);if(Math.random()<.5)nz(.06,.009,700,'lowpass',.16,A.g)}// a quiet cough
-  else if(q<.65){nz(.05,.004,3000,'bandpass',0,A.g);nz(.05,.004,3200,'bandpass',.22,A.g)}// a sniffle
-  else if(q<.85){for(let i=0;i<3;i++)nz(.09,.004,1600,'bandpass',i*.1,A.g)}// programmes and dresses rustling
+  else if(q<.45){nz(.07,.012,700,'lowpass',0,A.cp);if(Math.random()<.5)nz(.06,.009,700,'lowpass',.16,A.cp)}// a quiet cough
+  else if(q<.65){nz(.05,.004,3000,'bandpass',0,A.cp);nz(.05,.004,3200,'bandpass',.22,A.cp)}// a sniffle
+  else if(q<.85){for(let i=0;i<3;i++)nz(.09,.004,1600,'bandpass',i*.1,A.cp)}// programmes and dresses rustling
   A.next=now+rnd(2,5);return}
  if(k==='garden'){const q=Math.random();
   if(q<.4){const f=rnd(2600,4400),n=2+(Math.random()*3|0);for(let i=0;i<n;i++)T2(f*rnd(.9,1.15),.07,.011,i*.11,f*rnd(1.1,1.5))}
@@ -5146,7 +5460,7 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
   A.next=now+rnd(1.2,3.5);return}
  if(k==='nursery'){// the mobile's chimes, one soft note at a time
   const N=[1047,1175,1319,1568,1760,2093],f=N[Math.random()*6|0];T2(f,1.4,.006);T2(f*2,.6,.0015,.01);A.next=now+rnd(1.6,4);return}
- const chirp=v=>{const f=rnd(2600,4400),n=2+(Math.random()*3|0);for(let i=0;i<n;i++)T2(f*rnd(.9,1.15),.07,v,i*.11,f*rnd(1.1,1.5))};
+ const chirp=v=>birdCall(A.cp,v);
  if(k==='water'){// water lapping at the bank, with the odd plop, duck or bird
   A.bg.gain.setTargetAtTime(AMBP.water[2]*rnd(.5,1.5),now,.7);const q=Math.random();
   if(q<.12){T2(520,.09,.012,0,150);T2(300,.12,.006,.07,120)}
@@ -5158,6 +5472,16 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
   else if(q<.7){const n=3+(Math.random()*4|0);for(let i=0;i<n;i++)T2(rnd(520,700),.05,.006,i*rnd(.11,.2),rnd(380,460),'sawtooth')}// hens
   else if(q<.8&&now>(A.ch||0)){A.ch=now+20;T2(150,1.1,.008,0,112,'sawtooth')}// a cow, far off
   A.next=now+rnd(1.5,4);return}
+ if(k==='lobby'){const q=Math.random();
+  if(q<.35){const n=3+(Math.random()*4|0),f=rnd(2600,3400),g=rnd(.32,.4);for(let i=0;i<n;i++){nz(.02,.006,f,'highpass',i*g,A.cp);T2(f*.8,.03,.0025,i*g)}}// heels crossing the marble
+  else if(q<.5){const n=12;for(let i=0;i<n;i++)T2(rnd(150,190),.04,.006*Math.sin((i+.5)/n*Math.PI),i*.09,90)}// a luggage cart rolling by
+  else if(q<.6&&now>(A.ch||0)){A.ch=now+20;T2(2637,.6,.01);T2(5274,.3,.003)}// the front desk bell
+  else if(q<.7&&now>(A.c2||0)){A.c2=now+24;T2(1319,.9,.006);T2(1047,1.1,.006,.35)}// an elevator arriving somewhere
+  else if(q<.85)ambSwell(300,420,'bandpass',.012,rnd(1.5,2.5));// a murmur of guests
+  A.next=now+rnd(2,4.5);return}
+ if(k==='lift'){A.eo.frequency.setTargetAtTime(rnd(62,70),now,.5);if(Math.random()<.4)T2(rnd(150,220),.4,.004,0,rnd(120,160),'triangle');A.next=now+rnd(1.2,2.4);return}// the motor's hum, a cable creaking
+ if(k==='party'){// the party upstairs, through a heavy door: a muffled kick drum and a crowd
+  A.cp=A.pn[2];const sp=60/116;for(let i=0;i<8;i++){T2(56,.2,.03,i*sp,38);if(i%2)nz(.08,.004,500,'lowpass',i*sp,A.cp)}if(Math.random()<.5)ambSwell(220,300,'lowpass',.025,rnd(2,3.4));A.next=now+8*sp-.02;return}
  if(k==='hilltop'){// wind coming and going up on the hill, and birds
   A.f.frequency.setTargetAtTime(rnd(260,560),now,1);A.bg.gain.setTargetAtTime(AMBP.hilltop[2]*rnd(.4,1.5),now,1);if(Math.random()<.45)chirp(.009);A.next=now+rnd(1.6,3.4);return}
  if(k==='office'){const q=Math.random();
@@ -5179,6 +5503,7 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
   else if(q<.55){const n=2+(Math.random()*3|0);for(let i=0;i<n;i++)T2(rnd(3600,5200),.03,.004,i*rnd(.06,.12))}
   else if(q<.7)T2(rnd(150,200),.06,.009,0,90);
   else if(q<.82)ambCar(.07,rnd(2.6,3.6));
+  else if(q<.92)ambSwell(300,600,'bandpass',.018,rnd(2.5,4));
   A.next=now+rnd(1.8,4.5);return}
  if(k==='arcade'){A.bg.gain.setTargetAtTime(AMBP.arcade[2]*rnd(.6,1.2),now,.5);const q=Math.random();
   if(q<.55){const b=[523,659,784,988,1175][Math.random()*5|0],n=2+(Math.random()*4|0),up=Math.random()<.6;for(let i=0;i<n;i++)T2(b*Math.pow(1.19,up?i:-i),.06,.0045,i*.075,null,'square')}// a cabinet somewhere
@@ -5191,7 +5516,7 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
   else if(loc==='lobby'&&q<.2&&now>(A.ch||0)){A.ch=now+25;T2(2637,.6,.012);T2(5274,.3,.003)}// front desk bell
   else if((loc==='store'||loc==='bstore')&&q<.5){const n=1+(Math.random()*3|0);for(let i=0;i<n;i++)T2(1480,.06,.007,i*.32)}// the till
   else if(q<.6){T2(rnd(140,200),.05,.01,0,90)}// something set down on a counter
-  else if(q<.7&&(loc==='tux'||loc==='bridal')){for(let i=0;i<3;i++)nz(.05,.006,1800,'bandpass',i*.16,A.g)}// hangers along a rail
+  else if(q<.7&&(loc==='tux'||loc==='bridal')){for(let i=0;i<3;i++)nz(.05,.006,1800,'bandpass',i*.16,A.cp)}// hangers along a rail
   A.next=now+rnd(2.5,6);return}
  if(k==='pump'){const q=Math.random();if(q<.5){const n=14+(Math.random()*14|0);for(let i=0;i<n;i++)T2(900,.015,.006,i*.11,600,'square');T2(1320,.3,.009,n*.11+.1)}// the pump ticking over, then its ding
   else if(q<.75)ambCar(.16,rnd(2,3));else{const f=rnd(2800,4200);for(let i=0;i<3;i++)T2(f*rnd(.9,1.15),.07,.01,i*.11,f*1.3)}
@@ -5199,16 +5524,23 @@ function ambTick(){const c=AU.ctx,now=c.currentTime;let A=AU.ab;
  if(k==='cabin'){if(Math.random()<.25&&now>(A.ch||0)){A.ch=now+30;T2(880,.9,.012);T2(1760,.5,.003)}A.next=now+rnd(4,8);return}
  if(k==='tennis'){// a rally going on a court or two away: pock... pock... then a pause
   if(typeof c5!=='undefined'&&c5&&c5.ct&&c5.ct.mode==='play'){A.next=now+1;return}
-  A.rc=(A.rc||0)+1;ambPock(.045,A.rc%2);if(A.rc%2)tone(230,.05,'sine',.02,120,.36,A.g);if(Math.random()<.12)tone(2400,.06,'sine',.012,3000,.2,A.g);A.next=now+(A.rc%7?.74:rnd(2,3.4));return}
+  A.rc=(A.rc||0)+1;ambPock(.045,A.rc%2);if(A.rc%2)tone(230,.05,'sine',.02,120,.36,A.cp);if(Math.random()<.12)tone(2400,.06,'sine',.012,3000,.2,A.cp);A.next=now+(A.rc%7?.74:rnd(2,3.4));return}
  if((loc==='ephouse'||loc==='pooplot'||loc==='lot7')&&Math.random()<.2)ambCar(.045,2.8);
- if((loc==='epyard'||loc==='epfam')&&Math.random()<.2){const N=[1568,1760,2093,2349,2637];for(let i=0;i<2+(Math.random()*3|0);i++)tone(N[Math.random()*5|0],1.1,'sine',.004,null,i*rnd(.12,.3),A.g)}
- if(loc==='epporch'&&Math.random()<.08&&now>(A.ch||0)){A.ch=now+18;tone(340,.28,'sine',.008,320,0,A.g);tone(330,.45,'sine',.008,300,.42,A.g)}
- if(k==='birds'){const f=rnd(2600,4400),n=2+(Math.random()*3|0);for(let i=0;i<n;i++)tone(f*rnd(.9,1.15),.07,'sine',.012,f*rnd(1.1,1.5),i*.11,A.g);A.next=now+rnd(1.6,5)}
- else if(k==='night'){if(loc==='street'&&Math.random()<.22)ambCar(.05,2.6);const f=rnd(3900,4500);for(let j=0;j<2;j++)for(let i=0;i<3;i++)tone(f,.03,'sine',.007,null,j*.34+i*.055,A.g);A.next=now+rnd(.9,2.2)}
+ if((loc==='epyard'||loc==='epfam')&&Math.random()<.2){const N=[1568,1760,2093,2349,2637];for(let i=0;i<2+(Math.random()*3|0);i++)tone(N[Math.random()*5|0],1.1,'sine',.004,null,i*rnd(.12,.3),A.cp)}
+ if(loc==='epporch'&&Math.random()<.08&&now>(A.ch||0)){A.ch=now+18;tone(340,.28,'sine',.008,320,0,A.cp);tone(330,.45,'sine',.008,300,.42,A.cp)}
+ if(k==='birds'){birdCall(A.cp,.012);if(Math.random()<.15)ambSwell(380,560,'bandpass',.012,rnd(2.5,4));A.next=now+rnd(1.6,5)}
+ else if(k==='night'){if(loc==='street'&&Math.random()<.22)ambCar(.05,2.6);if(Math.random()<.035){const b=rnd(330,420);tone(b,.08,'sawtooth',.004,b*.6,0,AP());tone(b,.08,'sawtooth',.004,b*.6,.27,AP())}const f=rnd(3900,4500);for(let j=0;j<2;j++)for(let i=0;i<3;i++)tone(f,.03,'sine',.007,null,j*.34+i*.055,A.cp);A.next=now+rnd(.9,2.2)}
  else if(k==='crowd'){// the murmur swells and dips, with the odd glass clink
-  A.bg.gain.setTargetAtTime(AMBP.crowd[2]*rnd(.6,1.25),now,.5);if(Math.random()<.3){const f=rnd(2400,3400);tone(f,.12,'sine',.008,null,0,A.g);tone(f*1.5,.09,'sine',.004,null,.01,A.g)}A.next=now+rnd(.8,2.4)}
+  A.bg.gain.setTargetAtTime(AMBP.crowd[2]*rnd(.6,1.25),now,.5);if(Math.random()<.3){const f=rnd(2400,3400);tone(f,.12,'sine',.008,null,0,A.cp);tone(f*1.5,.09,'sine',.004,null,.01,A.cp)}A.next=now+rnd(.8,2.4)}
  else if(k==='wind'){A.f.frequency.setTargetAtTime(rnd(260,720),now,.9);A.bg.gain.setTargetAtTime(AMBP.wind[2]*rnd(.5,1.3),now,.9);A.next=now+rnd(1.2,2.6)}
  else A.next=now+2}
+function birdCall(D,v){const s=Math.random(),rnd=(a,b)=>a+Math.random()*(b-a),B=(f,d,vo,dl,f2,w)=>tone(f,d,w||'sine',vo,f2||null,dl||0,D);
+ if(s<.25){let d=0;for(let i=0;i<4+(Math.random()*3|0);i++){const f=rnd(2100,3300);B(f,.09,v,d,f*rnd(.85,1.2));d+=rnd(.1,.16)}}// a robin's run of warbled phrases
+ else if(s<.42){for(let i=0;i<3;i++)B(4200,.16,v*1.1,i*.22,2100)}// a cardinal: cheer, cheer, cheer
+ else if(s<.56){B(3950,.28,v*.9,0,3900);B(3350,.32,v*.9,.34,3300)}// a chickadee: fee-bee
+ else if(s<.76){const n=10+(Math.random()*8|0),f=rnd(4200,5200);for(let i=0;i<n;i++)B(f,.028,v*.7,i*.045,f*.92)}// a sparrow's trill
+ else if(s<.9){B(500,.25,v*.9,0,560);B(560,.5,v*.9,.3,520);B(520,.45,v*.8,.9,500);B(500,.45,v*.7,1.45,480)}// a mourning dove
+ else{for(let i=0;i<2+(Math.random()*2|0);i++)B(rnd(620,700),.18,v*.5,i*.32,520,'sawtooth')}}// a crow, a long way off
 const MUSMAP={bwlobby:'jazz',bwlift:'jazz',bwdoor:'night',roof:'roof',street:'night',hall:'sneak',door:'sunset',dinner:'waltz',bench:'lofi',bars:'bars',dorm:'sunset',news:'news',lake:'lofi',drive:'drive',clinic:'tense',apt:'news',entry:'sick',cal:null,kart:'kart',
  kitchen:'cozy',hroom:'lofi',dt:'lofi',pack:'cozy',road:'drive',txhouse:'texas',troom:'texas',river:'waltz',church:'stars',scoot:'drive',pump:'tense',store:'kart',bath:'stars',austin:'news',trucks:'texas',pea:'cozy',hill:'drive',bonnell:'sunset',plaza:'waltz',bstore:'kart',
  plane:'stars',hdrive:'jazz',bunk:'sneak',bath2:'sneak',split:'sad',office:'office',home:'lofi',hunt:'tense'};
@@ -5742,14 +6074,14 @@ function nzCall(N){N.call=1;N.ob=[];N.ab.st='sit';abi.zz=0;sfx('ring');
   {l:'Answer (whisper)',f:()=>say([{n:'Hunter',t:'(whispering) Hey. I can’t sleep.'},{n:'Abigail',t:'(whispering) Me neither. Kyle is snoring like a leaf blower.'},{n:'Hunter',t:'I miss you. A lot.'},{n:'Abigail',t:'I miss you too. Go to sleep, babe. ♥'}],()=>{N.call=2;N.ans=1;N.sleep=Math.max(.3,N.sleep-.08);N.calm=4;N.ab.st='bed';abi.zz=1})},
   {l:'Let it go to voicemail',f:()=>say([{n:'',t:'Voicemail: "...Night, Abigail. Miss you." She smiles in her sleep.'}],()=>{N.call=2;N.sleep=Math.min(1,N.sleep+.08);N.ab.st='bed';abi.zz=1})}]}]))}
 function sleepUpdate(dt){const N=c5.nt;if(!N)return;
- if(N.brit){const b=N.brit;if(b.tx!=null){const dx=b.tx-b.x,dy=b.ty-b.y,dd=Math.hypot(dx,dy);if(dd<.6){b.x=b.tx;b.y=b.ty;b.tx=null}else{const sp=b.leave?24:18;b.x+=dx/dd*sp*dt;b.y+=dy/dd*sp*dt}}if(b.leave&&(b.tx==null||b.y>150)){N.brit=null;N.britGone=1;sfx('creak')}else if(b.bed&&!b.sleep&&b.tx==null){b.sleep=T;sfx('step')}}
+ if(N.brit){const b=N.brit;if(b.tx!=null){const dx=b.tx-b.x,dy=b.ty-b.y,dd=Math.hypot(dx,dy);if(dd<.6){b.x=b.tx;b.y=b.ty;b.tx=null}else{const sp=b.leave?24:18;b.x+=dx/dd*sp*dt;b.y+=dy/dd*sp*dt}}if(b.leave&&(b.tx==null||b.y>150)){N.brit=null;N.britGone=1;sfx('door')}else if(b.bed&&!b.sleep&&b.tx==null){b.sleep=T;sfx('flop')}}
  nzPeopleUpd(N,dt);if(mode!=='sleep'||N.call===1||dlg)return;if(N.intro){if(N.ab.st==='bed'&&N.ky.st==='game'&&N.tvT>=1)N.intro=0;else return}N.t+=dt;const k=N.t/N.dur;
  let pi=0;NPH.forEach((p,i)=>{if(k>=p[0])pi=i});if(pi!==N.pi){N.pi=pi;N.ban=[NPH[pi][2],2.4];sfx('chime');if(NPH[pi][1]!=='brit'&&N.brit)britBed(N);
   if(NPH[pi][1]==='cuddle'){N.calm=3.2;nzKyleToBed(N);after(2.8,()=>{c5.bk.giggle=1})}if(NPH[pi][1]==='snore'){N.rmA=0;N.kz=1;c5.bk.giggle=0}
-  if(NPH[pi][1]==='brit'){N.brit={x:40,y:150,tx:30,ty:128};N.door=1;sfx('creak');c5.bk.giggle=0}
+  if(NPH[pi][1]==='brit'){N.brit={x:40,y:150,tx:30,ty:128};N.door=1;sfx('door');c5.bk.giggle=0}
   if(NPH[pi][1]==='alarm'&&N.brit&&!N.brit.leave&&!N.brit.bed){N.brit.leave=1;N.brit.tx=46;N.brit.ty=158;N.door=1;bark([{n:'Brittany',t:'(whispering) Okay! Shower! Bye! Sorry!'}])}}
  const ph=NPH[pi][1];
- if(N.brit&&N.brit.leave&&N.brit.tx==null){N.brit=null;N.britGone=1;sfx('creak')}
+ if(N.brit&&N.brit.leave&&N.brit.tx==null){N.brit=null;N.britGone=1;sfx('door')}
  if(ph==='brit'&&N.brit&&!N.brit.leave&&!N.brit.bed&&N.brit.tx==null&&Math.random()<dt*.7){N.brit.tx=10+Math.random()*28;N.brit.ty=124+Math.random()*12}
  if((ph!=='brit'&&ph!=='alarm')||N.britGone)N.door=Math.max(0,N.door-dt);else if(ph==='alarm')N.door=Math.max(0,N.door-dt*.6);
  if(!N.call&&k>=.5&&N.wk<=0&&N.ab.st==='bed'){nzCall(N);return}
@@ -5766,7 +6098,7 @@ function sleepUpdate(dt){const N=c5.nt;if(!N)return;
   after(1.8,()=>{abi.zz=0;N.ab.st='sit';sfx('tick');
    say([{n:'',t:'7:00 AM. Abigail got about '+s+' hour'+(s===1?'':'s')+' of sleep.'},{n:'',t:'Noises popped: '+N.pops+'. Times Kyle snored: '+N.snores+'. Times she woke up furious: '+N.wakes+'.'+(N.ans?' Calls from Hunter answered: 1 ♥':'')},
    {n:'Abigail',t:s>=6?'Somehow... I actually slept. That travel day must have COMPLETELY wiped me out.':s>=3?'I am running on fumes and spite.':'I did not sleep. I will never sleep again.'},{n:'Roomie',t:'(sitting up, squinting) Morning! Kyle’s staying another week, by the way!',anim:()=>{N.rmA=1}},{n:'Abigail',t:'...Great.'}],()=>{N.rmA=0;
-    nzAbiTo(N,40,136,'d',()=>{N.door=1;sfx('creak');N.ab.st='walk';go(abi,[[40,154]],30);N.ab.arr=()=>{fadeTo(()=>{c5.bk.dawn=0;c5.bk.night=0;c5.nt=null;c5Bath()})}})})})}}
+    nzAbiTo(N,40,136,'d',()=>{N.door=1;sfx('door');N.ab.st='walk';go(abi,[[40,154]],30);N.ab.arr=()=>{fadeTo(()=>{c5.bk.dawn=0;c5.bk.night=0;c5.nt=null;c5Bath()})}})})})}}
 function drawSleepUI(){const N=c5.nt;if(!N||loc!=='bunk'||mode!=='sleep')return;
  N.ob.forEach(o=>{const x=Math.round(o.x*2),y=Math.round(o.y*2),z=o.big?2:1,w=o.w.length*4*z+6,j=o.sq>0?1:0;r(x-w/2-1,y-6-j,w+2,13*z-(z-1)*4+j*2,'#2a1830');r(x-w/2,y-5,w,11*z-(z-1)*4,o.big?'#fff4c0':o.hp>1?'#e8e0ff':'#fff');r(x-3,y+6*z,3,3,'#fff');txt(o.w,x-w/2+3,y-2,o.big?'#d0302a':o.hp>1?'#5a3aa8':'#c83a8a',z);if(o.hp>1)for(let i=0;i<o.hp;i++)r(x-w/2+3+i*4,y-9,3,2,'#ffd86b')});
  const h=Math.floor(23+N.t/N.dur*8)%24,mm=Math.floor((N.t/N.dur*480)%60),hs=((h+11)%12+1)+':'+(mm<10?'0':'')+mm+(h>=12?' PM':' AM');
@@ -5888,7 +6220,7 @@ function t5Items(){const I=[];
  I.push({id:'window',x:0,y:0,w:70,h:58,spot:[62,84],face:'u',lines:[[{n:'Abigail',t:'(Somewhere out there’s a plane with my name on it. And not his.)'}],[{n:'Abigail',t:'(That one is ours. Americana, gate C14. Big shiny silver bird.)'}],[{n:'Abigail',t:'(I wonder if he can see the planes from the highway.)'}]]});
  I.push({id:'board',x:74,y:6,w:50,h:38,spot:[99,86],face:'u',lines:[[{n:'',t:'AM 1427 · DALLAS/FT WORTH · ON TIME'},{n:'Abigail',t:'(On time. Of course it is. The one day I wanted a delay.)'}],[{n:'Abigail',t:'(Still on time. Rude.)'}]]});
  I.push({id:'dunkin',x:126,y:26,w:32,h:36,spot:[142,86],face:'u',fn:()=>{if(T5.cof){say([{n:'Barista',t:'Back for a second one?'},{n:'Abigail',t:'Do NOT tempt me.'}]);return}
-  say([{n:'Barista',t:'Welcome to Dippin Donuts! What can I get you?'},{n:'Abigail',t:'A large iced coffee with caramel and cream, please. It’s been a morning.'},{n:'Barista',t:'Coming right up!',anim:()=>{T5.cof=1;sfx('pop')}},{n:'Abigail',t:'(It tastes like every Dippin run with Hunter. Great. Now I’m sad AND caffeinated.)'}])}});
+  say([{n:'Barista',t:'Welcome to Dippin Donuts! What can I get you?'},{n:'Abigail',t:'A large iced coffee with caramel and cream, please. It’s been a morning.'},{n:'Barista',t:'Coming right up!',anim:()=>{T5.cof=1;sfx('pour')}},{n:'Abigail',t:'(It tastes like every Dippin run with Hunter. Great. Now I’m sad AND caffeinated.)'}])}});
  I.push({id:'poster',x:76,y:46,w:22,h:14,spot:[87,86],face:'u',lines:[[{n:'Abigail',t:'(The Arch. Hunter’s whole city in one poster.)'},{n:'Abigail',t:'(I’m going to miss the Arch. ...I’m going to miss HIM more. Obviously.)'}],[{n:'Abigail',t:'(Bye, Arch. Keep an eye on him for me.)'}]]});
  I.push({id:'kiosk',x:64,y:60,w:18,h:22,spot:[73,86],face:'u',lines:[{n:'Abigail',t:'(The kiosk. Bag tags first.)'}]});
  I.push({id:'agent',x:18,y:54,w:44,h:22,spot:[56,86],face:'u',ay:50,lines:()=>T5.tags?[{n:'Agent',t:'Next!'}]:[{n:'Agent',t:'Bag tags first, hon. The kiosks are right over there.'}]});
@@ -5896,11 +6228,11 @@ function t5Items(){const I=[];
  I.push({id:'cage',x:84,y:82,w:16,h:16,spot:[92,100],face:'u',lines:[[{n:'',t:'"DOES YOUR BAG FIT HERE?"'},{n:'Abigail',t:'(jams the tennis bag in) ...It fits. It fits! ...It’s stuck.'},{n:'',t:'(Several minutes of wiggling later...)'},{n:'Abigail',t:'Nobody saw that.'}],[{n:'Abigail',t:'(I’m not going near that cage again.)'}]]});
  I.push({id:'wrap',x:100,y:94,w:16,h:18,spot:[108,116],face:'u',lines:[[{n:'',t:'A machine is spinning someone’s suitcase in plastic wrap.'},{n:'Abigail',t:'Who wraps a suitcase like a BURRITO?'},{n:'Abigail',t:'...Actually, that’s kind of smart.'}],[{n:'Abigail',t:'(Hunter would pay $20 to have his bag burrito’d. I know it.)'}]]});
  I.push({id:'kid',x:64,y:102,w:14,h:16,spot:[71,122],face:'u',lines:[[{n:'Kid',t:'GIDDY UP, SUITCASE!'},{n:'Abigail',t:'(Same, kid. Same.)'}],[{n:'Kid',t:'My suitcase is named Gerald.'},{n:'Abigail',t:'Hi, Gerald.'}]]});
- I.push({id:'cart',x:120,y:108,w:22,h:16,spot:[136,128],face:'u',fn:()=>{const k=hx.cnt.cart||0;hx.cnt.cart=k+1;sfx('whoosh');T5.cart=1.2;say(k?[{n:'Abigail',t:'(Once was enough. I have dignity.)'}]:[{n:'Abigail',t:'(hops on a luggage cart and rolls three whole feet) Wheee—'},{n:'Abigail',t:'(...Everyone is looking. Okay. Getting off.)'}])}});
+ I.push({id:'cart',x:120,y:108,w:22,h:16,spot:[136,128],face:'u',fn:()=>{const k=hx.cnt.cart||0;hx.cnt.cart=k+1;sfx('suitcase');T5.cart=1.2;say(k?[{n:'Abigail',t:'(Once was enough. I have dignity.)'}]:[{n:'Abigail',t:'(hops on a luggage cart and rolls three whole feet) Wheee—'},{n:'Abigail',t:'(...Everyone is looking. Okay. Getting off.)'}])}});
  I.push({id:'plant',x:2,y:110,w:12,h:18,spot:[17,124],face:'l',lines:[{n:'Abigail',t:'(A fake plant. It looks how I feel. Fake okay.)'}]});
  I.push({id:'tsa',x:144,y:118,w:16,h:22,spot:[150,132],face:'r',lines:[{n:'Abigail',t:'(Security. Bags first, Abigail.)'}]});
  return I}
-function t5Kiosk(done){T5.kio=1;sfx('beep');after(.6,()=>sfx('beep'));after(1.4,()=>{T5.kio=2;sfx('item');say([{n:'',t:'*whirrrr* Two bag tags print out.'},{n:'Abigail',t:'Tags on. Easy. Told you. Expert.'}],()=>{T5.tags=1;done()})})}
+function t5Kiosk(done){T5.kio=1;sfx('beep');after(.6,()=>sfx('beep'));after(1.4,()=>{T5.kio=2;sfx('receipt');say([{n:'',t:'*whirrrr* Two bag tags print out.'},{n:'Abigail',t:'Tags on. Easy. Told you. Expert.'}],()=>{T5.tags=1;done()})})}
 function t5Tsa(done){say([{n:'Abigail',t:'(Okay. Security. My favourite.)'}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;(c5Security)()},1.2)})}
 function vTerm5(t){const F=T5||{};
  /* window wall: sky, distant terminal, static runway, moving planes and a baggage tug */
@@ -6037,7 +6369,7 @@ const WGI=[[0,'BOOTS',6.6],[0,'JEANS',6.4],[0,'BOOKS',7.0],[0,'HAIR DRYER',2.1],
 const WGQ={BOOKS:'SHE HAS READ THESE FOUR TIMES.',BOOTS:'THE GOOD BOOTS. NON-NEGOTIABLE.',CANDLES:'WHY. ARE. THERE. CANDLES.',SNACKS:'EMERGENCY SNACKS. VERY IMPORTANT.','TEDDY BEAR':'HE GOES EVERYWHERE SHE GOES.','OUR PHOTO':'THIS IS NOT LEAVING HER SIGHT.',PILLOW:'IT IS A VERY SPECIFIC PILLOW.',TOWELS:'TEXAS HAS TOWELS, ABIGAIL.','JEWELRY BOX':'HEAVIER THAN IT LOOKS.',SHOES:'THREE PAIRS. ALL ESSENTIAL.','HAIR DRYER':'THE HOTEL ONES ARE WEAK.',TOILETRIES:'SHAMPOO WEIGHS A TON.',JEANS:'FOUR PAIRS OF THE SAME JEANS.'};
 const WGCAP=15,WGBASE=7;let WG=null;
 function wgStart(done){setLoc('weigh5');mode='weigh';setHud('');WG={it:WGI.map(([b,n,w,wear])=>({b,n,w,wear:!!wear,worn:0,c:-1})),sel:-1,msg:null,imp:0,t:0,done,lines:3,hint:0,shake:0,try:0,full:[0,0],fly:null,glow:0};
- [0,1].forEach(b=>{let k=0;WG.it.forEach(it=>{if(it.b===b)it.c=k++})});sfx('creak')}
+ [0,1].forEach(b=>{let k=0;WG.it.forEach(it=>{if(it.b===b)it.c=k++})});sfx('zipper')}
 const wgW=b=>WGBASE+WG.it.filter(i=>i.b===b&&!i.worn).reduce((s,i)=>s+i.w,0),wgN=b=>WG.it.filter(i=>i.b===b&&!i.worn).length;
 function wgFree(b){const used=new Set(WG.it.filter(i=>i.b===b&&!i.worn).map(i=>i.c));for(let c=0;c<WGCAP;c++)if(!used.has(c))return c;return -1}
 function wgMsg(s,d){WG.msg=[s,d||1.6]}
@@ -6075,13 +6407,13 @@ function wgTap(x,y){const G=WG;if(!G||G.end)return;
  const hit=(()=>{for(const it of G.it){if(it.worn)continue;const [cx0,cy0]=wgCell(it.b,it.c);if(x>=cx0&&x<cx0+20&&y>=cy0&&y<cy0+21)return it}return null})();
  const bagAt=x>=4&&x<=78&&y>=54&&y<=176?0:x>=82&&x<=156&&y>=54&&y<=176?1:-1;
  if(G.sel>=0){const it=G.it[G.sel];
-  if(hitAbi){if(!it.wear){wgMsg('SHE CANNOT WEAR '+(it.n==='BOOKS'?'BOOKS. SHE TRIED.':'THAT.'));sfx('miss');G.sel=-1;return}it.worn=1;G.sel=-1;sfx('item');wgMsg({HOODIE:'HOODIE ON. IT IS 95 DEGREES IN DALLAS.',BEANIE:'BEANIE ON. IN AUGUST.',SCARF:'SCARF ON. VERY FASHION.'}[it.n],1.8);return}
+  if(hitAbi){if(!it.wear){wgMsg('SHE CANNOT WEAR '+(it.n==='BOOKS'?'BOOKS. SHE TRIED.':'THAT.'));sfx('miss');G.sel=-1;return}it.worn=1;G.sel=-1;sfx('fabric');wgMsg({HOODIE:'HOODIE ON. IT IS 95 DEGREES IN DALLAS.',BEANIE:'BEANIE ON. IN AUGUST.',SCARF:'SCARF ON. VERY FASHION.'}[it.n],1.8);return}
   if(bagAt>=0&&bagAt!==it.b){const c=wgFree(bagAt);if(c<0){G.full[bagAt]=.6;sfx('miss');wgMsg('BAG '+(bagAt+1)+' IS STUFFED! MAKE ROOM FIRST.');return}
-   const [fx,fy]=wgCell(it.b,it.c);it.b=bagAt;it.c=c;const [tx,ty]=wgCell(bagAt,c);G.fly={n:it.n,fx,fy,tx,ty,t:0};G.sel=-1;sfx('whoosh');if(WGQ[it.n])wgMsg(WGQ[it.n],1.6);return}
+   const [fx,fy]=wgCell(it.b,it.c);it.b=bagAt;it.c=c;const [tx,ty]=wgCell(bagAt,c);G.fly={n:it.n,fx,fy,tx,ty,t:0};G.sel=-1;sfx('fabric');if(WGQ[it.n])wgMsg(WGQ[it.n],1.6);return}
   if(hit&&hit!==it){G.sel=G.it.indexOf(hit);sfx('tick');return}
   G.sel=-1;return}
  if(hit){G.sel=G.it.indexOf(hit);sfx('tick');return}
- if(hitAbi){const w=G.it.filter(q=>q.worn).pop();if(w){const c=wgFree(w.b);if(c<0){wgMsg('NO ROOM TO PACK IT BACK!');sfx('miss');return}w.worn=0;w.c=c;sfx('item');wgMsg(w.n+' BACK IN THE BAG.')}}}
+ if(hitAbi){const w=G.it.filter(q=>q.worn).pop();if(w){const c=wgFree(w.b);if(c<0){wgMsg('NO ROOM TO PACK IT BACK!');sfx('miss');return}w.worn=0;w.c=c;sfx('fabric');wgMsg(w.n+' BACK IN THE BAG.')}}}
 function wgCheck(){const G=WG,a=wgW(0),b=wgW(1);G.try++;sfx('beep');G.sel=-1;
  if(a<=50.001&&b<=50.001){G.end=1;sfx('win');const ex=a<=49.3&&b<=49.3,worn=G.it.filter(q=>q.worn).map(q=>q.n.toLowerCase());if(T5)T5.worn=G.it.filter(q=>q.worn).map(q=>q.n);
   after(.8,()=>{say([{n:'',t:'*BEEP* '+a.toFixed(1)+' lb. *BEEP* '+b.toFixed(1)+' lb.'},{n:'Agent',t:ex?'Well look at that. Under on both. You ARE an expert.':'Perfect! Both under fifty. You’re all set, hon.'},
@@ -6128,17 +6460,17 @@ function depUpd(dt){const D=DEP;if(!D||loc!=='dep4')return;D.t+=dt;const A=abi,H
  const near=(A.y<214&&Math.abs(A.x-80)<16)?1:0;D.dop+=((near||D.st==='enter'?1:0)-D.dop)*Math.min(1,dt*5);
  const tkx=DPX+56,tky=248-14;
  if(D.st==='arrive'){D.x=Math.max(DPX,D.x-D.v*dt);D.v=Math.max(12,Math.min(46,(D.x-DPX)*.9+12));if(D.x<=DPX){D.st='out';D.t=0;sfx('brake')}}
- else if(D.st==='out'){if(D.t>.5&&!D.o1){D.o1=1;D.door=1;sfx('creak');at(A,DPX+31,232,'u');go(A,[[DPX+20,222],[78,221]],26)}
+ else if(D.st==='out'){if(D.t>.5&&!D.o1){D.o1=1;D.door=1;sfx('carDoor');at(A,DPX+31,232,'u');go(A,[[DPX+20,222],[78,221]],26)}
   if(D.t>1.1&&!D.o2){D.o2=1;D.door=0;at(H,DPX+23,234,'r');go(H,[[DPX+50,234],[DPX+64,233]],28)}
-  mv(A,dt);mv(H,dt);if(A.tx==null&&D.o1)A.dir='r';if(D.o2&&H.tx==null&&!D.o3){D.o3=1;H.dir='l';D.st='trunk';D.t=0;sfx('creak')}}
+  mv(A,dt);mv(H,dt);if(A.tx==null&&D.o1)A.dir='r';if(D.o2&&H.tx==null&&!D.o3){D.o3=1;H.dir='l';D.st='trunk';D.t=0;sfx('trunk')}}
  else if(D.st==='trunk'){const q=D.t;mv(A,dt);if(A.tx==null)A.dir='r';
   D.trunk=q<3.2?Math.min(1,q/.6):Math.max(0,1-(q-3.2)/.35);
   if(q>3.55&&!D.sl){D.sl=1;sfx('slam')}
   const lerp=(a,b,u)=>a+(b-a)*Math.max(0,Math.min(1,u));
   if(q>.6&&q<1.1){H.reach=[tkx-2,tky+2]}
-  if(q>=1.1&&q<2.1){if(!D.g1){D.g1=1;D.tb=1;sfx('item');D.bag={x:tkx-4,y:tky+4,hd:0}}const u=(q-1.1)/1;D.bag.x=lerp(tkx-4,H.x+3,u);D.bag.y=lerp(tky+4,H.y-1,u)-Math.sin(Math.min(1,u)*Math.PI)*5;H.reach=[Math.round(D.bag.x),Math.round(D.bag.y-9)]}
-  if(q>=2.1&&q<2.5){if(!D.hd1){D.hd1=1;sfx('pop')}D.bag.x=H.x+5;D.bag.y=H.y-1;D.bag.hd=Math.min(5,(q-2.1)*14);H.reach=null}
-  if(q>=2.5&&q<3.1){if(q<2.8)H.reach=[tkx,tky+2];else{if(!D.g2){D.g2=1;D.tb=0;sfx('item')}D.sh=1;H.reach=null}}
+  if(q>=1.1&&q<2.1){if(!D.g1){D.g1=1;D.tb=1;sfx('grab');D.bag={x:tkx-4,y:tky+4,hd:0}}const u=(q-1.1)/1;D.bag.x=lerp(tkx-4,H.x+3,u);D.bag.y=lerp(tky+4,H.y-1,u)-Math.sin(Math.min(1,u)*Math.PI)*5;H.reach=[Math.round(D.bag.x),Math.round(D.bag.y-9)]}
+  if(q>=2.1&&q<2.5){if(!D.hd1){D.hd1=1;sfx('suitcase')}D.bag.x=H.x+5;D.bag.y=H.y-1;D.bag.hd=Math.min(5,(q-2.1)*14);H.reach=null}
+  if(q>=2.5&&q<3.1){if(q<2.8)H.reach=[tkx,tky+2];else{if(!D.g2){D.g2=1;D.tb=0;sfx('trunk')}D.sh=1;H.reach=null}}
   if(q>=3.6&&!D.w1){D.w1=1;H.dir='l';go(H,[[DPX+60,226],[86,221]],20)}
   if(D.w1){mv(H,dt);D.bag.x=H.x+6;D.bag.y=H.y;H.reach=[Math.round(H.x+5),Math.round(H.y-9)];
    if(H.tx==null){H.reach=null;D.bag=null;D.sh=0;D.bags=1;sfx('step');D.st='hug';D.t=0;A.dir='r';H.dir='l'}}}
@@ -6179,11 +6511,11 @@ function c5aUpd(dt){const A=C5A;if(!A||loc!=='arr5')return;A.t+=dt;if(A.lc){A.lc
  if(A.st==='drive'){A.x+=A.v*dt;
   if(A.loop<3&&A.x>=40&&!A.paused){A.paused=1;A.st='wait';A.wt=0;A.v=0}
   else if(A.loop===6&&A.x>=-62&&!A.seen){A.seen=1;A.st='screech';A.v=110;A.x=-62;sfx('brake');after(.35,()=>sfx('brake'));shakeT=.3;A.smoke=[]}
-  else if(A.x>172){if(A.loop<6){A.paused=0;if(A.loop===2){bark([{n:'Hunter',t:'(Okay. Loop three. She’s probably getting her bag.)'}])}if(A.loop===5){after(.3,()=>{A.ab=1;sfx('creak')})}c5aLoop()}}}
+  else if(A.x>172){if(A.loop<6){A.paused=0;if(A.loop===2){bark([{n:'Hunter',t:'(Okay. Loop three. She’s probably getting her bag.)'}])}if(A.loop===5){after(.3,()=>{A.ab=1;sfx('carDoor')})}c5aLoop()}}}
  else if(A.st==='wait'){A.wt+=dt;if(A.wt>.5&&!A.wh){A.wh=1;sfx('alert');attend.dir='r';bark([[{n:'Attendant',t:'*TWEEEEET* No waiting! Keep it moving!'},{n:'Hunter',t:'She’s literally walking out right now—'},{n:'Attendant',t:'KEEP. IT. MOVING.'}],[{n:'Attendant',t:'*TWEEEET* Sir. Again?'},{n:'Hunter',t:'She is RIGHT. THERE. Probably.'}]][A.loop-1])}
   if(A.wt>2.6){A.st='drive';A.v=48;A.wh=0}}
  else if(A.st==='screech'){A.v=Math.max(30,A.v-dt*45);A.x+=A.v*dt;const u=Math.min(1,(A.x+62)/155);A.y=252-Math.round(u*u*13);const sx=98-A.x;A.skid.push({x:sx+14,y:A.y-1,l:3},{x:sx+59,y:A.y-1,l:3});if(Math.random()<dt*14)A.smoke.push({x:sx+59+Math.random()*4,y:A.y-3,r:2,l:.9,vx:10+Math.random()*10});if(Math.random()<dt*8)A.smoke.push({x:sx+14,y:A.y-3,r:1.5,l:.7,vx:8+Math.random()*8});if(A.x>=93){A.x=93;A.st='park';A.v=0;A.t2=0;A.shk=1;A.y=238;sfx('slam');sfx('bump');shakeT=.7;A.can={st:1,t:0};for(let i=0;i<10;i++)A.smoke.push({x:-2+Math.random()*12,y:220+Math.random()*8,r:1.5+Math.random()*1.5,l:.75,vx:-6+Math.random()*10});after(.15,()=>sfx('buzz'))}}
- else if(A.st==='park'){A.t2+=dt;A.shk=Math.max(0,1-A.t2/.9);{const q=Math.min(1,A.t2/.5),e=q*q*(3-2*q);A.y=Math.round(238+6*e-Math.abs(Math.sin(A.t2*18))*2*A.shk)}if(A.t2>1.1&&!A.door){A.door=1;sfx('creak');hunter.x=(98-A.x)+46;hunter.y=234;hunter.dir='r';hunter.tears=1;go(hunter,[[(98-A.x)+46,224],[abi.x-7,222]],62)}
+ else if(A.st==='park'){A.t2+=dt;A.shk=Math.max(0,1-A.t2/.9);{const q=Math.min(1,A.t2/.5),e=q*q*(3-2*q);A.y=Math.round(238+6*e-Math.abs(Math.sin(A.t2*18))*2*A.shk)}if(A.t2>1.1&&!A.door){A.door=1;sfx('carDoor');hunter.x=(98-A.x)+46;hunter.y=234;hunter.dir='r';hunter.tears=1;go(hunter,[[(98-A.x)+46,224],[abi.x-7,222]],62)}
   if(A.door&&!A.hug&&hunter.tx==null){A.hug=1;abi.tears=1;abi.hold=null;hunter.dir='r';abi.dir='l';sfx('kiss');abi.reach=[hunter.x+2,hunter.y-10];hunter.reach=[abi.x-2,abi.y-10];for(let i=0;i<6;i++)after(i*.25,()=>burst(abi.x-3+Math.random()*4,198,'#ff5f9e'));
    after(.8,()=>say([{n:'Abigail',t:'(crying) HUNTER!'},{n:'Hunter',t:'(crying) It wasn’t even two weeks. Why did that feel like a YEAR?'},{n:'Abigail',t:'I’m never leaving you again. Ever.'},{n:'Attendant',t:'...Sir. Sir, you can’t park there.'},{n:'Attendant',t:'And you hit my trash can.'},{n:'Hunter',t:'(not letting go) Give me one minute.'},{n:'Attendant',t:'(sniffs) ...Take two.'}],c5TxPack))}}
  if(A.door)mv(hunter,dt);if(A.smoke){A.smoke.forEach(q=>{q.l-=dt*.7;q.r+=dt*5;q.y-=dt*9;q.x+=q.vx*dt});A.smoke=A.smoke.filter(q=>q.l>0)}if(A.can&&A.can.st){A.can.t+=dt}
@@ -6239,7 +6571,7 @@ function c5Bunk(){setLoc('bunk');mode='c5';fade=1;fd=-1;c5.bk={giggle:1,adir:'l'
  c4Enter({room:'bunk',p:abi,stage:'bunk',goals:[{room:'bunk',id:'bed',hud:'Find your bed and unpack',fn:bkUnpack}]},[[54,132]],()=>say([{n:'',t:'Her room: two beds, a mattress on the floor, and four people.'},
   {n:'Roomie',t:'Oh hey! You must be the new girl. This is Kyle, my boyfriend. He’s staying with us this week.'},{n:'Kyle',t:'Sup.'},{n:'Abigail',t:'In... this room? Where I sleep?'},{n:'Roomie',t:'You won’t even notice him!'},{n:'',t:'(She noticed him.)'},{n:'Roomie',t:'Oh! Your bed is the blue one.'}],c4Go))}
 function bkUnpack(){const B=c5.bk,A=abi;A.dir='r';const S=c5Sel();sfx('step');A.hold=null;B.cs=1;
- const L=[{n:'Abigail',t:'Okay. Home sweet... home.'}];S.forEach(k=>L.push({n:'Abigail',t:UNPK[k],anim:()=>{B.un.push(k);sfx('item');burst(k==='photo'||k==='lamp'?40:62,k==='photo'||k==='lamp'?64:100,'#ffd86b')}}));
+ const L=[{n:'Abigail',t:'Okay. Home sweet... home.'}];S.forEach(k=>L.push({n:'Abigail',t:UNPK[k],anim:()=>{B.un.push(k);sfx('setdown');burst(k==='photo'||k==='lamp'?40:62,k==='photo'||k==='lamp'?64:100,'#ffd86b')}}));
  L.push({n:'Abigail',t:'There. A little piece of Texas.'},{n:'Roomie',t:'(from the other bed) Aww, is that your boyfriend in the photo?'},{n:'Abigail',t:'Yeah. He’s back in Missouri.'},{n:'Kyle',t:'Long distance? Brutal.'},{n:'Abigail',t:'...Thanks, Kyle.'});
  say(L,()=>{hx.phase='seq';fadeTo(()=>{hx=null;sleepStart()})})}
 function bkItems(){const B=c5.bk,I=[];
@@ -6331,8 +6663,8 @@ function lnItems(){const I=[],n=()=>{hx.seen=(hx.seen||0)+1;if(hx.seen>=2)after(
  I.push({id:'closet',x:2,y:28,w:16,h:66,spot:[10,104],face:'u',fn:lnStudio});
  L('out',56,132,24,12,[70,136],'d',[[{n:'Hunter',t:'(Mom’s asleep. And the goulash is gone. This is rock bottom.)'}]]);return I}
 function lnStudio(){const k=hx.cnt.studio||0;hx.cnt.studio=k+1;if(k){say([{n:'Hunter',t:'(The studio. The red light is off. Like my heart. ...Too dramatic? Too dramatic.)'}]);return}
- mode='c5';setHud('');say([{n:'Hunter',t:'(Maybe I should make a new album.)',anim:()=>{hr.closet=1;sfx('creak')}},{n:'Hunter',t:'"Closet Bars 3: Long Distance."',anim:()=>{hr.rec=1;[0,.4,.8,1.2].forEach((d,i)=>after(d,()=>sfx(i%2?'tick':'bump')))}},
-  {n:'',t:'(He records one verse. It rhymes "New York" with "pulled pork.")'},{n:'Hunter',t:'(...She’d have laughed at that one.)',anim:()=>{hr.rec=0}}],()=>{hr.closet=0;sfx('creak');mode='hx';hxHud();hx.seen=(hx.seen||0)+1;if(hx.seen>=2)after(2.5,lnRing)})}
+ mode='c5';setHud('');say([{n:'Hunter',t:'(Maybe I should make a new album.)',anim:()=>{hr.closet=1;sfx('closet')}},{n:'Hunter',t:'"Closet Bars 3: Long Distance."',anim:()=>{hr.rec=1;[0,.4,.8,1.2].forEach((d,i)=>after(d,()=>sfx(i%2?'tick':'bump')))}},
+  {n:'',t:'(He records one verse. It rhymes "New York" with "pulled pork.")'},{n:'Hunter',t:'(...She’d have laughed at that one.)',anim:()=>{hr.rec=0}}],()=>{hr.closet=0;sfx('closet');mode='hx';hxHud();hx.seen=(hx.seen||0)+1;if(hx.seen>=2)after(2.5,lnRing)})}
 function lnUpd(dt){if(!hx||hx.stage!=='lonely')return;hx.lt=(hx.lt||0)+dt;if(hx.lt>28&&mode==='hx'&&!dlg)lnRing();if(hr.ring){hr.rt=(hr.rt||0)+dt;if(hr.rt>1.6){hr.rt=0;sfx('ring')}}}
 
 /* ---------- 4. moving in ---------- */
@@ -6346,8 +6678,8 @@ function c5Move(){HXF.home.bs=[];setLoc('home');fade=1;fd=-1;mode='c5';c5.hm={f:
   {room:'home',id:'hunter',hud:'Talk to Hunter',fn:mvTalk}]},[[36,128],[46,130]],
   ()=>{abi.hold=hunter.hold=null;sfx('step');c5.hm.drop=1;say([{n:'',t:'Moving day. Their very first apartment.'},{n:'Abigail',t:'It’s SO empty. Hellooo!'},{n:'',t:'(...ooo... ooo...)'},{n:'Hunter',t:'It’s SO ours.'},{n:'Abigail',t:'Okay. Let’s make it feel like home.'}],c4Go)})}
 function mvPile(){const g=hxGoal().id;
- if(g==='g_lights'&&!abi.hold){abi.hold='carry';abi.carry='#ffd86b';sfx('item');say([{n:'Abigail',t:'The string lights from my room in Texas. These are going up FIRST.'}],()=>{mode='hx';hxHud()});mode='c5';return}
- if(g==='g_tv'&&!abi.hold){abi.hold='carry';abi.carry='#2a2a34';sfx('item');say([{n:'Hunter',t:'Careful. That TV is basically our entire net worth.'}],()=>{mode='hx';hxHud()});mode='c5';return}
+ if(g==='g_lights'&&!abi.hold){abi.hold='carry';abi.carry='#ffd86b';sfx('keys');say([{n:'Abigail',t:'The string lights from my room in Texas. These are going up FIRST.'}],()=>{mode='hx';hxHud()});mode='c5';return}
+ if(g==='g_tv'&&!abi.hold){abi.hold='carry';abi.carry='#2a2a34';sfx('grab');say([{n:'Hunter',t:'Careful. That TV is basically our entire net worth.'}],()=>{mode='hx';hxHud()});mode='c5';return}
  say([[{n:'Abigail',t:'(Boxes. So many boxes. Again.)'}],[{n:'Hunter',t:'This box just says "STUFF." Who labeled this?'},{n:'Abigail',t:'...You did.'}]][(hx.cnt.pile=(hx.cnt.pile||0)+1)%2])}
 function mvPlace(k,lines){const H=c5.hm;mode='c5';setHud('');abi.hold=null;H.f[k]=1;sfx('confirm');burst(k==='lights'?20:k==='tv'?47:k==='photo'?71:20,k==='lights'?20:k==='tv'?96:88,'#ffd86b');say(lines,c5Adv)}
 function mvMat(){const H=c5.hm,A=abi,P=hunter;mode='c5';setHud('');hx.phase='seq';hx.fstay=1;go(P,hxRoute(P,10,116),44);
@@ -6366,7 +6698,7 @@ function mvItems(){const H=c5.hm,F=H.f,g=hxGoal()?hxGoal().id:'',I=[];
  I.push({id:'window',x:46,y:10,w:22,h:30,spot:[57,112],face:'u',lines:[{n:'Abigail',t:'(Our view: a parking lot, a dumpster, and one very nice tree. I love it.)'}]});return I}
 function homeItems(){if(c5.hm.move)return mvItems();const H=c5.hm;return [
  {id:'abi',x:abi.x-6,y:abi.y-20,w:12,h:20,spot:[66,128],face:'l',lines:[[{n:'Abigail',t:'(from the couch) There’s a bowl with your name on it. Literally. I wrote on it.'}],[{n:'Abigail',t:'Hurry up! It’s the good episode!'}]]},
- {id:'food',x:56,y:84,w:16,h:20,spot:[62,114],face:'u',fn:()=>{if(hunter.hold==='bowl'){say([{n:'Hunter',t:'(One bowl is enough. ...Okay, maybe two later.)'}]);return}mode='c5';hunter.hold='bowl';sfx('item');H.pot=1;say([{n:'Hunter',t:'Mac n cheese. The fancy kind. With the little shells.'}],c5Adv)}},
+ {id:'food',x:56,y:84,w:16,h:20,spot:[62,114],face:'u',fn:()=>{if(hunter.hold==='bowl'){say([{n:'Hunter',t:'(One bowl is enough. ...Okay, maybe two later.)'}]);return}mode='c5';hunter.hold='bowl';sfx('plate');H.pot=1;say([{n:'Hunter',t:'Mac n cheese. The fancy kind. With the little shells.'}],c5Adv)}},
  {id:'couch',x:16,y:116,w:48,h:20,spot:[66,128],face:'l'},
  {id:'lights',x:4,y:10,w:36,h:14,spot:[20,114],face:'u',lines:[{n:'Hunter',t:'(The string lights from Texas. Every night, they make this place glow.)'}]},
  {id:'photo',x:64,y:78,w:14,h:16,spot:[70,114],face:'u',lines:[{n:'Hunter',t:'(Our photo. It finally has a home.)'}]},
@@ -6418,7 +6750,7 @@ function c5Home(){fadeTo(()=>{setLoc('newsbg');card('That night, after his first
  c4Enter({room:'home',p:hunter,stage:'home',goals:[{room:'home',id:'g_food',hud:'Grab some mac n cheese',arrow:()=>'food'},{room:'home',id:'couch',hud:'Sit with Abigail',fn:hmCouch}]},[[70,118]],()=>{hunter.dir='l';say([
   {n:'',t:'Abigail works long days at the club so Hunter can finish school.'},{n:'Hunter',t:'Honey, I’m hooome!'},{n:'Abigail',t:'(from the couch) In here! There’s mac n cheese on the stove. Well. On the box.'}],c4Go)})})}
 function hmCouch(){const P=hunter,A=abi;mode='c5';setHud('');hx.phase='seq';go(P,[[46,128]],30);
- waitTill(()=>P.tx==null,()=>{P.dir='u';P.sit=1;sfx('step');A.dir='u';
+ waitTill(()=>P.tx==null,()=>{P.dir='u';P.sit=1;sfx('flop');A.dir='u';
   after(.6,()=>say([{n:'Abigail',t:'How was work?'},{n:'Hunter',t:'I fixed Linda’s password. Twice. I’m basically a genius now.'},
    {n:'Hunter',t:'You’re working so hard, though. I feel bad you’re paying for everything right now.',anim:()=>{P.dir='l';A.dir='r'}},
    {n:'Abigail',t:'Don’t. You’re going places, Hunter. I believe in you. Think of it as an investment.'},{n:'Hunter',t:'I promise it’ll be worth it. One day I’ll take care of you.'},
@@ -6534,14 +6866,14 @@ function jFact(){c6.jf=(c6.jf||0);const L=JFACTS[c6.jf%JFACTS.length];c6.jf++;fa
 /* ---- the pocket check (Hunter cannot stop touching his jacket) ---- */
 const POCK=[[{n:'J',t:'(whispering) Bro. It’s in the SAFE.'}],[{n:'Abigail',t:'(He just checked his jacket pocket again. That’s ten.)'}],[{n:'Morgan',t:'(whispering) Stop. Touching. Your pocket.'}],
  [{n:'Hunter',t:'(Still there. Wait. Nothing is there. It’s in the safe. Right. The safe.)'}],[{n:'Abigail',t:'(Eleven. I’m keeping count.)'}]];
-function c6Pocket(dt){if(!hx||mode!=='hx'||dlg||hx.phase)return;c6.pt=(c6.pt==null?9:c6.pt)-dt;if(c6.pt<=0&&hunter.tx==null){c6.pt=13+Math.random()*6;const hh=hunter.hold;hunter.hold='pat';sfx('step');after(.9,()=>{if(hunter.hold==='pat')hunter.hold=hh});
+function c6Pocket(dt){if(!hx||mode!=='hx'||dlg||hx.phase)return;c6.pt=(c6.pt==null?9:c6.pt)-dt;if(c6.pt<=0&&hunter.tx==null){c6.pt=13+Math.random()*6;const hh=hunter.hold;hunter.hold='pat';sfx('fabric');after(.9,()=>{if(hunter.hold==='pat')hunter.hold=hh});
  c6.pk=(c6.pk||0);bark(POCK[c6.pk%POCK.length]);c6.pk++}}
 
 /* ---------- 1. the apartment, months later ---------- */
 function c6Talk(){setLoc('home6');mode='c6';fade=1;fd=-1;c6.couch=0;c6.h6=1;at(hunter,23,93,'d');hunter.sit=1;hunter.hold='book';at(abi,84,126,'l');abi.sit=0;abi.hold=null;
  c4Enter({room:'home6',p:abi,stage:'home6',goals:[{room:'home6',id:'hunter',hud:'Sit with Hunter',fn:h6Sit}]},[[66,130]],()=>{abi.dir='l';say([{n:'',t:'Months later. The yard sale couch is gone, replaced by a real leather one. A gift from Abigail’s mum and dad.'},{n:'',t:'Another late night.'},{n:'Abigail',t:'(Hunter is STILL up studying. On a Friday.)'}],c4Go)})}
 function h6Sit(){const A=abi;mode='c6';setHud('');hx.phase='seq';go(A,[[12,100],[13,93]],34);
- waitTill(()=>A.tx==null,()=>{A.sit=1;A.dir='r';hunter.dir='l';hunter.hold=null;c6.couch=1;sfx('step');after(.5,()=>{hx=null;c6.h6=0;
+ waitTill(()=>A.tx==null,()=>{A.sit=1;A.dir='r';hunter.dir='l';hunter.hold=null;c6.couch=1;sfx('leather');after(.5,()=>{hx=null;c6.h6=0;
   say([{n:'Abigail',t:'Hunter? Come sit with me for a sec.'},{n:'Hunter',t:'Gladly. My brain is full.'},
   {n:'Abigail',t:'Do you ever think about... later? Like, way later. Us.'},{n:'Hunter',t:'All the time. A house. A dog. Way too many string lights.'},
   {n:'Abigail',t:'Kids someday?'},{n:'Hunter',t:'Someday. With you.'},{n:'',t:'They’d had this talk a hundred times. It never got old.'},
@@ -7761,7 +8093,7 @@ function dtBomb(){const k=hx.cnt.bomb||0;hx.cnt.bomb=k+1;const H=hunter;mode='c6
   waitTill(()=>!c4.pol,()=>say([{n:'Morgan',t:'HUNTER! You photobombed us!'},{n:'Abigail',t:'(laughing) That’s the best one. Don’t delete it.'}],()=>{mode='hx';hxHud()}))})})})}
 function dtCoin(){const k=hx.cnt.coin||0;hx.cnt.coin=k+1;const H=hunter;H.dir='u';
  if(k){say([{n:'Hunter',t:'(One wish is enough. I just need this one to come true.)'}]);return}
- mode='c6';setHud('');c6.coin={t:0,x0:H.x,y0:H.y-12};sfx('throw');after(.7,()=>{sfx('splash');burst(40,102,'#bfe6ff')});
+ mode='c6';setHud('');c6.coin={t:0,x0:H.x,y0:H.y-12};sfx('throw');after(.7,()=>{sfx('coinFountain');burst(40,102,'#bfe6ff')});
  after(1.1,()=>say([{n:'',t:'(Hunter tosses a coin into the fountain and makes a wish.)'},{n:'',t:'(He doesn’t say what he wished for. He doesn’t have to.)'},{n:'J',t:'(from across the plaza) Fun fact! Every coin in a fountain becomes a wish in another country!'},{n:'Hunter',t:'...That isn’t how anything works, J.'}],()=>{c6.coin=null;mode='hx';hxHud()}))}
 function c6Sax(t){const p=c6Sax.p||(c6Sax.p=mk('morgan',68,112,{n:'Musician',skin:'#8d5a3a',hair:'#1a1a1a',hl:0,top:'#3a2a4a',pants:'#2a2a34',shoe:'#111',dir:'l',cap:'#2a2a34'}));p.dance=0;person(p,t);
  r(63,99,1,7,'#e0b84a');r(63,106,3,2,'#e0b84a');r(65,104,1,3,'#e0b84a');r(63,98,2,1,'#e0b84a');r(58,113,8,3,'#5a3a2a');r(59,113,6,1,'#c83a3a');
@@ -7774,7 +8106,7 @@ function c6Lobby(){setLoc('lobby');mode='c6';fade=1;fd=-1;at(clerk,40,84,'d');at
 function lbDesk(){const H=hunter;H.dir='u';
  say([{n:'Hunter',t:'(out of breath) Hi. Hello. Could I please have... two forks?'},{n:'Clerk',t:'...Two forks.'},{n:'Hunter',t:'Yes. Just the forks. No food.'},
   {n:'Clerk',t:'Sir... is everything okay?'},{n:'Hunter',t:'Everything is GREAT! I’m just a guy who needs two forks!'},
-  {n:'',t:'She stares at him for a very long time. Then slowly slides two forks across the desk.',anim:()=>{H.hold='forks';sfx('item')}},{n:'Clerk',t:'Have a... nice night?'}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;(c6ForkIntro)()})})}
+  {n:'',t:'She stares at him for a very long time. Then slowly slides two forks across the desk.',anim:()=>{H.hold='forks';sfx('cutlery')}},{n:'Clerk',t:'Have a... nice night?'}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;(c6ForkIntro)()})})}
 const gst1=mk('morgan',0,0,{n:'Guest',skin:'#f1c9a0',hair:'#d8d8e0',hl:2,top:'#7a3a6a',pants:'#2a2a34',shoe:'#111',dir:'l'}),gst2=mk('hunter',0,0,{n:'Guest',skin:'#f1c9a0',hair:'#d8d8e0',hl:0,top:'#2a2a34',stripe:0,collar:'#f4f4f8',pants:'#2a2a34',shoe:'#111',dir:'l'});
 function lbItems(){return [
  {id:'desk',x:10,y:60,w:60,h:36,spot:[44,104],face:'u'},
@@ -7851,7 +8183,7 @@ function c6Dinner(){setLoc('steak');mode='c6';c6.waiter=0;c6.pr=0;c6.meal=mlNew(
 
 /* ---- the full dinner: courses come out, get eaten and cleared; Hunter's missed tics send things flying ---- */
 function mlNew(){return {pl:[[28,95],[52,95],[22,97],[58,97]].map(([x,y])=>({x,y,on:1,ty:null,a:0})),gl:[[33,94],[47,94],[26,97],[54,97]].map(([x,y])=>({x,y,lv:0,tip:0})),bread:0,stain:[],fly:[],rt:[1,1.6,.6,2.4],rch:[0,0,0,0],rs:[0,0,0,0],pour:-1,wine:0}}
-function mlServe(tray,arrive,stay,done){c6.waiter=1;c6.wtray=tray;at(waiter,-8,126,'r');go(waiter,[[60,126]],40);waitTill(()=>waiter.tx==null,()=>{waiter.dir='u';sfx('item');arrive&&arrive();after(stay||1,()=>{waiter.dir='l';go(waiter,[[-10,126]],40);waitTill(()=>waiter.tx==null,()=>{c6.waiter=0;c6.wtray=null;done&&done()})})})}
+function mlServe(tray,arrive,stay,done){c6.waiter=1;c6.wtray=tray;at(waiter,-8,126,'r');go(waiter,[[60,126]],40);waitTill(()=>waiter.tx==null,()=>{waiter.dir='u';sfx('plate');arrive&&arrive();after(stay||1,()=>{waiter.dir='l';go(waiter,[[-10,126]],40);waitTill(()=>waiter.tx==null,()=>{c6.waiter=0;c6.wtray=null;done&&done()})})})}
 function mlUpdate(dt){const M=c6.meal;if(!M||loc!=='steak')return;
  if(M.pour>=0){M.pour+=dt*2.4;M.gl.forEach((g,i)=>{if(!g.tip)g.lv=Math.max(g.lv,Math.min(.85,(M.pour-i)*.9))});if(M.pour>5.5)M.pour=-1}
  M.stain.forEach(q=>q.t+=dt);
@@ -7860,7 +8192,7 @@ function mlUpdate(dt){const M=c6.meal;if(!M||loc!=='steak')return;
   if(eat&&pl.on&&pl.ty&&pl.ty!=='cake'&&pl.a>0){M.rt[i]-=dt;if(M.rt[i]<=0){M.rt[i]=(i===3?3.6:2.1)+Math.random()*1.4;if(!(i===3&&c6.ng&&c6.ng.ob.length)){M.rch[i]=.45;pl.a=Math.max(0,pl.a-(i===3?.12:.19))}}}
   if(M.rch[i]>0){p.reach=[pl.x+(p.x<pl.x?-1:1)*2,pl.y-1];M.rs[i]=1}else if(M.rs[i]){p.reach=null;M.rs[i]=0}});
  M.fly.forEach(f=>{if(f.done)return;f.vy+=210*dt;f.x+=f.vx*dt;f.y+=f.vy*dt;f.r+=f.vr*dt;
-  if(f.y>=f.fy){f.y=f.fy;if(f.k!=='drop'&&f.vy>45){f.vy=-f.vy*.3;f.vx*=.45;if(f.k==='fork')sfx('tick')}else{f.done=1;f.vy=0}}f.x=Math.max(3,Math.min(77,f.x))})}
+  if(f.y>=f.fy){f.y=f.fy;if(f.k!=='drop'&&f.vy>45){f.vy=-f.vy*.3;f.vx*=.45;if(f.k==='fork')sfx('cutlery')}else{f.done=1;f.vy=0}}f.x=Math.max(3,Math.min(77,f.x))})}
 const NGO=['wine','roll','food','fork','wine','food','roll','fork'];
 function ngOops(N,big){const M=c6.meal;if(!M)return;
  const fly=(k,x,y,c,vx,fy)=>M.fly.push({k,x,y,c,vx:vx!=null?vx:(10+Math.random()*18)*(Math.random()<.75?1:-1),vy:k==='drop'?0:-55-Math.random()*30,r:0,vr:12,fy:fy||117+Math.random()*15});
@@ -7871,7 +8203,7 @@ function ngOops(N,big){const M=c6.meal;if(!M)return;
   if(k==='wine'&&(tip(3)||tip(1))){c6.msg=['SPILLED THE WINE!',1.2];return}
   if(k==='roll'&&M.bread>0){M.bread--;fly('roll',40,93,'#c8843a');sfx('bump');c6.msg=['ROLL OVERBOARD!',1.2];return}
   if(k==='food'){const pl=M.pl[3];if(pl.on&&pl.ty&&pl.a>.05){pl.a=Math.max(0,pl.a-.3);fly('food',pl.x,pl.y-1,pl.ty==='salad'?'#5aa04a':'#7a3a1a',8+Math.random()*16);sfx('bump');c6.msg=[pl.ty==='salad'?'SALAD, AIRBORNE!':'STEAK ON THE FLOOR!',1.2];return}}
-  if(k==='fork'){fly('fork',60,95,'#d8dce8',6+Math.random()*16);sfx('tick');c6.msg=['FORK, LAUNCHED!',1];return}}}
+  if(k==='fork'){fly('fork',60,95,'#d8dce8',6+Math.random()*16);sfx('cutlery');c6.msg=['FORK, LAUNCHED!',1];return}}}
 function mlDraw(t,s){const M=c6.meal;if(!M){[[28,95],[52,95],[22,97],[58,97]].forEach(([x,y])=>ell(x,y,3,1,'#fff'));return}
  M.stain.forEach(q=>{const w=Math.min(3,1+q.t*5)*q.s|0;ell(q.x+2+s,96,w+1,1,'#7a1020',.85);const d=Math.min(10,q.t*12)*q.s|0;if(d)r(q.x+3+s,100,1,d,'#8a1a2a')});
  if(M.bread>0){r(37+s,95,7,3,'#a8743a');r(37+s,95,7,1,'#c8945a');for(let k=0;k<M.bread;k++)disc(38+k*2+s,94,1,k===1?'#e0b070':'#d8a060',1)}
@@ -7911,7 +8243,7 @@ function ngUpdate(dt){const N=c6.ng;if(!N||mode!=='nerves'||dlg)return;N.t+=dt;c
 function ngTap(x,y){const N=c6.ng;let best=null,bd=10;N.ob.forEach(o=>{const [px,py]=ngPos(o.k),d=Math.hypot(x-px,y-py);if(d<bd){bd=d;best=o}});
  if(best){best.dead=1;N.ob=N.ob.filter(o=>!o.dead);N.ok++;N.nv=Math.max(0,N.nv-.07);const [px,py]=ngPos(best.k);burst(px,py,'#7ee8fa');c6.msg=[['SMOOTH','ICE COLD','TOTALLY NORMAL','NAILED IT','SO CASUAL'][N.ok%5],.7]}}
 function ngAns(good,lines){const N=c6.ng;N.nv=Math.max(0,Math.min(.95,N.nv+(good?-.12:.15)));if(good)sfx('coin');else sfx('buzz');say(lines,()=>{if(c6.waiter){waiter.dir='l';go(waiter,[[-10,126]],40);waitTill(()=>waiter.tx==null,()=>{c6.waiter=0;c6.wtray=null})}})}
-function ngQ1(){chatClear();c6.waiter=1;c6.wtray='salad';at(waiter,-8,126,'r');go(waiter,[[60,126]],38);waitTill(()=>waiter.tx==null,()=>{waiter.dir='u';c6.course=1;sfx('item');c6.wtray=null;c6.meal.pl.forEach(p=>{p.on=1;p.ty='salad';p.a=1});say([{n:'Waiter',t:'Good evening! Are we celebrating anything special tonight?',c:[
+function ngQ1(){chatClear();c6.waiter=1;c6.wtray='salad';at(waiter,-8,126,'r');go(waiter,[[60,126]],38);waitTill(()=>waiter.tx==null,()=>{waiter.dir='u';c6.course=1;sfx('plate');c6.wtray=null;c6.meal.pl.forEach(p=>{p.on=1;p.ty='salad';p.a=1});say([{n:'Waiter',t:'Good evening! Are we celebrating anything special tonight?',c:[
  {l:'"Just a birthday! Only a birthday."',f:()=>ngAns(1,[{n:'Waiter',t:'Happy birthday, sir! Very good.'}])},
  {l:'"NO. Why? What have you heard?"',f:()=>ngAns(0,[{n:'Waiter',t:'...I’ve heard nothing, sir.'},{n:'Morgan',t:'(squinting) Hmmm.'}])},
  {l:'"A normal dinner. For normal people."',f:()=>ngAns(0,[{n:'J',t:'(choking on his water)'}])}]}])})}
@@ -8160,14 +8492,14 @@ function c7Drive(){setLoc('drive7');mode='c7';c7.off=0;c7.flur=.2;c7.pup=0;
   {n:'Hunter',t:'She’s going to be SO tiny.'}],()=>fadeTo(c7Farm)))}
 function c7Farm(){setLoc('farm7');mode='c7';at(abi,40,124,'l');at(hunter,52,126,'l');at(seller,64,112,'l');c7.pick=0;
  after(1,()=>say([{n:'',t:'A little farmhouse near Joplin, Missouri.'},{n:'Seller',t:'You must be Hunter. I recognize you from your 47 questions.'},{n:'Hunter',t:'Ha. Yeah. Sorry about that.'},
-  {n:'Seller',t:'Here she is. Fair warning... this one is a little crazy.'},{n:'Seller',t:'Right before you got here, we caught her climbing straight up the back of the recliner.'},{n:'Abigail',t:'She climbed a CHAIR? She’s the size of a potato!'},{n:'Seller',t:'She’s special. A little bit.'},{n:'',t:'Donut tumbles off the recliner, waddles straight over to Abigail... and flops right onto her shoes.',anim:()=>{c7.pick=1;c7.tumT=T;sfx('pop');after(.6,()=>sfx('bump'))}},
+  {n:'Seller',t:'Here she is. Fair warning... this one is a little crazy.'},{n:'Seller',t:'Right before you got here, we caught her climbing straight up the back of the recliner.'},{n:'Abigail',t:'She climbed a CHAIR? She’s the size of a potato!'},{n:'Seller',t:'She’s special. A little bit.'},{n:'',t:'Donut tumbles off the recliner, waddles straight over to Abigail... and flops right onto her shoes.',anim:()=>{c7.pick=1;c7.tumT=T;sfx('yip');after(.6,()=>sfx('pillow'))}},
   {n:'Abigail',t:'Oh my gosh. Oh my GOSH. Hunter. She picked us.'},{n:'Hunter',t:'Look at her. All curled up like a little... donut.'},
   {n:'Abigail',t:'Donut. Her name is Donut.',anim:()=>{c7.pick=2;abi.hold='pup';sfx('kiss');for(let i=0;i<4;i++)after(i*.2,()=>burst(26,98,'#ff5f9e'))}},
   {n:'Seller',t:'Better get going, you two. That storm is coming.'}],()=>phAsk('donut',()=>fadeTo(c7Car))))}
 function c7Car(){setLoc('car7');mode='c7';c7.snow=.15;c7.off=0;abi.hold=null;
  after(1,()=>say([{n:'',t:'Donut rides home in the open console between them, right where she can see them both.'},{n:'Abigail',t:'Hi Donut. Hi baby. We’re your people now.'},
   {n:'Hunter',t:'She’s already asleep. That’s the cutest thing I’ve ever seen.',anim:()=>{c7.sleep=1}},
-  {n:'',t:'Two hours later. Lake of the Ozarks.'},{n:'',t:'And then the storm hits.',anim:()=>{c7.snow=1;sfx('whoosh')}},
+  {n:'',t:'Two hours later. Lake of the Ozarks.'},{n:'',t:'And then the storm hits.',anim:()=>{c7.snow=1;sfx('gust')}},
   {n:'Abigail',t:'Hunter. I can’t see the ROAD.'},{n:'Hunter',t:'Hazards on. Nice and slow. We’re okay. We’re okay.'},
   {n:'',t:'Now playing as Hunter.'},
   {n:'',t:'HOW TO PLAY: Hold the LEFT or RIGHT side of the screen to steer and stay on the road. Brake lights ahead? TAP the BRAKE button over and over to pump the brakes. Don’t hold it down or you’ll slide!',c:[{l:'Get Donut home',f:()=>fadeTo(snStart)}]}]))}
@@ -8217,7 +8549,7 @@ function c7Field(){setLoc('field7');mode='c7';at(abi,14,120,'r');at(hunter,6,126
   {n:'',t:'HOW TO PLAY: Donut runs out and waits for it. Tap to stop the power meter and throw it right to her for an AMAZING catch!',c:[{l:'Throw it!',f:fbNext}]}]))}
 function fbNext(){const F=c7.fb;F.tx=34+Math.random()*(F.streak>=2?26:38)|0;F.st='go';F.carry=0;mode='frisbee';setHud('')}
 const FBH=[0,14,20,26,32,38,64],FBN=['','NICE CATCH!','TWISTING LEAP!','360 SPIN CATCH!','BACKFLIP CATCH!','DOUBLE BACKFLIP!!','LEGENDARY!!!'];
-function fbTap(){const F=c7.fb;if(F.st!=='aim')return;F.p=F.pm;F.lx=20+F.p*56;F.st='fly';F.ft=0;F.good=Math.abs(F.lx-F.tx)<=7;sfx('whoosh');abi.hold=null;
+function fbTap(){const F=c7.fb;if(F.st!=='aim')return;F.p=F.pm;F.lx=20+F.p*56;F.st='fly';F.ft=0;F.good=Math.abs(F.lx-F.tx)<=7;sfx('frisbee');abi.hold=null;
  F.leg=F.good&&F.n===F.max-1&&F.perf===F.max-1;F.tier=F.good?(F.leg?6:Math.min(5,F.streak+1)):0;F.air=null;
  if(F.good){const h=FBH[F.tier],up=.28+h/110;F.js=Math.max(.12,1-up/1.1);const mr=.45;F.cy=Math.round(124-h-8-9*Math.sin(mr)+2*Math.cos(mr));F.ex=F.tx-Math.round(9*Math.cos(mr)+2*Math.sin(mr));F.air={h,up,down:.25+h/140,flips:F.tier>=6?3:F.tier==5?2:F.tier==4?1:0,el:0,lt:0}}else{F.cy=104;F.ex=F.lx}
  if(F.leg){after(.3,()=>bark([{n:'Hunter',t:'Abigail. ABIGAIL. Watch her. WATCH HER.'}]));sfx('alert')}}
@@ -8237,7 +8569,7 @@ function fbUpdate(dt){const F=c7.fb;if(!F)return;F.fx2.forEach(q=>{q.x+=q.vx*dt;
     F.st='land';F.air.lt=0}else{F.st='chase';if(F.streak>=2)c7Msg('STREAK BROKEN',1);F.streak=0}}}
  else if(F.st==='land'){const A=F.air;if(A){A.lt+=dt;A.el=A.up+A.lt;const k=Math.min(1,A.lt/A.down);F.jy=A.h*(1-k*k);if(k>=1){F.jy=0;F.air=null;F.st='back';if(F.tier>=4){sfx('bump');shakeT=F.leg?.3:.12}
    if(F.leg)after(.4,()=>bark([{n:'Abigail',t:'(screaming) DID YOU SEE THAT?!'},{n:'Hunter',t:'That was the greatest athletic achievement in the history of this field.'},{n:'',t:'Somewhere in the Stinky Creek Inn, a guest drops their coffee.'}]))}}else{F.jy=Math.max(0,F.jy-dt*40);if(F.jy<=0)F.st='back'}}
- else if(F.st==='chase'){F.run=1;if(run(F.lx,46)){F.carry=1;sfx('pop');c7Msg(['GOT IT!','NICE GRAB!','SHE GOT IT!'][F.n%3],1);F.st='back'}}
+ else if(F.st==='chase'){F.run=1;if(run(F.lx,46)){F.carry=1;sfx('catchIt');c7Msg(['GOT IT!','NICE GRAB!','SHE GOT IT!'][F.n%3],1);F.st='back'}}
  else if(F.st==='back'){F.run=1;if(run(22,44)){F.run=0;F.carry=0;F.n++;sfx('step');if(F.n>=F.max){mode='c7';after(.6,fbEnd)}else{F.st='pause';F.pt=.5}}}
  else if(F.st==='pause'){F.pt-=dt;F.dir='l';if(F.pt<=0)fbNext()}}
 function fbEnd(){const F=c7.fb;say([{n:'',t:'Amazing catches: '+F.perf+' of '+F.max+'. Best streak: '+F.best+'.'},{n:'',t:'Donut drops the frisbee at Abigail’s feet. And stares. And waits.'},
@@ -8344,7 +8676,7 @@ function c7Lot(){setLoc('lot7');mode='c7';fade=1;fd=-1;c7.fp=[];c7.door=0;at(hun
  after(1,()=>say([{n:'Hunter',t:'(turning off the car) We... made it.'},{n:'Abigail',t:'We made it. We’re home.'},{n:'Hunter',t:'We probably shouldn’t have done that.'},
   {n:'Abigail',t:'We DEFINITELY shouldn’t have done that.'},{n:'',t:'Donut yawns. She slept through the entire blizzard.'}],
   ()=>{hxStart({room:'lot7',p:abi,follow:hunter,stage:'c7lot',goals:[{room:'lot7',id:'door',hud:'Get Donut inside, out of the snow',fn:lotDoor}]})}))}
-function lotDoor(){const A=abi,H=hunter;A.dir='u';c7.door=1;sfx('creak');hx.phase='seq';hx.fstay=1;go(H,[[48,70]],30);
+function lotDoor(){const A=abi,H=hunter;A.dir='u';c7.door=1;sfx('door');hx.phase='seq';hx.fstay=1;go(H,[[48,70]],30);
  waitTill(()=>H.tx==null,()=>{H.dir='u';say([{n:'Abigail',t:'(whispering to the sleepy puppy) Welcome home, Donut.'}],()=>c6CardT('Donut grew up fast.',2.4,()=>{hx=null;abi.hold=null},c7Grow0))})}
 function lotItems(){return [{id:'door',x:50,y:42,w:10,h:24,spot:[54,68],face:'u'},
  {id:'hunter',x:hunter.x-6,y:hunter.y-22,w:12,h:24,spot:[hunter.x+(abi.x<hunter.x?-10:10),hunter.y],face:abi.x<hunter.x?'r':'l',lines:[[{n:'Hunter',t:'Is she still asleep?'},{n:'Abigail',t:'Snoring. Tiny little snores.'}],[{n:'Hunter',t:'I can’t feel my hands. Small price.'}]]},
@@ -8375,7 +8707,7 @@ function c7Grow1(){setLoc('home6');mode='c7';fade=1;fd=-1;c7.home=1;c6.day=1;c7.
  after(.8,()=>say([{n:'',t:'Donut discovers the zoomies.'},{n:'Hunter',t:'Has anyone seen my good shoe? It was on the shelf. Up HIGH.'}],()=>{mode='hx';hxHud()}))}
 const ZFP={z1:[60,138],z2:[44,136],z3:[26,138]};
 function zmFluff(k,lines){c7.zf[k]=1;sfx('select');say(lines,()=>{if(ZK.every(q=>c7.zf[q])&&hx.gi===0){c7Next()}else{mode='hx';hxHud()}})}
-function zmBed(){const H=hunter;H.dir='l';H.hold='shoe';sfx('item');
+function zmBed(){const H=hunter;H.dir='l';H.hold='shoe';sfx('squish');
  say([{n:'',t:'(In Donut’s bed: one very chewed, very soggy, very GOOD shoe.)'},{n:'Hunter',t:'She ate my shoe. My GOOD shoe.'},{n:'Hunter',t:'It was on the SHELF. How did she even get up there?!'},
   {n:'Abigail',t:'She climbed a recliner at the farm, Hunter. A shelf is nothing to her.'},{n:'Abigail',t:'Also, your good shoe was ugly. She did you a favor.'}],()=>c6CardT('A few more months...',2,()=>{hx=null;hunter.hold=null},c7Grow2))}
 function zoomItems(){const I=[];ZK.forEach((k,i)=>{if(c7.zf[k])return;const [x,y]=ZFP[k];I.push({id:k,x:x-7,y:y-8,w:14,h:12,spot:[x+6,y-2],face:'l',fn:()=>zmFluff(k,[[{n:'Hunter',t:'(A shoelace. Chewed in half.)'}],[{n:'Hunter',t:'(Half of an insole. This isn’t looking good.)'}],[{n:'Hunter',t:'(A little rubber chunk of heel. The trail leads... to her bed.)'}]][i])})});
@@ -8394,7 +8726,7 @@ function lfOut(){const A=abi,D=c7.dn;hx.phase='seq';hx.fstay=1;go(A,[[70,150]],4
   say([{n:'',t:'The only grass around is a field ALL the way across the giant apartment parking lot.'},{n:'',t:'And the neighbors don’t pick up after their dogs. Even with poop bag dispensers EVERYWHERE.'},
   {n:'',t:'Now playing as Abigail.'},{n:'',t:'HOW TO PLAY: Tap the left or right side to switch lanes and dodge the doggy landmines. Get Donut to the field!',c:[{l:'Leash up 🐕',f:()=>fadeTo(ppStart)}]}])})}
 function loafItems(){const D=c7.dn;return [
- {id:'leash',x:52,y:60,w:12,h:20,spot:[56,100],face:'u',fn:()=>lfGet('leash',[{n:'',t:'(Abigail picks up the leash.)'},{n:'',t:'(Donut hears the leash. Donut LOSES her mind.)'}],()=>{D.leash=1;D.hop=.35;[0,.4,.8,1.2].forEach(d=>after(d,()=>{D.hop=.35;D.dir=D.dir==='l'?'r':'l';sfx('pop')}))})},
+ {id:'leash',x:52,y:60,w:12,h:20,spot:[56,100],face:'u',fn:()=>lfGet('leash',[{n:'',t:'(Abigail picks up the leash.)'},{n:'',t:'(Donut hears the leash. Donut LOSES her mind.)'}],()=>{D.leash=1;D.hop=.35;[0,.4,.8,1.2].forEach(d=>after(d,()=>{D.hop=.35;D.dir=D.dir==='l'?'r':'l';sfx('yip')}))})},
  {id:'bags',x:60,y:72,w:20,h:18,spot:[60,100],face:'u',fn:()=>lfGet('bags',[{n:'Abigail',t:'(Poop bags. Unlike SOME people in this apartment complex, we pick up after our dog.)'}])},
  {id:'out',x:60,y:134,w:20,h:10,spot:[70,138],face:'d',label:'OUT',lx:66,ly:138},
  {id:'donut',x:D.x-9,y:D.y-14,w:18,h:16,spot:[D.x+(abi.x<D.x?-11:11),D.y],face:abi.x<D.x?'r':'l',lines:[[{n:'Abigail',t:'(Donut is sitting by the door. Staring at me. Not blinking.)'}]]},
@@ -8696,7 +9028,7 @@ function tbUpdate(dt){const B=c8.tb;if(!B)return;if(B.show){B.dt+=dt;if(B.lock>0
 function tbNext(B){B.cur++;B.bt=0;sfx('step')}
 function tbTap(sx){const B=c8.tb;if(B.cur>=30||B.lock>0)return;if(sx<80){if(B.full>=1){c8Msg('TOO FULL!');sfx('miss');return}B.full=Math.min(1,B.full+.07);B.chew=.4;sfx('bite');if(B.w==='watch')B.sus=Math.max(0,B.sus-.16);
   B.bt++;if(B.bt>=3){B.dishes[B.cur]=2;(B.et||(B.et={}))[B.cur]=B.t;B.eat++;B.lock=.3;tbNext(B)}}
- else{if(B.w==='watch'){B.sus=Math.min(1,B.sus+.3);c8Msg('HE SAW THAT!');sfx('alert');return}B.dishes[B.cur]=1;B.ht[B.cur]=B.t;B.hold=.34;B.lock=.62;B.box++;B.hd=.3;sfx('pop');tbNext(B);if(B.box%5==0)c8Msg(['SNEAKY!','SMOOTH!','STEALTHY!'][B.box/5%3|0],.8)}}
+ else{if(B.w==='watch'){B.sus=Math.min(1,B.sus+.3);c8Msg('HE SAW THAT!');sfx('alert');return}B.dishes[B.cur]=1;B.ht[B.cur]=B.t;B.hold=.34;B.lock=.62;B.box++;B.hd=.3;sfx('box');tbNext(B);if(B.box%5==0)c8Msg(['SNEAKY!','SMOOTH!','STEALTHY!'][B.box/5%3|0],.8)}}
 function tbEnd(){const B=c8.tb;say([{n:'',t:'Trays eaten: '+B.eat+'. Trays smuggled into to-go boxes: '+B.box+'. Awkward moments: '+B.caught+'.'},{n:'Waiter',t:'Wow! You two really cleaned your plates!'},
  {n:'Hunter',t:'(clutching a purse full of to-go boxes) It was all SO good.'},{n:'Abigail',t:'We’ll... definitely be thinking about it later.'},{n:'',t:'They ate leftovers for a week.'}],()=>c6Card('Next stop: the bakery.',2.2,c8Bakery))}
 const baker=mk('hunter',60,84,{n:'Baker',skin:'#f1c9a0',hair:'#3a2a1a',hl:0,eye:'#3a2a1a',top:'#f4f4f8',stripe:0,collar:0,pants:'#3a3a4a',shoe:'#111',cap:'#ffffff',dir:'d'});
@@ -8850,7 +9182,7 @@ function c8Tux(){setLoc('tux');mode='c8';fade=1;fd=-1;at(tuxguy,70,104,'l');at(h
  c8.tx={carry:null,n:0,fit:{big:0,small:0},m:0};
  c4Enter({room:'tux',p:hunter,stage:'tux',goals:[{room:'tux',id:'g_tux',hud:'Get your groomsmen into tuxes (0/4)',arrow:()=>c8.tx.carry?'gm'+G.findIndex(p=>!p.fit):'rackM'}]},[[16,126]],()=>{
   say([{n:'',t:'Hunter takes his groomsmen to the tuxedo rental place at the mall.'},{n:'Clerk',t:'Measurements? Nah. Just grab whatever looks right. You can eyeball it.'},{n:'Hunter',t:'...Great!'}],c4Go)})}
-function txRack(sz){const X=c8.tx;if(X.carry){say([{n:'Hunter',t:'(Already holding one. Hand it to someone first.)'}]);return}X.carry=sz;hunter.hold='carry';hunter.carry='#101018';sfx('item');
+function txRack(sz){const X=c8.tx;if(X.carry){say([{n:'Hunter',t:'(Already holding one. Hand it to someone first.)'}]);return}X.carry=sz;hunter.hold='carry';hunter.carry='#101018';sfx('hangers');
  bark([{n:'Hunter',t:{S:'(Size S. Looks about right.)',M:'(Size M. The safe choice.)',XL:'(Size XXL. Room to grow.)'}[sz]}])}
 function txGive(i){const X=c8.tx,G=groomsmen[i],H=hunter;if(G.fit){say([{n:'Groomsman',t:'I’m good, man. ...I’m NOT good. But I’m wearing it.'}]);return}
  if(!X.carry){say([{n:'Groomsman',t:'Are you bringing me a tux, or...?'}]);return}
@@ -8880,7 +9212,7 @@ function c8Night(){setLoc('hotel8');mode='c8';fade=1;fd=-1;c8.inbed=0;Object.ass
  c4Enter({room:'hotel8',p:abi,stage:'hotel8',goals:[{room:'hotel8',id:'bed',hud:'Try to get some sleep',fn:htBed}]},[[66,124]],()=>{abi.dir='l';
   say([{n:'',t:'Abigail spends the night at the Birdway Hotel. The same building as the rooftop bar where they first met.'},{n:'',t:'Their reception will be there tomorrow.'}],c4Go)})}
 function htBed(){const A=abi;mode='c8';setHud('');hx.phase='seq';go(A,[[40,106]],34);
- waitTill(()=>A.tx==null,()=>{c8.inbed=1;c8.ibT=T;sfx('step');after(.5,()=>sfx('whoosh'));after(1.9,()=>say([{n:'Abigail',t:'(Tomorrow I marry Hunter. In the same building where we met.)'}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;(c8NightB)()})}))})}
+ waitTill(()=>A.tx==null,()=>{c8.inbed=1;c8.ibT=T;sfx('flop');after(.5,()=>sfx('blanket'));after(1.9,()=>say([{n:'Abigail',t:'(Tomorrow I marry Hunter. In the same building where we met.)'}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;(c8NightB)()})}))})}
 function c8NightB(){setLoc('night8');mode='c8';
  after(1,()=>say([{n:'',t:'Across town, Hunter is home with J. Playing video games.'},{n:'J',t:'Last night as an unmarried man. What do you want to do?'},{n:'Hunter',t:'Honestly? Exactly this.'},{n:'J',t:'...You just walked off a cliff.'},{n:'Hunter',t:'I’m a little distracted.'}],()=>fadeTo(c8Sleep)))}
 function htItems(){return [{id:'bed',x:2,y:76,w:34,h:46,spot:[40,110],face:'l'},
@@ -8934,7 +9266,7 @@ function c8Bride(){setLoc('brideroom');mode='c8';fade=1;fd=-1;Object.assign(abi,
  after(1,()=>say([{n:'',t:'Across the street, Abigail gets ready with her bridesmaids at the hotel.'},{n:'Abigail',t:'Is it hot in here? Why is my heart beating so fast?'},
   {n:'Morgan',t:'Because you’re getting MARRIED today!'},{n:'Bridesmaid',t:'Hair: done. Makeup: done. Now... the dress.'}],
   ()=>hxStart({room:'brideroom',p:abi,stage:'bride',goals:[{room:'brideroom',id:'dress',hud:'Put on the dress',fn:bdDress}]})))}
-function bdDress(){const A=abi;A.dir='u';hx.phase='seq';c8.drOn=1;sfx('item');A.hold='carry';A.carry='#fbfbff';
+function bdDress(){const A=abi;A.dir='u';hx.phase='seq';c8.drOn=1;sfx('zipper');A.hold='carry';A.carry='#fbfbff';
  after(.5,()=>{go(A,[[40,116]],30);waitTill(()=>A.tx==null,()=>{A.dir='d';A.hold=null;after(.4,()=>{c8Swap(()=>{Object.assign(abi,{top:'#fbfbff',gown:3,gc:'#fbfbff',veil:1});c8.sparkle=1;sfx('chime')});
   [bridesmaids[0],bridesmaids[1],bridesmaids[2],morgan].forEach(p=>face(p,A));
   after(1.4,()=>say([{n:'',t:'...'},{n:'Bridesmaid',t:'Oh my gosh.'},{n:'Morgan',t:'He’s going to LOSE it.'},{n:'Abigail',t:'Okay. Okay okay okay. Let’s go get married.'}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;c8.sparkle=0;(c8Church)()})}))})})})}
@@ -9045,7 +9377,7 @@ function vCoupleBG(t){for(let y=0;y<240;y+=4){const k=y/240;r(0,y,160,4,`rgb(${M
 function c8Broom(){setLoc('church8');mode='c8';fade=1;fd=-1;c8.cam=0;c8.camT=0;c8.solo=0;c8.soloT=0;c8.kiss=0;c8.laugh=0;c8.bride=1;c8.broom=0;c8.jy=0;c8.cheer=0;
  at(abi,76,86,'d');at(hunter,84,86,'d');at(morgan,58,100,'r');abi.tears=hunter.tears=0;c8.bz=1;c8.bzT=2;
  after(.9,()=>say([{n:'Officiant',t:'Ladies and gentlemen... for the very first time...'},{n:'Officiant',t:'MR. AND MRS. HUGHES!',anim:()=>{c8.cheer=4;sfx('win');for(let i=0;i<8;i++)after(i*.12,()=>burst(40+Math.random()*80,120+Math.random()*40,['#ff5f9e','#fff','#ffd86b'][i%3]))}},
-  {n:'Officiant',t:'And now, one last tradition. Jumping the broom.',anim:()=>{go(morgan,[[70,101],[80,101]],40);after(1.2,()=>{c8.broom=1;sfx('item');go(morgan,[[64,104],[50,106]],44)})}},
+  {n:'Officiant',t:'And now, one last tradition. Jumping the broom.',anim:()=>{go(morgan,[[70,101],[80,101]],40);after(1.2,()=>{c8.broom=1;sfx('setdown');go(morgan,[[64,104],[50,106]],44)})}},
   {n:'',t:'A broom tied with pink ribbon, laid across the aisle. Jump it together, and you sweep in a brand new life.'}],
   ()=>waitTill(()=>c8.broom&&morgan.tx==null,()=>{morgan.dir='r';go(abi,[[76,94]],20);go(hunter,[[84,94]],20);c8.walk2=1;waitTill(()=>abi.tx==null&&hunter.tx==null,()=>{c8.walk2=0;abi.dir=hunter.dir='d';mode='broom';setHud('Tap to jump the broom together!')})})))}
 function broomTap(){if(mode!=='broom')return;mode='c8';setHud('');c8.jmp={t:0};sfx('jump')}
@@ -9229,7 +9561,7 @@ function stUpdate(dt){const S=c8.st;if(!S||mode!=='stand'||dlg||TC.on)return;S.t
  S.sp-=dt;if(S.sp<=0&&S.pi<8){S.sp=3.6;const i=S.pi++,g=groomsmen[i],b=bridesmaids[i];g.fit=0;b.hold='bouquetP';at(g,84,300,'u');at(b,76,300,'u');go(g,[[84,104],GSL[i]],24);go(b,[[76,104],[160-GSL[i][0],84]],24);c8.walkers.push(g,b)}
  if(S.t>=S.dur&&S.pi>=8&&c8.walkers.every(p=>p.tx==null)){mode='c8';setHud('');S.hold=0;after(.6,c8Doors)}}
 function c8Doors(){const S=c8.st;hunter.kneel=0;chatClear();say([{n:'',t:S.faint===0?'Hunter is still standing. Knees bent. Breathing slow. A total pro.':'Hunter is still standing. Mostly thanks to his groomsmen.'},
- {n:'',t:'Eight groomsmen. Eight bridesmaids. Everyone is in place.'},{n:'',t:'The music changes.'},{n:'',t:'Everyone stands and turns toward the doors.',anim:()=>{guests.forEach(([p])=>p.dir='d');sfx('whoosh')}}],
+ {n:'',t:'Eight groomsmen. Eight bridesmaids. Everyone is in place.'},{n:'',t:'The music changes.'},{n:'',t:'Everyone stands and turns toward the doors.',anim:()=>{guests.forEach(([p])=>p.dir='d');sfx('fabric')}}],
  ()=>{Object.assign(abi,{top:'#fbfbff',gown:3,gc:'#fbfbff',veil:1,hold:'bouquet',tears:0,leo:0,skirt:0});Object.assign(morgan,{hold:'bouquetP'});fadeTo(c8Door)})}
 function c8Door(){setLoc('door8');mode='c8';c8.dz=1;c8.dzT=1;c8.dp=0;c8.dpT=0;
  after(2,()=>{c8.dzT=1.45});after(4.2,()=>say([{n:'',t:'The doors open.',anim:()=>{c8.dpT=1;c8.bridal=1}},{n:'',t:'And there she is.'},
@@ -9416,7 +9748,7 @@ function epMap(){setLoc('epmap');mode='ep';epDress();Object.assign(abi,{sit:1,si
  ep.ppl=[abi,hunter];ep.mv=[epAtt];ep.ft=0;ep.ftT=0;ep.fp=0;ep.fpT=0;ep.tea=0;at(epAtt,92,112,'l');
  after(1,()=>say([{n:'',t:'Not long after the wedding, Hunter and Abigail boarded a plane for a very special trip.'},{n:'Abigail',t:'I finally get to show you where I grew up!'},
   {n:'Hunter',t:'Do I need to learn any British words before we land?'},{n:'Abigail',t:'Just one. "Cheers." It means hello, goodbye, thank you, AND I love you.'},{n:'Hunter',t:'Got it. Cheers.'},
-  {n:'Attendant',t:'Tea or coffee?',anim:()=>{go(epAtt,[[64,112]],30);ep.fpT=.15}},{n:'Abigail',t:'Tea, please. And he’ll have a tea too.'},{n:'Hunter',t:'I will?'},{n:'Abigail',t:'You will.',anim:()=>{ep.tea=1;sfx('item')}},
+  {n:'Attendant',t:'Tea or coffee?',anim:()=>{go(epAtt,[[64,112]],30);ep.fpT=.15}},{n:'Abigail',t:'Tea, please. And he’ll have a tea too.'},{n:'Hunter',t:'I will?'},{n:'Abigail',t:'You will.',anim:()=>{ep.tea=1;sfx('mug')}},
   {n:'',t:'Eight hours. One movie. One very sleepy husband.',anim:()=>{ep.ftT=1;ep.fpT=.85;go(epAtt,[[94,112]],30);after(1.5,()=>{hunter.zz=1})}},
   {n:'Pilot',t:'Good morning, everyone. We’ll shortly be landing in Newcastle.',anim:()=>{ep.ftT=2;ep.fpT=1}},{n:'Abigail',t:'(nudging him) Hunter. Hunter! We’re here!',anim:()=>{hunter.zz=0;sfx('blip')}}],
   ()=>after(.6,()=>fadeTo(epNcl))))}
@@ -9449,8 +9781,8 @@ function epNcl(){setLoc('epncl');mode='ep';epDress();ep.ppl=[abi,hunter,meggs];a
  go(abi,[[30,124]],26);go(hunter,[[20,126]],26);
  after(.8,()=>say([{n:'',t:'Newcastle. Abigail is home.'},{n:'Abigail',t:'Okay. Before we do ANYTHING else...',anim:()=>{abi.dir='r'}},{n:'Abigail',t:'Meggs.',anim:()=>{abi.hold=null;go(abi,[[52,112]],32);go(hunter,[[44,114]],30)}},{n:'Hunter',t:'Meggs?'},
   {n:'Abigail',t:'You can’t come to England and not have a Meggs sausage roll. It’s basically the law.'}],()=>waitTill(()=>abi.tx==null&&hunter.tx==null,()=>{abi.dir=hunter.dir='r';
-  say([{n:'Meggs',t:'Hiya pet! What can I get you?'},{n:'Abigail',t:'Two sausage rolls, please!',anim:()=>{sfx('item');abi.hold='sroll';hunter.hold='sroll'}},
-   {n:'Hunter',t:'(takes a bite)',anim:()=>{hunter.dir='l';abi.dir='r';sfx('pop')}},{n:'Hunter',t:'...'},{n:'Hunter',t:'Abigail. Why did nobody TELL me about this?',anim:()=>{for(let i=0;i<4;i++)after(i*.2,()=>burst(44,96,'#ffd86b'))}},
+  say([{n:'Meggs',t:'Hiya pet! What can I get you?'},{n:'Abigail',t:'Two sausage rolls, please!',anim:()=>{sfx('paper2');abi.hold='sroll';hunter.hold='sroll'}},
+   {n:'Hunter',t:'(takes a bite)',anim:()=>{hunter.dir='l';abi.dir='r';sfx('crunch')}},{n:'Hunter',t:'...'},{n:'Hunter',t:'Abigail. Why did nobody TELL me about this?',anim:()=>{for(let i=0;i<4;i++)after(i*.2,()=>burst(44,96,'#ffd86b'))}},
    {n:'Abigail',t:'I told you. Every single day. For YEARS.'},{n:'Hunter',t:'I’m getting four more. For emergencies.'},{n:'Meggs',t:'(laughing) He’s a proper convert, this one.'}],()=>{abi.hold=hunter.hold=null;fadeTo(epVillage)})})))}
 function vEpNcl(t){r(0,0,80,96,'#d8dce4');for(let x=0;x<80;x+=10)r(x,0,1,96,'#c8ccd6');
  r(0,8,80,38,'#4a5a72');for(let x=0;x<80;x+=16){r(x+1,9,14,36,'#a8c8e8');r(x+1,32,14,13,'#8a9aa8');ell(x+8,16,5,1,'#fff',.8)}
@@ -9536,7 +9868,7 @@ function epVillage(){setLoc('epvillage');mode='ep';epDress();ep.ppl=[abi,hunter,
   {n:'Hunter',t:'Tiny Abigail. With a tiny racket.'},{n:'Abigail',t:'And a very serious face.'}],()=>waitTill(()=>abi.tx==null,()=>{abi.dir='l';hunter.dir='l';
   say([{n:'Mum',t:'There they are! Oh, come HERE, you two!',anim:()=>{go(mumUK,[[44,112]],34);go(dadUK,[[38,106]],26)}},
    {n:'Mum',t:'We watched you get married on a laptop. Now let me hug you PROPERLY.',anim:()=>{waitTill(()=>mumUK.tx==null,()=>{mumUK.dir='r';for(let i=0;i<5;i++)after(i*.25,()=>burst(50,94,'#ff5f9e'));sfx('kiss')})}},
-   {n:'Dad',t:'Welcome home, love. And welcome, Hunter.',anim:()=>{dadUK.dir='r'}},{n:'Mum',t:'The kettle’s on. PROPER tea.',anim:()=>{hunter.hold='mug';sfx('item')}},
+   {n:'Dad',t:'Welcome home, love. And welcome, Hunter.',anim:()=>{dadUK.dir='r'}},{n:'Mum',t:'The kettle’s on. PROPER tea.',anim:()=>{hunter.hold='mug';sfx('mug')}},
    {n:'Hunter',t:'(sips) ...Oh. OH. Everything I’ve had in America has been a lie.'},{n:'Abigail',t:'Told you.'},{n:'Dad',t:'He’s a keeper, this one.'}],
    ()=>epCards([['A few days later, they caught the train<br>from Newcastle down to London.',3]],epLondon))})))}
 function vEpVillage(t){for(let y=0;y<44;y+=2){const k=y/44;r(0,y,80,2,`rgb(${Math.round(110+k*120)},${Math.round(150+k*90)},${Math.round(220+k*20)})`)}
@@ -9674,10 +10006,10 @@ function vEpCoach(t){
 function epCrumpet(){setLoc('epcrump');mode='ep';epDress();at(abi,30,126,'r');at(hunter,18,124,'r');ep.ppl=[abi,hunter];ep.mv=[abi,hunter];
  ep.dn={x:42,y:134,dir:'r',run:0,laps:0,a:0};ep.cr={x:90,y:128,dir:'l',pose:0,show:0,eye:0};
  after(.8,()=>say([{n:'',t:'And then... the family grew by four very short legs.'},{n:'Abigail',t:'Donut! Come meet your new little sister...'},
-  {n:'Abigail',t:'...CRUMPET!',anim:()=>{ep.cr.show=1;ep.cr.walk=1;sfx('pop')}}],()=>waitTill(()=>ep.cr.x<=56,()=>{ep.cr.walk=0;ep.cr.pose=1;
+  {n:'Abigail',t:'...CRUMPET!',anim:()=>{ep.cr.show=1;ep.cr.walk=1;sfx('yip')}}],()=>waitTill(()=>ep.cr.x<=56,()=>{ep.cr.walk=0;ep.cr.pose=1;
   say([{n:'',t:'Donut zooms three laps around the room at FULL speed.',anim:()=>{ep.dn.zoom=T;sfx('whoosh')}},{n:'',t:'Crumpet watches. Sits down. Doesn’t move.'},
    {n:'Hunter',t:'She is... very round.'},{n:'Abigail',t:'She is PERFECT. Don’t listen to him, Crumpet.'},{n:'',t:'Crumpet turns and stares directly at Hunter. Unblinking.',anim:()=>{ep.cr.eye=1}},
-   {n:'Hunter',t:'Did she just... side-eye me?'},{n:'Abigail',t:'She’s sassy. I love her.'},{n:'',t:'Crumpet flops onto her side. Conversation over.',anim:()=>{ep.cr.pose=2;sfx('bump')}},
+   {n:'Hunter',t:'Did she just... side-eye me?'},{n:'Abigail',t:'She’s sassy. I love her.'},{n:'',t:'Crumpet flops onto her side. Conversation over.',anim:()=>{ep.cr.pose=2;sfx('pillow')}},
    {n:'',t:'Sweet, sassy, and proudly chunky. Donut runs laps. Crumpet supervises.'}],()=>fadeTo(epHouse))})))}
 const CRS={};function crumpet(x,y,dir,t,pose,eye){ell(Math.round(x),Math.round(y),8,1,'#000',.18);paperDraw(Math.round(x),Math.round(y),'cat',dir,d=>crumpet0(x,y,d,t,pose,eye))}
 function crumpet0(x,y,dir,t,pose,eye){x=Math.round(x);y=Math.round(y);let thump=0,puff=0;
@@ -9709,7 +10041,7 @@ function vEpCrump(t){// the same apartment living room as before, in daylight, w
 /* ---- 8. the first home: 3913 ---- */
 const BLUSH='#f2b5c4';
 function epHouse(){setLoc('ephouse');mode='ep';epDress();ep.door='#f6f4ee';at(abi,38,116,'d');at(hunter,48,116,'d');hunter.hold='keys';ep.ppl=[abi,hunter];ep.mv=[abi,hunter];
- after(.8,()=>say([{n:'',t:'And then came the biggest step yet.'},{n:'Hunter',t:'(jingling the keys) Abigail... it’s OURS.',anim:()=>{sfx('coin');for(let i=0;i<6;i++)after(i*.2,()=>burst(20+Math.random()*40,90,['#ffd86b','#ff5f9e','#7ee8fa'][i%3]))}},
+ after(.8,()=>say([{n:'',t:'And then came the biggest step yet.'},{n:'Hunter',t:'(jingling the keys) Abigail... it’s OURS.',anim:()=>{sfx('keys');for(let i=0;i<6;i++)after(i*.2,()=>burst(20+Math.random()*40,90,['#ffd86b','#ff5f9e','#7ee8fa'][i%3]))}},
   {n:'Abigail',t:'Our very first house!'},{n:'',t:'A few days later. The boxes are (mostly) unpacked.',anim:()=>{hunter.hold=null}},
   {n:'Abigail',t:'Hunter. I have one tiny request for our new house.'},{n:'Hunter',t:'Anything.'},{n:'Abigail',t:'The front door. I want it painted... blush pink.'},
   {n:'Hunter',t:'...Pink?'},{n:'Abigail',t:'BLUSH pink. It’s completely different.'},{n:'Hunter',t:'Say no more. One blush pink door, coming right up.'},
@@ -9761,7 +10093,7 @@ function vEpHouse(t){for(let y=0;y<60;y+=2){const k=y/60;r(0,y,80,2,`rgb(${Math.
 const PD={x:42,y:36,w:76,h:212,c:4};
 function epPaintStart(){setLoc('eppaint');mode='paint';const cols=PD.w/PD.c|0,rows=PD.h/PD.c|0;ep.pt={cols,rows,g:new Uint8Array(cols*rows),n:0,load:1,down:0,lx:null,ly:null,rx:80,ry:200,warn:0,done:0,sp:[]};setHud('Paint the door blush pink!  0%');sfx('item')}
 function epPaintAt(x,y,first){const P=ep.pt;if(!P||P.done||mode!=='paint')return;
- if(x<40&&y>252){if(P.load<1){P.load=1;sfx('splash');P.warn=0}P.lx=null;P.rx=x;P.ry=y-14;return}
+ if(x<40&&y>252){if(P.load<1){P.load=1;sfx('squish');P.warn=0}P.lx=null;P.rx=x;P.ry=y-14;return}
  const rx=x,ry=y-14;P.rx=rx;P.ry=ry;if(first||P.lx==null){P.lx=rx;P.ly=ry}
  // the roller turns to face the way you're swiping: its axis sits across the direction of travel
  if(P.ang==null)P.ang=0;{const mdx=rx-P.lx,mdy=ry-P.ly;if(Math.hypot(mdx,mdy)>1.2){const tgt=Math.atan2(mdy,mdx)+Math.PI/2;let d=tgt-P.ang;d=((d+Math.PI/2)%Math.PI+Math.PI)%Math.PI-Math.PI/2;P.ang+=d*.55}}
@@ -10058,7 +10390,7 @@ $('snd').onclick=e=>{e.stopPropagation();openPause()};$('snd').onpointerdown=e=>
 ['pause','pRes','pDev','pMenu','vm','vs'].forEach(id=>{$(id).onpointerdown=e=>e.stopPropagation();$(id).addEventListener('touchstart',e=>e.stopPropagation(),{passive:true})});
 $('pRes').onclick=()=>{sfx('select');closePause()};$('pMenu').onclick=()=>{sfx('select');const l=$('ld');l.classList.remove('off');requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>location.reload(),60)))};
 $('vm').oninput=e=>{VOL.m=e.target.value/100;applyVol()};$('vs').oninput=e=>{VOL.s=e.target.value/100;applyVol();sfx('coin')};$('va').oninput=e=>{VOL.a=e.target.value/100;applyVol()};
-addEventListener('pointerdown',()=>auInit(),{capture:true});addEventListener('touchstart',()=>auInit(),{capture:true,passive:true});
+addEventListener('pointerdown',()=>{auInit();AU.tap=performance.now()},{capture:true});addEventListener('touchstart',()=>auInit(),{capture:true,passive:true});
 $('gift').addEventListener('click',giftOpen);
 const BOK=()=>$('btns').classList.contains('ready');
 $('btns').addEventListener('animationend',e=>{if(e.target===$('btns'))$('btns').classList.add('ready')});
