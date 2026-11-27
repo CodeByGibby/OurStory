@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.26</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.27</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -3787,7 +3787,7 @@ function pumpUpdate(dt){const P=pmp;if(!P||loc!=='pump')return;
  if(P.ph==='intro')sp=2;else if(P.ph==='stolen')sp=P.tgt?.35:3;else if(P.ph==='route'&&P.tgt)sp=P.fsp;
  else if(P.ph==='park'){const g=P.tgt,tx=g.sd*1.6;P.cx+=(tx-P.cx)*Math.min(1,dt*2.4);sp=Math.max(0,Math.min(P.sp*.7,(g.row.z-1.55)*1.5));P.pk+=dt;
   if(!P.fin&&g.row.z<1.62&&Math.abs(P.cx-tx)<.06){P.fin=1;P.ph='done';mode='c3';sfx('kaching');burst(80,150,'#5ad06a');
-   after(.5,()=>say([{n:'',t:'PUMP SECURED! (After '+P.miss+' heartbreaking near-miss'+(P.miss===1?'':'es')+'.)'},{n:'Hunter',t:'We did it. I’ve never been more proud of anything.'},{n:'Abigail',t:'Now we go INSIDE.'},{n:'Hunter',t:'...Into THAT?'}],()=>fadeTo(storeStart)))}}
+   after(.5,()=>say([{n:'',t:'PUMP SECURED! (After '+P.miss+' heartbreaking near-miss'+(P.miss===1?'':'es')+'.)'},{n:'Hunter',t:'We did it. I need to sit down.'},{n:'Abigail',t:'Now we go INSIDE.'},{n:'Hunter',t:'...Into THAT?'}],()=>fadeTo(storeStart)))}}
  else if(P.ph==='done'){sp=0;P.pk+=dt}
  P.rows.forEach(w=>w.z-=sp*dt);P.rows=P.rows.filter(w=>w.z>.3||(P.tgt&&w===P.tgt.row));P.dist+=sp*dt;
  const far=P.rows.reduce((m,w)=>Math.max(m,w.z),0);if(far<22-PROW)pmpRow(P,far+PROW);
@@ -3946,7 +3946,7 @@ function trCoffee(done){const A=abi,H=hunter;hx.phase='seq';hx.fstay=1;A.dir=H.d
   {n:'Abigail',t:'Hunter. Did you see the money counter behind him?'},{n:'Hunter',t:'There were like SIX of them.'},
   {n:'Abigail',t:'There’s no coffee shop. There’s no coffee. That’s a FRONT.'},{n:'Hunter',t:'We just paid ten dollars into a money laundering scheme.'},
   {n:'Abigail',t:'...We’re accomplices now.'},{n:'Hunter',t:'100%.'}],()=>{hx=null;brEnd()})})}
-function brEnd(){say([{n:'Abigail',t:'In one afternoon, we ate a criminal burrito and funded an actual crime.'},{n:'Hunter',t:'Austin, baby.'}],()=>{abi.hold=hunter.hold=null;abi.green=hunter.green=0;tw.bleh=0;fadeTo(()=>{setLoc('newsbg');card('That evening, they called an Uber to Mount Bonnell for sunset...<br><br>...and got there way too early.')},3);after(4,peaStart)})}
+function brEnd(){say([{n:'Abigail',t:'In one afternoon, we ate a criminal burrito and funded an actual crime.'},{n:'Hunter',t:'Austin, baby.'}],()=>{abi.hold=hunter.hold=null;abi.green=hunter.green=0;tw.bleh=0;fadeTo(()=>{setLoc('newsbg');card('That evening, they caught a ride to Mount Bonnell for sunset...<br><br>...and got there way too early.')},3);after(4,peaStart)})}
 function vTrucks(t){const W2=tw||{};
  r(0,0,80,40,'#9ad0f0');ell(18,8,8,2,'#ffffff',.9);ell(60,12,10,2,'#ffffff',.85);r(0,30,80,10,'#a8b8c0');r(0,40,80,104,'#c8b898');for(let i=0;i<80;i++)r(stars[i].x%80,42+(stars[i].y%100),1,1,'#b8a888');
  for(let x=24;x<80;x++){const q=(x-52)/28,y=14+Math.round(4*(1-q*q));r(x,y,1,1,'#3a2a2a');if(x%6==3){cx.globalAlpha=.7+.3*Math.sin(t*3+x);r(x,y+1,1,2,DF[(x/6|0)%4]);cx.globalAlpha=1}}
@@ -4598,7 +4598,7 @@ function vPlaza(t){
  [hunter,abi].forEach(p=>D.push({y:p.y,f:()=>person(p,t)}));D.sort((a,b)=>a.y-b.y).forEach(d=>d.f());hxDraw(t)}
 
 /* ======================= 3. BEAVERS: SHOPPING ======================= */
-const BSL=[[{n:'Tourist',t:'Have you tried the Beaver Nuggets?! They are LIFE CHANGING.'}],[{n:'Tourist',t:'We drove four hours just to come here. No regrets.'}],[{n:'Tourist',t:'I’ve been looking for my husband for an hour. He’s somewhere near the jerky.'}],[{n:'Tourist',t:'Excuse me! Sorry! So sorry! Big cart coming through!'}],[{n:'Tourist',t:'(carrying six bags of jerky and a beaver plushie) Don’t judge me.'}]];
+const BSL=[[{n:'Tourist',t:'Have you tried the Beaver Bites?! They are LIFE CHANGING.'}],[{n:'Tourist',t:'We drove four hours just to come here. No regrets.'}],[{n:'Tourist',t:'I’ve been looking for my husband for an hour. He’s somewhere near the jerky.'}],[{n:'Tourist',t:'Excuse me! Sorry! So sorry! Big cart coming through!'}],[{n:'Tourist',t:'(carrying six bags of jerky and a beaver plushie) Don’t judge me.'}]];
 function bstoreStart(){setLoc('bstore');fade=1;fd=-1;mode='c3';CAMX=0;[abi,hunter].forEach(p=>{p.hold=null;p.sit=0;p.zz=0});
  bst={found:0,cheer:0,ppl:[[86,'#e0463c','#2a1a12','#8d5a3a',14],[124,'#3a7ae8','#e8c840','#f6d2b0',-11],[134,'#f0c030','#5a5a5a','#f1c9a0',9],[60,'#5ac85a','#1a1a1a','#c98e62',-13],[22,'#ff7eb6','#8a3a2a','#e8b890',12]].map(([x,top,hair,skin,sp],i)=>mk('morgan',x*1.2|0,[74,138,132,140,80][i],{n:'Tourist',top,hair,skin,hl:i%3,pants:'#3a4a6b',shoe:'#eee',spd:sp,dir:sp>0?'r':'l',oy:0,lane:[74,138,132,140,80][i]})),
   wk:mk('bart',86,50,{n:'Worker',top:'#e0463c',apron:1,hair:'#2a1a12',skin:'#c98e62',hl:0,cap:'#f0c030',dir:'d'}),fw:mk('bart',140,48,{n:'Cashier',top:'#e0463c',apron:1,hair:'#e8c840',skin:'#f6d2b0',hl:2,dir:'d'})};
@@ -4798,7 +4798,7 @@ function peaHx(dt){if(!pea||!hx||hx.room!=='pea')return;const H=hunter;
   if(d<5&&!C.hit){C.hit=1;shakeT=.25;sfx('hit');sfx('squawk');const s=dx<0?-1:1;const [nx,ny]=hxClamp(H.x+s*10,H.y);hx.pend=null;go(H,[[nx,ny]],70);bark([{n:'Hunter',t:'OW! He PECKED me!'}]);C.t=Math.min(C.t,.6)}
   if(C.t<=0){pea.ch=null;p.tx=Math.max(10,Math.min(70,p.x+(p.x<40?-14:14)));p.ty=p.y;p.w=2.5}}
  if(pea.end&&mode==='hx'&&!dlg&&!hx.phase)pea.end=0;if(pea.n>=3&&!pea.ch&&!pea.end&&mode==='hx'&&!dlg&&!hx.phase&&(!chatQ.length||(pea.wq=(pea.wq||0)+dt)>3)){pea.end=1;mode='c3';setHud('');hx.phase='seq';hx.fstay=1;const A=abi;const [ax,ay]=hxClamp(H.x+(H.x>40?-10:10),H.y);go(A,hxRoute(A,ax,ay),40);
-  waitTill(()=>A.tx==null,()=>{face(A,H);face(H,A);after(.6,()=>say([{n:'Abigail',t:'This is the best detour of all time.'},{n:'Hunter',t:'Okay. Mount Bonnell is right up the street. Looks like a short walk on the map.'},{n:'',t:'It wasn’t a short walk.'}],()=>fadeTo(()=>{hx=null;hillStart()})))})}}
+  waitTill(()=>A.tx==null,()=>{face(A,H);face(H,A);after(.6,()=>say([{n:'Abigail',t:'I’m really glad we got here early.'},{n:'Hunter',t:'Okay. Mount Bonnell is right up the street. Looks like a short walk on the map.'},{n:'',t:'It wasn’t a short walk.'}],()=>fadeTo(()=>{hx=null;hillStart()})))})}}
 function peaItems(){const I=[];I.push(...c4CamItem('pea',24,108));
  pea.b.forEach((p,i)=>I.push({id:'pk'+i,x:p.x-10,y:p.y-18,w:20,h:22,spot:[Math.max(8,Math.min(72,p.x+(hunter.x<p.x?-12:12))),Math.max(92,p.y+2)],face:hunter.x<p.x?'r':'l',fn:()=>{if(p.fan<=0&&p.cool>0)bark([{n:'Abigail',t:'He’s taking a little break from being fabulous.'}])}}));
  I.push({id:'abi',x:abi.x-6,y:abi.y-22,w:12,h:24,spot:[abi.x+(abi.x<hunter.x?10:-10),abi.y],face:abi.x<hunter.x?'l':'r',lines:[[{n:'Abigail',t:'I think the peacocks like you.'},{n:'Hunter',t:'One of them DEFINITELY doesn’t.'}],[{n:'Abigail',t:'Okay. That was worth the detour.'}]]});
@@ -4872,11 +4872,11 @@ function bonItems(){const I=[],P=hx.gi>0;
  I.push({id:'view',x:58,y:60,w:22,h:34,spot:[47,116],face:'r',lines:[{n:'Hunter',t:'(The river winds through the hills as far as I can see. There’s a big orange bridge way out there.)'},{n:'Abigail',t:'It looks like a postcard.'}]});
  I.push({id:'ledge',x:42,y:90,w:16,h:20,spot:[48,114],face:'u'});return I}
 function bonEnd(){bon.set=1;const A=abi,H=hunter;A.dir=H.dir='u';
- say([{n:'',t:'The sun sinks behind the hills, and the whole river turns gold.'},{n:'Abigail',t:'This is the best trip of my entire life.',anim:()=>{face(A,H);face(H,A)}},{n:'Hunter',t:'Even the burrito?'},{n:'Abigail',t:'...Even the burrito.'},
-  {n:'Hunter',t:'I can’t believe we have to drive back to Missouri tomorrow.'},{n:'Abigail',t:'Just for a few weeks. Then I fly back down, and it’s real.'},{n:'Hunter',t:'And then it’s long distance.'},{n:'Abigail',t:'Long distance won’t be easy. But we survived a pandemic, quarantine with Morgan, AND the world’s worst burrito.'},{n:'Abigail',t:'We can survive anything.'},
+ say([{n:'',t:'The sun sinks behind the hills, and the whole river turns gold.'},{n:'Abigail',t:'I don’t want this trip to end.',anim:()=>{face(A,H);face(H,A)}},{n:'Hunter',t:'Even the burrito?'},{n:'Abigail',t:'...Even the burrito.'},
+  {n:'Hunter',t:'I can’t believe we have to drive back to Missouri tomorrow.'},{n:'Abigail',t:'Just a couple more weeks. Then I fly back down, and it’s real.'},{n:'Hunter',t:'And then it’s long distance.'},{n:'Abigail',t:'Long distance won’t be easy. But we survived a pandemic, two weeks of quarantine, AND the world’s worst burrito.'},{n:'Abigail',t:'We can survive anything.'},
   {n:'Hunter',t:'Hey. One more picture. For the album.'}],
  ()=>waitTill(()=>bon.k>=.42,()=>c4Snap('bonnell',()=>after(.5,()=>c4Album(()=>{A.dir=H.dir='u';for(let i=0;i<5;i++)after(i*.35,()=>burst(44+Math.random()*8,96,'#ff5f9e'));
-  after(3,()=>{fadeTo(()=>{setLoc('newsbg');card('<span style="color:#ffd86b">Everything’s Bigger</span><br><br>Summer 2020')},3);after(4.2,()=>{$('card').style.opacity=0;save.set(4);hunter.cap=0;if(hunter.beav)beavShirt(0);abi.chat=0;
+  after(3,()=>{fadeTo(()=>{setLoc('newsbg');card('<span style="color:#ffd86b">Everything’s Bigger</span><br><br>May 2020')},3);after(4.2,()=>{$('card').style.opacity=0;save.set(4);hunter.cap=0;if(hunter.beav)beavShirt(0);abi.chat=0;
    showEnd('CHAPTER 4<br>EVERYTHING’S BIGGER','♥ Complete ♥<br><br><small>Progress saved ✓</small>','<button onclick="startCh5()">Chapter 5 ▶</button>')})})})))))}
 
 /* ---- per-room hooks ---- */
@@ -5888,7 +5888,7 @@ function t5Items(){const I=[];
  I.push({id:'window',x:0,y:0,w:70,h:58,spot:[62,84],face:'u',lines:[[{n:'Abigail',t:'(Somewhere out there’s a plane with my name on it. And not his.)'}],[{n:'Abigail',t:'(That one is ours. Americana, gate C14. Big shiny silver bird.)'}],[{n:'Abigail',t:'(I wonder if he can see the planes from the highway.)'}]]});
  I.push({id:'board',x:74,y:6,w:50,h:38,spot:[99,86],face:'u',lines:[[{n:'',t:'AM 1427 · DALLAS/FT WORTH · ON TIME'},{n:'Abigail',t:'(On time. Of course it is. The one day I wanted a delay.)'}],[{n:'Abigail',t:'(Still on time. Rude.)'}]]});
  I.push({id:'dunkin',x:126,y:26,w:32,h:36,spot:[142,86],face:'u',fn:()=>{if(T5.cof){say([{n:'Barista',t:'Back for a second one?'},{n:'Abigail',t:'Do NOT tempt me.'}]);return}
-  say([{n:'Barista',t:'Welcome to Dippin’ Donuts! What can I get you?'},{n:'Abigail',t:'A large iced coffee with caramel and cream, please. It’s been a morning.'},{n:'Barista',t:'Coming right up!',anim:()=>{T5.cof=1;sfx('pop')}},{n:'Abigail',t:'(It tastes like every Dippin’ run with Hunter. Great. Now I’m sad AND caffeinated.)'}])}});
+  say([{n:'Barista',t:'Welcome to Dippin Donuts! What can I get you?'},{n:'Abigail',t:'A large iced coffee with caramel and cream, please. It’s been a morning.'},{n:'Barista',t:'Coming right up!',anim:()=>{T5.cof=1;sfx('pop')}},{n:'Abigail',t:'(It tastes like every Dippin run with Hunter. Great. Now I’m sad AND caffeinated.)'}])}});
  I.push({id:'poster',x:76,y:46,w:22,h:14,spot:[87,86],face:'u',lines:[[{n:'Abigail',t:'(The Arch. Hunter’s whole city in one poster.)'},{n:'Abigail',t:'(I’m going to miss the Arch. ...I’m going to miss HIM more. Obviously.)'}],[{n:'Abigail',t:'(Bye, Arch. Keep an eye on him for me.)'}]]});
  I.push({id:'kiosk',x:64,y:60,w:18,h:22,spot:[73,86],face:'u',lines:[{n:'Abigail',t:'(The kiosk. Bag tags first.)'}]});
  I.push({id:'agent',x:18,y:54,w:44,h:22,spot:[56,86],face:'u',ay:50,lines:()=>T5.tags?[{n:'Agent',t:'Next!'}]:[{n:'Agent',t:'Bag tags first, hon. The kiosks are right over there.'}]});
@@ -5901,7 +5901,7 @@ function t5Items(){const I=[];
  I.push({id:'tsa',x:144,y:118,w:16,h:22,spot:[150,132],face:'r',lines:[{n:'Abigail',t:'(Security. Bags first, Abigail.)'}]});
  return I}
 function t5Kiosk(done){T5.kio=1;sfx('beep');after(.6,()=>sfx('beep'));after(1.4,()=>{T5.kio=2;sfx('item');say([{n:'',t:'*whirrrr* Two bag tags print out.'},{n:'Abigail',t:'Tags on. Easy. Told you. Expert.'}],()=>{T5.tags=1;done()})})}
-function t5Tsa(done){say([{n:'Abigail',t:'(Okay. Security. My favorite.)'}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;(c5Security)()},1.2)})}
+function t5Tsa(done){say([{n:'Abigail',t:'(Okay. Security. My favourite.)'}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;(c5Security)()},1.2)})}
 function vTerm5(t){const F=T5||{};
  /* window wall: sky, distant terminal, static runway, moving planes and a baggage tug */
  for(let y=0;y<26;y+=2)r(0,y,70,2,`rgb(${150+y*3},${195+y},240)`);ell(14,8,7,2,'#ffffff',.8);ell(50,14,9,2,'#ffffff',.7);
@@ -6013,7 +6013,7 @@ function vSec5(t){const S=SEC||{t:0},k=S.t;
 /* ---- the gate ---- */
 let GT=null;
 function c5Gate(){setLoc('gate5');fade=1;fd=-1;mode='c3';GT={board:0,gone:0};at(abi,24,112,'d');abi.sit=1;abi.hold=null;
- after(1,()=>say([{n:'',t:'Gate C14. The plane is right there on the other side of the glass.'},{n:'Abigail',t:'(texting) Your bathroom scale is a LIAR.'},{n:'Hunter',t:'(texting back) ...that explains a LOT about the last five years.'},
+ after(1,()=>say([{n:'',t:'Gate C14. The plane is right there on the other side of the glass.'},{n:'Abigail',t:'(texting) Your bathroom scale is a LIAR.'},{n:'Hunter',t:'(texting back) I KNEW it.'},
   {n:'Announcer',t:'Americana flight 1427 to Dallas–Fort Worth is now boarding all groups.',anim:()=>{GT.board=1;sfx('chime')}},
   {n:'Abigail',t:'(texting) Boarding. Six weeks.'},{n:'Hunter',t:'(texting) Six weeks. Text me when you land. I love you. ♥'},{n:'Abigail',t:'(...Six weeks.)'}],()=>{abi.sit=0;go(abi,[[40,112],[62,106]],26);waitTill(()=>abi.tx==null,()=>{abi.dir='u';sfx('beep');after(.7,()=>{go(abi,[[73,107],[76,100],[76,93]],24);GT.walk=1;waitTill(()=>abi.tx==null,()=>{GT.gone=1;after(.8,()=>fadeTo(c4WatchPlane,1.6))})})})}))}
 function gateUpd(dt){if(!GT||loc!=='gate5')return;mv(abi,dt)}
@@ -6120,7 +6120,7 @@ function c5LastNight(){HW=null;setLoc('hroom');fade=1;fd=-1;mode='c3';c3Day=0;hr
   {n:'',t:'They held on to every last minute. Right up until the alarm.',anim:()=>{hr.clock='6:00';sfx('alert')}}],()=>fadeTo(()=>{hr={sleep:0,clock:'11:52'};c4ToAirport()},2)))}
 function c4ToAirport(){hwStart('to',[{n:'',t:'The drive to the airport.'},{n:'Hunter',t:'That club has no idea how lucky they are.'},{n:'Abigail',t:'Private lessons. Kids’ camps. Real tournaments!'},
  {n:'Hunter',t:'And free lessons for your boyfriend?'},{n:'Abigail',t:'...We’ll see.'},{n:'',t:'(A long, quiet mile.)'},{n:'Abigail',t:'Okay. Say the plan again.'},
- {n:'Hunter',t:'Three weeks. I fly into DFW. You pick me up at the airport.'},{n:'Abigail',t:'And then?'},{n:'Hunter',t:'And then we go get the world’s worst burrito. For old times’ sake.'},{n:'Abigail',t:'(laughing, wiping her eyes) Deal.'}],c4Depart)}
+ {n:'Hunter',t:'Six weeks. Then I’m at the airport with a sign.'},{n:'Abigail',t:'And then?'},{n:'Hunter',t:'And then we go get the world’s worst burrito. For old times’ sake.'},{n:'Abigail',t:'(laughing, wiping her eyes) Deal.'}],c4Depart)}
 function c4Depart(){setLoc('dep4');fade=1;fd=-1;mode='c3';DEP={x:175,v:46,st:'arrive',t:0,trunk:0,door:0,dop:0,bags:0,ab:1,tb:2,bag:null,sh:0};HW=null;
  [abi,hunter].forEach(p=>{p.tears=0;p.hold=null;p.reach=null;p.moving=false})}
 const DPX=70;
@@ -6162,7 +6162,7 @@ function vDep4(t){vTerm(t,'dep');const D=DEP;if(!D)return;
   if(p===abi&&D.wave){const x=Math.round(abi.x),y=Math.round(abi.y),u=Math.floor(t*6)%2;r(x+4,y-14-u,1,5,abi.top);r(x+4+u,y-16-u,2,2,abi.skin)}});
  blackCar(D.x,250,t,{flip:1,drv:D.st==='arrive'||D.st==='leave'?hunter:null,pas:D.st==='arrive'?abi:null,trunk:D.trunk,tb:D.tb,door:D.door,spin:-D.x*.4})}
 function c4WatchPlane(){DEP=null;hwStart('away',[{n:'',t:'On the highway home, a plane climbs into the sky behind him.'},{n:'Hunter',t:'(That’s her.)'},{n:'',t:'He watches it until it disappears into the clouds.'},{n:'Hunter',t:'(Six weeks. You can do six weeks.)'}],()=>{HW=null;hunter.tears=abi.tears=0;fadeTo(c5TxMont)})}
-function c4End(){HW=null;setLoc('newsbg');card('<span style="color:#ffd86b">Everything’s Bigger</span><br><br>Summer 2020');after(4,()=>{$('card').style.opacity=0;save.set(4);hunter.cap=0;if(hunter.beav)beavShirt(0);abi.chat=0;hunter.tears=0;abi.tears=0;
+function c4End(){HW=null;setLoc('newsbg');card('<span style="color:#ffd86b">Everything’s Bigger</span><br><br>May 2020');after(4,()=>{$('card').style.opacity=0;save.set(4);hunter.cap=0;if(hunter.beav)beavShirt(0);abi.chat=0;hunter.tears=0;abi.tears=0;
  showEnd('CHAPTER 4<br>EVERYTHING’S BIGGER','♥ Complete ♥<br><br><small>Progress saved ✓</small>','<button onclick="startCh5()">Chapter 5 ▶</button>')})}
 
 /* ---- Missouri airport pickup: the loop of shame ---- */
@@ -6185,7 +6185,7 @@ function c5aUpd(dt){const A=C5A;if(!A||loc!=='arr5')return;A.t+=dt;if(A.lc){A.lc
  else if(A.st==='screech'){A.v=Math.max(30,A.v-dt*45);A.x+=A.v*dt;const u=Math.min(1,(A.x+62)/155);A.y=252-Math.round(u*u*13);const sx=98-A.x;A.skid.push({x:sx+14,y:A.y-1,l:3},{x:sx+59,y:A.y-1,l:3});if(Math.random()<dt*14)A.smoke.push({x:sx+59+Math.random()*4,y:A.y-3,r:2,l:.9,vx:10+Math.random()*10});if(Math.random()<dt*8)A.smoke.push({x:sx+14,y:A.y-3,r:1.5,l:.7,vx:8+Math.random()*8});if(A.x>=93){A.x=93;A.st='park';A.v=0;A.t2=0;A.shk=1;A.y=238;sfx('slam');sfx('bump');shakeT=.7;A.can={st:1,t:0};for(let i=0;i<10;i++)A.smoke.push({x:-2+Math.random()*12,y:220+Math.random()*8,r:1.5+Math.random()*1.5,l:.75,vx:-6+Math.random()*10});after(.15,()=>sfx('buzz'))}}
  else if(A.st==='park'){A.t2+=dt;A.shk=Math.max(0,1-A.t2/.9);{const q=Math.min(1,A.t2/.5),e=q*q*(3-2*q);A.y=Math.round(238+6*e-Math.abs(Math.sin(A.t2*18))*2*A.shk)}if(A.t2>1.1&&!A.door){A.door=1;sfx('creak');hunter.x=(98-A.x)+46;hunter.y=234;hunter.dir='r';hunter.tears=1;go(hunter,[[(98-A.x)+46,224],[abi.x-7,222]],62)}
   if(A.door&&!A.hug&&hunter.tx==null){A.hug=1;abi.tears=1;abi.hold=null;hunter.dir='r';abi.dir='l';sfx('kiss');abi.reach=[hunter.x+2,hunter.y-10];hunter.reach=[abi.x-2,abi.y-10];for(let i=0;i<6;i++)after(i*.25,()=>burst(abi.x-3+Math.random()*4,198,'#ff5f9e'));
-   after(.8,()=>say([{n:'Abigail',t:'(crying) HUNTER!'},{n:'Hunter',t:'(crying) It was only a WEEK. Why did that feel like a YEAR?'},{n:'Abigail',t:'I’m never leaving you again. Ever.'},{n:'Attendant',t:'...Sir. Sir, you can’t park there.'},{n:'Attendant',t:'And you hit my trash can.'},{n:'Hunter',t:'(not letting go) Give me one minute.'},{n:'Attendant',t:'(sniffs) ...Take two.'}],c5TxPack))}}
+   after(.8,()=>say([{n:'Abigail',t:'(crying) HUNTER!'},{n:'Hunter',t:'(crying) Longest six weeks of my LIFE.'},{n:'Abigail',t:'I’m never leaving you again. Ever.'},{n:'Attendant',t:'...Sir. Sir, you can’t park there.'},{n:'Attendant',t:'And you hit my trash can.'},{n:'Hunter',t:'(not letting go) Give me one minute.'},{n:'Attendant',t:'(sniffs) ...Take two.'}],c5TxPack))}}
  if(A.door)mv(hunter,dt);if(A.smoke){A.smoke.forEach(q=>{q.l-=dt*.7;q.r+=dt*5;q.y-=dt*9;q.x+=q.vx*dt});A.smoke=A.smoke.filter(q=>q.l>0)}if(A.can&&A.can.st){A.can.t+=dt}
  if(A.ab===1){abi.y=Math.min(222,abi.y+dt*10);if(abi.y>=222){A.ab=2;abi.dir='l'}abi.moving=A.ab===1}A.dop+=(((A.ab===1)?1:0)-A.dop)*Math.min(1,dt*5);
  attend.dir=A.st==='wait'||A.st==='park'?'l':(Math.floor(A.t*.7)%2?'l':'d')}
@@ -6215,7 +6215,7 @@ function c5Mom(){setLoc('kitchen');mode='c5';kit={peek:0,door:0,ppl:[mom,hunter,
  after(1,()=>say([{n:'',t:'Back at Mom’s house...'},{n:'Mom',t:'So. You’re BOTH back. With ALL of her stuff. Again.'},{n:'Hunter',t:'Mom, it’s only for a little bit, I promise...'},{n:'Mom',t:'No. I love you both, but you’re adults.'},
   {n:'Mom',t:'You need to find your own place. Within a DAY.'},{n:'Abigail',t:'...A day?'},{n:'Mom',t:'A day. And take the goulash with you.'}],()=>{kit.angry=0;fadeTo(c5Tryout)}))}
 function c5Tryout(){setLoc('court');mode='c5';c5.ct={style:1,top:director,tx:40,crowd:1,n:0,score:0,wins:0};abi.x=36;
- after(1,()=>say([{n:'',t:'The next morning: the local country club.'},{n:'Abigail',t:'I need this job. I’m going to walk in there and show them what I can do.'},{n:'Director',t:'So you’re the pro from the Hamptons. Let’s see what you’ve got.'},
+ after(1,()=>say([{n:'',t:'The next morning: the local country club.'},{n:'Abigail',t:'I need this job. Okay. Deep breath.'},{n:'Director',t:'So you’re the pro from the Hamptons. Let’s see what you’ve got.'},
   {n:'',t:'HOW TO PLAY: HOLD anywhere to wind up your swing. Time slows down while you charge.'},{n:'',t:'LET GO when the ball reaches the glowing zone at your feet. Charge all the way to MAX for a POWER WINNER!',c:[{l:'Let’s play',f:()=>{mode='tennis';tnServe()}}]}]))}
 function c5Hunt(){setLoc('hunt');mode='c5';c5.hu={n:0,got:0,missed:0,cur:null,msg:null};
  after(.8,()=>say([{n:'',t:'Job: secured. Now they need an apartment. By tonight.'},{n:'Abigail',t:'Every place in this town gets snatched up in minutes.'},
@@ -6286,7 +6286,7 @@ function btLine(){const A=abi;A.dir='u';hx.phase='seq';
 function btItems(){const I=[];c5.bt.line.forEach(([p])=>{});
  I.push(c5Talk(roomie2,[[{n:'Roomie',t:'I’ve been in line since 5:15. It’s fine. This is fine.'}]]));
  I.push(c5Talk(kyle,[[{n:'Kyle',t:'Sup.'}],[{n:'Abigail',t:'Kyle. You don’t even LIVE here.'},{n:'Kyle',t:'...Sup.'}]]));
- I.push(c5Talk(pro3,[[{n:'Tennis Pro',t:'Pro tip: shower at night. Nobody showers at night.'},{n:'Abigail',t:'Everybody showers at night. That’s why I’m here in the morning.'}]]));
+ I.push(c5Talk(pro3,[[{n:'Tennis Pro',t:'Pro tip: shower at night. Nobody showers at night.'},{n:'Abigail',t:'I tried that. There was a line.'}]]));
  I.push({id:'cup',x:10,y:32,w:10,h:22,spot:[16,100],face:'u',lines:[[{n:'Abigail',t:'(Nine toothbrushes in one cup. Which one is mine?)'},{n:'Abigail',t:'(...I’m buying a new one. And keeping it in my pocket.)'}],[{n:'Abigail',t:'(Is that one... green? Toothbrushes shouldn’t be green.)'}]]});
  I.push({id:'mirror',x:20,y:8,w:40,h:28,spot:[40,100],face:'u',lines:[{n:'',t:'Sticky notes all over the mirror: "WHO ATE MY YOGURT." "KYLE PAYS NO RENT." "SHOWER LIMIT: 4 MIN!!!"'},{n:'Abigail',t:'(Four minutes. I can do four minutes.)'}]});
  I.push({id:'sched',x:2,y:14,w:12,h:20,spot:[12,100],face:'u',lines:[{n:'',t:'BATHROOM SCHEDULE. 5:40 AM: Abigail. 5:44 AM: Brittany. 5:48 AM: KYLE??'},{n:'Abigail',t:'(Kyle is on the schedule. Kyle is on the SCHEDULE.)'}]});
@@ -6416,15 +6416,15 @@ function homeCouch(t){r(18,122,4,14,'#a8702a');r(58,122,4,14,'#a8702a');r(18,121
 function c5Home(){fadeTo(()=>{setLoc('newsbg');card('That night, after his first week at PU...')},2.6);after(3.6,()=>{$('card').style.opacity=0;setLoc('home');fade=1;fd=-1;mode='c5';
  c5.hm={f:{lights:1,mat:1,tv:1,photo:1},couch:1};HXF.home.bs=[[16,116,48,20]];[abi,hunter].forEach(p=>{p.hold=null;p.zz=0;p.sit=0});at(abi,33,128,'u');abi.sit=1;abi.hold='bowl';at(hunter,88,118,'l');
  c4Enter({room:'home',p:hunter,stage:'home',goals:[{room:'home',id:'g_food',hud:'Grab some mac n cheese',arrow:()=>'food'},{room:'home',id:'couch',hud:'Sit with Abigail',fn:hmCouch}]},[[70,118]],()=>{hunter.dir='l';say([
-  {n:'',t:'Abigail works long days at the club so Hunter can finish school.'},{n:'Hunter',t:'Honey, I’m hooome!'},{n:'Abigail',t:'(from the couch) In here! There’s mac n cheese on the stove. Well. On the box.'}],c4Go)})})}
+  {n:'',t:'Abigail works long days at the club so Hunter can finish school.'},{n:'Hunter',t:'Honey, I’m hooome!'},{n:'Abigail',t:'(from the couch) In here! There’s mac n cheese on the stove. The box kind.'}],c4Go)})})}
 function hmCouch(){const P=hunter,A=abi;mode='c5';setHud('');hx.phase='seq';go(P,[[46,128]],30);
  waitTill(()=>P.tx==null,()=>{P.dir='u';P.sit=1;sfx('step');A.dir='u';
   after(.6,()=>say([{n:'Abigail',t:'How was work?'},{n:'Hunter',t:'I fixed Linda’s password. Twice. I’m basically a genius now.'},
    {n:'Hunter',t:'You’re working so hard, though. I feel bad you’re paying for everything right now.',anim:()=>{P.dir='l';A.dir='r'}},
-   {n:'Abigail',t:'Don’t. I see where you’re going, Hunter. I believe in you. This is an investment.'},{n:'Hunter',t:'I promise it’ll be worth it. One day I’ll take care of you.'},
-   {n:'Abigail',t:'We don’t have much. Just mac n cheese and a yard sale couch.'},{n:'Hunter',t:'But we have each other.'},
-   {n:'Abigail',t:'That’s all I need.',anim:()=>{A.dir=P.dir='u'}}],()=>{hx=null;c5.hm.hearts=1;sfx('kiss');
-   after(3,()=>{fadeTo(()=>{setLoc('newsbg');card('Money was tight.<br><br>But their love was stronger than ever.')},3.4);after(4.6,()=>{$('card').style.opacity=0;save.set(5);[abi,hunter].forEach(p=>{p.sit=0;p.hold=null});
+   {n:'Abigail',t:'Don’t. You’re going places, Hunter. I believe in you. Think of it as an investment.'},{n:'Hunter',t:'I promise it’ll be worth it. One day I’ll take care of you.'},
+   {n:'Abigail',t:'We don’t have much. Mac n cheese and a yard sale couch.'},{n:'Hunter',t:'And each other.'},
+   {n:'Abigail',t:'Yeah. That’s plenty.',anim:()=>{A.dir=P.dir='u'}}],()=>{hx=null;c5.hm.hearts=1;sfx('kiss');
+   after(3,()=>{fadeTo(()=>{setLoc('newsbg');card('Money was tight.<br><br>They’d never been happier.')},3.4);after(4.6,()=>{$('card').style.opacity=0;save.set(5);[abi,hunter].forEach(p=>{p.sit=0;p.hold=null});
     showEnd('CHAPTER 5<br>THE DISTANCE','♥ Complete ♥<br><br><small>Progress saved ✓</small>','<button onclick="startCh6()">Chapter 6 ▶</button>')})})}))})}
 function c5Items(R){if(R==='term5')return t5Items();if(R==='bunk')return bkItems();if(R==='bath2')return btItems();if(R==='home')return homeItems();if(R==='hroom'&&hx.stage==='lonely')return lnItems();return null}
 function c5RoomUpd(dt){if(!hx)return;if(hx.room==='term5')t5Upd(dt);if(hx.room==='hroom')lnUpd(dt);if(hx.room==='bath2'&&c5.bt){c5.bt.line.forEach(([p])=>{p.moving=false});mv(brit,dt)}}
