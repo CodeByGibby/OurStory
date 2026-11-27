@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.16.5</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.16.6</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -314,29 +314,35 @@ const hunter=mk('hunter',44,540,{dir:'l'}),morgan=mk('morgan',16,540,{dir:'r'}),
  bart=mk('bart',127,396,{spot:[127,424]}),dj=mk('bart',40,396,{n:'DJ',top:'#7a2fe0',hair:'#ff7eb6',hl:1,skin:'#f1c9a0',apron:0,hp:1,spot:[40,424]});
 const dn=(x,y,top,hair,hl,skin,ph)=>mk('morgan',x,y,{n:'Dancer',top,hair,hl,skin,pants:'#3a3a5a',dance:1,ph});
 const dancers=[dn(58,452,'#ff7eb6','#2a1a1a',2,'#8d5a3a',0),dn(102,452,'#7ee8fa','#d8a33a',1,'#f6d2b0',1),dn(58,494,'#8be28b','#5a2a1a',0,'#c98e62',2),dn(102,494,'#ffd86b','#1a1a2a',1,'#f1c9a0',3)];
+Object.assign(dancers[0],{n:'Nia',lines:[['WOOO! Sorry. I’m just really happy.'],['See the disco ball? It’s got a crack in it.','Don’t tell anyone. It’s doing its best.'],['You look like you’re looking for someone.','A|Do I?','You do. Good luck.']]});
+Object.assign(dancers[1],{n:'Brad',lines:[['I’m doing the sprinkler. It’s coming back.'],['Do you think the DJ takes requests? I want the Cha Cha Slide.','A|Bold.','Every party needs it.'],['I learned this move from a video. The video was for beginners.']]});
+Object.assign(dancers[2],{n:'Sam',lines:[['I’m not drunk. I’m just a really bad dancer.'],['Left foot, right foot... no. Left foot again.'],['I’m here for my cousin’s bachelorette.','A|Where is she?','No idea. I lost her two hours ago.']]});
+Object.assign(dancers[3],{n:'Rachel',lines:[['I came here for ONE drink. That was three hours ago.'],['My shoes were a mistake. A beautiful mistake.'],['You’re British? Say something British.','A|...Cheers?','Oh my gosh. Do it again.']]});
 const all=[hunter,morgan,abi,bart,dj,...dancers];
 /* ---- The Coop's crowd: people at the tables, along the bar, a couple more dancing, and a few making the trip for another round ---- */
 const PAT=(()=>{const M=(k,x,y,o)=>mk(k,x,y,Object.assign({n:'Patron',apron:0},o)),W=[],S=[];
  // seated at the tables, turned toward each other
- S.push(M('bart',9,456,{top:'#3a6ab0',hair:'#2a1a12',hl:0,skin:'#c98e62',pants:'#2a2a3a',sit:1,dir:'r',hold:'beer'}),
-  M('abi',31,456,{top:'#e06a8a',hair:'#d8a33a',hl:2,skin:'#f6d2b0',skirt:'#2a1e3a',leo:1,sit:1,dir:'l',hold:'pink'}),
-  M('morgan',129,456,{top:'#8be28b',hair:'#1a1a1a',hl:1,skin:'#8d5a3a',pants:'#3a3a5a',sit:1,dir:'r'}),
-  M('bart',151,456,{top:'#f2b632',hair:'#6a3a1a',hl:0,skin:'#f1c9a0',pants:'#4a3a2a',sit:1,dir:'l',hold:'beer'}),
-  M('abi',149,542,{top:'#7ee8fa',hair:'#1a1210',hl:2,skin:'#c98e62',skirt:'#1a1a2a',leo:1,sit:1,dir:'l',hold:'pink'}));
+ S.push(M('bart',9,456,{n:'Derek',lines:[['Sorry. We’re on a first date.','A|Oh! How’s it going?','Great. I’ve told her all about my fantasy football team.'],['Do you know anything about fantasy football?','A|Is that the one with the egg-shaped ball?','...I’ll take that as a no.'],['My team’s called the Dad Bods.','Kayla|They’re in last place.','They’re in a REBUILDING year.']],top:'#3a6ab0',hair:'#2a1a12',hl:0,skin:'#c98e62',pants:'#2a2a3a',sit:1,dir:'r',hold:'beer'}),
+  M('abi',31,456,{n:'Kayla',lines:[['(whispering) If I scratch my ear, come rescue me.','A|Got it.','...I’m scratching my ear.'],['He’s been talking about his fantasy team for forty minutes.','I know the whole roster now. Against my will.'],['Your accent is SO cute. Say “water.”','A|Water.','Ahh! Again!']],top:'#e06a8a',hair:'#d8a33a',hl:2,skin:'#f6d2b0',skirt:'#2a1e3a',leo:1,sit:1,dir:'l',hold:'pink'}),
+  M('morgan',129,456,{n:'Jess',lines:[['He’s told the bartender about his promotion three times.','The bartender said congrats all three times. Respect.'],['Is that your friend in the yellow? Morgan?','She’s the nicest person here. She held the elevator for me AND complimented my shoes.'],['I keep saying “one more song.”','That was six songs ago.']],top:'#8be28b',hair:'#1a1a1a',hl:1,skin:'#8d5a3a',pants:'#3a3a5a',sit:1,dir:'r'}),
+  M('bart',151,456,{n:'Marcus',lines:[['I got promoted today. Assistant regional manager.','A|Congratulations!','Thank you. You’re the ninth person I’ve told. I don’t know any of you.'],['Drinks are on me tonight!','Jess|They are NOT.','...Drinks are on me for the next ten minutes.'],['I have a business card now. With my name on it.','A|Very fancy.','I’ve handed out forty. Want one?']],top:'#f2b632',hair:'#6a3a1a',hl:0,skin:'#f1c9a0',pants:'#4a3a2a',sit:1,dir:'l',hold:'beer'}),
+  M('abi',149,542,{n:'Brooke',lines:[['It’s my birthday!','A|Happy birthday!','Thank you! I’m twenty-five. I have a 401(k) now. I don’t know what it is.'],['My friend went to get drinks twenty minutes ago.','She’s either at the bar or she’s made a new best friend. Fifty-fifty.'],['Birthday rule: you have to tell me I look great.','A|You look great!','I KNOW. Thank you.']],top:'#7ee8fa',hair:'#1a1210',hl:2,skin:'#c98e62',skirt:'#1a1a2a',leo:1,sit:1,dir:'l',hold:'pink'}));
  // leaning on the bar
- S.push(M('bart',104,424,{top:'#5a3a8a',hair:'#3a2a1a',hl:0,skin:'#a8724a',pants:'#2a2a3a',dir:'u',hold:'beer'}));
+ S.push(M('bart',104,424,{n:'Dale',lines:[['Been coming here every Saturday for three years.','Never danced. Not once. I’m building up to it.'],['Pro tip: the bartender pours heavier if you say please.','Don’t tell anyone. That’s my whole edge.'],['You here with Morgan? She once tipped the bartender in homemade cookies.','Legend.']],top:'#5a3a8a',hair:'#3a2a1a',hl:0,skin:'#a8724a',pants:'#2a2a3a',dir:'u',hold:'beer'}));
  // one more dancing at the floor's edge
- S.push(M('morgan',44,476,{n:'Dancer',top:'#ff9a5a',hair:'#3a2216',hl:2,skin:'#f6d2b0',pants:'#3a3a5a',dance:1,ph:1.6}));
+ S.push(M('morgan',44,476,{n:'Lexi',lines:[['I’ve danced to every song tonight.','My feet stopped talking to me an hour ago.'],['This DJ is incredible. I would marry this DJ.'],['Come dance! ...Oh, you’re waiting for someone?','A|Nobody! ...Maybe.','Ooh. I’ll keep an eye out.']],top:'#ff9a5a',hair:'#3a2216',hl:2,skin:'#f6d2b0',pants:'#3a3a5a',dance:1,ph:1.6}));
  // regulars who get up, fetch a drink and come back (home spot, route to the bar, their place at the bar)
  const w=(p,home,route,barAt,sit,dir)=>W.push({p,home,route,barAt,sit,dir,st:'idle',t:2+Math.random()*7});
- w(M('morgan',127,540,{top:'#ff7eb6',hair:'#5a3620',hl:2,skin:'#f1c9a0',pants:'#26202e',sit:1,dir:'r'}),[127,540],[[118,522],[118,470],[116,436]],[116,424],1,'r');
- w(M('bart',124,472,{top:'#2fb58a',hair:'#1e1e1e',hl:0,skin:'#c98e62',pants:'#3a4a6b',dir:'l'}),[124,472],[[130,446]],[138,424],0,'l');
- w(M('abi',36,472,{top:'#ffd86b',hair:'#2a1a12',hl:2,skin:'#8d5a3a',skirt:'#3a1e2e',leo:1,dir:'r'}),[36,472],[[42,432],[84,428]],[92,425],0,'r');
- W.forEach(o=>{o.p.sp=26+Math.random()*6});return {S,W}})();
+ w(M('morgan',127,540,{n:'Ashley',lines:[['Drink run. The birthday girl wants something “fun.”','What does that MEAN?'],['Wait, are you from London?','A|Newcastle.','I LOVE Newcastle! ...Where is that?'],['The bartender knows my name now.','That’s either very good or very bad.']],top:'#ff7eb6',hair:'#5a3620',hl:2,skin:'#f1c9a0',pants:'#26202e',sit:1,dir:'r'}),[127,540],[[118,522],[118,470],[116,436]],[116,424],1,'r');
+ w(M('bart',124,472,{n:'Tyler',lines:[['I’ve been waving at the bartender for five minutes.','I think he just thinks I’m really excited.'],['Can you dance? I can’t dance. I just kind of... bounce.','N|(He bounces.)'],['I came up here for the view.','A|And?','I’ve been looking at the bar the whole time.']],top:'#2fb58a',hair:'#1e1e1e',hl:0,skin:'#c98e62',pants:'#3a4a6b',dir:'l'}),[124,472],[[130,446]],[138,424],0,'l');
+ w(M('abi',36,472,{n:'Megan',lines:[['Real question. Is it weird to dance alone?','A|Not at all!','Great. I’m going in. ...After one more drink.'],['My ex is here. Don’t look.','...You looked.'],['I love your top. Where’s it from?','A|A little shop back home in Newcastle.','Ugh. So international.']],top:'#ffd86b',hair:'#2a1a12',hl:2,skin:'#8d5a3a',skirt:'#3a1e2e',leo:1,dir:'r'}),[36,472],[[42,432],[84,428]],[92,425],0,'r');
+ W.forEach(o=>{o.p.sp=26+Math.random()*6});S.forEach(p=>p.d0=p.dir);return {S,W}})();
 function patOn(){return loc==='roof'&&!(c8&&c8.rec)}
 function patList(){return patOn()?PAT.S.concat(PAT.W.map(o=>o.p)):[]}
+let PATT=null;
 function patUpd(dt){if(!patOn())return;
- for(const o of PAT.W){const p=o.p;mv(p,dt);o.t-=dt;
+ if(!dlg)for(const p of PAT.S.concat(dancers))if(p._fc){p._fc=0;if(p.d0)p.dir=p.d0}
+ for(const o of PAT.W){const p=o.p;if(dlg&&PATT===p)continue;if(p._fc&&!dlg){p._fc=0;if(o.st==='idle')p.dir=o.dir;else if(o.st==='order')p.dir='u'}mv(p,dt);o.t-=dt;
   if(o.st==='idle'&&o.t<=0){p.sit=0;p.hold=null;o.st='up';o.t=.45}
   else if(o.st==='up'&&o.t<=0){o.st='go';go(p,o.route.concat([o.barAt]),p.sp)}
   else if(o.st==='go'&&p.tx==null){o.st='order';o.t=2.2+Math.random()*2.5;p.dir='u'}
@@ -1313,6 +1319,8 @@ function talk(n){
  else if(n===bart)say(st==0?[{n:'Bartender',t:'Welcome to The Coop! What can I get you?',c:[{l:'Double vodka Sprite, splash of cranberry! And one without vodka for Morgan.',f:()=>say([{n:'Bartender',t:'Coming up. You tell me when to stop pouring. Deal?'},{n:'',t:'SAY WHEN: the bartender pours. Tap the screen when the drink reaches the gold line!',c:[{l:'Deal! 🍹',f:barStart}]}])},{l:'Just waters, please',f:()=>{abi.hold='water';drink('Two waters. Hydration is cute 💧','You feel refreshed and ready.')}}]}]:[{n:'Bartender',t:"You're all set! Enjoy the night."}]);
  else if(n===dj)say(st==2?[{n:'DJ',t:'Got a request?',c:[{l:'"Just My Type" by Sweetie Pie 🎶',f:()=>{st=3;say([{n:'DJ',t:"Ooh, great pick! I'll work it into the set."},{n:'',t:'(Neither of you knows it yet, but this is about to become your song.)'}])}},{l:'Not yet.',f:()=>{}}]}]:[{n:'DJ',t:st<2?'Spinning right now! Come back if you want to request something.':"Your song's in the queue!"}]);
  else if(n===hunter)st==3?chat():say([{n:'Hunter',t:st<=1?'Morgan said you’re from England? You’ll have to tell me everything. 😅':'I’ll be right here!'}]);
+ else if(n.lines){const L=n.lines[(n.li||0)%n.lines.length];n.li=(n.li||0)+1;PATT=n;n._fc=1;
+  say(L.map(x=>{const m=/^([A-Za-z]+)\|(.*)$/.exec(x);return m?{n:m[1]==='A'?'Abigail':m[1]==='N'?'':m[1],t:m[2]}:{n:n.n,t:x}}),()=>{PATT=null})}
  else say([{n:'Dancer',t:QUIPS[Math.random()*QUIPS.length|0]}]);
 }
 function askMorgan(){st=2;say([{n:'Morgan',t:'My brother? Ha! Yes. Go for it.'},{n:'Morgan',t:'Go ask the DJ for a good song first. Then go get him!'}])}
@@ -5286,6 +5294,7 @@ Object.assign(SFX,{
 const VOW={a:[760,1180],e:[480,1850],i:[320,2250],o:[520,880],u:[360,820],y:[340,2100]};
 const VX={Hunter:[116,.93,'sawtooth',1],Abigail:[262,1.22,'triangle',1.1],Morgan:[282,1.26,'triangle',1.05],J:[96,.86,'sawtooth',.95],Mom:[198,1.07,'triangle',1],Mum:[224,1.1,'triangle',1],Dad:[104,.9,'sawtooth',.95],Tanner:[110,.9,'sawtooth',.95],
  Kid:[290,1.28,'triangle',1],Brittany:[248,1.18,'triangle',1],Kyle:[98,.86,'sawtooth',.9],Linda:[214,1.08,'triangle',1],Officiant:[108,.92,'sawtooth',.95],Auntie:[232,1.1,'triangle',1],Meggs:[220,1.1,'triangle',1],Nurse:[226,1.1,'triangle',1],Dude:[100,.86,'sawtooth',.9]};
+Object.assign(VX,{Derek:[112,.9,'sawtooth',.95],Kayla:[255,1.2,'triangle',1],Jess:[240,1.16,'triangle',1],Marcus:[100,.86,'sawtooth',.95],Brooke:[262,1.22,'triangle',1],Dale:[92,.84,'sawtooth',.95],Lexi:[270,1.24,'triangle',1],Ashley:[250,1.2,'triangle',1],Tyler:[118,.92,'sawtooth',.95],Megan:[245,1.18,'triangle',1],Nia:[258,1.2,'triangle',1],Brad:[108,.9,'sawtooth',.95],Sam:[124,.94,'sawtooth',.95],Rachel:[236,1.16,'triangle',1]});
 const VRADIO={Announcer:1,Speaker:1,Pilot:1,Livestream:1,Ticket:1};
 function vxOf(n){let v=VX[n];if(!v){let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))%997;const p=100+h%150;v=VX[n]=[p,.86+(p-100)/150*.32,p<160?'sawtooth':'triangle',.95]}return v}
 function voxSyl(V,v,p,vol,dur,dl,whisper,cons,mode2,pan){const c=AU.ctx,t=c.currentTime+(dl||0),g=c.createGain();let tail=auPan(AU.fx,pan||0);
@@ -10724,7 +10733,7 @@ function press2(CX,CY){
  if(mode==='dance'){danceTap(x,y);return}
  if(mode==='sneak'){sneakTap();return}
  if(mode!=='play'||dlg)return;
- const n=[morgan,hunter,bart,dj,...dancers].find(n=>Math.abs(x-n.x)<=10&&y>n.y-22&&y<n.y+6);
+ const n=[morgan,hunter,bart,dj,...dancers,...patList()].find(n=>Math.abs(x-n.x)<=10&&y>n.y-22&&y<n.y+6);
  const rp=n?null:ROOFP.find(o=>x>=o.x&&x<=o.x+o.w&&y>=o.y&&y<=o.y+o.h);
  if(rp){if(Math.hypot(abi.x-rp.spot[0],abi.y-rp.spot[1])<=4){abi.tx=null;pend=null;roofProp(rp)}else{pend=rp;const s=rp.spot;const P=roofPath(abi.x,abi.y,s[0],s[1]);if(P&&P.length){const l=P[P.length-1];if(Math.hypot(l[0]-s[0],l[1]-s[1])>.5)P.push([s[0],s[1]]);go(abi,P)}else{abi.tx=s[0];abi.ty=s[1]}}return}
  if(n){
