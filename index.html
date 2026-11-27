@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.24</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.15.25</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1956,7 +1956,7 @@ function kSteerAt(x){const k=kart;if(!k)return;const d=x-80,a=Math.abs(d);k.tx=x
 let kRaced=0;
 function kartFinish(){sfx(kart.place==1?'win':'lose');const k=kart,place=k.place,beatH=k.R[1].s<k.me.s||!k.R[1].done;k.fin=1;k.final=place;qprops.hLost=place==1||beatH?1:0;setHud('');if(!kRaced){kRaced=1;addH(1)}
  after(2.6,()=>fadeTo(()=>{const L=place==1?[{n:'Abigail',t:'FIRST PLACE! Sick AND undefeated!'},{n:'Hunter',t:'I let you win.'},{n:'Abigail',t:'You threw a water balloon at me, Hunter.'},{n:'Hunter',t:'...Enjoy the goulash I am now reheating.'}]
-  :beatH?[{n:'Abigail',t:'Okay, the bots were robbed, but I beat YOU. That is what matters.'},{n:'Hunter',t:'The bots cheated. I demand a rematch.'},{n:'Abigail',t:'Go reheat your mom\'s goulash. Now.'}]
+  :beatH?[{n:'Abigail',t:'Okay, the bots were robbed, but I beat YOU. That is what matters.'},{n:'Hunter',t:'The bots cheated. I demand a rematch.'},{n:'Abigail',t:'Go reheat your mum\'s goulash. Now.'}]
   :[{n:'Hunter',t:'And THAT is how it is done.'},{n:'Abigail',t:"I have a fever. It doesn't count."},{n:'Hunter',t:'...Fine. I\'ll still reheat Mom\'s goulash for you.'}];
   kart=null;L.splice(1,0,{n:'Morgan',t:k.R[2].done&&k.R[2].ft<(k.me.ft||1e9)?'Beat you BOTH. While sick. Write that down.':'I was robbed. That Rex guy rammed me on purpose.'});L.push({n:'Hunter',t:'Rematch?',c:[{l:'Rematch!',f:()=>fadeTo(()=>{setLoc('kart');mode='kartGo';kart=newKart();kHeld=0;setHud('Get ready...');tiltGame('Tilt your phone to steer! Holding the sides still works too.',['kartGo','kart'])})},{l:'Nah. Goulash time.',f:()=>fadeTo(qNight6)}]});qScene({mor:1,q:1,sw:1},L,null)}))}
 function kartSpr(x,y,col,hair,spin){x=Math.round(x);y=Math.round(y);
@@ -2091,7 +2091,7 @@ function lakeTalk(){mode='lake';say([
  {n:'Dad',t:"So what's new with you, kid?",c:[{l:'Actually... I met someone.',f:lk2},{l:'Oh, you know. Not much.',f:()=>say([{n:'Dad',t:"You're grinning like an idiot. That's not 'not much.'"},{n:'Hunter',t:'...Okay. Fine. I met someone.'}],lk2)}]}])}
 function lk2(){say([
  {n:'Hunter',t:"Her name's Abigail. She's from Newcastle, England. She's funny, she's smart, she's gorgeous..."},
- {n:'Hunter',t:'Honestly, Dad? Getting to know her has been amazing.'},
+ {n:'Hunter',t:'I really like her, Dad. Like, REALLY like her.'},
  {n:'Dad',t:"Ha! Look at you, all lit up. I'm really happy for you, son."},
  {n:'Dad',t:"Bring her around sometime. I want to meet the girl who's got you grinning like that."},
  {n:'Dad',t:'Now quit talking and catch us some dinner!'},
@@ -2184,7 +2184,7 @@ function qStart(){qprops={remote:0,sw:0};hm=0;sick=1;tissues=4;fade=1;fd=2;fhold
 const addH=n=>{hm=Math.min(10,hm+n)};
 let QPN=null,QSAT=null;function qScene(o,lines,next){const fromWalk=QSAT!=null&&T-QSAT<.5;QSAT=null;if(fromWalk&&!o.loc){if((o.q||0)>=3&&o.bk==null)o={...o,bk:T};if((o.q||0)>=2&&o.st==null)o={...o,st:T-.2}}setLoc(o.loc||'living');lv={night:0,mor:0,q:0,...o};showHM=1;mode='q';after(1,()=>say(lines,next))}
 function _qDay1(){qScene({mor:0,q:0,mb:1},[{n:'',t:'Everything feels heavy. Foggy. Like your head is stuffed with cotton wool.'},
- {n:'Morgan',t:'(sniff) Tissues are... everywhere. Help yourself.'},{n:'Hunter',t:'I feel totally fine, by the way. Zero symptoms.'},{n:'Abigail',t:'Of course you do. Ugh. My nose is a faucet.'},
+ {n:'Morgan',t:'(sniff) Tissues are... everywhere. Help yourself.'},{n:'Hunter',t:'Can’t smell a thing. Other than that? Weirdly fine.'},{n:'Abigail',t:'Of course you do. Ugh. My nose is a faucet.'},
  {n:'',t:'HOW TO BLOW YOUR NOSE: tap as fast as you can to fill the meter. Fill it 3 times for 3 big HONKS!',c:[{l:'Grab a tissue',f:startNose}]}])}
 /* ---- quarantine: walk around Morgan's apartment ---- */
 let qx=null,qprops={remote:0,sw:0};
@@ -2196,14 +2196,14 @@ const qxL=(id,d)=>{const n=lv.night,e=lv.eve;const L={
  cal:[{n:'',t:'Day '+qx.d+' of 14.'+(qx.d<14?' '+(14-qx.d)+' more to go.':' The LAST day!')},{n:'Abigail',t:['(Is it Tuesday? Every day is Tuesday now.)','(Morgan drew a little skull on today’s date.)','(Someone has been crossing off the days REALLY hard.)'][qx.d%3]}],
  morgan:lv.mor==4?[{n:'Morgan',t:'(through the door, still on the phone) No, YOU hang up first.'}]:lv.mor==3?[{n:'Morgan',t:qx.d>=14?'(through the door) Are you two official yet? FINALLY.':'(through the door) GO AWAY. ...Thank you for the cookie.'}]:
   [{n:'Morgan',t:{1:n?'(from under a blanket) Is it still today?':'(sniff) I’m writing my will. You get nothing.',3:n?'I see you two scooting closer. I SEE you.':'If one more person tells me to "stay positive" I will scream. I AM positive. That’s the problem.',6:n?'If you two get any cuter, I’m calling the CDC.':'Day six. I have watched everything on Netflix. Twice.',9:'(still on the phone) No, YOU hang up first.',12:'Do not. Talk. To me.'}[qx.d]||'(cough)'}],
- hunter:[{n:'Hunter',t:{1:n?'I’ll find us a show. Something with zero plot so you can nap.':'I feel totally fine. Is that annoying? That’s annoying.',3:n?'Want to sit by me? I mean... if you want. No pressure.':'My mom just texted me 14 times. She’s on her way with goulash.',6:n?'I made us a blanket fort. Kind of. It’s one blanket.':'I’ve been practicing Rainbow Road all morning. Prepare yourself.',9:n?'Your feet are ice cubes. I don’t mind.':'Morgan has been on that phone call for three hours.',12:n?'Two more nights. Then... what? Just thinking out loud.':'Two more days. Weird to think about life after this.',14:'Hey, you.'}[qx.d]||'Hey.'}],
+ hunter:[{n:'Hunter',t:{1:n?'I’ll find us a show. Something with zero plot so you can nap.':'Still can’t smell a thing. Otherwise weirdly fine. Is that annoying? That’s annoying.',3:n?'Want to sit by me? I mean... if you want. No pressure.':'My mom just texted me 14 times. She’s on her way with goulash.',6:n?'I made us a blanket fort. Kind of. It’s one blanket.':'I’ve been practicing Rainbow Road all morning. Prepare yourself.',9:n?'Your feet are ice cubes. I don’t mind.':'Morgan has been on that phone call for three hours.',12:n?'Two more nights. Then... what? Just thinking out loud.':'Two more days. Weird to think about life after this.',14:'Hey, you.'}[qx.d]||'Hey.'}],
  window:[{n:'Abigail',t:e?'(A pink sunset. The first one I’ve actually noticed in two weeks.)':n?'(The street is so quiet. Just one window glowing across the way.)':'(The world outside looks so normal. The birds have no idea about Covid.)'}],
- fridge:[{n:'Abigail',t:qx.d<3?'(Half an onion and one sad pickle.)':'(Goulash. More goulash. So. Much. Goulash.)'},{n:'Abigail',t:'(Morgan labeled her yogurt "MINE". There are three of them.)'}],
+ fridge:[{n:'Abigail',t:qx.d<3?'(Half an onion and one sad pickle.)':'(Goulash. More goulash. So. Much. Goulash.)'},{n:'Abigail',t:'(Morgan labelled her yogurt "MINE". There are three of them.)'}],
  phone:[{n:'',t:'A text from Mum in England:'},{n:'Mum',t:{1:'Drink your tea, love. PROPER tea. Not that American nonsense.',3:'How is the boy? The Hunter boy?',6:'Your gran is knitting you a scarf. For the Covid.',9:'Your dad says to tell the boy hello. He says it every day now.',12:'Two more days! Then you can finally go outside. Wear a coat.',14:'Ring me later, love. I want to hear EVERYTHING.'}[qx.d]||'Love you lots. Get some rest.'}],
  tissues:[{n:'Abigail',t:'(The tissue mountain grows taller every day.)'}],tpile:[{n:'Abigail',t:'(The tissue mountain grows taller every day.)'}],
  basket:[{n:'Abigail',t:'(The big fluffy blanket lives in our room. Saving it for a special occasion.)'}],
  pantry:[{n:'Abigail',t:qx.d<3?'(The pantry. Crackers, and one lonely can of soup.)':'(The pantry. Hunter’s mom stocked it with enough snacks for a month.)'}],
- stove:[{n:'Abigail',t:'(Hunter’s mom’s goulash. It never ends. It will outlive us all.)'}],sink:[{n:'Abigail',t:'(Every single mug in this apartment is in the sink.)'}],
+ stove:[{n:'Abigail',t:'(Hunter’s mum’s goulash. It never ends. It will outlive us all.)'}],sink:[{n:'Abigail',t:'(Every single mug in this apartment is in the sink.)'}],
  remote:[{n:'Abigail',t:'(The TV remote. Morgan keeps hiding it.)'}],
  blanket:[{n:'Abigail',t:'(The big fluffy blanket. Saving it for a special occasion.)'}],
  sw:[{n:'Abigail',t:'(The Switch. Hunter has been "practicing.")'},{n:'Abigail',t:'(Rematch later. Definitely rematch later.)'}],
@@ -2329,7 +2329,7 @@ function qxAct(id){const d=qx.d,n=lv.night,S=QSV.get(),sid=qSid();
   {n:'Abigail',t:'(Far past the parking lot, the Golden Arches glow faintly in the distance.)'},{n:'Abigail',t:'(The one remaining sign of hope that society has not yet totally collapsed.)'}]);qbMark('arches');return true}
  if(id==='stove'){if(d<3){say([{n:'Abigail',t:'(I would bake something. But there is nothing to bake WITH. Half an onion does not count.)'}]);return true}
   if(S.bread!=null){say([{n:'Abigail',t:S.bread===d?'(Fresh banana bread. Hunter has "tested" four slices.)':'(The banana bread is going fast. Somebody keeps cutting tiny slices so no one notices.)'}]);return true}
-  say([{n:'Abigail',t:'(Hunter’s mom brought SO many bananas. Brown ones, too. You know what that means.)',c:[{l:'Bake banana bread!',f:()=>say([{n:'',t:'*mash mash mash*',anim:()=>sfx('blegh')},{n:'',t:'(Into the oven it goes.)',anim:()=>{qx.oven=T;sfx('creak')}},
+  say([{n:'Abigail',t:'(Hunter’s mum brought SO many bananas. Brown ones, too. You know what that means.)',c:[{l:'Bake banana bread!',f:()=>say([{n:'',t:'*mash mash mash*',anim:()=>sfx('blegh')},{n:'',t:'(Into the oven it goes.)',anim:()=>{qx.oven=T;sfx('creak')}},
    {n:'',t:'*ding!*',anim:()=>{sfx('ding');qx.oven=null;const S2=QSV.get();S2.bread=d;QSV.put(S2)}},{n:'Abigail',t:'(The whole apartment smells amazing. Morgan opened her door just to sniff the air.)'}],()=>qbMark('bread'))},{l:'Maybe later',f:()=>{}}]}]);return true}
  if(id==='mdoor'){sfx('knock');const k=qx.cnt.knock=(qx.cnt.knock||0)+1,inRoom=lv.mor>=3;
   const A=inRoom?({9:['(through the door) Babe, hold on, someone is knocking. ...It’s just Abigail. She’s being cute AT me.','(through the door) Still on the phone. Still in love. Go away.'],12:['(through the door) If this is about the cookie, it was delicious. Now leave.','(through the door) *silence*'],14:['(through the door) Is it over yet? ...It is not over yet. I can tell by your knock.','(through the door) Knock one more time. I dare you.']}[d]||['(through the door) WHAT.','(through the door) *aggressive silence*'])
@@ -2786,7 +2786,7 @@ function hxCloset(){const A=hx.f;
  if(hx.cnt.studio){hx.cnt.studio++;say([[{n:'Hunter',t:'The studio. Currently between albums.'}],[{n:'Abigail',t:'Is "Hanger Management" on streaming yet?'},{n:'Hunter',t:'It is a closet exclusive.'}]][hx.cnt.studio%2]);return}
  hx.cnt.studio=1;mode='c3';setHud('');hx.fstay=1;go(A,hxRoute(A,26,124),40);
  say([{n:'Hunter',t:'And THIS... is the studio.',anim:()=>{hr.closet=1;sfx('creak');A.dir='l'}},{n:'Abigail',t:'...That is a closet.'},
-  {n:'Hunter',t:'It is a closet that HAPPENS to be a world-class recording studio.'},{n:'Abigail',t:'Why is it padded with... is that your mom’s good comforter?'},
+  {n:'Hunter',t:'It is a closet that HAPPENS to be a world-class recording studio.'},{n:'Abigail',t:'Why is it padded with... is that your mum’s good comforter?'},
   {n:'Hunter',t:'Acoustics, Abigail. She doesn’t know. ...She knows.'},{n:'Hunter',t:'I have recorded THREE full hip hop albums in here.'},{n:'Abigail',t:'Three?!'},
   {n:'Hunter',t:'The trilogy. "Closet Bars." "Closet Bars 2." And my masterpiece... "Hanger Management."'},{n:'Abigail',t:'(trying SO hard not to laugh) Okay. Play me something.'},
   {n:'Hunter',t:'...Fine. ONE verse.',anim:()=>{hr.rec=1;[0,.3,.6,.9,1.2,1.5,1.8,2.1].forEach((d,i)=>after(d,()=>sfx(i%2?'tick':'bump')))}},
@@ -2847,7 +2847,7 @@ function noseTap(){const n=nose;if(!n||n.h>=3)return;n.m+=.11;sfx('tick');n.jig=
   else{sfx('honk');sfx('hit');after(.1,()=>sfx('honk'));after(.2,()=>sfx('splash'));after(.35,()=>sfx('blegh'));shakeT=1.2;shakeP=11;n.flash=.45;setHud('');
    for(let i=0;i<26;i++){const a=-1.2+Math.random()*1.6,v=80+Math.random()*160;n.gl.push({x:nx,y:ny,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:1.4,s:2+Math.random()*3|0,c:['#9ad04a','#b8e060','#7ab03a','#d0f080'][i%4],sp:i<9})}
    for(let i=0;i<7;i++)n.ts.push({x:nx-4,y:ny+6,vx:-80+Math.random()*200,vy:-90-Math.random()*90,r:0,vr:(Math.random()-.5)*14,l:2.4});
-   after(2.4,()=>{noseOn=0;mode='q';setHud('');addH(1);say([{n:'Hunter',t:'(slowly wiping his face) That looked like it felt SO good.',em:'SO'},{n:'Morgan',t:'(from her room) WHAT WAS THAT?! Did something EXPLODE?!'},{n:'Abigail',t:'(sniff) ...I feel SO much better.'},{n:'Morgan',t:'Bless you. Times three. Times a THOUSAND.'}],()=>fadeTo(qNight1))})}}}
+   after(2.4,()=>{noseOn=0;mode='q';setHud('');addH(1);say([{n:'Hunter',t:'(slowly wiping his face) That looked like it felt SO good.',em:'SO'},{n:'Morgan',t:'(from the other end of the couch) WHAT WAS THAT?! Did something EXPLODE?!'},{n:'Abigail',t:'(sniff) ...I feel SO much better.'},{n:'Morgan',t:'Bless you. Times three. Times a THOUSAND.'}],()=>fadeTo(qNight1))})}}}
 function noseFx(dt){const n=nose;if(shakeT<=0)shakeP=0;if(!n)return;n.jig=Math.max(0,(n.jig||0)-dt);n.flash=Math.max(0,(n.flash||0)-dt);
  (n.gl||[]).forEach(g=>{g.x+=g.vx*dt;g.y+=g.vy*dt;g.vy+=220*dt;g.l-=dt;if(g.sp&&g.l<1.05&&!g.hit){g.hit=1;g.l=0;n.sp.push({x:20+Math.random()*120,y:30+Math.random()*170,r:5+Math.random()*7|0,d:0,l:3.6+Math.random(),c:g.c})}});n.gl=(n.gl||[]).filter(g=>g.l>0&&g.y<300);
  (n.sp||[]).forEach(q=>{q.d=Math.min(26,q.d+dt*(5+q.r));q.l-=dt});n.sp=(n.sp||[]).filter(q=>q.l>0);
@@ -2994,7 +2994,7 @@ function official(){say([{n:'Abigail',t:'Maybe we should... make it official?'},
   say([{n:'',t:'You sit there for a long while. Completely, totally content.'},{n:'Abigail',t:'Hunter?'},{n:'Hunter',t:'Mm?'},{n:'Abigail',t:'I love you.'},{n:'Hunter',t:'I love you too, Abigail.'}],()=>{lv.kiss=1;sfx('kiss');for(let i=0;i<4;i++)after(i*.4,()=>burst(49,58,'#ff5f9e'));
    after(3.6,()=>phSay('official',[{n:'Morgan',t:'(from her room) IS IT OVER YET?!'},{n:'Hunter',t:"It's over, Morgan!"},{n:'Morgan',t:"FINALLY! I'm going to see my boyfriend! BYE!"}],()=>lvMorOut(()=>{shakeT=.45;sfx('slam');sfx('hit');say([{n:'',t:'*the front door slams*'},
     {n:'Abigail',t:'So... the uni closed the dorms. Classes are going online for the rest of the semester.'},{n:'Abigail',t:"I don't really have anywhere to go."},
-    {n:'Hunter',t:'Well... I still live with my mom. Come stay with us.'},{n:'Abigail',t:'With you AND your mom?'},{n:'Hunter',t:"She'll love you. I promise."}],
+    {n:'Hunter',t:'Well... I still live with my mom. Come stay with us.'},{n:'Abigail',t:'With you AND your mum?'},{n:'Hunter',t:"She'll love you. I promise."}],
     chEnd2)})))})})})}
 function chEnd2(){fadeTo(()=>{setLoc('newsbg');showHM=0;card('...and so began<br><br><span style="color:#ffd86b">life at Mom\'s house.</span>')},3.4);
  after(4.4,()=>{$('card').style.opacity=0;save.set(2);showEnd('CHAPTER 2<br>FOURTEEN DAYS','\u2665 Complete \u2665<br><br><small>Progress saved \u2713</small>','<button onclick="startCh3()">Chapter 3 \u25b6</button>')})}
@@ -3907,7 +3907,7 @@ function trItems(){const I=[],O=tw&&tw.ordered;
  I.push({id:'slime',x:28,y:81,w:30,h:9,spot:[40,98],face:'u',lines:[[{n:'',t:'Something green is dripping from the truck. Slowly.'},{n:'Abigail',t:'Please tell me that’s guacamole.'},{n:'Hunter',t:'...It’s guacamole.'},{n:'Abigail',t:'You hesitated.'}]]});
  I.push({id:'yellow',x:64,y:46,w:16,h:36,spot:[70,98],face:'u',lines:[[{n:'',t:'CLOSED. A note on the window: "Gone fishing. Forever."'}],[{n:'Abigail',t:'Even the closed truck looks safer than the open one.'}]]});
  I.push({id:'table',x:12,y:101,w:56,h:30,spot:[40,136],face:'u',lines:[[{n:'Hunter',t:'(A picnic table. It is sticky. Everywhere.)'}],[{n:'Abigail',t:'Do NOT sit there.'}]]});
- I.push({id:'abi',x:abi.x-6,y:abi.y-22,w:12,h:24,spot:[abi.x+(abi.x<hunter.x?10:-10),abi.y],face:abi.x<hunter.x?'l':'r',lines:()=>tw.ordered?[[{n:'Abigail',t:'I can still taste it. In my SOUL.'}],[{n:'Abigail',t:'Coffee. I need coffee. Any coffee.'}]]:[[{n:'Abigail',t:'Are we really doing this?'},{n:'Hunter',t:'We are absolutely doing this.'}],[{n:'Abigail',t:'If I die, tell my mom I love her.'}]]});
+ I.push({id:'abi',x:abi.x-6,y:abi.y-22,w:12,h:24,spot:[abi.x+(abi.x<hunter.x?10:-10),abi.y],face:abi.x<hunter.x?'l':'r',lines:()=>tw.ordered?[[{n:'Abigail',t:'I can still taste it. In my SOUL.'}],[{n:'Abigail',t:'Coffee. I need coffee. Any coffee.'}]]:[[{n:'Abigail',t:'Are we really doing this?'},{n:'Hunter',t:'We are absolutely doing this.'}],[{n:'Abigail',t:'If I die, tell my mum I love her.'}]]});
  return I}
 function trSeat(dir,cb){tw.st={t:0,dur:.55,dir,cb};if(dir<0){abi.sit=hunter.sit=0;tw.seat=0}sfx('step')}
 function trSeatUpd(dt){const S=tw&&tw.st;if(!S||loc!=='trucks')return;S.t+=dt;const k=Math.min(1,S.t/S.dur),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2,u=S.dir>0?e:1-e,y=99+11*u;
