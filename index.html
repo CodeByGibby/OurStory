@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.16.3</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.16.4</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -7477,13 +7477,13 @@ AMS.stars={bpm:72,vol:0.366,dly:.42,chords:['C','Am','F','G','C','Em','F','G','A
   'E5 - - - A5 - - G5','G5 - - - E5 - - -','F5 - - - A5 - C6 -','G5 - - - E5 - - -','F5 - - - D5 - A5 -','G5 - - - B5 - D6 -','C6 - - - G5 - E5 -','C5 - - - - - - -']}],
  arp:{i:'celes',v:.03,o:5,mode:'ud',div:2},pad:{i:'strings',v:.022,o:4},bass:{i:'sub',v:0.035,o:2,p:['R-------5-------']},
  drums:[{v:.5,p:[null],bars:{8:'z...z...z...z...',9:'z...z...z...z...',10:'z...z...z...z...',11:'z...z...z...z.z.',12:'z...z...z...z...',13:'z...z...z...z...',14:'z...z...z...z...'}}]};
-/* roof: The Coop - a warm, unhurried rooftop lounge groove that can sit under a long night of talking */
-AMS.roof={bpm:88,sw:.22,vol:0.31,dly:.55,chords:['Dmaj7','Bm7','Gmaj7','A7','Dmaj7','F#m7','Gmaj7','Em7 A7','Bm7','F#m7','Gmaj7','Dmaj7','Em7','F#m7','Gmaj7','Asus4 A7'],
- lines:[{i:'vibes',v:0.085,n:['. . A4 - D5 - E5 F#5','F#5 - - - . . . .','. . B4 - D5 - F#5 E5','E5 - - - . . C#5 -','D5 - . A4 D5 - E5 F#5','A5 - - - E5 - C#5 -','D5 - - - B4 - D5 E5','E5 - - - C#5 - - -',
+/* roof: The Coop - a warm rooftop disco groove: a steady beat for the dance floor, rounded off so it never stabs over the conversation */
+AMS.roof={bpm:108,sw:.12,vol:0.42,dly:.42,chords:['Dmaj7','Bm7','Gmaj7','A7','Dmaj7','F#m7','Gmaj7','Em7 A7','Bm7','F#m7','Gmaj7','Dmaj7','Em7','F#m7','Gmaj7','Asus4 A7'],
+ lines:[{i:'vibes',v:0.11,n:['. . A4 - D5 - E5 F#5','F#5 - - - . . . .','. . B4 - D5 - F#5 E5','E5 - - - . . C#5 -','D5 - . A4 D5 - E5 F#5','A5 - - - E5 - C#5 -','D5 - - - B4 - D5 E5','E5 - - - C#5 - - -',
   '. . F#5 - A5 - B5 -','C#6 - - - A5 - - -','. . B5 - A5 - F#5 -','A5 - - - . . . .','. . G5 - E5 - B4 -','C#5 - - - E5 - A5 -','F#5 - - - E5 - D5 -','E5 - - - . . . .']}],
- stab:{i:'ep',v:.045,o:4,p:['x.....x...x.....','x.......x.....x.']},pad:{i:'epad',v:.014,o:4,bars:[8,9,10,11,12,13,14,15]},
- bass:{i:'upright',v:.065,o:2,p:['R.....R...5.....','R.......R..3.5..']},
- drums:[{v:.32,p:['k.......k..k....']},{v:.22,p:['....w.......w...']},{v:.18,p:['h.h.h.h.h.h.h.h.']}]};
+ stab:{i:'ep',v:.05,o:4,p:['..x...x...x...x.','..x...x...x..x..']},arp:{i:'guit',v:.042,o:4,mode:'ud',div:2},pad:{i:'epad',v:.015,o:4,bars:[8,9,10,11,12,13,14,15]},
+ bass:{i:'fbass',v:.13,o:2,p:['R.R.8.R.R.R.8.R.','R..R8.R.R..R8.5.']},
+ drums:[{v:.6,p:['k...k...k...k...']},{v:.42,p:['....c.......c...']},{v:.38,p:['..o...o...o...o.']},{v:.14,p:['h.h.h.h.h.h.h.h.']},{v:.5,p:[null],bars:{0:'x...............',8:'x...............'}}]};
 /* bars: a night out - funky bar groove */
 AMS.bars={bpm:106,vol:0.413,dly:.42,chords:['Am7','Am7','Dm7','E7','Am7','Am7','Dm7','E7','Fmaj7','E7','Am7','Am7','Fmaj7','E7','Am7','E7'],
  lines:[{i:'sax',v:0.459,n:['E5 - . G5 . A5 - .','C6 - A5 - G5 E5 . .','F5 - . A5 . C6 - .','B5 - G#5 - E5 - D5 -','E5 - . G5 . A5 - C6','D6 C6 A5 G5 E5 - . .','D5 F5 A5 C6 - B5 A5 .','G#5 - - - B5 - - -',
