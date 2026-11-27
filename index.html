@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.16.6</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.16.7</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -5286,24 +5286,25 @@ Object.assign(SFX,{
  select:()=>{fN(0,.008,.05,'highpass',3000);tone(880,.05,'triangle',.05,1320)},
  thud:()=>{fN(0,.1,.2,'lowpass',240);tone(72,.14,'sine',.12,46)},
  crash:()=>{fN(0,.4,.3,'lowpass',900);fC(0,.6,30,.06,3000,2);fR(.02,410,.4,.04,2.7)},
- laugh:sp=>{const V=vxOf(sp||'Hunter');for(let i=0;i<4;i++)voxSyl(V,'a',V[0]*(1.18-i*.06),.09*V[3]*(V[2]==='triangle'?2.1:1),.09,i*.13,0,1,0,panOf({n:sp}))},
- sing:sp=>{const V=vxOf(sp||'Hunter');let d=0;for(let i=0;i<7;i++){const l=rr(.14,.3);voxSyl(V,'aoeiu'[i%5],V[0]*Math.pow(2,(Math.random()*9-4)/12),.085*V[3]*(V[2]==='triangle'?2.1:1),l,d,0,0,0,panOf({n:sp}));d+=l}}
+ laugh:sp=>{const V=vxOf(sp||'Hunter');for(let i=0;i<4;i++)voxSyl(V,'a',V[0]*(1.18-i*.06),(V[4]==='cute'?.05:.09*(V[2]==='triangle'?2.1:1))*V[3],.09,i*.13,0,1,0,panOf({n:sp}))},
+ sing:sp=>{const V=vxOf(sp||'Hunter');let d=0;for(let i=0;i<7;i++){const l=rr(.14,.3);voxSyl(V,'aoeiu'[i%5],V[0]*Math.pow(2,(Math.random()*9-4)/12),(V[4]==='cute'?.05:.085*(V[2]==='triangle'?2.1:1))*V[3],l,d,0,0,0,panOf({n:sp}));d+=l}}
 });
 
 /* ---- voices: a syllable of gibberish shaped by the vowel being "said", in each person's own register ---- */
 const VOW={a:[760,1180],e:[480,1850],i:[320,2250],o:[520,880],u:[360,820],y:[340,2100]};
-const VX={Hunter:[116,.93,'sawtooth',1],Abigail:[262,1.22,'triangle',1.1],Morgan:[282,1.26,'triangle',1.05],J:[96,.86,'sawtooth',.95],Mom:[198,1.07,'triangle',1],Mum:[224,1.1,'triangle',1],Dad:[104,.9,'sawtooth',.95],Tanner:[110,.9,'sawtooth',.95],
- Kid:[290,1.28,'triangle',1],Brittany:[248,1.18,'triangle',1],Kyle:[98,.86,'sawtooth',.9],Linda:[214,1.08,'triangle',1],Officiant:[108,.92,'sawtooth',.95],Auntie:[232,1.1,'triangle',1],Meggs:[220,1.1,'triangle',1],Nurse:[226,1.1,'triangle',1],Dude:[100,.86,'sawtooth',.9]};
-Object.assign(VX,{Derek:[112,.9,'sawtooth',.95],Kayla:[255,1.2,'triangle',1],Jess:[240,1.16,'triangle',1],Marcus:[100,.86,'sawtooth',.95],Brooke:[262,1.22,'triangle',1],Dale:[92,.84,'sawtooth',.95],Lexi:[270,1.24,'triangle',1],Ashley:[250,1.2,'triangle',1],Tyler:[118,.92,'sawtooth',.95],Megan:[245,1.18,'triangle',1],Nia:[258,1.2,'triangle',1],Brad:[108,.9,'sawtooth',.95],Sam:[124,.94,'sawtooth',.95],Rachel:[236,1.16,'triangle',1]});
+const VX={Hunter:[116,.93,'sawtooth',1],Abigail:[305,1.25,'triangle',1.1,'cute'],Morgan:[285,1.25,'triangle',1.05,'cute'],J:[96,.86,'sawtooth',.95],Mom:[198,1.07,'triangle',1,'cute'],Mum:[224,1.1,'triangle',1,'cute'],Dad:[104,.9,'sawtooth',.95],Tanner:[110,.9,'sawtooth',.95],
+ Kid:[290,1.28,'triangle',1,'cute'],Brittany:[248,1.18,'triangle',1,'cute'],Kyle:[98,.86,'sawtooth',.9],Linda:[214,1.08,'triangle',1,'cute'],Officiant:[108,.92,'sawtooth',.95],Auntie:[232,1.1,'triangle',1,'cute'],Meggs:[220,1.1,'triangle',1,'cute'],Nurse:[226,1.1,'triangle',1,'cute'],Dude:[100,.86,'sawtooth',.9]};
+Object.assign(VX,{Derek:[112,.9,'sawtooth',.95],Kayla:[255,1.2,'triangle',1,'cute'],Jess:[240,1.16,'triangle',1,'cute'],Marcus:[100,.86,'sawtooth',.95],Brooke:[262,1.22,'triangle',1,'cute'],Dale:[92,.84,'sawtooth',.95],Lexi:[270,1.24,'triangle',1,'cute'],Ashley:[250,1.2,'triangle',1,'cute'],Tyler:[118,.92,'sawtooth',.95],Megan:[245,1.18,'triangle',1,'cute'],Nia:[258,1.2,'triangle',1,'cute'],Brad:[108,.9,'sawtooth',.95],Sam:[124,.94,'sawtooth',.95],Rachel:[236,1.16,'triangle',1,'cute']});
 const VRADIO={Announcer:1,Speaker:1,Pilot:1,Livestream:1,Ticket:1};
 function vxOf(n){let v=VX[n];if(!v){let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))%997;const p=100+h%150;v=VX[n]=[p,.86+(p-100)/150*.32,p<160?'sawtooth':'triangle',.95]}return v}
 function voxSyl(V,v,p,vol,dur,dl,whisper,cons,mode2,pan){const c=AU.ctx,t=c.currentTime+(dl||0),g=c.createGain();let tail=auPan(AU.fx,pan||0);
  if(mode2==='thought'){const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=1500;lp.connect(tail);tail=lp}
  if(mode2==='radio'){const hp=c.createBiquadFilter(),lp=c.createBiquadFilter();hp.type='highpass';hp.frequency.value=700;lp.type='lowpass';lp.frequency.value=2800;hp.connect(lp);lp.connect(tail);tail=hp}
  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.012);g.gain.setValueAtTime(vol*.85,t+dur*.6);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
- let src;if(whisper){src=c.createBufferSource();src.buffer=AU.noise;src.loop=true;src.start(t,Math.random()*.3)}else{src=c.createOscillator();src.type=V[2];src.frequency.setValueAtTime(p*1.05,t);src.frequency.exponentialRampToValueAtTime(p*.95,t+dur);src.start(t)}src.stop(t+dur+.03);
+ const cute=V[4]==='cute'&&!whisper;let src;if(whisper){src=c.createBufferSource();src.buffer=AU.noise;src.loop=true;src.start(t,Math.random()*.3)}else{src=c.createOscillator();src.type=V[2];if(cute){src.frequency.setValueAtTime(p*.98,t);src.frequency.exponentialRampToValueAtTime(p*1.04,t+dur)}else{src.frequency.setValueAtTime(p*1.05,t);src.frequency.exponentialRampToValueAtTime(p*.95,t+dur)}src.start(t)}src.stop(t+dur+.03);
+ if(cute){const dg=c.createGain();dg.gain.value=.8;src.connect(dg);dg.connect(g)}
  const F=VOW[v]||VOW.a,f1=c.createBiquadFilter(),f2=c.createBiquadFilter(),b=c.createGain();f1.type=f2.type='bandpass';f1.frequency.value=F[0]*V[1];f1.Q.value=whisper?6:3.2;f2.frequency.value=F[1]*V[1];f2.Q.value=whisper?9:5;b.gain.value=.55;
- src.connect(f1);src.connect(f2);f1.connect(g);f2.connect(b);b.connect(g);g.connect(tail);
+ if(cute){const fg=c.createGain();fg.gain.value=.35;src.connect(f1);src.connect(f2);f1.connect(fg);f2.connect(b);b.connect(fg);fg.connect(g)}else{src.connect(f1);src.connect(f2);f1.connect(g);f2.connect(b);b.connect(g)}g.connect(tail);
  if(cons)nz(.016,vol*.5,4500*V[1],'highpass',dl||0,tail)}
 let VXL=0;
 function voiceBlip(n,txt,q){if(!n){sfx('typeTick');return}if(!AU.ctx||!AU.on)return;txt=txt||'';q=q||0;
@@ -5318,9 +5319,9 @@ function voiceBlip(n,txt,q){if(!n){sfx('typeTick');return}if(!AU.ctx||!AU.on)ret
  const V=vxOf(n);let v='a';for(let j=q;j<Math.min(txt.length,q+5);j++){const ch=txt[j].toLowerCase();if(VOW[ch]){v=ch;break}}
  let a=q,b=q;while(a>0&&/[A-Za-z’']/.test(txt[a-1]))a--;while(b<txt.length&&/[A-Za-z’']/.test(txt[b]))b++;const w=txt.slice(a,b),shout=w.length>=2&&w===w.toUpperCase()&&/[A-Z]/.test(w);
  const k=q/Math.max(1,txt.length),qn=/\?\W*$/.test(txt)&&k>.6;
- const p=V[0]*(1+(Math.random()-.5)*.12)*(shout?1.2:1)*(qn?1+(k-.6)*.8:1)*(1-.06*k);
- const vol=.09*V[3]*(V[2]==='triangle'?2.1:1)*(shout?1.35:1)*(thought?.42:1)*(whisper?1.5:1)*(radio?2.6:1);
- voxSyl(V,v,p,vol,rr(.07,.105),0,whisper,/[stkpcfhzx]/i.test(txt[q]||''),radio?'radio':thought?'thought':0,panOf({n})*.6)}
+ const cute=V[4]==='cute';const p=V[0]*(cute?1+Math.random()*.2:1+(Math.random()-.5)*.12)*(shout?1.15:1)*(qn?1+(k-.6)*.8:1)*(1-.05*k);
+ const vol=(cute?.05:.09*(V[2]==='triangle'?2.1:1))*V[3]*(shout?1.35:1)*(thought?.42:1)*(whisper?1.5:1)*(radio?2.6:1);
+ voxSyl(V,v,p,vol,cute?rr(.05,.07):rr(.07,.105),0,whisper,/[stkpcfhzx]/i.test(txt[q]||''),radio?'radio':thought?'thought':0,panOf({n})*.6)}
 
 /* ---- footsteps: what you're walking on, and who is walking ---- */
 const SURK={home:'wood',bath:'tile',church:'carpet',airport:'tile',diner:'wood',arcade:'carpet',shop:'tile',office:'carpet',rooftop:'deck',city:'stone',birds:'grass',farm:'dirt',garden:'grass',hilltop:'gravel',water:'deck',tennis:'court',night:'stone',pump:'stone',breeze:'stone',cabin:'carpet',crowd:'stone',nursery:'carpet',idle:'stone',lobby:'marble',lift:'carpet',party:'carpet'};
