@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.16.1</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.16.2</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -5257,7 +5257,7 @@ Object.assign(SFX,{
 
 /* ---- voices: a syllable of gibberish shaped by the vowel being "said", in each person's own register ---- */
 const VOW={a:[760,1180],e:[480,1850],i:[320,2250],o:[520,880],u:[360,820],y:[340,2100]};
-const VX={Hunter:[116,.93,'sawtooth',1],Abigail:[212,1.1,'triangle',1.15],Morgan:[236,1.14,'triangle',1.05],J:[96,.86,'sawtooth',.95],Mom:[198,1.07,'triangle',1],Mum:[224,1.1,'triangle',1],Dad:[104,.9,'sawtooth',.95],Tanner:[110,.9,'sawtooth',.95],
+const VX={Hunter:[116,.93,'sawtooth',1],Abigail:[262,1.22,'triangle',1.1],Morgan:[282,1.26,'triangle',1.05],J:[96,.86,'sawtooth',.95],Mom:[198,1.07,'triangle',1],Mum:[224,1.1,'triangle',1],Dad:[104,.9,'sawtooth',.95],Tanner:[110,.9,'sawtooth',.95],
  Kid:[290,1.28,'triangle',1],Brittany:[248,1.18,'triangle',1],Kyle:[98,.86,'sawtooth',.9],Linda:[214,1.08,'triangle',1],Officiant:[108,.92,'sawtooth',.95],Auntie:[232,1.1,'triangle',1],Meggs:[220,1.1,'triangle',1],Nurse:[226,1.1,'triangle',1],Dude:[100,.86,'sawtooth',.9]};
 const VRADIO={Announcer:1,Speaker:1,Pilot:1,Livestream:1,Ticket:1};
 function vxOf(n){let v=VX[n];if(!v){let h=0;for(const ch of String(n))h=(h*31+ch.charCodeAt(0))%997;const p=100+h%150;v=VX[n]=[p,.86+(p-100)/150*.32,p<160?'sawtooth':'triangle',.95]}return v}
@@ -7478,11 +7478,11 @@ AMS.stars={bpm:72,vol:0.366,dly:.42,chords:['C','Am','F','G','C','Em','F','G','A
  arp:{i:'celes',v:.03,o:5,mode:'ud',div:2},pad:{i:'strings',v:.022,o:4},bass:{i:'sub',v:0.035,o:2,p:['R-------5-------']},
  drums:[{v:.5,p:[null],bars:{8:'z...z...z...z...',9:'z...z...z...z...',10:'z...z...z...z...',11:'z...z...z...z.z.',12:'z...z...z...z...',13:'z...z...z...z...',14:'z...z...z...z...'}}]};
 /* roof: rooftop party - bright indie dance-pop */
-AMS.roof={bpm:116,vol:0.455,dly:.39,chords:['Am','F','C','G','Am','F','C','G','Dm','Am','F','C','Dm','Am','F','E'],
- lines:[{i:'popl',v:0.510,n:['A4 . C5 . E5 - D5 C5','A4 - - - . . G4 A4','C5 . E5 . G5 - F5 E5','D5 - - - . . . .','A4 . C5 . E5 - G5 A5','A5 - G5 - F5 - E5 -','E5 - G5 - C6 - B5 G5','B5 - - - G5 - - -',
-  'F5 - - - A5 - D6 -','C6 - - - A5 - E5 -','F5 - A5 - C6 - A5 -','G5 - - - E5 - - -','D5 - F5 - A5 - D6 -','C6 - B5 - A5 - E5 -','F5 - E5 - D5 - C5 -','B4 - - - G#4 - - -']}],
- arp:{i:'arp',v:.1,o:5,mode:'up'},bass:{i:'pluck',v:.2,o:2,p:['R.R.8.R.R.R.8.R.']},pad:{i:'pad',v:.06,o:4,bars:[8,9,10,11,12,13,14,15]},
- drums:[{v:.85,p:[AMD4]},{v:.7,p:['....c.......c...']},{v:.55,p:['..o...o...o...o.']},{v:1,p:[null],bars:{0:'x...............',8:'x...............'}}]};
+AMS.roof={bpm:94,sw:.25,vol:0.30,dly:.5,chords:['Am7','Fmaj7','Cmaj7','G','Am7','Fmaj7','Cmaj7','G','Dm7','Am7','Fmaj7','Cmaj7','Dm7','Am7','Fmaj7','E7'],
+ lines:[{i:'ep',v:0.11,n:['. . E5 - C5 - A4 -','. . . . . . G4 A4','C5 - - - E5 - D5 C5','D5 - - - . . . .','. . E5 - G5 - A5 -','A5 - G5 - E5 - . .','E5 - - - G5 - - -','D5 - - - . . . .',
+  '. . F5 - A5 - - -','E5 - - - C5 - - -','. . A4 - C5 - F5 -','E5 - - - . . . .','. . D5 - F5 - A5 -','G5 - E5 - C5 - - -','A4 - C5 - D5 - C5 -','B4 - - - G#4 - - -']}],
+ pad:{i:'epad',v:.025,o:4},bass:{i:'upright',v:.07,o:2,p:['R.......5...R...']},
+ drums:[{v:.45,p:['K.......K..K....']},{v:.3,p:['....s.......s...']},{v:.28,p:['h.h.h.h.h.h.h.h.']}]};
 /* bars: a night out - funky bar groove */
 AMS.bars={bpm:106,vol:0.413,dly:.42,chords:['Am7','Am7','Dm7','E7','Am7','Am7','Dm7','E7','Fmaj7','E7','Am7','Am7','Fmaj7','E7','Am7','E7'],
  lines:[{i:'sax',v:0.459,n:['E5 - . G5 . A5 - .','C6 - A5 - G5 E5 . .','F5 - . A5 . C6 - .','B5 - G#5 - E5 - D5 -','E5 - . G5 . A5 - C6','D6 C6 A5 G5 E5 - . .','D5 F5 A5 C6 - B5 A5 .','G#5 - - - B5 - - -',
