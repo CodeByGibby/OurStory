@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.16.4</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.16.5</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -315,6 +315,33 @@ const hunter=mk('hunter',44,540,{dir:'l'}),morgan=mk('morgan',16,540,{dir:'r'}),
 const dn=(x,y,top,hair,hl,skin,ph)=>mk('morgan',x,y,{n:'Dancer',top,hair,hl,skin,pants:'#3a3a5a',dance:1,ph});
 const dancers=[dn(58,452,'#ff7eb6','#2a1a1a',2,'#8d5a3a',0),dn(102,452,'#7ee8fa','#d8a33a',1,'#f6d2b0',1),dn(58,494,'#8be28b','#5a2a1a',0,'#c98e62',2),dn(102,494,'#ffd86b','#1a1a2a',1,'#f1c9a0',3)];
 const all=[hunter,morgan,abi,bart,dj,...dancers];
+/* ---- The Coop's crowd: people at the tables, along the bar, a couple more dancing, and a few making the trip for another round ---- */
+const PAT=(()=>{const M=(k,x,y,o)=>mk(k,x,y,Object.assign({n:'Patron',apron:0},o)),W=[],S=[];
+ // seated at the tables, turned toward each other
+ S.push(M('bart',9,456,{top:'#3a6ab0',hair:'#2a1a12',hl:0,skin:'#c98e62',pants:'#2a2a3a',sit:1,dir:'r',hold:'beer'}),
+  M('abi',31,456,{top:'#e06a8a',hair:'#d8a33a',hl:2,skin:'#f6d2b0',skirt:'#2a1e3a',leo:1,sit:1,dir:'l',hold:'pink'}),
+  M('morgan',129,456,{top:'#8be28b',hair:'#1a1a1a',hl:1,skin:'#8d5a3a',pants:'#3a3a5a',sit:1,dir:'r'}),
+  M('bart',151,456,{top:'#f2b632',hair:'#6a3a1a',hl:0,skin:'#f1c9a0',pants:'#4a3a2a',sit:1,dir:'l',hold:'beer'}),
+  M('abi',149,542,{top:'#7ee8fa',hair:'#1a1210',hl:2,skin:'#c98e62',skirt:'#1a1a2a',leo:1,sit:1,dir:'l',hold:'pink'}));
+ // leaning on the bar
+ S.push(M('bart',104,424,{top:'#5a3a8a',hair:'#3a2a1a',hl:0,skin:'#a8724a',pants:'#2a2a3a',dir:'u',hold:'beer'}));
+ // one more dancing at the floor's edge
+ S.push(M('morgan',44,476,{n:'Dancer',top:'#ff9a5a',hair:'#3a2216',hl:2,skin:'#f6d2b0',pants:'#3a3a5a',dance:1,ph:1.6}));
+ // regulars who get up, fetch a drink and come back (home spot, route to the bar, their place at the bar)
+ const w=(p,home,route,barAt,sit,dir)=>W.push({p,home,route,barAt,sit,dir,st:'idle',t:2+Math.random()*7});
+ w(M('morgan',127,540,{top:'#ff7eb6',hair:'#5a3620',hl:2,skin:'#f1c9a0',pants:'#26202e',sit:1,dir:'r'}),[127,540],[[118,522],[118,470],[116,436]],[116,424],1,'r');
+ w(M('bart',124,472,{top:'#2fb58a',hair:'#1e1e1e',hl:0,skin:'#c98e62',pants:'#3a4a6b',dir:'l'}),[124,472],[[130,446]],[138,424],0,'l');
+ w(M('abi',36,472,{top:'#ffd86b',hair:'#2a1a12',hl:2,skin:'#8d5a3a',skirt:'#3a1e2e',leo:1,dir:'r'}),[36,472],[[42,432],[84,428]],[92,425],0,'r');
+ W.forEach(o=>{o.p.sp=26+Math.random()*6});return {S,W}})();
+function patOn(){return loc==='roof'&&!(c8&&c8.rec)}
+function patList(){return patOn()?PAT.S.concat(PAT.W.map(o=>o.p)):[]}
+function patUpd(dt){if(!patOn())return;
+ for(const o of PAT.W){const p=o.p;mv(p,dt);o.t-=dt;
+  if(o.st==='idle'&&o.t<=0){p.sit=0;p.hold=null;o.st='up';o.t=.45}
+  else if(o.st==='up'&&o.t<=0){o.st='go';go(p,o.route.concat([o.barAt]),p.sp)}
+  else if(o.st==='go'&&p.tx==null){o.st='order';o.t=2.2+Math.random()*2.5;p.dir='u'}
+  else if(o.st==='order'&&o.t<=0){p.hold=Math.random()<.5?'beer':'pink';o.st='back';go(p,o.route.slice().reverse().concat([o.home]),p.sp)}
+  else if(o.st==='back'&&p.tx==null){o.st='idle';o.t=9+Math.random()*12;p.dir=o.dir;if(o.sit)p.sit=1}}}
 
 /* Small in-between moments, worked out in one place so every scene gets them:
    - turning right round passes through one frame facing the camera
@@ -10728,7 +10755,7 @@ dv.addEventListener('touchmove',e=>{if(mode==='skee'&&SK&&SK.hold){const q=e.tou
 dv.addEventListener('pointermove',e=>{if(mode!=='kart'||!kHeld)return;const b=CR||(CR=dv.getBoundingClientRect());kSteerAt((e.clientX-b.left)/sc)});
 $('news').addEventListener('click',()=>{if(mode==='news')nextNews()});
 /* ---------- loop ---------- */
-function update(dt){try{tcUpd(dt)}catch(e){}try{bookUpd()}catch(e){}if(BOOK&&BOOK.live&&T-BOOK.t0<BKT.zoom)return;// the chapter waits, frozen on its first frame, until we've fallen into the page
+function update(dt){try{patUpd(dt)}catch(e){}try{tcUpd(dt)}catch(e){}try{bookUpd()}catch(e){}if(BOOK&&BOOK.live&&T-BOOK.t0<BKT.zoom)return;// the chapter waits, frozen on its first frame, until we've fallen into the page
  if(loc==='hall'&&sn)snGlide(dt);
  if(MGM&&!MGM.done&&MGM.modes.includes(mode))MGM.played=1;try{if(!MGM||!MGM.done)mgTrack()}catch(e){}
  if(fd==1){fade=Math.min(1,fade+dt*2);if(fade>=1&&fcb){const f=fcb;fcb=null;fd=fhold>0?2:-1;f()}}
@@ -10833,7 +10860,7 @@ function render(){
   const z=1+ZM*zk,hw=W/2/z;vz=z;vcx=Math.max(hw,Math.min(W-hw,80+(FX-80)*zk));vcy=cam+144+(FY-cam-144)*zk;
   {const vx0=vcx-W/2/z,vy0=vcy-H/2/z,ox=Math.floor(vx0),oy=Math.floor(vy0);ROOFO=[ox,oy];cx.translate(-ox,-oy);PZ={sx:vx0-ox,sy:vy0-oy,sw:W/z,sh:H/z}}scene(T);ltRoof(T);
   if(mode==='dance')dWorldFX(T);
-  const D=[...all.map(p=>({y:p.y,f:()=>{if(p.rot){cx.save();cx.translate(Math.round(p.x),Math.round(p.y));cx.rotate(p.rot);cx.translate(-Math.round(p.x),-Math.round(p.y));person(p,T);cx.restore()}else person(p,T)}})),...TB.map(([x,y])=>({y:y+8,f:()=>{table(x,y);if(x==72)sideGlasses(x,y)}})),{y:412,f:bar},{y:412,f:djDesk},{y:526,f:booth},
+  const D=[...all.concat(patList()).map(p=>({y:p.y,f:()=>{if(p.rot){cx.save();cx.translate(Math.round(p.x),Math.round(p.y));cx.rotate(p.rot);cx.translate(-Math.round(p.x),-Math.round(p.y));person(p,T);cx.restore()}else person(p,T)}})),...TB.map(([x,y])=>({y:y+8,f:()=>{table(x,y);if(x==72)sideGlasses(x,y)}})),{y:412,f:bar},{y:412,f:djDesk},{y:526,f:booth},
    {y:566,f:()=>plant(96,566)},{y:567,f:()=>plant(152,567)},{y:470,f:()=>pole(3,470)},{y:470,f:()=>pole(157,470)},{y:556,f:()=>pole(3,556)},{y:556,f:()=>pole(157,556)},{y:576,f:rail}];
   D.sort((a,b)=>a.y-b.y).forEach(d=>d.f());
   if(mode==='dance')dWorldPost(T);
