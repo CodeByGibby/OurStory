@@ -232,7 +232,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.20.0</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.20.1</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pOut">Outfits</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -10470,11 +10470,11 @@ const WARD={
  abi:{top:[
   {id:'a_leo',n:'Cheetah top',f:{top:'#dca556',leo:1}},
   {id:'a_pink',n:'Pink top',f:{top:'#f28ab2'}},
-  {id:'a_strp',n:'Striped football shirt',f:{top:'#f4f4f8',vst:'#1e1e26',collar:'#1e1e26'}},
+  {id:'a_strp',n:'Striped football shirt',f:{top:'#f4f4f8',vst:'#1e1e26'}},
   {id:'a_tenn',n:'White tennis top',f:{top:'#f8f8fa',collar:'#c8e0f0',slv:'#f6d2b0'}},
-  {id:'a_hood',n:'Pastel hoodie',f:{top:'#cdb8ec',collar:'#b4a0d4',drw:1,hem:1}},
+  {id:'a_hood',n:'Pastel hoodie',f:{top:'#cdb8ec',drw:1,hem:1}},
   {id:'a_denim',n:'Denim jacket',f:{top:'#5a7ab0',collar:'#8aa4d0',suit:'#f4f4f8'}},
-  {id:'a_card',n:'Cozy cardigan',f:{top:'#e0c8a8',collar:'#c8ae8c',zip:'#b89a78',hem:1}},
+  {id:'a_card',n:'Cozy cardigan',f:{top:'#e0c8a8',zip:'#b89a78',hem:1}},
   {id:'a_satin',n:'Satin going-out top',f:{top:'#8a1e3c',shn:1}},
   {id:'a_lbd',n:'Little black dress',full:1,got:1,f:{top:'#1a1622',skirt:'#1a1622'}},
   {id:'a_cream',n:'Cream top',got:1,f:{top:'#e8d8c8'}},
@@ -10482,10 +10482,10 @@ const WARD={
   {id:'a_lav',n:'Lavender top',got:1,f:{top:'#e8d8f0'}},
   {id:'a_coach',n:'Owls coach kit',full:1,got:1,f:{top:OWG,collar:'#f4f4f8',skirt:'#f4f4f8',cap:'#f4f4f8'}},
   {id:'a_gown',n:'Wedding dress',full:1,got:1,f:{top:'#fbfbff',gown:3,gc:'#fbfbff'}},
-  {id:'a_xmas',n:'Christmas jumper',got:1,rw:1,f:{top:'#c82a3a',stripe:'#f4f4f8',collar:'#2a7a3a'}},
+  {id:'a_xmas',n:'Christmas jumper',got:1,rw:1,f:{top:'#c82a3a',stripe:'#f4f4f8'}},
   {id:'a_pjt',n:'Pajama top',got:1,rw:1,f:{top:'#4a5a8a',collar:'#f4f4f8'}},
   {id:'a_owl',n:'Owls fan tee',got:1,rw:1,f:{top:OWG,collar:'#f4f4f8'}},
-  {id:'a_beav',n:'Beavers fan tee',got:1,rw:1,f:{top:'#f0c030',collar:'#c8962a',logo:1,beav:1}}],
+  {id:'a_beav',n:'Beavers fan tee',got:1,rw:1,f:{top:'#f0c030',logo:1,beav:1}}],
  bottom:[
   {id:'a_skirt',n:'Black skirt',f:{skirt:'#26202e'}},
   {id:'a_legg',n:'Black leggings',f:{pants:'#1c1820'}},
@@ -10507,18 +10507,18 @@ const WARD={
   {id:'h_red',n:'Red puffer jacket',f:{top:'#d8352f',stripe:'#fff6e0',collar:'#fff6e0'}},
   {id:'h_white',n:'White puffer jacket',f:{top:'#ecebf2',stripe:'#c4c6d2',collar:'#d2d4de',zip:'#1e1e26'}},
   {id:'h_gilet',n:'Black gilet',f:{top:'#24242c',stripe:'#383844',collar:'#8c8c9a',slv:'#8c8c9a'}},
-  {id:'h_bomb',n:'Bomber jacket',f:{top:'#55613f',collar:'#3a4430',zip:'#c8c8d0',hem:1}},
+  {id:'h_bomb',n:'Bomber jacket',f:{top:'#55613f',zip:'#c8c8d0',hem:1}},
   {id:'h_flan',n:'Flannel shirt',f:{top:'#b03030',plaid:1}},
-  {id:'h_hood',n:'Hoodie',f:{top:'#3a4a78',collar:'#2e3c64',drw:1,hem:1}},
+  {id:'h_hood',n:'Hoodie',f:{top:'#3a4a78',drw:1,hem:1}},
   {id:'h_btee',n:'Plain black tee',f:{top:'#1e1e24'}},
-  {id:'h_haw',n:'Hawaiian shirt',f:{top:'#2a9a9a',collar:'#1f7a7a',haw:1}},
+  {id:'h_haw',n:'Hawaiian shirt',f:{top:'#2a9a9a',haw:1}},
   {id:'h_beav',n:'Beavers tee',got:1,f:{top:'#f0c030',collar:'#c8962a',logo:1,beav:1}},
   {id:'h_suit',n:'Grey suit jacket',got:1,f:{top:'#7c828e',suit:'#4a7ad8'}},
   {id:'h_tux',n:'Wedding tux',got:1,f:{top:'#1e2a4a',suit:'#f4f4f8',tie:'#8ac8f0',bout:1}},
   {id:'h_work',n:'Work shirt & badge',got:1,f:{top:'#5a7ab0',collar:'#f4f4f8',badge:1}},
   {id:'h_blue',n:'Light blue tee',got:1,f:{top:'#9ab8d8'}},
   {id:'h_grad',n:'Graduation gown',full:1,got:1,f:{top:'#141418',gown:4,gc:'#141418',pants:'#141418',mortar:1}},
-  {id:'h_xmas',n:'Christmas jumper',got:1,rw:1,f:{top:'#c82a3a',stripe:'#f4f4f8',collar:'#2a7a3a'}},
+  {id:'h_xmas',n:'Christmas jumper',got:1,rw:1,f:{top:'#c82a3a',stripe:'#f4f4f8'}},
   {id:'h_pjt',n:'Pajama top',got:1,rw:1,f:{top:'#4a5a8a',collar:'#f4f4f8'}},
   {id:'h_owl',n:'Owls fan tee',got:1,rw:1,f:{top:OWG,collar:'#f4f4f8'}}],
  bottom:[
