@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.18.1</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.18.2</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -721,9 +721,10 @@ function drawFace(p,x,y){const EY=eyeX(p,x),e=EY[2],f=p.face,sk=p.skin,m=x+e,o=N
  // soft, small changes: cheeks, the mouth and the eyes; the centre column lets a mouth be three pixels wide and still sit in the middle
  const CX=EY[3],cheek=(a,yy=y-12)=>CX.forEach(c=>r(c,yy,1,1,`rgba(255,110,140,${a})`)),
   mouth=(c,c2)=>{r(m,y-11,1,1,c);if(e===0){r(x-1,y-11,1,1,c2||c);r(x+1,y-11,1,1,c2||c)}else r(m-e,y-11,1,1,c2||c)},
-  arches=()=>{const K='#1a1014';CX.forEach(c=>r(c,y-12,1,1,sk));[x-2,x+2].forEach(a=>{r(a,y-13,1,1,K);r(a-1,y-12,1,1,K);r(a+1,y-12,1,1,K)})};
- if(f==='happy'){arches();cheek(.75,y-11);r(m,y-11,1,1,'#d8707e')}
- else if(f==='laugh'){arches();cheek(.8,y-11);mouth('#b8404e','#7a2232')}
+  arches=()=>{const K='#1a1014';CX.forEach(c=>r(c,y-12,1,1,sk));if(e)r(m,y-11,1,1,sh(sk,.93));[x-2,x+2].forEach(a=>{r(a,y-13,1,1,K);r(a-1,y-12,1,1,K);r(a+1,y-12,1,1,K)})};
+ // ^.^ faces stay centred whichever way the person faces: both cheeks, mouth in the middle
+ if(f==='happy'){arches();[x-3,x+3].forEach(c=>r(c,y-11,1,1,'rgba(255,110,140,.75)'));r(x,y-11,1,1,'#d8707e')}
+ else if(f==='laugh'){arches();[x-3,x+3].forEach(c=>r(c,y-11,1,1,'rgba(255,110,140,.8)'));r(x,y-11,1,1,'#b8404e');r(x-1,y-11,1,1,'#7a2232');r(x+1,y-11,1,1,'#7a2232')}
  else if(f==='surprised'){[EY[0],EY[1]].forEach(a=>{r(a,y-13,1,1,sh(p.eye,1.5));r(a,y-12,1,1,p.eye)});r(m,y-11,1,1,'#6a2030')}
  else if(f==='worry'){/* panic: small dark eyes, a wobbly open mouth and a bead of sweat */
   [EY[0],EY[1]].forEach(a=>{r(a,y-13,1,1,'#2a1a1e');r(a,y-12,1,1,sk)});mouth('#9a4a5a','#7a2a3a');cheek(.5);
