@@ -235,7 +235,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.22.2</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.22.3</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pOut">Outfits</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -1342,7 +1342,7 @@ function roofProp(o){const L={sign:'(THE ROOST, in big pink letters. Morgan said
 function c1Arrive(){mode='c1walk';go(abi,[[40,540],[30,550]],60);abi.dir='l';waitTill(()=>abi.tx==null,()=>{face(abi,morgan);face(morgan,abi);
  say([{n:'Morgan',t:'Ooh, thank you! Okay, look, I texted him.'}],()=>{const e=$('phone');let j=1;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};e.className='px';e.innerHTML='';e.style.display='flex';mode='texts1';sfx('notif');
   e.onclick=()=>{if(j<C1TX.length){j++;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};sfx(C1TX[j-1][0]?'pop':'blip')}else{e.onclick=null;e.style.display='none';PHN=null;wardOpen({only:'hunter',title:'DRESS HUNTER',sub:'Morgan says come out. What’s he wearing?',btn:'Let’s go',done:c1Hunter})}}})})}
-function c1Hunter(){mode='c1walk';fadeTo(()=>{c1hLobby();card('Fifteen minutes later...<br><br><span style="color:#ff9ccb">Playing as Hunter</span>')},2.6);after(3.9,c1hLobbyGo)}
+function c1Hunter(){PLAYAS='hunter';mode='c1walk';fadeTo(()=>{c1hLobby();card('Fifteen minutes later...<br><br><span style="color:#ff9ccb">Playing as Hunter</span>')},2.6);after(3.9,c1hLobbyGo)}
 function c1HunterRoof(){setLoc('roof');mode='c1walk';hunter.hold=null;{at(hunter,172,550,'l');go(hunter,[[120,552],[50,548]],46);sfx('door');
  waitTill(()=>hunter.tx==null,()=>{face(hunter,morgan);face(morgan,hunter);face(abi,hunter);zoomTo(36,532,1.4);
   say([{n:'Hunter',t:'Hey, Morgan!'},{n:'Morgan',t:'You came! Abigail, this is my brother, Hunter!',anim:()=>{face(hunter,abi)}},{n:'Hunter',t:"Hey! It's really nice to meet you."},{n:'Abigail',t:'Hi Hunter! Lovely to meet you.'},
@@ -1500,7 +1500,8 @@ function beginIntro(){mode='intro';st=0;abi.dir='l';hunter.x=176;hunter.y=550;sa
    chapter's title page, the page turns, and we fall into the next page, where the first scene unfolds up out of it.
    Tap to hurry it along. ===== */
 let BOOK=null;const BKC=['#c2417a','#3a6ab0','#d8783a','#c8603a','#5a4a9a','#b8843a','#2a7a6a','#e07aa0','#8a3a5a'];
-function chBook(num,title,sub,next){const pl=loc;$('title').classList.add('out');try{$('card').style.opacity=0}catch(e){}setLoc('book');fade=1;fd=-1;
+let PLAYAS='abi';
+function chBook(num,title,sub,next){if(/Playing as Hunter$/.test(sub||''))PLAYAS='hunter';else if(/Playing as Abigail$/.test(sub||'')||num==='1'||num==='2')PLAYAS='abi';const pl=loc;$('title').classList.add('out');try{$('card').style.opacity=0}catch(e){}setLoc('book');fade=1;fd=-1;
  BOOK={t0:T,num,title,sub,next,pl,col:BKC[(num==='E'?8:(+num-1))%BKC.length],done:0};sfx('whoosh')}
 function bookTap(){if(!BOOK||BOOK.done)return false;BOOK.fast=1;return true}// a tap plays the rest at triple speed (no jumps)
 /* rise, rest on the cover, open, read the title page, turn it (the chapter starts underneath, drawn as a pencil sketch
@@ -10583,8 +10584,8 @@ function wTop(p,x,y,up){const sk=p.skirt,b=sk?y-6:y-5,e=p.dir==='l'?-1:p.dir==='
  if(p.haw)[[-2,-9,'#ff7eb6'],[1,-9,'#ffd86b'],[-1,-7,'#ffd86b'],[2,-7,'#ff7eb6'],[-3,-6,'#f4f4f8'],[0,-6,'#ff7eb6']].forEach(([a,c,k])=>{if(y+c<=b)rN(x+a,y+c,1,1,k)});
  if(p.shn)rN(x-2+e,y-9,1,3,sh(p.top,1.45))}
 function wHat(p,x,y,up){const c=p.hatC,d=sh(c,.72),l=sh(c,1.3),e=p.dir==='l'?-1:p.dir==='r'?1:0,h=p.hat;
- if(h==='beanie'){rN(x-2,y-19,5,1,c);rN(x-3,y-18,7,2,c);rN(x-3,y-16,7,1,l);rN(x-1,y-19,1,1,d);rN(x+1,y-18,1,1,d);rN(x,y-20,1,1,p.hatP||l)}
- else if(h==='cap'){rN(x-2,y-19,5,1,l);rN(x-3,y-18,7,3,c);if(!up){if(e)rN(e<0?x-6:x+3,y-16,4,1,d);else rN(x-3,y-16,7,1,d)}}
+ if(h==='beanie'){rN(x-2,y-18,5,1,c);rN(x-3,y-17,7,2,c);rN(x-3,y-15,7,1,l);rN(x-1,y-18,1,1,d);rN(x+1,y-17,1,1,d);rN(x,y-19,1,1,p.hatP||l)}
+ else if(h==='cap'){rN(x-2,y-18,5,1,l);rN(x-3,y-17,7,3,c);if(!up){if(e)rN(e<0?x-6:x+3,y-15,4,1,d);else rN(x-3,y-15,7,1,d)}}
  else if(h==='bucket'){rN(x-2,y-19,5,1,l);rN(x-3,y-18,7,2,c);rN(x-5,y-16,11,1,d)}
  else if(h==='sun'){rN(x-2,y-19,5,1,l);rN(x-3,y-18,7,1,c);rN(x-3,y-17,7,1,p.hatP||'#1e1a22');rN(x-6,y-16,13,1,d)}
  else if(h==='band'){rN(x-3,y-16,7,1,c);rN(x+2,y-17,2,1,l)}}
@@ -10605,7 +10606,7 @@ let WO=null;
 /* ---- the dressing room: a curtain draws shut over the game, then we're inside a little room; they walk in from the
    curtain and stop in front of a full-length mirror, facing us, so the mirror shows the back of the outfit ---- */
 const WRW=80,WRH=60,WRC={};
-function wardOpen(o){WO=Object.assign({k:o.only||'abi'},o);const e=$('ward');e.style.display='flex';wardIntro();wardRender();
+function wardOpen(o){WO=Object.assign({},o,{k:o.only||o.k||'abi'});const e=$('ward');e.style.display='flex';wardIntro();wardRender();
  const tok=WO.tok=Math.random();const L=()=>{if(!WO||WO.tok!==tok)return;wardFrame();requestAnimationFrame(L)};requestAnimationFrame(L)}
 function wardIntro(){WO.t0=performance.now()/1000;WO.st=0;WO.pop=null;const e=$('ward');e.classList.add('wcl','wnoc');sfx('curtain')}
 function wardNow(){return performance.now()/1000-(WO?WO.t0:0)}
@@ -10723,7 +10724,7 @@ function wardCurtainDraw(cover){const c=$('wcur'),g=c.getContext('2d'),A=WO.k===
  g.fillStyle=rod;g.fillRect(0,3,80,2);for(let x=2;x<80;x+=6){g.fillStyle=A?'#f4d878':'#3a3a44';g.fillRect(x,2,2,4)}}
 function ch1Begin(){wardOpen({only:'abi',title:'DRESS ABIGAIL',sub:'Girls’ night out. What’s she wearing?',btn:'Start',done:()=>chBook('1','The Roost','',startPan)})}
 wardApply('abi');wardApply('hunter');
-$('pOut').onclick=()=>wardOpen({});
+$('pOut').onclick=()=>wardOpen({k:(typeof hx!=='undefined'&&hx&&hx.p)?(hx.p===abi?'abi':'hunter'):PLAYAS});
 $('pRes').onclick=()=>{sfx('select');closePause()};$('pMenu').onclick=()=>{sfx('select');const l=$('ld');l.classList.remove('off');requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>location.reload(),60)))};
 $('vm').oninput=e=>{VOL.m=e.target.value/100;applyVol()};$('vs').oninput=e=>{VOL.s=e.target.value/100;applyVol();sfx('coin')};$('va').oninput=e=>{VOL.a=e.target.value/100;applyVol()};
 addEventListener('pointerdown',()=>{auInit();AU.tap=performance.now()},{capture:true});addEventListener('touchstart',()=>auInit(),{capture:true,passive:true});
@@ -10949,7 +10950,7 @@ const SCENES=[
  [8,'Church: stay standing',null,()=>{Object.assign(hunter,TUX);c8Church()}],[8,'The doors open',()=>{c8={};dbgWed()},()=>c8Door()],[8,'England garden party',()=>{c8={};dbgWed()},()=>c8UK()],
  [8,'Walk to the altar',()=>{c8={};dbgWed()},()=>c8Arrive()],[8,'Just the two of us',()=>{c8={};dbgWed()},()=>c8Couple()],[8,'The early kiss',()=>{c8={};dbgWed()},()=>c8Laugh()],[8,'Vows',()=>{c8={};dbgWed()},()=>c8Vows()],[8,'The kiss',()=>{c8={};dbgWed()},()=>c8Kiss()],[8,'Jump the broom',()=>{c8={};dbgWed()},()=>c8Broom()],[8,'Reception',()=>{c8={};dbgWed()},()=>c8Reception()],[8,'Balcony',()=>{c8={};dbgWed()},()=>c8Balcony()],
  [9,'Epilogue: album',null,()=>{ep={on:1};epDress();epAlbumStart()}],[9,'England flight',null,()=>{ep={on:1};epMap()}],[9,'Newcastle: Meggs',null,()=>{ep={on:1};epNcl()}],[9,'Her family home',null,()=>{ep={on:1};epVillage()}],[9,'London',null,()=>{ep={on:1};epLondon()}],[9,'Graduation',null,()=>{ep={on:1};epGrad()}],[9,'Cyber security',null,()=>{ep={on:1};epCyber()}],[9,'Coaching the Owls',null,()=>{ep={on:1};epCoach()}],[9,'Crumpet',null,()=>{ep={on:1};epCrumpet()}],[9,'First home',null,()=>{ep={on:1};epHouse()}],[9,'Paint the door',null,()=>{ep={on:1};epPaintStart()}],[9,'Pink door',null,()=>{ep={on:1};epHouseAfter()}],[9,'Backyard frisbee',null,()=>{ep={on:1};epYard()}],[9,'Closet studio',null,()=>{ep={on:1};epStudio()}],[9,'Ella',null,()=>{ep={on:1};epElla()}],[9,'Family photo',null,()=>{ep={on:1};epFamily()}],[9,'Porch & finale',null,()=>{ep={on:1};epPorch()}],[9,'Happy birthday',null,()=>{ep={on:1};epBday()}]];
-function dbgStart(i,keep){const sc=SCENES[i];if(!keep)LS('ourstory_pk',null);mgReset();MGM=null;lv={night:0,mor:0,q:0};qprops={remote:0,sw:0};qx=null;hm=0;sick=0;tissues=4;showHM=0;abi.dance=hunter.dance=0;
+function dbgStart(i,keep){const sc=SCENES[i];{const pa={1:'abi',2:'abi',3:'hunter',4:'hunter',5:'abi'}[sc&&sc[0]];if(pa)PLAYAS=pa}if(!keep)LS('ourstory_pk',null);mgReset();MGM=null;lv={night:0,mor:0,q:0};qprops={remote:0,sw:0};qx=null;hm=0;sick=0;tissues=4;showHM=0;abi.dance=hunter.dance=0;
  if(sc[0]===8)Object.assign(morgan,{gown:0});if(sc[2])sc[2]();mode='dbg';sc[3]()}
 function openScenes(){if(!DEV.on())return;const e=$('chap');$('end').style.display='none';let h='<h2>SCENES</h2>',last=0;
  SCENES.forEach((g,i)=>{if(g[0]!==last){last=g[0];h+='<p class="soon" style="margin:calc(var(--u)*2) 0 0">CHAPTER '+g[0]+' · '+CHAPS[g[0]-1][1]+'</p>'}h+='<button data-s="'+i+'">'+g[1]+'</button>'});
