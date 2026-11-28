@@ -235,7 +235,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.22.0</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.22.1</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pOut">Outfits</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -10655,7 +10655,7 @@ function wardRoomBg(k){if(WRC[k])return WRC[k];const c=document.createElement('c
   for(let x=BX0+2;x<BX1-1;x+=3)R(x,BY0+1+((x>>1)&1),1,1,['#fff2b0','#ffc0d8','#c8f0ff'][x%3]);
   // arched gold mirror with vanity bulbs
   const MX0=29,MX1=51;for(let y=6;y<BY1;y++){let a=0;if(y<12){const d=12-y;a=Math.round(11-Math.sqrt(Math.max(0,121-d*d*3)))}R(MX0+a,y,MX1-MX0-a*2,1,'#d8b050')}
-  for(let y=7;y<BY1;y++){let a=0;if(y<13){const d=13-y;a=Math.round(9-Math.sqrt(Math.max(0,81-d*d*2.2)))}R(MX0+2+a,y,MX1-MX0-4-a*2,1,'#a8c4d4')}
+  for(let y=7;y<BY1;y++){let a=0;if(y<13){const d=13-y;a=Math.round(9-Math.sqrt(Math.max(0,81-d*d*2.2)))}R(MX0+2+a,y,MX1-MX0-4-a*2,1,'#d4e6ee')}
   R(MX0,6,1,BY1-6,'#f4d878');
   // a side table with a vase of pink flowers, a pouf, and a rail of hanging clothes
   R(18,27,6,1,'#d8b050');R(19,28,1,6,'#c8a040');R(22,28,1,6,'#c8a040');R(20,24,2,3,'#f4f4f8');[[19,22,'#ff7eb6'],[21,21,'#ffb0d0'],[22,23,'#ff7eb6'],[20,23,'#5a9a5a']].forEach(([x,y,c])=>R(x,y,1,1,c));
@@ -10670,7 +10670,7 @@ function wardRoomBg(k){if(WRC[k])return WRC[k];const c=document.createElement('c
   // a gold record on the wall, a tall plant in the corner, a coat rack and a bench
   R(19,9,9,11,'#c8a050');R(20,10,7,9,'#1a1a22');for(let y=-3;y<=3;y++){const w=Math.round(Math.sqrt(9-y*y));R(23-w,14+y,w*2+1,1,'#e8c860')}R(23,14,1,1,'#c8282a');
   // black framed mirror
-  R(31,7,19,BY1-7,'#121216');R(32,8,17,BY1-8,'#93aebf');
+  R(31,7,19,BY1-7,'#121216');R(32,8,17,BY1-8,'#c4d6e0');
   R(19,30,4,4,'#8a4a2a');R(19,30,4,1,'#a8603a');[[18,25],[20,23],[22,24],[21,26],[17,27],[23,27],[20,27]].forEach(([x,y])=>R(x,y,2,2,'#3a7a44'));R(20,24,1,2,'#5a9a5a');
   R(70,12,1,34,'#3a2a1e');R(68,46,5,1,'#3a2a1e');R(68,13,5,1,'#3a2a1e');R(66,14,4,1,'#2a2a32');R(65,15,6,2,'#2a2a32');
   R(70,17,4,9,'#d8352f');R(70,20,4,1,'#fff6e0');R(73,17,1,9,'#a82924');
@@ -10687,15 +10687,15 @@ function wardFrame(){const cv=$('wroom');if(!cv||!WO)return;const g=cv.getContex
  wardCurtain(a);
  g.drawImage(wardRoomBg(k),0,0);
  const base=k==='abi'?abi:hunter,F=wardFields(k),W0=.75,W1=1.95,wk=Math.max(0,Math.min(1,(a-W0)/(W1-W0))),ease=wk<1?1-Math.pow(1-wk,2):1;
- const px=Math.round(8+(40-8)*ease),py=Math.round(50+(56-50)*ease),walking=a>=W0&&a<W1,dir=a<W1?'r':'d';
+ const px=Math.round(8+(40-8)*ease),py=Math.round(50+(56-50)*ease),walking=a>=W0&&a<W1,dir=a<W1?'r':'u';
  if(walking){const st=Math.floor((a-W0)/.26);if(st!==WO.st){WO.st=st;sfx('step')}}
  const mk2=(x,y,d,mv)=>Object.assign({},base,F,{x,y,dir:d,moving:mv,hold:null,sit:0,sitF:0,kneel:0,dance:0,face:a>2.2&&a<3.4?'happy':null,zz:0,lid:0,tears:0,reach:null,robo:null,bleed:0,green:0,veil:0,hp:0,fit:0,ph:0,
   _fl:null,_ld:d,_tT:null,_zT:null,_fT:null,_ps:null,_pd:null,_hh:null,_h:null,_bp:WO.bp||(WO.bp=Math.random()*3),_du:null,_mv:0,_st:0});
  const draw=(q)=>{const m=cx,sd=dlg;cx=g;g._c=null;dlg=null;try{person(q,a)}catch(err){console.error(err)}finally{cx=m;dlg=sd}};
  // the reflection: same spot across the room, seen from behind, a little further away
  if(a>=W0-.1){const G=wardGlass(k);g.save();g.beginPath();if(G.arch){g.moveTo(G.x0,G.y1);g.lineTo(G.x0,G.y0+8);g.quadraticCurveTo(G.x0,G.y0,(G.x0+G.x1)/2,G.y0);g.quadraticCurveTo(G.x1,G.y0,G.x1,G.y0+8);g.lineTo(G.x1,G.y1)}else g.rect(G.x0,G.y0,G.x1-G.x0,G.y1-G.y0);g.clip();
-  g.globalAlpha=.88;draw(mk2(px,33-Math.round((56-py)*.25),dir==='d'?'u':dir,walking));g.globalAlpha=1;
-  g.fillStyle='rgba(205,232,255,.16)';g.fillRect(G.x0,G.y0,G.x1-G.x0,G.y1-G.y0);g.fillStyle='rgba(255,255,255,.35)';for(let i=0;i<14;i++){g.fillRect(G.x0+3+i,G.y0+18-i,1,1);g.fillRect(G.x0+7+i,G.y0+20-i,1,1)}g.restore()}
+  draw(mk2(px,33-Math.round((56-py)*.25),dir==='u'?'d':dir,walking));
+  g.fillStyle='rgba(215,238,255,.05)';g.fillRect(G.x0,G.y0,G.x1-G.x0,G.y1-G.y0);g.fillStyle='rgba(255,255,255,.3)';for(let i=0;i<4;i++){g.fillRect(G.x0+1+i,G.y0+9-i,1,1);g.fillRect(G.x0+1+i,G.y0+12-i,1,1)}g.restore()}
  if(k==='abi'){const B=[[29,10],[29,16],[29,22],[29,28],[51,10],[51,16],[51,22],[51,28],[33,5],[40,4],[47,5]];B.forEach(([x,y],i)=>{const on=((a*2+i*.37)%3)>.25;g.fillStyle=on?'#fff6d0':'#e8c890';g.fillRect(x-(x>40?0:1),y,2,2);if(on){g.fillStyle='rgba(255,240,190,.25)';g.fillRect(x-2,y-1,5,4)}})}
  if(a>=W0-.1)draw(mk2(px,py,dir,walking));
  // a little sparkle when an item changes
