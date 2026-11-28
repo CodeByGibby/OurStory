@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.17.2</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.18.0</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -240,7 +240,12 @@ let CR=null;function fit(){CR=null;
  sc=Math.min(aw/W,ah/H);DS=Math.max(2,Math.min(8,Math.ceil(sc*(window.devicePixelRatio||1))));if(dv.width!==W*DS){dv.width=W*DS;dv.height=H*DS}dx.imageSmoothingEnabled=false;G.style.width=W*sc+'px';G.style.height=H*sc+'px';document.documentElement.style.setProperty('--u',sc+'px')}
 try{const sa=navigator.standalone||matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches,ios=/iphone|ipad|ipod/i.test(navigator.userAgent),h=$('a2hs');if(!sa&&ios){h.innerHTML='For full screen: tap Share,<br>then &ldquo;Add to Home Screen&rdquo;';h.style.display='block'}else if(!sa&&/android/i.test(navigator.userAgent)){h.innerHTML='For full screen: open the browser menu,<br>then &ldquo;Add to Home screen&rdquo;';h.style.display='block'}}catch(e){}
 addEventListener('resize',fit);addEventListener('orientationchange',()=>setTimeout(fit,200));addEventListener('pageshow',()=>setTimeout(fit,50));setTimeout(fit,300);try{visualViewport&&visualViewport.addEventListener('resize',fit)}catch(e){}fit();
-let MONO=null,AOY=null;const r=(x,y,w,h,c)=>{const k=MONO||c;if(cx._c!==k){cx.fillStyle=k;cx._c=k}cx.fillRect(x|0,y|0,(w+.5)|0,(h+.5)|0);if(AOY!==null&&y===AOY&&x<=0&&w>=80&&y+h>=140){AOY=null;aoBand(y,x,w)}};
+let MONO=null,AOY=null,NX=null,NR=0;const rN=(x,y,w,h,c)=>{const o=NR;NR=1;try{r(x,y,w,h,c)}finally{NR=o}};
+/* people are 7 pixels wide: while a person is drawn (NX = their centre), shapes written for the old 6-wide body get one extra centre column:
+   anything right of centre moves out a pixel, and a shape centred on the old middle (a torso, a collar, the hair) grows by one */
+const r=(x,y,w,h,c)=>{const k=MONO||c;if(cx._c!==k){cx.fillStyle=k;cx._c=k}
+ if(NX!==null&&!NR){x|=0;w=(w+.5)|0;const s=x-NX,e=s+w-1;if(s>=1)x++;else if(e>=1&&s+e===-1)w++}
+ cx.fillRect(x|0,y|0,(w+.5)|0,(h+.5)|0);if(AOY!==null&&y===AOY&&x<=0&&w>=80&&y+h>=140){AOY=null;aoBand(y,x,w)}};
 /* the floor line of each indoor room: right after its floor is painted, a soft shadow is laid where wall meets floor
    (so it sits under the furniture and people drawn afterwards) */
 const AOF={dinner:92,bars:96,apt:104,entry:104,living:92,mhall:92,mbed:92,mkit:96,store:96,bath:96,kitchen:96,hroom:92,troom:92,dorm2:90,bunk:90,bath2:90,home:90,home6:90,jewel:90,hotel:90,lobby:92,steak:90,mex:90,bakery:92,florist:92,bridal:92,tux:90,groom8:92,brideroom:92,hotel8:96,epncl:96,epstudio:112,epnurse:100,gate5:70,office:48,barcade:92,clinic:48,sec5:58,c3class:70,epcyber:96,call8:70,dorm:92};
@@ -353,7 +358,7 @@ function patUpd(dt){if(!patOn())return;
    - turning right round passes through one frame facing the camera
    - sitting down settles into the seat, standing up rises out of it
    - an item being put away lowers out of the hand instead of vanishing */
-function body(p,t){if(photo||p.dance||p._raw){body0(p,t);return}
+function body(p,t){if(photo||p.dance||p._raw){try{body0(p,t)}finally{NX=null}return}
  if(p._fT!==T){const gap=p._fT==null||T-p._fT>.3;p._fT=T;const d=p.dir,OPP={l:'r',r:'l',u:'d',d:'u'};
   if(!gap&&p._pd&&p._pd!==d&&OPP[p._pd]===d){p._tT=T;p._tv=d==='l'||d==='r'?'d':(p._lr||'r')}if(d==='l'||d==='r')p._lr=d;p._pd=d;
   const st=p.sit?1:p.kneel?2:0;if(!gap&&p._ps!=null&&p._ps!==st){p._zT=T;p._sv=st?1:-1}p._ps=st;
@@ -362,21 +367,22 @@ function body(p,t){if(photo||p.dance||p._raw){body0(p,t);return}
  if(p._tT!=null&&T-p._tT<.085)p.dir=p._tv;
  if(p._zT!=null&&T-p._zT<.16){const k=(T-p._zT)/.16;p.y=y0+(p._sv>0?-Math.round((1-k)*3):Math.round((1-k)*2))}
  if(!h0&&p._hh&&p._hr!=null&&h0!==p._hh){p.hold=p._hh;p._h=p._hh;p.hs=t-.35*Math.max(0,1-(T-p._hr)/.16)}
- try{body0(p,t)}finally{p.dir=d0;p.y=y0;if(!h0){p.hold=h0;if(hs0!==undefined)p.hs=hs0}}}
+ try{body0(p,t)}finally{NX=null;p.dir=d0;p.y=y0;if(!h0){p.hold=h0;if(hs0!==undefined)p.hs=hs0}}}
 function body0(p,t){
  let x=Math.round(p.x),y=Math.round(p.y);if(p.kneel)y+=2;
  if(p.dance){const sb=songBeat();y-=(sb!=null?Math.abs(Math.sin(sb*Math.PI)):Math.abs(Math.sin(t*7+(p.ph||0))))*2|0}else if(dlg&&dlg.l[dlg.i].n===p.n&&Math.floor(t*6)%2)y-=1;
  // the speaker's body reacts to what they're saying: a jump, a laugh-shake, a slump, a happy bounce, a curious lean
  if(dlg&&dlg._em&&dlg._ei===dlg.i&&!p.sit&&!p.kneel&&!p.dance&&!photo&&dlg.l[dlg.i]&&dlg.l[dlg.i].n===p.n){const k=T-dlg._et,m=dlg._em;
   if(m==='!'&&k<.34)y-=Math.round(Math.sin(k/.34*Math.PI)*3);else if(m==='l'&&k<.9)y-=Math.sin(k*26)>0?1:0;else if(m==='d'&&k<1.3)y+=1;else if(m==='h'&&k<.6)y-=Math.round(Math.sin(k/.6*Math.PI)*2);else if(m==='?'&&k<.6)x+=p.dir==='l'?-1:p.dir==='r'?1:0}
+ NX=x;
  if(!photo){// footsteps for the two of them, and a puff of dust when anyone stops after a real walk
   {let pan=0;if(PMN){try{const m=CX0.getTransform();pan=Math.max(-1,Math.min(1,((m.a*p.x+m.e)/CX0.canvas.width)*2-1))}catch(e){}p._pan=pan;p._pt=T}const st=p.moving&&!p.sit&&!p.dance?Math.floor(t*(p===abi?6.4:6)+(p===abi?.5:p===hunter?0:(p.x*.13)%1))%2:0;if(st&&!p._st&&AMBS[loc]!=='church'&&AMBS[loc]!=='car')footstep(p,pan);p._st=st}
   if(p.moving){if(!p._mv){p._mv=1;p._m0=T}}else if(p._mv){p._mv=0;if(T-p._m0>.4&&!p.sit&&DUSTY[AMBS[loc]])p._du={t:T,x,y}}
-  if(p._du){const k=(T-p._du.t)/.32;if(k>=1)p._du=null;else{cx.globalAlpha=(1-k)*.35;const dx=Math.round(3+k*2),dy=Math.round(k*1.5);r(p._du.x-dx,p._du.y-1-dy,1,1,'#efe6d6');r(p._du.x+dx,p._du.y-1-dy,1,1,'#efe6d6');cx.globalAlpha=1}}}
+  if(p._du){const k=(T-p._du.t)/.32;if(k>=1)p._du=null;else{cx.globalAlpha=(1-k)*.35;const dx=Math.round(3+k*2),dy=Math.round(k*1.5);rN(p._du.x-dx,p._du.y-1-dy,1,1,'#efe6d6');rN(p._du.x+dx,p._du.y-1-dy,1,1,'#efe6d6');cx.globalAlpha=1}}}
  const wf=p.moving?Math.floor(t*10+(p.ph||0))%4:-1,s=wf>=0?wf>>1:0,up=p.dir==='u',hL=wf<0?4:[4,4,3,4][wf],hR=wf<0?3:[3,4,4,4][wf],aw=wf<0||p.dance?0:[-1,0,1,0][wf];
  if(p.hl)r(x-4,y-16,8,p.hl==2?9:5,p.hair);
  if(p.kneel){const f=p.dir==='l'?-1:1;if(f<0){r(x-4,y-5,4,2,p.pants);r(x-4,y-3,2,3,p.pants);r(x-5,y-1,3,1,p.shoe);r(x+1,y-4,2,3,p.pants);r(x+2,y-1,3,1,p.pants);r(x+5,y-1,1,1,p.shoe)}else{r(x,y-5,4,2,p.pants);r(x+2,y-3,2,3,p.pants);r(x+2,y-1,3,1,p.shoe);r(x-3,y-4,2,3,p.pants);r(x-5,y-1,3,1,p.pants);r(x-6,y-1,1,1,p.shoe)}}
- else if(p.gown){}else if(p.sit&&(p.dir==='l'||p.dir==='r')&&!p.sitF){const f=p.dir==='l'?-1:1;r(f<0?x-6:x,y-5,6,2,p.pants);r(f<0?x-6:x,y-5,6,1,sh(p.pants,1.15));if(p.shin){r(f<0?x-6:x+4,y-4,2,4,p.pants);r(f<0?x-8:x+4,y-1,4,1,p.shoe)}else{r(f<0?x-8:x+6,y-6,2,3,p.shoe);r(f<0?x-8:x+7,y-6,1,1,sh(p.shoe,1.4))}}else if(p.sit){const lt=parseInt((p.shoe||'#222').slice(1,3),16)>150,so=lt?'#d8d8e0':'#c8b4a0',tr=lt?'#9a9aa8':'#7a6454';[x-3,x+1].forEach(sx=>{r(sx,y-4,2,3,so);r(sx,y-3,2,1,tr);r(sx,y-1,2,1,sh(so,.8))})}else{r(x-3,y-4,2,hL,p.pants);r(x-3,y-5+hL,2,1,p.shoe);r(x+1,y-4,2,hR,p.pants);r(x+1,y-5+hR,2,1,p.shoe)}
+ else if(p.gown){}else if(p.sit&&(p.dir==='l'||p.dir==='r')&&!p.sitF){const f=p.dir==='l'?-1:1;r(f<0?x-6:x,y-5,6,2,p.pants);r(f<0?x-6:x,y-5,6,1,sh(p.pants,1.15));if(p.shin){r(f<0?x-6:x+4,y-4,2,4,p.pants);r(f<0?x-8:x+4,y-1,4,1,p.shoe)}else{r(f<0?x-8:x+6,y-6,2,3,p.shoe);r(f<0?x-8:x+7,y-6,1,1,sh(p.shoe,1.4))}}else if(p.sit){const lt=parseInt((p.shoe||'#222').slice(1,3),16)>150,so=lt?'#d8d8e0':'#c8b4a0',tr=lt?'#9a9aa8':'#7a6454';[x-2,x+1].forEach(sx=>{rN(sx,y-4,2,3,so);rN(sx,y-3,2,1,tr);rN(sx,y-1,2,1,sh(so,.8))})}else{const sd=(p.dir==='l'||p.dir==='r')&&wf>=0?[0,-1,0,-1][wf]:0;rN(x-2+sd,y-4,2,hL,p.pants);rN(x-2+sd,y-5+hL,2,1,p.shoe);rN(x+1-sd,y-4,2,hR,p.pants);rN(x+1-sd,y-5+hR,2,1,p.shoe)}
  r(x-3,y-10,6,6,p.top);r(x+2,y-10,1,6,sh(p.top,.78));r(x-3,y-10,6,1,sh(p.top,1.2));
  if(p.leo){[[-3,-8],[2,-8],[0,-7],[-2,-6],[1,-5],[-3,-5]].forEach(([a,b])=>r(x+a,y+b,1,1,'#5a3214'));r(x-1,y-6,1,1,'#2a1608');r(x+2,y-6,1,1,'#2a1608')}
  if(p.skirt){const nh=p.hold&&!up&&!p.dance&&HSIDE2.has(p.hold);r(nh?x-3:x-4,y-5,nh?6:8,2,p.skirt)}
@@ -384,9 +390,9 @@ function body0(p,t){
  if(p.logo&&p.dir!=='u'){const lx=p.dir==='l'?x-2:p.dir==='r'?x:x-1;r(lx,y-8,2,1,'#c8282a');r(lx,y-7,2,2,'#8a5a2a');r(lx,y-6,2,1,'#e8c890')}
  if(p.collar)r(x-2,y-10,4,1,p.collar);
  if(p.apron)r(x-2,y-7,4,3,'#fff6e0');
- if(p.gown){const gc=p.gc||'#fbfbff',sd=sh(gc,.88),Wd=p.gown==1?[11,13,15,17,17]:p.gown==2?[6,6,7,9,13]:p.gown==3?[8,10,11,13,15]:[7,8,8,9,9];for(let i=0;i<5;i++){const w=Wd[i];r(x-(w>>1),y-5+i,w,1,gc);r(x+(w>>1)-1+(w&1),y-5+i,1,1,sd)}if(p.gown==3){r(x-1,y-4,1,1,sd);r(x+1,y-2,1,1,sd);if(!MONO&&Math.floor(t*3)%3==0)r(x-3,y-3,1,1,'#fff')}if(p.gown==1)r(x-7,y-2,15,1,sd)}
- if(p.bow&&!up){if(p.bowc){const d=p.bowc===2?2:1;r(x-1,y-10-(d>1?1:0),1,1,'#0a0a0a');r(x,y-10,1,1,'#0a0a0a');r(x+1,y-10+d-1+(d>1?1:0),1,1,'#0a0a0a')}else r(x-1,y-10,3,1,'#0a0a0a')}if(p.tie&&!up){const c=p.tiec||0;if(!c){r(x,y-10,1,4,p.tie);r(x-1,y-10,3,1,p.tie)}else{const s2=c===2?-1:1;r(x-1+s2,y-10,3,1,p.tie);r(x+s2,y-9,1,1,p.tie);r(x+s2*(c===2?2:1),y-8,1,1,p.tie);r(x+s2*(c===2?2:1),y-7,1,1,p.tie)}}if(p.bout&&!up){r(x-3,y-9,1,1,p.boutc||'#ff7eb6');r(x-3,y-8,1,1,'#5a8a4a')}
- if(p.suit&&!up){r(x-1,y-10,2,4,p.suit);r(x,y-9,1,3,sh(p.suit,.75));r(x-2,y-10,1,2,sh(p.top,.7));r(x+1,y-10,1,2,sh(p.top,.7))}if(p.tag)r(p.dir==='l'?x-3:x+1,y-6,2,2,'#e8e8f0');
+ if(p.gown){const gc=p.gc||'#fbfbff',sd=sh(gc,.88),Wd=p.gown==1?[11,13,15,17,17]:p.gown==2?[6,6,7,9,13]:p.gown==3?[8,10,11,13,15]:[7,8,8,9,9];NR=1;for(let i=0;i<5;i++){const w=Wd[i]|1;r(x-(w>>1),y-5+i,w,1,gc);r(x+(w>>1),y-5+i,1,1,sd)}if(p.gown==3){r(x-1,y-4,1,1,sd);r(x+1,y-2,1,1,sd);if(!MONO&&Math.floor(t*3)%3==0)r(x-3,y-3,1,1,'#fff')}if(p.gown==1)r(x-7,y-2,15,1,sd);NR=0}
+ if(p.bow&&!up){NR=1;if(p.bowc){const d=p.bowc===2?2:1;r(x-1,y-10-(d>1?1:0),1,1,'#0a0a0a');r(x,y-10,1,1,'#0a0a0a');r(x+1,y-10+d-1+(d>1?1:0),1,1,'#0a0a0a')}else r(x-1,y-10,3,1,'#0a0a0a');NR=0}if(p.tie&&!up){NR=1;const c=p.tiec||0;if(!c){r(x,y-10,1,4,p.tie);r(x-1,y-10,3,1,p.tie)}else{const s2=c===2?-1:1;r(x-1+s2,y-10,3,1,p.tie);r(x+s2,y-9,1,1,p.tie);r(x+s2*(c===2?2:1),y-8,1,1,p.tie);r(x+s2*(c===2?2:1),y-7,1,1,p.tie)}NR=0}if(p.bout&&!up){r(x-3,y-9,1,1,p.boutc||'#ff7eb6');r(x-3,y-8,1,1,'#5a8a4a')}
+ if(p.suit&&!up){rN(x-1,y-10,3,4,p.suit);rN(x+1,y-9,1,3,sh(p.suit,.75));rN(x-2,y-10,1,2,sh(p.top,.7));rN(x+2,y-10,1,2,sh(p.top,.7))}if(p.tag)r(p.dir==='l'?x-3:x+1,y-6,2,2,'#e8e8f0');
  const la=p.dance&&(()=>{const sb=songBeat();return sb!=null?(((Math.floor(sb)+(p.ph||0))%2)+2)%2:Math.floor(t*5+(p.ph||0))%2})();
  if(p.reach){const [tx,ty]=p.reach,L=tx<x,sx=L?x-4:x+3,sy=y-10,n=Math.max(Math.abs(tx-sx),Math.abs(ty-sy))|0;for(let i=0;i<=n;i++){const px=Math.round(sx+(tx-sx)*i/n),py=Math.round(sy+(ty-sy)*i/n);r(px,py,1,1,i>=n-1?p.skin:p.top)}if(L){r(x+3,y-8,1,3,p.top);r(x+3,y-5,1,1,p.skin)}else{r(x-4,y-8,1,3,p.top);r(x-4,y-5,1,1,p.skin)}}
  else if(p.robo!=null){const u=p.robo%2==0;r(x-5,y-10,2,1,p.top);r(x-5,u?y-13:y-9,1,3,p.top);r(x-5,u?y-14:y-6,1,1,p.skin);r(x+3,y-10,2,1,p.top);r(x+4,u?y-9:y-13,1,3,p.top);r(x+4,u?y-6:y-14,1,1,p.skin)}
@@ -394,16 +400,16 @@ function body0(p,t){
  r(x+3,p.dance&&!la?y-12:y-8-aw,1,3,p.top);r(x+3,p.dance&&!la?y-13:y-5-aw,1,1,p.skin)}
  if(p.fit==='big'){r(x-5,y-11,10,8,p.top);r(x-6,y-10,1,7,p.top);r(x+5,y-10,1,7,p.top);r(x-1,y-10,2,3,'#f4f4f8');r(x-5,y-1,10,1,p.pants);r(x-3,y-11,6,1,sh(p.top,1.6))}else if(p.fit==='small'){r(x-3,y-3,2,2,p.skin);r(x+1,y-3,2,2,p.skin);r(x-4,y-7,1,2,p.skin);r(x+3,y-7,1,2,p.skin);r(x-2,y-5,4,1,'#f4f4f8');r(x-2,y-4,4,1,p.skin)}
  r(x-3,y-16,6,6,p.skin);r(x+2,y-15,1,5,sh(p.skin,.88));r(x-3,y-11,6,1,sh(p.skin,.93));
+ const EY=eyeX(p,x),e=EY[2];
  if(up)r(x-3,y-17,6,7,p.hair);else{
-  r(x-3,y-17,6,3,p.hair);r(x-2,y-17,3,1,sh(p.hair,1.7));r(x-3,y-15,1,1,p.hair);r(x+2,y-15,1,1,p.hair);
-  const e=p.dir==='l'?-1:p.dir==='r'?1:0;
-  r(x-2+e,y-13,1,1,p.eye);r(x+1+e,y-13,1,1,p.eye);r(x-2+e,y-12,1,1,sh(p.eye,.55));r(x+1+e,y-12,1,1,sh(p.eye,.55));r(x+e,y-11,1,1,'#b0585a');
-  if(e<=0)r(e<0?x+1:x+2,y-12,1,1,'rgba(255,110,140,.55)');if(e>=0)r(e>0?x-2:x-3,y-12,1,1,'rgba(255,110,140,.55)')}
+  r(x-3,y-17,6,3,p.hair);NR=1;r(x-2,y-17,4,1,sh(p.hair,1.7));r(x-3,y-14,1,1,p.hair);r(x+3,y-14,1,1,p.hair);
+  if(p.face!=='joy'&&p.face!=='laugh'){r(EY[0],y-13,1,1,p.eye);r(EY[1],y-13,1,1,p.eye);r(EY[0],y-12,1,1,sh(p.eye,.55));r(EY[1],y-12,1,1,sh(p.eye,.55))}r(x+e,y-11,1,1,'#b0585a');
+  EY[3].forEach(c=>r(c,y-12,1,1,'rgba(255,110,140,.55)'));NR=0}
  if(p.face&&!up&&!MONO&&!(p.lid>.35)&&!p.zz)drawFace(p,x,y);
  // eyebrows only when the face is emoting: raised for happy/laugh/surprised, inner ends up for worried/sad, inner ends down when annoyed
- if(p.face&&BROWS[p.face]&&!up&&!MONO&&!(p.lid>.35)&&!p.zz){const e=p.dir==='l'?-1:p.dir==='r'?1:0,bc=sh(p.hair,.55),el=x-2+e,er=x+1+e,B=(xx,yy)=>r(Math.max(x-3,Math.min(x+2,xx)),yy,1,1,bc),k=BROWS[p.face];
+ if(p.face&&BROWS[p.face]&&!up&&!MONO&&!(p.lid>.35)&&!p.zz){const bc=sh(p.hair,.55),J=p.face==='joy'||p.face==='laugh',el=J?x-2:EY[0],er=J?x+2:EY[1],B=(xx,yy)=>rN(Math.max(x-3,Math.min(x+3,xx)),yy,1,1,bc),k=BROWS[p.face];
   if(k===1){B(el,y-15);B(er,y-15)}else if(k===2){B(el-1,y-14);B(el,y-15);B(er+1,y-14);B(er,y-15)}else{B(el-1,y-15);B(el,y-14);B(er+1,y-15);B(er,y-14)}}
- if(!up&&!photo&&!(p.lid>.35)&&!p.zz&&p.face!=='laugh'&&p.face!=='surprised'){if(p._bp==null)p._bp=Math.random()*5;if((t+p._bp)%(3.3+p._bp*.35)<.13){const e=p.dir==='l'?-1:p.dir==='r'?1:0;r(x-2+e,y-13,1,1,p.skin);r(x+1+e,y-13,1,1,p.skin)}}
+ if(!up&&!photo&&!(p.lid>.35)&&!p.zz&&p.face!=='laugh'&&p.face!=='joy'&&p.face!=='surprised'){if(p._bp==null)p._bp=Math.random()*5;if((t+p._bp)%(3.3+p._bp*.35)<.13){rN(EY[0],y-13,1,1,p.skin);rN(EY[1],y-13,1,1,p.skin)}}
  if(p.plaid){r(x-3,y-8,6,1,sh(p.top,.6));r(x-1,y-10,1,6,sh(p.top,.6));r(x+1,y-10,1,6,'#a83a2a')}
  if(p.cap){r(x-3,y-18,6,3,p.cap);r(x-3,y-18,6,1,sh(p.cap,1.3));if(!up)r(p.dir==='l'?x-6:x+2,y-16,4,1,sh(p.cap,.7));if(p.capDot&&!up&&p.dir==='d')r(x-1,y-17,2,1,p.capDot)}
  if(p.mortar){r(x-5,y-19,10,2,'#101014');r(x-5,y-19,10,1,'#2a2a30');r(x-3,y-17,6,1,'#101014');r(x,y-19,1,1,'#ffd86b');r(up?x-5:x+4,y-18,1,4,'#ffd86b');r(up?x-5:x+4,y-14,1,1,'#ffe88a')}
@@ -412,13 +418,14 @@ function body0(p,t){
  if(p.beard&&!up)r(x-3,y-11,6,1,p.hair);
  if(p.mask&&!up){r(x-3,y-12,6,2,'#e8f4ff');r(x-4,y-13,1,2,'#ccd')}
  if(p.green&&!up)r(x-3,y-15,6,5,'rgba(110,190,70,.45)');
- if(p.lid>.35&&!up){const e=p.dir==='l'?-1:p.dir==='r'?1:0;r(x-2+e,y-13,1,1,p.skin);r(x+1+e,y-13,1,1,p.skin);if(p.lid>.75){r(x-2+e,y-12,1,1,sh(p.skin,.7));r(x+1+e,y-12,1,1,sh(p.skin,.7))}}
- if(p.zz&&!up){const e=p.dir==='l'?-1:p.dir==='r'?1:0;r(x-2+e,y-13,1,1,p.skin);r(x+1+e,y-13,1,1,p.skin);r(x-2+e,y-12,1,1,'#2b1830');r(x+1+e,y-12,1,1,'#2b1830')}
- if(p.bleed&&!up){const e=p.dir==='l'?-1:p.dir==='r'?1:0;r(x+e,y-11,1,2,'#d81a1a');r(x+e+1,y-10,1,1,'#a81010')}
+ if(p.lid>.35&&!up){rN(EY[0],y-13,1,1,p.skin);rN(EY[1],y-13,1,1,p.skin);if(p.lid>.75){rN(EY[0],y-12,1,1,sh(p.skin,.7));rN(EY[1],y-12,1,1,sh(p.skin,.7))}}
+ if(p.zz&&!up){rN(EY[0],y-13,1,1,p.skin);rN(EY[1],y-13,1,1,p.skin);rN(EY[0],y-12,1,1,'#2b1830');rN(EY[1],y-12,1,1,'#2b1830')}
+ if(p.bleed&&!up){rN(x+e,y-11,1,2,'#d81a1a');rN(x+e+1,y-10,1,1,'#a81010')}
  if(p.hp){r(x-4,y-17,8,1,'#222');r(x-4,y-15,1,3,'#222');r(x+3,y-15,1,3,'#222')}
  if(p.veil&&!MONO){cx.globalAlpha=.55;r(x-4,y-18,8,1,'#fff');r(x-5,y-17,1,14,'#fff');r(x+4,y-17,1,14,'#fff');if(up)r(x-4,y-17,8,12,'#fff');cx.globalAlpha=1}
- if(p.tears&&!up&&!MONO){const k=Math.floor(t*3)%3;r(x-2,y-11+k,1,1,'#8ad8ff');r(x+1,y-12+((k+1)%3),1,1,'#8ad8ff')}
+ if(p.tears&&!up&&!MONO){const k=Math.floor(t*3)%3;rN(EY[0],y-11+k,1,1,'#8ad8ff');rN(EY[1],y-12+((k+1)%3),1,1,'#8ad8ff')}
  if(p.hold&&!p.dance)drawHold(p,x,y,t,up);
+ NX=null;
  if(dlg&&!MONO&&!photo&&p.n){const L=dlg.l[dlg.i];if(L&&L.n===p.n){if(dlg._ei!==dlg.i){dlg._ei=dlg.i;dlg._et=T;dlg._em=emoKind(L.t||'')}if(dlg._em)emoDraw(dlg._em,x,y-(p.mortar||p.chat?31:28),T-dlg._et);
   if(cx===CX0)try{const m=cx.getTransform();let px=m.a*x+m.e;DLGX={d:dlg,i:dlg.i,t:T,f:PZ?(px-PZ.sx)/PZ.sw:px/W,px,py:m.d*y+m.f}}catch(e){}}}
  if(cx===CX0&&!MONO&&(p===hunter||p===abi))try{const m=cx.getTransform();p._sx=m.a*x+m.e;p._sy=m.d*y+m.f;p._sT=T}catch(e){}
@@ -438,10 +445,10 @@ function drawHold(p,x,y,t,up){
  const restL=()=>{r(x-4,y-8,1,3,tp);r(x-4,y-5,1,1,sk)},restR=()=>{r(x+3,y-8,1,3,tp);r(x+3,y-5,1,1,sk)};
  if(h==='type'){const q=p.typeSp?Math.floor(t*p.typeSp)%2:0;r(x-4,y-8,1,4+q,tp);r(x+3,y-8,1,5-q,tp);return}
  if(h==='carry'&&p.carry==='#2a2a34'&&up&&!drawHold.inn){r(x-4,y-8,1,4,tp);r(x+3,y-8,1,4,tp);const g=Math.floor(t*2)%2;if(!MONO){r(x-6,y-11,1,1,'#2b1830');r(x+5,y-11,1,1,'#2b1830')}[x-5,x+4].forEach(sx=>{r(sx,y-10,1,1,'#3a3a46');r(sx,y-9,1,3,g?'#9ad8ff':'#8ac8f0')});return}
- if((HSIDE.has(h)||h==='baby'||(h==='carry'&&!['#e8c050','#e8c051','#f8e0a0','#1a1a22'].includes(p.carry)))&&(e!==0||up)&&!drawHold.inn){const oc=drawHold.oc||(drawHold.oc=document.createElement('canvas'));oc.width=48;oc.height=44;const g=oc.getContext('2d'),m=cx,sd=p.dir;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,48,44);g._c=null;cx=g;drawHold.inn=1;p.dir='d';try{drawHold(p,24,38,t,false)}finally{p.dir=sd;drawHold.inn=0;cx=m}
+ if((HSIDE.has(h)||h==='baby'||(h==='carry'&&!['#e8c050','#e8c051','#f8e0a0','#1a1a22'].includes(p.carry)))&&(e!==0||up)&&!drawHold.inn){const oc=drawHold.oc||(drawHold.oc=document.createElement('canvas'));oc.width=48;oc.height=44;const g=oc.getContext('2d'),m=cx,sd=p.dir;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,48,44);g._c=null;cx=g;drawHold.inn=1;p.dir='d';const nx=NX;NX=24;try{drawHold(p,24,38,t,false)}finally{NX=nx;p.dir=sd;drawHold.inn=0;cx=m}
   if(up){r(x-4,y-8,1,4,tp);r(x+3,y-8,1,4,tp)}cx.save();if(up){cx.beginPath();cx.rect(x-30,y-40,26,44);cx.rect(x+4,y-40,26,44);cx.clip();cx.drawImage(oc,x-24,y-38)}
   else if(e>0){cx.drawImage(oc,x-22,y-38)}
-  else{cx.translate(x,0);cx.scale(-1,1);cx.drawImage(oc,-22,y-38)}
+  else{cx.translate(x,0);cx.scale(-1,1);cx.drawImage(oc,-23,y-38)}
   cx.restore();return}
  if(h==='baby'){if(up){restL();restR()}else{arm(x-4,y-9,x-3,y-7);arm(x+3,y-9,x+2,y-7);r(x-4,y-9,8,3,'#f8d0e0');r(x-4,y-9,8,1,'#fde4ee');r(x+2,y-8,2,2,'#f0b8cc');r(x-5,y-11,4,4,'#f8dcc4');r(x-5,y-11,4,1,'#6a4a2a');r(x-4,y-9,1,1,'#8a5a5a');r(x-2,y-9,1,1,'#8a5a5a');r(x-4,y-7,1,1,sk);r(x+3,y-7,1,1,sk)}}
  else if(h==='clip'){restR();arm(x-4,y-9,x-5,y-7);r(x-8,y-10,4,5,'#c8a060');r(x-7,y-9,2,3,'#fff');r(x-7,y-10,2,1,'#8a8a96');if(!up){r(x,y-10,1,3,'#3a6ab0');r(x,y-7,2,1,'#c8c8d0')}}
@@ -452,12 +459,12 @@ function drawHold(p,x,y,t,up){
   const ex=sx+dx*Math.round(1*k),ey=Math.round(y-7-4*k),hx=L?x-3:x+2,hy=Math.round(y-5-8*k);
   for(let i=0;i<=3;i++)r(sx+(ex-sx)*i/3,y-9+(ey-y+9)*i/3,1,1,tp);for(let i=0;i<=3;i++)r(ex+(hx-ex)*i/3,ey+(hy-ey)*i/3,1,1,tp);r(hx,hy,1,1,sk);
   if(k>.5){r(hx+(L?0:0),hy-3,2,4,'#1a1a22');r(hx+(L?1:0),hy-2,1,2,'#6ab0e0')}}
- else if(h==='phoneLow'){restL();arm(x+3,y-9,x+2,y-7);r(x+1,y-8,3,2,'#1a1a22');r(x+2,y-8,1,1,Math.floor(t*4)%2?'#6ab0e0':'#bfe6ff');if(!up&&p.face!=='worry'){r(x-2+e,y-12,1,1,sh(p.eye,.55))}}
+ else if(h==='phoneLow'){restL();arm(x+3,y-9,x+2,y-7);r(x+1,y-8,3,2,'#1a1a22');r(x+2,y-8,1,1,Math.floor(t*4)%2?'#6ab0e0':'#bfe6ff');if(!up&&p.face!=='worry'){rN(eyeX(p,x)[0],y-12,1,1,sh(p.eye,.55))}}
  else if(h==='fishUp'){const wig=Math.floor(t*6)%2;restL();r(x-5,y-8,1,1,sk);const hy=Math.round(y-6-8*k);arm(x+3,y-9,x+4,hy);
   if(k>.6){r(x+5,hy-2,4,3,'#7aa0b0');r(x+5,hy-2,4,1,'#a8c8d0');r(x+9,hy-3+wig,1,4,'#6a90a0');r(x+6,hy-1,1,1,'#111');r(x+5,hy,3,1,'#c8d8a0')}}
  else if(h==='rod'){const s=e<0?-1:1;r(x+(s>0?2:-3),y-8,2,1,tp);r(x+(s>0?4:-4),y-8,1,1,sk);r(x+(s>0?-1:0),y-7,2,1,tp);r(x+(s>0?1:-2),y-7,2,1,sk);
   if(p.reel){const a=t*16;r(x+(s>0?3:-4)+Math.round(Math.cos(a)),y-6+Math.round(Math.sin(a)),1,1,'#ddd')}}
- else if(h==='stretch'){const k2=Math.min(1,(t-(p.hs||0))/.4);arm(x-4,y-9,x-5,y-9-Math.round(8*k2));arm(x+3,y-9,x+4,y-9-Math.round(8*k2));if(!up){r(x-1,y-11,2,1,'#5a2a2a')}}
+ else if(h==='stretch'){const k2=Math.min(1,(t-(p.hs||0))/.4);arm(x-4,y-9,x-5,y-9-Math.round(8*k2));arm(x+3,y-9,x+4,y-9-Math.round(8*k2));if(!up){rN(x-1,y-11,3,1,'#5a2a2a')}}
  else if(h==='armAround'){restR()}
  else if(h==='lounge'){arm(x-3,y-10,x-4,y-14);arm(x+2,y-10,x+3,y-14);r(x-4,y-16,1,2,sk);r(x+3,y-16,1,2,sk)}
  else if(h==='camera'){if(!up){arm(x-4,y-9,x-2,y-13);arm(x+3,y-9,x+2,y-13);r(x-3+e,y-15,6,3,'#1a1a22');r(x-2+e,y-14,1,1,'#6ab0e0');if(Math.floor(t*3)%3==0)r(x+2+e,y-16,1,1,'#fff')}else{restL();restR()}}
@@ -513,7 +520,7 @@ function strings(t){
  cx.globalCompositeOperation='lighter';for(let j=0;j<3;j++){const a=t*1.5+j*2.1;disc(80+Math.cos(a)*20|0,470+Math.sin(a)*14|0,2,'#ffffff',.25)}cx.globalCompositeOperation='source-over'}
 
 function ftCam(){}
-function bust(x,y,p){if(p.hl)r(x-4,y-7,8,p.hl==2?7:4,p.hair);r(x-3,y-6,6,5,p.skin);r(x-3,y-8,6,3,p.hair);r(x+1,y-4,1,1,p.eye);r(x-4,y-1,8,2,p.top)}
+function bust(x,y,p){NX=x;try{if(p.hl)r(x-4,y-7,8,p.hl==2?7:4,p.hair);r(x-3,y-6,6,5,p.skin);r(x-3,y-8,6,3,p.hair);r(x+1,y-4,1,1,p.eye);r(x-4,y-1,8,2,p.top)}finally{NX=null}}
 function carDraw(x,y,t,full){/* Morgan's teal hatchback: real people in the windows, Hunter and Abigail cuddled up in the back */
  const C='#3aa6b9',HI='#7ad4e2',MD='#2e8ea0',DK='#1f6a7a',GL='#1c2a44';
  const top=y-11,ROW=[];for(let yy=top;yy<y;yy++){const d=yy-top,lo=Math.round(x+13-d*.75),ro=Math.round(x+42+d*.95);r(lo,yy,ro-lo,1,C);ROW.push([yy,lo,ro])}
@@ -704,24 +711,29 @@ function faceFor(L){faceClear();if(!L||!L.n)return;const p=FACEP()[L.n];if(!p)re
   else if(/love you|♥|💛|beautiful|marry me|\(blush|kiss/i.test(t))f='blush';
   else if(/^\(sigh|\bI miss\b|miss (?:you|him|her|them)\b|so quiet without|rock bottom|It[’']s not okay|not as fun without|can[’']t sleep anyway/i.test(t)||/Without you\.$/.test(t))f='sad';
   else if(/^ugh\b|\bUgh\b|ONE job|don[’']t even LIVE|is NOT a real|Stop\. Touching|Seriously\?|I demand|RIGGED|were BIASED|Those were MY|That[’']s the fourth time|Masher doesn[’']t DRAW/.test(t))f='angry';
+  else if(/\bI LOVE\b|\bI love (?:this|it|that|these|how)\b|\bamazing\b|\byay\b|\bwoo+\b|so excited|can[’']t wait/i.test(t)||/!!|\b[A-Z]{4,}\b[^a-z]*!/.test(t))f='joy';
   else if(/!/.test(t))f='happy'}
  if(f){p.face=f;faceP=p}}
-const BROWS={happy:1,laugh:1,surprised:1,worry:2,sad:2,angry:3};
-function drawFace(p,x,y){const e=p.dir==='l'?-1:p.dir==='r'?1:0,f=p.face,sk=p.skin;
- // soft, small changes only: cheeks, the mouth pixel and the eyes; no heavy lines across the face
- // side views show only the near cheek (same pixels as the base face), so blush never lands on the far eye
- const CX=[];if(e<=0)CX.push(e<0?x+1:x+2);if(e>=0)CX.push(e>0?x-2:x-3);
- const cheek=a=>CX.forEach(cx=>r(cx,y-12,1,1,`rgba(255,110,140,${a})`));
- if(f==='happy'){cheek(.75);r(x+e,y-11,1,1,'#d8707e')}
- else if(f==='laugh'){r(x-2+e,y-13,1,1,sk);r(x+1+e,y-13,1,1,sk);r(x-2+e,y-12,1,1,sh(sk,.62));r(x+1+e,y-12,1,1,sh(sk,.62));cheek(.8);r(x+e,y-11,1,1,'#8a2a3a')}
- else if(f==='surprised'){r(x-2+e,y-12,1,1,p.eye);r(x+1+e,y-12,1,1,p.eye);r(x-2+e,y-13,1,1,sh(p.eye,1.5));r(x+1+e,y-13,1,1,sh(p.eye,1.5));r(x+e,y-11,1,1,'#6a2030')}
- else if(f==='worry'){/* panic: small dark eyes, an open worried mouth and a bead of sweat */
-  [x-2+e,x+1+e].forEach(ex=>{r(ex,y-13,1,1,'#2a1a1e');r(ex,y-12,1,1,sk)});
-  r(x+e,y-11,1,1,sk);r(x-1+e+(e<0?1:0),y-11,2,1,'#7a2a3a');cheek(.5);
-  const sd=((T*.9)%1),sx=e<0?x+3:x-4;if(sd<.8){cx.globalAlpha=1-sd/.8;r(sx,y-15+Math.round(sd*5),1,2,'#bfe6ff');r(sx,y-15+Math.round(sd*5),1,1,'#ffffff');cx.globalAlpha=1}}
- else if(f==='blush'){cheek(.95);CX.forEach(cx=>r(cx,y-11,1,1,'rgba(255,110,140,.35)'))}
- else if(f==='sad')r(x+e,y-11,1,1,'#7a3a44');
- else if(f==='angry')r(x+e,y-11,1,1,'#8a2a30')}
+const BROWS={happy:1,laugh:1,joy:1,surprised:1,worry:2,sad:2,angry:3};
+/* eyes on the 7-wide face: front x-2 and x+2 with the mouth in the middle; side views keep both eyes on the face, the near one beside the mouth.
+   returns [left eye, right eye, facing (-1/0/1), cheek columns] */
+function eyeX(p,x){const e=p.dir==='l'?-1:p.dir==='r'?1:0;return e>0?[x-1,x+2,1,[x-2]]:e<0?[x-2,x+1,-1,[x+2]]:[x-2,x+2,0,[x-3,x+3]]}
+function drawFace(p,x,y){const EY=eyeX(p,x),e=EY[2],f=p.face,sk=p.skin,m=x+e,o=NR;NR=1;try{
+ // soft, small changes: cheeks, the mouth and the eyes; the centre column lets a mouth be three pixels wide and still sit in the middle
+ const CX=EY[3],cheek=(a,yy=y-12)=>CX.forEach(c=>r(c,yy,1,1,`rgba(255,110,140,${a})`)),
+  mouth=(c,c2)=>{r(m,y-11,1,1,c);if(e===0){r(x-1,y-11,1,1,c2||c);r(x+1,y-11,1,1,c2||c)}else r(m-e,y-11,1,1,c2||c)},
+  arches=()=>{const K='#1a1014';CX.forEach(c=>r(c,y-12,1,1,sk));[x-2,x+2].forEach(a=>{r(a,y-13,1,1,K);r(a-1,y-12,1,1,K);r(a+1,y-12,1,1,K)})};
+ if(f==='happy'){cheek(.75);mouth('#d8707e','#e8a0a4')}
+ else if(f==='joy'){arches();cheek(.75,y-11);r(m,y-11,1,1,'#d8707e')}
+ else if(f==='laugh'){arches();cheek(.8,y-11);mouth('#b8404e','#7a2232')}
+ else if(f==='surprised'){[EY[0],EY[1]].forEach(a=>{r(a,y-13,1,1,sh(p.eye,1.5));r(a,y-12,1,1,p.eye)});r(m,y-11,1,1,'#6a2030')}
+ else if(f==='worry'){/* panic: small dark eyes, a wobbly open mouth and a bead of sweat */
+  [EY[0],EY[1]].forEach(a=>{r(a,y-13,1,1,'#2a1a1e');r(a,y-12,1,1,sk)});mouth('#9a4a5a','#7a2a3a');cheek(.5);
+  const sd=((T*.9)%1),sx=e<0?x+4:x-4;if(sd<.8){cx.globalAlpha=1-sd/.8;r(sx,y-15+Math.round(sd*5),1,2,'#bfe6ff');r(sx,y-15+Math.round(sd*5),1,1,'#ffffff');cx.globalAlpha=1}}
+ else if(f==='blush'){cheek(.95);CX.forEach(c=>r(c,y-11,1,1,'rgba(255,110,140,.35)'))}
+ else if(f==='sad'){[EY[0],EY[1]].forEach(a=>{r(a,y-13,1,1,sh(sk,.86));r(a,y-12,1,1,p.eye)});r(m,y-11,1,1,'#7a3a44')}
+ else if(f==='angry'){mouth('#8a2a30')}
+}finally{NR=o}}
 
 /* ---------- styled chapter title cards ---------- */
 let CHT=null;const FTC={};
@@ -8835,7 +8847,7 @@ function vFarm7(t){cx.drawImage(bgC('farm7',80,144,()=>{for(let y=0;y<90;y++)for
   else if(k<2.6){const q=(k-.9)/1.7,x=32+(abi.x-3-32)*q,y=112+(abi.y+3-112)*q;items.push({y,f:()=>corgi(x,y,'r',0,t,1,0)})}
   else items.push({y:abi.y+3,f:()=>corgi(abi.x-3,abi.y+3,'r',0,t,0,0)})}
  items.sort((a,b)=>a.y-b.y).forEach(i=>i.f())}
-function bustF(x,y,p){if(p.hl)r(x-4,y-7,8,p.hl==2?7:4,p.hair);r(x-3,y-6,6,5,p.skin);r(x-3,y-8,6,3,p.hair);r(x-3,y-6,1,1,p.hair);r(x+2,y-6,1,1,p.hair);r(x-2,y-4,1,1,p.eye);r(x+1,y-4,1,1,p.eye);r(x-1,y-2,2,1,'#c87a7a');r(x-4,y-1,8,2,p.top)}
+function bustF(x,y,p){NX=x;try{if(p.hl)r(x-4,y-7,8,p.hl==2?7:4,p.hair);r(x-3,y-6,6,5,p.skin);r(x-3,y-8,6,3,p.hair);r(x-3,y-6,1,1,p.hair);r(x+2,y-6,1,1,p.hair);r(x-2,y-4,1,1,p.eye);r(x+1,y-4,1,1,p.eye);rN(x-1,y-2,3,1,'#c87a7a');r(x-4,y-1,8,2,p.top)}finally{NX=null}}
 function corgiMini(x,y){r(x-2,y-3,5,3,CO);r(x-2,y-5,1,2,CO);r(x+2,y-5,1,2,CO);r(x,y-3,1,2,CW);r(x-1,y-1,3,1,CW);r(x-1,y-2,1,1,'#2a1a1a');r(x+1,y-2,1,1,'#2a1a1a');r(x-2,y,5,2,CW)}
 function vCar7(t){const S=c7.snow||0,sn=S>.5;const RW=y=>Math.round(5+((y-72)/72)*54);
  cx.drawImage(bgC('car7'+(sn?1:0),80,144,()=>{vgGrad(0,0,80,72,sn?['#a2aab8','#b2b8c4','#c2c6d0','#d0d4dc','#dcdfe4']:['#868e9e','#949aa8','#a4aab6','#b2b6c0','#bcbec6']);
