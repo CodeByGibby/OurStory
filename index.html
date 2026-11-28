@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.18.0</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.18.1</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -403,13 +403,13 @@ function body0(p,t){
  const EY=eyeX(p,x),e=EY[2];
  if(up)r(x-3,y-17,6,7,p.hair);else{
   r(x-3,y-17,6,3,p.hair);NR=1;r(x-2,y-17,4,1,sh(p.hair,1.7));r(x-3,y-14,1,1,p.hair);r(x+3,y-14,1,1,p.hair);
-  if(p.face!=='joy'&&p.face!=='laugh'){r(EY[0],y-13,1,1,p.eye);r(EY[1],y-13,1,1,p.eye);r(EY[0],y-12,1,1,sh(p.eye,.55));r(EY[1],y-12,1,1,sh(p.eye,.55))}r(x+e,y-11,1,1,'#b0585a');
+  if(p.face!=='happy'&&p.face!=='laugh'){r(EY[0],y-13,1,1,p.eye);r(EY[1],y-13,1,1,p.eye);r(EY[0],y-12,1,1,sh(p.eye,.55));r(EY[1],y-12,1,1,sh(p.eye,.55))}r(x+e,y-11,1,1,'#b0585a');
   EY[3].forEach(c=>r(c,y-12,1,1,'rgba(255,110,140,.55)'));NR=0}
  if(p.face&&!up&&!MONO&&!(p.lid>.35)&&!p.zz)drawFace(p,x,y);
  // eyebrows only when the face is emoting: raised for happy/laugh/surprised, inner ends up for worried/sad, inner ends down when annoyed
- if(p.face&&BROWS[p.face]&&!up&&!MONO&&!(p.lid>.35)&&!p.zz){const bc=sh(p.hair,.55),J=p.face==='joy'||p.face==='laugh',el=J?x-2:EY[0],er=J?x+2:EY[1],B=(xx,yy)=>rN(Math.max(x-3,Math.min(x+3,xx)),yy,1,1,bc),k=BROWS[p.face];
+ if(p.face&&BROWS[p.face]&&!up&&!MONO&&!(p.lid>.35)&&!p.zz){const bc=sh(p.hair,.55),J=p.face==='happy'||p.face==='laugh',el=J?x-2:EY[0],er=J?x+2:EY[1],B=(xx,yy)=>rN(Math.max(x-3,Math.min(x+3,xx)),yy,1,1,bc),k=BROWS[p.face];
   if(k===1){B(el,y-15);B(er,y-15)}else if(k===2){B(el-1,y-14);B(el,y-15);B(er+1,y-14);B(er,y-15)}else{B(el-1,y-15);B(el,y-14);B(er+1,y-15);B(er,y-14)}}
- if(!up&&!photo&&!(p.lid>.35)&&!p.zz&&p.face!=='laugh'&&p.face!=='joy'&&p.face!=='surprised'){if(p._bp==null)p._bp=Math.random()*5;if((t+p._bp)%(3.3+p._bp*.35)<.13){rN(EY[0],y-13,1,1,p.skin);rN(EY[1],y-13,1,1,p.skin)}}
+ if(!up&&!photo&&!(p.lid>.35)&&!p.zz&&p.face!=='laugh'&&p.face!=='happy'&&p.face!=='surprised'){if(p._bp==null)p._bp=Math.random()*5;if((t+p._bp)%(3.3+p._bp*.35)<.13){rN(EY[0],y-13,1,1,p.skin);rN(EY[1],y-13,1,1,p.skin)}}
  if(p.plaid){r(x-3,y-8,6,1,sh(p.top,.6));r(x-1,y-10,1,6,sh(p.top,.6));r(x+1,y-10,1,6,'#a83a2a')}
  if(p.cap){r(x-3,y-18,6,3,p.cap);r(x-3,y-18,6,1,sh(p.cap,1.3));if(!up)r(p.dir==='l'?x-6:x+2,y-16,4,1,sh(p.cap,.7));if(p.capDot&&!up&&p.dir==='d')r(x-1,y-17,2,1,p.capDot)}
  if(p.mortar){r(x-5,y-19,10,2,'#101014');r(x-5,y-19,10,1,'#2a2a30');r(x-3,y-17,6,1,'#101014');r(x,y-19,1,1,'#ffd86b');r(up?x-5:x+4,y-18,1,4,'#ffd86b');r(up?x-5:x+4,y-14,1,1,'#ffe88a')}
@@ -711,10 +711,9 @@ function faceFor(L){faceClear();if(!L||!L.n)return;const p=FACEP()[L.n];if(!p)re
   else if(/love you|♥|💛|beautiful|marry me|\(blush|kiss/i.test(t))f='blush';
   else if(/^\(sigh|\bI miss\b|miss (?:you|him|her|them)\b|so quiet without|rock bottom|It[’']s not okay|not as fun without|can[’']t sleep anyway/i.test(t)||/Without you\.$/.test(t))f='sad';
   else if(/^ugh\b|\bUgh\b|ONE job|don[’']t even LIVE|is NOT a real|Stop\. Touching|Seriously\?|I demand|RIGGED|were BIASED|Those were MY|That[’']s the fourth time|Masher doesn[’']t DRAW/.test(t))f='angry';
-  else if(/\bI LOVE\b|\bI love (?:this|it|that|these|how)\b|\bamazing\b|\byay\b|\bwoo+\b|so excited|can[’']t wait/i.test(t)||/!!|\b[A-Z]{4,}\b[^a-z]*!/.test(t))f='joy';
-  else if(/!/.test(t))f='happy'}
+  else if(/\bI LOVE\b|\bI love (?:this|it|that|these|how)\b|\bamazing\b|\byay\b|\bwoo+\b|so excited|can[’']t wait/i.test(t)||/!/.test(t))f='happy'}
  if(f){p.face=f;faceP=p}}
-const BROWS={happy:1,laugh:1,joy:1,surprised:1,worry:2,sad:2,angry:3};
+const BROWS={happy:1,laugh:1,surprised:1,worry:2,sad:2,angry:3};
 /* eyes on the 7-wide face: front x-2 and x+2 with the mouth in the middle; side views keep both eyes on the face, the near one beside the mouth.
    returns [left eye, right eye, facing (-1/0/1), cheek columns] */
 function eyeX(p,x){const e=p.dir==='l'?-1:p.dir==='r'?1:0;return e>0?[x-1,x+2,1,[x-2]]:e<0?[x-2,x+1,-1,[x+2]]:[x-2,x+2,0,[x-3,x+3]]}
@@ -723,8 +722,7 @@ function drawFace(p,x,y){const EY=eyeX(p,x),e=EY[2],f=p.face,sk=p.skin,m=x+e,o=N
  const CX=EY[3],cheek=(a,yy=y-12)=>CX.forEach(c=>r(c,yy,1,1,`rgba(255,110,140,${a})`)),
   mouth=(c,c2)=>{r(m,y-11,1,1,c);if(e===0){r(x-1,y-11,1,1,c2||c);r(x+1,y-11,1,1,c2||c)}else r(m-e,y-11,1,1,c2||c)},
   arches=()=>{const K='#1a1014';CX.forEach(c=>r(c,y-12,1,1,sk));[x-2,x+2].forEach(a=>{r(a,y-13,1,1,K);r(a-1,y-12,1,1,K);r(a+1,y-12,1,1,K)})};
- if(f==='happy'){cheek(.75);mouth('#d8707e','#e8a0a4')}
- else if(f==='joy'){arches();cheek(.75,y-11);r(m,y-11,1,1,'#d8707e')}
+ if(f==='happy'){arches();cheek(.75,y-11);r(m,y-11,1,1,'#d8707e')}
  else if(f==='laugh'){arches();cheek(.8,y-11);mouth('#b8404e','#7a2232')}
  else if(f==='surprised'){[EY[0],EY[1]].forEach(a=>{r(a,y-13,1,1,sh(p.eye,1.5));r(a,y-12,1,1,p.eye)});r(m,y-11,1,1,'#6a2030')}
  else if(f==='worry'){/* panic: small dark eyes, a wobbly open mouth and a bead of sweat */
