@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.18.3</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.18.4</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -226,7 +226,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="news"></div>
 <div id="phone"></div>
 <div id="lap"></div>
-<div id="end"><h2>CHAPTER 1<br>THE COOP</h2><p>&hearts; Complete &hearts;</p><p>Chapter 2 coming soon...</p><button onclick="location.reload()">Play again</button></div>
+<div id="end"><h2>CHAPTER 1<br>THE ROOST</h2><p>&hearts; Complete &hearts;</p><p>Chapter 2 coming soon...</p><button onclick="location.reload()">Play again</button></div>
 </div>
 <script>
 const W=160,H=288,R=288,$=id=>document.getElementById(id);
@@ -320,11 +320,11 @@ const hunter=mk('hunter',44,540,{dir:'l'}),morgan=mk('morgan',16,540,{dir:'r'}),
 const dn=(x,y,top,hair,hl,skin,ph)=>mk('morgan',x,y,{n:'Dancer',top,hair,hl,skin,pants:'#3a3a5a',dance:1,ph});
 const dancers=[dn(58,452,'#ff7eb6','#2a1a1a',2,'#8d5a3a',0),dn(102,452,'#7ee8fa','#d8a33a',1,'#f6d2b0',1),dn(58,494,'#8be28b','#5a2a1a',0,'#c98e62',2),dn(102,494,'#ffd86b','#1a1a2a',1,'#f1c9a0',3)];
 Object.assign(dancers[0],{n:'Nia',lines:[['WOOO! Sorry. I’m just really happy.'],['See the disco ball? It’s got a crack in it.','Don’t tell anyone. It’s doing its best.'],['You look like you’re looking for someone.','A|Do I?','You do. Good luck.']]});
-Object.assign(dancers[1],{n:'Brad',lines:[['I’m doing the sprinkler. It’s coming back.'],['Do you think the DJ takes requests? I want the Cha Cha Slide.','A|Bold.','Every party needs it.'],['I learned this move from a video. The video was for beginners.']]});
+Object.assign(dancers[1],{n:'Brad',lines:[['I’m doing the sprinkler. It’s coming back.'],['Do you think the DJ takes requests? I want something everyone can line dance to.','A|Bold.','Every party needs it.'],['I learned this move from a video. The video was for beginners.']]});
 Object.assign(dancers[2],{n:'Sam',lines:[['I’m not drunk. I’m just a really bad dancer.'],['Left foot, right foot... no. Left foot again.'],['I’m here for my cousin’s bachelorette.','A|Where is she?','No idea. I lost her two hours ago.']]});
 Object.assign(dancers[3],{n:'Rachel',lines:[['I came here for ONE drink. That was three hours ago.'],['My shoes were a mistake. A beautiful mistake.'],['You’re British? Say something British.','A|...Cheers?','Oh my gosh. Do it again.']]});
 const all=[hunter,morgan,abi,bart,dj,...dancers];
-/* ---- The Coop's crowd: people at the tables, along the bar, a couple more dancing, and a few making the trip for another round ---- */
+/* ---- The Roost's crowd: people at the tables, along the bar, a couple more dancing, and a few making the trip for another round ---- */
 const PAT=(()=>{const M=(k,x,y,o)=>mk(k,x,y,Object.assign({n:'Patron',apron:0},o)),W=[],S=[];
  // seated at the tables, turned toward each other
  S.push(M('bart',9,456,{n:'Derek',lines:[['Sorry. We’re on a first date.','A|Oh! How’s it going?','Great. I’ve told her all about my fantasy football team.'],['Do you know anything about fantasy football?','A|Is that the one with the egg-shaped ball?','...I’ll take that as a no.'],['My team’s called the Dad Bods.','Kayla|They’re in last place.','They’re in a REBUILDING year.']],top:'#3a6ab0',hair:'#2a1a12',hl:0,skin:'#c98e62',pants:'#2a2a3a',sit:1,dir:'r',hold:'beer'}),
@@ -1044,7 +1044,7 @@ function scene(t){
  disc(80,315,40,'#ff4f9e',.06+.03*Math.sin(t*5));
  r(31,297,98,34,'#05030c');r(33,299,94,30,'#ff7eb6');r(34,300,92,28,'#7a1f5a');r(36,302,88,24,'#140826');
  for(let i=0,x=37;x<=122;x+=6,i++){const c=(i+Math.floor(t*3))%2?'#ffd86b':'#7ee8fa';r(x,303,2,2,c);r(x,323,2,2,c)}
- cx.globalAlpha=.85+.15*Math.sin(t*5);txt('THE COOP',50,310,'#7a1f5a',2);txt('THE COOP',49,309,'#ffb0d8',2);cx.globalAlpha=1;
+ cx.globalAlpha=.85+.15*Math.sin(t*5);txt('THE ROOST',46,310,'#7a1f5a',2);txt('THE ROOST',45,309,'#ffb0d8',2);cx.globalAlpha=1;
  const k=Math.floor(t*3);r(51,440,59,59,'#1a0f2a');r(52,441,57,57,'#3a2a4a');
  for(let i=0;i<5;i++)for(let j=0;j<5;j++){const q=(i+j+k)%4,x=53+i*11,y=442+j*11;r(x,y,10,10,DF[q]);r(x,y,10,1,DFL[q]);r(x,y+9,10,1,DFD[q])}
  cx.globalCompositeOperation='lighter';disc(70+Math.sin(t)*12|0,466,16,'#ff3d8f',.1);disc(90+Math.cos(t*.8)*12|0,476,16,'#3de0ff',.1);cx.globalCompositeOperation='source-over';
@@ -1172,14 +1172,14 @@ function tickDlg(dt){camAuto(dt);
 
 /* ---------- story ---------- */
 const INTRO=[
- {n:'',t:'Saturday night at The Coop. Girls’ night. ✨'},
+ {n:'',t:'Saturday night at The Roost. Girls’ night. ✨'},
  {n:'Morgan',t:'Okay, I LOVE this place.'},
  {n:'Abigail',t:'Me too! Thank you for bringing me out tonight.'},
  {n:'Morgan',t:'Oh! My brother Hunter is around tonight. Mind if I invite him out?'},
  {n:'Abigail',t:'Of course! The more the merrier.'},
  {n:'Morgan',t:'Yay! I’ll text him. Can you grab us some drinks?'},
  {n:'',t:'Tap anywhere to walk. Tap people to talk.'}];
-const C1TX=[[1,'hey!! me and my friend Abigail are at The Coop. come out!'],[0,'right now?'],[1,'yes right now'],[0,'ok. be there in 15']];
+const C1TX=[[1,'hey!! me and my friend Abigail are at The Roost. come out!'],[0,'right now?'],[1,'yes right now'],[0,'ok. be there in 15']];
 /* ===== Chapter 1: Hunter's way in. The Birdway lobby, the elevator up, and the cover charge at the door ===== */
 let C1H=null;const C1P={};
 function c1hPeople(){if(!C1P.clerk){C1P.clerk=mk('bart',22,86,{n:'Clerk',top:'#2a3a5a',hair:'#3a2a1a',hl:1,apron:0,dir:'d'});C1P.bouncer=mk('bart',64,118,{n:'Bouncer',top:'#16161c',hair:'#1a1210',skin:'#a8724a',apron:0,dir:'l'})}}
@@ -1199,7 +1199,7 @@ function coolTap(){const K=C1H.cool;if(!K)return;const d=K.dr.find(q=>!q.w&&q.t<
 function coolUpd(dt){const K=C1H.cool;if(!K)return;K.t+=dt;while(K.i<K.sch.length&&K.t>=K.sch[K.i]){K.dr.push({x:Math.round(hunter.x)+(K.i%2?3:-3),y:Math.round(hunter.y)-24,t:0});K.i++;sfx('tick')}
  K.dr.forEach(q=>{q.t+=dt;if(!q.w&&!q.m&&q.t>=1.05){q.m=1;K.missed++;sfx('blip')}});K.dr=K.dr.filter(q=>q.t<1.4);K.fx.forEach(f=>f.t+=dt);K.fx=K.fx.filter(f=>f.t<.5);
  if(K.t>5.6&&!K.done){K.done=1;C1H.cool=null;mode='c1h';setHud('');sfx('ding');C1H.bank={from:41.12,to:21.12,t:T};const m=K.missed;
-  say((m===0?[{n:'',t:'*beep* APPROVED'},{n:'Hunter',t:'Cool. Thanks, man.'},{n:'Bouncer',t:'Smooth. Enjoy The Coop.'}]:m<3?[{n:'',t:'*beep* APPROVED'},{n:'Bouncer',t:'...You good, man?'},{n:'Hunter',t:'Totally. It’s just warm in here.'}]:[{n:'',t:'*beep* APPROVED'},{n:'Bouncer',t:'Dude. Are you okay? You’re, like, glistening.'},{n:'Hunter',t:'Never better! Love a cover charge! Great value!'}]).concat([{n:'Hunter',t:'(Twenty-one dollars and twelve cents left. Worth it. Probably. Let’s go find Morgan.)'}]),()=>{C1H.bank=null;fadeTo(()=>{C1H=null;c1HunterRoof()})})}}
+  say((m===0?[{n:'',t:'*beep* APPROVED'},{n:'Hunter',t:'Cool. Thanks, man.'},{n:'Bouncer',t:'Smooth. Enjoy The Roost.'}]:m<3?[{n:'',t:'*beep* APPROVED'},{n:'Bouncer',t:'...You good, man?'},{n:'Hunter',t:'Totally. It’s just warm in here.'}]:[{n:'',t:'*beep* APPROVED'},{n:'Bouncer',t:'Dude. Are you okay? You’re, like, glistening.'},{n:'Hunter',t:'Never better! Love a cover charge! Great value!'}]).concat([{n:'Hunter',t:'(Twenty-one dollars and twelve cents left. Worth it. Probably. Let’s go find Morgan.)'}]),()=>{C1H.bank=null;fadeTo(()=>{C1H=null;c1HunterRoof()})})}}
 function c1hUpdate(dt){if(SPKC)SPKC.d+=(SPKC.v-SPKC.d)*Math.min(1,dt*4);if(BAR)barUpd(dt);if(!C1H)return;C1H.t+=dt;if(mode==='cool')coolUpd(dt);if(loc==='bwlobby'||loc==='bwlift'||loc==='bwdoor')mv(hunter,dt);
  if(C1H.ph==='lift'){const t=C1H.t;C1H.floor=t<5.2?1+Math.floor(t/.65):'R';
   if(t>.9&&!C1H.ph1){C1H.ph1=1;hunter.hold='phone';C1H.bank={from:41.12,to:41.12,t:T};bark([{n:'Hunter',t:'(Checking account: forty-one dollars and twelve cents.)'},{n:'Hunter',t:'(Payday is... not soon. It’s fine. Everything is fine.)'}])}
@@ -1243,7 +1243,7 @@ function vBwDoor(t){cx.drawImage(bgC('bwdoor',80,144,()=>{
  // the party leaking through the portholes and under the door, the neon sign over it
  const c=['#ff5f9e','#7ee8fa','#ffd86b','#b78cff'][Math.floor(t*2)%4];ell(33,52,2,2,c,1);ell(46,52,2,2,['#7ee8fa','#ff5f9e','#b78cff','#ffd86b'][Math.floor(t*2)%4],1);r(28,93,24,1,c);
  for(let i=0;i<10;i++){const x=4+i*8,y=Math.round(5+3*Math.sin(x/80*3.14))+1;r(x,y,1,2,['#ffd27a','#ff7eb0','#7ad0ff'][i%3])}
- const fl=Math.sin(t*13)>.92?.4:1;cx.globalAlpha=fl;txt('THE COOP',25,24,'#ff5f9e',1);cx.globalCompositeOperation='lighter';cx.globalAlpha=.18*fl;r(22,21,38,11,'#ff5f9e');cx.globalAlpha=1;cx.globalCompositeOperation='source-over';
+ const fl=Math.sin(t*13)>.92?.4:1;cx.globalAlpha=fl;txt('THE ROOST',23,24,'#ff5f9e',1);cx.globalCompositeOperation='lighter';cx.globalAlpha=.18*fl;r(20,21,40,11,'#ff5f9e');cx.globalAlpha=1;cx.globalCompositeOperation='source-over';
  // velvet rope, the bouncer and his podium
  [[12],[24]].forEach(([x])=>{r(x,104,2,12,'#c8a050');ell(x+1,103,2,1,'#f0d080',1);r(x-1,116,4,1,'#8a6a2a')});for(let x=13;x<25;x++)r(x,106+Math.round(Math.sin((x-13)/11*3.14)*2),1,1,'#c8283a');
  r(50,110,12,12,'#2a2226');r(50,110,12,2,'#5a4e54');r(50,110,1,12,'#3e3238');r(53,106,6,4,'#1a1a1e');r(54,107,4,2,(C1H&&C1H.bank&&C1H.bank.to<C1H.bank.from)?'#5ae07a':'#3a8ae0');
@@ -1271,7 +1271,7 @@ function barStop(spill){const B=BAR,I=BARI[B.i],tg=I.tg,v=B.lv;let q=spill?'SPIL
 function barUpd(dt){const B=BAR;if(!B||B.end)return;if(B.wait>0){B.wait-=dt;if(B.wait<=0){B.pour=1;sfx('pour')}return}
  if(B.pour){const I=BARI[B.i];B.lv+=I.sp*dt;if(Math.random()<dt*20)B.bub.push({x:62+Math.random()*36,y:216,t:0});if(B.lv>=1){B.lv=1;barStop(1)}}B.bub.forEach(b=>b.t+=dt);B.bub=B.bub.filter(b=>b.t<1.2)}
 function barDone(){const B=BAR,R=B.res;BAR=null;mode='play';if(MGM){fadeTo(()=>{});return}pink=1;abi.hold='pink';const heavy=R[0]>0,light=R[0]<0,perfect=R.every(x=>x===0);wobT=heavy?3:light?1.4:2.2;wobHold=4;
- drink(perfect?'One double vodka Sprite with a splash of cranberry, and one without the vodka for your driver. Perfect pours! ✨':heavy?'One VERY double vodka Sprite. Your driver gets the one without. ✨':'One vodka Sprite with a splash of cranberry, and one without the vodka for your driver! ✨',
+ drink(perfect?'One double vodka lemon-lime with a splash of cranberry, and one without the vodka for your driver. Perfect pours! ✨':heavy?'One VERY double vodka lemon-lime. Your driver gets the one without. ✨':'One vodka lemon-lime with a splash of cranberry, and one without the vodka for your driver! ✨',
   heavy?'Whoa... that one is STRONG. Everything is a little wavy now. 🫨':'Cold, fizzy, and very much a double. Everything is a little wavy now. 🫨')}
 function barDraw(t){const B=BAR,k0=Math.min(1,(T-B.t0)/.35),ko=B.out?1-Math.min(1,(T-B.out)/.45):1,a=k0*ko;cx.globalAlpha=a;
  cx.drawImage(bgC('barcu',160,288,()=>{vgGrad(0,0,160,220,['#1a1024','#2a1830','#3a2236']);
@@ -1297,13 +1297,13 @@ function barDraw(t){const B=BAR,k0=Math.min(1,(T-B.t0)/.35),ko=B.out?1-Math.min(
 
 /* ===== Chapter 1: the first real conversation, with a SPARK meter that climbs as it goes well ===== */
 let SPKC=null;function sparkUp(n,L,next){SPKC.v=Math.min(100,SPKC.v+n);SPKC.pop=T;SPKC.add=n;sfx(n>=20?'chime':'blip');say(L,next)}
-/* ---- little things to look at around The Coop (and a reward for finding them all) ---- */
+/* ---- little things to look at around The Roost (and a reward for finding them all) ---- */
 const ROOFP=[{id:'sign',x:33,y:313,w:94,h:34,spot:[87,421],face:'u'},{id:'view',x:0,y:567,w:160,h:30,spot:[40,560],face:'d'},{id:'bottles',x:98,y:360,w:60,h:26,spot:[118,421],face:'u'},
  {id:'speakers',x:2,y:398,w:16,h:30,spot:[20,421],face:'u'},{id:'disco',x:72,y:444,w:16,h:14,spot:[80,472],face:'u'},{id:'tableL',x:6,y:450,w:30,h:18,spot:[20,471],face:'u'},
  {id:'tableR',x:124,y:450,w:32,h:18,spot:[140,471],face:'u'},{id:'tableB',x:56,y:536,w:32,h:16,spot:[72,535],face:'d'},{id:'booth',x:4,y:510,w:58,h:18,spot:[46,532],face:'u'},
  {id:'plant',x:86,y:548,w:20,h:20,spot:[96,546],face:'d'},{id:'plant2',x:142,y:548,w:18,h:20,spot:[140,551],face:'r'}].map(o=>({...o,prop:1}));
 const RPSEEN={};
-function roofProp(o){const L={sign:'(THE COOP, in big pink letters. Morgan said this place was a vibe. Morgan was right.)',
+function roofProp(o){const L={sign:'(THE ROOST, in big pink letters. Morgan said this place was a vibe. Morgan was right.)',
   view:st<1?'(The whole town, all lit up below the railing. Okay. That is actually beautiful.)':'(Still beautiful. Although the view behind me is pretty good too.)',
   bottles:'(A whole wall of glowing bottles. I recognise exactly four of them.)',speakers:'(The bass is so loud I can feel it in my teeth. I love it.)',
   disco:'(A tiny disco ball, spinning its little heart out. It has one job and it’s nailing it.)',tableL:'(Little candles on every table. Very romantic. Suspiciously romantic.)',
@@ -1311,7 +1311,7 @@ function roofProp(o){const L={sign:'(THE COOP, in big pink letters. Morgan said 
   booth:st<1?'(Our booth. Morgan has claimed it with her coat, her bag, and her entire personality.)':'(Our booth. Hunter’s Zapper is sweating on the table. So is Hunter, a little.)',
   plant:'(A very well-dressed plant. It has better posture than me.)',plant2:'(Fairy lights wrapped around a plant. Even the plants are going out tonight.)'};
  abi.dir=o.face||'u';sfx('select');const first=!RPSEEN[o.id];RPSEEN[o.id]=1;const n=Object.keys(RPSEEN).length,all=n===ROOFP.length;
- say([{n:'Abigail',t:L[o.id]}],()=>{if(first&&all){sfx('chime');bark([{n:'',t:'You found every corner of The Coop! ✨'}]);try{burst(abi.x,abi.y-24,'#ffd86b')}catch(e){}}})}
+ say([{n:'Abigail',t:L[o.id]}],()=>{if(first&&all){sfx('chime');bark([{n:'',t:'You found every corner of The Roost! ✨'}]);try{burst(abi.x,abi.y-24,'#ffd86b')}catch(e){}}})}
 function c1Arrive(){mode='c1walk';go(abi,[[40,540],[30,550]],60);abi.dir='l';waitTill(()=>abi.tx==null,()=>{face(abi,morgan);face(morgan,abi);
  say([{n:'Morgan',t:'Ooh, thank you! Okay, look, I texted him.'}],()=>{const e=$('phone');let j=1;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};e.className='px';e.innerHTML='';e.style.display='flex';mode='texts1';sfx('notif');
   e.onclick=()=>{if(j<C1TX.length){j++;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};sfx(C1TX[j-1][0]?'pop':'blip')}else{e.onclick=null;e.style.display='none';PHN=null;c1Hunter()}}})})}
@@ -1320,7 +1320,7 @@ function c1HunterRoof(){setLoc('roof');mode='c1walk';hunter.hold=null;{at(hunter
  waitTill(()=>hunter.tx==null,()=>{face(hunter,morgan);face(morgan,hunter);face(abi,hunter);zoomTo(36,532,1.4);
   say([{n:'Hunter',t:'Hey, Morgan!'},{n:'Morgan',t:'You came! Abigail, this is my brother, Hunter!',anim:()=>{face(hunter,abi)}},{n:'Hunter',t:"Hey! It's really nice to meet you."},{n:'Abigail',t:'Hi Hunter! Lovely to meet you.'},
    {n:'Abigail',t:'(...Oh. He’s cute.)'},{n:'Morgan',t:'Okay! Let’s have FUN tonight.'},{n:'Hunter',t:'Love it. Let me grab a Zapper first.',anim:()=>{hunter.hold='beer';sfx('bottleOpen')}},{n:'Hunter',t:'(Cheapest beer on the menu. My bank account thanks me.)'}],()=>{zkT=0;st=1;mode='zoomout'})})}}
-const QUIPS=['♪ This song is my JAM!','Woo! Nice moves!','The Coop has the best view in town.','Are you here with someone? Hehe.'];
+const QUIPS=['♪ This song is my JAM!','Woo! Nice moves!','The Roost has the best view in town.','Are you here with someone? Hehe.'];
 let FHEART=0;const HEARTLOC={door:1,kiss8:1,balc8:1,epnurse:1,epfam:1,couple8:1,night2:1};
 const fadeTo=(cb,hold=0)=>{FHEART=HEARTLOC[loc]||(loc==='steak'&&typeof c6!=='undefined'&&c6&&c6.pr)?1:0;if(MGM&&MGM.played&&!MGM.done&&!MGM.modes.includes(mode)){MGM.done=1;cb=mgFinish;hold=0}else if(!MGM&&SGM&&!SGM.shown&&mgIdx(mode)!==SGM.i&&mode!=='end'&&!mgLater()){const c0=cb,h0=hold;mgStoryResult(()=>fadeTo(c0,h0));return}fd=1;fcb=cb;fhold=hold};
 const zoomTo=(x,y,z)=>{FX=x;FY=y;ZM=z;zkT=1};
@@ -1335,7 +1335,7 @@ function go(p,pts,sp){pts=goRoute(p,pts);p.path=pts.slice(1);p.tx=pts[0][0];p.ty
 function talk(n){
  face(abi,n);face(n,abi);
  if(n===morgan)say(st==1?[{n:'Morgan',t:'Having fun, Abigail?',c:[{l:'Can I dance with your brother?',f:askMorgan},{l:'Yep! Just saying hi.',f:()=>say([{n:'Morgan',t:'Good! Come find me if you need anything 💛'}])}]}]:[{n:'Morgan',t:st==0?'Drinks! I’ll text Hunter. 📱':st==2?'Now go ask the DJ for a song!':'Go talk to him already! 😄'}]);
- else if(n===bart)say(st==0?[{n:'Bartender',t:'Welcome to The Coop! What can I get you?',c:[{l:'Double vodka Sprite, splash of cranberry! And one without vodka for Morgan.',f:()=>say([{n:'Bartender',t:'Coming up. You tell me when to stop pouring. Deal?'},{n:'',t:'SAY WHEN: the bartender pours. Tap the screen when the drink reaches the gold line!',c:[{l:'Deal! 🍹',f:barStart}]}])},{l:'Just waters, please',f:()=>{abi.hold='water';drink('Two waters. Hydration is cute 💧','You feel refreshed and ready.')}}]}]:[{n:'Bartender',t:"You're all set! Enjoy the night."}]);
+ else if(n===bart)say(st==0?[{n:'Bartender',t:'Welcome to The Roost! What can I get you?',c:[{l:'Double vodka lemon-lime, splash of cranberry! And one without vodka for Morgan.',f:()=>say([{n:'Bartender',t:'Coming up. You tell me when to stop pouring. Deal?'},{n:'',t:'SAY WHEN: the bartender pours. Tap the screen when the drink reaches the gold line!',c:[{l:'Deal! 🍹',f:barStart}]}])},{l:'Just waters, please',f:()=>{abi.hold='water';drink('Two waters. Hydration is cute 💧','You feel refreshed and ready.')}}]}]:[{n:'Bartender',t:"You're all set! Enjoy the night."}]);
  else if(n===dj)say(st==2?[{n:'DJ',t:'Got a request?',c:[{l:'"Just My Type" by Sweetie Pie 🎶',f:()=>{st=3;say([{n:'DJ',t:"Ooh, great pick! I'll work it into the set."},{n:'',t:'(Neither of you knows it yet, but this is about to become your song.)'}])}},{l:'Not yet.',f:()=>{}}]}]:[{n:'DJ',t:st<2?'Spinning right now! Come back if you want to request something.':"Your song's in the queue!"}]);
  else if(n===hunter)st==3?chat():say([{n:'Hunter',t:st<=1?'Morgan said you’re from England? You’ll have to tell me everything. 😅':'I’ll be right here!'}]);
  else if(n.lines){const L=n.lines[(n.li||0)%n.lines.length];n.li=(n.li||0)+1;PATT=n;n._fc=1;
@@ -1360,7 +1360,7 @@ function babble(){say([
 function skip(){$('card').textContent='A few more drinks and a lot of good conversation later...';$('card').style.opacity=1;
  zk=zkT=0;skipDone=1;mode='skip';djSaid=0;wobT=pink?1.3:.6;wobHold=0;
  abi.x=30;abi.y=548;abi.dir='r';hunter.x=46;hunter.y=546;hunter.dir='l';morgan.x=16;morgan.y=540}
-function djCall(){say([{n:'DJ',t:'Alright Coop, this next one is a special request...'},{n:'DJ',t:'"Just My Type" by Sweetie Pie is up NEXT! 🎶'},{n:'Abigail',t:"THAT'S MY SONG!! Come on, come on!"},{n:'Hunter',t:'Whoa, okay, coming!'}],()=>{mode='run';prepSaid=0;go(abi,[[52,532],[72,476]],90);go(hunter,[[62,534],[88,476]],80);hunter.delay=.3})}
+function djCall(){say([{n:'DJ',t:'Alright Roost, this next one is a special request...'},{n:'DJ',t:'"Just My Type" by Sweetie Pie is up NEXT! 🎶'},{n:'Abigail',t:"THAT'S MY SONG!! Come on, come on!"},{n:'Hunter',t:'Whoa, okay, coming!'}],()=>{mode='run';prepSaid=0;go(abi,[[52,532],[72,476]],90);go(hunter,[[62,534],[88,476]],80);hunter.delay=.3})}
 const HOWTO=[{n:'',t:'HOW TO DANCE 💃 Hearts pop up around you on the dance floor, each inside a shrinking ring.'},{n:'',t:'Tap the heart when its ring turns GOLD. Too early or too late and it slips away!'},{n:'',t:'Catch as many of the 15 hearts as you can. Ready?',c:[{l:"Let's dance! 💃",f:startDance}]}];
 const obj=()=>['Grab drinks at the bar','Ask Morgan about dancing with Hunter','Request a song from the DJ','Go chat with Hunter'][st]||'';
 const objT=()=>[bart,morgan,dj,hunter][st]||morgan;
@@ -2249,7 +2249,7 @@ function qEx(cfg,cont){setLoc('living');lv={night:0,mor:0,q:0,...cfg.lv,ex:1};sh
 const qxL=(id,d)=>{const n=lv.night,e=lv.eve;const L={
  cal:[{n:'',t:'Day '+qx.d+' of 14.'+(qx.d<14?' '+(14-qx.d)+' more to go.':' The LAST day!')},{n:'Abigail',t:['(Is it Tuesday? Every day is Tuesday now.)','(Morgan drew a little skull on today’s date.)','(Someone has been crossing off the days REALLY hard.)'][qx.d%3]}],
  morgan:lv.mor==4?[{n:'Morgan',t:'(through the door, still on the phone) No, YOU hang up first.'}]:lv.mor==3?[{n:'Morgan',t:qx.d>=14?'(through the door) Are you two official yet? FINALLY.':'(through the door) GO AWAY. ...Thank you for the cookie.'}]:
-  [{n:'Morgan',t:{1:n?'(from under a blanket) Is it still today?':'(sniff) I’m writing my will. You get nothing.',3:n?'I see you two scooting closer. I SEE you.':'If one more person tells me to "stay positive" I will scream. I AM positive. That’s the problem.',6:n?'If you two get any cuter, I’m calling the CDC.':'Day six. I have watched everything on Netflix. Twice.',9:'(still on the phone) No, YOU hang up first.',12:'Do not. Talk. To me.'}[qx.d]||'(cough)'}],
+  [{n:'Morgan',t:{1:n?'(from under a blanket) Is it still today?':'(sniff) I’m writing my will. You get nothing.',3:n?'I see you two scooting closer. I SEE you.':'If one more person tells me to "stay positive" I will scream. I AM positive. That’s the problem.',6:n?'If you two get any cuter, I’m calling the CDC.':'Day six. I have watched everything on TV. Twice.',9:'(still on the phone) No, YOU hang up first.',12:'Do not. Talk. To me.'}[qx.d]||'(cough)'}],
  hunter:[{n:'Hunter',t:{1:n?'I’ll find us a show. Something with zero plot so you can nap.':'Still can’t smell a thing. Otherwise weirdly fine. Is that annoying? That’s annoying.',3:n?'Want to sit by me? I mean... if you want. No pressure.':'My mom just texted me 14 times. She’s on her way with goulash.',6:n?'I made us a blanket fort. Kind of. It’s one blanket.':'I’ve been practicing Rainbow Road all morning. Prepare yourself.',9:n?'Your feet are ice cubes. I don’t mind.':'Morgan has been on that phone call for three hours.',12:n?'Two more nights. Then... what? Just thinking out loud.':'Two more days. Weird to think about life after this.',14:'Hey, you.'}[qx.d]||'Hey.'}],
  window:[{n:'Abigail',t:e?'(A pink sunset. The first one I’ve actually noticed in two weeks.)':n?'(The street is so quiet. Just one window glowing across the way.)':'(The world outside looks so normal. The birds have no idea about Covid.)'}],
  fridge:[{n:'Abigail',t:qx.d<3?'(Half an onion and one sad pickle.)':'(Goulash. More goulash. So. Much. Goulash.)'},{n:'Abigail',t:'(Morgan labelled her yogurt "MINE". There are three of them.)'}],
@@ -2260,7 +2260,7 @@ const qxL=(id,d)=>{const n=lv.night,e=lv.eve;const L={
  stove:[{n:'Abigail',t:'(Hunter’s mum’s goulash. It never ends. It’ll outlive us all.)'}],sink:[{n:'Abigail',t:'(Every single mug in this apartment is in the sink.)'}],
  remote:[{n:'Abigail',t:'(The TV remote. Morgan keeps hiding it.)'}],
  blanket:[{n:'Abigail',t:'(The big fluffy blanket. Saving it for a special occasion.)'}],
- sw:[{n:'Abigail',t:'(The Switch. Hunter has been "practicing.")'},{n:'Abigail',t:'(Rematch later. Definitely rematch later.)'}],
+ sw:[{n:'Abigail',t:'(The console. Hunter has been "practicing.")'},{n:'Abigail',t:'(Rematch later. Definitely rematch later.)'}],
  hall:[{n:'Abigail',t:qx.d<14?'(The front door. Freedom is just past it. In '+(14-qx.d)+' days.)':'(The front door. Tomorrow, we can finally go outside.)'}]};return L[id]};
 function qxItems(){if(qx.room==='kitchen')return [{id:'pantry',x:4,y:10,w:32,h:22,spot:[20,104]},{id:'fridge',x:56,y:44,w:18,h:52,spot:[64,104]},{id:'stove',x:38,y:66,w:16,h:30,spot:[46,104]},{id:'sink',x:6,y:66,w:30,h:30,spot:[20,104]},{id:'back',x:54,y:128,w:26,h:16,spot:[72,136],face:'r'}];
  if(qx.room==='hall')return qhItems();if(qx.room==='bath')return qbItems();if(qx.room==='bed')return qdItems();
@@ -2713,7 +2713,7 @@ function qNight1(){qEx({d:1,lv:{night:1,mor:0,q:0,mb:1},goal:'remote',hud:'Find 
 function qDay3(){qEx({d:3,lv:{mor:0,q:0},goal:'door',hud:'Day 3: Someone knocked! Go to the door'},()=>fadeTo(_qDay3))}
 function qDay3b(){qEx({d:3,lv:{mor:0,q:0},goal:'fridge',hud:'Put the goulash in the fridge',qx:{put:1},room:'kitchen',sp:[90,138,'l'],in:[60,124],carry:'#b8603a'},()=>fadeTo(qNight3))}
 function qNight3(){qEx({d:3,lv:{night:1,mor:0,q:1},goal:'hunter',hud:'Go sit with Hunter'},_qNight3)}
-function qDay6(){qEx({d:6,lv:{mor:1,q:1},goal:'sw',hud:'Day 6: Find the Switch'},_qDay6)}
+function qDay6(){qEx({d:6,lv:{mor:1,q:1},goal:'sw',hud:'Day 6: Find the console'},_qDay6)}
 function qNight6(){qEx({d:6,lv:{night:1,mor:1,q:2},goal:'stove',hud:'Reheat the goulash',qx:{n6:1},introN:'Abigail',intro:qprops.hLost?'(Hunter lost, so it is HIS job. He has asked me twice where the pots are. I will do it.)':'(I lost the race. A deal is a deal. Goulash duty.)'},_qNight6)}
 function qDay9(){_qDay9()}
 function qNight9(){qEx({d:9,lv:{night:1,mor:4,q:3},goal:'blanket',hud:'Grab the big fluffy blanket',gl:[{n:'Abigail',t:'(Tonight feels like a special occasion.)'}]},_qNight9)}
@@ -2801,7 +2801,7 @@ function hxItems(){const R=hx.room,st=hx.stage,d=hx.day;{const C=c4Items(R)||c5I
   {id:'door',x:2,y:34,w:16,h:62,spot:[12,106],face:'l',lines:[{n:'Hunter',t:'(The front door. Dippin Donuts is out there somewhere.)'}]},
   {id:'hall',x:56,y:132,w:24,h:12,spot:[70,136],face:'d',label:'HALL',lx:62,ly:138,exit:{to:'hroom',out:[74,150],spawn:[70,150,'u'],walk:[70,128],fx:-8}}];
  if(R==='hroom')return [
-  ...(hx.f?[{id:'abi',x:hx.f.x-6,y:hx.f.y-22,w:12,h:24,spot:[hx.f.x+(hx.f.x<40?10:-10),hx.f.y],face:hx.f.x<40?'l':'r',lines:()=>[[{n:'Abigail',t:st==='tour'?'I missed this room. ...I did not miss the smell.':'Dippin Donuts. Now. Please.'}],[{n:'Abigail',t:st==='tour'?'The Pokémon GO poster is still up. Of course it is.':'I am not a person until I have had my iced latte.'}]]}]:[]),
+  ...(hx.f?[{id:'abi',x:hx.f.x-6,y:hx.f.y-22,w:12,h:24,spot:[hx.f.x+(hx.f.x<40?10:-10),hx.f.y],face:hx.f.x<40?'l':'r',lines:()=>[[{n:'Abigail',t:st==='tour'?'I missed this room. ...I did not miss the smell.':'Dippin Donuts. Now. Please.'}],[{n:'Abigail',t:st==='tour'?'The Mark Miller poster is still up. Of course it is.':'I am not a person until I have had my iced latte.'}]]}]:[]),
   {id:'closet',x:2,y:28,w:16,h:66,spot:[10,104],fn:hxCloset},
   {id:'go',x:50,y:8,w:12,h:18,spot:[70,112],lines:[{n:'Hunter',t:'(Mark Miller. Hood up, shades on. The GOAT. This poster stays up forever.)'}]},
   {id:'cal',x:66,y:8,w:12,h:18,spot:[70,112],lines:()=>hx.day>=0&&st!=='tour'?[{n:'',t:'TEXAS IN '+C3DAYS[d]+' DAYS.'},{n:'Hunter',t:'(Abigail circled that date before she ever met me. Texas was always the plan.)'}]:[{n:'Hunter',t:'(Abigail already circled a date on my calendar. Texas.)'}]},
@@ -2826,7 +2826,7 @@ function hxItems(){const R=hx.room,st=hx.stage,d=hx.day;{const C=c4Items(R)||c5I
  if(R==='troom')return [
   {id:'photo',x:52,y:76,w:10,h:12,spot:[56,110]},
   {id:'lights',x:4,y:56,w:38,h:12,spot:[24,140],lines:[{n:'Hunter',t:'(The string lights. It already feels a little more like home.)'}]},
-  {id:'lamp',x:44,y:72,w:8,h:14,spot:[50,112],face:'u',lines:[{n:'Hunter',t:'(Her lamp. Perfect for late-night FaceTimes.)'}]},
+  {id:'lamp',x:44,y:72,w:8,h:14,spot:[50,112],face:'u',lines:[{n:'Hunter',t:'(Her lamp. Perfect for late-night video calls.)'}]},
   {id:'plant',x:46,y:24,w:14,h:13,spot:[52,112],face:'u',lines:[{n:'Hunter',t:'(Her plant gets the best seat in the house. Right in the window.)'}]},
   {id:'case',x:64,y:74,w:15,h:17,spot:[70,114],face:'u',lines:[{n:'Hunter',t:'(Her suitcase. Empty, finally.)'}]},
   {id:'fridge',x:64,y:92,w:15,h:20,spot:[70,114],face:'u',lines:[{n:'Hunter',t:'(The mini fridge. It made it. Against all odds.)'}]},
@@ -3028,7 +3028,7 @@ function trayDraw(t){const R=bags&&bags.tr;if(!R)return;if(R.leg>=1&&!R.has[2]&&
   const Y=34;r(cx0-19,Y,38,7,'rgba(20,10,30,.6)');r(cx0-17,Y+2,34,3,'#c8503a');r(cx0-12,Y+2,24,3,'#e0b840');r(cx0-6,Y+2,12,3,'#5ab45a');r(cx0,Y+1,1,5,'rgba(255,255,255,.5)');
   const mx=cx0+Math.round(a*16);r(mx-1,Y-1,3,9,'#2a1a3a');r(mx,Y,1,7,Math.abs(R.a)>.6&&Math.floor(t*8)%2?'#ff6a6a':'#ffffff')}}
 function _qNight3(){qScene({night:1,mor:0,q:1},[{n:'',t:'Another night, another episode.'},{n:'',t:'Somehow you end up sitting a little closer than last night...'},{n:'Hunter',t:'(*fake yaaawn*... stretches... and his arm just happens to land behind you)',anim:()=>{lv.st=T}},{n:'Abigail',t:'(Smooth, Hunter. Very smooth.)'}],()=>{addH(1);fadeTo(()=>calShow(6,qDay6))})}
-function _qDay6(){qScene({mor:1,q:1,sw:1},[{n:'Hunter',t:'Okay. Starrio Cart on the Switch. Loser reheats my mom\'s goulash tonight.'},{n:'Abigail',t:"You're on. Sick or not, I will DESTROY you."},
+function _qDay6(){qScene({mor:1,q:1,sw:1},[{n:'Hunter',t:'Okay. Starrio Cart on the console. Loser reheats my mom\'s goulash tonight.'},{n:'Abigail',t:"You're on. Sick or not, I will DESTROY you."},
  {n:'Morgan',t:'Ugh. Fine. Hand me the third controller. I can be miserable AND win.'},
  {n:'',t:'HOW TO RACE: your kart drives itself. Hold the screen to steer: the further left or right you hold, the harder you turn. Driving on the grass slows you down!'},{n:'',t:'DRIFT: turn HARD into a bend and Abigail starts to drift. Hold it until the sparks go blue (or orange!), then straighten out for a turbo boost.'},{n:'',t:'Drive through the gift boxes to grab an item, then tap the ITEM box at the bottom to use it.'},{n:'',t:'Water balloon: hits the racer ahead of you. Oil slick: drops behind you. Bolt: a speed boost!'},{n:'',t:'Beat Hunter, Morgan and the bots to the finish line!',c:[{l:'Start race',f:()=>fadeTo(()=>{setLoc('kart');mode='kartGo';kart=newKart();kHeld=0;setHud('Get ready...');tiltGame('Tilt your phone to steer! Holding the sides still works too.',['kartGo','kart'])})}]}])}
 function _qNight6(){qScene({night:1,mor:1,q:2},[{n:'',t:'Goulash on the couch and a movie on.'},{n:'Hunter',t:'(mouth full) Okay. My mom is a genius.'},{n:'',t:"Your head is still pounding, but Hunter's shoulder looks very comfy..."},
@@ -4612,7 +4612,7 @@ function rwUpd(dt){if(!rw)return;if(rw.play>0)rw.play-=dt;if(rw.grs>0)rw.grs-=dt
 
 /* ======================= 2. THE PLAZA (before the show) ======================= */
 const PLZH=[[22,76,'#e0463c','#2a1a12','#f1c9a0',1],[58,76,'#3a7ae8','#e8c840','#f6d2b0',0],[30,89,'#f0c030','#8a3a2a','#8d5a3a',0],[48,90,'#5ac85a','#1a1a1a','#c98e62',1],[66,88,'#ff7eb6','#5a5a5a','#f1c9a0',0],[40,101,'#9a5ae0','#2a1a12','#e8b890',0],[56,102,'#f4f4f8','#5a3620','#8d5a3a',1]];
-const PLZL=[[{n:'Tourist',t:'I’ve been standing in this exact spot since six o’clock. This is MY spot.'}],[{n:'Tourist',t:'Is this the line for the light show? Or the line for churros?'}],[{n:'Tourist',t:'(recording an empty building on an iPad) ...It hasn’t started yet, Linda.'}],
+const PLZL=[[{n:'Tourist',t:'I’ve been standing in this exact spot since six o’clock. This is MY spot.'}],[{n:'Tourist',t:'Is this the line for the light show? Or the line for churros?'}],[{n:'Tourist',t:'(recording an empty building on a tablet) ...It hasn’t started yet, Linda.'}],
  [{n:'Tourist',t:'We came all the way from Ohio for this!'}],[{n:'Tourist',t:'Excuse me. Excuse me. Oh, you’re just walking. Okay.'}],[{n:'Tourist',t:'Psst. The best spot is right up front. Nobody ever goes there.'}],[{n:'Tourist',t:'Ooh, I love your hat!'}]];
 function plazaStart(){setLoc('plaza');fade=1;fd=-1;mode='c3';plz={ppl:PLZH.map(([x,y,top,hair,skin,ph],i)=>mk('morgan',x,y,{n:'Tourist',top,hair,skin,hl:i%3,pants:['#3a4a6b','#2a2a34','#6a5a4a'][i%3],shoe:'#eee',dir:'u',hx0:x,hy0:y,ox:0,oy:0,hold:ph?'phoneLow':null})),
   ven:mk('morgan',10,106,{n:'Vendor',top:'#e0463c',apron:1,hair:'#1a1a1a',skin:'#c98e62',hl:0,dir:'d'}),gv:mk('morgan',70,108,{n:'Vendor',top:'#3a3a46',hair:'#e8c840',skin:'#f6d2b0',hl:1,dir:'d'})};
@@ -5371,7 +5371,7 @@ const PARF=[[/^\((?:laughing|laughs|giggl)/i,'laugh'],[/^\((?:sobbing|crying|sni
 // what an action line describes (narration, any time)
 const KWA=[[/storm hits|thunder/i,'thunder'],[/coin into the fountain|tosses a coin/i,'coinFountain'],[/bursts into applause|whole \w+ (?:cheers|bursts)|crowd cheers|garden cheers|roof cheers/i,'applause'],[/bursts out laughing/i,'crowdLaugh'],
  [/doors? (?:swing |swings )?open|opens the door|door opens/i,'door'],[/lights flicker on|string lights flicker/i,'lightSwitch'],[/lights go down/i,'aww'],[/plugs his laptop/i,'click'],[/messages the seller/i,'typing'],[/drops a dollar/i,'paper2'],
- [/plays jazz|saxophone|sax player/i,'sax'],[/caps into the air/i,'cheer'],[/tag splits/i,'tagPop'],[/frantically googles/i,'typing'],[/slides two forks/i,'cutlery'],[/slides the ring/i,'jewel'],[/places her hand/i,'fabric'],[/picks up the leash|hears the leash/i,'keys'],
+ [/plays jazz|saxophone|sax player/i,'sax'],[/caps into the air/i,'cheer'],[/tag splits/i,'tagPop'],[/frantically searches/i,'typing'],[/slides two forks/i,'cutlery'],[/slides the ring/i,'jewel'],[/places her hand/i,'fabric'],[/picks up the leash|hears the leash/i,'keys'],
  [/broom tied/i,'broom'],[/jumps? the broom/i,'broom'],[/kitchen doors/i,'door'],[/sticky notes/i,'sticky'],[/drops the frisbee/i,'catchIt'],[/zooms three laps/i,'pant'],[/flops onto/i,'flop'],[/yawns/i,'sigh'],[/one coat of blush pink/i,'paintRoll'],[/timer’s set|timer's set/i,'scaleBeep'],
  [/everyone stands/i,'fabric'],[/music changes/i,null],[/hands hunter the microphone/i,'micTap'],[/money-counting machine/i,'moneyCounter'],[/print out/i,'printer'],[/sneezes/i,'achoo'],[/sneeze/i,'achoo']];
 // what an object you just tapped sounds like (first line of an inspection: a thought or a narration)
@@ -5907,8 +5907,8 @@ const TIX=[['Linda (Loans)','I forgot my password. Again. Third time this week.'
  ['Gary (Underwriting)','HELP! My screen is completely black!',['Buy him a new computer','Press the monitor’s power button','Hit it a little'],1],
  ['Pam (Front Desk)','The printer says PAPER JAM and I’m scared of it.',['Install a new printer','Yell at the printer','Open tray 2 and clear the jam'],2],
  ['Steve (Sales)','My mouse isn’t working at all!',['Flip it over... it’s upside down','Replace his whole desk','Blame the interns'],0],
- ['Conference Room B','The Wi-Fi is down and the CEO is presenting in 5 minutes!',['Tell them to use dial-up','Restart the room’s Wi-Fi access point','Move the meeting to Starbucks'],1],
- ['Linda (Loans)','Outlook is frozen. Also I forgot my password again.',['Close and reopen Outlook, then reset her password','Uninstall email from the company','Take a long lunch'],0]];
+ ['Conference Room B','The Wi-Fi is down and the CEO is presenting in 5 minutes!',['Tell them to use dial-up','Restart the room’s Wi-Fi access point','Move the meeting to the coffee shop'],1],
+ ['Linda (Loans)','My email is frozen. Also I forgot my password again.',['Close and reopen her email, then reset her password','Uninstall email from the company','Take a long lunch'],0]];
 function deskNext(){const D=c5.dk;if(D.i>=TIX.length){deskEnd();return}const [who,q,opts,a]=TIX[D.i];D.t=0;D.dur=12;D.live=1;sfx('alert');
  say([{n:'Ticket',t:'#'+(1040+D.i)+' from '+who+': "'+q+'"',c:opts.map((l,j)=>({l,f:()=>deskAns(j===a)}))}])}
 function deskAns(ok){const D=c5.dk;D.live=0;if(ok){D.score++;sfx('coin');say([{n:'',t:['Fixed! The ticket is closed. ⭐','Problem solved. They are thrilled.','Fixed in record time. ⭐'][D.i%3]}],()=>{D.i++;deskNext()})}
@@ -6632,7 +6632,7 @@ function bkUnpack(){const B=c5.bk,A=abi;A.dir='r';const S=c5Sel();sfx('step');A.
  say(L,()=>{hx.phase='seq';fadeTo(()=>{hx=null;sleepStart()})})}
 function bkItems(){const B=c5.bk,I=[];
  I.push({id:'roomie',x:4,y:92,w:13,h:24,spot:[38,110],face:'l',lines:[[{n:'Roomie',t:'Bathroom schedule is on the wall. You get the shower at 5:40 AM.'},{n:'Abigail',t:'5:40... AM?'}],[{n:'Roomie',t:'We’re all SO excited to have you!'}]]});
- I.push({id:'kyle',x:17,y:92,w:13,h:24,spot:[38,110],face:'l',lines:[[{n:'Kyle',t:'Sup.'}],[{n:'Kyle',t:'You play tennis? Cool. I play Xbox.'}],[{n:'Kyle',t:'...Sup.'}]]});
+ I.push({id:'kyle',x:17,y:92,w:13,h:24,spot:[38,110],face:'l',lines:[[{n:'Kyle',t:'Sup.'}],[{n:'Kyle',t:'You play tennis? Cool. I play video games.'}],[{n:'Kyle',t:'...Sup.'}]]});
  I.push({id:'window',x:32,y:12,w:16,h:18,spot:[40,100],face:'u',lines:[{n:'Abigail',t:'(The mansion next door has an infinity pool. We have a garden hose.)'}]});
  I.push({id:'dresser',x:33,y:58,w:14,h:34,spot:[40,100],face:'u',lines:()=>B.un.includes('photo')?[{n:'Abigail',t:'(The photo of us. Hunter is squinting. He always squints in photos. I miss him already.)'}]:[{n:'Abigail',t:'(One dresser. Four people. Every single drawer is already full.)'}]});
  I.push({id:'mat',x:5,y:124,w:24,h:12,spot:[16,140],face:'u',lines:[[{n:'Abigail',t:'Whose mattress is this?'},{n:'Roomie',t:'Oh, that’s Brittany’s. She’s out. She’ll be back at like 4 AM.'},{n:'Abigail',t:'...Cool. Cool cool cool.'}],[{n:'Abigail',t:'(Brittany’s mattress. Brittany is a mystery.)'}]]});
@@ -6715,7 +6715,7 @@ function lnItems(){const I=[],n=()=>{hx.seen=(hx.seen||0)+1;if(hx.seen>=2)after(
  L('bed',20,76,42,52,[66,128],'l',[[{n:'Hunter',t:'(Her side of the bed. It still smells like her shampoo.)'}],[{n:'Hunter',t:'(I keep reaching over in my sleep. She’s not there.)'}]]);
  L('window',28,8,24,28,[10,104],'u',[[{n:'Hunter',t:'(Three Dippin Donuts cups on the windowsill. I can’t bring myself to throw them out.)'}],[{n:'Hunter',t:'(Somewhere out there, in New York, Abigail is paying eleven dollars for an iced latte.)'}]]);
  L('cal',66,8,12,18,[70,108],'u',[[{n:'Hunter',t:'(She was supposed to be ten hours away. Now she’s twenty.)'}]]);
- L('go',50,8,12,18,[70,108],'u',[[{n:'Hunter',t:'(Pokémon GO. ...It’s not as fun without her.)'}]]);
+ L('go',50,8,12,18,[70,108],'u',[[{n:'Hunter',t:'(Mark Miller. Hood up, shades on. Even The GOAT can’t cheer me up tonight.)'}]]);
  I.push({id:'closet',x:2,y:28,w:16,h:66,spot:[10,104],face:'u',fn:lnStudio});
  L('out',56,132,24,12,[70,136],'d',[[{n:'Hunter',t:'(Mom’s asleep. And the goulash is gone. This is rock bottom.)'}]]);return I}
 function lnStudio(){const k=hx.cnt.studio||0;hx.cnt.studio=k+1;if(k){say([{n:'Hunter',t:'(The studio. The red light is off. Like my heart. ...Too dramatic? Too dramatic.)'}]);return}
@@ -6912,7 +6912,7 @@ Object.assign(HXLOC,{home6:'home6',jewel:'jewel',barcade:'barcade',kcdt:'kcdt',l
 Object.assign(NC,{Guest:'#7a5a8a'});
 /* ---- J's fun facts: about half of them are true ---- */
 const JFACTS=[
- [{n:'J',t:'Fun fact. Skee-ball was invented in 1908.'},{n:'Morgan',t:'...Is that real?'},{n:'J',t:'Look it up.'},{n:'',t:'(It’s real.)'}],
+ [{n:'J',t:'Fun fact. Roll-ball games go back to 1908.'},{n:'Morgan',t:'...Is that real?'},{n:'J',t:'Look it up.'},{n:'',t:'(It’s real.)'}],
  [{n:'J',t:'Fun fact. Arcade games were originally invented to train astronauts.'},{n:'Hunter',t:'J. No.'},{n:'J',t:'...Some of them.'}],
  [{n:'J',t:'Fun fact. A group of flamingos is called a flamboyance.'},{n:'Morgan',t:'...Why do you know that?'},{n:'J',t:'I know things.'}],
  [{n:'J',t:'Fun fact. Barbecue sauce was invented right here in Kansas City. By a guy named Barbecue Steve.'},{n:'Morgan',t:'That isn’t a real person.'},{n:'J',t:'He was real to me.'}],
@@ -6991,7 +6991,7 @@ function vJewel(t){cx.drawImage(bgC('jewel',160,144,()=>{
  if(c6.sweat>0){const k=(t*2)%1,x=Math.round(hunter.x),y=Math.round(hunter.y);r(x+4,y-18+Math.round(k*4),1,2,'#7ec8f0');r(x-5,y-16+Math.round(((k+.5)%1)*4),1,2,'#7ec8f0')}
  hxDraw(t)}
 
-/* ---------- skee-ball vs J ---------- */
+/* ---------- roll-ball vs J ---------- */
 let SK=null;const SKC=[80,98],SKR=[[7,50],[14,40],[21,30],[28,20],[38,10]],SKP=[[42,46],[118,46]];
 function skeeStart(cb){setLoc('skee');mode='skee';fade=1;fd=-1;setHud('');SK={i:0,n:5,score:0,disp:0,tix:0,tixShown:0,aim:0,pw:0,ph:0,hold:0,ball:null,pop:null,fl:null,cb,t0:T,log:[],JT:230}}
 function skeeDown(x,y){const S=SK;if(!S||S.ball||S.end)return;if(y>238&&x<40){S.aim=Math.max(-1,S.aim-.25);sfx('tick');return}if(y>238&&x>120){S.aim=Math.min(1,S.aim+.25);sfx('tick');return}if(y>150){S.hold=1;S.pw=0;S.ph=0;S.dx0=x;S.aim0=S.aim;sfx('select')}}
@@ -7422,7 +7422,7 @@ function amStep(C,k,t,bus){const S=C.S,st=((k%C.N)+C.N)%C.N,sw=S.sw&&st%4===2?C.
 
 /* ---------------- the tracks ---------------- */
 const AMS={};
-/* SKEE-BALL: "Boardwalk Bounce" - a swingy ragtime boardwalk romp */
+/* ROLL-BALL: "Boardwalk Bounce" - a swingy ragtime boardwalk romp */
 AMS.skee={bpm:150,sw:.28,vol:0.69,dly:.3,
  chords:['C','C','G7','G7','C','C7','F','G7','F','F#dim','C/G','A7','D7','G7','C','G7'],
  lines:[{i:'pno',v:0.315,n:['G4 C5 E5 G5 - E5 C5 E5','G5 - A5 G5 E5 - C5 .','F5 - D5 F5 G5 - F5 D5','B4 - D5 - G4 . . .','G4 C5 E5 G5 - E5 C5 E5','Bb5 - A5 G5 E5 - G5 .','A5 - F5 A5 C6 - A5 F5','G5 F5 E5 D5 C5 - . .',
@@ -7533,7 +7533,7 @@ AMS.stars={bpm:72,vol:0.366,dly:.42,chords:['C','Am','F','G','C','Em','F','G','A
   'E5 - - - A5 - - G5','G5 - - - E5 - - -','F5 - - - A5 - C6 -','G5 - - - E5 - - -','F5 - - - D5 - A5 -','G5 - - - B5 - D6 -','C6 - - - G5 - E5 -','C5 - - - - - - -']}],
  arp:{i:'celes',v:.03,o:5,mode:'ud',div:2},pad:{i:'strings',v:.022,o:4},bass:{i:'sub',v:0.035,o:2,p:['R-------5-------']},
  drums:[{v:.5,p:[null],bars:{8:'z...z...z...z...',9:'z...z...z...z...',10:'z...z...z...z...',11:'z...z...z...z.z.',12:'z...z...z...z...',13:'z...z...z...z...',14:'z...z...z...z...'}}]};
-/* roof: The Coop - a warm rooftop disco groove: a steady beat for the dance floor, rounded off so it never stabs over the conversation */
+/* roof: The Roost - a warm rooftop disco groove: a steady beat for the dance floor, rounded off so it never stabs over the conversation */
 AMS.roof={bpm:108,sw:.12,vol:0.42,dly:.42,chords:['Dmaj7','Bm7','Gmaj7','A7','Dmaj7','F#m7','Gmaj7','Em7 A7','Bm7','F#m7','Gmaj7','Dmaj7','Em7','F#m7','Gmaj7','Asus4 A7'],
  lines:[{i:'vibes',v:0.11,n:['. . A4 - D5 - E5 F#5','F#5 - - - . . . .','. . B4 - D5 - F#5 E5','E5 - - - . . C#5 -','D5 - . A4 D5 - E5 F#5','A5 - - - E5 - C#5 -','D5 - - - B4 - D5 E5','E5 - - - C#5 - - -',
   '. . F#5 - A5 - B5 -','C#6 - - - A5 - - -','. . B5 - A5 - F#5 -','A5 - - - . . . .','. . G5 - E5 - B4 -','C#5 - - - E5 - A5 -','F#5 - - - E5 - D5 -','E5 - - - . . . .']}],
@@ -8030,7 +8030,7 @@ function arcBack(n,k,win,L){mode='c6';c6.w=c6.w||{};c6.ties=c6.ties||{};if(win==
 /* ---------- 3. the barcade ---------- */
 const BCG={cab0:'(A space shooter. Hunter checks his jacket pocket mid-game. GAME OVER.)',cab1:'(A racing game. Hunter drives directly into a wall. Twice.)',cab2:'(A fighting game. J wins by pressing the same button. Over and over.)',
  cab3:'(A dance game. Hunter is a little distracted. The machine boos him.)',cab4:'(A trivia game. J confidently answers every question. Half of his answers are wrong. He still wins.)',
- skee:'(Skee-ball. Hunter rolls every single ball into the gutter. J hits the 100 hole on his first try.)',claw:'(The claw machine. Hunter grabs a plush corgi... and drops it at the very last second.)'};
+ skee:'(Roll-ball. Hunter rolls every single ball into the gutter. J hits the 100 hole on his first try.)',claw:'(The claw machine. Hunter grabs a plush corgi... and drops it at the very last second.)'};
 const BCJ=['Loser buys the next round!','That is TWO rounds, birthday boy.','Three rounds! Keep them coming.','Four! I could do this all day.','I am going to need a bigger tab.','Six. SIX. Happy birthday to ME.','Seven rounds. I will never need to buy a drink again.'];
 function c6Barcade(){setLoc('barcade');mode='c6';fade=1;fd=-1;c6.games={};c6.ng=0;c6.w={};c6.buzz=0;c6.pt=8;
  at(hunter,30,108,'r');at(jay,42,106,'l');at(abi,122,104,'l');at(morgan,134,104,'l');abi.hold='pink';morgan.hold='beer';jay.hold=null;
@@ -8038,9 +8038,9 @@ function c6Barcade(){setLoc('barcade');mode='c6';fade=1;fd=-1;c6.games={};c6.ng=
  mode='c6';setHud('');hxCam(0,1);
  after(1,()=>say([{n:'',t:'First stop: a barcade. Old-school arcade games, neon, and drinks.'},{n:'J',t:'Birthday boy versus me. Loser buys the next round.'},{n:'Hunter',t:'You are ON.'}],()=>{mode='hx';hxHud()}))}
 const bcOwed=()=>Math.max(0,c6.ng-(c6.skeeWin?1:0)-Object.keys(c6.w||{}).length-Object.keys(c6.ties||{}).length);
-const BCN={cab0:['STAR PATROL','A space shooter. Blast the alien waves before they reach the bottom.'],cab1:['TURBO KC','A street racer through downtown Kansas City.'],cab2:['VEGGIE FIGHTER','Buff vegetables. Street brawls. Kale-ing blows.'],cab3:['FEET FIESTA','A dance game. Stomp the arrows on the beat.'],cab4:['BAR BRAINIAC','Trivia. Tonight’s category: Hunter and Abigail.'],claw:['THE CORGI','A claw machine. One very, VERY cute corgi plush inside.'],skee:['SKEE-BALL','Roll it up the lane. J’s best score: 230.']};
+const BCN={cab0:['STAR PATROL','A space shooter. Blast the alien waves before they reach the bottom.'],cab1:['TURBO KC','A street racer through downtown Kansas City.'],cab2:['VEGGIE FIGHTER','Buff vegetables. Street brawls. Kale-ing blows.'],cab3:['FEET FIESTA','A dance game. Stomp the arrows on the beat.'],cab4:['BAR BRAINIAC','Trivia. Tonight’s category: Hunter and Abigail.'],claw:['THE CORGI','A claw machine. One very, VERY cute corgi plush inside.'],skee:['ROLL-BALL','Roll it up the lane. J’s best score: 230.']};
 function bcAsk(k){if(c6.games[k]){bcGame(k);return}const N=BCN[k];say([{n:'',t:N[0]+': '+N[1],c:[{l:'🕹️ Play vs J',f:()=>bcGame(k)},{l:'Not now',f:()=>{mode='hx';hxHud()}}]}])}
-function bcGame(k){const H=hunter;if(c6.games[k]){say([{n:'J',t:k==='skee'&&c6.skeeWin?'Skee-ball again? No. Absolutely not. You had your one win.':'Again? You want to lose AGAIN?'}]);return}c6.games[k]=1;c6.ng++;const n=c6.ng;go(jay,hxRoute(jay,Math.min(150,H.x+10),H.y+2),50);
+function bcGame(k){const H=hunter;if(c6.games[k]){say([{n:'J',t:k==='skee'&&c6.skeeWin?'Roll-ball again? No. Absolutely not. You had your one win.':'Again? You want to lose AGAIN?'}]);return}c6.games[k]=1;c6.ng++;const n=c6.ng;go(jay,hxRoute(jay,Math.min(150,H.x+10),H.y+2),50);
  if(n<3)hx.goals[0].hud='Play arcade games with J ('+n+'/3)';
  if(k==='skee'){skeeIntro(n);return}
  if(k==='claw'||/^cab/.test(k)){arcIntro(n,k);return}
@@ -8067,7 +8067,7 @@ function arcIntro(n,k){mode='c6';setHud('');chatClear();hx.phase='seq';face(jay,
   ()=>fadeTo(()=>fightStart(w=>arcBack(n,k,w,()=>w==='tie'?[{n:'J',t:'A DRAW? Masher doesn’t DRAW.'},{n:'Hunter',t:'Brock Lee does. Nobody buys this one.'}]:w?[{n:'J',t:'You... you beat MASHER. Nobody beats Masher.'},{n:'Hunter',t:'Brock Lee is undefeated. Eat your greens, J.'},{n:'J',t:'...Fine. This round’s on me.'}]
    :[{n:'Hunter',t:'You pressed punch the ENTIRE time.'},{n:'J',t:'And Masher MASHED. That’s the whole point.'},J()]))))}
 function skeeIntro(n){mode='c6';setHud('');chatClear();hx.phase='seq';face(jay,hunter);
- say([{n:'J',t:'Skee-ball? Oh, you’re going DOWN, birthday boy.'},{n:'',t:'HOW TO PLAY: press and HOLD the lane to build power. While holding, drag left or right to aim. The marks on the power meter show how hard to roll for the 50 and the 100 holes. Five balls. Beat J’s 230!'}],
+ say([{n:'J',t:'Roll-ball? Oh, you’re going DOWN, birthday boy.'},{n:'',t:'HOW TO PLAY: press and HOLD the lane to build power. While holding, drag left or right to aim. The marks on the power meter show how hard to roll for the 50 and the 100 holes. Five balls. Beat J’s 230!'}],
   ()=>fadeTo(()=>skeeStart(sc=>skeeBack(n,sc))))}
 function skeeBack(n,sc){mode='c6';fadeTo(()=>{setLoc('barcade');hxCam(0,1);at(hunter,30,134,'l');at(jay,11,142,'u');jay.hold=null;jay.tx=null;hunter.tx=null;c6.jsk={t0:T+1.4,sc:0,pts:[40,30,50,40,30,40]};
   after(6.2,()=>{const win=sc>230,tie=sc===230;c6.skeeWin=win;if(tie){c6.ties=c6.ties||{};c6.ties.skee=1}jay.hold=null;face(jay,hunter);face(hunter,jay);c6.jsk.done=1;
@@ -8077,7 +8077,7 @@ function bcNext(n){{if(n>=3&&!c6.buzz){c6.buzz=1;sfx('ding');hx.gi=1;mode='hx';h
 function bcPhone(){const A=abi,H=hunter;A.dir='u';H.dir='r';A.hold='phoneLow';
  say([{n:'',t:'Too late. Abigail is already reading it.'},{n:'',t:'"FREDDIE G’S: Reminder! Your reservation for 4 is tonight at 7:30. Special occasion noted 💍"'},
   {n:'Abigail',t:'Who is Freddie?',anim:()=>{A.dir='l'}},{n:'Hunter',t:'NOBODY. A guy. A guy I know. His name is Freddie. Gee.',anim:()=>{A.hold='pink';H.hold='phoneLow';H.dir='r'}},{n:'Morgan',t:'(whispering) Wow. Real smooth, Hunter.'},
-  {n:'',t:c6.skeeWin?'Hunter lost every other game. His mind was somewhere else. (At least he won at skee-ball.)':'Hunter lost every single game. His mind was somewhere else.',anim:()=>{H.hold=null}},{n:'J',t:'That is '+['zero','one','two','three','four','five','six','seven'][Math.min(7,bcOwed())]+' rounds you owe me, birthday boy.'+(c6.skeeWin?' Minus the skee-ball one. I KNOW.':'')}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;abi.hold=morgan.hold=null;(c6Lunch)()})})}
+  {n:'',t:c6.skeeWin?'Hunter lost every other game. His mind was somewhere else. (At least he won at roll-ball.)':'Hunter lost every single game. His mind was somewhere else.',anim:()=>{H.hold=null}},{n:'J',t:'That is '+['zero','one','two','three','four','five','six','seven'][Math.min(7,bcOwed())]+' rounds you owe me, birthday boy.'+(c6.skeeWin?' Minus the roll-ball one. I KNOW.':'')}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;abi.hold=morgan.hold=null;(c6Lunch)()})})}
 function bcItems(){const I=[];if(c6.buzz)I.push({id:'phone',x:98,y:40,w:62,h:80,spot:[124,100],face:'u',ay:62});
  I.push({id:'J',x:jay.x-6,y:jay.y-22,w:12,h:24,spot:[jay.x+(hunter.x<jay.x?-9:9),jay.y+1],face:hunter.x<jay.x?'r':'l',fn:jFact});
  I.push({id:'Morgan',x:morgan.x-6,y:morgan.y-22,w:12,h:24,spot:[morgan.x+(hunter.x<morgan.x?-9:9),morgan.y+1],face:hunter.x<morgan.x?'r':'l',lines:[[{n:'Morgan',t:'Happy birthday, little brother! Why are you sweating?'}],[{n:'Morgan',t:'(whispering) You’re being SO weird today.'}]]});
@@ -8212,8 +8212,8 @@ function c6Suit(){setLoc('hotel');mode='c6';c6.hp=[abi,hunter];c6.panic=0;Object
   {n:'Hunter',t:'...Wait. What is THAT.',anim:()=>{c6.panic=1;sfx('alert')}},{n:'',t:'A big plastic security tag. Still clamped onto the brand new jacket.'},
   {n:'Hunter',t:'No. No no no no no. The store forgot to take it off!'},{n:'Hunter',t:'Dinner is in forty minutes. The store is an hour away. This is fine. This is FINE.'},
   {n:'Abigail',t:'Babe, can you just... pull it off?',anim:()=>{abi.dir='l'}},{n:'Hunter',t:'I’m TRYING! It won’t budge! It’s welded to the jacket!',anim:()=>{shakeT=.4;sfx('hit')}},
-  {n:'',t:'Hunter frantically googles: "how to remove security tag FAST no store HELP"',anim:()=>{hunter.hold='phone'}},
-  {n:'',t:'A YouTube video: "Remove ANY Security Tag With Just Two Forks!" 2.1 million views.'},{n:'Hunter',t:'Forks. FORKS! I need two forks!'}],()=>{hunter.hold=null;fadeTo(c6Lobby)}))}
+  {n:'',t:'Hunter frantically searches: "how to remove security tag FAST no store HELP"',anim:()=>{hunter.hold='phone'}},
+  {n:'',t:'A how-to video: "Remove ANY Security Tag With Just Two Forks!" 2.1 million views.'},{n:'Hunter',t:'Forks. FORKS! I need two forks!'}],()=>{hunter.hold=null;fadeTo(c6Lobby)}))}
 function c6ForkIntro(){setLoc('hotel');mode='c6';c6.hp=[abi,hunter];at(hunter,36,124,'r');at(abi,48,122,'l');hunter.hold='forks';
  after(.8,()=>say([{n:'Abigail',t:'Give me those. Your hands are shaking.',anim:()=>{hunter.hold=null}},{n:'Hunter',t:'They are NOT shaking. ...Okay, they’re shaking.'},
   {n:'',t:'Now playing as Abigail.'},{n:'',t:'HOW TO PLAY: HOLD the screen to pry the two halves of the tag apart. Keep the pressure in the GREEN zone. Push too hard and you’ll rip the brand new jacket!',c:[{l:'Grab the forks',f:()=>fadeTo(fkStart)}]}]))}
@@ -9275,7 +9275,7 @@ function c8NightB(){setLoc('night8');mode='c8';
 function htItems(){return [{id:'bed',x:2,y:76,w:34,h:46,spot:[40,110],face:'l'},
  {id:'dress',x:62,y:26,w:16,h:66,spot:[68,100],face:'u',lines:[{n:'Abigail',t:'(The dress. Zipped up in its bag, hanging on the closet door.)'},{n:'Abigail',t:'(Tomorrow, I finally get to wear it. I keep checking that it’s still there.)'}]},
  {id:'phone',x:36,y:78,w:10,h:16,spot:[44,100],face:'u',fn:()=>{c8.txt8=1;say([{n:'',t:'Texts from Mum:'},{n:'Mum',t:'We have the whole family coming over to watch the livestream. Gran is making a cake.'},{n:'Mum',t:'Dad has practiced setting up the laptop four times. He’s very proud of himself.'},{n:'Mum',t:'We’re so proud of you, love. Sleep well. Big day tomorrow. ♥'},{n:'Abigail',t:'(I miss them so much. But they’ll be watching. Every single second.)'}])}},
- {id:'roof',x:46,y:80,w:14,h:14,spot:[52,100],face:'u',lines:[{n:'',t:'A little card on the desk: "Visit THE COOP, our rooftop bar! Open Saturdays."'},{n:'Abigail',t:'(A Saturday night. Morgan, phone in hand: "Mind if I invite my brother out?")'},{n:'Abigail',t:'(Who knew one Saturday night would turn into all of this?)'}]},
+ {id:'roof',x:46,y:80,w:14,h:14,spot:[52,100],face:'u',lines:[{n:'',t:'A little card on the desk: "Visit THE ROOST, our rooftop bar! Open Saturdays."'},{n:'Abigail',t:'(A Saturday night. Morgan, phone in hand: "Mind if I invite my brother out?")'},{n:'Abigail',t:'(Who knew one Saturday night would turn into all of this?)'}]},
  {id:'window',x:38,y:6,w:24,h:40,spot:[50,100],face:'u',lines:[{n:'Abigail',t:'(The little church right across the street. All lit up.)'},{n:'Abigail',t:'(Tomorrow at this time, I’ll be married. In THAT church.)'}]}]}
 function vHotel8(t){r(0,0,80,96,'#4a3a5a');for(let x=0;x<80;x+=8)r(x,0,1,96,'#52425e');r(0,94,80,2,'#2e2238');
  r(38,6,26,40,'#d8c8b8');r(40,8,22,36,'#141a40');for(let i=0;i<8;i++)r(41+(i*7)%20,9+(i*5)%12,1,1,'#fff');
@@ -9450,7 +9450,7 @@ function c8Reception(){c8.bride=0;c8.broom=0;setLoc('roof');cam=R;zk=zkT=1;FX=80
  E.forEach(([p,x,y],i)=>{at(p,x,y,x<80?'r':'l');p.dance=1;p.ph=i*.7;p.sit=0;p.hold=null;if(all.indexOf(p)<0)all.push(p)});at(morgan,80,450,'d');morgan.dance=1;
  after(1.2,()=>say([{n:'',t:'That evening. The reception. On the rooftop of the Birdway Hotel.'},{n:'',t:'The very same rooftop where it all began.'},
   {n:'Morgan',t:'Same rooftop. You two. I’m taking some credit for this.'},{n:'J',t:'Fun fact. Ninety percent of couples who meet on a rooftop end up getting married.'},{n:'Morgan',t:'That is NOT a real statistic.'},{n:'J',t:'It is now.'},
-  {n:'DJ',t:'Alright Coop, this next one is a special request...'},{n:'DJ',t:'"Just My Type" by Sweetie Pie! For the newlyweds! 🎶'},
+  {n:'DJ',t:'Alright Roost, this next one is a special request...'},{n:'DJ',t:'"Just My Type" by Sweetie Pie! For the newlyweds! 🎶'},
   {n:'Abigail',t:'THAT’S MY SONG!!'},{n:'Hunter',t:'I know. I requested it.'}],()=>{abi.dance=hunter.dance=0;say(HOWTO)}))}
 function c8RecAfter(n){mode='c8r';setHud('');abi.dance=hunter.dance=1;
  say([{n:'',t:'The whole roof cheers! You caught '+n+' of 15 hearts. 🎉'},{n:'',t:'Just like the night they met.'},
@@ -9569,7 +9569,7 @@ function vNight8(t){r(0,0,80,70,'#141a34');stars2(80,18,24);
  r(54,14,16,56,'#9a4a32');for(let y=16;y<58;y+=7){r(56,y-1,12,1,'#a8a8b4');win(57,y,9,5,y)}
  cx.globalAlpha=.5;r(24,8,30,2,'#9ad0f0');r(10,12,14,2,'#9ad0f0');cx.globalAlpha=1;r(24,8,30,1,'#e8f0f8');r(10,12,14,1,'#e8f0f8');
  for(let i=0;i<30;i++){const x=24+i;r(x,6+Math.round(Math.sin(i/30*Math.PI)*-1),1,1,DF[i%4])}
- txt('THE COOP',24,0,Math.floor(t*2)%2?'#ff7eb6':'#ffd86b',1);
+ txt('THE ROOST',22,0,Math.floor(t*2)%2?'#ff7eb6':'#ffd86b',1);
  if(!c8.inbed){r(38,29,2,4,'#3a2216');r(38,28,2,2,'#f6d2b0')}
  r(10,58,60,12,'#3a2a2a');for(let x=12;x<68;x+=8){r(x,59,6,10,'#ffd890');r(x+3,59,1,10,'#c8a060')}r(10,57,60,1,'#c8c8d4');
  r(27,61,30,6,'#f4f4f8');r(27,61,30,1,'#ffffff');txt('BIRDWAY',29,62,'#c8302a',1);
@@ -10278,7 +10278,7 @@ function vEpFam(t){for(let y=0;y<30;y+=2){const k=y/30;r(0,y,80,2,`rgb(${Math.ro
 
 /* ---- 12. the porch, and the stars ---- */
 function epPorch(){setLoc('epporch');mode='ep';epDress();Object.assign(abi,{hold:'baby',sit:1,sitF:1});Object.assign(hunter,{sit:1,sitF:1});at(abi,30,122,'d');at(hunter,48,122,'d');ep.ppl=[abi,hunter];ep.mv=[];ep.pan=0;ep.panT=0;
- after(1.2,()=>say([{n:'',t:'Later that night, out on the back patio. Two rocking chairs, under the string lights.'},{n:'Abigail',t:'Hunter?'},{n:'Hunter',t:'Mm?'},{n:'Abigail',t:'Do you ever think about that night at The Coop?'},
+ after(1.2,()=>say([{n:'',t:'Later that night, out on the back patio. Two rocking chairs, under the string lights.'},{n:'Abigail',t:'Hunter?'},{n:'Hunter',t:'Mm?'},{n:'Abigail',t:'Do you ever think about that night at The Roost?'},
   {n:'Hunter',t:'All the time. You asked my sister if you could dance with me.'},{n:'Abigail',t:'Best question I ever asked.'},{n:'Hunter',t:'Look at everything that came after it.'},
   {n:'Abigail',t:'And we’re only just getting started.'},{n:'Hunter',t:'So... what’s next?'},{n:'Abigail',t:'I don’t know.'},{n:'Abigail',t:'But whatever it is... I want to do it with you.'},{n:'Hunter',t:'Always.',anim:()=>{sfx('kiss');for(let i=0;i<4;i++)after(i*.35,()=>burst(39,96,'#ff5f9e'))}}],
   ()=>{ep.panT=1;after(4.5,epFinale)}))}
@@ -10442,7 +10442,7 @@ Object.assign(MUSMAP,{epalbum:'stars',epcard:'stars',epmap:'cozy',epstudio:'lofi
 
 /* ---------- save + chapter select ---------- */
 const save={get(){try{return +localStorage.getItem('ourstory_done')||0}catch(e){return 0}},set(n){try{if(n>save.get())localStorage.setItem('ourstory_done',String(n))}catch(e){}}};
-const CHAPS=[['1','The Coop',()=>chBook('1','The Coop','',startPan)],['2','Fourteen Days',()=>startCh2()],['3','The Good Life',()=>startCh3()],['4','Everything\u2019s Bigger',()=>startCh4()],['5','The Distance',()=>startCh5()],['6','The Question',()=>startCh6()],['7','Donut',()=>startCh7()],['8','The Wedding',()=>startCh8()],['E','Epilogue',()=>startEp()]];
+const CHAPS=[['1','The Roost',()=>chBook('1','The Roost','',startPan)],['2','Fourteen Days',()=>startCh2()],['3','The Good Life',()=>startCh3()],['4','Everything\u2019s Bigger',()=>startCh4()],['5','The Distance',()=>startCh5()],['6','The Question',()=>startCh6()],['7','Donut',()=>startCh7()],['8','The Wedding',()=>startCh8()],['E','Epilogue',()=>startEp()]];
 $('snd').onclick=e=>{e.stopPropagation();openPause()};$('snd').onpointerdown=e=>e.stopPropagation();
 ['pause','pRes','pDev','pMenu','vm','vs'].forEach(id=>{$(id).onpointerdown=e=>e.stopPropagation();$(id).addEventListener('touchstart',e=>e.stopPropagation(),{passive:true})});
 $('pRes').onclick=()=>{sfx('select');closePause()};$('pMenu').onclick=()=>{sfx('select');const l=$('ld');l.classList.remove('off');requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>location.reload(),60)))};
@@ -10468,7 +10468,7 @@ const hasData=()=>CK.get()>=0||Object.keys(ALB.get()).length>0;
 function updTitle(){const d=DEV.on(),ck=CK.get();$('bPlay').innerHTML=ck>=0?'&#9654;&nbsp;Continue':FIN.get()?'&#9654;&nbsp;Play again':'&#9654;&nbsp;Tap to start';
  $('bNew').style.display=ck>=0?'':'none';$('bAl').style.display=albList().length?'':'none';$('bCh').style.display=d?'':'none';$('bMg').style.display=d||FIN.get()||save.get()>=1?'':'none';$('bMg').innerHTML='Minigames'+(LS('ourstory_crzu')&&!LS('ourstory_crzo')?'<span class="nw">NEW!</span>':'');$('bDbg').style.display=d?'':'none';
  const row=$('bNew').parentNode;row.style.display=[...row.children].some(b=>b.style.display!=='none')?'':'none';$('pDev').textContent='Dev mode: '+(d?'ON':'OFF')}
-function newGame(){CK.clr();LS('ourstory_qb',null);LS('ourstory_phh',null);LS('ourstory_hint',null);LS('ourstory_pk',null);LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';chBook('1','The Coop','',startPan)}
+function newGame(){CK.clr();LS('ourstory_qb',null);LS('ourstory_phh',null);LS('ourstory_hint',null);LS('ourstory_pk',null);LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';chBook('1','The Roost','',startPan)}
 /* ---- the photo album on the title screen: every photo she has taken, to look through and to keep ---- */
 function albList(){const o=ALB.get(),ks=Object.keys(o);if(!ks.length)return [];const ord=PHOTO_OPS.map(p=>p.st);return ks.sort((a,b)=>(ord.indexOf(a)<0?99:ord.indexOf(a))-(ord.indexOf(b)<0?99:ord.indexOf(b)))}
 function albSrc(st){try{const im=ALB.img(st);if(im&&im.toDataURL)return im.toDataURL('image/png');if(im&&im.src)return im.src}catch(e){}return ALB.get()[st]||''}
@@ -10511,7 +10511,7 @@ const MGAMES=[
  [3,'Pack the SUV',()=>c3Pack(),['pack']],
  [3,'Road trip to Texas',()=>c3Road(),['road']],
  [3,'Unpack in Texas',()=>c3Unpack(),['unpack']],
- [4,'Bird scooters',()=>scootStart(),['scoot']],
+ [4,'Rental scooters',()=>scootStart(),['scoot']],
  [4,'Beavers gas pump',()=>pumpStart(),['pump']],
  [4,'Beavers crowd',()=>storeStart(),['store']],
  [4,'Peacocks',()=>peaStart(),['hx']],
@@ -10522,7 +10522,7 @@ const MGAMES=[
  [5,'Apartment hunt',()=>c5Hunt(),['hunt']],
  [5,'Helpdesk tickets',()=>c5Desk(),['desk']],
  [6,'Claw machine',()=>{c6.games={};c6.ng=0;c6.w={};clawStart(w=>{mode='c6';setLoc('barcade');say([{n:'',t:w?'You won the corgi!':'The corgi stays in the machine.'}],()=>fadeTo(mgFinish))})},['claw']],[6,'Bar trivia vs J',()=>{c6.games={};c6.ng=0;c6.w={};quizStart((w,sc)=>{mode='c6';setLoc('barcade');say([{n:'',t:'Hunter '+sc[0]+', J '+sc[1]+'.'}],()=>fadeTo(mgFinish))})},['quiz']],[6,'Star Patrol vs J',()=>{c6.games={};c6.ng=0;c6.w={};spStart((w,sc)=>{mode='c6';setLoc('barcade');say([{n:'',t:'Your score: '+sc+'. J\u2019s score: 7000.'}],()=>fadeTo(mgFinish))})},['shoot']],[6,'Turbo KC vs J',()=>{c6.games={};c6.ng=0;c6.w={};raceStart(w=>{mode='c6';setLoc('barcade');say([{n:'',t:w===true?'You beat J to the finish!':w==='tie'?'Photo finish!':'J wins the race.'}],()=>fadeTo(mgFinish))})},['race']],[6,'Feet Fiesta vs J',()=>{c6.games={};c6.ng=0;c6.w={};danceStart((w,sc)=>{mode='c6';setLoc('barcade');say([{n:'',t:'Your score: '+sc+'. '+(w===true?'You out-danced J!':w==='tie'?'A tie!':'J wins the dance-off.')}],()=>fadeTo(mgFinish))})},['fiesta']],[6,'Veggie Fighter vs J',()=>{c6.games={};c6.ng=0;c6.w={};fightStart(w=>{mode='c6';setLoc('barcade');say([{n:'',t:w?'Hunter wins!':'J wins.'}],()=>fadeTo(mgFinish))})},['fight']],
-  [6,'Skee-ball vs J',()=>{c6.games={};c6.ng=0;skeeStart(sc=>{mode='c6';setLoc('barcade');say([{n:'',t:'Your score: '+sc+'. J’s score: 230.'},{n:'J',t:sc>230?'...Rematch. RIGHT now.':'Read it and weep, birthday boy!'}],()=>fadeTo(mgFinish))})},['skee','skeeEnd']],
+  [6,'Roll-ball vs J',()=>{c6.games={};c6.ng=0;skeeStart(sc=>{mode='c6';setLoc('barcade');say([{n:'',t:'Your score: '+sc+'. J’s score: 230.'},{n:'J',t:sc>230?'...Rematch. RIGHT now.':'Read it and weep, birthday boy!'}],()=>fadeTo(mgFinish))})},['skee','skeeEnd']],
  [6,'Getting ready: makeup',()=>mkStart(),['makeup']],
  [6,'Security tag & forks',()=>{Object.assign(hunter,SUITGREY,{tag:1});fkStart()},['fork']],
  [6,'Act natural at dinner',()=>{setLoc('steak');c6.waiter=0;Object.assign(morgan,{top:'#3a6ab0'});Object.assign(jay,{top:'#1e1e28',collar:'#f4f4f8'});Object.assign(abi,{top:'#1a1622',leo:0,skirt:'#1a1622',shoe:'#1a1a1a'});Object.assign(hunter,SUITGREY);
@@ -10549,7 +10549,7 @@ const MGR={
  'Bring in the groceries':()=>bags&&bags.tr&&{s:lowGood(bags.tr.drops,0,1),l:bags.tr.drops?pl(bags.tr.drops,'SPILL'):'NOT ONE WOBBLE',h:bags.tr.drops?'Keep the tray level for three stars':''},
  'Covid swab test':()=>ndl&&ndl.done&&{s:ndl.ok?3:1,l:ndl.ok?'PAINLESS SWAB':'OUCH',h:ndl.ok?'':'Tap inside the green zone for three stars'},
  'Dippin Donuts drive-thru':()=>dtS&&{s:lowGood(dtS.wrong,0,1),l:dtS.wrong?pl(dtS.wrong,'MIX-UP'):'PERFECT ORDER',h:dtS.wrong?'Get every order right for three stars':''},
- 'Bird scooters':()=>sc3&&{s:lowGood(sc3.hits,0,2),l:'TACOS '+sc3.tacos+' · TRICKS '+sc3.tricks,h:sc3.hits?pl(sc3.hits,'wipeout')+'. Ride clean for three stars':''},
+ 'Rental scooters':()=>sc3&&{s:lowGood(sc3.hits,0,2),l:'TACOS '+sc3.tacos+' · TRICKS '+sc3.tricks,h:sc3.hits?pl(sc3.hits,'wipeout')+'. Ride clean for three stars':''},
  'Beavers gas pump':()=>typeof pmp!=='undefined'&&pmp&&{s:lowGood(pmp.miss,0,2),l:pmp.miss?pl(pmp.miss,'NEAR-MISS'):'FIRST TRY!',h:pmp.miss?'Grab the first open pump for three stars':''},
  'Mount Bonnell climb':()=>clb&&{s:lowGood(clb.slips,0,2),l:clb.slips?pl(clb.slips,'SLIP'):'NO SLIPS',h:clb.slips?'Climb without slipping for three stars':''},
  'Weight Shuffle':()=>typeof WG!=='undefined'&&WG&&{s:lowGood(WG.try,1,3),l:pl(WG.try,'WEIGH-IN'),h:WG.try>1?'Make weight on the first try for three stars':''},
@@ -10562,7 +10562,7 @@ const MGR={
  'Star Patrol vs J':()=>typeof SP!=='undefined'&&SP&&{s:SP.sc>=SP.J?3:SP.sc>=SP.J*.6?2:1,l:SP.sc+' POINTS',h:SP.sc<SP.J?'Beat J’s '+SP.J+' for three stars':''},
  'Turbo KC vs J':()=>typeof RC!=='undefined'&&RC&&RC.fin!=null&&{s:RC.jfin==null||RC.fin<=RC.jfin?3:2,l:RC.jfin==null||RC.fin<=RC.jfin?'BEAT J!':'J WINS THIS ONE',h:RC.jfin==null||RC.fin<=RC.jfin?'':'Cross the line before J for three stars'},
  'Feet Fiesta vs J':()=>typeof DN!=='undefined'&&DN&&{s:DN.sc>=DN.J?3:DN.sc>=DN.J*.6?2:1,l:DN.sc+' POINTS',h:DN.sc<DN.J?'Beat J’s '+DN.J+' for three stars':''},
- 'Skee-ball vs J':()=>typeof SK!=='undefined'&&SK&&{s:SK.score>SK.JT?3:SK.score>=SK.JT*.65?2:1,l:SK.score+' POINTS',h:SK.score>SK.JT?'':'Beat J’s '+SK.JT+' for three stars'},
+ 'Roll-ball vs J':()=>typeof SK!=='undefined'&&SK&&{s:SK.score>SK.JT?3:SK.score>=SK.JT*.65?2:1,l:SK.score+' POINTS',h:SK.score>SK.JT?'':'Beat J’s '+SK.JT+' for three stars'},
  'Security tag & forks':()=>c6.fk&&{s:lowGood(c6.fk.dmg,0,2),l:c6.fk.dmg?'SUIT DAMAGE '+c6.fk.dmg:'NOT A SCRATCH',h:c6.fk.dmg?'Free the tag without damage for three stars':''},
  'Act natural at dinner':()=>c6.ng&&{s:lowGood(c6.ng.spill+c6.ng.miss,0,3),l:(c6.ng.spill+c6.ng.miss)?pl(c6.ng.spill+c6.ng.miss,'SLIP-UP'):'TOTALLY NATURAL',h:(c6.ng.spill+c6.ng.miss)?'Catch every tic for three stars':''},
  'Snowstorm drive home':()=>c7.sn&&{s:lowGood(c7.sn.bank,0,2),l:c7.sn.bank?pl(c7.sn.bank,'SNOWBANK'):'NOT ONE SNOWBANK',h:c7.sn.bank?'Stay out of the snowbanks for three stars':''},
@@ -10652,7 +10652,7 @@ const SCENES=[
  [2,'Day 14: making it official',null,()=>{qprops.remote=qprops.sw=1;qDay14()}],
  [3,'Back at Mom’s',null,()=>c3Home()],[3,'Room tour & the studio',null,()=>{setLoc('kitchen');kit={peek:0,door:0,ppl:[mom,hunter,abi]};at(mom,30,118,'r');at(hunter,54,118,'l');at(abi,42,128,'u');hr={sleep:0,ppl:[],cups:0};c3Tour()}],[3,'Furloughed',null,()=>c3Boss()],[3,'Morning 1',null,()=>c3Morning(0)],[3,'Dippin Donuts run',null,()=>dtDay(0)],[3,'Morning 2',null,()=>c3Morning(1)],[3,'Morning 3 (Texas packet)',null,()=>c3Morning(2)],[3,'Online classes',null,()=>c3School()],[3,'Online graduation',null,()=>c3Grad()],[3,'Moving day dorm',null,()=>c3Dorm()],
  [3,'Packing the SUV',null,()=>c3Pack()],[3,'Road trip',null,()=>c3Road()],[3,'Texas house',null,()=>c3Tx()],[3,'Unpacking',null,()=>c3Unpack()],
- [4,'River Walk',null,()=>saStart()],[4,'Plaza before the show',null,()=>plazaStart()],[4,'Cathedral light show',null,()=>showStart()],[4,'Bird scooters',null,()=>scootStart()],[4,'Beavers: pumps',null,()=>pumpStart()],
+ [4,'River Walk',null,()=>saStart()],[4,'Plaza before the show',null,()=>plazaStart()],[4,'Cathedral light show',null,()=>showStart()],[4,'Rental scooters',null,()=>scootStart()],[4,'Beavers: pumps',null,()=>pumpStart()],
  [4,'Beavers: store',null,()=>storeStart()],[4,'Beavers: bathrooms',null,()=>bathStart()],[4,'Beavers: shopping',null,()=>bstoreStart()],[4,'Austin',null,()=>austinStart()],[4,'Burrito truck',null,()=>truckStart()],
  [4,'Peacocks',null,()=>peaStart()],[4,'Mount Bonnell climb',null,()=>hillStart()],[4,'Top of Mount Bonnell',null,()=>bonStart()],
  [5,'Drive home from Texas',null,()=>c4DriveHome()],[5,'The last night',null,()=>c5LastNight()],[5,'Drive to the airport',null,()=>c4ToAirport()],[5,'Goodbye at Lambda',null,()=>c4Depart()],[5,'Lambda: bag check',null,()=>c5Terminal()],[5,'Security',null,()=>{T5={worn:['BEANIE'],cof:1};c5Security()}],[5,'The gate',null,()=>c5Gate()],[5,'Watching her plane',null,()=>c4WatchPlane()],[5,'Safe in Texas',null,()=>c5TxMont()],[5,'First night apart',null,()=>c5FirstNight()],[5,'One week later',null,()=>c5TxMont2()],[5,'The call',null,()=>c5Call()],[5,'Flight',null,()=>c5Plane()],[5,'Hamptons drive',null,()=>c5Drive()],[5,'Bunk room',null,()=>c5Bunk()],[5,'One bathroom',null,()=>c5Bath()],
@@ -10820,7 +10820,7 @@ function update(dt){try{patUpd(dt)}catch(e){}try{tcUpd(dt)}catch(e){}try{bookUpd
   else if(c.s==2){c.t+=dt;mv(abi,dt);if(c.t>.5)mv(hunter,dt);if(abi.tx==null&&hunter.tx==null){c.s=3;fadeTo(startHall)}}
  }else if(mode==='sneak'&&sn.go){const q=sn;q.t-=dt;if(q.t<=0){q.w=!q.w;q.t=q.w?1:1.2+Math.random()*1.4}q.a-=dt;q.sh-=dt;q.hold-=dt;if(q.hold<=0)setHud('Step '+(q.s-1)+'/'+(SNN-1)+' • '+(q.w?'FREEZE!':'quiet... tap!'))}
  else if(mode==='door'){cs.t+=dt;ht-=dt;if(ht<=0){ht=.22;parts.push({x:60+Math.random()*50,y:160,vx:(Math.random()-.5)*10,vy:-16,l:3.5,h:1,fl:1,z:3,c:DF[Math.random()*4|0]})}
-  if(cs.t>5&&!cs.e){cs.e=1;fadeTo(()=>{fd=0;save.set(1);showEnd('CHAPTER 1<br>THE COOP','\u2665 Complete \u2665<br><br><small>Progress saved \u2713</small>','<button onclick="startCh2()">Chapter 2 \u25b6</button>')})}}
+  if(cs.t>5&&!cs.e){cs.e=1;fadeTo(()=>{fd=0;save.set(1);showEnd('CHAPTER 1<br>THE ROOST','\u2665 Complete \u2665<br><br><small>Progress saved \u2713</small>','<button onclick="startCh2()">Chapter 2 \u25b6</button>')})}}
  {const hv=(hudTxt&&['play','dance','sneak','fish','knock','dial','nose','tv','bags','needle','kart','kartGo','dtMemo','dtOrder','dtPull','pack','unpack','pump','store','pea','pick','tennis','sleep','makeup','fork','nerves','poop','pet','qx','hx','broom'].includes(mode))?'block':'none';if(hv!==hudShown){hudShown=hv;$('hud').style.display=hv}}
  parts.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=p.fl?0:30*dt;p.l-=dt*1.1});parts=parts.filter(p=>p.l>0);
  if(tapfx){tapfx.t+=dt;if(tapfx.t>.4)tapfx=null}
