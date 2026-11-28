@@ -213,7 +213,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.18.2</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.18.3</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -315,7 +315,7 @@ const P={
  morgan:{n:'Morgan',skin:'#f1c9a0',hair:'#5a3620',hl:2,eye:'#7a4a2a',top:'#f2b632',pants:'#4a6fa5',shoe:'#fff6e0'},
  bart:{n:'Bartender',skin:'#c98e62',hair:'#1e1e1e',hl:0,eye:'#222',top:'#2fb5a3',apron:1,pants:'#2a2a3a',shoe:'#111'}};
 const mk=(k,x,y,o)=>({...P[k],x,y,dir:'d',tx:null,ty:null,moving:false,delay:0,...o});
-const hunter=mk('hunter',44,540,{dir:'l'}),morgan=mk('morgan',16,540,{dir:'r'}),abi=mk('abi',30,551,{dir:'u'}),
+const hunter=mk('hunter',44,540,{dir:'l'}),morgan=mk('morgan',16,540,{dir:'r'}),abi=mk('abi',30,551,{dir:'l'}),
  bart=mk('bart',127,396,{spot:[127,424]}),dj=mk('bart',40,396,{n:'DJ',top:'#7a2fe0',hair:'#ff7eb6',hl:1,skin:'#f1c9a0',apron:0,hp:1,spot:[40,424]});
 const dn=(x,y,top,hair,hl,skin,ph)=>mk('morgan',x,y,{n:'Dancer',top,hair,hl,skin,pants:'#3a3a5a',dance:1,ph});
 const dancers=[dn(58,452,'#ff7eb6','#2a1a1a',2,'#8d5a3a',0),dn(102,452,'#7ee8fa','#d8a33a',1,'#f6d2b0',1),dn(58,494,'#8be28b','#5a2a1a',0,'#c98e62',2),dn(102,494,'#ffd86b','#1a1a2a',1,'#f1c9a0',3)];
@@ -1468,7 +1468,7 @@ function snGlide(dt){const q=sn;if(!q||loc!=='hall')return;const sp=(q.s===1&&q.
  q.f+=Math.sign(q.s-q.f)*Math.min(Math.abs(q.s-q.f),dt*sp);const tg=q.s-1;q.g+=Math.sign(tg-q.g)*Math.min(Math.abs(tg-q.g),dt*sp*(Math.abs(tg-q.g)>1.5?1.6:1))}
 
 function startDoor(){loc='door';mode='door';parts=[];cs={t:0};setHud('')}
-function beginIntro(){mode='intro';st=0;hunter.x=176;hunter.y=550;say(INTRO,()=>{mode='zoomout';zkT=0})}
+function beginIntro(){mode='intro';st=0;abi.dir='l';hunter.x=176;hunter.y=550;say(INTRO,()=>{mode='zoomout';zkT=0})}
 /* ===== each chapter opens like a storybook: the closed book rises out of the dark, its cover swings open to the
    chapter's title page, the page turns, and we fall into the next page, where the first scene unfolds up out of it.
    Tap to hurry it along. ===== */
