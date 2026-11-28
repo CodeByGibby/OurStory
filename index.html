@@ -232,7 +232,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.19.1</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.19.2</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pOut">Outfits</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -407,7 +407,7 @@ function body0(p,t){
  if(p.skirt){const nh=p.hold&&!up&&!p.dance&&HSIDE2.has(p.hold);r(nh?x-3:x-4,y-5,nh?6:8,2,p.skirt)}
  if(p.stripe)r(x-3,y-7,6,1,p.stripe);
  if(p.logo&&p.dir!=='u'){const lx=p.dir==='l'?x-2:p.dir==='r'?x:x-1;r(lx,y-8,2,1,'#c8282a');r(lx,y-7,2,2,'#8a5a2a');r(lx,y-6,2,1,'#e8c890')}
- if(p.collar)r(x-2,y-10,4,1,p.collar);
+ if(p.collar)r(x-2,y-10,4,1,p.collar);if(p.zip&&p.top===p.wtC&&p.dir!=='u')rN(p.dir==='l'?x-1:p.dir==='r'?x+1:x,y-9,1,4,p.zip);
  if(p.apron)r(x-2,y-7,4,3,'#fff6e0');
  if(p.gown){const gc=p.gc||'#fbfbff',sd=sh(gc,.88),Wd=p.gown==1?[11,13,15,17,17]:p.gown==2?[6,6,7,9,13]:p.gown==3?[8,10,11,13,15]:[7,8,8,9,9];NR=1;for(let i=0;i<5;i++){const w=Wd[i]|1;r(x-(w>>1),y-5+i,w,1,gc);r(x+(w>>1),y-5+i,1,1,sd)}if(p.gown==3){r(x-1,y-4,1,1,sd);r(x+1,y-2,1,1,sd);if(!MONO&&Math.floor(t*3)%3==0)r(x-3,y-3,1,1,'#fff')}if(p.gown==1)r(x-7,y-2,15,1,sd);NR=0}
  if(p.bow&&!up){NR=1;if(p.bowc){const d=p.bowc===2?2:1;r(x-1,y-10-(d>1?1:0),1,1,'#0a0a0a');r(x,y-10,1,1,'#0a0a0a');r(x+1,y-10+d-1+(d>1?1:0),1,1,'#0a0a0a')}else r(x-1,y-10,3,1,'#0a0a0a');NR=0}if(p.tie&&!up){NR=1;const c=p.tiec||0;if(!c){r(x,y-10,1,4,p.tie);r(x-1,y-10,3,1,p.tie)}else{const s2=c===2?-1:1;r(x-1+s2,y-10,3,1,p.tie);r(x+s2,y-9,1,1,p.tie);r(x+s2*(c===2?2:1),y-8,1,1,p.tie);r(x+s2*(c===2?2:1),y-7,1,1,p.tie)}NR=0}if(p.bout&&!up){r(x-3,y-9,1,1,p.boutc||'#ff7eb6');r(x-3,y-8,1,1,'#5a8a4a')}
@@ -10487,7 +10487,7 @@ const WARD={
   {id:'a_cclog',n:'Cheetah foam clogs',f:{shoe:'#dca556',wst:'clogC'}}]},
  hunter:{top:[
   {id:'h_red',n:'Red puffer jacket',f:{top:'#d8352f',stripe:'#fff6e0',collar:'#fff6e0'}},
-  {id:'h_white',n:'White puffer jacket',f:{top:'#ecebf2',stripe:'#1e1e26',collar:'#1e1e26'}},
+  {id:'h_white',n:'White puffer jacket',f:{top:'#ecebf2',stripe:'#c4c6d2',collar:'#d2d4de',zip:'#1e1e26'}},
   {id:'h_gilet',n:'Black gilet',f:{top:'#24242c',stripe:'#383844',collar:'#8c8c9a',slv:'#8c8c9a'}},
   {id:'h_beav',n:'Beavers tee',got:1,f:{top:'#f0c030',collar:'#c8962a',logo:1,beav:1}},
   {id:'h_suit',n:'Grey suit jacket',got:1,f:{top:'#7c828e',suit:'#4a7ad8'}},
@@ -10509,7 +10509,7 @@ const WARD={
   {id:'h_dress',n:'Black dress shoes',got:1,f:{shoe:'#0a0a0a'}}]}};
 const WSLOT=[['top','TOP'],['bottom','BOTTOM'],['shoes','SHOES']],
  WDEF={abi:{top:'a_leo',bottom:'a_skirt',shoes:'a_heel'},hunter:{top:'h_red',bottom:'h_bjean',shoes:'h_ten'}},
- WCLR=['top','stripe','collar','leo','skirt','suit','tie','tiec','bow','bowc','bout','boutc','logo','beav','badge','gown','gc','mortar','cap','capDot','tag','slv','wst','wps'];
+ WCLR=['top','stripe','collar','leo','skirt','suit','tie','tiec','bow','bowc','bout','boutc','logo','beav','badge','gown','gc','mortar','cap','capDot','tag','slv','wst','wps','zip'];
 const WS=(()=>{let o=null;try{o=JSON.parse(LS('ourstory_ward')||'null')}catch(e){}o=o||{};o.sel=o.sel||{};['abi','hunter'].forEach(k=>o.sel[k]=Object.assign({},WDEF[k],o.sel[k]||{}));o.un=o.un||[];return o})();
 function wardSave(){LS('ourstory_ward',JSON.stringify(WS))}
 function wardHas(it){return !it.got||WS.un.includes(it.id)}
