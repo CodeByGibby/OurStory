@@ -235,7 +235,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.22.1</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.22.2</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pOut">Outfits</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -10622,8 +10622,8 @@ function wardRender(){const o=WO,k=o.k,nm=k==='abi'?'Abigail':'Hunter',tp=wardIt
  e.querySelectorAll('.wtabs button').forEach(b=>b.onclick=()=>{if(WO.k===b.dataset.k)return;WO.k=b.dataset.k;sfx('blip');wardIntro();wardRender()});
  e.querySelectorAll('.wrow button').forEach(b=>b.onclick=()=>{const sl=b.dataset.s,L=WARD[k][sl].filter(wardHas),i=L.indexOf(wardItem(k,sl));
   WS.sel[k][sl]=L[(i+(+b.dataset.d)+L.length)%L.length].id;wardSave();wardApply(k);sfx('pop');WO.pop=wardNow();wardRender()});
- e.querySelector('.wdone').onclick=()=>{sfx('confirm');wardApply(k);e.style.display='none';e.classList.remove('wcl','wnoc');const d=WO.done;WO=null;if(d)d()};
- $('wroom').onclick=()=>{if(wardNow()<2.1)WO.t0-=3};
+ e.querySelector('.wdone').onclick=()=>{if(WO.ex!=null)return;sfx('confirm');wardApply(k);const n=wardNow();if(n<2.05){WO.t0-=3}WO.ex=wardNow();e.classList.add('wnoc')};
+ $('wroom').onclick=()=>{if(wardNow()<2.1&&WO.ex==null)WO.t0-=3};
  wardFrame()}
 /* ---- the rooms, drawn once each: perspective walls, floor and ceiling around a vanishing point, then the furniture ---- */
 function wardRoomBg(k){if(WRC[k])return WRC[k];const c=document.createElement('canvas');c.width=WRW;c.height=WRH;const g=c.getContext('2d'),R=(x,y,w,h,col)=>{g.fillStyle=col;g.fillRect(x,y,w,h)};
@@ -10681,16 +10681,23 @@ function wardRoomBg(k){if(WRC[k])return WRC[k];const c=document.createElement('c
  return WRC[k]=c}
 /* where the mirror glass is, for the reflection */
 function wardGlass(k){return k==='abi'?{x0:31,x1:49,y0:7,y1:34,arch:1}:{x0:32,x1:49,y0:8,y1:34}}
-function wardFrame(){const cv=$('wroom');if(!cv||!WO)return;const g=cv.getContext('2d'),k=WO.k,a=wardNow(),e=$('ward');g.imageSmoothingEnabled=false;g.setTransform(1,0,0,1,0,0);
+function wardFinish(){const e=$('ward');e.style.display='none';e.classList.remove('wcl','wnoc');const d=WO.done;WO=null;if(d)d()}
+function wardFrame(){const cv=$('wroom');if(!cv||!WO)return;const g=cv.getContext('2d'),k=WO.k,a=wardNow(),e=$('ward'),X=WO.ex!=null?a-WO.ex:-1;g.imageSmoothingEnabled=false;g.setTransform(1,0,0,1,0,0);
+ if(X>=1.8){wardFinish();return}
  // timeline: curtain shuts (0-.45), we're inside (.45), the curtain fades away (.6-.95), they walk in (.75-1.95), turn, controls (2.05)
  if(a>=.45&&e.classList.contains('wcl'))e.classList.remove('wcl');if(a>=2.05&&e.classList.contains('wnoc'))e.classList.remove('wnoc');
- wardCurtain(a);
+ if(X<0)wardCurtain(a);else wardCurtainOut(X);
  g.drawImage(wardRoomBg(k),0,0);
  const base=k==='abi'?abi:hunter,F=wardFields(k),W0=.75,W1=1.95,wk=Math.max(0,Math.min(1,(a-W0)/(W1-W0))),ease=wk<1?1-Math.pow(1-wk,2):1;
- const px=Math.round(8+(40-8)*ease),py=Math.round(50+(56-50)*ease),walking=a>=W0&&a<W1,dir=a<W1?'r':'u';
- if(walking){const st=Math.floor((a-W0)/.26);if(st!==WO.st){WO.st=st;sfx('step')}}
- const mk2=(x,y,d,mv)=>Object.assign({},base,F,{x,y,dir:d,moving:mv,hold:null,sit:0,sitF:0,kneel:0,dance:0,face:a>2.2&&a<3.4?'happy':null,zz:0,lid:0,tears:0,reach:null,robo:null,bleed:0,green:0,veil:0,hp:0,fit:0,ph:0,
+ let px=Math.round(8+(40-8)*ease),py=Math.round(50+(56-50)*ease),walking=a>=W0&&a<W1,dir=a<W1?'r':'u';
+ // standing at the mirror: every few seconds a turn to each side to check the outfit
+ if(!walking&&a>=W1&&X<0){const b=Math.max(2.9,(WO.pop||0)+1.6),p=a-b;if(p>=0){const q=p%7;dir=q<.9?'l':q<1.2?'u':q<2.1?'r':'u'}}
+ // leaving: a turn toward the curtain and the walk back out
+ if(X>=0){const o=Math.max(0,Math.min(1,(X-.25)/.85)),oe=o*o;px=Math.round(40-(40-6)*oe);py=Math.round(56-(56-50)*oe);walking=X>=.25&&X<1.1;dir=X<.12?'u':'l'}
+ if(walking){const st=Math.floor((X>=0?X+9:a-W0)/.26);if(st!==WO.st){WO.st=st;sfx('step')}}
+ const mk2=(x,y,d,mv)=>Object.assign({},base,F,{x,y,dir:d,moving:mv,hold:null,sit:0,sitF:0,kneel:0,dance:0,face:a>2.2&&a<3.4&&X<0?'happy':null,zz:0,lid:0,tears:0,reach:null,robo:null,bleed:0,green:0,veil:0,hp:0,fit:0,ph:0,
   _fl:null,_ld:d,_tT:null,_zT:null,_fT:null,_ps:null,_pd:null,_hh:null,_h:null,_bp:WO.bp||(WO.bp=Math.random()*3),_du:null,_mv:0,_st:0});
+ if(X>=1.1)px=-20;
  const draw=(q)=>{const m=cx,sd=dlg;cx=g;g._c=null;dlg=null;try{person(q,a)}catch(err){console.error(err)}finally{cx=m;dlg=sd}};
  // the reflection: same spot across the room, seen from behind, a little further away
  if(a>=W0-.1){const G=wardGlass(k);g.save();g.beginPath();if(G.arch){g.moveTo(G.x0,G.y1);g.lineTo(G.x0,G.y0+8);g.quadraticCurveTo(G.x0,G.y0,(G.x0+G.x1)/2,G.y0);g.quadraticCurveTo(G.x1,G.y0,G.x1,G.y0+8);g.lineTo(G.x1,G.y1)}else g.rect(G.x0,G.y0,G.x1-G.x0,G.y1-G.y0);g.clip();
@@ -10701,9 +10708,14 @@ function wardFrame(){const cv=$('wroom');if(!cv||!WO)return;const g=cv.getContex
  // a little sparkle when an item changes
  if(WO.pop!=null){const d=a-WO.pop;if(d<.45){g.fillStyle='#fff6c0';[[-6,-14],[6,-10],[-4,-4],[5,-18],[0,-21]].forEach(([dx,dy],i)=>{const q=(d*3+i*.2)%1;if(q<.6)g.fillRect(px+dx,py+dy-Math.round(d*6),1,1)})}}
 }
+/* leaving: the curtain fades in over the room, then the panels pull open onto the game */
+function wardCurtainOut(X){const c=$('wcur'),e=$('ward');if(!c)return;if(X<.95){c.style.display='none';return}c.style.display='block';
+ if(X>=.95&&!WO.cs){WO.cs=1;sfx('curtain')}
+ const op=Math.min(1,(X-.95)/.25),k=X<1.3?0:Math.min(1,(X-1.3)/.45),cv=Math.round(40*(1-k*k));c.style.opacity=op;if(X>=1.3)e.classList.add('wcl');wardCurtainDraw(cv)}
 /* the curtain: two heavy panels slide in from the sides, then fade as the room appears */
 function wardCurtain(a){const c=$('wcur');if(!c)return;if(a>1){c.style.display='none';return}c.style.display='block';const g=c.getContext('2d'),A=WO.k==='abi';g.clearRect(0,0,80,160);
- const k=Math.min(1,a/.45),e=1-Math.pow(1-k,3),cover=Math.round(40*e),fade=a<.6?1:Math.max(0,1-(a-.6)/.35);c.style.opacity=fade;
+ const k=Math.min(1,a/.45),e=1-Math.pow(1-k,3),cover=Math.round(40*e),fade=a<.6?1:Math.max(0,1-(a-.6)/.35);c.style.opacity=fade;wardCurtainDraw(cover)}
+function wardCurtainDraw(cover){const c=$('wcur'),g=c.getContext('2d'),A=WO.k==='abi';g.clearRect(0,0,80,160);
  const C=A?['#d8608a','#c04c76','#ec80a2','#a83a62']:['#2e4a3e','#22382f','#3e5e50','#18281f'],rod=A?'#d8b050':'#1a1a1e';
  const panel=(x0,w,side)=>{for(let i=0;i<w;i++){const x=side<0?x0+i:x0-i,f=(i+(side<0?0:1))%4;g.fillStyle=C[f===0?1:f===2?2:0];g.fillRect(x,6,1,150);g.fillStyle=C[3];g.fillRect(x,154,1,6)}
   g.fillStyle=C[3];g.fillRect(side<0?x0+w-1:x0-w+1,6,1,154)};
