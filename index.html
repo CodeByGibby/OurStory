@@ -180,6 +180,25 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 #snd{position:absolute;right:calc(var(--u)*1.5);top:calc(var(--u)*1.5);z-index:5;width:calc(var(--u)*11);height:calc(var(--u)*11);display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*1.3);font-size:0;color:transparent;background:linear-gradient(#3e2648,#2b1830);border:calc(var(--u)*.6) solid #ffd86b;border-radius:calc(var(--u)*2.4);padding:0;box-shadow:0 calc(var(--u)*.8) 0 #120818,inset 0 calc(var(--u)*.5) 0 rgba(255,255,255,.12)}
 #snd::before,#snd::after{content:'';width:calc(var(--u)*1.6);height:calc(var(--u)*4.8);background:#fff6e0;border-radius:calc(var(--u)*.3);box-shadow:0 calc(var(--u)*.4) 0 rgba(0,0,0,.4)}
 #snd:active{transform:translateY(calc(var(--u)*.6));box-shadow:0 calc(var(--u)*.2) 0 #120818}
+#ward{position:absolute;inset:0;z-index:12;display:none;flex-direction:column;align-items:stretch;justify-content:center;gap:calc(var(--u)*3.4);padding:calc(var(--u)*8) calc(var(--u)*9);background:rgba(14,8,40,.96);color:#fff6e0;text-align:center}
+#ward h2{font-size:calc(var(--u)*6.5);font-weight:400;color:#ffd86b;margin:0}
+#ward .wsub{font-size:calc(var(--u)*3.1);line-height:1.6;color:#cdb8e8;margin:0}
+#ward .wtabs{display:flex;gap:calc(var(--u)*3)}
+#ward .wtabs button{flex:1;font:inherit;font-size:calc(var(--u)*3.4);padding:calc(var(--u)*2.4) 0;color:#cdb8e8;background:#2b1d4a;border:calc(var(--u)*.6) solid #4a3470;border-radius:999px}
+#ward .wtabs button.on{background:#ff7eb6;color:#2b1830;border-color:#ffd6e8}
+#wcv{align-self:center;width:calc(var(--u)*110);height:calc(var(--u)*64.6);image-rendering:pixelated;image-rendering:crisp-edges;background:radial-gradient(ellipse at 50% 70%,#4a3470,#1c1236 70%);border:calc(var(--u)*.6) solid #4a3470;border-radius:calc(var(--u)*3)}
+#ward .wrow{display:flex;align-items:center;gap:calc(var(--u)*2.5)}
+#ward .wrow button{font:inherit;flex:none;width:calc(var(--u)*12);height:calc(var(--u)*12);font-size:calc(var(--u)*4.4);color:#5a2148;background:linear-gradient(#ffe48a,#ffd86b);border:0;border-radius:calc(var(--u)*2);box-shadow:0 calc(var(--u)*1) 0 #c2417a}
+#ward .wrow button:active{transform:translateY(calc(var(--u)*.6));box-shadow:0 calc(var(--u)*.4) 0 #c2417a}
+#ward .wrow button:disabled{opacity:.25}
+#ward .wv{flex:1;display:flex;flex-direction:column;gap:calc(var(--u)*1.4);font-size:calc(var(--u)*3.7);line-height:1.45}
+#ward .wv small{font-size:calc(var(--u)*2.7);color:#cdb8e8;letter-spacing:.12em}
+#ward .wv i{font-style:normal;font-size:calc(var(--u)*2.6);color:#8f7ab0}
+#ward .wmore{font-size:calc(var(--u)*2.8);color:#ffb8d8;margin:0;line-height:1.6}
+#ward .wdone{font:inherit;font-size:calc(var(--u)*4);line-height:1.5;color:#5a2148;border:0;padding:calc(var(--u)*3) calc(var(--u)*4) calc(var(--u)*3.4);background:linear-gradient(#ffd6e8,#ffbcd8 calc(100% - calc(var(--u)*1.1)),#d98aae 0);margin-top:calc(var(--u)*2)}
+#ward .wdone:active{filter:brightness(.88)}
+#wtoast{position:absolute;left:50%;top:calc(var(--u)*15);z-index:13;transform:translate(-50%,calc(var(--u)*-40));transition:transform .4s cubic-bezier(.2,.9,.3,1.2);background:#fff6e0;color:#5a2148;font-size:calc(var(--u)*2.9);line-height:1.6;padding:calc(var(--u)*2.4) calc(var(--u)*4);border-radius:calc(var(--u)*2);box-shadow:0 calc(var(--u)*1) 0 #c2417a;width:max-content;max-width:calc(var(--u)*130);text-align:center;pointer-events:none}
+#wtoast.on{transform:translate(-50%,0)}#wtoast b{color:#c2417a;font-weight:400}
 #pause{position:absolute;inset:0;z-index:9;display:none;flex-direction:column;align-items:stretch;justify-content:center;gap:calc(var(--u)*4.5);padding:calc(var(--u)*12);background:rgba(14,8,40,.94);color:#fff6e0;text-align:center}
 #pause h2{font-size:calc(var(--u)*8);font-weight:400;color:#ffd86b;margin-bottom:calc(var(--u)*2)}
 #pause label{display:flex;flex-direction:column;gap:calc(var(--u)*3);font-size:calc(var(--u)*3.6);text-align:left}
@@ -213,11 +232,11 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.18.4</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.19.0</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
-<div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
-<div id="hud"></div>
+<div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pOut">Outfits</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
+<div id="ward"></div><div id="wtoast"></div><div id="hud"></div>
 <div id="chat"></div>
 <div id="dlg"><div id="nm"></div><div id="tx"></div><div id="ch"></div><i id="nx">&#9660;</i></div>
 <div id="card"></div>
@@ -382,7 +401,7 @@ function body0(p,t){
  const wf=p.moving?Math.floor(t*10+(p.ph||0))%4:-1,s=wf>=0?wf>>1:0,up=p.dir==='u',hL=wf<0?4:[4,4,3,4][wf],hR=wf<0?3:[3,4,4,4][wf],aw=wf<0||p.dance?0:[-1,0,1,0][wf];
  if(p.hl)r(x-4,y-16,8,p.hl==2?9:5,p.hair);
  if(p.kneel){const f=p.dir==='l'?-1:1;if(f<0){r(x-4,y-5,4,2,p.pants);r(x-4,y-3,2,3,p.pants);r(x-5,y-1,3,1,p.shoe);r(x+1,y-4,2,3,p.pants);r(x+2,y-1,3,1,p.pants);r(x+5,y-1,1,1,p.shoe)}else{r(x,y-5,4,2,p.pants);r(x+2,y-3,2,3,p.pants);r(x+2,y-1,3,1,p.shoe);r(x-3,y-4,2,3,p.pants);r(x-5,y-1,3,1,p.pants);r(x-6,y-1,1,1,p.shoe)}}
- else if(p.gown){}else if(p.sit&&(p.dir==='l'||p.dir==='r')&&!p.sitF){const f=p.dir==='l'?-1:1;r(f<0?x-6:x,y-5,6,2,p.pants);r(f<0?x-6:x,y-5,6,1,sh(p.pants,1.15));if(p.shin){r(f<0?x-6:x+4,y-4,2,4,p.pants);r(f<0?x-8:x+4,y-1,4,1,p.shoe)}else{r(f<0?x-8:x+6,y-6,2,3,p.shoe);r(f<0?x-8:x+7,y-6,1,1,sh(p.shoe,1.4))}}else if(p.sit){const lt=parseInt((p.shoe||'#222').slice(1,3),16)>150,so=lt?'#d8d8e0':'#c8b4a0',tr=lt?'#9a9aa8':'#7a6454';[x-2,x+1].forEach(sx=>{rN(sx,y-4,2,3,so);rN(sx,y-3,2,1,tr);rN(sx,y-1,2,1,sh(so,.8))})}else{const sd=(p.dir==='l'||p.dir==='r')&&wf>=0?[0,-1,0,-1][wf]:0;rN(x-2+sd,y-4,2,hL,p.pants);rN(x-2+sd,y-5+hL,2,1,p.shoe);rN(x+1-sd,y-4,2,hR,p.pants);rN(x+1-sd,y-5+hR,2,1,p.shoe)}
+ else if(p.gown){}else if(p.sit&&(p.dir==='l'||p.dir==='r')&&!p.sitF){const f=p.dir==='l'?-1:1;r(f<0?x-6:x,y-5,6,2,p.pants);r(f<0?x-6:x,y-5,6,1,sh(p.pants,1.15));if(p.shin){r(f<0?x-6:x+4,y-4,2,4,p.pants);r(f<0?x-8:x+4,y-1,4,1,p.shoe)}else{r(f<0?x-8:x+6,y-6,2,3,p.shoe);r(f<0?x-8:x+7,y-6,1,1,sh(p.shoe,1.4))}}else if(p.sit){const lt=parseInt((p.shoe||'#222').slice(1,3),16)>150,so=lt?'#d8d8e0':'#c8b4a0',tr=lt?'#9a9aa8':'#7a6454';[x-2,x+1].forEach(sx=>{rN(sx,y-4,2,3,so);rN(sx,y-3,2,1,tr);rN(sx,y-1,2,1,sh(so,.8))})}else{const sd=(p.dir==='l'||p.dir==='r')&&wf>=0?[0,-1,0,-1][wf]:0;wLegs(p,x,y,sd,hL,hR)}
  r(x-3,y-10,6,6,p.top);r(x+2,y-10,1,6,sh(p.top,.78));r(x-3,y-10,6,1,sh(p.top,1.2));
  if(p.leo){[[-3,-8],[2,-8],[0,-7],[-2,-6],[1,-5],[-3,-5]].forEach(([a,b])=>r(x+a,y+b,1,1,'#5a3214'));r(x-1,y-6,1,1,'#2a1608');r(x+2,y-6,1,1,'#2a1608')}
  if(p.skirt){const nh=p.hold&&!up&&!p.dance&&HSIDE2.has(p.hold);r(nh?x-3:x-4,y-5,nh?6:8,2,p.skirt)}
@@ -394,10 +413,10 @@ function body0(p,t){
  if(p.bow&&!up){NR=1;if(p.bowc){const d=p.bowc===2?2:1;r(x-1,y-10-(d>1?1:0),1,1,'#0a0a0a');r(x,y-10,1,1,'#0a0a0a');r(x+1,y-10+d-1+(d>1?1:0),1,1,'#0a0a0a')}else r(x-1,y-10,3,1,'#0a0a0a');NR=0}if(p.tie&&!up){NR=1;const c=p.tiec||0;if(!c){r(x,y-10,1,4,p.tie);r(x-1,y-10,3,1,p.tie)}else{const s2=c===2?-1:1;r(x-1+s2,y-10,3,1,p.tie);r(x+s2,y-9,1,1,p.tie);r(x+s2*(c===2?2:1),y-8,1,1,p.tie);r(x+s2*(c===2?2:1),y-7,1,1,p.tie)}NR=0}if(p.bout&&!up){r(x-3,y-9,1,1,p.boutc||'#ff7eb6');r(x-3,y-8,1,1,'#5a8a4a')}
  if(p.suit&&!up){rN(x-1,y-10,3,4,p.suit);rN(x+1,y-9,1,3,sh(p.suit,.75));rN(x-2,y-10,1,2,sh(p.top,.7));rN(x+2,y-10,1,2,sh(p.top,.7))}if(p.tag)r(p.dir==='l'?x-3:x+1,y-6,2,2,'#e8e8f0');
  const la=p.dance&&(()=>{const sb=songBeat();return sb!=null?(((Math.floor(sb)+(p.ph||0))%2)+2)%2:Math.floor(t*5+(p.ph||0))%2})();
- if(p.reach){const [tx,ty]=p.reach,L=tx<x,sx=L?x-4:x+3,sy=y-10,n=Math.max(Math.abs(tx-sx),Math.abs(ty-sy))|0;for(let i=0;i<=n;i++){const px=Math.round(sx+(tx-sx)*i/n),py=Math.round(sy+(ty-sy)*i/n);r(px,py,1,1,i>=n-1?p.skin:p.top)}if(L){r(x+3,y-8,1,3,p.top);r(x+3,y-5,1,1,p.skin)}else{r(x-4,y-8,1,3,p.top);r(x-4,y-5,1,1,p.skin)}}
- else if(p.robo!=null){const u=p.robo%2==0;r(x-5,y-10,2,1,p.top);r(x-5,u?y-13:y-9,1,3,p.top);r(x-5,u?y-14:y-6,1,1,p.skin);r(x+3,y-10,2,1,p.top);r(x+4,u?y-9:y-13,1,3,p.top);r(x+4,u?y-6:y-14,1,1,p.skin)}
- else if(!p.hold||p.dance){r(x-4,la?y-12:y-8+aw,1,3,p.top);r(x-4,la?y-13:y-5+aw,1,1,p.skin);
- r(x+3,p.dance&&!la?y-12:y-8-aw,1,3,p.top);r(x+3,p.dance&&!la?y-13:y-5-aw,1,1,p.skin)}
+ if(p.reach){const [tx,ty]=p.reach,L=tx<x,sx=L?x-4:x+3,sy=y-10,n=Math.max(Math.abs(tx-sx),Math.abs(ty-sy))|0;for(let i=0;i<=n;i++){const px=Math.round(sx+(tx-sx)*i/n),py=Math.round(sy+(ty-sy)*i/n);r(px,py,1,1,i>=n-1?p.skin:armC(p))}if(L){r(x+3,y-8,1,3,armC(p));r(x+3,y-5,1,1,p.skin)}else{r(x-4,y-8,1,3,armC(p));r(x-4,y-5,1,1,p.skin)}}
+ else if(p.robo!=null){const u=p.robo%2==0;r(x-5,y-10,2,1,p.top);r(x-5,u?y-13:y-9,1,3,armC(p));r(x-5,u?y-14:y-6,1,1,p.skin);r(x+3,y-10,2,1,p.top);r(x+4,u?y-9:y-13,1,3,armC(p));r(x+4,u?y-6:y-14,1,1,p.skin)}
+ else if(!p.hold||p.dance){r(x-4,la?y-12:y-8+aw,1,3,armC(p));r(x-4,la?y-13:y-5+aw,1,1,p.skin);
+ r(x+3,p.dance&&!la?y-12:y-8-aw,1,3,armC(p));r(x+3,p.dance&&!la?y-13:y-5-aw,1,1,p.skin)}
  if(p.fit==='big'){r(x-5,y-11,10,8,p.top);r(x-6,y-10,1,7,p.top);r(x+5,y-10,1,7,p.top);r(x-1,y-10,2,3,'#f4f4f8');r(x-5,y-1,10,1,p.pants);r(x-3,y-11,6,1,sh(p.top,1.6))}else if(p.fit==='small'){r(x-3,y-3,2,2,p.skin);r(x+1,y-3,2,2,p.skin);r(x-4,y-7,1,2,p.skin);r(x+3,y-7,1,2,p.skin);r(x-2,y-5,4,1,'#f4f4f8');r(x-2,y-4,4,1,p.skin)}
  r(x-3,y-16,6,6,p.skin);r(x+2,y-15,1,5,sh(p.skin,.88));r(x-3,y-11,6,1,sh(p.skin,.93));
  const EY=eyeX(p,x),e=EY[2];
@@ -440,7 +459,7 @@ function emoDraw(k,x,y,a){if(a>1.5)return;const pop=a<.1?a/.1:1,O='#2b1830';y+=M
  cx.globalAlpha=1}
 const HSIDE=new Set(['mug','pink','water','beer','burrito','sroll','churro','bowl','book','tissue','ctrl','clip','frisbee','shoe','pup','bouquet','bouquetP','forks','phoneLow','camera','keys','diploma']);
 function drawHold(p,x,y,t,up){
- if(p._h!==p.hold){p._h=p.hold;p.hs=t}const k=Math.min(1,(t-(p.hs||0))/.35),h=p.hold,tp=p.top,sk=p.skin,e=p.dir==='l'?-1:p.dir==='r'?1:0;
+ if(p._h!==p.hold){p._h=p.hold;p.hs=t}const k=Math.min(1,(t-(p.hs||0))/.35),h=p.hold,tp=armC(p),sk=p.skin,e=p.dir==='l'?-1:p.dir==='r'?1:0;
  const arm=(ax,ay,bx,by)=>{const n=Math.max(Math.abs(bx-ax),Math.abs(by-ay))||1;for(let i=0;i<=n;i++)r(ax+(bx-ax)*i/n,ay+(by-ay)*i/n,1,1,i<n?tp:sk)};
  const restL=()=>{r(x-4,y-8,1,3,tp);r(x-4,y-5,1,1,sk)},restR=()=>{r(x+3,y-8,1,3,tp);r(x+3,y-5,1,1,sk)};
  if(h==='type'){const q=p.typeSp?Math.floor(t*p.typeSp)%2:0;r(x-4,y-8,1,4+q,tp);r(x+3,y-8,1,5-q,tp);return}
@@ -1314,7 +1333,7 @@ function roofProp(o){const L={sign:'(THE ROOST, in big pink letters. Morgan said
  say([{n:'Abigail',t:L[o.id]}],()=>{if(first&&all){sfx('chime');bark([{n:'',t:'You found every corner of The Roost! ✨'}]);try{burst(abi.x,abi.y-24,'#ffd86b')}catch(e){}}})}
 function c1Arrive(){mode='c1walk';go(abi,[[40,540],[30,550]],60);abi.dir='l';waitTill(()=>abi.tx==null,()=>{face(abi,morgan);face(morgan,abi);
  say([{n:'Morgan',t:'Ooh, thank you! Okay, look, I texted him.'}],()=>{const e=$('phone');let j=1;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};e.className='px';e.innerHTML='';e.style.display='flex';mode='texts1';sfx('notif');
-  e.onclick=()=>{if(j<C1TX.length){j++;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};sfx(C1TX[j-1][0]?'pop':'blip')}else{e.onclick=null;e.style.display='none';PHN=null;c1Hunter()}}})})}
+  e.onclick=()=>{if(j<C1TX.length){j++;PHN={kind:'txt',who:'Hunter',msgs:C1TX,tj:j,t0:T};sfx(C1TX[j-1][0]?'pop':'blip')}else{e.onclick=null;e.style.display='none';PHN=null;wardOpen({only:'hunter',title:'DRESS HUNTER',sub:'Morgan says come out. What’s he wearing?',btn:'Let’s go',done:c1Hunter})}}})})}
 function c1Hunter(){mode='c1walk';fadeTo(()=>{c1hLobby();card('Fifteen minutes later...<br><br><span style="color:#ff9ccb">Playing as Hunter</span>')},2.6);after(3.9,c1hLobbyGo)}
 function c1HunterRoof(){setLoc('roof');mode='c1walk';hunter.hold=null;{at(hunter,172,550,'l');go(hunter,[[120,552],[50,548]],46);sfx('door');
  waitTill(()=>hunter.tx==null,()=>{face(hunter,morgan);face(morgan,hunter);face(abi,hunter);zoomTo(36,532,1.4);
@@ -4660,7 +4679,7 @@ function bstoreStart(){setLoc('bstore');fade=1;fd=-1;mode='c3';CAMX=0;[abi,hunte
  hxStart({room:'bstore',p:hunter,stage:'bstore',goals:[{room:'bstore',id:'abi',hud:'Find Abigail',fn:bsFind},{room:'bstore',id:'exit',hud:'Head back to the car',fn:bsExit}]});setHud('');hx.phase='in';go(hunter,[[13,78]],34);
  hx.arrive=()=>{hx.phase=null;bark([{n:'',t:'Back out into the beautiful chaos of Beavers.'},{n:'Hunter',t:'(Now... where did Abigail go?)'}]);hxHud()}}
 /* the "Everything's Beaver in Texas" shirt: Hunter wears it for the rest of the Texas trip if he buys it */
-function beavShirt(on){if(on)Object.assign(hunter,{top:'#f0c030',stripe:0,collar:'#c8962a',logo:1,beav:1});else{Object.assign(hunter,{top:P.hunter.top,stripe:P.hunter.stripe,collar:P.hunter.collar,logo:0,beav:0})}}
+function beavShirt(on){if(on)wardGot('h_beav');if(on)Object.assign(hunter,{top:'#f0c030',stripe:0,collar:'#c8962a',logo:1,beav:1});else{Object.assign(hunter,wardFields('hunter'))}}
 function bsFind(done){const A=abi,H=hunter;H.dir='r';A.dir='l';const cap=!!H.cap;
  say([{n:'Abigail',t:'HUNTER. There are like TWENTY kinds of fudge.'},{n:'Hunter',t:'I was gone for five minutes.'},{n:'Abigail',t:'I’ve tried every single one.'},{n:'Cashier',t:'Twice. Ma’am, those are samples.'},
   {n:'Abigail',t:'And I’d like a box of ALL of them, please!',anim:()=>{sfx('kaching');A.hold='carry';A.carry='#7a4a2a'}},...(cap?[{n:'Abigail',t:'...Wait. What’s on your head?'},{n:'Hunter',t:'I’m a Texan now.'}]:[]),...(H.beav?[{n:'Abigail',t:'And what are you WEARING?'},{n:'Hunter',t:'Everything’s beaver in Texas, babe.'},{n:'Abigail',t:'(laughing) I love it. I hate that I love it.'}]:[]),{n:'Hunter',t:'(She’s never looked happier.)'}],
@@ -6840,7 +6859,7 @@ const diners=[['#c8a0d8','#5a3a2a',2,'#f1c9a0','r'],['#3a5a8a','#2a2a2a',0,'#c98
 Object.assign(NC,{J:'#3a5a9a',Jeweler:'#7a6a3a',Clerk:'#8a2a3a',Waiter:'#4a4a4a',Server:'#2a8a5a'});
 Object.assign(VOICE,{J:125,Jeweler:185,Clerk:265,Waiter:175,Server:235});
 let c6={};
-function c6Dress(){Object.assign(hunter,P.hunter,{logo:0,beav:0,suit:0,tag:0,kneel:0,sit:0,hold:null,zz:0,bleed:0,green:0,moving:false});Object.assign(abi,P.abi,{sit:0,hold:null,zz:0,moving:false});
+function c6Dress(){Object.assign(hunter,P.hunter,{logo:0,beav:0,suit:0,tag:0,kneel:0,sit:0,hold:null,zz:0,bleed:0,green:0,moving:false},wardFields('hunter'));Object.assign(abi,P.abi,{sit:0,hold:null,zz:0,moving:false},wardFields('abi'));
  Object.assign(morgan,P.morgan,{sit:0,hold:null,moving:false});Object.assign(jay,{top:'#2e3a5a',collar:0,sit:0,hold:null,moving:false})}
 function c6Walk(list,cb){list.forEach(([p,pts,sp])=>go(p,pts,sp));c6.wk=list.map(l=>l[0]);c6.wcb=cb}
 function c6Card(html,hold,next){const wd=html.replace(/<[^>]*>/g,' ').split(/\s+/).filter(Boolean).length;hold=Math.max(hold,1.6+wd*.24);fadeTo(()=>{setLoc('newsbg');card(html)},hold);after(hold+1,()=>{$('card').style.opacity=0;fade=1;fd=-1;next()})}
@@ -8196,7 +8215,7 @@ function c6RoomUpd(dt){if(!hx)return;const R=hx.room;if(R==='barcade'){mv(jay,dt
 /* ---- makeup minigame ---- */
 const MKS=[{n:'FOUNDATION',c:'#fbe0c4',tg:[{x:80,y:120,rad:16}]},{n:'BLUSH',c:'#ff8aa8',tg:[{x:62,y:126,rad:6},{x:98,y:126,rad:6}]},
  {n:'EYESHADOW',c:'#b07890',tg:[{x:67,y:105,rad:5},{x:93,y:105,rad:5}]},{n:'EYELINER',c:'#1a1010',tg:[{x:67,y:108,rad:4},{x:93,y:108,rad:4}]},{n:'LIPSTICK',c:'#c8304a',tg:[{x:80,y:139,rad:5}]}];
-function mkStart(){setLoc('makeup');Object.assign(abi,{top:'#1a1622',leo:0,skirt:'#1a1622',shoe:'#1a1a1a'});c6.mk={s:0,d:[],ap:[],sm:[],n:0,ph:0,bx:80,by:120,cd:0};mode='makeup';setHud('Tap when the brush is on the glowing spot!')}
+function mkStart(){setLoc('makeup');wardGot('a_lbd');Object.assign(abi,{top:'#1a1622',leo:0,skirt:'#1a1622',shoe:'#1a1a1a'});c6.mk={s:0,d:[],ap:[],sm:[],n:0,ph:0,bx:80,by:120,cd:0};mode='makeup';setHud('Tap when the brush is on the glowing spot!')}
 function mkUpdate(dt){const M=c6.mk;if(!M||mode!=='makeup'||dlg)return;const S=MKS[M.s];if(!S)return;M.cd=Math.max(0,M.cd-dt);M.ph+=dt*(2+M.s*.3);
  const g=S.tg.find((q,i)=>!M.d[i])||S.tg[0];M.bx=80+Math.sin(M.ph)*36;M.by=g.y+Math.sin(M.ph*2.3)*2;if(M.msg){M.msg[1]-=dt;if(M.msg[1]<=0)M.msg=null}}
 function mkTap(){const M=c6.mk;if(M.cd>0)return;const S=MKS[M.s];if(!S)return;let hit=-1;S.tg.forEach((g,i)=>{if(!M.d[i]&&Math.hypot(M.bx-g.x,M.by-g.y)<=g.rad+3)hit=i});
@@ -8206,7 +8225,7 @@ function mkTap(){const M=c6.mk;if(M.cd>0)return;const S=MKS[M.s];if(!S)return;le
 function mkDone(){mode='c6';setHud('');const n=c6.mk.n;
  say([{n:'',t:n===0?'Flawless. Not a single smudge.':n<=2?'Basically flawless. (Nobody will ever know about the smudge'+(n>1?'s':'')+'.)':'Bold. Artistic. Smudges: '+n+'. Hunter will love it anyway.'},
   {n:'Abigail',t:n<=2?'Okay. I look GOOD. Let’s do this.':'It is called a LOOK, okay? It is intentional.'}],()=>fadeTo(c6Suit))}
-function c6Suit(){setLoc('hotel');mode='c6';c6.hp=[abi,hunter];c6.panic=0;Object.assign(hunter,{top:'#7c828e',stripe:0,collar:0,suit:'#4a7ad8',pants:'#6c727e',shoe:'#3a2418',tag:1});
+function c6Suit(){setLoc('hotel');mode='c6';wardGot('h_suit','h_suitp','h_brown');c6.hp=[abi,hunter];c6.panic=0;Object.assign(hunter,{top:'#7c828e',stripe:0,collar:0,suit:'#4a7ad8',pants:'#6c727e',shoe:'#3a2418',tag:1});
  at(hunter,36,124,'d');at(abi,60,120,'l');
  after(1,()=>say([{n:'',t:'Meanwhile, Hunter changes into his brand new suit. A grey jacket, grey pants, and a crisp blue dress shirt.'},{n:'Hunter',t:'Okay. Looking sharp. Looking like a man with a plan.'},
   {n:'Hunter',t:'...Wait. What is THAT.',anim:()=>{c6.panic=1;sfx('alert')}},{n:'',t:'A big plastic security tag. Still clamped onto the brand new jacket.'},
@@ -9163,7 +9182,7 @@ const c8Talk=(p,lines,id)=>({id:id||p.n,x:p.x-6,y:p.y-22,w:12,h:24,spot:[p.x+(hx
 function c8Swap(fx){sfx('whoosh');for(let i=0;i<10;i++)after(i*.04,()=>burst(abi.x-6+Math.random()*12,abi.y-10-Math.random()*14,['#fff','#ffd0e0','#ffe8a0'][i%3]));after(.25,fx)}
 
 /* ---------- 1. dress shopping ---------- */
-function c8Bridal(){setLoc('bridal');mode='c8';fade=1;fd=-1;Object.assign(abi,{top:'#e8d8c8',leo:0,skirt:0,gown:0,veil:0});at(mom,10,122,'r');at(morgan,22,124,'r');mom.sit=morgan.sit=1;at(consult,64,106,'l');
+function c8Bridal(){setLoc('bridal');mode='c8';wardGot('a_cream');fade=1;fd=-1;Object.assign(abi,{top:'#e8d8c8',leo:0,skirt:0,gown:0,veil:0});at(mom,10,122,'r');at(morgan,22,124,'r');mom.sit=morgan.sit=1;at(consult,64,106,'l');
  c8.br={tried:{},n:0};at(abi,40,152,'u');
  c4Enter({room:'bridal',p:abi,stage:'bridal',goals:[{room:'bridal',id:'g_dress',hud:'Try on some dresses',arrow:()=>!c8.br.tried.A?'rackA':!c8.br.tried.B?'rackB':'rackC'}]},[[40,130]],()=>{abi.dir='u';
   say([{n:'',t:'Abigail goes dress shopping with Hunter’s mom and Morgan.'},{n:'Mom',t:'We know we’re not your mum, sweetheart. But we’re here. And we are VERY excited.',anim:()=>{abi.dir='l'}},
@@ -9180,7 +9199,7 @@ function brTry(k){const B=c8.br,A=abi;if(k==='C'&&!(B.tried.A&&B.tried.B)){say([
   after(1.2,()=>say([{n:'',t:'Dress number '+nth+'.'},{n:'',t:'...'},{n:'',t:'Nobody says anything for a moment.'},
    {n:'Morgan',t:'(sniffling) Oh no. I’m crying.'},{n:'Mom',t:'Me too.'},{n:'Mum',t:'(through the phone, crying) That’s the one, love. That’s THE one.'},
    {n:'Abigail',t:'This is it. This is my dress.',c:[{l:'Say yes to the dress! 👰',f:()=>{sfx('fanfare');for(let i=0;i<8;i++)after(i*.15,()=>burst(30+Math.random()*16,90,['#ff5f9e','#ffd86b','#fff'][i%3]));
-    after(1.6,()=>c6CardT('A few weeks later: the menu tasting.',2.4,()=>{hx=null;mom.sit=morgan.sit=0;morgan.hold=null;c8.sparkle=0;Object.assign(abi,P.abi,{gown:0,veil:0})},c8Tasting))}}]}]))})})}
+    after(1.6,()=>c6CardT('A few weeks later: the menu tasting.',2.4,()=>{hx=null;mom.sit=morgan.sit=0;morgan.hold=null;c8.sparkle=0;Object.assign(abi,P.abi,{gown:0,veil:0},wardFields('abi'))},c8Tasting))}}]}]))})})}
 function brItems(){return [c8Talk(morgan,[[{n:'Mum',t:'(from the phone) Turn me around, Morgan! I want to see the dresses!'}],[{n:'Morgan',t:'(holding up a tiny flower girl dress) ...For no reason. Just looking.'}]],'Morgan'),
  c8Talk(mom,[[{n:'Mom',t:'Take your time, sweetheart. We have ALL day. I brought snacks.'}]],'Mom'),
  c8Talk(consult,[[{n:'Consultant',t:'Every bride knows when she finds it. Trust me.'}]],'Consultant'),
@@ -9265,7 +9284,7 @@ function vTux(t){cx.drawImage(bgC('tux',80,144,()=>{
  r(66,92,12,8,'#e8d8b0');for(let i=0;i<5;i++)r(67+i*2,93,1,3,'#3a3a3a');ppl6(t,[tuxguy,hunter,...groomsmen.slice(0,4)]);if(hx&&hx.room==='tux')hxDraw(t)}
 
 /* ---------- 5. the night before (Birdway Hotel) ---------- */
-function c8Night(){setLoc('hotel8');mode='c8';fade=1;fd=-1;c8.inbed=0;Object.assign(abi,P.abi,{gown:0,veil:0,sit:0,hold:null});at(abi,88,124,'l');c8.txt8=0;
+function c8Night(){setLoc('hotel8');mode='c8';fade=1;fd=-1;c8.inbed=0;Object.assign(abi,P.abi,{gown:0,veil:0,sit:0,hold:null},wardFields('abi'));at(abi,88,124,'l');c8.txt8=0;
  c4Enter({room:'hotel8',p:abi,stage:'hotel8',goals:[{room:'hotel8',id:'bed',hud:'Try to get some sleep',fn:htBed}]},[[66,124]],()=>{abi.dir='l';
   say([{n:'',t:'Abigail spends the night at the Birdway Hotel. The same building as the rooftop bar where they first met.'},{n:'',t:'Their reception will be there tomorrow.'}],c4Go)})}
 function htBed(){const A=abi;mode='c8';setHud('');hx.phase='seq';go(A,[[40,106]],34);
@@ -9294,7 +9313,7 @@ function vHotel8(t){r(0,0,80,96,'#4a3a5a');for(let x=0;x<80;x+=8)r(x,0,1,96,'#52
  if(hx&&hx.room==='hotel8')hxDraw(t)}
 
 /* ---------- 6. getting ready: the groom ---------- */
-function c8Groom(){setLoc('groom8');mode='c8';fade=1;fd=-1;[hunter,jay].forEach(p=>{p.sit=0;p.hold=null});Object.assign(hunter,TUX,{tiec:1});Object.assign(jay,GMS,{n:'J'});at(hunter,40,116,'d');
+function c8Groom(){setLoc('groom8');mode='c8';wardGot('h_tux','h_tuxp','h_dress');fade=1;fd=-1;[hunter,jay].forEach(p=>{p.sit=0;p.hold=null});Object.assign(hunter,TUX,{tiec:1});Object.assign(jay,GMS,{n:'J'});at(hunter,40,116,'d');
  [[groomsmen[0],18,110],[groomsmen[1],62,112],[groomsmen[2],28,128]].forEach(([p,x,y])=>{p.fit=0;at(p,x,y,'r')});groomsmen[1].dir='l';at(jay,54,128,'l');c8.bowT=0;
  after(1,()=>say([{n:'',t:'Hunter gets ready at the church in town. Right across the street from the Birdway Hotel.'},{n:'Groomsman',t:'You good, man?'},
   {n:'Hunter',t:'The day is going SO fast. It’s already noon. How is it already noon?'},{n:'Hunter',t:'Abigail planned every single minute of today. I’m just following the plan.'},
@@ -9318,12 +9337,12 @@ function vGroom8(t){cx.drawImage(bgC('groom8',80,144,()=>{for(let y=0;y<92;y++)f
  ppl6(t,[hunter,groomsmen[0],groomsmen[1],groomsmen[2],jay]);if(hx&&hx.room==='groom8')hxDraw(t)}
 
 /* ---------- 7. getting ready: the bride ---------- */
-function c8Bride(){setLoc('brideroom');mode='c8';fade=1;fd=-1;Object.assign(abi,{top:'#f4f0f8',leo:0,skirt:0,gown:0,veil:0,hold:null});Object.assign(morgan,{top:'#d898c0',gown:4,gc:'#d898c0',pants:'#d898c0',shoe:'#d898c0',hold:null});
+function c8Bride(){setLoc('brideroom');mode='c8';wardGot('a_white');fade=1;fd=-1;Object.assign(abi,{top:'#f4f0f8',leo:0,skirt:0,gown:0,veil:0,hold:null});Object.assign(morgan,{top:'#d898c0',gown:4,gc:'#d898c0',pants:'#d898c0',shoe:'#d898c0',hold:null});
  at(abi,40,116,'d');at(morgan,54,114,'l');[[bridesmaids[0],26,112,'r'],[bridesmaids[1],62,124,'l'],[bridesmaids[2],18,126,'r']].forEach(([p,x,y,d])=>at(p,x,y,d));c8.drOn=0;
  after(1,()=>say([{n:'',t:'Across the street, Abigail gets ready with her bridesmaids at the hotel.'},{n:'Abigail',t:'Is it hot in here? Why is my heart beating so fast?'},
   {n:'Morgan',t:'Because you’re getting MARRIED today!'},{n:'Bridesmaid',t:'Hair: done. Makeup: done. Now... the dress.'}],
   ()=>hxStart({room:'brideroom',p:abi,stage:'bride',goals:[{room:'brideroom',id:'dress',hud:'Put on the dress',fn:bdDress}]})))}
-function bdDress(){const A=abi;A.dir='u';hx.phase='seq';c8.drOn=1;sfx('zipper');A.hold='carry';A.carry='#fbfbff';
+function bdDress(){wardGot('a_gown');const A=abi;A.dir='u';hx.phase='seq';c8.drOn=1;sfx('zipper');A.hold='carry';A.carry='#fbfbff';
  after(.5,()=>{go(A,[[40,116]],30);waitTill(()=>A.tx==null,()=>{A.dir='d';A.hold=null;after(.4,()=>{c8Swap(()=>{Object.assign(abi,{top:'#fbfbff',gown:3,gc:'#fbfbff',veil:1});c8.sparkle=1;sfx('chime')});
   [bridesmaids[0],bridesmaids[1],bridesmaids[2],morgan].forEach(p=>face(p,A));
   after(1.4,()=>say([{n:'',t:'...'},{n:'Bridesmaid',t:'Oh my gosh.'},{n:'Morgan',t:'He’s going to LOSE it.'},{n:'Abigail',t:'Okay. Okay okay okay. Let’s go get married.'}],()=>{if(hx)hx.phase='seq';fadeTo(()=>{hx=null;c8.sparkle=0;(c8Church)()})}))})})})}
@@ -9962,7 +9981,7 @@ const GRADC=[],AUD=[];
 (function(){const HR=['#3a2216','#6b4226','#c89a5a','#1e1e1e','#8a5a3a','#d8b070','#5a3620','#2a1a12','#a87040'],SK=['#f1c9a0','#e0b090','#c98e62','#f6d2b0','#8a5a3a','#f4d0b8'],TP=['#e05a5a','#5a8ac8','#f0c030','#6ab06a','#c87ac8','#f4f4f8','#e88a3a','#3aa8a0','#d85a8a','#8a6ad8'];
  let n=0;for(let row=0;row<3;row++)for(let i=0;i<6;i++){GRADC.push(mk(n%2?'hunter':'morgan',36+i*8+(row%2?2:0),86+row*17,{n:'',dir:'u',hair:HR[(n*5+row)%9],hl:n%3==0?2:0,skin:SK[n%6],top:'#141418',stripe:0,collar:0,gown:4,gc:'#141418',pants:'#141418',shoe:'#111',mortar:1,ph:n*.7}));n++}
  n=0;for(let row=0;row<4;row++)for(let i=0;i<3;i++){const x=5+i*9+(row%2?3:0),y=84+row*16;AUD.push(mk(n%2?'hunter':'morgan',x,y,{n:'',dir:'r',hair:HR[(n*7+2)%9],hl:n%2?0:2,skin:SK[(n*3)%6],top:TP[n%10],stripe:0,collar:0,pants:['#3a4a6b','#2a2a34','#6a5a4a'][n%3],shoe:'#222',ph:n*1.1}));n++}})();
-function epGrad(){setLoc('epgrad');mode='ep';epDress();Object.assign(hunter,{gown:4,gc:'#141418',top:'#141418',stripe:0,collar:0,pants:'#141418',mortar:1});
+function epGrad(){setLoc('epgrad');mode='ep';wardGot('h_grad');epDress();Object.assign(hunter,{gown:4,gc:'#141418',top:'#141418',stripe:0,collar:0,pants:'#141418',mortar:1});
  at(epDean,54,60,'d');at(hunter,22,62,'r');
  // Abigail stands in the family section on the left, in place of one of the audience members
  at(abi,14,116,'r');ep.ppl=[hunter,epDean];ep.mv=[hunter];ep.caps=0;ep.yell=0;ep.jump=0;GRADC.forEach(p=>{p.mortar=1;p.dir='u'});
@@ -10002,7 +10021,7 @@ function vEpGrad(t){
  if(ep.caps){const k=T-ep.caps;GRADC.concat([hunter]).forEach((p,i)=>{const x=p.x+Math.sin(k*3+i)*3,y=p.y-18-k*70+k*k*34;if(y<-6||y>150||k>3.6)return;const rot=Math.floor(k*6+i)%2;r(Math.round(x)-3,Math.round(y),6,1+rot,'#101014');r(Math.round(x)-2,Math.round(y)+1+rot,4,1,'#101014');r(Math.round(x)+2,Math.round(y)+1,1,3,'#ffd86b')});
   for(let i=0;i<24;i++){const x=(i*37+k*20)%80,y=(k*36+i*13)%144;r(Math.round(x),Math.round(y),1,1,['#ffd86b','#fff','#ffe880','#f0c030'][i%4])}}}
 /* ---- 5. cyber security at PU ---- */
-function epCyber(){setLoc('epcyber');mode='ep';epDress();Object.assign(hunter,{top:'#5a7ab0',stripe:0,collar:'#f4f4f8',badge:1});at(hunter,40,116,'d');ep.ppl=[hunter];ep.mv=[];
+function epCyber(){setLoc('epcyber');mode='ep';wardGot('h_work');epDress();Object.assign(hunter,{top:'#5a7ab0',stripe:0,collar:'#f4f4f8',badge:1});at(hunter,40,116,'d');ep.ppl=[hunter];ep.mv=[];
  after(.8,()=>say([{n:'',t:'And then, his first big job: the cyber security team at PU.'},{n:'Hunter',t:'From helpdesk tickets... to hunting down hackers.'},
   {n:'Hunter',t:'(Hunter Hughes. Cyber security. I’m going to say that out loud a LOT.)'},{n:'',t:'*bzzt* A text from Abigail.',anim:()=>{hunter.hold='phoneLow';sfx('ding')}},
   {n:'Abigail',t:'(text) So proud of you, cyber man. 💛'},{n:'Hunter',t:'(Best alert I’ve gotten all day.)'}],()=>{hunter.hold=null;fadeTo(epCoach)}))}
@@ -10027,7 +10046,7 @@ function vEpCyber(t){r(0,0,80,144,'#141a2a');for(let y=0;y<96;y+=8)r(0,y,80,1,'#
 const OWG='#1f7a43',OWD='#145a30',OWL='#3a9a5a';
 function owlLogo(x,y,c,bg,z){z=z||1;const M=['W.......W','WW.....WW','WWWWWWWWW','WGGGWGGGW','WGKGWGKGW','WGGGWGGGW','WWWWYWWWW','.WWWYWWW.','..WWWWW..','..W...W..'],C={W:'#f8f8f4',G:c,K:'#101014',Y:'#d8c890'};
  const x0=x-((9*z)>>1),y0=y-((10*z)>>1);M.forEach((row,j)=>{for(let i=0;i<9;i++){const k=row[i];if(k!=='.')r(x0+i*z,y0+j*z,z,z,C[k])}})}
-function epCoach(){setLoc('epcoach');mode='ep';epDress();Object.assign(abi,{top:OWG,collar:'#f4f4f8',stripe:0,leo:0,skirt:'#f4f4f8',cap:'#f4f4f8',hold:'clip'});
+function epCoach(){setLoc('epcoach');mode='ep';wardGot('a_coach');epDress();Object.assign(abi,{top:OWG,collar:'#f4f4f8',stripe:0,leo:0,skirt:'#f4f4f8',cap:'#f4f4f8',hold:'clip'});
  Object.assign(epP1,{top:OWG,collar:'#f4f4f8',skirt:'#f4f4f8',shoe:'#f4f4f8'});Object.assign(epP2,{top:'#f4f4f8',stripe:OWG,collar:OWG,skirt:OWG,shoe:'#f4f4f8'});
  at(abi,72,104,'l');at(epP1,34,52,'d');at(epP2,40,134,'u');ep.ppl=[abi,epP1,epP2];ep.mv=[];
  after(.8,()=>say([{n:'',t:'Meanwhile, Abigail went back to where her American adventure first began...'},{n:'',t:'...as a coach for the Owls University tennis team. The same team she once played on.'},
@@ -10355,7 +10374,7 @@ function epYardDog(t,L){const F=ep.fb||{dx:46,dy:128,dir:'r',st:'idle',jy:0};
  if(F.ft!=null&&(F.st==='launch'||F.st==='dash')&&F.ft<=F.d){const k=Math.min(1,F.ft/F.d),fx=F.sx+(F.tx-F.sx)*k,fy=F.sy+(F.ty-12-F.sy)*k-Math.sin(k*Math.PI)*(F.arc||16),far=F.st!=='fly',w=Math.max(0,Math.round(4-k*(far?4:2.5))),a=far?Math.max(0,Math.min(1,(1-k)*2.2)):1;
   if(a>0)L.push({y:200,f:()=>{cx.globalAlpha=a;r(Math.round(fx)-w,Math.round(fy),w*2+1,1,'#ff5f9e');if(w>0)r(Math.round(fx)-w+1,Math.round(fy)+1,w*2-1,1,'#d83a7a');cx.globalAlpha=1}})}}
 /* ---- 10. Ella ---- */
-function epElla(){setLoc('epnurse');mode='ep';epDress();Object.assign(abi,{hold:'baby',sit:1,sitF:1,top:'#e8d8f0',leo:0,skirt:0,pants:'#8a7aa8'});Object.assign(hunter,{top:'#9ab8d8',stripe:0,collar:0});
+function epElla(){setLoc('epnurse');mode='ep';wardGot('a_lav','a_lilac','h_blue');epDress();Object.assign(abi,{hold:'baby',sit:1,sitF:1,top:'#e8d8f0',leo:0,skirt:0,pants:'#8a7aa8'});Object.assign(hunter,{top:'#9ab8d8',stripe:0,collar:0});
  at(abi,30,112,'d');at(hunter,42,110,'l');ep.ppl=[abi,hunter];ep.mv=[];ep.peek=0;
  after(1,()=>say([{n:'',t:'...they welcomed a beautiful baby girl.'},{n:'Abigail',t:'(whispering) Hi, Ella. We’ve been waiting for you.'},{n:'Hunter',t:'(whispering) Look at her.'},
   {n:'Abigail',t:'She has your nose.'},{n:'Hunter',t:'And your everything else. Thank goodness.'},{n:'',t:'Donut and Crumpet peek around the door. Very, very quietly.',anim:()=>{ep.peek=T}},
@@ -10442,9 +10461,100 @@ Object.assign(MUSMAP,{epalbum:'stars',epcard:'stars',epmap:'cozy',epstudio:'lofi
 
 /* ---------- save + chapter select ---------- */
 const save={get(){try{return +localStorage.getItem('ourstory_done')||0}catch(e){return 0}},set(n){try{if(n>save.get())localStorage.setItem('ourstory_done',String(n))}catch(e){}}};
-const CHAPS=[['1','The Roost',()=>chBook('1','The Roost','',startPan)],['2','Fourteen Days',()=>startCh2()],['3','The Good Life',()=>startCh3()],['4','Everything\u2019s Bigger',()=>startCh4()],['5','The Distance',()=>startCh5()],['6','The Question',()=>startCh6()],['7','Donut',()=>startCh7()],['8','The Wedding',()=>startCh8()],['E','Epilogue',()=>startEp()]];
+const CHAPS=[['1','The Roost',()=>ch1Begin()],['2','Fourteen Days',()=>startCh2()],['3','The Good Life',()=>startCh3()],['4','Everything\u2019s Bigger',()=>startCh4()],['5','The Distance',()=>startCh5()],['6','The Question',()=>startCh6()],['7','Donut',()=>startCh7()],['8','The Wedding',()=>startCh8()],['E','Epilogue',()=>startEp()]];
 $('snd').onclick=e=>{e.stopPropagation();openPause()};$('snd').onpointerdown=e=>e.stopPropagation();
 ['pause','pRes','pDev','pMenu','vm','vs'].forEach(id=>{$(id).onpointerdown=e=>e.stopPropagation();$(id).addEventListener('touchstart',e=>e.stopPropagation(),{passive:true})});
+/* ---------- outfits: dress Hunter or Abigail any time from the pause menu; clothes the story puts them in stay unlocked ---------- */
+const WARD={
+ abi:{top:[
+  {id:'a_leo',n:'Cheetah top',f:{top:'#dca556',leo:1}},
+  {id:'a_pink',n:'Pink top',f:{top:'#f28ab2'}},
+  {id:'a_lbd',n:'Little black dress',full:1,got:1,f:{top:'#1a1622',skirt:'#1a1622'}},
+  {id:'a_cream',n:'Cream top',got:1,f:{top:'#e8d8c8'}},
+  {id:'a_white',n:'White top',got:1,f:{top:'#f4f0f8'}},
+  {id:'a_lav',n:'Lavender top',got:1,f:{top:'#e8d8f0'}},
+  {id:'a_coach',n:'Owls coach kit',full:1,got:1,f:{top:OWG,collar:'#f4f4f8',skirt:'#f4f4f8',cap:'#f4f4f8'}},
+  {id:'a_gown',n:'Wedding dress',full:1,got:1,f:{top:'#fbfbff',gown:3,gc:'#fbfbff'}}],
+ bottom:[
+  {id:'a_skirt',n:'Black skirt',f:{skirt:'#26202e'}},
+  {id:'a_legg',n:'Black leggings',f:{pants:'#1c1820'}},
+  {id:'a_jean',n:'Black jeans',f:{pants:'#34313d',wps:'jean'}},
+  {id:'a_lilac',n:'Lilac trousers',got:1,f:{pants:'#8a7aa8'}}],
+ shoes:[
+  {id:'a_heel',n:'Black heels',f:{shoe:'#2a1a1a'}},
+  {id:'a_boot',n:'Knee-high black boots',f:{shoe:'#1a1418',wst:'boot'}},
+  {id:'a_pclog',n:'Pink foam clogs',f:{shoe:'#ff8cc0',wst:'clog'}},
+  {id:'a_cclog',n:'Cheetah foam clogs',f:{shoe:'#dca556',wst:'clogC'}}]},
+ hunter:{top:[
+  {id:'h_red',n:'Red puffer jacket',f:{top:'#d8352f',stripe:'#fff6e0',collar:'#fff6e0'}},
+  {id:'h_white',n:'White puffer jacket',f:{top:'#ecebf2',stripe:'#b8bccc',collar:'#d6d8e2'}},
+  {id:'h_gilet',n:'Black gilet',f:{top:'#24242c',stripe:'#383844',collar:'#8c8c9a',slv:'#8c8c9a'}},
+  {id:'h_beav',n:'Beavers tee',got:1,f:{top:'#f0c030',collar:'#c8962a',logo:1,beav:1}},
+  {id:'h_suit',n:'Grey suit jacket',got:1,f:{top:'#7c828e',suit:'#4a7ad8'}},
+  {id:'h_tux',n:'Wedding tux',got:1,f:{top:'#1e2a4a',suit:'#f4f4f8',tie:'#8ac8f0',bout:1}},
+  {id:'h_work',n:'Work shirt & badge',got:1,f:{top:'#5a7ab0',collar:'#f4f4f8',badge:1}},
+  {id:'h_blue',n:'Light blue tee',got:1,f:{top:'#9ab8d8'}},
+  {id:'h_grad',n:'Graduation gown',full:1,got:1,f:{top:'#141418',gown:4,gc:'#141418',pants:'#141418',mortar:1}}],
+ bottom:[
+  {id:'h_bjean',n:'Blue jeans',f:{pants:'#3a4a6b'}},
+  {id:'h_kjean',n:'Black jeans',f:{pants:'#2a2a32',wps:'jean'}},
+  {id:'h_jog',n:'Grey joggers',f:{pants:'#8c8c98',wps:'jog'}},
+  {id:'h_suitp',n:'Grey suit trousers',got:1,f:{pants:'#6c727e'}},
+  {id:'h_tuxp',n:'Tux trousers',got:1,f:{pants:'#1e2a4a'}}],
+ shoes:[
+  {id:'h_hi',n:'Red high-top sneakers',f:{shoe:'#c8282a',wst:'hi'}},
+  {id:'h_ten',n:'Black tennis shoes',f:{shoe:'#222'}},
+  {id:'h_wsn',n:'White sneakers',f:{shoe:'#f0f0f4'}},
+  {id:'h_brown',n:'Brown dress shoes',got:1,f:{shoe:'#3a2418'}},
+  {id:'h_dress',n:'Black dress shoes',got:1,f:{shoe:'#0a0a0a'}}]}};
+const WSLOT=[['top','TOP'],['bottom','BOTTOM'],['shoes','SHOES']],
+ WDEF={abi:{top:'a_leo',bottom:'a_skirt',shoes:'a_heel'},hunter:{top:'h_red',bottom:'h_bjean',shoes:'h_ten'}},
+ WCLR=['top','stripe','collar','leo','skirt','suit','tie','tiec','bow','bowc','bout','boutc','logo','beav','badge','gown','gc','mortar','cap','capDot','tag','slv','wst','wps'];
+const WS=(()=>{let o=null;try{o=JSON.parse(LS('ourstory_ward')||'null')}catch(e){}o=o||{};o.sel=o.sel||{};['abi','hunter'].forEach(k=>o.sel[k]=Object.assign({},WDEF[k],o.sel[k]||{}));o.un=o.un||[];return o})();
+function wardSave(){LS('ourstory_ward',JSON.stringify(WS))}
+function wardHas(it){return !it.got||WS.un.includes(it.id)}
+function wardItem(k,sl){const L=WARD[k][sl];return L.find(i=>i.id===WS.sel[k][sl]&&wardHas(i))||L.find(i=>i.id===WDEF[k][sl])}
+/* every clothing field the outfit decides, so nothing from a story costume is left behind; the w*C markers let the extra
+   details (sleeves, cuffs, boots, high-tops, clogs) show only while that colour is still on (a story costume swaps it out) */
+function wardFields(k){const F={};WCLR.forEach(c=>F[c]=0);F.pants=P[k].pants;F.shoe=P[k].shoe;
+ const tp=wardItem(k,'top');Object.assign(F,tp.f);if(!tp.full)Object.assign(F,wardItem(k,'bottom').f);Object.assign(F,wardItem(k,'shoes').f);
+ F.wtC=F.top;F.wpC=F.pants;F.wsC=F.shoe;return F}
+function armC(p){return p.slv&&p.top===p.wtC?p.slv:p.top}
+function wLegs(p,x,y,sd,hL,hR){const SW=p.wst&&p.shoe===p.wsC?p.wst:0,PJ=p.wps&&p.pants===p.wpC?p.wps:0;
+ [[x-2+sd,hL,-1],[x+1-sd,hR,1]].forEach(([lx,h,o])=>{const fy=y-5+h;rN(lx,y-4,2,h,p.pants);
+  if(PJ==='jog')rN(lx,fy-1,2,1,sh(p.pants,.76));else if(PJ==='jean')rN(lx,fy-1,2,1,sh(p.pants,1.45));
+  if(SW==='boot'){rN(lx,y-3,2,fy-y+3,p.shoe);rN(lx,y-3,2,1,sh(p.shoe,1.9))}else if(SW==='hi')rN(lx,fy-1,2,1,p.shoe);
+  if(SW==='clog'||SW==='clogC'){rN(o<0?lx-1:lx,fy,3,1,p.shoe);rN(o<0?lx:lx+1,fy,1,1,SW==='clog'?sh(p.shoe,1.3):'#5a3214')}
+  else{rN(lx,fy,2,1,p.shoe);if(SW==='hi')rN(o<0?lx+1:lx,fy,1,1,'#f4f4f8')}})}
+function wardApply(k){Object.assign(k==='abi'?abi:hunter,wardFields(k))}
+function wardGot(...ids){const nw=[];ids.forEach(id=>{if(!WS.un.includes(id)){WS.un.push(id);const it=['abi','hunter'].flatMap(k=>WSLOT.flatMap(([s])=>WARD[k][s])).find(i=>i.id===id);if(it)nw.push(it.n)}});
+ if(!nw.length)return;wardSave();const e=$('wtoast');e.innerHTML='New outfit unlocked!<br><b>'+nw.join(', ')+'</b><br>Change clothes from the pause menu.';
+ clearTimeout(wardGot.t);e.classList.remove('on');requestAnimationFrame(()=>requestAnimationFrame(()=>e.classList.add('on')));sfx('item');wardGot.t=setTimeout(()=>e.classList.remove('on'),3600)}
+let WO=null;
+function wardOpen(o){WO=Object.assign({k:o.only||'abi'},o);const e=$('ward');e.style.display='flex';wardRender();sfx('select')}
+function wardRender(){const o=WO,k=o.k,nm=k==='abi'?'Abigail':'Hunter',tp=wardItem(k,'top');
+ let h='<h2>'+(o.title||'OUTFITS')+'</h2>'+(o.sub?'<p class="wsub">'+o.sub+'</p>':'');
+ if(!o.only)h+='<div class="wtabs"><button data-k="abi" class="'+(k==='abi'?'on':'')+'">Abigail</button><button data-k="hunter" class="'+(k==='hunter'?'on':'')+'">Hunter</button></div>';
+ h+='<canvas id="wcv" width="46" height="27"></canvas>';
+ WSLOT.forEach(([sl,lab])=>{const L=WARD[k][sl].filter(wardHas),it=wardItem(k,sl),off=sl==='bottom'&&tp.full,n=L.length;
+  h+='<div class="wrow"><button data-s="'+sl+'" data-d="-1"'+(off||n<2?' disabled':'')+'>&lt;</button><div class="wv"><small>'+lab+'</small>'+(off?'<i>Part of the '+tp.n.toLowerCase()+'</i>':it.n+'<i>'+(L.indexOf(it)+1)+' of '+n+'</i>')+'</div><button data-s="'+sl+'" data-d="1"'+(off||n<2?' disabled':'')+'>&gt;</button></div>'});
+ const lk=WSLOT.reduce((a,[sl])=>a+WARD[k][sl].filter(i=>!wardHas(i)).length,0);
+ if(lk)h+='<p class="wmore">'+lk+' more for '+nm+' to find in the story</p>';
+ h+='<button class="wdone">'+(o.btn||'Done')+'</button>';
+ const e=$('ward');e.innerHTML=h;
+ e.querySelectorAll('.wtabs button').forEach(b=>b.onclick=()=>{WO.k=b.dataset.k;sfx('blip');wardRender()});
+ e.querySelectorAll('.wrow button').forEach(b=>b.onclick=()=>{const sl=b.dataset.s,L=WARD[k][sl].filter(wardHas),i=L.indexOf(wardItem(k,sl));
+  WS.sel[k][sl]=L[(i+(+b.dataset.d)+L.length)%L.length].id;wardSave();wardApply(k);sfx('pop');wardRender()});
+ e.querySelector('.wdone').onclick=()=>{sfx('confirm');wardApply(k);e.style.display='none';const d=WO.done;WO=null;if(d)d()};
+ wardDraw()}
+function wardDraw(){const cv=$('wcv');if(!cv||!WO)return;const g=cv.getContext('2d');g.imageSmoothingEnabled=false;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,46,27);
+ const base=WO.k==='abi'?abi:hunter,F=wardFields(WO.k);
+ [['d',14],['r',32]].forEach(([d,xx])=>{const q=Object.assign({},base,F,{x:xx,y:24,dir:d,moving:false,hold:null,sit:0,sitF:0,kneel:0,dance:0,face:null,zz:0,lid:0,tears:0,reach:null,robo:null,bleed:0,green:0,veil:0,hp:0,fit:0,
+  _fl:null,_ld:d,_tT:null,_zT:null,_fT:null,_ps:null,_pd:null,_hh:null,_h:null,_bp:99,_du:null,_mv:0,_st:0});
+  const m=cx,sd=dlg,ph=photo;cx=g;g._c=null;dlg=null;try{person(q,1)}catch(e){console.error(e)}finally{cx=m;dlg=sd}})}
+function ch1Begin(){wardOpen({only:'abi',title:'DRESS ABIGAIL',sub:'Girls’ night out. What’s she wearing?',btn:'Start',done:()=>chBook('1','The Roost','',startPan)})}
+wardApply('abi');wardApply('hunter');
+$('pOut').onclick=()=>wardOpen({});
 $('pRes').onclick=()=>{sfx('select');closePause()};$('pMenu').onclick=()=>{sfx('select');const l=$('ld');l.classList.remove('off');requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>location.reload(),60)))};
 $('vm').oninput=e=>{VOL.m=e.target.value/100;applyVol()};$('vs').oninput=e=>{VOL.s=e.target.value/100;applyVol();sfx('coin')};$('va').oninput=e=>{VOL.a=e.target.value/100;applyVol()};
 addEventListener('pointerdown',()=>{auInit();AU.tap=performance.now()},{capture:true});addEventListener('touchstart',()=>auInit(),{capture:true,passive:true});
@@ -10468,7 +10578,7 @@ const hasData=()=>CK.get()>=0||Object.keys(ALB.get()).length>0;
 function updTitle(){const d=DEV.on(),ck=CK.get();$('bPlay').innerHTML=ck>=0?'&#9654;&nbsp;Continue':FIN.get()?'&#9654;&nbsp;Play again':'&#9654;&nbsp;Tap to start';
  $('bNew').style.display=ck>=0?'':'none';$('bAl').style.display=albList().length?'':'none';$('bCh').style.display=d?'':'none';$('bMg').style.display=d||FIN.get()||save.get()>=1?'':'none';$('bMg').innerHTML='Minigames'+(LS('ourstory_crzu')&&!LS('ourstory_crzo')?'<span class="nw">NEW!</span>':'');$('bDbg').style.display=d?'':'none';
  const row=$('bNew').parentNode;row.style.display=[...row.children].some(b=>b.style.display!=='none')?'':'none';$('pDev').textContent='Dev mode: '+(d?'ON':'OFF')}
-function newGame(){CK.clr();LS('ourstory_qb',null);LS('ourstory_phh',null);LS('ourstory_hint',null);LS('ourstory_pk',null);LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';chBook('1','The Roost','',startPan)}
+function newGame(){CK.clr();LS('ourstory_qb',null);LS('ourstory_phh',null);LS('ourstory_hint',null);LS('ourstory_pk',null);LS('ourstory_done',null);LS('ourstory_photos',null);$('chap').style.display='none';ch1Begin()}
 /* ---- the photo album on the title screen: every photo she has taken, to look through and to keep ---- */
 function albList(){const o=ALB.get(),ks=Object.keys(o);if(!ks.length)return [];const ord=PHOTO_OPS.map(p=>p.st);return ks.sort((a,b)=>(ord.indexOf(a)<0?99:ord.indexOf(a))-(ord.indexOf(b)<0?99:ord.indexOf(b)))}
 function albSrc(st){try{const im=ALB.img(st);if(im&&im.toDataURL)return im.toDataURL('image/png');if(im&&im.src)return im.src}catch(e){}return ALB.get()[st]||''}
