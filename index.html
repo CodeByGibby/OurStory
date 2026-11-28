@@ -180,13 +180,16 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 #snd{position:absolute;right:calc(var(--u)*1.5);top:calc(var(--u)*1.5);z-index:5;width:calc(var(--u)*11);height:calc(var(--u)*11);display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*1.3);font-size:0;color:transparent;background:linear-gradient(#3e2648,#2b1830);border:calc(var(--u)*.6) solid #ffd86b;border-radius:calc(var(--u)*2.4);padding:0;box-shadow:0 calc(var(--u)*.8) 0 #120818,inset 0 calc(var(--u)*.5) 0 rgba(255,255,255,.12)}
 #snd::before,#snd::after{content:'';width:calc(var(--u)*1.6);height:calc(var(--u)*4.8);background:#fff6e0;border-radius:calc(var(--u)*.3);box-shadow:0 calc(var(--u)*.4) 0 rgba(0,0,0,.4)}
 #snd:active{transform:translateY(calc(var(--u)*.6));box-shadow:0 calc(var(--u)*.2) 0 #120818}
-#ward{position:absolute;inset:0;z-index:12;display:none;flex-direction:column;align-items:stretch;justify-content:center;gap:calc(var(--u)*3.4);padding:calc(var(--u)*8) calc(var(--u)*9);background:rgba(14,8,40,.96);color:#fff6e0;text-align:center}
+#ward{position:absolute;inset:0;z-index:12;display:none;flex-direction:column;align-items:stretch;justify-content:center;gap:calc(var(--u)*2.6);padding:calc(var(--u)*6) calc(var(--u)*9);background:#0e0828;overflow:hidden;color:#fff6e0;text-align:center}
 #ward h2{font-size:calc(var(--u)*6.5);font-weight:400;color:#ffd86b;margin:0}
 #ward .wsub{font-size:calc(var(--u)*3.1);line-height:1.6;color:#cdb8e8;margin:0}
 #ward .wtabs{display:flex;gap:calc(var(--u)*3)}
 #ward .wtabs button{flex:1;font:inherit;font-size:calc(var(--u)*3.4);padding:calc(var(--u)*2.4) 0;color:#cdb8e8;background:#2b1d4a;border:calc(var(--u)*.6) solid #4a3470;border-radius:999px}
 #ward .wtabs button.on{background:#ff7eb6;color:#2b1830;border-color:#ffd6e8}
-#wcv{align-self:center;width:calc(var(--u)*110);height:calc(var(--u)*64.6);image-rendering:pixelated;image-rendering:crisp-edges;background:radial-gradient(ellipse at 50% 70%,#4a3470,#1c1236 70%);border:calc(var(--u)*.6) solid #4a3470;border-radius:calc(var(--u)*3)}
+#wroom{align-self:stretch;width:calc(100% + var(--u)*18);margin:0 calc(var(--u)*-9);aspect-ratio:80/60;image-rendering:pixelated;image-rendering:crisp-edges;cursor:pointer}
+#wcur{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;image-rendering:pixelated;image-rendering:crisp-edges}
+#ward.wcl{background:transparent}#ward.wcl>:not(#wcur){visibility:hidden}
+#ward .wctl{display:flex;flex-direction:column;gap:calc(var(--u)*2.6);transition:opacity .35s}#ward.wnoc .wctl{opacity:0;pointer-events:none}
 #ward .wrow{display:flex;align-items:center;gap:calc(var(--u)*2.5)}
 #ward .wrow button{font:inherit;flex:none;width:calc(var(--u)*12);height:calc(var(--u)*12);font-size:calc(var(--u)*4.4);color:#5a2148;background:linear-gradient(#ffe48a,#ffd86b);border:0;border-radius:calc(var(--u)*2);box-shadow:0 calc(var(--u)*1) 0 #c2417a}
 #ward .wrow button:active{transform:translateY(calc(var(--u)*.6));box-shadow:0 calc(var(--u)*.4) 0 #c2417a}
@@ -232,7 +235,7 @@ img.em{height:1.12em;width:1.12em;vertical-align:-.22em;margin:0 .08em;image-ren
 <div id="g">
 <canvas id="c"></canvas>
 <canvas id="gfx"></canvas>
-<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.21.6</button></div>
+<div id="title" class="wait"><canvas id="logo" width="128" height="76" aria-label="Our Story"></canvas><p>created by<br>Hunter Hughes</p><p>for his loving wife</p><div id="btns"><button id="bPlay">&#9654;&nbsp;Play</button><div class="row"><button id="bNew" style="display:none">New game</button><button id="bAl" style="display:none">Photo album</button><button id="bCh" style="display:none">Chapters</button><button id="bMg" style="display:none">Minigames</button></div></div><p id="a2hs"></p><button id="bDbg" style="display:none">dev menu &middot; v1.22.0</button></div>
 <div id="gift"><canvas id="giftc" width="96" height="96"></canvas><p class="g1">For Abigail &#9829;</p><p class="g2" id="gtap" style="display:none">Turn your sound on &#128266;<br>then tap the present</p><div id="lockp"><p class="lq">Enter a very special day<br>to unlock your present</p><div class="wheels"><div class="wh" data-k="d"><span class="lb">DAY</span><button data-s="1">&#9650;</button><b class="v">1</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="m"><span class="lb">MONTH</span><button data-s="1">&#9650;</button><b class="v">JAN</b><button data-s="-1">&#9660;</button></div><div class="wh" data-k="y"><span class="lb">YEAR</span><button data-s="1">&#9650;</button><b class="v">2026</b><button data-s="-1">&#9660;</button></div></div><button id="unl">&#128274; Unlock</button><p class="lm" id="lmsg">&nbsp;</p></div></div>
 <button id="snd" aria-label="Pause"></button>
 <div id="pause"><h2>PAUSED</h2><label>Music <span id="vmL"></span><input id="vm" type="range" min="0" max="100"></label><label>Sound effects <span id="vsL"></span><input id="vs" type="range" min="0" max="100"></label><label>Ambient sounds <span id="vaL"></span><input id="va" type="range" min="0" max="100"></label><button id="pRes">Resume</button><button id="pOut">Outfits</button><button id="pHap" class="alt">Vibration: ON</button><button id="pTilt" class="alt">Tilt controls: ON</button><button id="pDev" class="alt">Dev mode: OFF</button><button id="pMenu" class="alt">Main menu</button></div>
@@ -10599,27 +10602,113 @@ function wardGot(...ids){const nw=[];ids.forEach(id=>{if(!WS.un.includes(id)){WS
  if(!nw.length)return;wardSave();const e=$('wtoast');e.innerHTML='New outfit unlocked!<br><b>'+nw.join(', ')+'</b><br>Change clothes from the pause menu.';
  clearTimeout(wardGot.t);e.classList.remove('on');requestAnimationFrame(()=>requestAnimationFrame(()=>e.classList.add('on')));sfx('item');wardGot.t=setTimeout(()=>e.classList.remove('on'),3600)}
 let WO=null;
-function wardOpen(o){WO=Object.assign({k:o.only||'abi'},o);const e=$('ward');e.style.display='flex';wardRender();sfx('select')}
+/* ---- the dressing room: a curtain draws shut over the game, then we're inside a little room; they walk in from the
+   curtain and stop in front of a full-length mirror, facing us, so the mirror shows the back of the outfit ---- */
+const WRW=80,WRH=60,WRC={};
+function wardOpen(o){WO=Object.assign({k:o.only||'abi'},o);const e=$('ward');e.style.display='flex';wardIntro();wardRender();
+ const tok=WO.tok=Math.random();const L=()=>{if(!WO||WO.tok!==tok)return;wardFrame();requestAnimationFrame(L)};requestAnimationFrame(L)}
+function wardIntro(){WO.t0=performance.now()/1000;WO.st=0;WO.pop=null;const e=$('ward');e.classList.add('wcl','wnoc');sfx('curtain')}
+function wardNow(){return performance.now()/1000-(WO?WO.t0:0)}
 function wardRender(){const o=WO,k=o.k,nm=k==='abi'?'Abigail':'Hunter',tp=wardItem(k,'top');
- let h='<h2>'+(o.title||'OUTFITS')+'</h2>'+(o.sub?'<p class="wsub">'+o.sub+'</p>':'');
+ let h='<canvas id="wcur" width="80" height="160"></canvas><h2>'+(o.title||'OUTFITS')+'</h2>'+(o.sub?'<p class="wsub">'+o.sub+'</p>':'');
  if(!o.only)h+='<div class="wtabs"><button data-k="abi" class="'+(k==='abi'?'on':'')+'">Abigail</button><button data-k="hunter" class="'+(k==='hunter'?'on':'')+'">Hunter</button></div>';
- h+='<canvas id="wcv" width="46" height="27"></canvas>';
+ h+='<canvas id="wroom" width="'+WRW+'" height="'+WRH+'"></canvas><div class="wctl">';
  WSLOT.forEach(([sl,lab])=>{const L=WARD[k][sl].filter(wardHas),it=wardItem(k,sl),off=sl==='bottom'&&tp.full,n=L.length;
-  h+='<div class="wrow"><button data-s="'+sl+'" data-d="-1"'+(off||n<2?' disabled':'')+'>&lt;</button><div class="wv"><small>'+lab+'</small>'+(off?'<i>Part of the '+tp.n.toLowerCase()+'</i>':it.n+'<i>'+(L.indexOf(it)+1)+' of '+n+'</i>')+'</div><button data-s="'+sl+'" data-d="1"'+(off||n<2?' disabled':'')+'>&gt;</button></div>'});
+  h+='<div class="wrow"><button data-s="'+sl+'" data-d="-1"'+(off||n<2?' disabled':'')+'>&lt;</button><div class="wv"><small>'+(sl==='hat'&&k==='hunter'?'HAT':lab)+'</small>'+(off?'<i>Part of the '+tp.n.toLowerCase()+'</i>':it.n+'<i>'+(L.indexOf(it)+1)+' of '+n+'</i>')+'</div><button data-s="'+sl+'" data-d="1"'+(off||n<2?' disabled':'')+'>&gt;</button></div>'});
  const lk=WSLOT.reduce((a,[sl])=>a+WARD[k][sl].filter(i=>!wardHas(i)&&!i.rw).length,0);
  if(lk)h+='<p class="wmore">'+lk+' more for '+nm+' to find in the story</p>';
- h+='<button class="wdone">'+(o.btn||'Done')+'</button>';
+ h+='<button class="wdone">'+(o.btn||'Done')+'</button></div>';
  const e=$('ward');e.innerHTML=h;
- e.querySelectorAll('.wtabs button').forEach(b=>b.onclick=()=>{WO.k=b.dataset.k;sfx('blip');wardRender()});
+ e.querySelectorAll('.wtabs button').forEach(b=>b.onclick=()=>{if(WO.k===b.dataset.k)return;WO.k=b.dataset.k;sfx('blip');wardIntro();wardRender()});
  e.querySelectorAll('.wrow button').forEach(b=>b.onclick=()=>{const sl=b.dataset.s,L=WARD[k][sl].filter(wardHas),i=L.indexOf(wardItem(k,sl));
-  WS.sel[k][sl]=L[(i+(+b.dataset.d)+L.length)%L.length].id;wardSave();wardApply(k);sfx('pop');wardRender()});
- e.querySelector('.wdone').onclick=()=>{sfx('confirm');wardApply(k);e.style.display='none';const d=WO.done;WO=null;if(d)d()};
- wardDraw()}
-function wardDraw(){const cv=$('wcv');if(!cv||!WO)return;const g=cv.getContext('2d');g.imageSmoothingEnabled=false;g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,46,27);
- const base=WO.k==='abi'?abi:hunter,F=wardFields(WO.k);
- [['d',14],['r',32]].forEach(([d,xx])=>{const q=Object.assign({},base,F,{x:xx,y:24,dir:d,moving:false,hold:null,sit:0,sitF:0,kneel:0,dance:0,face:null,zz:0,lid:0,tears:0,reach:null,robo:null,bleed:0,green:0,veil:0,hp:0,fit:0,
-  _fl:null,_ld:d,_tT:null,_zT:null,_fT:null,_ps:null,_pd:null,_hh:null,_h:null,_bp:99,_du:null,_mv:0,_st:0});
-  const m=cx,sd=dlg,ph=photo;cx=g;g._c=null;dlg=null;try{person(q,1)}catch(e){console.error(e)}finally{cx=m;dlg=sd}})}
+  WS.sel[k][sl]=L[(i+(+b.dataset.d)+L.length)%L.length].id;wardSave();wardApply(k);sfx('pop');WO.pop=wardNow();wardRender()});
+ e.querySelector('.wdone').onclick=()=>{sfx('confirm');wardApply(k);e.style.display='none';e.classList.remove('wcl','wnoc');const d=WO.done;WO=null;if(d)d()};
+ $('wroom').onclick=()=>{if(wardNow()<2.1)WO.t0-=3};
+ wardFrame()}
+/* ---- the rooms, drawn once each: perspective walls, floor and ceiling around a vanishing point, then the furniture ---- */
+function wardRoomBg(k){if(WRC[k])return WRC[k];const c=document.createElement('canvas');c.width=WRW;c.height=WRH;const g=c.getContext('2d'),R=(x,y,w,h,col)=>{g.fillStyle=col;g.fillRect(x,y,w,h)};
+ const A=k==='abi',BX0=16,BX1=64,BY0=5,BY1=34;
+ const P=A?{ceil:'#e2bccb',wall:'#f4cbd6',wall2:'#e7b2c4',side:'#e9b7c8',side2:'#dca6b8',wain:'#fbeef2',wainL:'#e6cfd8',floor:'#d9b68e',floor2:'#cfaa80',seam:'#b99168'}
+  :{ceil:'#161c2c',wall:'#2c3a58',wall2:'#27344f',side:'#212b44',side2:'#1c253b',wain:'#5a3a24',wainL:'#43291a',floor:'#7a5232',floor2:'#6c4729',seam:'#4a301c'};
+ // ceiling, back wall, side walls, floor
+ for(let y=0;y<BY0;y++){const a=Math.round(BX0*y/BY0);R(a,y,WRW-a*2,1,P.ceil)}
+ R(BX0,BY0,BX1-BX0,BY1-BY0,P.wall);
+ for(let x=0;x<BX0;x++){const t=Math.round(BY0*x/BX0),b=50-x;R(x,t,1,b-t,P.side);R(WRW-1-x,t,1,b-t,P.side)}
+ for(let y=BY1;y<WRH;y++){const a=BX0-(y-BY1);R(a,y,WRW-a*2,1,(y%2)?P.floor:P.floor2)}
+ // a soft shade where walls meet: corners and the floor line
+ R(BX0,BY0,1,BY1-BY0,P.side2);R(BX1-1,BY0,1,BY1-BY0,P.side2);R(BX0,BY1-1,BX1-BX0,1,P.wainL);
+ // wainscot: back wall and both side walls
+ const WT=26;R(BX0,WT,BX1-BX0,BY1-WT-1,P.wain);R(BX0,WT,BX1-BX0,1,A?'#ffffff':'#7a5232');
+ for(let x=BX0+4;x<BX1;x+=6)R(x,WT+2,1,BY1-WT-4,P.wainL);
+ for(let x=0;x<BX0;x++){const t=Math.round(WT+(BY1-WT)*0)+0,top=Math.round(WT+ (x<BX0?((BX0-x)*0.55):0)),b=50-x;const yy=Math.round(WT+(50-BY1)*(BX0-x)/BX0*0.75);R(x,yy,1,b-yy,P.wain);R(WRW-1-x,yy,1,b-yy,P.wain);R(x,yy,1,1,A?'#ffffff':'#7a5232');R(WRW-1-x,yy,1,1,A?'#ffffff':'#7a5232')}
+ // floor seams heading to the vanishing point
+ const VX=40,VY=14;for(let xb=BX0;xb<=BX1;xb+=A?4:6)for(let y=BY1;y<WRH;y++){const x=Math.round(VX+(xb-VX)*(y-VY)/(BY1-VY));if(x>=0&&x<WRW&&(A?((y+xb)%3):1))R(x,y,1,1,P.seam)}
+ if(!A)[37,41,46,52,59].forEach(y=>{const a=BX0-(y-BY1);R(a,y,WRW-a*2,1,P.seam)});
+ // wallpaper: Abigail's soft damask dots; Hunter's vertical pinstripe
+ if(A){for(let y=BY0+3;y<WT-1;y+=4)for(let x=BX0+2+((y>>2)&1)*2;x<BX1-1;x+=4)R(x,y,1,1,P.wall2)}else{for(let x=BX0+3;x<BX1;x+=4)R(x,BY0,1,WT-BY0,P.wall2)}
+ // the entrance curtain on the left wall, closed behind them
+ const CU=A?['#d8608a','#c04c76','#ec80a2']:['#2e4a3e','#22382f','#3e5e50'];
+ for(let x=2;x<14;x++){const t=Math.round(BY0*x/BX0)+3,b=48-x;R(x,t,1,b-t,CU[(x%3)])}
+ for(let x=1;x<15;x++){const t=Math.round(BY0*x/BX0)+2;R(x,t,1,1,A?'#d8b050':'#1a1a1e')}
+ if(A){
+  // fairy lights along the top of the back wall
+  for(let x=BX0+2;x<BX1-1;x+=3)R(x,BY0+1+((x>>1)&1),1,1,['#fff2b0','#ffc0d8','#c8f0ff'][x%3]);
+  // arched gold mirror with vanity bulbs
+  const MX0=29,MX1=51;for(let y=6;y<BY1;y++){let a=0;if(y<12){const d=12-y;a=Math.round(11-Math.sqrt(Math.max(0,121-d*d*3)))}R(MX0+a,y,MX1-MX0-a*2,1,'#d8b050')}
+  for(let y=7;y<BY1;y++){let a=0;if(y<13){const d=13-y;a=Math.round(9-Math.sqrt(Math.max(0,81-d*d*2.2)))}R(MX0+2+a,y,MX1-MX0-4-a*2,1,'#a8c4d4')}
+  R(MX0,6,1,BY1-6,'#f4d878');
+  // a side table with a vase of pink flowers, a pouf, and a rail of hanging clothes
+  R(18,27,6,1,'#d8b050');R(19,28,1,6,'#c8a040');R(22,28,1,6,'#c8a040');R(20,24,2,3,'#f4f4f8');[[19,22,'#ff7eb6'],[21,21,'#ffb0d0'],[22,23,'#ff7eb6'],[20,23,'#5a9a5a']].forEach(([x,y,c])=>R(x,y,1,1,c));
+  R(67,13,11,1,'#d8b050');R(77,13,1,26,'#c8a040');R(66,13,1,26,'#c8a040');
+  [[67,'#dca556',1],[70,'#1a1622',0],[73,'#f28ab2',0]].forEach(([x,c,l])=>{R(x+1,14,1,1,'#c8c8d0');R(x,15,3,11,c);if(l){R(x,17,1,1,'#5a3214');R(x+2,19,1,1,'#5a3214');R(x+1,22,1,1,'#5a3214')}else R(x+2,15,1,11,'rgba(0,0,0,.15)')});
+  // round fluffy rug
+  for(let y=-5;y<=5;y++){const w=Math.round(19*Math.sqrt(1-y*y/30));R(40-w,52+y,w*2,1,(y+5)%2?'#f8d4e2':'#fbe0ea')}
+  for(let a=0;a<40;a++){const q=a/40*Math.PI*2;R(Math.round(40+Math.cos(q)*19),Math.round(52+Math.sin(q)*5.4),1,1,'#fdeef4')}
+  // pouf
+  for(let y=0;y<6;y++){const w=[3,4,5,5,5,4][y];R(65-w,45+y,w*2,1,y<2?'#f0a8c4':'#e48cb0')}R(62,45,6,1,'#f8c8dc');
+ }else{
+  // a gold record on the wall, a tall plant in the corner, a coat rack and a bench
+  R(19,9,9,11,'#c8a050');R(20,10,7,9,'#1a1a22');for(let y=-3;y<=3;y++){const w=Math.round(Math.sqrt(9-y*y));R(23-w,14+y,w*2+1,1,'#e8c860')}R(23,14,1,1,'#c8282a');
+  // black framed mirror
+  R(31,7,19,BY1-7,'#121216');R(32,8,17,BY1-8,'#93aebf');
+  R(19,30,4,4,'#8a4a2a');R(19,30,4,1,'#a8603a');[[18,25],[20,23],[22,24],[21,26],[17,27],[23,27],[20,27]].forEach(([x,y])=>R(x,y,2,2,'#3a7a44'));R(20,24,1,2,'#5a9a5a');
+  R(70,12,1,34,'#3a2a1e');R(68,46,5,1,'#3a2a1e');R(68,13,5,1,'#3a2a1e');R(66,14,4,1,'#2a2a32');R(65,15,6,2,'#2a2a32');
+  R(70,17,4,9,'#d8352f');R(70,20,4,1,'#fff6e0');R(73,17,1,9,'#a82924');
+  R(54,43,16,2,'#8a5a36');R(54,43,16,1,'#a8744a');R(55,45,1,4,'#5a3a24');R(68,45,1,4,'#5a3a24');R(57,41,3,2,'#f0f0f4');R(61,41,3,2,'#c8282a');R(62,41,1,1,'#f4f4f8');
+ }
+ // light from above
+ g.globalCompositeOperation='lighter';for(let y=BY0;y<WRH;y++){const w=Math.round(6+(y-BY0)*.42),al=.07*(1-(y-BY0)/(WRH-BY0)*.6);g.fillStyle=`rgba(255,240,215,${al})`;g.fillRect(40-w,y,w*2,1)}g.globalCompositeOperation='source-over';
+ return WRC[k]=c}
+/* where the mirror glass is, for the reflection */
+function wardGlass(k){return k==='abi'?{x0:31,x1:49,y0:7,y1:34,arch:1}:{x0:32,x1:49,y0:8,y1:34}}
+function wardFrame(){const cv=$('wroom');if(!cv||!WO)return;const g=cv.getContext('2d'),k=WO.k,a=wardNow(),e=$('ward');g.imageSmoothingEnabled=false;g.setTransform(1,0,0,1,0,0);
+ // timeline: curtain shuts (0-.45), we're inside (.45), the curtain fades away (.6-.95), they walk in (.75-1.95), turn, controls (2.05)
+ if(a>=.45&&e.classList.contains('wcl'))e.classList.remove('wcl');if(a>=2.05&&e.classList.contains('wnoc'))e.classList.remove('wnoc');
+ wardCurtain(a);
+ g.drawImage(wardRoomBg(k),0,0);
+ const base=k==='abi'?abi:hunter,F=wardFields(k),W0=.75,W1=1.95,wk=Math.max(0,Math.min(1,(a-W0)/(W1-W0))),ease=wk<1?1-Math.pow(1-wk,2):1;
+ const px=Math.round(8+(40-8)*ease),py=Math.round(50+(56-50)*ease),walking=a>=W0&&a<W1,dir=a<W1?'r':'d';
+ if(walking){const st=Math.floor((a-W0)/.26);if(st!==WO.st){WO.st=st;sfx('step')}}
+ const mk2=(x,y,d,mv)=>Object.assign({},base,F,{x,y,dir:d,moving:mv,hold:null,sit:0,sitF:0,kneel:0,dance:0,face:a>2.2&&a<3.4?'happy':null,zz:0,lid:0,tears:0,reach:null,robo:null,bleed:0,green:0,veil:0,hp:0,fit:0,ph:0,
+  _fl:null,_ld:d,_tT:null,_zT:null,_fT:null,_ps:null,_pd:null,_hh:null,_h:null,_bp:WO.bp||(WO.bp=Math.random()*3),_du:null,_mv:0,_st:0});
+ const draw=(q)=>{const m=cx,sd=dlg;cx=g;g._c=null;dlg=null;try{person(q,a)}catch(err){console.error(err)}finally{cx=m;dlg=sd}};
+ // the reflection: same spot across the room, seen from behind, a little further away
+ if(a>=W0-.1){const G=wardGlass(k);g.save();g.beginPath();if(G.arch){g.moveTo(G.x0,G.y1);g.lineTo(G.x0,G.y0+8);g.quadraticCurveTo(G.x0,G.y0,(G.x0+G.x1)/2,G.y0);g.quadraticCurveTo(G.x1,G.y0,G.x1,G.y0+8);g.lineTo(G.x1,G.y1)}else g.rect(G.x0,G.y0,G.x1-G.x0,G.y1-G.y0);g.clip();
+  g.globalAlpha=.88;draw(mk2(px,33-Math.round((56-py)*.25),dir==='d'?'u':dir,walking));g.globalAlpha=1;
+  g.fillStyle='rgba(205,232,255,.16)';g.fillRect(G.x0,G.y0,G.x1-G.x0,G.y1-G.y0);g.fillStyle='rgba(255,255,255,.35)';for(let i=0;i<14;i++){g.fillRect(G.x0+3+i,G.y0+18-i,1,1);g.fillRect(G.x0+7+i,G.y0+20-i,1,1)}g.restore()}
+ if(k==='abi'){const B=[[29,10],[29,16],[29,22],[29,28],[51,10],[51,16],[51,22],[51,28],[33,5],[40,4],[47,5]];B.forEach(([x,y],i)=>{const on=((a*2+i*.37)%3)>.25;g.fillStyle=on?'#fff6d0':'#e8c890';g.fillRect(x-(x>40?0:1),y,2,2);if(on){g.fillStyle='rgba(255,240,190,.25)';g.fillRect(x-2,y-1,5,4)}})}
+ if(a>=W0-.1)draw(mk2(px,py,dir,walking));
+ // a little sparkle when an item changes
+ if(WO.pop!=null){const d=a-WO.pop;if(d<.45){g.fillStyle='#fff6c0';[[-6,-14],[6,-10],[-4,-4],[5,-18],[0,-21]].forEach(([dx,dy],i)=>{const q=(d*3+i*.2)%1;if(q<.6)g.fillRect(px+dx,py+dy-Math.round(d*6),1,1)})}}
+}
+/* the curtain: two heavy panels slide in from the sides, then fade as the room appears */
+function wardCurtain(a){const c=$('wcur');if(!c)return;if(a>1){c.style.display='none';return}c.style.display='block';const g=c.getContext('2d'),A=WO.k==='abi';g.clearRect(0,0,80,160);
+ const k=Math.min(1,a/.45),e=1-Math.pow(1-k,3),cover=Math.round(40*e),fade=a<.6?1:Math.max(0,1-(a-.6)/.35);c.style.opacity=fade;
+ const C=A?['#d8608a','#c04c76','#ec80a2','#a83a62']:['#2e4a3e','#22382f','#3e5e50','#18281f'],rod=A?'#d8b050':'#1a1a1e';
+ const panel=(x0,w,side)=>{for(let i=0;i<w;i++){const x=side<0?x0+i:x0-i,f=(i+(side<0?0:1))%4;g.fillStyle=C[f===0?1:f===2?2:0];g.fillRect(x,6,1,150);g.fillStyle=C[3];g.fillRect(x,154,1,6)}
+  g.fillStyle=C[3];g.fillRect(side<0?x0+w-1:x0-w+1,6,1,154)};
+ panel(0,cover,-1);panel(79,cover,1);
+ g.fillStyle=rod;g.fillRect(0,3,80,2);for(let x=2;x<80;x+=6){g.fillStyle=A?'#f4d878':'#3a3a44';g.fillRect(x,2,2,4)}}
 function ch1Begin(){wardOpen({only:'abi',title:'DRESS ABIGAIL',sub:'Girls’ night out. What’s she wearing?',btn:'Start',done:()=>chBook('1','The Roost','',startPan)})}
 wardApply('abi');wardApply('hunter');
 $('pOut').onclick=()=>wardOpen({});
